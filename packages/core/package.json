@@ -1,8 +1,11 @@
 {
-  "name": "testing",
+  "name": "@readapt/core",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
+  "bin": {
+    "readapt-dev": "./dev.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev server.ts"
@@ -20,6 +23,7 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.5.1",
+    "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0"
   }
 }

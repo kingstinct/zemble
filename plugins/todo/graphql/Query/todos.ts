@@ -1,4 +1,4 @@
-import { verifyAuth } from "../../../auth/interop/verifyAuth"
+import { verifyAuth } from "../../../simple-anonymous-auth/interop/verifyAuth"
 import kv from "../../kv"
 
 export default (_, { token }) => {

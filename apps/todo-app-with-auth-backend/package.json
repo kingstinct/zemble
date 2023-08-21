@@ -1,0 +1,21 @@
+{
+  "name": "todo-app-with-auth-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "readapt-dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@readapt/core": "workspace:*",
+    "readapt-plugin-simple-anonymous-auth": "workspace:*",
+    "readapt-plugin-todo": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
