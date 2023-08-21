@@ -8,6 +8,8 @@ export default (schema: GraphQLSchemaWithContext<{}>) => {
 
   return async (c: Context) => {
     const res = await yoga.handle(c.req.raw, {})
-    return c.newResponse(res.body, res.status, {})
+    return c.newResponse(res.body, res.status, {
+      'Content-Type': 'application/json',
+    })
   }
 } 

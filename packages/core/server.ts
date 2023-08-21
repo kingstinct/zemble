@@ -8,8 +8,10 @@ import createPluginSchema from './utils/createPluginSchema'
 import { mergeSchemas } from '@graphql-tools/schema'
 import handleYoga from './utils/handleYoga'
 import { GraphQLSchemaWithContext } from 'graphql-yoga'
+import { cors } from 'hono/cors'
 
 const app = new Hono()
+app.use('*', cors())
 
 const nodeModules = path.join(process.cwd(), 'node_modules');
 
