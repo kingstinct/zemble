@@ -13,5 +13,9 @@
   "dependencies": {
     "@readapt/core": "workspace:^",
     "jsonwebtoken": "^9.0.1"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.1",
+    "@types/jsonwebtoken": "^9.0.2"
   }
 }

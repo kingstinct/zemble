@@ -11,7 +11,8 @@ export const readResolvers = async (path: string) => {
           const item = await import(route);
           return {...await prev,[fileNameWithoutExtension]: item.default}
       } catch (error) {
-          console.log(error.message);
+          console.error(error);
+          return prev;
       }
     }, Promise.resolve({}));
   

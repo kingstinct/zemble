@@ -49,6 +49,9 @@ importers:
         specifier: workspace:*
         version: link:../../plugins/todo
     devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
       typescript:
         specifier: ^5.1.6
         version: registry.npmjs.org/typescript@5.1.6
@@ -61,6 +64,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.1.1
         version: registry.npmjs.org/@hono/node-server@1.1.1
+      dotenv:
+        specifier: ^16.3.1
+        version: registry.npmjs.org/dotenv@16.3.1
       graphql-yoga:
         specifier: ^4.0.4
         version: registry.npmjs.org/graphql-yoga@4.0.4(graphql@16.8.0)
@@ -71,6 +77,9 @@ importers:
         specifier: ^9.0.1
         version: registry.npmjs.org/jsonwebtoken@9.0.1
     devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
       '@types/jsonwebtoken':
         specifier: ^9.0.2
         version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
@@ -92,6 +101,13 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.1
         version: registry.npmjs.org/jsonwebtoken@9.0.1
+    devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
+      '@types/jsonwebtoken':
+        specifier: ^9.0.2
+        version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
 
   plugins/todo:
     dependencies:
@@ -104,6 +120,10 @@ importers:
       readapt-plugin-simple-anonymous-auth:
         specifier: workspace:^
         version: link:../simple-anonymous-auth
+    devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
 
 packages:
 
@@ -2996,6 +3016,12 @@ packages:
     version: 1.0.4
     dev: true
 
+  registry.npmjs.org/@tsconfig/node20@20.1.1:
+    resolution: {integrity: sha512-7AuWv3hETpJGJegd0bTdnHIrdT/WuR3UUScGRemxhmH0vhbTTGKFZvY8DHZOqIECNdiIy6iFLh52E6Op9YrFiA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@tsconfig/node20/-/node20-20.1.1.tgz}
+    name: '@tsconfig/node20'
+    version: 20.1.1
+    dev: true
+
   registry.npmjs.org/@types/istanbul-lib-coverage@2.0.4:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.4.tgz}
     name: '@types/istanbul-lib-coverage'
@@ -4442,6 +4468,13 @@ packages:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/dotenv/-/dotenv-16.0.3.tgz}
     name: dotenv
     version: 16.0.3
+    engines: {node: '>=12'}
+    dev: false
+
+  registry.npmjs.org/dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/dotenv/-/dotenv-16.3.1.tgz}
+    name: dotenv
+    version: 16.3.1
     engines: {node: '>=12'}
     dev: false
 

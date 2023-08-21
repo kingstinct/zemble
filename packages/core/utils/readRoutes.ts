@@ -9,11 +9,15 @@ export const readRoutes = (dir: string): Promise<Record<string, MiddlewareHandle
     const fileNameWithoutExtension = filename.substring(0, filename.length - 3);
     try {
         const item = await import(route);
-        return {...await prev,[fileNameWithoutExtension]: item.default}
+        const newRoutes =  {...await prev,[fileNameWithoutExtension]: item.default}
+
+        return newRoutes;
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
+
+        return prev;
     }
-  }, Promise.resolve({}));
+  }, Promise.resolve({} as Record<string, MiddlewareHandler>));
 }
 
 export default readRoutes

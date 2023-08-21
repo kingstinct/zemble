@@ -1,7 +1,7 @@
 import { verifyAuth } from "../../../simple-anonymous-auth/interop/verifyAuth"
-import kv from "../../kv"
+import kv from "../../utils/kv"
 
-export default (_, { title, token }) => {
+export default (_:any, { title, token }: { title: string, token: string }) => {
   const id = Math.random().toString(36).substring(7)
   const { userId } = verifyAuth(token)
   const todo = {title, id, completed: false}
