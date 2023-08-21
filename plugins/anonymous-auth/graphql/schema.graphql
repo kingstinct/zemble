@@ -1,0 +1,18 @@
+type Mutation {
+  login(username: String!): LoginResponse!
+}
+
+type LoginResponse {
+  token: String!
+}
+
+type User {
+  userId: ID!
+  username: String!
+}
+
+type Query {
+  me(token: String!): User!
+
+  isValid(token: String!): Boolean!
+}

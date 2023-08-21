@@ -1,7 +1,7 @@
 
 import {useContext, useState} from 'react'
 import {Button, TextInput, View} from 'react-native'
-import AuthContext from 'readapt-plugin-simple-anonymous-auth-ui/contexts/Auth';
+import AuthContext from 'readapt-plugin-anonymous-auth-expo/contexts/Auth';
 import {useMutation, useQuery} from 'urql'
 import { graphql } from '../gql';
 

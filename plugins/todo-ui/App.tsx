@@ -1,17 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import LoginButton from './components/LoginButton';
-import AuthContext, { AuthProvider } from './contexts/Auth';
+import { SimpleAnonymousAuthProvider } from 'readapt-plugin-anonymous-auth-expo/contexts/Auth';
+import LoginButton from 'plugins/anonymous-auth-expo/components/LoginButton';
 
 export default function App() {
   return (
-    <AuthProvider>
-      <View style={styles.container}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <StatusBar style="auto" />
-        <LoginButton />
-      </View>
-    </AuthProvider>
+    <UrqlProvider>
+      <SimpleAnonymousAuthProvider>
+        <View style={styles.container}>
+          <Text>Open up App.tsx to start working on your app!</Text>
+          <StatusBar style="auto" />
+          <LoginButton />
+        </View>
+      </SimpleAnonymousAuthProvider>
+    </UrqlProvider>
   );
 }
 

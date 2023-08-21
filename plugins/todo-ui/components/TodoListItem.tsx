@@ -1,7 +1,7 @@
 
 import {useContext} from 'react'
 import {Button, Text, View} from 'react-native'
-import AuthContext from 'readapt-plugin-simple-anonymous-auth-ui/contexts/Auth';
+import AuthContext from 'readapt-plugin-anonymous-auth-expo/contexts/Auth';
 import {useMutation} from 'urql'
 import { graphql } from '../gql';
 import { AllTodosQuery } from '../gql/graphql';
@@ -28,9 +28,7 @@ const TodoListItem: React.FC<{todo: AllTodosQuery['todos'][0], refetch: () => vo
         void completeTodo({ id: todo.id, completed: !todo.completed, token: token! }).then(() => {
           refetch()
         })
-      }
-        
-      } />
+      }} />
     </View>
 }
 

@@ -45,9 +45,9 @@ importers:
       '@types/react':
         specifier: ~18.0.14
         version: registry.npmjs.org/@types/react@18.0.14
-      readapt-plugin-simple-anonymous-auth-ui:
+      readapt-plugin-anonymous-auth-expo:
         specifier: workspace:*
-        version: link:../../plugins/simple-anonymous-auth-ui
+        version: link:../../plugins/anonymous-auth-expo
       readapt-plugin-todo-ui:
         specifier: workspace:*
         version: link:../../plugins/todo-ui
@@ -60,9 +60,9 @@ importers:
       '@readapt/core':
         specifier: workspace:*
         version: link:../../packages/core
-      readapt-plugin-simple-anonymous-auth:
+      readapt-plugin-anonymous-auth:
         specifier: workspace:*
-        version: link:../../plugins/simple-anonymous-auth
+        version: link:../../plugins/anonymous-auth
       readapt-plugin-todo:
         specifier: workspace:*
         version: link:../../plugins/todo
@@ -111,7 +111,7 @@ importers:
         specifier: ^2.0.0
         version: registry.npmjs.org/ts-node-dev@2.0.0(@types/node@20.5.1)(typescript@5.1.6)
 
-  plugins/simple-anonymous-auth:
+  plugins/anonymous-auth:
     dependencies:
       '@readapt/core':
         specifier: workspace:^
@@ -127,7 +127,7 @@ importers:
         specifier: ^9.0.2
         version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
 
-  plugins/simple-anonymous-auth-ui:
+  plugins/anonymous-auth-expo:
     dependencies:
       '@react-native-async-storage/async-storage':
         specifier: 1.18.2
@@ -147,6 +147,12 @@ importers:
       react-native:
         specifier: 0.72.3
         version: registry.npmjs.org/react-native@0.72.3(@babel/core@7.20.2)(@babel/preset-env@7.22.10)(react@18.2.0)
+      readapt-plugin-auth-expo:
+        specifier: workspace:^
+        version: link:../auth-expo
+      readapt-plugin-urql-expo:
+        specifier: workspace:^
+        version: link:../urql-expo
       urql:
         specifier: ^4.0.5
         version: registry.npmjs.org/urql@4.0.5(graphql@16.8.0)(react@18.2.0)
@@ -167,6 +173,31 @@ importers:
         specifier: ^5.1.3
         version: registry.npmjs.org/typescript@5.1.6
 
+  plugins/auth-expo:
+    dependencies:
+      '@react-native-async-storage/async-storage':
+        specifier: 1.18.2
+        version: registry.npmjs.org/@react-native-async-storage/async-storage@1.18.2(react-native@0.72.3)
+      expo:
+        specifier: ~49.0.7
+        version: registry.npmjs.org/expo@49.0.7(@babel/core@7.20.2)
+      react:
+        specifier: 18.2.0
+        version: registry.npmjs.org/react@18.2.0
+      react-native:
+        specifier: 0.72.3
+        version: registry.npmjs.org/react-native@0.72.3(@babel/core@7.20.2)(@babel/preset-env@7.22.10)(react@18.2.0)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.20.0
+        version: registry.npmjs.org/@babel/core@7.20.2
+      '@types/react':
+        specifier: ~18.0.14
+        version: registry.npmjs.org/@types/react@18.0.14
+      typescript:
+        specifier: ^5.1.3
+        version: registry.npmjs.org/typescript@5.1.6
+
   plugins/todo:
     dependencies:
       '@readapt/core':
@@ -175,9 +206,9 @@ importers:
       hono:
         specifier: ^3.4.3
         version: registry.npmjs.org/hono@3.4.3
-      readapt-plugin-simple-anonymous-auth:
+      readapt-plugin-anonymous-auth:
         specifier: workspace:^
-        version: link:../simple-anonymous-auth
+        version: link:../anonymous-auth
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.1
@@ -203,9 +234,9 @@ importers:
       react-native:
         specifier: 0.72.3
         version: registry.npmjs.org/react-native@0.72.3(@babel/core@7.22.10)(@babel/preset-env@7.22.10)(react@18.2.0)
-      readapt-plugin-simple-anonymous-auth-ui:
+      readapt-plugin-anonymous-auth-expo:
         specifier: workspace:^
-        version: link:../simple-anonymous-auth-ui
+        version: link:../anonymous-auth-expo
       urql:
         specifier: ^4.0.5
         version: registry.npmjs.org/urql@4.0.5(graphql@16.8.0)(react@18.2.0)
@@ -219,6 +250,37 @@ importers:
       '@graphql-codegen/client-preset':
         specifier: ^4.1.0
         version: registry.npmjs.org/@graphql-codegen/client-preset@4.1.0(graphql@16.8.0)
+      '@types/react':
+        specifier: ~18.0.14
+        version: registry.npmjs.org/@types/react@18.0.14
+      typescript:
+        specifier: ^5.1.3
+        version: registry.npmjs.org/typescript@5.1.6
+
+  plugins/urql-expo:
+    dependencies:
+      expo:
+        specifier: ~49.0.7
+        version: registry.npmjs.org/expo@49.0.7(@babel/core@7.22.10)
+      graphql:
+        specifier: ^16.8.0
+        version: registry.npmjs.org/graphql@16.8.0
+      react:
+        specifier: 18.2.0
+        version: registry.npmjs.org/react@18.2.0
+      react-native:
+        specifier: 0.72.3
+        version: registry.npmjs.org/react-native@0.72.3(@babel/core@7.22.10)(@babel/preset-env@7.22.10)(react@18.2.0)
+      readapt-plugin-auth-expo:
+        specifier: workspace:^
+        version: link:../auth-expo
+      urql:
+        specifier: ^4.0.5
+        version: registry.npmjs.org/urql@4.0.5(graphql@16.8.0)(react@18.2.0)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.20.0
+        version: registry.npmjs.org/@babel/core@7.22.10
       '@types/react':
         specifier: ~18.0.14
         version: registry.npmjs.org/@types/react@18.0.14

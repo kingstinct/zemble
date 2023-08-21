@@ -13,7 +13,7 @@
   "dependencies": {
     "@readapt/core": "workspace:^",
     "hono": "^3.4.3",
-    "readapt-plugin-simple-anonymous-auth": "workspace:^"
+    "readapt-plugin-anonymous-auth": "workspace:^"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1"

@@ -14,3 +14,9 @@ Core functionality:
 - Key-Value Store (would be nice)
 - Pub/Sub (would be nice)
 - Queues (would be nice)
+
+
+Environment variables:
+Using dotenv by default. Let's consider providing overrides that are prefixed, to allow for flexbility, i.e.:
+GRAPHQL_ENDPOINT=http://localhost:3000/graphql
+PLUGIN_2_GRAPHQL_ENDPOINT=http://localhost:3001/graphql (overrides the above for plugin 2)

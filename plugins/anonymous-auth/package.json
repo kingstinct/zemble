@@ -1,5 +1,5 @@
 {
-  "name": "todo-app-with-auth-backend",
+  "name": "readapt-plugin-anonymous-auth",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,12 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@readapt/core": "workspace:*",
-    "readapt-plugin-anonymous-auth": "workspace:*",
-    "readapt-plugin-todo": "workspace:*"
+    "@readapt/core": "workspace:^",
+    "jsonwebtoken": "^9.0.1"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",
-    "typescript": "^5.1.6"
+    "@types/jsonwebtoken": "^9.0.2"
   }
 }
