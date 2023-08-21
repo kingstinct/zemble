@@ -1,25 +1,26 @@
 import { SafeAreaView, Text } from 'react-native';
 
-import { OnlyVisibleForAuthenticated, OnlyVisibleForUnauthenticated } from 'readapt-plugin-auth-expo/contexts/Auth';
+import { ShowForAuthenticated } from 'readapt-plugin-auth-expo/components/ShowForAuthenticated';
+import { ShowForUnauthenticated } from 'readapt-plugin-auth-expo/components/ShowForUnauthenticated';
 import LogoutButton from 'readapt-plugin-auth-expo/components/LogoutButton';
 import UrqlProvider from 'readapt-plugin-urql-expo/contexts/UrqlProvider';
 import LoginButton from './components/LoginButton';
 import { SimpleAnonymousAuthProvider } from './contexts/Auth';
 
 export default function App() {
-return (
+  return (
     <SafeAreaView>
       <UrqlProvider>
-      <SimpleAnonymousAuthProvider>
-        <OnlyVisibleForAuthenticated>
-          <Text>Logged in!</Text>
-          <LogoutButton />
-        </OnlyVisibleForAuthenticated>
-        <OnlyVisibleForUnauthenticated>
-          <Text>Not logged in</Text>
-          <LoginButton />
-        </OnlyVisibleForUnauthenticated>
-      </SimpleAnonymousAuthProvider>
+        <SimpleAnonymousAuthProvider>
+          <ShowForAuthenticated>
+            <Text>Logged in!</Text>
+            <LogoutButton />
+          </ShowForAuthenticated>
+          <ShowForUnauthenticated>
+            <Text>Not logged in</Text>
+            <LoginButton />
+          </ShowForUnauthenticated>
+        </SimpleAnonymousAuthProvider>
       </UrqlProvider>
     </SafeAreaView>
   );

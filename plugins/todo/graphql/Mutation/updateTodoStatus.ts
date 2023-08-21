@@ -1,4 +1,5 @@
-import { verifyAuth } from "../../../simple-anonymous-auth/interop/verifyAuth"
+
+import { verifyAuth } from "readapt-plugin-anonymous-auth/utils/verifyAuth"
 import kv from "../../utils/kv"
 
 export default (_:any, { id, completed, token }: { id: string, completed: boolean, token: string }) => {

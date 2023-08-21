@@ -129,15 +129,9 @@ importers:
 
   plugins/anonymous-auth-expo:
     dependencies:
-      '@react-native-async-storage/async-storage':
-        specifier: 1.18.2
-        version: registry.npmjs.org/@react-native-async-storage/async-storage@1.18.2(react-native@0.72.3)
       expo:
         specifier: ~49.0.7
         version: registry.npmjs.org/expo@49.0.7(@babel/core@7.20.2)
-      expo-status-bar:
-        specifier: ~1.6.0
-        version: registry.npmjs.org/expo-status-bar@1.6.0
       graphql:
         specifier: ^16.8.0
         version: registry.npmjs.org/graphql@16.8.0
