@@ -1,0 +1,21 @@
+{
+  "name": "readapt-plugin-apple-app-site-association",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "readapt-dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@readapt/core": "workspace:^",
+    "jsonwebtoken": "^9.0.1"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.1",
+    "@types/jsonwebtoken": "^9.0.2"
+  }
+}
