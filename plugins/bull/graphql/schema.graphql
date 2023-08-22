@@ -58,14 +58,9 @@ enum JobType {
 }
 
 type Query {
-  hello: String!
-  todos(token: String!): [Todo!]!
   queues: [Queue!]!
 }
 
 type Mutation {
-  createTodo(title:String!, token: String!): Todo!
-  updateTodoStatus(id:ID!, completed: Boolean!, token: String!): Todo
-
   addJob(queue: String!): Job!
 }

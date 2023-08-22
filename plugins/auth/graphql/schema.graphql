@@ -1,7 +1,7 @@
 scalar JSON
 
 type Mutation {
-  sign(data: JSON!, expiresInSeconds: Int): SignResponse!
+  generateMaintenanceKey(maintenanceSecret: String!, expiresInSeconds: Int): SignResponse!
 }
 
 type SignResponse {

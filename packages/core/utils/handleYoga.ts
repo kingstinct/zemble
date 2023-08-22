@@ -10,8 +10,7 @@ export default (schema: GraphQLSchemaWithContext<{}>) => {
 
   return async (c: Context) => {
     const res = await yoga.handle(c.req.raw, {})
-    console.log('c.req.headers.get)?', c.req.headers.get('Accept'))
-    console.log('inclooodes', c.req.headers.get('Accept')?.includes('text/html'))
+    
     return c.newResponse(res.body, res.status, c.req.headers.get('Accept')?.includes('text/html') 
       ? {
         'Content-Type': 'text/html',

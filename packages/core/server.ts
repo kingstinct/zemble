@@ -9,15 +9,22 @@ import { mergeSchemas } from '@graphql-tools/schema'
 import handleYoga from './utils/handleYoga'
 import { GraphQLSchemaWithContext } from 'graphql-yoga'
 import { cors } from 'hono/cors'
+import setupQueues from './utils/setupQueues'
 
 const app = new Hono()
 app.use('*', cors())
 
 const nodeModules = path.join(process.cwd(), 'node_modules');
 
+export type Middleware = {
+  setup: (app: Hono) => (Promise<void> | void),
+} 
+
 async function loadPlugin(pluginPath: string, graphQLSchemas: GraphQLSchemaWithContext<{}>[]) {
   const routePath = path.join(pluginPath, '/routes')
+  const middlewarePath = path.join(pluginPath, '/middleware')
   const graphqlPath = path.join(pluginPath, '/graphql')
+  const queuePath = path.join(pluginPath, '/queues')
 
   const hasGraphQL = fs.existsSync(graphqlPath)
 
@@ -34,6 +41,20 @@ async function loadPlugin(pluginPath: string, graphQLSchemas: GraphQLSchemaWithC
       app.use(filename, filesWithContent[filename])
     })
   }
+
+  const hasMiddleware = fs.existsSync(middlewarePath)
+
+  if (hasMiddleware) {
+    const filenames = readDir(middlewarePath)
+
+    filenames.forEach(async (filename) => {
+      const middleware = (await import(path.join(middlewarePath, filename))).default as Middleware
+      await middleware.setup(app)
+    })
+  }
+
+  setupQueues(pluginPath)
+
   return graphQLSchemas
 }
 
@@ -54,6 +75,9 @@ const start = async () => {
 
   const mergedSchema = mergeSchemas({
     schemas: graphQLSchemas,
+    resolverValidationOptions: {
+      requireResolversForArgs: 'warn',
+    }
   })
 
   app.use('/graphql', handleYoga(mergedSchema))

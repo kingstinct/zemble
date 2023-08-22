@@ -1,21 +1,21 @@
 import * as jwt from 'jsonwebtoken'
-import { ISSUER, PRIVATE_KEY } from '../../config'
+import { ISSUER, PRIVATE_KEY } from '../config'
 
-export default (_: unknown, { data, expiresInSeconds }:{ data: object, expiresInSeconds?: number }) => {
+function signJwt<T extends object>({ data, expiresInSeconds }:{ data: T, expiresInSeconds?: number }) {
   if(!PRIVATE_KEY){
     throw new Error('PRIVATE_KEY is not set')
   }
 
-  console.log('PRIVATE_KEY', PRIVATE_KEY)
-
-  return { 
+  return {
     token: jwt.sign(
-      data, 
-      PRIVATE_KEY, 
+      data,
+      PRIVATE_KEY,
       {
         algorithm: 'RS256',
         ...expiresInSeconds !== undefined ? { expiresIn: expiresInSeconds } : {},
         issuer: ISSUER,
       }) 
   }
-}
+} 
+
+export default signJwt

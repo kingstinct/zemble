@@ -12,12 +12,15 @@ export const createPluginSchema = async (graphqlDir: string) => {
   
   const Type = await readResolvers(join(graphqlDir, '/Type'))
 
+  const Scalars = await readResolvers(join(graphqlDir, '/Scalars'))
+
   const schema = createSchema({
     typeDefs,
     resolvers: {
       ...(Object.keys(Query).length > 0 ? { Query } : {}),
       ...(Object.keys(Mutation).length > 0 ? { Mutation } : {}),
-      ...Type
+      ...Type,
+      ...Scalars,
     },
   })
   

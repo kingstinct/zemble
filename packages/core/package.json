@@ -2,10 +2,8 @@
   "name": "@readapt/core",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
   "bin": {
-    "readapt-dev": "./dev.js",
-    "readapt-codegen": "./dev.js"
+    "readapt-dev": "./dev.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,6 +15,7 @@
   "dependencies": {
     "@graphql-tools/schema": "^10.0.0",
     "@hono/node-server": "^1.1.1",
+    "bullmq": "^4.8.0",
     "dotenv": "^16.3.1",
     "graphql-yoga": "^4.0.4",
     "hono": "^3.4.3",

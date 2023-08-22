@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "readapt-auth-generate-keys": "./generate-keys.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "readapt-dev"
+    "dev": "readapt-dev",
+    "postinstall": "readapt-auth-generate-keys"
   },
   "keywords": [],
   "author": "",
