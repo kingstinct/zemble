@@ -2,21 +2,32 @@ import { MiddlewareHandler } from 'hono';
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-export const readRoutes = (dir: string): Promise<Record<string, MiddlewareHandler>> => {
-  return fs.readdirSync(dir).reduce(async (prev, filename) => {
-    let route = path.join(dir, filename);
+export const readRoutes = (rootDir: string, prefix = ''): Promise<Record<string, MiddlewareHandler>> => {
+  return fs.readdirSync(path.join(rootDir,prefix)).reduce(async (prev, filename) => {
+    let route = path.join(rootDir,prefix, filename);
 
-    const fileNameWithoutExtension = filename.substring(0, filename.length - 3);
-    try {
-        const item = await import(route);
-        const newRoutes =  {...await prev,[fileNameWithoutExtension]: item.default}
+    const tat = fs.statSync(route);
 
-        return newRoutes;
-    } catch (error) {
-        console.log(error);
-
-        return prev;
+    if(tat.isDirectory()){
+      console.log('isDirectory', route);
+      const newRoutes = await readRoutes(rootDir, path.join(prefix, filename));
+      return {...await prev, ...newRoutes}
     }
+    else {
+      const fileNameWithoutExtension = filename.substring(0, filename.length - 3);
+      try {
+          const item = await import(route);
+          const newRoutes =  {...await prev,[path.join(prefix, fileNameWithoutExtension)]: item.default}
+  
+          return newRoutes;
+      } catch (error) {
+          console.log(error);
+  
+          return prev;
+      }
+    }
+
+    
   }, Promise.resolve({} as Record<string, MiddlewareHandler>));
 }
 

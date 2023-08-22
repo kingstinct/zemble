@@ -1,0 +1,15 @@
+scalar JSON
+
+type Mutation {
+  sign(data: JSON!, expiresInSeconds: Int): SignResponse!
+}
+
+type SignResponse {
+  token: String!
+}
+
+type Query {
+  validate(token: String!): Boolean!
+  read(token: String!): JSON!
+  publicKey: String!
+}
