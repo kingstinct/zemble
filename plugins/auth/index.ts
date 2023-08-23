@@ -22,4 +22,4 @@ const defaults = {
   MAINTENANCE_KEY_EXPIRE_BEFORE_IAT
 }
 
-export default new PluginConfig<AuthConfig, typeof defaults>(__dirname, defaults)
+export default new PluginConfig<AuthConfig, typeof defaults>(__dirname, { defaultConfig: defaults })

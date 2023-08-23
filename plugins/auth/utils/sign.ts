@@ -8,8 +8,7 @@ function signJwt<T extends object>({ data, expiresInSeconds }:{ data: T, expires
     throw new Error('PRIVATE_KEY is not set')
   }
 
-  return {
-    token: jwt.sign(
+  return jwt.sign(
       data,
       PRIVATE_KEY,
       {
@@ -17,7 +16,6 @@ function signJwt<T extends object>({ data, expiresInSeconds }:{ data: T, expires
         ...expiresInSeconds !== undefined ? { expiresIn: expiresInSeconds } : {},
         issuer: ISSUER,
       }) 
-  }
 } 
 
 export default signJwt

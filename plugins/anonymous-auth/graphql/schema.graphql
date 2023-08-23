@@ -13,6 +13,4 @@ type User {
 
 type Query {
   me(token: String!): User!
-
-  isValid(token: String!): Boolean!
 }
