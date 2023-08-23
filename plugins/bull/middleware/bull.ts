@@ -1,4 +1,4 @@
-import { Middleware } from "@readapt/core";
+// import { Middleware } from "@readapt/core";
 import { Hono } from "hono";
 
 import {Queue} from 'bullmq'
@@ -14,7 +14,7 @@ import redis from "../redis";
 
 // other configurations of your server
 
-const middleware: Middleware = {
+const middleware = {
   setup: (app: Hono) => {
     // const serverAdapter = new ExpressAdapter();
     // serverAdapter.setBasePath('/admin/queues');

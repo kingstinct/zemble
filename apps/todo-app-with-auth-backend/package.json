@@ -13,8 +13,9 @@
   "dependencies": {
     "@readapt/core": "workspace:*",
     "readapt-plugin-anonymous-auth": "workspace:*",
-    "readapt-plugin-todo": "workspace:*",
-    "readapt-plugin-apple-app-site-association": "workspace:*"
+    "readapt-plugin-apple-app-site-association": "workspace:*",
+    "readapt-plugin-bull": "workspace:^",
+    "readapt-plugin-todo": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

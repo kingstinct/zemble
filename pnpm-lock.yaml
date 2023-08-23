@@ -63,6 +63,12 @@ importers:
       readapt-plugin-anonymous-auth:
         specifier: workspace:*
         version: link:../../plugins/anonymous-auth
+      readapt-plugin-apple-app-site-association:
+        specifier: workspace:*
+        version: link:../../plugins/apple-app-site-association
+      readapt-plugin-bull:
+        specifier: workspace:^
+        version: link:../../plugins/bull
       readapt-plugin-todo:
         specifier: workspace:*
         version: link:../../plugins/todo
@@ -238,28 +244,43 @@ importers:
 
   plugins/bull:
     dependencies:
+      '@bull-board/api':
+        specifier: ^5.8.0
+        version: registry.npmjs.org/@bull-board/api@5.8.0(@bull-board/ui@5.8.0)
+      '@bull-board/express':
+        specifier: ^5.8.0
+        version: registry.npmjs.org/@bull-board/express@5.8.0
+      '@bull-board/fastify':
+        specifier: ^5.8.0
+        version: registry.npmjs.org/@bull-board/fastify@5.8.0
+      '@bull-board/hapi':
+        specifier: ^5.8.0
+        version: registry.npmjs.org/@bull-board/hapi@5.8.0
+      '@bull-board/koa':
+        specifier: ^5.8.0
+        version: registry.npmjs.org/@bull-board/koa@5.8.0
+      '@bull-board/nestjs':
+        specifier: ^5.8.0
+        version: registry.npmjs.org/@bull-board/nestjs@5.8.0(@bull-board/api@5.8.0)(@bull-board/express@5.8.0)(@nestjs/common@10.2.1)(@nestjs/core@10.2.1)(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@readapt/core':
         specifier: workspace:^
         version: link:../../packages/core
-      graphql-scalars:
-        specifier: ^1.22.2
-        version: registry.npmjs.org/graphql-scalars@1.22.2(graphql@16.8.0)
+      bullmq:
+        specifier: ^4.8.0
+        version: registry.npmjs.org/bullmq@4.8.0
       hono:
         specifier: ^3.4.3
         version: registry.npmjs.org/hono@3.4.3
-      jose:
-        specifier: ^4.14.4
-        version: registry.npmjs.org/jose@4.14.4
-      jsonwebtoken:
-        specifier: ^9.0.1
-        version: registry.npmjs.org/jsonwebtoken@9.0.1
+      readapt-plugin-anonymous-auth:
+        specifier: workspace:^
+        version: link:../anonymous-auth
+      readapt-plugin-auth:
+        specifier: workspace:^
+        version: link:../auth
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.1
         version: registry.npmjs.org/@tsconfig/node20@20.1.1
-      '@types/jsonwebtoken':
-        specifier: ^9.0.2
-        version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
 
   plugins/key-value:
     dependencies:
@@ -3786,7 +3807,7 @@ packages:
       '@bull-board/ui': registry.npmjs.org/@bull-board/ui@5.8.0
       '@hapi/inert': registry.npmjs.org/@hapi/inert@6.0.5
       '@hapi/vision': registry.npmjs.org/@hapi/vision@6.1.0
-      ejs: registry.npmjs.org/ejs@3.1.7
+      ejs: registry.npmjs.org/ejs@3.1.9
     dev: false
 
   registry.npmjs.org/@bull-board/koa@5.8.0:
@@ -3796,12 +3817,12 @@ packages:
     dependencies:
       '@bull-board/api': registry.npmjs.org/@bull-board/api@5.8.0(@bull-board/ui@5.8.0)
       '@bull-board/ui': registry.npmjs.org/@bull-board/ui@5.8.0
-      ejs: registry.npmjs.org/ejs@3.1.7
+      ejs: registry.npmjs.org/ejs@3.1.9
       koa: registry.npmjs.org/koa@2.14.2
       koa-mount: registry.npmjs.org/koa-mount@4.0.0
       koa-router: registry.npmjs.org/koa-router@10.1.1
       koa-static: registry.npmjs.org/koa-static@5.0.0
-      koa-views: registry.npmjs.org/koa-views@7.0.2(ejs@3.1.7)
+      koa-views: registry.npmjs.org/koa-views@7.0.2(ejs@3.1.9)
     transitivePeerDependencies:
       - '@types/koa'
       - arc-templates
@@ -8240,7 +8261,7 @@ packages:
     version: 2.15.3
     dev: false
 
-  registry.npmjs.org/consolidate@0.16.0(ejs@3.1.7):
+  registry.npmjs.org/consolidate@0.16.0(ejs@3.1.9):
     resolution: {integrity: sha512-Nhl1wzCslqXYTJVDyJCu3ODohy9OfBMB5uD2BiBTzd7w+QY0lBzafkR8y8755yMYHAaMD4NuzbAw03/xzfw+eQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/consolidate/-/consolidate-0.16.0.tgz}
     id: registry.npmjs.org/consolidate/0.16.0
     name: consolidate
@@ -8410,7 +8431,7 @@ packages:
         optional: true
     dependencies:
       bluebird: registry.npmjs.org/bluebird@3.7.2
-      ejs: registry.npmjs.org/ejs@3.1.7
+      ejs: registry.npmjs.org/ejs@3.1.9
     dev: false
 
   registry.npmjs.org/constant-case@3.0.4:
@@ -11794,7 +11815,7 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/koa-views@7.0.2(ejs@3.1.7):
+  registry.npmjs.org/koa-views@7.0.2(ejs@3.1.9):
     resolution: {integrity: sha512-dvx3mdVeSVuIPEaKAoGbxLcenudvhl821xxyuRbcoA+bOJ2dvN8wlGjkLu0ZFMlkCscXZV6lzxy28rafeazI/w==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/koa-views/-/koa-views-7.0.2.tgz}
     id: registry.npmjs.org/koa-views/7.0.2
     name: koa-views
@@ -11806,7 +11827,7 @@ packages:
       '@types/koa':
         optional: true
     dependencies:
-      consolidate: registry.npmjs.org/consolidate@0.16.0(ejs@3.1.7)
+      consolidate: registry.npmjs.org/consolidate@0.16.0(ejs@3.1.9)
       debug: registry.npmjs.org/debug@4.3.4
       get-paths: registry.npmjs.org/get-paths@0.0.7
       koa-send: registry.npmjs.org/koa-send@5.0.1

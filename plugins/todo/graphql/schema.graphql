@@ -1,71 +1,15 @@
-scalar JSON
-
 type Todo {
   id: ID!
   title: String!
   completed: Boolean!
 }
 
-type Job {
-  name: String!
-  data: JSON!
-  id: ID
-  progress: Float
-  state: JobState!
-  timestamp: Int!
-  delay: Int
-}
-
-enum JobState {
-  completed
-  failed
-  active
-  delayed
-  prioritized
-  waiting
-  waiting_children
-}
-
-type Queue {
-  name: String!
-  count: Int!
-  completedCount: Int!
-  activeCount: Int!
-  waitingCount: Int!
-  waitingChildrenCount: Int!
-  failedCount: Int!
-  delayedCount: Int!
-  isPaused: Boolean!
-  jobs(
-    type: [JobType!]
-    start: Int
-    end: Int
-    asc: Boolean
-  ): [Job!]!
-}
-
-enum JobType {
-  completed
-  failed
-  active
-  delayed
-  prioritized
-  waiting
-  waiting_children
-  paused
-  repeat
-  wait
-}
-
 type Query {
   hello: String!
   todos(token: String!): [Todo!]!
-  queues: [Queue!]!
 }
 
 type Mutation {
   createTodo(title:String!, token: String!): Todo!
   updateTodoStatus(id:ID!, completed: Boolean!, token: String!): Todo
-
-  addJob(queue: String!): Job!
 }

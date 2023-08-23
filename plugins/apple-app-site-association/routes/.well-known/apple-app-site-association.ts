@@ -1,7 +1,8 @@
-import { APPLE_APP_SITE_ASSOCIATION_JSON } from '../../config'
+
 import { Context } from 'hono'
 
-export default ({ json }: Context) => json(APPLE_APP_SITE_ASSOCIATION_JSON ?? {
+
+export default ({ json }: Context) => json({
   "applinks": {
       "apps": [],
       "details": [
