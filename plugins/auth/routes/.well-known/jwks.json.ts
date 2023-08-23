@@ -1,7 +1,9 @@
 import { Context } from 'hono'
 import { createPublicKey } from 'crypto';
 import * as jose from 'jose'
-import { PUBLIC_KEY } from '../../config'
+import plugin from '../..'
+
+const {PUBLIC_KEY} = plugin.config
 
 export default async ({json}: Context) => {
   if (!PUBLIC_KEY) {

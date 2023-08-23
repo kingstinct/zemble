@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql'
 import signJwt from '../../utils/sign'
-import { MAINTENANCE_SECRET } from '../../config'
+import plugin from '../..'
+const { MAINTENANCE_SECRET } = plugin.config
 
 export type MaintenanceKeyData = {
   isMaintenanceKey: true

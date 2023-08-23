@@ -2,6 +2,7 @@
   "name": "@readapt/core",
   "version": "1.0.0",
   "description": "",
+  "main": "server.ts",
   "bin": {
     "readapt-dev": "./dev.js"
   },

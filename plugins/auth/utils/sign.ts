@@ -1,5 +1,7 @@
 import * as jwt from 'jsonwebtoken'
-import { ISSUER, PRIVATE_KEY } from '../config'
+import plugin from '../'
+
+const { PRIVATE_KEY, ISSUER } = plugin.config
 
 function signJwt<T extends object>({ data, expiresInSeconds }:{ data: T, expiresInSeconds?: number }) {
   if(!PRIVATE_KEY){

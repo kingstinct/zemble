@@ -1,11 +1,10 @@
-import { GraphQLSchemaWithContext, createYoga } from 'graphql-yoga';
+import { GraphQLSchemaWithContext, createYoga, YogaServerOptions } from 'graphql-yoga';
 import { Context } from 'hono'
 
-export default (schema: GraphQLSchemaWithContext<{}>) => {
+export default (schema: GraphQLSchemaWithContext<{}>, opts: Omit<YogaServerOptions<{}, {}>, 'schema'>) => {
   const yoga = createYoga({
+    ...opts,
     schema,
-    graphiql: true,
-    graphqlEndpoint: '/graphql',
   })
 
   return async (c: Context) => {

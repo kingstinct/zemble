@@ -1,6 +1,6 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import readDir from '../utils/readDir'
+import readDir from '@readapt/core/utils/readDir'
 import { Job, Queue, Worker } from "bullmq";
 import redis from './redis';
 

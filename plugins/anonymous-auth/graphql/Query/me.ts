@@ -1,6 +1,5 @@
-import { verifyAuth } from "../../utils/verifyAuth"
+import { decodeToken } from '../../utils/typedToken'
 
 export default (_:unknown, {token}:{token: string}) => {
-  const {userId, username} = verifyAuth(token)
-  return {userId, username}
+  return decodeToken(token)
 }

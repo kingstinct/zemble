@@ -1,53 +1,45 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
-import * as fs from 'node:fs'
-import * as path from 'node:path'
-import readDir from './utils/readDir'
-import { mergeSchemas } from '@graphql-tools/schema'
-import handleYoga from './utils/handleYoga'
-import { GraphQLSchemaWithContext } from 'graphql-yoga'
 import { cors } from 'hono/cors'
 import initializePlugin from './utils/initializePlugin'
+import PluginConfig from './types'
+import { readPackageJson } from './utils/readPackageJson'
 
-const app = new Hono()
-app.use('*', cors())
+const packageJson = readPackageJson();
 
-const nodeModules = path.join(process.cwd(), 'node_modules');
+const initializePlugins = async (plugins: PluginConfig<{}>[], app: Hono) => {
+  await initializePlugin({ pluginPath: process.cwd(), app })
 
-export type Middleware = {
-  setup: (app: Hono) => (Promise<void> | void),
-} 
+  await plugins.reduce(async (
+    prev, 
+    { pluginPath }
+  ) => {
+    await prev
+    await initializePlugin({ pluginPath, app })
+    return undefined
+  }, Promise.resolve(undefined))
+}
 
-const packageJson = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
+const initialize = async (plugins: PluginConfig<any>[]) => {
+  const app = new Hono()
 
-const start = async () => {
+  app.use('*', cors())
+
   app.get('/', (c) => c.text('Hello ReAdapt! Serving ' + packageJson.name))
 
-  const plugins = readDir(nodeModules, 'readapt-plugin-')
-
-  const selfSchemas = await initializePlugin({ pluginPath: process.cwd(), app })
-
-  const graphQLSchemas = await plugins.reduce(async (
+  await plugins.reduce(async (
     prev, 
-    pluginName: string
+    { middleware, config }
   ) => {
-    const toReturn: GraphQLSchemaWithContext<{}>[] = [
-      ...await prev,
-      ...await initializePlugin({ pluginPath: path.join(nodeModules, pluginName), app })
-    ]
-    return toReturn
-  }, Promise.resolve(selfSchemas))
+    console.log(`Initializing MIDDLWARE ${config.pluginName} with config:`, JSON.stringify(config.config, null, 2))
+    await prev
+    await middleware?.(plugins, app, config)
+    return undefined
+  }, Promise.resolve(undefined))
 
-  const mergedSchema = mergeSchemas({
-    schemas: graphQLSchemas,
-    resolverValidationOptions: {
-      requireResolversForArgs: 'warn',
-    }
-  })
-
-  app.use('/graphql', handleYoga(mergedSchema))
+  await initializePlugins(plugins, app)
 
   serve(app, (info) => console.log(info))
 }
 
-start()
+export default initialize

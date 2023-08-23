@@ -2,13 +2,13 @@
   "name": "readapt-plugin-auth",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "bin": {
     "readapt-auth-generate-keys": "./generate-keys.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "readapt-dev"
+    "dev": "PLUGIN_DEV=true ts-node-dev index.ts"
   },
   "keywords": [],
   "author": "",

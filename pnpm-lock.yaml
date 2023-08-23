@@ -128,6 +128,9 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.1
         version: registry.npmjs.org/jsonwebtoken@9.0.1
+      readapt-plugin-auth:
+        specifier: workspace:^
+        version: link:../auth
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.1
@@ -281,34 +284,6 @@ importers:
       '@tsconfig/node20':
         specifier: ^20.1.1
         version: registry.npmjs.org/@tsconfig/node20@20.1.1
-
-  plugins/key-value:
-    dependencies:
-      '@readapt/core':
-        specifier: workspace:^
-        version: link:../../packages/core
-      graphql-scalars:
-        specifier: ^1.22.2
-        version: registry.npmjs.org/graphql-scalars@1.22.2(graphql@16.8.0)
-      hono:
-        specifier: ^3.4.3
-        version: registry.npmjs.org/hono@3.4.3
-      ioredis:
-        specifier: ^5.3.2
-        version: registry.npmjs.org/ioredis@5.3.2
-      jose:
-        specifier: ^4.14.4
-        version: registry.npmjs.org/jose@4.14.4
-      jsonwebtoken:
-        specifier: ^9.0.1
-        version: registry.npmjs.org/jsonwebtoken@9.0.1
-    devDependencies:
-      '@tsconfig/node20':
-        specifier: ^20.1.1
-        version: registry.npmjs.org/@tsconfig/node20@20.1.1
-      '@types/jsonwebtoken':
-        specifier: ^9.0.2
-        version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
 
   plugins/todo:
     dependencies:

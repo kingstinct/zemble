@@ -9,7 +9,6 @@ export const readRoutes = (rootDir: string, prefix = ''): Promise<Record<string,
     const tat = fs.statSync(route);
 
     if(tat.isDirectory()){
-      console.log('isDirectory', route);
       const newRoutes = await readRoutes(rootDir, path.join(prefix, filename));
       return {...await prev, ...newRoutes}
     }

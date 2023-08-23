@@ -1,5 +1,5 @@
 import { Queue } from 'bullmq'
-import redis from '../../redis'
+import redis from '../../utils/redis'
 
 export default (_:any, { queue }: { queue: string }) => {
   

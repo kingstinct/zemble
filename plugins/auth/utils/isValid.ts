@@ -1,18 +1,20 @@
 import {verify} from 'jsonwebtoken'
-import { PUBLIC_KEY } from '../config'
+import plugin from '../'
 import { MaintenanceKeyData } from '../graphql/Mutation/generateMaintenanceKey'
 
-export const isValid = (token: string, publicKey?: string) => {
+const { MAINTENANCE_KEY_EXPIRE_BEFORE_IAT, PUBLIC_KEY } = plugin.config
+
+export function isValid<T = unknown>(token: string, publicKey?: string) {
   const actualPublicKey = publicKey ?? PUBLIC_KEY
   if(!actualPublicKey){
     throw new Error('PUBLIC_KEY not set')
   }
 
-  return verify(token, actualPublicKey, { algorithms: ['RS256'] })
+  return verify(token, actualPublicKey, { algorithms: ['RS256'] }) as T
 }
 
 export const isValidMaintenanceKey = (token: string) => {
-  const keyIsValid = isValid(token) as MaintenanceKeyData
+  const keyContents = isValid(token) as MaintenanceKeyData
 
-  return !!keyIsValid.isMaintenanceKey
+  return !!keyContents.isMaintenanceKey && MAINTENANCE_KEY_EXPIRE_BEFORE_IAT < keyContents.iat
 }

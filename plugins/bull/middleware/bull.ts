@@ -9,7 +9,7 @@ import { ExpressAdapter } from '@bull-board/express'
 import { HapiAdapter } from '@bull-board/hapi'
 import { KoaAdapter } from '@bull-board/koa'
 import NestAdapter from '@bull-board/nestjs'
-import redis from "../redis";
+import redis from "../utils/redis";
 
 
 // other configurations of your server

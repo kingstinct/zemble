@@ -1,22 +1,20 @@
 {
-  "name": "readapt-plugin-anonymous-auth",
+  "name": "@readapt/graphql-yoga",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev run.ts"
+    "dev": "PLUGIN_DEV=true ts-node-dev index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@readapt/core": "workspace:^",
-    "readapt-plugin-auth": "workspace:^",
-    "jsonwebtoken": "^9.0.1"
+    "hono": "^3.4.3"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.1",
-    "@types/jsonwebtoken": "^9.0.2"
+    "@tsconfig/node20": "^20.1.1"
   }
 }
