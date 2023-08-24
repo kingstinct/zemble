@@ -3,6 +3,7 @@ import * as path from 'node:path'
 import readDir from '@readapt/core/utils/readDir'
 import { Job, Queue, Worker } from "bullmq";
 import redis from './redis';
+import pubSub from '../pubsub';
 
 export type QueueConfig<DataType = any, ReturnType = any> = {
   worker: (job: Job<DataType, ReturnType>) => Promise<void>
@@ -30,6 +31,16 @@ const setupQueues = (pluginPath: string) => {
       const worker = new Worker(fileNameWithoutExtension, queueConfig.worker, {
         connection: redis,
       })
+
+      const jobUpdated = (job: Job) => {
+        pubSub.publish('jobUpdated', job)
+      }
+
+      worker.on('completed', jobUpdated)
+      worker.on('active', jobUpdated)
+      
+      worker.on('progress', jobUpdated)
+      worker.on('failed', (job) => job ? jobUpdated(job) : null)
 
       queues.push(queue)
     })

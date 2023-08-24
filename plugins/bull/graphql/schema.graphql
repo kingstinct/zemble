@@ -1,4 +1,5 @@
 scalar JSON
+scalar DateTime
 
 type Todo {
   id: ID!
@@ -63,11 +64,8 @@ type Query {
 
 type Mutation {
   addJob(queue: String!): Job!
-  randomNumber: Int!
 }
 
 type Subscription {
-  jobUpdated(queue: String!): Job!
-  countdown(from: Int!): Int!
-  randomNumber: Int!
+  jobUpdated: Job!
 }
