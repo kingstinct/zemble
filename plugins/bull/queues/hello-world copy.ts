@@ -1,4 +1,4 @@
-import { QueueConfig } from "@readapt/core/utils/setupQueues";
+import { QueueConfig } from "../utils/setupQueues";
 
 const config: QueueConfig = {
   worker: async (job) => {

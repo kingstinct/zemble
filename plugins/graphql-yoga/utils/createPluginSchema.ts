@@ -9,6 +9,7 @@ export const createPluginSchema = async (graphqlDir: string) => {
   const Query = await readResolvers(join(graphqlDir, '/Query'))
 
   const Mutation = await readResolvers(join(graphqlDir, '/Mutation'))
+  const Subscription = await readResolvers(join(graphqlDir, '/Subscription'))
   
   const Type = await readResolvers(join(graphqlDir, '/Type'))
 
@@ -19,6 +20,7 @@ export const createPluginSchema = async (graphqlDir: string) => {
     resolvers: {
       ...(Object.keys(Query).length > 0 ? { Query } : {}),
       ...(Object.keys(Mutation).length > 0 ? { Mutation } : {}),
+      ...(Object.keys(Subscription).length > 0 ? { Subscription } : {}),
       ...Type,
       ...Scalars,
     },

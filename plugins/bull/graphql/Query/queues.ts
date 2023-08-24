@@ -1,4 +1,4 @@
-import { getQueues } from '@readapt/core/utils/setupQueues'
+import { getQueues } from '../../utils/setupQueues'
 
 export default (_:any, { token }: { token: string }) => {
   const queues = getQueues()

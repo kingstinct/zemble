@@ -39,3 +39,12 @@ Codegen och typsäkerhet (det löser vi, bättre att ta när strukturen sitter)
 Eslint o testning (det löser vi, bättre att ta när strukturen sitter)
 
 Orkestrering av contexts (t ex flera URQL-instanser) på klienten?
+
+
+
+
+
+
+
+
+Plugins vs middleware? Middlewares (graphql och queues) som wirear upp mkt logik borde eventuellt vara mer effortless att sätta upp?

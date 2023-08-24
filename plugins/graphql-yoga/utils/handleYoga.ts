@@ -13,9 +13,11 @@ export default (schema: GraphQLSchemaWithContext<{}>, opts: Omit<YogaServerOptio
     return c.newResponse(res.body, res.status, c.req.headers.get('Accept')?.includes('text/html') 
       ? {
         'Content-Type': 'text/html',
+     } :c.req.headers.get('Accept')?.includes('text/event-stream') ? {
+      'Content-Type': 'text/event-stream',
      }
       : {
-           'Content-Type': 'application/json',
+           'Content-Type': 'application/graphql-response+json',
         })
   }
 } 

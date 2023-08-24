@@ -3,6 +3,7 @@ import initialize from "@readapt/core"
 import AppleAppSiteAssociation from "readapt-plugin-apple-app-site-association"
 import AnonymousAuth from "readapt-plugin-anonymous-auth"
 import TodoPlugin from "readapt-plugin-todo"
+import Bull from "readapt-plugin-bull"
 import YogaGraphQL from "@readapt/graphql-yoga"
 
 initialize([
@@ -13,6 +14,7 @@ initialize([
     ]
    }),
   TodoPlugin.init({ }),
+  Bull.init({ }),
   AppleAppSiteAssociation.init({
       applinks: {
         apps: [],

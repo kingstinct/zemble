@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@envelop/generic-auth": "^6.0.0",
     "@readapt/core": "workspace:*",
     "@readapt/graphql-yoga": "workspace:^",
     "readapt-plugin-anonymous-auth": "workspace:*",

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "readapt-dev"
+    "dev": "ts-node-dev index.ts"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,6 @@
     "@readapt/core": "workspace:^",
     "bullmq": "^4.8.0",
     "hono": "^3.4.3",
-    "readapt-plugin-anonymous-auth": "workspace:^",
     "readapt-plugin-auth": "workspace:^"
   },
   "devDependencies": {

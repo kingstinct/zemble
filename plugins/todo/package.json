@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "readapt-dev"
+    "dev": "ts-node-dev index.ts"
   },
   "keywords": [],
   "author": "",
