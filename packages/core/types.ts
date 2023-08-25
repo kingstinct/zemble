@@ -7,6 +7,10 @@ configDotenv()
 
 declare global {
   namespace Readapt {
+    interface Server extends Hono {
+      
+    }
+
     interface GlobalConfig {
 
     }
@@ -20,7 +24,7 @@ declare global {
 export type ConfiguredMiddleware = (
   opts: {
     plugins: PluginConfig<{}>[], 
-    app: Hono, 
+    app: Readapt.Server, 
     context: Readapt.Context
   }
 ) => Promise<void> | void
@@ -60,7 +64,7 @@ export class PluginConfig<
   }
 
 
-  get pluginAsApp(){
+  pluginAsApp(){
     const config = configure({
       plugins: [
         this.configurePlugin()
@@ -70,7 +74,7 @@ export class PluginConfig<
     return config.getApp()
   }
 
-  get runPluginAsApp(){
+  runPluginAsApp(){
     const config = configure({
       plugins: [
         this.configurePlugin()
@@ -93,7 +97,7 @@ export class PluginConfigWithMiddleware<
     this.#middleware = middleware
   }
 
-  get pluginAsApp(){
+  pluginAsApp(){
     const config = configure({
       plugins: [
         this.configurePlugin()
@@ -106,7 +110,7 @@ export class PluginConfigWithMiddleware<
     return config.getApp()
   }
 
-  get runPluginAsApp(){
+  runPluginAsApp(){
     const config = configure({
       plugins: [
         this.configurePlugin()

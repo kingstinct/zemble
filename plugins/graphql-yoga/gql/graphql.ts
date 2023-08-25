@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -36,3 +37,17 @@ export type Subscription = {
 export type SubscriptionCountdownArgs = {
   from: Scalars['Int']['input'];
 };
+
+export type RandomNumberMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RandomNumberMutation = { __typename?: 'Mutation', randomNumber: number };
+
+export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HelloQuery = { __typename?: 'Query', hello: string };
+
+
+export const RandomNumberDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RandomNumber"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"randomNumber"}}]}}]} as unknown as DocumentNode<RandomNumberMutation, RandomNumberMutationVariables>;
+export const HelloDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Hello"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hello"}}]}}]} as unknown as DocumentNode<HelloQuery, HelloQueryVariables>;

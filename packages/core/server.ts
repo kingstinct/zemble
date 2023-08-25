@@ -30,7 +30,7 @@ type Configure = {
 const getApp = async ({ plugins, middleware }: Omit<Configure, 'inherits'>) => {
   const context = {} as Readapt.Context
 
-  const app = new Hono()
+  const app = new Hono() as Readapt.Server
 
   app.use('*', cors())
 

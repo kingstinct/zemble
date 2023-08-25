@@ -2,6 +2,7 @@
 import { YogaServerOptions, YogaInitialContext } from 'graphql-yoga';
 import { mergeSchemas } from '@graphql-tools/schema'
 import { GraphQLSchemaWithContext, PubSub } from 'graphql-yoga'
+import { GraphQLFormattedError } from 'graphql'
 
 import createPluginSchema from './utils/createPluginSchema'
 import handleYoga from './utils/handleYoga'
@@ -14,6 +15,16 @@ import createPubSub from './createPubSub';
 
 declare global {
   namespace Readapt {
+    interface Server extends Hono {
+      gqlRequest: <TQuery, TVars>(
+        query: TypedDocumentNode<TQuery, TVars>, 
+        vars: TVars
+      ) => Promise<{
+        data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
+        errors?: GraphQLFormattedError[]
+      }>
+    }
+
     interface GlobalConfig {
       skipGraphQL?: boolean
     }
@@ -57,6 +68,33 @@ type GraphQLMiddlewareConfig = {
   redisOptions?: RedisOptions
 }
 
+import { print } from 'graphql/language/printer'
+import { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core';
+import { Hono } from 'hono';
+import { graphql } from './gql';
+
+async function gqlRequest<TQuery, TVars>(
+  app: Readapt.Server, 
+  query: TypedDocumentNode<TQuery, TVars>, 
+  variables: TVars
+) {
+  const res = await app.request(new Request('http://localhost/graphql', {
+      method: 'POST',
+      body: JSON.stringify({
+        query: print(query),
+        variables,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }))
+
+  return res.json() as unknown as { 
+    data?: ResultOf<TQuery>, 
+    errors: GraphQLFormattedError[]
+  }
+}
+
 const defaults = {
   yoga: {
     graphqlEndpoint: '/graphql',
@@ -96,6 +134,12 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (c) => async (
     config.redisUrl,
     config.redisOptions
   )
+
+  // @ts-ignore
+  app.gqlRequest = async (query, vars) => {
+    const response = await gqlRequest(app, query, vars)
+    return response
+  }
 
   context.pubsub = pubsub
 

@@ -1,6 +1,6 @@
 import { QueryResolvers } from "../schema.generated"
 
-const hello: QueryResolvers['hello'] = (_, __, context) => {
+const hello: QueryResolvers['hello'] = () => {
   return 'world!'
 }
 

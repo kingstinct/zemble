@@ -1,28 +1,18 @@
 import plugin from "../../"
-import { createClient, cacheExchange } from '@urql/core'
+import { graphql } from '../../gql'
+ 
+const randomNumberMutation = graphql(`
+  mutation RandomNumber {
+    randomNumber
+  }
+`)
 
 describe('Mutation.randomNumber', () => {
-
   it('Should return a number', async () => {
-    const app = await plugin.pluginAsApp
-
-    const req = new Request('http://localhost/graphql', {
-      method: 'POST',
-      body: JSON.stringify({
-        query: `
-          mutation {
-            randomNumber
-          }
-        `,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    const app = await plugin.pluginAsApp()
     
-    const response = await app.request(req)
-    expect(response.status).toBe(200)
-    expect(await response.json()).toEqual({
+    const response = await app.gqlRequest(randomNumberMutation, {})
+    expect(response).toEqual({
       data: {
         randomNumber: expect.any(Number)
       }
