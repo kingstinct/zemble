@@ -15,7 +15,7 @@ export const createPluginSchema = async (graphqlDir: string) => {
 
   const Scalars = await readResolvers(join(graphqlDir, '/Scalars'))
 
-  const schema = createSchema({
+  const schema = createSchema<Readapt.GraphQLContext>({
     typeDefs,
     resolvers: {
       ...(Object.keys(Query).length > 0 ? { Query } : {}),

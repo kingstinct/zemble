@@ -1,6 +1,8 @@
-const countdown = {
+import { SubscriptionResolvers } from "../schema.generated";
+
+const countdown: SubscriptionResolvers['countdown'] = {
   // This will return the value on every 1 sec until it reaches 0
-  subscribe: async function* (_: unknown, { from }: { from: number }) {
+  subscribe: async function* (_, { from }) {
     for (let i = from; i >= 0; i--) {
       await new Promise(resolve => setTimeout(resolve, 1000))
       yield { countdown: i }

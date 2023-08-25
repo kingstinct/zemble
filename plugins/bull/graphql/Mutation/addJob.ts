@@ -1,11 +1,15 @@
 import { Queue } from 'bullmq'
-import redis from '../../utils/redis'
+import redis from '../../clients/redis'
+import { MutationResolvers } from '../schema.generated'
 
-export default (_:any, { queue }: { queue: string }) => {
-  
+const addJob: MutationResolvers['addJob'] = async (_, { queue }, ) => {
   const q = new Queue(queue, {
-    connection: redis
+    connection: redis()
   })
 
-  return q.add(queue, {}, {})
+  const job = await q.add(queue, {}, {})
+
+  return job
 }
+
+export default addJob

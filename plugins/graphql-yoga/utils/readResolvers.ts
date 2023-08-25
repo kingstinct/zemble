@@ -4,6 +4,10 @@ import { join } from "path";
 export const readResolvers = async (path: string) => {
   try {
     const resolvers = await readdirSync(path).reduce(async (prev, filename) => {
+      if(filename.includes('test')){
+        return prev
+      }
+
       let route = join(path, filename);
   
       const fileNameWithoutExtension = filename.substring(0, filename.length - 3);

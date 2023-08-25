@@ -1,7 +1,10 @@
 import { GraphQLSchemaWithContext, createYoga, YogaServerOptions } from 'graphql-yoga';
 import { Context } from 'hono'
 
-export default (schema: GraphQLSchemaWithContext<{}>, opts: Omit<YogaServerOptions<{}, {}>, 'schema'>) => {
+export default (
+  schema: GraphQLSchemaWithContext<Readapt.GraphQLContext>, 
+  opts?: Omit<YogaServerOptions<Readapt.GraphQLContext, {}>, 'schema'>
+) => {
   const yoga = createYoga({
     ...opts,
     schema,

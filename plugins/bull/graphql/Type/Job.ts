@@ -1,4 +1,4 @@
-import { JobType, Job } from "bullmq";
+import { Job } from "bullmq";
 
 export default {
   name: ({name}: Job) => name,

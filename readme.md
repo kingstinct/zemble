@@ -48,3 +48,12 @@ Orkestrering av contexts (t ex flera URQL-instanser) på klienten?
 
 
 Plugins vs middleware? Middlewares (graphql och queues) som wirear upp mkt logik borde eventuellt vara mer effortless att sätta upp?
+
+
+
+
+Plugin types:
+- "Regular" packages. Importable from npm. Code can be called on as usual.
+- Middleware. Has access to all plugins, can modify how they work, can modify global config.
+- Plugins. Uses the structure set up by the middleware.
+

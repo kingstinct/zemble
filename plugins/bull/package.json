@@ -2,10 +2,11 @@
   "name": "readapt-plugin-bull",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev index.ts"
+    "dev": "ts-node-dev index.ts",
+    "generate": "graphql-codegen"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "@bull-board/koa": "^5.8.0",
     "@bull-board/nestjs": "^5.8.0",
     "@readapt/core": "workspace:^",
+    "@readapt/graphql-yoga": "workspace:^",
     "bullmq": "^4.8.0",
     "hono": "^3.4.3",
     "readapt-plugin-auth": "workspace:^"

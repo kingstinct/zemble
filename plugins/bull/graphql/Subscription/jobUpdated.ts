@@ -1,11 +1,6 @@
-
-import pubSub from '../../pubsub'
- 
-
-
 const jobUpdated = {
   // subscribe to the jobUpdated event
-  subscribe: () => {
+  subscribe: (_, __, {pubSub}) => {
     console.log('subscribing to jobUpdated');
     return pubSub.subscribe('jobUpdated');
   },

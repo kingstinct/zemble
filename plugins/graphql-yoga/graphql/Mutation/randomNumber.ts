@@ -1,10 +1,12 @@
 
-import pubSub from '../../pubsub'
+import { MutationResolvers } from '../schema.generated'
 
-export default (_:any, { queue }: { queue: string }) => {
+const randomNumber: MutationResolvers['randomNumber'] = (_, __, { pubsub }) => {
   const randomNumber = Math.floor(Math.random() * 1000)
 
-  pubSub.publish('randomNumber', randomNumber)
+  pubsub.publish('randomNumber', randomNumber)
 
   return randomNumber
 }
+
+export default randomNumber
