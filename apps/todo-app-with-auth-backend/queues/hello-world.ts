@@ -1,9 +1,9 @@
-import { QueueConfig } from "readapt-plugin-bull/utils/setupQueues";
+import type { QueueConfig } from 'readapt-plugin-bull/utils/setupQueues'
 
 const config: QueueConfig = {
-  worker: async (job) => {
-    console.log(job.data);
-  }
+  worker: (job) => {
+    console.log(job.data)
+  },
 }
 
 export default config

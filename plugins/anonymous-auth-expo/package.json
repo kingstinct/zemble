@@ -1,13 +1,17 @@
 {
   "name": "readapt-plugin-anonymous-auth-expo",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "codegen": "graphql-code-generator"
+    "codegen": "graphql-code-generator",
+    "test": "jest",
+    "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
+    "lint": "eslint .",
+    "typecheck": "pnpm recursive run typecheck"
   },
   "dependencies": {
     "expo": "~49.0.7",

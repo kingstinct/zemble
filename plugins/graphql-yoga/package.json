@@ -1,20 +1,25 @@
 {
   "name": "@readapt/graphql-yoga",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.ts",
   "scripts": {
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
-    "generate": "graphql-codegen"
+    "lint": "eslint .",
+    "generate": "graphql-codegen",
+    "typecheck": "pnpm recursive run typecheck"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphql-tools/schema": "^10.0.0",
     "@graphql-yoga/redis-event-target": "^2.0.0",
     "@readapt/core": "workspace:^",
-    "hono": "^3.4.3"
+    "graphql": "^16.8.0",
+    "hono": "^3.4.3",
+    "ioredis": "^5.3.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",

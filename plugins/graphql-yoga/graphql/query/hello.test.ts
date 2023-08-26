@@ -1,11 +1,6 @@
-import {expect} from '@jest/globals';
+import plugin from '../..'
+import { graphql } from '../client.generated'
 
-
-
-import plugin from "../../"
-
-import { graphql } from '../../gql'
- 
 const HelloWorldQuery = graphql(`
   query Hello {
     hello
@@ -15,12 +10,12 @@ const HelloWorldQuery = graphql(`
 describe('Query.hello', () => {
   it('Should return world!', async () => {
     const app = await plugin.pluginAsApp()
-    
+
     const response = await app.gqlRequest(HelloWorldQuery, {})
     expect(response).toEqual({
       data: {
-        hello: 'world!'
-      }
+        hell: 'world!',
+      },
     })
   })
 })

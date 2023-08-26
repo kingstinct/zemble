@@ -1,24 +1,26 @@
-import type { CodegenConfig } from '@graphql-codegen/cli';
- 
+import type { CodegenConfig } from '@graphql-codegen/cli'
+
 const config = {
-  schema: 'graphql/schema.graphql',
+  schema: `./graphql/schema.graphql`,
   ignoreNoDocuments: true,
   generates: {
-    './graphql/schema.generated.ts': {
+    [`./graphql/schema.generated.ts`]: {
       config: {
         useIndexSignature: true,
         contextType: 'Readapt.GraphQLContext',
       },
       plugins: ['typescript', 'typescript-resolvers'],
     },
-    './gql/': {
+    [`./graphql/client.generated/`]: {
       documents: [
-        './**/*.tsx',
-        './**/*.ts'
+        `./**/*.tsx`,
+        `./**/*.ts`,
+        `!./**/*.generated.ts`,
+        `!./node_modules/**/*`,
       ],
-      preset: 'client'  
-    }
+      preset: 'client',
+    },
   },
-} satisfies CodegenConfig;
+} satisfies CodegenConfig
 
-export default config;
+export default config

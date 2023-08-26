@@ -1,12 +1,17 @@
 {
   "name": "readapt-plugin-urql-expo",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "jest",
+    "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
+    "lint": "eslint .",
+    "generate": "graphql-codegen",
+    "typecheck": "pnpm recursive run typecheck"
   },
   "dependencies": {
     "expo": "~49.0.7",

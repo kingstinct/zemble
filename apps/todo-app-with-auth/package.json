@@ -1,12 +1,16 @@
 {
   "name": "todoappwithauth",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "jest",
+    "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
+    "lint": "eslint .",
+    "typecheck": "pnpm recursive run typecheck"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.1.2",
@@ -16,13 +20,13 @@
     "graphql": "^16.8.0",
     "react": "18.2.0",
     "react-native": "0.72.3",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "readapt-plugin-anonymous-auth-expo": "workspace:*",
+    "readapt-plugin-todo-ui": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.0.14",
-    "readapt-plugin-anonymous-auth-expo": "workspace:*",
-    "readapt-plugin-todo-ui": "workspace:*",
     "typescript": "^5.1.3"
   },
   "private": true

@@ -1,0 +1,22 @@
+{
+  "extends": [
+      "eslint-config-kingstinct/react-native"
+  ],
+  "rules": {
+      "no-console": 1,
+      "@typescript-eslint/sort-type-union-intersection-members": 0,
+      "@typescript-eslint/no-unused-vars": 1,
+      "import/no-unresolved": 0,
+      "import/extensions": 0,
+      "@typescript-eslint/no-shadow": 1
+  },
+  "overrides": [
+      {
+          "files": ["*.ts", "*.tsx"],
+          "rules": {
+              "@typescript-eslint/no-unsafe-enum-comparison": 1,
+              "@typescript-eslint/no-redundant-type-constituents": 1
+          }
+      }
+  ]
+}

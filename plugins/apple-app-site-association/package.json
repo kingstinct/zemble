@@ -1,11 +1,13 @@
 {
   "name": "readapt-plugin-apple-app-site-association",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev index.ts"
+    "test": "jest",
+    "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
+    "lint": "eslint .",
+    "typecheck": "pnpm recursive run typecheck"
   },
   "keywords": [],
   "author": "",

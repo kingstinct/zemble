@@ -1,41 +1,38 @@
-import configure from "@readapt/core"
+import configure from '@readapt/core'
+import YogaGraphQL from '@readapt/graphql-yoga'
+import AnonymousAuth from 'readapt-plugin-anonymous-auth'
+import AppleAppSiteAssociation from 'readapt-plugin-apple-app-site-association'
+import Bull from 'readapt-plugin-bull'
+import TodoPlugin from 'readapt-plugin-todo'
 
-import AppleAppSiteAssociation from "readapt-plugin-apple-app-site-association"
-import AnonymousAuth from "readapt-plugin-anonymous-auth"
-import TodoPlugin from "readapt-plugin-todo"
-import Bull from "readapt-plugin-bull"
-import YogaGraphQL from "@readapt/graphql-yoga"
-
-configure({
+const app = configure({
   middleware: [
     YogaGraphQL.configureMiddleware({
       yoga: {
-        graphqlEndpoint: '/public',
-        plugins: [
-        
-      ]
-    }
-  }),
+        graphqlEndpoint: '/graphql',
+        plugins: [],
+      },
+    }),
   ],
   plugins: [
     AnonymousAuth.configurePlugin(),
-    
     TodoPlugin.configurePlugin(),
     Bull.configurePlugin(),
     AppleAppSiteAssociation.configurePlugin({
-        applinks: {
-          apps: [],
-          details: [
-            {
-              appID: "9JA89QQLNQ.com.example.app",
-              paths: ["/api/*"],
-            },
-          ],
-        },
+      applinks: {
+        apps: [],
+        details: [
+          {
+            appID: '9JA89QQLNQ.com.example.app',
+            paths: ['/api/*'],
+          },
+        ],
+      },
     }),
-  ]
+  ],
 })
 
+void app.start()
 
 /*
 
@@ -58,7 +55,6 @@ const baseConfiguration = configure({
     }),
   ],
 })
-
 
 const server = configure({
   middleware: [

@@ -1,5 +1,5 @@
-const { registerRootComponent } = require("expo");
-const App = require("./App.tsx").default;
+const { registerRootComponent } = require('expo')
 
+const App = require('./App.tsx').default
 
 registerRootComponent(App)

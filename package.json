@@ -1,15 +1,46 @@
 {
   "name": "readapt",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "pnpm recursive --no-bail run test",
+    "lint": "pnpm recursive run lint",
+    "typecheck": "pnpm recursive run typecheck"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "@graphql-eslint/eslint-plugin": "^3.20.1",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.1",
+    "@typescript-eslint/parser": "^6.2.1",
+    "concurrently": "^8.2.0",
+    "eslint": "^8.46.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-kingstinct": "^5.1.2",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-comment-length": "^1.5.0",
+    "eslint-plugin-functional": "^6.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-jest": "^27.2.3",
+    "eslint-plugin-jsonc": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-native": "^4.0.0",
+    "eslint-plugin-react-native-a11y": "^3.3.0",
+    "eslint-plugin-unicorn": "^48.0.1",
+    "eslint-plugin-yml": "^1.8.0",
+    "lint-staged": "^14.0.1"
+  },
+  "pnpm": {
+    "requiredScripts": [
+      "lint",
+      "test",
+      "typecheck"
+    ]
   }
 }

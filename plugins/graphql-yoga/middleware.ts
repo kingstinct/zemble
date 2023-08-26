@@ -1,36 +1,43 @@
-
-import { YogaServerOptions, YogaInitialContext } from 'graphql-yoga';
+/* eslint-disable no-param-reassign */
+/* eslint-disable functional/immutable-data */
 import { mergeSchemas } from '@graphql-tools/schema'
-import { GraphQLSchemaWithContext, PubSub } from 'graphql-yoga'
-import { GraphQLFormattedError } from 'graphql'
+import fs from 'fs'
+import { print } from 'graphql/language/printer'
+import path from 'path'
 
+import createPubSub from './createPubSub'
 import createPluginSchema from './utils/createPluginSchema'
 import handleYoga from './utils/handleYoga'
+
+import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
+import type { Middleware } from '@readapt/core/types'
+import type { GraphQLFormattedError } from 'graphql'
+import type {
+  YogaServerOptions, YogaInitialContext, GraphQLSchemaWithContext, PubSub,
+} from 'graphql-yoga'
+import type { Hono } from 'hono'
 import type { RedisOptions } from 'ioredis'
 
-import { Middleware } from '@readapt/core/types'
-import fs from 'fs'
-import path from 'path'
-import createPubSub from './createPubSub';
-
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Readapt {
     interface Server extends Hono {
-      gqlRequest: <TQuery, TVars>(
-        query: TypedDocumentNode<TQuery, TVars>, 
+      readonly gqlRequest: <TQuery, TVars>(
+        query: TypedDocumentNode<TQuery, TVars>,
         vars: TVars
       ) => Promise<{
-        data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
-        errors?: GraphQLFormattedError[]
+        readonly data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
+        readonly errors?: readonly GraphQLFormattedError[]
       }>
     }
 
     interface GlobalConfig {
-      skipGraphQL?: boolean
+      readonly skipGraphQL?: boolean
     }
 
     interface PubSubTopics {
-      [key: string]: any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      readonly [key: string]: any
     }
 
     interface PubSubType extends PubSub<PubSubTopics>{
@@ -38,16 +45,18 @@ declare global {
     }
 
     interface Context {
+      // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
     }
 
     interface GraphQLContext extends YogaInitialContext {
+      // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
     }
   }
 }
 
-const processPluginSchema = async  (pluginPath: string) => {
+const processPluginSchema = async (pluginPath: string) => {
   const graphqlPath = path.join(pluginPath, '/graphql')
   const hasGraphQL = fs.existsSync(graphqlPath)
   if (hasGraphQL) {
@@ -57,41 +66,36 @@ const processPluginSchema = async  (pluginPath: string) => {
 }
 
 type GraphQLMiddlewareConfig = {
-  yoga?: Omit<YogaServerOptions<Readapt.GraphQLContext, {}>, 'schema'>
+  readonly yoga?: Omit<YogaServerOptions<Readapt.GraphQLContext, {}>, 'schema'>
   /**
    * The url of the redis instance to use for pubsub
    */
-  redisUrl?: string
+  readonly redisUrl?: string
   /**
    * Redis config to use for pubsub
    */
-  redisOptions?: RedisOptions
+  readonly redisOptions?: RedisOptions
 }
 
-import { print } from 'graphql/language/printer'
-import { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core';
-import { Hono } from 'hono';
-import { graphql } from './gql';
-
 async function gqlRequest<TQuery, TVars>(
-  app: Readapt.Server, 
-  query: TypedDocumentNode<TQuery, TVars>, 
-  variables: TVars
+  app: Readapt.Server,
+  query: TypedDocumentNode<TQuery, TVars>,
+  variables: TVars,
 ) {
   const res = await app.request(new Request('http://localhost/graphql', {
-      method: 'POST',
-      body: JSON.stringify({
-        query: print(query),
-        variables,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }))
+    method: 'POST',
+    body: JSON.stringify({
+      query: print(query),
+      variables,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }))
 
-  return res.json() as unknown as { 
-    data?: ResultOf<TQuery>, 
-    errors: GraphQLFormattedError[]
+  return res.json() as unknown as {
+    readonly data?: ResultOf<TQuery>,
+    readonly errors: readonly GraphQLFormattedError[]
   }
 }
 
@@ -103,39 +107,42 @@ const defaults = {
 } satisfies GraphQLMiddlewareConfig
 
 export const middleware: Middleware<GraphQLMiddlewareConfig> = (c) => async (
-{  app, context, plugins }
+  { app, context, plugins },
 ) => {
-  const config = { ...defaults, ...c, yoga: { ...defaults.yoga, ...c?.yoga }}
-  
+  const config = { ...defaults, ...c, yoga: { ...defaults.yoga, ...c?.yoga } }
+
   const selfSchemas = await processPluginSchema(process.cwd())
 
   const pluginsToAdd = plugins.filter(({ config }) => !config.skipGraphQL)
 
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   const graphQLSchemas = await pluginsToAdd.reduce(async (
-    prev, 
-    { pluginPath }
+    prev,
+    { pluginPath },
   ) => {
+    // eslint-disable-next-line functional/prefer-readonly-type
     const toReturn: GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
       ...await prev,
-      ...await processPluginSchema(pluginPath)
+      ...await processPluginSchema(pluginPath),
     ]
 
     return toReturn
   }, Promise.resolve(selfSchemas))
 
   const mergedSchema = mergeSchemas({
-    schemas: graphQLSchemas,
+    // eslint-disable-next-line functional/prefer-readonly-type
+    schemas: graphQLSchemas as unknown as GraphQLSchemaWithContext<Readapt.GraphQLContext>[],
     resolverValidationOptions: {
       requireResolversForArgs: 'warn',
-    }
+    },
   })
 
   const pubsub = createPubSub(
     config.redisUrl,
-    config.redisOptions
+    config.redisOptions,
   )
 
-  // @ts-ignore
+  // @ts-expect-error sdfgsdfg
   app.gqlRequest = async (query, vars) => {
     const response = await gqlRequest(app, query, vars)
     return response
@@ -144,21 +151,23 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (c) => async (
   context.pubsub = pubsub
 
   app.use(config?.yoga?.graphqlEndpoint, handleYoga(
-    mergedSchema, 
-    { 
+    mergedSchema,
+    {
       ...config.yoga,
       context: async (initialContext) => {
-        const contextWithPubSub = { 
+        const contextWithPubSub = {
           ...initialContext,
-          pubsub
+          pubsub,
         }
 
-        return config.yoga?.context ? 
-          (typeof config.yoga.context === 'function' 
-            ? config.yoga.context(contextWithPubSub) 
-            : {...contextWithPubSub, ...(await config.yoga.context)} )
+        // eslint-disable-next-line no-nested-ternary
+        return config.yoga?.context
+          ? (typeof config.yoga.context === 'function'
+            ? config.yoga.context(contextWithPubSub)
+            : { ...contextWithPubSub, ...(await config.yoga.context) })
           : contextWithPubSub
-      }}
+      },
+    },
   ))
 }
 

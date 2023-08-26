@@ -1,59 +1,62 @@
+import readDir from '@readapt/core/utils/readDir'
+import { Queue, Worker } from 'bullmq'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import readDir from '@readapt/core/utils/readDir'
-import { Job, Queue, Worker } from "bullmq";
+
 import '@readapt/graphql-yoga'
 
-import createClient from '../clients/redis';
+import createClient from '../clients/redis'
 
-import plugin from '../'
+import type { BullPluginConfig } from '..'
+import type { Job } from 'bullmq'
 
-export type QueueConfig<DataType = any, ReturnType = any> = {
-  worker: (job: Job<DataType, ReturnType>) => Promise<void>
+export type QueueConfig<DataType = unknown, ReturnType = unknown> = {
+  readonly worker: (job: Job<DataType, ReturnType>) => Promise<void> | void
 }
 
-let queues: Queue[] = []
+// eslint-disable-next-line functional/prefer-readonly-type
+const queues: Queue[] = []
 
-const setupQueues = (pluginPath: string, pubSub: Readapt.PubSubType) => {
-
+const setupQueues = (pluginPath: string, pubSub: Readapt.PubSubType, config: BullPluginConfig | undefined) => {
   const queuePath = path.join(pluginPath, '/queues')
 
   const hasQueues = fs.existsSync(queuePath)
 
-  if (hasQueues) {
-    const redisUrl = plugin.config.redisUrl
+  const jobUpdated = (job: Job) => {
+    pubSub.publish('jobUpdated', job)
+  }
 
-    if(redisUrl) {
+  if (hasQueues) {
+    const redisUrl = config?.redisUrl
+
+    if (config && redisUrl) {
       const filenames = readDir(queuePath)
 
-    filenames.forEach(async (filename) => {
-      const fileNameWithoutExtension = filename.substring(0, filename.length - 3);
-      const queueConfig = (await import(path.join(queuePath, filename))).default as QueueConfig
+      filenames.forEach(async (filename) => {
+        const fileNameWithoutExtension = filename.substring(0, filename.length - 3)
+        const queueConfig = (await import(path.join(queuePath, filename))).default as QueueConfig
 
-      const queue = new Queue(fileNameWithoutExtension, {
-        connection: createClient(redisUrl, plugin.config.redisOptions),
+        const queue = new Queue(fileNameWithoutExtension, {
+          connection: createClient(redisUrl, config.redisOptions),
+        })
+
+        // @ts-expect-error if this cannot be a promise I'm not sure how stuff will work
+        const worker = new Worker(fileNameWithoutExtension, queueConfig.worker, {
+          connection: createClient(redisUrl, config.redisOptions),
+        })
+
+        worker.on('completed', jobUpdated)
+        worker.on('active', jobUpdated)
+
+        worker.on('progress', jobUpdated)
+        worker.on('failed', (job) => (job ? jobUpdated(job) : null))
+
+        // eslint-disable-next-line functional/immutable-data
+        queues.push(queue)
       })
-
-      const worker = new Worker(fileNameWithoutExtension, queueConfig.worker, {
-        connection: createClient(redisUrl, plugin.config.redisOptions),
-      })
-
-      const jobUpdated = (job: Job) => {
-        pubSub.publish('jobUpdated', job)
-      }
-
-      worker.on('completed', jobUpdated)
-      worker.on('active', jobUpdated)
-      
-      worker.on('progress', jobUpdated)
-      worker.on('failed', (job) => job ? jobUpdated(job) : null)
-
-      queues.push(queue)
-    })
     } else {
       console.error('[bull-plugin] Failed initialize. No redisUrl provided for bull plugin, you can specify it directly or with REDIS_URL')
     }
-    
   }
 }
 

@@ -1,27 +1,26 @@
-import { PluginConfig } from '@readapt/core/types'
-import setupQueues from './utils/setupQueues';
-import { RedisOptions } from 'bullmq';
+import { PluginConfigWithMiddleware } from '@readapt/core/types'
 
-type BullPluginConfig = {
- /**
+import setupQueues from './utils/setupQueues'
+
+import type { RedisOptions } from 'bullmq'
+
+export type BullPluginConfig = {
+  /**
    * The url of the redis instance to use for pubsub
    */
- redisUrl?: string
- /**
+  readonly redisUrl?: string
+  /**
   * Redis config to use for pubsub
   */
- redisOptions?: RedisOptions
+  readonly redisOptions?: RedisOptions
 }
 
 const defaults = {
   redisUrl: process.env.REDIS_URL,
 } satisfies BullPluginConfig
 
-export default new PluginConfig<BullPluginConfig, typeof defaults>(__dirname, {
-  defaultConfig: defaults,
-  middleware: (plugins, app, config, { pubsub: pubSub }) => {
-    plugins.forEach(({ pluginPath }) => {
-      setupQueues(pluginPath, pubSub)
-    })
-  },
+export default new PluginConfigWithMiddleware<BullPluginConfig, typeof defaults>(__dirname, (config) => ({ plugins, context: { pubsub: pubSub } }) => {
+  plugins.forEach(({ pluginPath }) => {
+    setupQueues(pluginPath, pubSub, config)
+  })
 })
