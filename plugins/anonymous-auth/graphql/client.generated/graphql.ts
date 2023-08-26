@@ -15,37 +15,33 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type LoginResponse = {
+  __typename?: 'LoginResponse';
+  token: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createTodo: Todo;
-  updateTodoStatus?: Maybe<Todo>;
+  login: LoginResponse;
 };
 
 
-export type MutationCreateTodoArgs = {
-  title: Scalars['String']['input'];
-};
-
-
-export type MutationUpdateTodoStatusArgs = {
-  completed: Scalars['Boolean']['input'];
-  id: Scalars['ID']['input'];
+export type MutationLoginArgs = {
+  username: Scalars['String']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  todos: Array<Todo>;
+  me: User;
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  todoCreated: Todo;
-  todoUpdated: Todo;
+
+export type QueryMeArgs = {
+  token: Scalars['String']['input'];
 };
 
-export type Todo = {
-  __typename?: 'Todo';
-  completed: Scalars['Boolean']['output'];
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
+export type User = {
+  __typename?: 'User';
+  userId: Scalars['ID']['output'];
+  username: Scalars['String']['output'];
 };

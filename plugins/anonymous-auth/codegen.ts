@@ -11,8 +11,7 @@ const config: CodegenConfig = {
       config: {
         ...defaultConfig.generates[`./graphql/schema.generated.ts`].config,
         mappers: {
-          Job: 'bullmq#Job',
-          Queue: 'bullmq#Queue',
+          User: 'Readapt#TokenContents',
         },
       },
     },

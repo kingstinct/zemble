@@ -5,7 +5,7 @@ import signJwt from '../../utils/sign'
 
 const { MAINTENANCE_SECRET } = plugin.config
 
-export type MaintenanceKeyData = {
+export type DecodedMaintenanceToken = {
   readonly isMaintenanceKey: true
   readonly iat: number
   readonly iss: string

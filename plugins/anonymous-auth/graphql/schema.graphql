@@ -1,9 +1,11 @@
+directive @skipAuth on FIELD_DEFINITION
+
 type Mutation {
-  login(username: String!): LoginResponse!
+  login(username: String!): LoginResponse! @skipAuth
 }
 
 type LoginResponse {
-  token: String!
+  token: String! @skipAuth
 }
 
 type User {
@@ -12,5 +14,5 @@ type User {
 }
 
 type Query {
-  me(token: String!): User!
+  me: User!
 }

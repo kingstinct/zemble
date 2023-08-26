@@ -5,12 +5,12 @@ type Todo {
 }
 
 type Query {
-  todos(token: String!): [Todo!]!
+  todos: [Todo!]!
 }
 
 type Mutation {
-  createTodo(title:String!, token: String!): Todo!
-  updateTodoStatus(id:ID!, completed: Boolean!, token: String!): Todo
+  createTodo(title:String!): Todo!
+  updateTodoStatus(id:ID!, completed: Boolean!): Todo
 }
 
 type Subscription {

@@ -197,9 +197,21 @@ importers:
 
   plugins/anonymous-auth:
     dependencies:
+      '@envelop/core':
+        specifier: ^4.0.0
+        version: registry.npmjs.org/@envelop/core@4.0.0
+      '@envelop/generic-auth':
+        specifier: ^6.0.0
+        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
       '@readapt/core':
         specifier: workspace:^
         version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../graphql-yoga
+      '@whatwg-node/server-plugin-cookies':
+        specifier: ^1.0.2
+        version: registry.npmjs.org/@whatwg-node/server-plugin-cookies@1.0.2(@whatwg-node/server@0.9.11)
       jsonwebtoken:
         specifier: ^9.0.1
         version: registry.npmjs.org/jsonwebtoken@9.0.1
@@ -7722,6 +7734,15 @@ packages:
       '@xtuc/long': registry.npmjs.org/@xtuc/long@4.2.2
     dev: false
 
+  registry.npmjs.org/@whatwg-node/cookie-store@0.2.2:
+    resolution: {integrity: sha512-poI6G6rYGsXNA+JTZLU+IUUXb+Xsau8M3GrcbF3VJdbvW6QGpbuvC+gvN4rD9zJAnqM0jpDKDhIWf2DmEAmWFQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@whatwg-node/cookie-store/-/cookie-store-0.2.2.tgz}
+    name: '@whatwg-node/cookie-store'
+    version: 0.2.2
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      tslib: registry.npmjs.org/tslib@2.6.2
+    dev: false
+
   registry.npmjs.org/@whatwg-node/events@0.0.3:
     resolution: {integrity: sha512-IqnKIDWfXBJkvy/k6tzskWTc2NK3LcqHlb+KHGCrjOCH4jfQckRX0NAiIcC/vIqQkzLYw2r2CTSwAxcrtcD6lA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@whatwg-node/events/-/events-0.0.3.tgz}
     name: '@whatwg-node/events'
@@ -7778,6 +7799,20 @@ packages:
       fast-querystring: registry.npmjs.org/fast-querystring@1.1.2
       fast-url-parser: registry.npmjs.org/fast-url-parser@1.1.3
       tslib: registry.npmjs.org/tslib@2.6.2
+
+  registry.npmjs.org/@whatwg-node/server-plugin-cookies@1.0.2(@whatwg-node/server@0.9.11):
+    resolution: {integrity: sha512-l5ramNKf3aGCybZcN+bVNrTtUJwuB3PRQSjvvn9oh1CnBEMcrucatELRrSAWL/wZcXcJNF8NHB8G0UPEXkDzkw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@whatwg-node/server-plugin-cookies/-/server-plugin-cookies-1.0.2.tgz}
+    id: registry.npmjs.org/@whatwg-node/server-plugin-cookies/1.0.2
+    name: '@whatwg-node/server-plugin-cookies'
+    version: 1.0.2
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@whatwg-node/server': ^0.9.0
+    dependencies:
+      '@whatwg-node/cookie-store': registry.npmjs.org/@whatwg-node/cookie-store@0.2.2
+      '@whatwg-node/server': registry.npmjs.org/@whatwg-node/server@0.9.11
+      tslib: registry.npmjs.org/tslib@2.6.2
+    dev: false
 
   registry.npmjs.org/@whatwg-node/server@0.9.11:
     resolution: {integrity: sha512-G7OXKRqSeXsq9cDJubRfrLMvkxmIVm4CuZQTYSq5N/jr8apDo7HpEv+AYq2NN1jwoiYXhtVotcsAau+a+0J7bQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@whatwg-node/server/-/server-0.9.11.tgz}

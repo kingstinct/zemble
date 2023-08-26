@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { TokenContents } from 'Readapt';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -16,39 +17,35 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type LoginResponse = {
+  __typename?: 'LoginResponse';
+  token: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createTodo: Todo;
-  updateTodoStatus?: Maybe<Todo>;
+  login: LoginResponse;
 };
 
 
-export type MutationCreateTodoArgs = {
-  title: Scalars['String']['input'];
-};
-
-
-export type MutationUpdateTodoStatusArgs = {
-  completed: Scalars['Boolean']['input'];
-  id: Scalars['ID']['input'];
+export type MutationLoginArgs = {
+  username: Scalars['String']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  todos: Array<Todo>;
+  me: User;
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  todoCreated: Todo;
-  todoUpdated: Todo;
+
+export type QueryMeArgs = {
+  token: Scalars['String']['input'];
 };
 
-export type Todo = {
-  __typename?: 'Todo';
-  completed: Scalars['Boolean']['output'];
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
+export type User = {
+  __typename?: 'User';
+  userId: Scalars['ID']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -125,49 +122,54 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  LoginResponse: ResolverTypeWrapper<LoginResponse>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Subscription: ResolverTypeWrapper<{}>;
-  Todo: ResolverTypeWrapper<Todo>;
+  User: ResolverTypeWrapper<TokenContents>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
+  LoginResponse: LoginResponse;
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
-  Subscription: {};
-  Todo: Todo;
+  User: TokenContents;
+}>;
+
+export type SkipAuthDirectiveArgs = { };
+
+export type SkipAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = SkipAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type LoginResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'title'>>;
-  updateTodoStatus?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationUpdateTodoStatusArgs, 'completed' | 'id'>>;
+  login?: Resolver<ResolversTypes['LoginResponse'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'username'>>;
 }>;
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  todos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
+  me?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryMeArgs, 'token'>>;
 }>;
 
-export type SubscriptionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
-  todoCreated?: SubscriptionResolver<ResolversTypes['Todo'], "todoCreated", ParentType, ContextType>;
-  todoUpdated?: SubscriptionResolver<ResolversTypes['Todo'], "todoUpdated", ParentType, ContextType>;
-}>;
-
-export type TodoResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = ResolversObject<{
-  completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type UserResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+  LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  Subscription?: SubscriptionResolvers<ContextType>;
-  Todo?: TodoResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 }>;
 
+export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+  skipAuth?: SkipAuthDirectiveResolver<any, any, ContextType>;
+}>;

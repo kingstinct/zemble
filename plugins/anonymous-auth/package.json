@@ -7,15 +7,20 @@
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
     "lint": "eslint .",
-    "typecheck": "pnpm recursive run typecheck"
+    "typecheck": "pnpm recursive run typecheck",
+    "graphql-codegen": "graphql-codegen"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@envelop/core": "^4.0.0",
+    "@envelop/generic-auth": "^6.0.0",
     "@readapt/core": "workspace:^",
-    "readapt-plugin-auth": "workspace:^",
-    "jsonwebtoken": "^9.0.1"
+    "@readapt/graphql-yoga": "workspace:^",
+    "@whatwg-node/server-plugin-cookies": "^1.0.2",
+    "jsonwebtoken": "^9.0.1",
+    "readapt-plugin-auth": "workspace:^"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

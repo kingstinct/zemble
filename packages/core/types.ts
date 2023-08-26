@@ -6,7 +6,7 @@ import { configDotenv } from 'dotenv'
 import configure from './server'
 import { readPackageJson } from './utils/readPackageJson'
 
-import type { Hono } from 'hono'
+import type { Context as HonoContext, Hono } from 'hono'
 
 configDotenv()
 
@@ -20,8 +20,17 @@ declare global {
 
     }
 
-    interface Context {
+    interface Context extends HonoContext {
 
+    }
+
+    interface TokenContents extends Record<string, unknown> {
+
+    }
+
+    interface DecodedToken extends TokenContents {
+      readonly iat: number
+      readonly iss: string
     }
   }
 }

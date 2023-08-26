@@ -1,5 +1,5 @@
-import { decodeToken } from '../../utils/typedToken'
+import type { QueryResolvers } from '../schema.generated'
 
-export default (_:unknown, {token}:{token: string}) => {
-  return decodeToken(token)
-}
+const me: QueryResolvers['me'] = (_, __, { decodedToken }) => decodedToken!
+
+export default me

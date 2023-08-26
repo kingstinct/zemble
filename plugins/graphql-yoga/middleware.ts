@@ -15,7 +15,7 @@ import type { GraphQLFormattedError } from 'graphql'
 import type {
   YogaServerOptions, YogaInitialContext, GraphQLSchemaWithContext, PubSub,
 } from 'graphql-yoga'
-import type { Hono } from 'hono'
+import type { Context as HonoContext, Hono } from 'hono'
 import type { RedisOptions } from 'ioredis'
 
 declare global {
@@ -52,6 +52,9 @@ declare global {
     interface GraphQLContext extends YogaInitialContext {
       // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
+      readonly token?: string
+      readonly decodedToken?: DecodedToken
+      readonly honoContext: HonoContext
     }
   }
 }
@@ -154,8 +157,15 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (c) => async (
     mergedSchema,
     {
       ...config.yoga,
+      graphiql: async (req, context) => {
+        const resolved = (typeof config.yoga?.graphiql === 'function' ? await config.yoga?.graphiql?.(req, context) : (config.yoga?.graphiql ?? {}))
+        return ({
+          credentials: 'include',
+          ...typeof resolved === 'boolean' ? {} : resolved,
+        })
+      },
       context: async (initialContext) => {
-        const contextWithPubSub = {
+        const contextWithPubSub: Readapt.GraphQLContext = {
           ...initialContext,
           pubsub,
         }
