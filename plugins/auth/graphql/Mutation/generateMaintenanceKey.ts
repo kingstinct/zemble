@@ -1,18 +1,20 @@
 import { GraphQLError } from 'graphql'
-import signJwt from '../../utils/sign'
+
 import plugin from '../..'
+import signJwt from '../../utils/sign'
+
 const { MAINTENANCE_SECRET } = plugin.config
 
 export type MaintenanceKeyData = {
-  isMaintenanceKey: true
-  iat: number
-  iss: string
+  readonly isMaintenanceKey: true
+  readonly iat: number
+  readonly iss: string
 }
 
-export default (_: unknown, { expiresInSeconds, maintenanceSecret }:{ maintenanceSecret: string, expiresInSeconds?: number }) => {
-  if(maintenanceSecret !== MAINTENANCE_SECRET){
+export default (_: unknown, { expiresInSeconds, maintenanceSecret }: { readonly maintenanceSecret: string, readonly expiresInSeconds?: number }) => {
+  if (maintenanceSecret !== MAINTENANCE_SECRET) {
     throw new GraphQLError('Invalid maintenanceSecret')
   }
-  
+
   return signJwt({ data: { isMaintenanceKey: true }, expiresInSeconds })
-} 
+}

@@ -9,7 +9,7 @@ const HelloWorldQuery = graphql(`
 
 describe('Query.hello', () => {
   it('Should return world!', async () => {
-    const app = await plugin.pluginAsApp()
+    const app = await plugin.devApp()
 
     const response = await app.gqlRequest(HelloWorldQuery, {})
     expect(response).toEqual({

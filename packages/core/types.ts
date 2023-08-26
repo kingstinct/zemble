@@ -26,6 +26,22 @@ declare global {
   }
 }
 
+type PluginDependency = {
+  readonly plugin: PluginConfig<{}>,
+  readonly devOnly?: boolean, // decides if we should warn if this plugin is not used in production
+}
+
+type MiddlewareDependency = {
+  readonly middleware: ConfiguredMiddleware,
+  readonly devOnly?: boolean, // decides if we should warn if this middleware is not used in production, maybe to develop a plugin we need authentication
+}
+
+type PluginOpts<TDefault extends Record<string, unknown>> = {
+  readonly defaultConfig?: TDefault,
+  readonly middlewareDependencies?: readonly MiddlewareDependency[],
+  readonly pluginDependencies?: readonly PluginDependency[],
+}
+
 export type ConfiguredMiddleware = (
   opts: {
     readonly plugins: readonly PluginConfig<{}>[],
@@ -48,18 +64,24 @@ export class PluginConfig<
 
   readonly #defaultConfig?: TDefault
 
+  readonly #middlewareDependencies?: readonly MiddlewareDependency[]
+
+  readonly #pluginDependencies?: readonly PluginDependency[]
+
   readonly pluginPath: string
 
   readonly pluginName: string
 
-  constructor(__dirname: string, opts?: {readonly defaultConfig?: TDefault, readonly middlewareDependencies: readonly ConfiguredMiddleware[]}) {
+  constructor(__dirname: string, opts?: PluginOpts<TDefault>) {
     this.pluginPath = __dirname
     this.config = (opts?.defaultConfig ?? {}) as TOut // TODO [>0.0.2]: might need some cleaning up
     this.#defaultConfig = opts?.defaultConfig
     this.pluginName = readPackageJson(__dirname).name
+    this.#middlewareDependencies = opts?.middlewareDependencies
+    this.#pluginDependencies = opts?.pluginDependencies
 
-    if (process.env.PLUGIN_DEV) {
-      void this.runPluginAsApp()
+    if (process.env.PLUGIN_DEV && process.cwd() === __dirname) {
+      void this.runDevApp()
     }
   }
 
@@ -73,19 +95,28 @@ export class PluginConfig<
     return this
   }
 
-  async pluginAsApp() {
-    const config = configure({
-      plugins: [this.configurePlugin()],
-    })
-
-    return config.getApp()
+  get pluginDependenciesDev() {
+    return this.#pluginDependencies?.map(({ plugin }) => plugin) ?? []
   }
 
-  async runPluginAsApp() {
+  get middlewareDependenciesDev() {
+    return this.#middlewareDependencies?.map(({ middleware }) => middleware) ?? []
+  }
+
+  get devConfig() {
     const config = configure({
-      plugins: [this.configurePlugin()],
+      plugins: [...this.pluginDependenciesDev, this.configurePlugin()],
+      middleware: this.middlewareDependenciesDev,
     })
-    return config.start()
+    return config
+  }
+
+  async devApp() {
+    return this.devConfig.getApp()
+  }
+
+  async runDevApp() {
+    return this.devConfig.start()
   }
 }
 
@@ -98,26 +129,17 @@ export class PluginConfigWithMiddleware<
   // eslint-disable-next-line functional/prefer-readonly-type
   #middleware: Middleware<TMiddlewareConfig>
 
-  constructor(__dirname: string, middleware: Middleware<TMiddlewareConfig>, opts?: {readonly defaultConfig?: TDefault}) {
+  constructor(__dirname: string, middleware: Middleware<TMiddlewareConfig>, opts?: PluginOpts<TDefault>) {
     super(__dirname, opts)
     this.#middleware = middleware
   }
 
-  async pluginAsApp() {
+  get devConfig() {
     const config = configure({
-      plugins: [this.configurePlugin()],
-      middleware: [this.configureMiddleware()],
+      plugins: [...this.pluginDependenciesDev, this.configurePlugin()],
+      middleware: [...this.middlewareDependenciesDev, this.configureMiddleware()],
     })
-
-    return config.getApp()
-  }
-
-  async runPluginAsApp() {
-    const config = configure({
-      plugins: [this.configurePlugin()],
-      middleware: [this.configureMiddleware()],
-    })
-    return config.start()
+    return config
   }
 
   // eslint-disable-next-line functional/prefer-tacit
