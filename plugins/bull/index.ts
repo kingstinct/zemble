@@ -19,8 +19,8 @@ const defaults = {
   redisUrl: process.env.REDIS_URL,
 } satisfies BullPluginConfig
 
-export default new PluginConfigWithMiddleware<BullPluginConfig, typeof defaults>(__dirname, (config) => ({ plugins, context: { pubsub: pubSub } }) => {
+export default new PluginConfigWithMiddleware<BullPluginConfig, typeof defaults>(__dirname, (config) => ({ plugins, context: { pubsub } }) => {
   plugins.forEach(({ pluginPath }) => {
-    setupQueues(pluginPath, pubSub, config)
+    setupQueues(pluginPath, pubsub, config)
   })
 })

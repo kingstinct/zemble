@@ -52,7 +52,7 @@ export class PluginConfig<
 
   readonly pluginName: string
 
-  constructor(__dirname: string, opts?: {readonly defaultConfig?: TDefault}) {
+  constructor(__dirname: string, opts?: {readonly defaultConfig?: TDefault, readonly middlewareDependencies: readonly ConfiguredMiddleware[]}) {
     this.pluginPath = __dirname
     this.config = (opts?.defaultConfig ?? {}) as TOut // TODO [>0.0.2]: might need some cleaning up
     this.#defaultConfig = opts?.defaultConfig

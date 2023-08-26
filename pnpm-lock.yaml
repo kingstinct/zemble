@@ -432,6 +432,9 @@ importers:
       '@readapt/core':
         specifier: workspace:^
         version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../graphql-yoga
       bullmq:
         specifier: ^4.8.0
         version: registry.npmjs.org/bullmq@4.8.0
