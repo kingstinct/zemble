@@ -23,6 +23,7 @@
     "@readapt/core": "workspace:^",
     "@readapt/graphql-yoga": "workspace:^",
     "bullmq": "^4.8.0",
+    "graphql-scalars": "^1.22.2",
     "hono": "^3.4.3",
     "readapt-plugin-auth": "workspace:^"
   },

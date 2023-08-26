@@ -56,7 +56,7 @@ export class PluginConfig<
     this.pluginPath = __dirname
     this.config = (opts?.defaultConfig ?? {}) as TOut // TODO [>0.0.2]: might need some cleaning up
     this.#defaultConfig = opts?.defaultConfig
-    this.pluginName = readPackageJson().name
+    this.pluginName = readPackageJson(__dirname).name
 
     if (process.env.PLUGIN_DEV) {
       void this.runPluginAsApp()
@@ -122,6 +122,11 @@ export class PluginConfigWithMiddleware<
 
   // eslint-disable-next-line functional/prefer-tacit
   configureMiddleware(config?: TMiddlewareConfig) {
+    console.debug(`Initializing middleware ${this.pluginName} with config:`, JSON.stringify(
+      config,
+      null,
+      2,
+    ))
     return this.#middleware(config)
   }
 }

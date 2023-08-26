@@ -1,10 +1,13 @@
-const jobUpdated = {
+import type { SubscriptionResolvers } from '../schema.generated'
+import type { Job } from 'bullmq'
+
+const jobUpdated: SubscriptionResolvers['jobUpdated'] = {
   // subscribe to the jobUpdated event
-  subscribe: (_, __, { pubSub }) => {
+  subscribe: (_, __, { pubsub }) => {
     console.log('subscribing to jobUpdated')
-    return pubSub.subscribe('jobUpdated')
+    return pubsub.subscribe('jobUpdated')
   },
-  resolve: (payload: unknown) => {
+  resolve: (payload: Job) => {
     console.log('resolving jobUpdated', payload)
     return payload
   },

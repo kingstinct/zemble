@@ -1,18 +1,21 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+
 import initializePlugin from './utils/initializePlugin'
-import PluginConfig, { ConfiguredMiddleware } from './types'
 import { readPackageJson } from './utils/readPackageJson'
 
-const packageJson = readPackageJson();
+import type { ConfiguredMiddleware } from './types'
+import type PluginConfig from './types'
 
-const initializePlugins = async (plugins: PluginConfig<{}>[], app: Hono) => {
+const packageJson = readPackageJson()
+
+const initializePlugins = async (plugins: readonly PluginConfig<{}>[], app: Hono) => {
   await initializePlugin({ pluginPath: process.cwd(), app })
 
   await plugins.reduce(async (
-    prev, 
-    { pluginPath }
+    prev,
+    { pluginPath },
   ) => {
     await prev
     await initializePlugin({ pluginPath, app })
@@ -20,11 +23,10 @@ const initializePlugins = async (plugins: PluginConfig<{}>[], app: Hono) => {
   }, Promise.resolve(undefined))
 }
 
-
 type Configure = {
-  plugins: PluginConfig<any>[],
-  middleware?: ConfiguredMiddleware[],
-  inherits?: Configure[]
+  readonly plugins: readonly PluginConfig<any>[],
+  readonly middleware?: readonly ConfiguredMiddleware[],
+  readonly inherits?: readonly Configure[]
 }
 
 const getApp = async ({ plugins, middleware }: Omit<Configure, 'inherits'>) => {
@@ -34,15 +36,15 @@ const getApp = async ({ plugins, middleware }: Omit<Configure, 'inherits'>) => {
 
   app.use('*', cors())
 
-  app.get('/', (c) => c.text('Hello ReAdapt! Serving ' + packageJson.name))
+  app.get('/', (c) => c.text(`Hello ReAdapt! Serving ${packageJson.name}`))
 
   await middleware?.reduce(async (
-    prev, 
-    middleware
+    prev,
+    middleware,
   ) => {
     // console.log(`Initializing MIDDLWARE ${config.pluginName} with config:`, JSON.stringify(config.config, null, 2))
     await prev
-    
+
     await middleware({ plugins, app, context })
     return undefined
   }, Promise.resolve(undefined))
@@ -61,19 +63,19 @@ const start = async ({ plugins, middleware }: Omit<Configure, 'inherits'>) => {
 
 export const configure = (opts: Configure) => {
   const plugins = [
-    ...opts.inherits?.flatMap(i => i.plugins) || [], 
-    ...opts.plugins
+    ...opts.inherits?.flatMap((i) => i.plugins) || [],
+    ...opts.plugins,
   ]
   const middleware = [
-    ...(opts.inherits?.flatMap(i => i.middleware ?? []) || []), 
-    ...(opts.middleware ?? [])
+    ...(opts.inherits?.flatMap((i) => i.middleware ?? []) || []),
+    ...(opts.middleware ?? []),
   ]
-  
+
   return {
     plugins,
     middleware,
-    start: () => start({ plugins, middleware }),
-    getApp: () => getApp({ plugins, middleware })
+    start: async () => start({ plugins, middleware }),
+    getApp: async () => getApp({ plugins, middleware }),
   }
 }
 

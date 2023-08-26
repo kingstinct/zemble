@@ -349,6 +349,9 @@ importers:
       bullmq:
         specifier: ^4.8.0
         version: registry.npmjs.org/bullmq@4.8.0
+      graphql-scalars:
+        specifier: ^1.22.2
+        version: registry.npmjs.org/graphql-scalars@1.22.2(graphql@16.8.0)
       hono:
         specifier: ^3.4.3
         version: registry.npmjs.org/hono@3.4.3

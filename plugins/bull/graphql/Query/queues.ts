@@ -1,7 +1,11 @@
 import { getQueues } from '../../utils/setupQueues'
 
-export default (_, { token }: { readonly token: string }) => {
+import type { QueryResolvers } from '../schema.generated'
+
+const queues: QueryResolvers['queues'] = () => {
   const queues = getQueues()
 
   return queues
 }
+
+export default queues

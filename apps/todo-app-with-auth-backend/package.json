@@ -2,10 +2,10 @@
   "name": "todo-app-with-auth-backend",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
     "test": "jest",
-    "dev": "ts-node-dev index.ts",
+    "dev": "ts-node-dev app.ts",
     "lint": "eslint .",
     "typecheck": "pnpm recursive run typecheck"
   },
