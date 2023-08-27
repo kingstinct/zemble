@@ -12,24 +12,24 @@ import type { DependenciesResolver, Dependency, PluginOpts } from './types'
 configDotenv()
 
 export class Plugin<
-  TIn extends Record<string, unknown> & Readapt.GlobalConfig = Readapt.GlobalConfig,
-  TDefault extends TIn = TIn,
-  TOut extends TIn & TDefault = TIn & TDefault & Readapt.GlobalConfig,
+  TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig,
+  TDefaultConfig extends TConfig = TConfig,
+  TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
 > {
   // eslint-disable-next-line functional/prefer-readonly-type
-  #config: TOut
+  #config: TResolvedConfig
 
-  readonly #dependencies: DependenciesResolver<Plugin<TIn, TDefault, TOut>>
+  readonly #dependencies: DependenciesResolver<Plugin<Readapt.GlobalConfig>>
 
   readonly pluginPath: string
 
   // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined
 
-  constructor(__dirname: string, opts?: PluginOpts<TDefault, Plugin<TIn, TDefault, TOut>>) {
+  constructor(__dirname: string, opts?: PluginOpts<TDefaultConfig, Plugin<TConfig, TConfig, TResolvedConfig>>) {
     this.pluginPath = __dirname
-    this.#config = (opts?.defaultConfig ?? {}) as TOut // TODO [>0.0.1]: might need some cleaning up
-    this.#dependencies = opts?.dependencies || []
+    this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
+    this.#dependencies = opts?.dependencies as DependenciesResolver<Plugin<Readapt.GlobalConfig>> || []
 
     if (this.#isPluginDevMode) {
       void this.#createApp().then((app) => app.start())
@@ -56,9 +56,9 @@ export class Plugin<
     return this.#pluginName!
   }
 
-  configure(config?: TIn) {
+  configure(config?: TConfig & Readapt.GlobalConfig) {
     // eslint-disable-next-line functional/immutable-data
-    this.#config = mergeDeep(this.#config, config ?? {}) as TOut
+    this.#config = mergeDeep(this.#config as Record<string, unknown>, (config ?? {}) as Record<string, unknown>) as TResolvedConfig
     return this
   }
 
@@ -74,7 +74,7 @@ export class Plugin<
 
   async #createApp(): Promise<ReadaptApp> {
     return createApp({
-      plugins: [...this.dependencies, this] as readonly (Plugin | PluginWithMiddleware)[],
+      plugins: [...this.dependencies, this] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
     })
   }
 }

@@ -55,12 +55,11 @@ declare global {
       readonly token?: string
       readonly decodedToken?: DecodedToken
       readonly honoContext: HonoContext
-      readonly config: ConfigPerPlugin
     }
   }
 }
 
-export type GraphQLMiddlewareConfig = {
+export interface GraphQLMiddlewareConfig extends Readapt.GlobalConfig {
   readonly yoga?: Omit<YogaServerOptions<Readapt.GraphQLContext, unknown>, 'schema'>
   /**
    * The url of the redis instance to use for pubsub
@@ -143,11 +142,6 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => async
     return response
   }
 
-  const configPerPlugin = pluginsToAdd.reduce<Readapt.ConfigPerPlugin>((prev, { pluginName, config: pluginConfig }) => ({
-    ...prev,
-    [pluginName]: pluginConfig,
-  }), {} as Readapt.ConfigPerPlugin)
-
   context.pubsub = pubsub
 
   app.use(config?.yoga?.graphqlEndpoint, handleYoga(
@@ -165,7 +159,6 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => async
         const contextWithPubSub: Readapt.GraphQLContext = {
           ...initialContext,
           pubsub,
-          config: configPerPlugin,
         }
 
         // eslint-disable-next-line no-nested-ternary

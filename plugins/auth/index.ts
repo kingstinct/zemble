@@ -14,12 +14,12 @@ type AuthConfig = {
   readonly MAINTENANCE_KEY_EXPIRE_BEFORE_IAT?: number;
 }
 
-const defaults = {
+const defaultConfig = {
   PUBLIC_KEY,
   PRIVATE_KEY,
   ISSUER,
   MAINTENANCE_SECRET,
   MAINTENANCE_KEY_EXPIRE_BEFORE_IAT,
-}
+} satisfies AuthConfig
 
-export default new Plugin<AuthConfig, typeof defaults>(__dirname, { defaultConfig: defaults })
+export default new Plugin<AuthConfig, typeof defaultConfig>(__dirname, { defaultConfig })

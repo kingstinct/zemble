@@ -4,7 +4,7 @@ import setupQueues from './utils/setupQueues'
 
 import type { RedisOptions } from 'bullmq'
 
-export type BullPluginConfig = {
+export interface BullPluginConfig extends Readapt.GlobalConfig {
   /**
    * The url of the redis instance to use for pubsub
    */

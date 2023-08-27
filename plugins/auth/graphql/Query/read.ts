@@ -1,5 +1,3 @@
-import { isValid } from "../../utils/isValid"
+import { isValid } from '../../utils/isValid'
 
-export default (_:unknown, {token}:{token: string}) => {
-  return isValid(token)
-}
+export default (_: unknown, { token }: {readonly token: string}) => isValid(token)

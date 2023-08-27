@@ -4,6 +4,8 @@ import {
 } from 'hono/cookie'
 import { encodeToken } from 'readapt-plugin-auth/utils/isValid'
 
+import { config } from '../../plugin'
+
 import type { MutationResolvers } from '../schema.generated'
 
 declare global {
@@ -15,19 +17,12 @@ declare global {
   }
 }
 
-const login: MutationResolvers['login'] = (_: unknown, { username }, { honoContext, config }) => {
+const login: MutationResolvers['login'] = (_: unknown, { username }, { honoContext }) => {
   const userId = Math.random().toString(36).substring(7)
   const token = encodeToken({ userId, username })
 
-  if (config['readapt-plugin-anonymous-auth'].enableCookieAuth && config['readapt-plugin-anonymous-auth'].cookieName) {
-    setCookie(honoContext, config['readapt-plugin-anonymous-auth'].cookieName, token, {
-      sameSite: 'Lax',
-      path: '/',
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      // domain: 'localhost:3000',
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2), // 2 days
-    })
+  if (config.cookies.isEnabled) {
+    setCookie(honoContext, config.cookies.name, token, config.cookies.opts())
   }
 
   return { token }

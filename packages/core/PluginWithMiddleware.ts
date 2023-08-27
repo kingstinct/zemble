@@ -8,14 +8,14 @@ import type { Middleware, PluginOpts } from './types'
 configDotenv()
 
 export class PluginWithMiddleware<
-  TIn extends Record<string, unknown> & Readapt.GlobalConfig = Readapt.GlobalConfig,
-  TDefault extends TIn = TIn,
-  TOut extends TIn & TDefault = TIn & TDefault & Readapt.GlobalConfig,
-> extends Plugin<TIn, TDefault, TOut> {
+  TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig,
+  TDefaultConfig extends TConfig = TConfig,
+  TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
+> extends Plugin<TConfig, TDefaultConfig, TResolvedConfig> {
   // eslint-disable-next-line functional/prefer-readonly-type
-  #middleware: Middleware<TOut>
+  #middleware: Middleware<TResolvedConfig>
 
-  constructor(__dirname: string, middleware: Middleware<TOut>, opts?: PluginOpts<TDefault, Plugin<TIn, TDefault, TOut>>) {
+  constructor(__dirname: string, middleware: Middleware<TResolvedConfig>, opts?: PluginOpts<TDefaultConfig, Plugin<TConfig, TDefaultConfig, TResolvedConfig>>) {
     super(__dirname, opts)
     this.#middleware = middleware
   }

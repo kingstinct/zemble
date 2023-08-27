@@ -1,6 +1,6 @@
-import { isValid } from "../../utils/isValid"
+import { isValid } from '../../utils/isValid'
 
-export default (_:unknown, {token}:{token: string}) => {
+const validate = (_: unknown, { token }: {readonly token: string}) => {
   try {
     isValid(token)
     return true
@@ -8,3 +8,5 @@ export default (_:unknown, {token}:{token: string}) => {
     return false
   }
 }
+
+export default validate

@@ -37,9 +37,6 @@ export const createApp = async ({ plugins }: Configure): Promise<ReadaptApp> => 
 
   const app = new Hono() as Readapt.Server
 
-  // eslint-disable-next-line functional/immutable-data
-  context.config = {} as Readapt.ConfigPerPlugin
-
   app.use('*', cors())
 
   app.get('/', (c) => c.text(`Hello ReAdapt! Serving ${packageJson.name}`))
@@ -52,9 +49,6 @@ export const createApp = async ({ plugins }: Configure): Promise<ReadaptApp> => 
 
   plugins.forEach((plugin) => {
     console.log(`Loading ${plugin.pluginName} with config: ${JSON.stringify(plugin.config, null, 2)}`)
-
-    // eslint-disable-next-line functional/immutable-data
-    context.config[plugin.pluginName] = plugin.config
   })
 
   await middleware?.reduce(async (

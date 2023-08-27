@@ -16,7 +16,17 @@ const app = createApp({
     Bull.configure(),
     AnonymousAuth.configure(),
     TodoPlugin.configure(),
-
+    AppleAppSiteAssociation.configure({
+      applinks: {
+        apps: [],
+        details: [
+          {
+            appID: '9JA89QQLNQ.com.example.app',
+            paths: ['/api/*'],
+          },
+        ],
+      },
+    }),
   ],
 })
 

@@ -3,7 +3,7 @@ import * as path from 'node:path'
 
 import readRoutes from './readRoutes'
 
-import type { Hono } from 'hono'
+import type { Hono, MiddlewareHandler } from 'hono'
 
 const initializeRoutes = async (routePath: string, app: Hono) => {
   const hasRoutes = fs.existsSync(routePath)
@@ -12,7 +12,7 @@ const initializeRoutes = async (routePath: string, app: Hono) => {
     const filesWithContent = await readRoutes(routePath)
 
     Object.keys(filesWithContent).forEach((filename) => {
-      app.use(filename, filesWithContent[filename])
+      app.use(filename, filesWithContent[filename] as MiddlewareHandler)
     })
   }
 }

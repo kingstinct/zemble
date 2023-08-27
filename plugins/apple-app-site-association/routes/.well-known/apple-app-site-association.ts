@@ -1,4 +1,4 @@
-import plugin from '../..'
+import plugin from '../../plugin'
 
 import { Context } from 'hono'
 

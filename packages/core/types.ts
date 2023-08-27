@@ -14,11 +14,10 @@ declare global {
     }
 
     interface Context {
-      // eslint-disable-next-line functional/prefer-readonly-type
-      config: ConfigPerPlugin
+
     }
 
-    interface TokenContents extends Record<string, unknown> {
+    interface TokenContents {
 
     }
 
@@ -26,34 +25,29 @@ declare global {
       readonly iat: number
       readonly iss: string
     }
-
-    interface ConfigPerPlugin {
-      // eslint-disable-next-line functional/prefer-readonly-type
-      [key: string]: Record<string, unknown> | undefined
-    }
   }
 }
 
 export type Dependency = {
-  readonly plugin: Plugin | PluginWithMiddleware,
+  readonly plugin: Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>,
   readonly devOnly?: boolean, // decides if we should warn if this plugin is not used in production
 }
 
 export type DependenciesResolver<TSelf> = readonly Dependency[] | ((self: TSelf) => readonly Dependency[])
 
-export type PluginOpts<TDefault extends Record<string, unknown>, TSelf> = {
-  readonly defaultConfig?: TDefault,
+export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf> = {
+  readonly defaultConfig?: TDefaultConfig,
   readonly dependencies?: DependenciesResolver<TSelf>,
 }
 
 export type ConfiguredMiddleware = (
   opts: {
-    readonly plugins: readonly Plugin[],
+    readonly plugins: readonly Plugin<Readapt.GlobalConfig>[],
     readonly app: Readapt.Server,
     readonly context: Readapt.Context
   }
 ) => Promise<void> | void
 
-export type Middleware<TMiddlewareConfig extends Record<string, unknown>> = (
+export type Middleware<TMiddlewareConfig extends Readapt.GlobalConfig> = (
   config: TMiddlewareConfig
 ) => ConfiguredMiddleware
