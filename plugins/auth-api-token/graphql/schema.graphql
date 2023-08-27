@@ -1,0 +1,11 @@
+type Mutation {
+  generateAPIKey(apiKeySecret: String!, expiresInSeconds: Int): GenerateAPIKeyResponse!
+}
+
+type GenerateAPIKeyResponse {
+  apiKey: String!
+}
+
+type Query {
+  validateAPIKey(apiKey: String!): Boolean!
+}

@@ -7,8 +7,8 @@
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev plugin.ts",
     "lint": "eslint .",
-    "generate": "graphql-codegen",
-    "typecheck": "pnpm recursive run typecheck"
+    "graphql-codegen": "graphql-codegen",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +24,7 @@
     "@readapt/graphql-yoga": "workspace:^",
     "bullmq": "^4.8.0",
     "hono": "^3.4.3",
-    "readapt-plugin-anonymous-auth": "workspace:^",
+    "readapt-plugin-auth-anonymous": "workspace:^",
     "readapt-plugin-auth": "workspace:^"
   },
   "devDependencies": {

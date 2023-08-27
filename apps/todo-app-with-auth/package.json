@@ -10,7 +10,7 @@
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
     "lint": "eslint .",
-    "typecheck": "pnpm recursive run typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.1.2",
@@ -21,7 +21,7 @@
     "react": "18.2.0",
     "react-native": "0.72.3",
     "react-native-web": "~0.19.6",
-    "readapt-plugin-anonymous-auth-expo": "workspace:*",
+    "readapt-plugin-auth-anonymous-expo": "workspace:*",
     "readapt-plugin-todo-ui": "workspace:*"
   },
   "devDependencies": {

@@ -1,3 +1,3 @@
-import { JSONResolver } from 'graphql-scalars';
+import { JSONResolver } from 'graphql-scalars'
 
-export default JSONResolver;
+export default JSONResolver

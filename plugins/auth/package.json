@@ -2,16 +2,16 @@
   "name": "readapt-plugin-auth",
   "version": "0.0.1",
   "description": "",
-  "main": "index.ts",
+  "main": "plugin.ts",
   "bin": {
     "readapt-auth-generate-keys": "./generate-keys.js"
   },
   "scripts": {
     "test": "jest",
-    "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
+    "dev": "PLUGIN_DEV=true ts-node-dev plugin.ts",
     "lint": "eslint .",
-    "generate": "graphql-codegen",
-    "typecheck": "pnpm recursive run typecheck"
+    "graphql-codegen": "graphql-codegen",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",

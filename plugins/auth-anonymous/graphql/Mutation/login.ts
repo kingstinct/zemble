@@ -2,20 +2,11 @@
 import {
   setCookie,
 } from 'hono/cookie'
-import { encodeToken } from 'readapt-plugin-auth/utils/isValid'
+import { encodeToken } from 'readapt-plugin-auth/utils/encodeToken'
 
 import { config } from '../../plugin'
 
 import type { MutationResolvers } from '../schema.generated'
-
-declare global {
-  namespace Readapt {
-    interface TokenContents {
-      readonly userId: string,
-      readonly username: string
-    }
-  }
-}
 
 const login: MutationResolvers['login'] = (_: unknown, { username }, { honoContext }) => {
   const userId = Math.random().toString(36).substring(7)

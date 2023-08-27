@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "ts-node-dev app.ts",
     "lint": "eslint .",
-    "typecheck": "pnpm recursive run typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +16,7 @@
     "@envelop/generic-auth": "^6.0.0",
     "@readapt/core": "workspace:*",
     "@readapt/graphql-yoga": "workspace:^",
-    "readapt-plugin-anonymous-auth": "workspace:*",
+    "readapt-plugin-auth-anonymous": "workspace:*",
     "readapt-plugin-apple-app-site-association": "workspace:*",
     "readapt-plugin-bull": "workspace:^",
     "readapt-plugin-todo": "workspace:*"

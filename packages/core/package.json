@@ -6,9 +6,9 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
-    "generate": "graphql-codegen",
+    "graphql-codegen": "graphql-codegen",
     "dev": "ts-node-dev server.ts",
-    "typecheck": "pnpm recursive run typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",

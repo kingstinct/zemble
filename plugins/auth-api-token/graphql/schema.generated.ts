@@ -1,5 +1,4 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { TokenContents } from 'Readapt';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -17,35 +16,30 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  token: Scalars['String']['output'];
+export type GenerateApiKeyResponse = {
+  __typename?: 'GenerateAPIKeyResponse';
+  apiKey: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login: LoginResponse;
+  generateAPIKey: GenerateApiKeyResponse;
 };
 
 
-export type MutationLoginArgs = {
-  username: Scalars['String']['input'];
+export type MutationGenerateApiKeyArgs = {
+  apiKeySecret: Scalars['String']['input'];
+  expiresInSeconds?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  me: User;
+  validateAPIKey: Scalars['Boolean']['output'];
 };
 
 
-export type QueryMeArgs = {
-  token: Scalars['String']['input'];
-};
-
-export type User = {
-  __typename?: 'User';
-  userId: Scalars['ID']['output'];
-  username: Scalars['String']['output'];
+export type QueryValidateApiKeyArgs = {
+  apiKey: Scalars['String']['input'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -121,55 +115,39 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  LoginResponse: ResolverTypeWrapper<LoginResponse>;
+  GenerateAPIKeyResponse: ResolverTypeWrapper<GenerateApiKeyResponse>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  User: ResolverTypeWrapper<TokenContents>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
-  ID: Scalars['ID']['output'];
-  LoginResponse: LoginResponse;
+  GenerateAPIKeyResponse: GenerateApiKeyResponse;
+  Int: Scalars['Int']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
-  User: TokenContents;
 }>;
 
-export type SkipAuthDirectiveArgs = { };
-
-export type SkipAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = SkipAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
-
-export type LoginResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type GenerateApiKeyResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['GenerateAPIKeyResponse'] = ResolversParentTypes['GenerateAPIKeyResponse']> = ResolversObject<{
+  apiKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  login?: Resolver<ResolversTypes['LoginResponse'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'username'>>;
+  generateAPIKey?: Resolver<ResolversTypes['GenerateAPIKeyResponse'], ParentType, ContextType, RequireFields<MutationGenerateApiKeyArgs, 'apiKeySecret'>>;
 }>;
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  me?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryMeArgs, 'token'>>;
-}>;
-
-export type UserResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
-  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+  validateAPIKey?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryValidateApiKeyArgs, 'apiKey'>>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
-  LoginResponse?: LoginResponseResolvers<ContextType>;
+  GenerateAPIKeyResponse?: GenerateApiKeyResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
-  skipAuth?: SkipAuthDirectiveResolver<any, any, ContextType>;
-}>;

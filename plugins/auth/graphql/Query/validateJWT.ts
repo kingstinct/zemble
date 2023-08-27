@@ -1,8 +1,8 @@
-import { isValid } from '../../utils/isValid'
+import { verifyJwt } from '../../utils/verifyJwt'
 
 const validate = (_: unknown, { token }: {readonly token: string}) => {
   try {
-    isValid(token)
+    verifyJwt(token)
     return true
   } catch (e) {
     return false

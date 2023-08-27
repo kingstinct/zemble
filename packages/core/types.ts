@@ -17,14 +17,19 @@ declare global {
 
     }
 
-    interface TokenContents {
-
+    // Extend the TokenRegistry for the new type
+    interface TokenRegistry {
+      readonly UnknownToken: Record<string, unknown>
     }
 
-    interface DecodedToken extends TokenContents {
+    type TokenContents<T extends keyof TokenRegistry = keyof TokenRegistry> = TokenRegistry[T]
+
+    interface DecodedTokenBase {
       readonly iat: number
       readonly iss: string
     }
+
+    type DecodedToken<T extends keyof TokenRegistry = keyof TokenRegistry> = TokenContents<T> & DecodedTokenBase
   }
 }
 
@@ -36,7 +41,15 @@ export type Dependency = {
 export type DependenciesResolver<TSelf> = readonly Dependency[] | ((self: TSelf) => readonly Dependency[])
 
 export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf> = {
+  /**
+   * Default config for the plugin, will be merged (last write wins) with any configs passed to configure()
+   */
   readonly defaultConfig?: TDefaultConfig,
+  /**
+   * Dependencies required for the plugin to work, specify devOnly: true if the plugin is only used in development (for
+   * example a specific implementation of authentication when you don't have a strict dependency on which auth module
+   * is used)
+   */
   readonly dependencies?: DependenciesResolver<TSelf>,
 }
 

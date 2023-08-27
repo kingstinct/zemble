@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-anonymous-auth",
+  "name": "readapt-plugin-auth-anonymous",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev plugin.ts",
     "lint": "eslint .",
-    "typecheck": "pnpm recursive run typecheck",
+    "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },
   "keywords": [],

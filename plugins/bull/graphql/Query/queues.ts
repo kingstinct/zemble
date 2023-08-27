@@ -3,9 +3,9 @@ import { getQueues } from '../../utils/setupQueues'
 import type { QueryResolvers } from '../schema.generated'
 
 const queues: QueryResolvers['queues'] = () => {
-  const queues = getQueues()
+  const qs = getQueues()
 
-  return queues
+  return qs
 }
 
 export default queues

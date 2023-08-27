@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { SimpleAnonymousAuthProvider } from 'readapt-plugin-anonymous-auth-expo/contexts/Auth';
+import { SimpleAnonymousAuthProvider } from 'readapt-plugin-auth-anonymous-expo/contexts/Auth';
 import LoginButton from 'plugins/anonymous-auth-expo/components/LoginButton';
 
 export default function App() {

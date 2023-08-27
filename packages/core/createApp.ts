@@ -4,6 +4,7 @@ import { cors } from 'hono/cors'
 
 import initializePlugin from './utils/initializePlugin'
 import { readPackageJson } from './utils/readPackageJson'
+import { uniqBy } from './utils/uniqBy'
 
 import type Plugin from './Plugin'
 import type { PluginWithMiddleware } from './PluginWithMiddleware'
@@ -32,7 +33,7 @@ export type ReadaptApp = {
   readonly start: () => Readapt.Server
 }
 
-export const createApp = async ({ plugins }: Configure): Promise<ReadaptApp> => {
+export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure): Promise<ReadaptApp> => {
   const context = {} as Readapt.Context
 
   const app = new Hono() as Readapt.Server
@@ -40,6 +41,8 @@ export const createApp = async ({ plugins }: Configure): Promise<ReadaptApp> => 
   app.use('*', cors())
 
   app.get('/', (c) => c.text(`Hello ReAdapt! Serving ${packageJson.name}`))
+
+  const plugins = uniqBy(pluginsBeforeResolvingDeps.flatMap((plugin) => [...plugin.dependencies, plugin]), 'pluginName')
 
   const middleware = plugins.filter(
     (plugin): plugin is PluginWithMiddleware => 'initializeMiddleware' in plugin,
@@ -66,7 +69,7 @@ export const createApp = async ({ plugins }: Configure): Promise<ReadaptApp> => 
   return {
     app,
     start: () => {
-      serve(app, (info) => console.log(`http://${info.address}:${info.port}`))
+      serve(app, (info) => console.log(info))
       return app
     },
   }

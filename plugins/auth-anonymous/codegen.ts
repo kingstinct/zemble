@@ -11,7 +11,7 @@ const config: CodegenConfig = {
       config: {
         ...defaultConfig.generates[`./graphql/schema.generated.ts`].config,
         mappers: {
-          User: 'Readapt#TokenContents',
+          User: '@readapt/core/types#TokenContents',
         },
       },
     },

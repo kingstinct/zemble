@@ -8,7 +8,8 @@ import graphqlYoga from '@readapt/graphql-yoga'
 import {
   getCookie,
 } from 'hono/cookie'
-import { decodeToken } from 'readapt-plugin-auth/utils/isValid'
+import Auth from 'readapt-plugin-auth'
+import { decodeToken } from 'readapt-plugin-auth/utils/decodeToken'
 
 import type { CookieOptions } from 'hono/dist/types/utils/cookie'
 
@@ -18,6 +19,17 @@ interface AnonymousAuthConfig extends Readapt.GlobalConfig {
     readonly name?: string
     readonly isEnabled?: boolean
     readonly opts?: () => CookieOptions
+  }
+}
+
+declare global {
+  namespace Readapt {
+    interface TokenRegistry {
+      readonly AnonymousAuth: {
+        readonly userId: string,
+        readonly username: string
+      }
+    }
   }
 }
 
@@ -31,7 +43,6 @@ const defaultConfig = {
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV !== 'development',
-      // domain: 'localhost:3000',
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2), // 2 days
     }),
   },
@@ -39,6 +50,7 @@ const defaultConfig = {
 
 const plugin = new Plugin<AnonymousAuthConfig, typeof defaultConfig>(__dirname, {
   dependencies: ({ config }) => {
+    console.log('GOING THROUGH DEPENDENCIES')
     const gql = graphqlYoga.configure({
       yoga: {
         plugins: [
@@ -63,6 +75,9 @@ const plugin = new Plugin<AnonymousAuthConfig, typeof defaultConfig>(__dirname, 
     })
 
     return [
+      {
+        plugin: Auth,
+      },
       {
         plugin: gql,
       },

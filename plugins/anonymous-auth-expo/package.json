@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-anonymous-auth-expo",
+  "name": "readapt-plugin-auth-anonymous-expo",
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
     "lint": "eslint .",
-    "typecheck": "pnpm recursive run typecheck"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "expo": "~49.0.7",

@@ -4,8 +4,8 @@
     "strict": true,
     "baseUrl": "../..",
     "paths": {
-      "readapt-plugin-anonymous-auth-expo/*": [ "plugins/simple-anonymous-auth-ui/*" ],
-      "readapt-plugin-anonymous-auth-expo": [ "plugins/simple-anonymous-auth-ui" ],
+      "readapt-plugin-auth-anonymous-expo/*": [ "plugins/simple-anonymous-auth-ui/*" ],
+      "readapt-plugin-auth-anonymous-expo": [ "plugins/simple-anonymous-auth-ui" ],
     }
   }
 }

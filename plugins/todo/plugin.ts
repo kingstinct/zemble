@@ -1,11 +1,11 @@
 import { Plugin } from '@readapt/core'
 import Yoga from '@readapt/graphql-yoga'
-import anonymousAuth from 'readapt-plugin-anonymous-auth'
+import AnonymousAuth from 'readapt-plugin-auth-anonymous'
 
 export default new Plugin(__dirname, {
   // this is mostly to ensure we get the global typings past here
   dependencies: () => [
     { plugin: Yoga },
-    { plugin: anonymousAuth, devOnly: true },
+    { plugin: AnonymousAuth, devOnly: true },
   ],
 })

@@ -1,7 +1,5 @@
-import plugin from "../../"
+import plugin from '../../plugin'
 
 const { PUBLIC_KEY } = plugin.config
 
-export default () => {
-  return PUBLIC_KEY
-}
+export default () => PUBLIC_KEY

@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-apple-app-site-association",
+  "name": "readapt-plugin-auth-api-token",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -7,6 +7,7 @@
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev plugin.ts",
     "lint": "eslint .",
+    "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
@@ -14,7 +15,12 @@
   "license": "ISC",
   "dependencies": {
     "@readapt/core": "workspace:^",
-    "jsonwebtoken": "^9.0.1"
+    "@readapt/graphql-yoga": "workspace:^",
+    "graphql-scalars": "^1.22.2",
+    "hono": "^3.4.3",
+    "jose": "^4.14.4",
+    "jsonwebtoken": "^9.0.1",
+    "readapt-plugin-auth": "workspace:^"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

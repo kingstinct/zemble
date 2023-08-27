@@ -1,3 +1,5 @@
+import '../../plugin'
+
 import kv from '../../utils/kv'
 
 import type { QueryResolvers } from '../schema.generated'

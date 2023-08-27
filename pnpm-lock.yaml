@@ -104,7 +104,7 @@ importers:
       react-native-web:
         specifier: ~0.19.6
         version: registry.npmjs.org/react-native-web@0.19.7(react-dom@18.2.0)(react@18.2.0)
-      readapt-plugin-anonymous-auth-expo:
+      readapt-plugin-auth-anonymous-expo:
         specifier: workspace:*
         version: link:../../plugins/anonymous-auth-expo
       readapt-plugin-todo-ui:
@@ -132,12 +132,12 @@ importers:
       '@readapt/graphql-yoga':
         specifier: workspace:^
         version: link:../../plugins/graphql-yoga
-      readapt-plugin-anonymous-auth:
-        specifier: workspace:*
-        version: link:../../plugins/anonymous-auth
       readapt-plugin-apple-app-site-association:
         specifier: workspace:*
         version: link:../../plugins/apple-app-site-association
+      readapt-plugin-auth-anonymous:
+        specifier: workspace:*
+        version: link:../../plugins/auth-anonymous
       readapt-plugin-bull:
         specifier: workspace:^
         version: link:../../plugins/bull
@@ -194,40 +194,6 @@ importers:
       ts-node-dev:
         specifier: ^2.0.0
         version: registry.npmjs.org/ts-node-dev@2.0.0(@types/node@20.5.1)(typescript@5.1.6)
-
-  plugins/anonymous-auth:
-    dependencies:
-      '@envelop/core':
-        specifier: ^4.0.0
-        version: registry.npmjs.org/@envelop/core@4.0.0
-      '@envelop/generic-auth':
-        specifier: ^6.0.0
-        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
-      '@readapt/core':
-        specifier: workspace:^
-        version: link:../../packages/core
-      '@readapt/graphql-yoga':
-        specifier: workspace:^
-        version: link:../graphql-yoga
-      '@whatwg-node/server-plugin-cookies':
-        specifier: ^1.0.2
-        version: registry.npmjs.org/@whatwg-node/server-plugin-cookies@1.0.2(@whatwg-node/server@0.9.11)
-      graphql:
-        specifier: ^16.8.0
-        version: registry.npmjs.org/graphql@16.8.0
-      jsonwebtoken:
-        specifier: ^9.0.1
-        version: registry.npmjs.org/jsonwebtoken@9.0.1
-      readapt-plugin-auth:
-        specifier: workspace:^
-        version: link:../auth
-    devDependencies:
-      '@tsconfig/node20':
-        specifier: ^20.1.1
-        version: registry.npmjs.org/@tsconfig/node20@20.1.1
-      '@types/jsonwebtoken':
-        specifier: ^9.0.2
-        version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
 
   plugins/anonymous-auth-expo:
     dependencies:
@@ -302,6 +268,71 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.1
         version: registry.npmjs.org/jsonwebtoken@9.0.1
+    devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
+      '@types/jsonwebtoken':
+        specifier: ^9.0.2
+        version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
+
+  plugins/auth-anonymous:
+    dependencies:
+      '@envelop/core':
+        specifier: ^4.0.0
+        version: registry.npmjs.org/@envelop/core@4.0.0
+      '@envelop/generic-auth':
+        specifier: ^6.0.0
+        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
+      '@readapt/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../graphql-yoga
+      '@whatwg-node/server-plugin-cookies':
+        specifier: ^1.0.2
+        version: registry.npmjs.org/@whatwg-node/server-plugin-cookies@1.0.2(@whatwg-node/server@0.9.11)
+      graphql:
+        specifier: ^16.8.0
+        version: registry.npmjs.org/graphql@16.8.0
+      jsonwebtoken:
+        specifier: ^9.0.1
+        version: registry.npmjs.org/jsonwebtoken@9.0.1
+      readapt-plugin-auth:
+        specifier: workspace:^
+        version: link:../auth
+    devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
+      '@types/jsonwebtoken':
+        specifier: ^9.0.2
+        version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
+
+  plugins/auth-api-token:
+    dependencies:
+      '@readapt/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../graphql-yoga
+      graphql-scalars:
+        specifier: ^1.22.2
+        version: registry.npmjs.org/graphql-scalars@1.22.2(graphql@16.8.0)
+      hono:
+        specifier: ^3.4.3
+        version: registry.npmjs.org/hono@3.4.3
+      jose:
+        specifier: ^4.14.4
+        version: registry.npmjs.org/jose@4.14.4
+      jsonwebtoken:
+        specifier: ^9.0.1
+        version: registry.npmjs.org/jsonwebtoken@9.0.1
+      readapt-plugin-auth:
+        specifier: workspace:^
+        version: link:../auth
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.1
@@ -459,12 +490,12 @@ importers:
       hono:
         specifier: ^3.4.3
         version: registry.npmjs.org/hono@3.4.3
-      readapt-plugin-anonymous-auth:
-        specifier: workspace:^
-        version: link:../anonymous-auth
       readapt-plugin-auth:
         specifier: workspace:^
         version: link:../auth
+      readapt-plugin-auth-anonymous:
+        specifier: workspace:^
+        version: link:../auth-anonymous
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.1
@@ -490,7 +521,7 @@ importers:
       react-native:
         specifier: 0.72.3
         version: registry.npmjs.org/react-native@0.72.3(@babel/core@7.22.10)(@babel/preset-env@7.22.10)(react@18.2.0)
-      readapt-plugin-anonymous-auth-expo:
+      readapt-plugin-auth-anonymous-expo:
         specifier: workspace:^
         version: link:../anonymous-auth-expo
       urql:

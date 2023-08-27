@@ -15,33 +15,28 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  token: Scalars['String']['output'];
+export type GenerateApiKeyResponse = {
+  __typename?: 'GenerateAPIKeyResponse';
+  apiKey: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login: LoginResponse;
+  generateAPIKey: GenerateApiKeyResponse;
 };
 
 
-export type MutationLoginArgs = {
-  username: Scalars['String']['input'];
+export type MutationGenerateApiKeyArgs = {
+  apiKeySecret: Scalars['String']['input'];
+  expiresInSeconds?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  me: User;
+  validateAPIKey: Scalars['Boolean']['output'];
 };
 
 
-export type QueryMeArgs = {
-  token: Scalars['String']['input'];
-};
-
-export type User = {
-  __typename?: 'User';
-  userId: Scalars['ID']['output'];
-  username: Scalars['String']['output'];
+export type QueryValidateApiKeyArgs = {
+  apiKey: Scalars['String']['input'];
 };

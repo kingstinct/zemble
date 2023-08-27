@@ -26,6 +26,11 @@ export class Plugin<
   // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined
 
+  /**
+   *
+   * @param __dirname This should be the directory of the plugin (usually __dirname), usually containing subdirectories like /routes and /graphql for automatic bootstrapping
+   * @param opts
+   */
   constructor(__dirname: string, opts?: PluginOpts<TDefaultConfig, Plugin<TConfig, TConfig, TResolvedConfig>>) {
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig

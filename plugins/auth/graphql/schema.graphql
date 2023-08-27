@@ -1,15 +1,7 @@
 scalar JSON
 
-type Mutation {
-  generateMaintenanceKey(maintenanceSecret: String!, expiresInSeconds: Int): SignResponse!
-}
-
-type SignResponse {
-  token: String!
-}
-
 type Query {
-  validate(token: String!): Boolean!
-  read(token: String!): JSON!
+  validateJWT(token: String!): Boolean!
+  readJWT(token: String!): JSON!
   publicKey: String!
 }
