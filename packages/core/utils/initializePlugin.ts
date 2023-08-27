@@ -1,7 +1,9 @@
-import { Hono } from 'hono'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import readRoutes from '../utils/readRoutes'
+
+import readRoutes from './readRoutes'
+
+import type { Hono } from 'hono'
 
 const initializeRoutes = async (routePath: string, app: Hono) => {
   const hasRoutes = fs.existsSync(routePath)
@@ -16,16 +18,16 @@ const initializeRoutes = async (routePath: string, app: Hono) => {
 }
 
 export async function initializePlugin(
-{ 
-  pluginPath,
-  app 
-} : { 
-  pluginPath: string;
-  app: Hono 
-}) {
+  {
+    pluginPath,
+    app,
+  }: {
+    readonly pluginPath: string;
+    readonly app: Hono
+  },
+) {
   const routePath = path.join(pluginPath, '/routes')
-  initializeRoutes(routePath, app)
+  await initializeRoutes(routePath, app)
 }
-
 
 export default initializePlugin

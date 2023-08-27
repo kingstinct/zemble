@@ -1,19 +1,15 @@
-
-import pubSub from '../../createPubSub'
-import { SubscriptionResolvers } from '../schema.generated';
- 
-
+import type { SubscriptionResolvers } from '../schema.generated'
 
 const randomNumber: SubscriptionResolvers['randomNumber'] = {
   // subscribe to the randomNumber event
-  subscribe: () => {
-    console.log('subscribing to randomNumber');
-    return pubSub.subscribe('randomNumber');
+  subscribe: (_, __, { pubsub }) => {
+    console.log('subscribing to randomNumber')
+    return pubsub.subscribe('randomNumber')
   },
   resolve: (payload: number) => {
-    console.log('resolving randomNumber', payload);
+    console.log('resolving randomNumber', payload)
     return payload
-  }
+  },
 }
 
 export default randomNumber

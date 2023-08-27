@@ -2,7 +2,7 @@
   "name": "@readapt/core",
   "version": "0.0.1",
   "description": "",
-  "main": "server.ts",
+  "main": "index.ts",
   "scripts": {
     "test": "jest",
     "lint": "eslint .",

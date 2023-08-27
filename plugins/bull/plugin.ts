@@ -1,4 +1,4 @@
-import { PluginConfigWithMiddleware } from '@readapt/core/types'
+import { PluginWithMiddleware } from '@readapt/core'
 
 import setupQueues from './utils/setupQueues'
 
@@ -19,8 +19,10 @@ const defaults = {
   redisUrl: process.env.REDIS_URL,
 } satisfies BullPluginConfig
 
-export default new PluginConfigWithMiddleware<BullPluginConfig, typeof defaults>(__dirname, (config) => ({ plugins, context: { pubsub } }) => {
+export default new PluginWithMiddleware<BullPluginConfig>(__dirname, (config) => ({ plugins, context: { pubsub } }) => {
   plugins.forEach(({ pluginPath }) => {
     setupQueues(pluginPath, pubsub, config)
   })
+}, {
+  defaultConfig: defaults,
 })

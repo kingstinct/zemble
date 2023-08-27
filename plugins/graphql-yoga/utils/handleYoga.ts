@@ -6,7 +6,7 @@ import type { Context } from 'hono'
 
 export default (
   schema: GraphQLSchemaWithContext<Readapt.GraphQLContext>,
-  opts?: Omit<YogaServerOptions<Readapt.GraphQLContext, {}>, 'schema'>,
+  opts?: Omit<YogaServerOptions<Readapt.GraphQLContext, Record<string, any>>, 'schema'>,
 ) => {
   const yoga = createYoga({
     ...opts,

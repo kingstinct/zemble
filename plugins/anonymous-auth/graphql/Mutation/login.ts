@@ -15,18 +15,20 @@ declare global {
   }
 }
 
-const login: MutationResolvers['login'] = async (_: unknown, { username }, { request, honoContext }) => {
+const login: MutationResolvers['login'] = (_: unknown, { username }, { honoContext, config }) => {
   const userId = Math.random().toString(36).substring(7)
   const token = encodeToken({ userId, username })
 
-  setCookie(honoContext, 'authorization', token, {
-    sameSite: 'Lax',
-    path: '/',
-    httpOnly: true,
-    secure: process.env.NODE_ENV !== 'development',
-    // domain: 'localhost:3000',
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2), // 2 days
-  })
+  if (config['readapt-plugin-anonymous-auth'].enableCookieAuth && config['readapt-plugin-anonymous-auth'].cookieName) {
+    setCookie(honoContext, config['readapt-plugin-anonymous-auth'].cookieName, token, {
+      sameSite: 'Lax',
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      // domain: 'localhost:3000',
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2), // 2 days
+    })
+  }
 
   return { token }
 }

@@ -55,8 +55,21 @@ declare global {
       readonly token?: string
       readonly decodedToken?: DecodedToken
       readonly honoContext: HonoContext
+      readonly config: ConfigPerPlugin
     }
   }
+}
+
+export type GraphQLMiddlewareConfig = {
+  readonly yoga?: Omit<YogaServerOptions<Readapt.GraphQLContext, unknown>, 'schema'>
+  /**
+   * The url of the redis instance to use for pubsub
+   */
+  readonly redisUrl?: string
+  /**
+   * Redis config to use for pubsub
+   */
+  readonly redisOptions?: RedisOptions
 }
 
 const processPluginSchema = async (pluginPath: string) => {
@@ -66,18 +79,6 @@ const processPluginSchema = async (pluginPath: string) => {
     return [await createPluginSchema(graphqlPath)]
   }
   return []
-}
-
-type GraphQLMiddlewareConfig = {
-  readonly yoga?: Omit<YogaServerOptions<Readapt.GraphQLContext, {}>, 'schema'>
-  /**
-   * The url of the redis instance to use for pubsub
-   */
-  readonly redisUrl?: string
-  /**
-   * Redis config to use for pubsub
-   */
-  readonly redisOptions?: RedisOptions
 }
 
 async function gqlRequest<TQuery, TVars>(
@@ -102,18 +103,9 @@ async function gqlRequest<TQuery, TVars>(
   }
 }
 
-const defaults = {
-  yoga: {
-    graphqlEndpoint: '/graphql',
-  },
-  redisUrl: process.env.REDIS_URL,
-} satisfies GraphQLMiddlewareConfig
-
-export const middleware: Middleware<GraphQLMiddlewareConfig> = (c) => async (
+export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => async (
   { app, context, plugins },
 ) => {
-  const config = { ...defaults, ...c, yoga: { ...defaults.yoga, ...c?.yoga } }
-
   const selfSchemas = await processPluginSchema(process.cwd())
 
   const pluginsToAdd = plugins.filter(({ config }) => !config.skipGraphQL)
@@ -151,6 +143,11 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (c) => async (
     return response
   }
 
+  const configPerPlugin = pluginsToAdd.reduce<Readapt.ConfigPerPlugin>((prev, { pluginName, config: pluginConfig }) => ({
+    ...prev,
+    [pluginName]: pluginConfig,
+  }), {} as Readapt.ConfigPerPlugin)
+
   context.pubsub = pubsub
 
   app.use(config?.yoga?.graphqlEndpoint, handleYoga(
@@ -164,17 +161,18 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (c) => async (
           ...typeof resolved === 'boolean' ? {} : resolved,
         })
       },
-      context: async (initialContext) => {
+      context: (initialContext) => {
         const contextWithPubSub: Readapt.GraphQLContext = {
           ...initialContext,
           pubsub,
+          config: configPerPlugin,
         }
 
         // eslint-disable-next-line no-nested-ternary
         return config.yoga?.context
           ? (typeof config.yoga.context === 'function'
             ? config.yoga.context(contextWithPubSub)
-            : { ...contextWithPubSub, ...(await config.yoga.context) })
+            : { ...contextWithPubSub, ...(config.yoga.context) })
           : contextWithPubSub
       },
     },

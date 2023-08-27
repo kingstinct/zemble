@@ -1,26 +1,22 @@
-import pubSub from "../../createPubSub";
-import { SubscriptionResolvers } from "../schema.generated";
+import type { SubscriptionResolvers } from '../schema.generated'
 
 let initialized = false
-const initializeOnce = () => {
+const initializeOnce = (pubsub: Readapt.PubSubType) => {
   if (initialized) return
   initialized = true
   setInterval(() => {
-    pubSub.publish('tick', Date.now())
+    pubsub.publish('tick', Date.now())
   }, 1000)
 }
- 
 
 const tick: SubscriptionResolvers['tick'] = {
   // subscribe to the tick event
-  subscribe: () => {
-    initializeOnce()
-    console.log('subscribing to tick');
-    return pubSub.subscribe('tick');
+  subscribe: (_, __, { pubsub }) => {
+    initializeOnce(pubsub)
+    console.log('subscribing to tick')
+    return pubsub.subscribe('tick')
   },
-  resolve: (payload: number) => {
-    return payload
-  }
+  resolve: (payload: number) => payload,
 }
 
 export default tick

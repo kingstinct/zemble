@@ -1,10 +1,10 @@
-import { PluginConfig } from '@readapt/core/types'
+import { Plugin } from '@readapt/core'
 
 const { PUBLIC_KEY } = process.env
 const { PRIVATE_KEY } = process.env
 const ISSUER = process.env.ISSUER ?? 'readapt-plugin-auth'
 const MAINTENANCE_SECRET = process.env.MAINTENANCE_SECRET ?? 'top-secret'
-const MAINTENANCE_KEY_EXPIRE_BEFORE_IAT = process.env.MAINTENANCE_KEY_EXPIRE_BEFORE_IAT ? parseInt(process.env.MAINTENANCE_KEY_EXPIRE_BEFORE_IAT, 0) : 0
+const MAINTENANCE_KEY_EXPIRE_BEFORE_IAT = process.env.MAINTENANCE_KEY_EXPIRE_BEFORE_IAT ? parseInt(process.env.MAINTENANCE_KEY_EXPIRE_BEFORE_IAT, 10) : 0
 
 type AuthConfig = {
   readonly PUBLIC_KEY?: string;
@@ -22,4 +22,4 @@ const defaults = {
   MAINTENANCE_KEY_EXPIRE_BEFORE_IAT,
 }
 
-export default new PluginConfig<AuthConfig, typeof defaults>(__dirname, { defaultConfig: defaults })
+export default new Plugin<AuthConfig, typeof defaults>(__dirname, { defaultConfig: defaults })

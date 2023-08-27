@@ -7,7 +7,7 @@ import '@readapt/graphql-yoga'
 
 import createClient from '../clients/redis'
 
-import type { BullPluginConfig } from '..'
+import type { BullPluginConfig } from '../plugin'
 import type { Job } from 'bullmq'
 
 export type QueueConfig<DataType = unknown, ReturnType = unknown> = {
@@ -55,7 +55,7 @@ const setupQueues = (pluginPath: string, pubSub: Readapt.PubSubType, config: Bul
         queues.push(queue)
       })
     } else {
-      console.error('[bull-plugin] Failed initialize. No redisUrl provided for bull plugin, you can specify it directly or with REDIS_URL')
+      console.error('[bull-plugin] Failed to initialize. No redisUrl provided for bull plugin, you can specify it directly or with REDIS_URL')
     }
   }
 }

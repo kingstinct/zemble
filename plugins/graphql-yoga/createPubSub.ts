@@ -1,17 +1,18 @@
-import type { RedisOptions } from 'ioredis'
+import { createRedisEventTarget } from '@graphql-yoga/redis-event-target'
 import { createPubSub as createYogaPubSub } from 'graphql-yoga'
 
-import { createRedisEventTarget } from '@graphql-yoga/redis-event-target'
 import { createClient } from './clients/redis'
- 
-const createPubSub = (redisUrl?:string, redisConfig?: RedisOptions) => {
-  if(redisUrl){
+
+import type { RedisOptions } from 'ioredis'
+
+const createPubSub = (redisUrl?: string, redisConfig?: RedisOptions) => {
+  if (redisUrl) {
     const publishClient = createClient(redisUrl, redisConfig)
     const subscribeClient = createClient(redisUrl, redisConfig)
-    
+
     const eventTarget = createRedisEventTarget({
       publishClient,
-      subscribeClient
+      subscribeClient,
     })
 
     return createYogaPubSub({ eventTarget })
@@ -19,6 +20,5 @@ const createPubSub = (redisUrl?:string, redisConfig?: RedisOptions) => {
 
   return createYogaPubSub()
 }
-
 
 export default createPubSub

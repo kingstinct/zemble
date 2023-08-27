@@ -212,6 +212,9 @@ importers:
       '@whatwg-node/server-plugin-cookies':
         specifier: ^1.0.2
         version: registry.npmjs.org/@whatwg-node/server-plugin-cookies@1.0.2(@whatwg-node/server@0.9.11)
+      graphql:
+        specifier: ^16.8.0
+        version: registry.npmjs.org/graphql@16.8.0
       jsonwebtoken:
         specifier: ^9.0.1
         version: registry.npmjs.org/jsonwebtoken@9.0.1
@@ -389,6 +392,9 @@ importers:
       graphql:
         specifier: ^16.8.0
         version: registry.npmjs.org/graphql@16.8.0
+      graphql-yoga:
+        specifier: ^4.0.4
+        version: registry.npmjs.org/graphql-yoga@4.0.4(graphql@16.8.0)
       hono:
         specifier: ^3.4.3
         version: registry.npmjs.org/hono@3.4.3

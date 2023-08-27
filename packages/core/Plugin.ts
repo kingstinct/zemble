@@ -1,0 +1,82 @@
+import { configDotenv } from 'dotenv'
+
+import { createApp } from './createApp'
+import mergeDeep from './utils/mergeDeep'
+import { readPackageJson } from './utils/readPackageJson'
+
+import type { ReadaptApp } from './createApp'
+import type PluginWithMiddleware from './PluginWithMiddleware'
+import type { DependenciesResolver, Dependency, PluginOpts } from './types'
+
+// initialize dotenv before any plugins are loaded/configured
+configDotenv()
+
+export class Plugin<
+  TIn extends Record<string, unknown> & Readapt.GlobalConfig = Readapt.GlobalConfig,
+  TDefault extends TIn = TIn,
+  TOut extends TIn & TDefault = TIn & TDefault & Readapt.GlobalConfig,
+> {
+  // eslint-disable-next-line functional/prefer-readonly-type
+  #config: TOut
+
+  readonly #dependencies: DependenciesResolver<Plugin<TIn, TDefault, TOut>>
+
+  readonly pluginPath: string
+
+  // eslint-disable-next-line functional/prefer-readonly-type
+  #pluginName: string | undefined
+
+  constructor(__dirname: string, opts?: PluginOpts<TDefault, Plugin<TIn, TDefault, TOut>>) {
+    this.pluginPath = __dirname
+    this.#config = (opts?.defaultConfig ?? {}) as TOut // TODO [>0.0.1]: might need some cleaning up
+    this.#dependencies = opts?.dependencies || []
+
+    if (this.#isPluginDevMode) {
+      void this.#createApp().then((app) => app.start())
+    }
+  }
+
+  get #isPluginDevMode() {
+    return process.env.PLUGIN_DEV && process.cwd() === this.pluginPath
+  }
+
+  #filterDevDependencies(dep: Dependency) {
+    if (this.#isPluginDevMode) {
+      return true
+    }
+    return !dep.devOnly
+  }
+
+  get pluginName(): string {
+    if (!this.#pluginName) {
+      // eslint-disable-next-line functional/immutable-data
+      this.#pluginName = readPackageJson(this.pluginPath).name
+    }
+
+    return this.#pluginName!
+  }
+
+  configure(config?: TIn) {
+    // eslint-disable-next-line functional/immutable-data
+    this.#config = mergeDeep(this.#config, config ?? {}) as TOut
+    return this
+  }
+
+  get config() {
+    return this.#config
+  }
+
+  get dependencies() {
+    const allDeps = (typeof this.#dependencies === 'function') ? this.#dependencies(this) : this.#dependencies
+
+    return allDeps.filter(this.#filterDevDependencies.bind(this)).map((dep) => dep.plugin)
+  }
+
+  async #createApp(): Promise<ReadaptApp> {
+    return createApp({
+      plugins: [...this.dependencies, this] as readonly (Plugin | PluginWithMiddleware)[],
+    })
+  }
+}
+
+export default Plugin

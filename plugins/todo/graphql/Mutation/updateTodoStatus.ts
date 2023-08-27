@@ -1,11 +1,9 @@
-import { decodeToken } from 'readapt-plugin-anonymous-auth/utils/typedToken'
-
 import kv from '../../utils/kv'
 
 import type { MutationResolvers, Todo } from '../schema.generated'
 
-const updateTodoStatus: MutationResolvers['updateTodoStatus'] = (_, { id, completed, token }, { pubsub }) => {
-  const { userId } = decodeToken(token)
+const updateTodoStatus: MutationResolvers['updateTodoStatus'] = (_, { id, completed }, { pubsub, decodedToken }) => {
+  const { userId } = decodedToken!
   const todoIdWithUser = `${userId}_${id}`
   const previous = kv.get(todoIdWithUser) as Todo
 

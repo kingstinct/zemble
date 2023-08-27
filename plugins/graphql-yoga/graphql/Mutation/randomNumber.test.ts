@@ -1,4 +1,4 @@
-import plugin from '../..'
+import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
 const randomNumberMutation = graphql(`
