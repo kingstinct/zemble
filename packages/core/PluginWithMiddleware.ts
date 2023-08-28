@@ -9,13 +9,17 @@ configDotenv()
 
 export class PluginWithMiddleware<
   TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig,
-  TDefaultConfig extends TConfig = TConfig,
+  TDefaultConfig extends Partial<TConfig> = TConfig,
   TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
 > extends Plugin<TConfig, TDefaultConfig, TResolvedConfig> {
   // eslint-disable-next-line functional/prefer-readonly-type
   #middleware: Middleware<TResolvedConfig>
 
-  constructor(__dirname: string, middleware: Middleware<TResolvedConfig>, opts?: PluginOpts<TDefaultConfig, Plugin<TConfig, TDefaultConfig, TResolvedConfig>>) {
+  constructor(
+    __dirname: string,
+    middleware: Middleware<TResolvedConfig>,
+    opts?: PluginOpts<TDefaultConfig, Plugin<TConfig, TDefaultConfig, TResolvedConfig>, TConfig>,
+  ) {
     super(__dirname, opts)
     this.#middleware = middleware
   }

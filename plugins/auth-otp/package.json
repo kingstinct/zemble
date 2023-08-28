@@ -1,17 +1,14 @@
 {
-  "name": "readapt-plugin-auth",
+  "name": "readapt-plugin-auth-otp",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
-  "bin": {
-    "readapt-auth-generate-keys": "./generate-keys.js"
-  },
   "scripts": {
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev plugin.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "graphql-codegen": "graphql-codegen"
   },
   "keywords": [],
   "author": "",
@@ -21,10 +18,10 @@
     "@envelop/generic-auth": "^6.0.0",
     "@readapt/core": "workspace:^",
     "@readapt/graphql-yoga": "workspace:^",
-    "graphql-scalars": "^1.22.2",
-    "hono": "^3.4.3",
-    "jose": "^4.14.4",
-    "jsonwebtoken": "^9.0.1"
+    "@whatwg-node/server-plugin-cookies": "^1.0.2",
+    "graphql": "^16.8.0",
+    "jsonwebtoken": "^9.0.1",
+    "readapt-plugin-auth": "workspace:^"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

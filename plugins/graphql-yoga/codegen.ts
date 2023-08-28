@@ -8,6 +8,7 @@ const config = {
       config: {
         useIndexSignature: true,
         contextType: 'Readapt.GraphQLContext',
+        immutableTypes: true,
       },
       plugins: ['typescript', 'typescript-resolvers'],
     },

@@ -1,0 +1,42 @@
+directive @skipAuth on FIELD_DEFINITION
+
+type Mutation {
+  loginRequest(email: String!): LoginRequestResponse! @skipAuth
+  loginConfirm(email: String!, code: String!): LoginConfirmResponse! @skipAuth
+}
+
+type LoginResponse {
+  token: String! @skipAuth
+}
+
+type LoginRequestSuccessResponse {
+    success: Boolean! @skipAuth
+}
+
+type EmailNotValidError implements Error {
+    message: String! @skipAuth
+}
+
+type CodeNotValidError implements Error {
+    message: String! @skipAuth
+}
+
+type LoginFailedError implements Error {
+    message: String! @skipAuth
+}
+
+union LoginRequestResponse = LoginRequestSuccessResponse | EmailNotValidError
+
+type LoginConfirmSuccessfulResponse {
+    accessToken: String! @skipAuth
+}
+
+union LoginConfirmResponse = LoginConfirmSuccessfulResponse
+  | EmailNotValidError
+  | CodeNotValidError
+  | LoginFailedError
+
+interface Error {
+  message: String! @skipAuth
+  # code: ErrorCode!
+}

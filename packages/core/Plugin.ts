@@ -13,11 +13,13 @@ configDotenv()
 
 export class Plugin<
   TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig,
-  TDefaultConfig extends TConfig = TConfig,
+  TDefaultConfig extends Partial<TConfig> = TConfig,
   TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
 > {
   // eslint-disable-next-line functional/prefer-readonly-type
   #config: TResolvedConfig
+
+  readonly #devConfig?: TConfig
 
   readonly #dependencies: DependenciesResolver<Plugin<Readapt.GlobalConfig>>
 
@@ -31,9 +33,10 @@ export class Plugin<
    * @param __dirname This should be the directory of the plugin (usually __dirname), usually containing subdirectories like /routes and /graphql for automatic bootstrapping
    * @param opts
    */
-  constructor(__dirname: string, opts?: PluginOpts<TDefaultConfig, Plugin<TConfig, TConfig, TResolvedConfig>>) {
+  constructor(__dirname: string, opts?: PluginOpts<TDefaultConfig, Plugin<TConfig, TConfig, TResolvedConfig>, TConfig>) {
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
+    this.#devConfig = opts?.devConfig
     this.#dependencies = opts?.dependencies as DependenciesResolver<Plugin<Readapt.GlobalConfig>> || []
 
     if (this.#isPluginDevMode) {
@@ -42,7 +45,7 @@ export class Plugin<
   }
 
   get #isPluginDevMode() {
-    return process.env.PLUGIN_DEV && process.cwd() === this.pluginPath
+    return process.env.NODE_ENV === 'test' || (process.env.PLUGIN_DEV && process.cwd() === this.pluginPath)
   }
 
   #filterDevDependencies(dep: Dependency) {
@@ -79,7 +82,7 @@ export class Plugin<
 
   async #createApp(): Promise<ReadaptApp> {
     return createApp({
-      plugins: [...this.dependencies, this] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
+      plugins: [...this.dependencies, this.configure(this.#devConfig)] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
     })
   }
 }

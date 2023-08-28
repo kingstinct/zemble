@@ -1,3 +1,5 @@
+directive @apiAuth on FIELD_DEFINITION
+
 type Mutation {
   generateAPIKey(apiKeySecret: String!, expiresInSeconds: Int): GenerateAPIKeyResponse!
 }

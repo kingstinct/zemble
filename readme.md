@@ -57,3 +57,10 @@ Plugin types:
 - Middleware. Has access to all plugins, can modify how they work, can modify global config.
 - Plugins. Uses the structure set up by the middleware.
 
+
+
+KeyValue ska nog vara plugin som supportar x antal providers med samma interface utåt:
+InMemory
+Redis
+Cloudflare
+MongoDB ?

@@ -40,7 +40,7 @@ export type Dependency = {
 
 export type DependenciesResolver<TSelf> = readonly Dependency[] | ((self: TSelf) => readonly Dependency[])
 
-export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf> = {
+export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf, TConfig extends Readapt.GlobalConfig> = {
   /**
    * Default config for the plugin, will be merged (last write wins) with any configs passed to configure()
    */
@@ -51,6 +51,8 @@ export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf> = {
    * is used)
    */
   readonly dependencies?: DependenciesResolver<TSelf>,
+
+  readonly devConfig?: TConfig,
 }
 
 export type ConfiguredMiddleware = (
