@@ -7,6 +7,7 @@ declare global {
   namespace Readapt {
     interface TokenRegistry {
       readonly AnonymousAuth: {
+        readonly type: 'AnonymousAuth',
         readonly userId: string,
         readonly username: string
       }

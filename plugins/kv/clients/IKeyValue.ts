@@ -1,4 +1,4 @@
-abstract class IKeyValue<T> {
+abstract class IKeyValue<T = unknown> {
   abstract set(key: string, value: T, expireAfterSeconds?: number): Promise<void> | void
 
   abstract get(key: string): Promise<T | null> | T | null
@@ -13,7 +13,7 @@ abstract class IKeyValue<T> {
 
   abstract keys(): Promise<readonly string[]> | readonly string[]
 
-  abstract values(): Promise<readonly T[]> | readonly T[]
+  abstract values(): Promise<ReadonlyArray<T>> | ReadonlyArray<T>
 
   abstract entries(): Promise<readonly (readonly [string, T])[]> | readonly (readonly [string, T])[]
 }

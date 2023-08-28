@@ -65,8 +65,12 @@ export class Plugin<
   }
 
   configure(config?: TConfig & Readapt.GlobalConfig) {
+    console.log(`ABOUT TO CONFIGURE ${this.pluginName}`, this.#config)
+    console.log(`MERGIN IN ${this.pluginName}`, config)
     // eslint-disable-next-line functional/immutable-data
     this.#config = mergeDeep(this.#config as Record<string, unknown>, (config ?? {}) as Record<string, unknown>) as TResolvedConfig
+
+    console.log(`POSTCONFIG ${this.pluginName}`, this.#config)
     return this
   }
 
@@ -77,12 +81,19 @@ export class Plugin<
   get dependencies() {
     const allDeps = (typeof this.#dependencies === 'function') ? this.#dependencies(this) : this.#dependencies
 
-    return allDeps.filter(this.#filterDevDependencies.bind(this)).map((dep) => dep.plugin)
+    const filteredDeps = allDeps.filter(this.#filterDevDependencies.bind(this))
+
+    const resolvedDeps: readonly Plugin[] = filteredDeps.map(({ plugin, config }) => plugin.configure(config)).flatMap((dep) => [dep, ...dep.dependencies])
+
+    return resolvedDeps
   }
 
   async #createApp(): Promise<ReadaptApp> {
     return createApp({
-      plugins: [...this.dependencies, this.configure(this.#devConfig)] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
+      plugins: [
+        ...this.dependencies,
+        this.configure(this.#devConfig),
+      ] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
     })
   }
 }

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import type { Plugin, PluginWithMiddleware } from '.'
+import type { PubSub } from 'graphql-yoga'
 import type { Hono } from 'hono'
 
 declare global {
@@ -17,24 +18,30 @@ declare global {
 
     }
 
-    // Extend the TokenRegistry for the new type
-    interface TokenRegistry {
-      readonly UnknownToken: Record<string, unknown>
+    interface PubSubTopics {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      readonly [key: string]: any
     }
 
-    type TokenContents<T extends keyof TokenRegistry = keyof TokenRegistry> = TokenRegistry[T]
+    interface PubSubType extends PubSub<PubSubTopics>{
+
+    }
+
+    // Extend the TokenRegistry for the new type
+    interface TokenRegistry {
+      // readonly UnknownToken: Record<string, unknown>
+    }
 
     interface DecodedTokenBase {
       readonly iat: number
       readonly iss: string
     }
-
-    type DecodedToken<T extends keyof TokenRegistry = keyof TokenRegistry> = TokenContents<T> & DecodedTokenBase
   }
 }
 
-export type Dependency = {
-  readonly plugin: Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>,
+export type Dependency<TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig> = {
+  readonly plugin: Plugin<TConfig> | PluginWithMiddleware<TConfig>,
+  readonly config?: TConfig,
   readonly devOnly?: boolean, // decides if we should warn if this plugin is not used in production
 }
 

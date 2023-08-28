@@ -15,6 +15,7 @@ declare global {
   namespace Readapt {
     interface TokenRegistry {
       readonly AuthApiToken: {
+        readonly type: 'AuthApiToken'
         readonly isAPIKey: true
       }
     }

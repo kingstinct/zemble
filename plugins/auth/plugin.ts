@@ -44,6 +44,7 @@ const defaultConfig = {
 
 const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
   dependencies: ({ config }) => {
+    console.log('running auth stuff!!!!!!')
     const gql = graphqlYoga.configure({
       yoga: {
         plugins: [
@@ -59,7 +60,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
               decodedToken,
             }
           }),
-          useGenericAuth<Readapt.TokenContents, Readapt.GraphQLContext>({
+          useGenericAuth<Readapt.TokenRegistry[keyof Readapt.TokenRegistry], Readapt.GraphQLContext>({
             resolveUserFn: (context) => context.decodedToken,
             mode: 'protect-all',
           }),

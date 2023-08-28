@@ -17,9 +17,9 @@ export type Scalars = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  createTodo: Todo;
-  updateTodoStatus?: Maybe<Todo>;
+  readonly __typename?: 'Mutation';
+  readonly createTodo: Todo;
+  readonly updateTodoStatus?: Maybe<Todo>;
 };
 
 
@@ -34,21 +34,21 @@ export type MutationUpdateTodoStatusArgs = {
 };
 
 export type Query = {
-  __typename?: 'Query';
-  todos: Array<Todo>;
+  readonly __typename?: 'Query';
+  readonly todos: ReadonlyArray<Todo>;
 };
 
 export type Subscription = {
-  __typename?: 'Subscription';
-  todoCreated: Todo;
-  todoUpdated: Todo;
+  readonly __typename?: 'Subscription';
+  readonly todoCreated: Todo;
+  readonly todoUpdated: Todo;
 };
 
 export type Todo = {
-  __typename?: 'Todo';
-  completed: Scalars['Boolean']['output'];
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
+  readonly __typename?: 'Todo';
+  readonly completed: Scalars['Boolean']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly title: Scalars['String']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -149,7 +149,7 @@ export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType e
 }>;
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  todos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
+  todos?: Resolver<ReadonlyArray<ResolversTypes['Todo']>, ParentType, ContextType>;
 }>;
 
 export type SubscriptionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{

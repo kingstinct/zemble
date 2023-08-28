@@ -8,5 +8,5 @@ export function verifyJwt(token: string, publicKey?: string) {
     throw new Error('PUBLIC_KEY not set')
   }
 
-  return verify(token, actualPublicKey, { algorithms: ['RS256'] }) as Readapt.DecodedToken
+  return verify(token, actualPublicKey, { algorithms: ['RS256'] }) as Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & Readapt.DecodedTokenBase
 }

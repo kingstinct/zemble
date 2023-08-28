@@ -8,6 +8,7 @@ import CloudflareKeyValue from './clients/CloudFlareKeyValue'
 import KeyValue from './clients/KeyValue'
 import RedisKeyValue from './clients/RedisKeyValue'
 
+import type IKeyValue from './clients/IKeyValue'
 import type { KVNamespace } from '@cloudflare/workers-types'
 import type { RedisOptions } from 'ioredis'
 
@@ -29,6 +30,40 @@ declare global {
       readonly kv: typeof kv
     }
   }
+}
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Readapt {
+    interface KVPrefixes extends Record<string, unknown> {
+      // allow typing and extending prefixes
+      // readonly 'test': {
+      //   readonly 'yo': string
+      // }
+
+    }
+  }
+}
+
+export function kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes>(prefix: K): IKeyValue<T> {
+  const prefixStr = prefix.toString()
+  if (config.implementation === 'cloudflare' || config.cloudflareNamespace) {
+    console.log('initing cloudflare kv')
+    if (!config.cloudflareNamespace) throw new Error('cloudflareNamespace is required for cloudflare implementation')
+    return new CloudflareKeyValue<T>(config.cloudflareNamespace, prefixStr)
+  } if (config.implementation === 'redis' || config.redisUrl) {
+    if (!config.redisUrl) throw new Error('REDIS_URL is required for redis implementation')
+    console.log('initing redis kv')
+    return new RedisKeyValue<T>(prefixStr, config.redisUrl, config.redisOptions)
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    console.warn('Using in-memory key-value store in production is not recommended, since you can\'t share data between multiple instances of your app')
+  }
+
+  console.log('initing in-memory kv')
+
+  return new KeyValue<T>(prefixStr)
 }
 
 const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
@@ -55,21 +90,5 @@ const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
 })
 
 export const { config } = plugin
-
-export const kv = (prefix: string) => {
-  if (config.implementation === 'cloudflare' || config.cloudflareNamespace) {
-    if (!config.cloudflareNamespace) throw new Error('cloudflareNamespace is required for cloudflare implementation')
-    return new CloudflareKeyValue(config.cloudflareNamespace, prefix)
-  } if (config.implementation === 'redis' || config.redisUrl) {
-    if (!config.redisUrl) throw new Error('REDIS_URL is required for redis implementation')
-    return new RedisKeyValue(prefix, config.redisUrl, config.redisOptions)
-  }
-
-  if (process.env.NODE_ENV === 'production') {
-    console.warn('Using in-memory key-value store in production is not recommended, since you can\'t share data between multiple instances of your app')
-  }
-
-  return new KeyValue(prefix)
-}
 
 export default plugin

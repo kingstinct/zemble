@@ -23,9 +23,11 @@
     "@readapt/core": "workspace:^",
     "@readapt/graphql-yoga": "workspace:^",
     "bullmq": "^4.8.0",
+    "graphql": "^16.8.0",
     "hono": "^3.4.3",
+    "readapt-plugin-auth": "workspace:^",
     "readapt-plugin-auth-anonymous": "workspace:^",
-    "readapt-plugin-auth": "workspace:^"
+    "readapt-plugin-kv": "workspace:^"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1"

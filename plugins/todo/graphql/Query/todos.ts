@@ -1,14 +1,15 @@
-import '../../plugin'
+import { GraphQLError } from 'graphql'
 
-import kv from '../../utils/kv'
+import type { QueryResolvers, Todo } from '../schema.generated'
 
-import type { QueryResolvers } from '../schema.generated'
+const todo: QueryResolvers['todos'] = async (_, __, { decodedToken, kv }) => {
+  if (decodedToken?.type === 'AnonymousAuth') {
+    const { userId } = decodedToken!
+    const allTodos = await kv<Todo>(userId).values()
 
-const todo: QueryResolvers['todos'] = (_, __, { decodedToken }) => {
-  const { userId } = decodedToken!
-  const todoIdWithUser = `${userId}_`
-  const allTodos = Array.from(kv.entries())
-  return allTodos.filter(([key, _]) => key.startsWith(todoIdWithUser)).map(([_, todo]) => todo)
+    return allTodos
+  }
+  throw new GraphQLError('Needs to be user')
 }
 
 export default todo

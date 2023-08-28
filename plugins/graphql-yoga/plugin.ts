@@ -27,15 +27,6 @@ declare global {
       readonly skipGraphQL?: boolean
     }
 
-    interface PubSubTopics {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      readonly [key: string]: any
-    }
-
-    interface PubSubType extends PubSub<PubSubTopics>{
-
-    }
-
     interface Context {
       // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
@@ -45,7 +36,7 @@ declare global {
       // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
       readonly token?: string
-      readonly decodedToken?: DecodedToken
+      readonly decodedToken?: Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & DecodedTokenBase
       readonly honoContext: HonoContext
     }
   }
