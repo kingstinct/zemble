@@ -34,7 +34,7 @@ export type ReadaptApp = {
 }
 
 export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure): Promise<ReadaptApp> => {
-  const context = {} as Readapt.Context
+  const context = {} as Readapt.GlobalContext
 
   const app = new Hono() as Readapt.Server
 
@@ -42,7 +42,11 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   app.get('/', (c) => c.text(`Hello ReAdapt! Serving ${packageJson.name}`))
 
-  const plugins = uniqBy(pluginsBeforeResolvingDeps.flatMap((plugin) => [...plugin.dependencies, plugin]), 'pluginName')
+  const resolved = await Promise.all(
+    pluginsBeforeResolvingDeps.flatMap(async (plugin) => [...await plugin.dependencies, plugin]),
+  ).then((plugins) => plugins.flat())
+
+  const plugins = uniqBy(resolved, 'pluginName')
 
   const middleware = plugins.filter(
     (plugin): plugin is PluginWithMiddleware => 'initializeMiddleware' in plugin,

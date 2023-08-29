@@ -452,6 +452,49 @@ importers:
         specifier: ^20.1.1
         version: registry.npmjs.org/@tsconfig/node20@20.1.1
 
+  plugins/cms:
+    dependencies:
+      '@envelop/core':
+        specifier: ^4.0.0
+        version: registry.npmjs.org/@envelop/core@4.0.0
+      '@envelop/generic-auth':
+        specifier: ^6.0.0
+        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
+      '@pothos/core':
+        specifier: ^3.33.0
+        version: registry.npmjs.org/@pothos/core@3.33.0(graphql@16.8.0)
+      '@readapt/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../graphql-yoga
+      graphql:
+        specifier: ^16.8.0
+        version: registry.npmjs.org/graphql@16.8.0
+      graphql-scalars:
+        specifier: ^1.22.2
+        version: registry.npmjs.org/graphql-scalars@1.22.2(graphql@16.8.0)
+      hono:
+        specifier: ^3.4.3
+        version: registry.npmjs.org/hono@3.4.3
+      jose:
+        specifier: ^4.14.4
+        version: registry.npmjs.org/jose@4.14.4
+      jsonwebtoken:
+        specifier: ^9.0.1
+        version: registry.npmjs.org/jsonwebtoken@9.0.1
+      readapt-plugin-kv:
+        specifier: workspace:^
+        version: link:../kv
+    devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
+      '@types/jsonwebtoken':
+        specifier: ^9.0.2
+        version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
+
   plugins/graphql-yoga:
     dependencies:
       '@graphql-tools/schema':
@@ -460,6 +503,9 @@ importers:
       '@graphql-yoga/redis-event-target':
         specifier: ^2.0.0
         version: registry.npmjs.org/@graphql-yoga/redis-event-target@2.0.0(ioredis@5.3.2)
+      '@pothos/core':
+        specifier: ^3.33.0
+        version: registry.npmjs.org/@pothos/core@3.33.0(graphql@16.8.0)
       '@readapt/core':
         specifier: workspace:^
         version: link:../../packages/core
@@ -6646,6 +6692,17 @@ packages:
       tslib: registry.npmjs.org/tslib@2.6.2
       webcrypto-core: registry.npmjs.org/webcrypto-core@1.7.7
     dev: true
+
+  registry.npmjs.org/@pothos/core@3.33.0(graphql@16.8.0):
+    resolution: {integrity: sha512-qg6LMEqFwqO9c9S6X2bXBtd2fRFnVHzPtEJMkOPuPgtOkosEpd6eGvBQP5NSzewOiIF3lXIyb5X8ncOoMvlUSw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@pothos/core/-/core-3.33.0.tgz}
+    id: registry.npmjs.org/@pothos/core/3.33.0
+    name: '@pothos/core'
+    version: 3.33.0
+    peerDependencies:
+      graphql: '>=15.1.0'
+    dependencies:
+      graphql: registry.npmjs.org/graphql@16.8.0
+    dev: false
 
   registry.npmjs.org/@react-native-async-storage/async-storage@1.18.2(react-native@0.72.3):
     resolution: {integrity: sha512-dM8AfdoeIxlh+zqgr0o5+vCTPQ0Ru1mrPzONZMsr7ufp5h+6WgNxQNza7t0r5qQ6b04AJqTlBNixTWZxqP649Q==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.18.2.tgz}

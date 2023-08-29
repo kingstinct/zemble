@@ -11,6 +11,7 @@ import handleYoga from './utils/handleYoga'
 
 import type { GraphQLMiddlewareConfig } from './plugin'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
+import type { Plugin } from '@readapt/core'
 import type { Middleware } from '@readapt/core/types'
 import type { GraphQLFormattedError } from 'graphql'
 import type {
@@ -48,10 +49,19 @@ async function gqlRequest<TQuery, TVars>(
   }
 }
 
-export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => async (
-  { app, context, plugins },
+const buildMergedSchema = async (
+  plugins: readonly Plugin[],
+  config: GraphQLMiddlewareConfig,
 ) => {
-  const selfSchemas = await processPluginSchema(process.cwd())
+  const selfSchemas: readonly GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
+    ...await processPluginSchema(process.cwd()),
+    // eslint-disable-next-line no-nested-ternary
+    ...(config.extendSchema
+      ? (typeof config.extendSchema === 'function'
+        ? await config.extendSchema()
+        : config.extendSchema)
+      : []),
+  ]
 
   const pluginsToAdd = plugins.filter(({ config }) => !config.skipGraphQL)
 
@@ -77,6 +87,12 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => async
     },
   })
 
+  return mergedSchema
+}
+
+export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
+  { app, context, plugins },
+) => {
   const pubsub = createPubSub(
     config.redisUrl,
     config.redisOptions,
@@ -90,32 +106,38 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => async
 
   context.pubsub = pubsub
 
-  app.use(config?.yoga?.graphqlEndpoint, handleYoga(
-    mergedSchema,
-    {
-      ...config.yoga,
-      graphiql: async (req, context) => {
-        const resolved = (typeof config.yoga?.graphiql === 'function' ? await config.yoga?.graphiql?.(req, context) : (config.yoga?.graphiql ?? {}))
-        return ({
-          credentials: 'include',
-          ...typeof resolved === 'boolean' ? {} : resolved,
-        })
-      },
-      context: (initialContext) => {
-        const contextWithPubSub: Readapt.GraphQLContext = {
-          ...initialContext,
-          pubsub,
-        }
+  app.use(config!.yoga!.graphqlEndpoint!, async (context) => {
+    const handler = await handleYoga(
+      async () => buildMergedSchema(plugins, config),
+      pubsub,
+      {
+        ...config.yoga,
+        graphiql: async (req, context) => {
+          const resolved = (typeof config.yoga?.graphiql === 'function'
+            ? await config.yoga?.graphiql?.(req, context)
+            : (config.yoga?.graphiql ?? {}))
+          return ({
+            credentials: 'include',
+            ...typeof resolved === 'boolean' ? {} : resolved,
+          })
+        },
+        context: (initialContext) => {
+          const contextWithPubSub: Readapt.GraphQLContext = {
+            ...initialContext,
+            pubsub,
+          }
 
-        // eslint-disable-next-line no-nested-ternary
-        return config.yoga?.context
-          ? (typeof config.yoga.context === 'function'
-            ? config.yoga.context(contextWithPubSub)
-            : { ...contextWithPubSub, ...(config.yoga.context) })
-          : contextWithPubSub
+          // eslint-disable-next-line no-nested-ternary
+          return config.yoga?.context
+            ? (typeof config.yoga.context === 'function'
+              ? config.yoga.context(contextWithPubSub)
+              : { ...contextWithPubSub, ...(config.yoga.context) })
+            : contextWithPubSub
+        },
       },
-    },
-  ))
+    )
+    return handler(context)
+  })
 }
 
 export default middleware

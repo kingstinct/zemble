@@ -1,0 +1,152 @@
+directive @oneOf on INPUT_OBJECT | FIELD_DEFINITION
+
+scalar Date
+scalar DateTime
+
+type Query {
+  entity(name: String!): Entity
+  entities: [Entity!]!
+}
+
+type Mutation {
+  createEntity(name: String!): Entity!
+  removeEntity(name: String!): Boolean!
+
+  addFieldsToEntity(entityName: String!, fields: [FieldInput!]!): Entity!
+  removeFieldsFromEntity(entityName: String!, fields: [String!]!): Entity!
+}
+
+input FieldInput @oneOf {
+  StringField: StringFieldInput
+  NumberField: NumberFieldInput
+  BooleanField: BooleanFieldInput
+  # RepeaterField: RepeaterFieldInput
+  # LinkField: LinkFieldInput
+}
+
+input StringFieldInput {
+  name: String!
+  isRequired: Boolean
+  maxLength: Int
+  minLength: Int
+  defaultValue: String
+}
+
+input NumberFieldInput {
+  name: String!
+  isRequired: Boolean
+  max: Float
+  min: Float
+  defaultValue: Float
+}
+
+input BooleanFieldInput {
+  name: String!
+  isRequired: Boolean
+  defaultValue: Boolean
+}
+
+input RepeaterFieldInput {
+  name: String!
+  availableFields: [FieldInput!]!
+  isRequired: Boolean
+  maxItems: Int
+  minItems: Int
+}
+
+input LinkFieldInput {
+  name: String!
+  entityName: String!
+  isRequired: Boolean!
+}
+
+interface Field {
+  name: String!
+  isRequired: Boolean!
+}
+
+type StringField implements Field {
+  name: String!
+  isRequired: Boolean!
+  maxLength: Int
+  minLength: Int
+  defaultValue: String
+}
+
+type IDField implements Field {
+  name: String!
+  isRequired: Boolean!
+}
+
+type NumberField implements Field {
+  name: String!
+  isRequired: Boolean!
+  max: Float
+  min: Float
+  defaultValue: Float
+}
+
+type BooleanField implements Field {
+  name: String!
+  isRequired: Boolean!
+  defaultValue: Boolean
+}
+
+# let's make these pluggable
+# type DateField implements Field {
+#
+#   name: String!
+#   isRequired: Boolean!
+#   min: Date
+#   max: Date
+# }
+
+# type DateTimeField implements Field {
+#
+#   name: String!
+#   isRequired: Boolean!
+#   min: DateTime
+#   max: DateTime
+# }
+
+# type ImageField implements Field {
+#
+#   isRequired: Boolean!
+#   name: String!
+# }
+
+# type VideoField implements Field {
+#
+#   isRequired: Boolean!
+#   name: String!
+# }
+
+# type FileField implements Field {
+#
+#   isRequired: Boolean!
+#   name: String!
+# }
+
+type RepeaterField implements Field {
+  name: String!
+  availableFields: [Field!]!
+  isRequired: Boolean!
+  maxItems: Int
+  minItems: Int
+}
+
+type LinkField implements Field {
+  name: String!
+  entityName: String!
+  entity: Entity!
+  isRequired: Boolean!
+}
+
+type Entity {
+  name: String!
+  fields: [Field!]!
+}
+
+input EntityInput {
+  name: String!
+}

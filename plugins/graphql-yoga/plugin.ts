@@ -3,9 +3,9 @@ import { PluginWithMiddleware } from '@readapt/core'
 import middleware from './middleware'
 
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
-import type { GraphQLFormattedError } from 'graphql'
+import type { GraphQLFormattedError, GraphQLSchema } from 'graphql'
 import type {
-  YogaServerOptions, YogaInitialContext, PubSub,
+  YogaServerOptions, YogaInitialContext,
 } from 'graphql-yoga'
 import type { Context as HonoContext, Hono } from 'hono'
 import type { RedisOptions } from 'ioredis'
@@ -27,16 +27,14 @@ declare global {
       readonly skipGraphQL?: boolean
     }
 
-    interface Context {
-      // eslint-disable-next-line functional/prefer-readonly-type
-      pubsub: PubSubType
-    }
-
-    interface GraphQLContext extends YogaInitialContext {
+    interface GlobalContext {
       // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
       readonly token?: string
       readonly decodedToken?: Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & DecodedTokenBase
+    }
+
+    interface GraphQLContext extends YogaInitialContext, GlobalContext {
       readonly honoContext: HonoContext
     }
   }
@@ -52,6 +50,8 @@ export interface GraphQLMiddlewareConfig extends Readapt.GlobalConfig {
    * Redis config to use for pubsub
    */
   readonly redisOptions?: RedisOptions
+
+  readonly extendSchema?: readonly GraphQLSchema[] | (() => Promise<readonly GraphQLSchema[]>)
 }
 
 const defaultConfig = {

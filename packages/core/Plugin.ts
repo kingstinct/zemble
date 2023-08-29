@@ -37,7 +37,8 @@ export class Plugin<
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
     this.#devConfig = opts?.devConfig
-    this.#dependencies = opts?.dependencies as DependenciesResolver<Plugin<Readapt.GlobalConfig>> || []
+    // @ts-expect-error not the most important
+    this.#dependencies = opts?.dependencies ?? []
 
     if (this.#isPluginDevMode) {
       void this.#createApp().then((app) => app.start())
@@ -65,12 +66,9 @@ export class Plugin<
   }
 
   configure(config?: TConfig & Readapt.GlobalConfig) {
-    console.log(`ABOUT TO CONFIGURE ${this.pluginName}`, this.#config)
-    console.log(`MERGIN IN ${this.pluginName}`, config)
     // eslint-disable-next-line functional/immutable-data
     this.#config = mergeDeep(this.#config as Record<string, unknown>, (config ?? {}) as Record<string, unknown>) as TResolvedConfig
 
-    console.log(`POSTCONFIG ${this.pluginName}`, this.#config)
     return this
   }
 
@@ -79,19 +77,24 @@ export class Plugin<
   }
 
   get dependencies() {
-    const allDeps = (typeof this.#dependencies === 'function') ? this.#dependencies(this) : this.#dependencies
+    const allDeps = Promise.resolve((typeof this.#dependencies === 'function') ? this.#dependencies(this) : this.#dependencies)
 
-    const filteredDeps = allDeps.filter(this.#filterDevDependencies.bind(this))
+    return allDeps.then(async (allDeps) => {
+      const filteredDeps = allDeps.filter(this.#filterDevDependencies.bind(this))
 
-    const resolvedDeps: readonly Plugin[] = filteredDeps.map(({ plugin, config }) => plugin.configure(config)).flatMap((dep) => [dep, ...dep.dependencies])
+      const resolvedDeps: Promise<readonly Plugin[]> = Promise.all(filteredDeps
+        .map(({ plugin, config }) => plugin.configure(config))
+        .flatMap(async (dep) => [dep, ...await dep.dependencies]))
+        .then((deps) => deps.flat())
 
-    return resolvedDeps
+      return resolvedDeps
+    })
   }
 
   async #createApp(): Promise<ReadaptApp> {
     return createApp({
       plugins: [
-        ...this.dependencies,
+        ...await this.dependencies,
         this.configure(this.#devConfig),
       ] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
     })

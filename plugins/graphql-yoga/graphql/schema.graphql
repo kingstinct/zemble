@@ -8,6 +8,6 @@ type Mutation {
 
 type Subscription {
   countdown(from: Int!): Int!
-  tick: Int!
+  tick: Float!
   randomNumber: Int!
 }

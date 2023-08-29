@@ -2,7 +2,7 @@
 
 import type { Plugin, PluginWithMiddleware } from '.'
 import type { PubSub } from 'graphql-yoga'
-import type { Hono } from 'hono'
+import type { Hono, Context as HonoContext } from 'hono'
 
 declare global {
   namespace Readapt {
@@ -14,7 +14,11 @@ declare global {
 
     }
 
-    interface Context {
+    interface GlobalContext {
+
+    }
+
+    interface RequestContext extends GlobalContext, HonoContext {
 
     }
 
@@ -45,7 +49,7 @@ export type Dependency<TConfig extends Readapt.GlobalConfig = Readapt.GlobalConf
   readonly devOnly?: boolean, // decides if we should warn if this plugin is not used in production
 }
 
-export type DependenciesResolver<TSelf> = readonly Dependency[] | ((self: TSelf) => readonly Dependency[])
+export type DependenciesResolver<TSelf> = readonly Dependency[] | Promise<readonly Dependency[]> | ((self: TSelf) => readonly Dependency[]) | ((self: TSelf) => Promise<readonly Dependency[]>)
 
 export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf, TConfig extends Readapt.GlobalConfig> = {
   /**
@@ -57,7 +61,7 @@ export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf, TConf
    * example a specific implementation of authentication when you don't have a strict dependency on which auth module
    * is used)
    */
-  readonly dependencies?: DependenciesResolver<TSelf>,
+  readonly dependencies?: DependenciesResolver<TSelf>
 
   readonly devConfig?: TConfig,
 }
@@ -66,7 +70,7 @@ export type ConfiguredMiddleware = (
   opts: {
     readonly plugins: readonly Plugin<Readapt.GlobalConfig>[],
     readonly app: Readapt.Server,
-    readonly context: Readapt.Context
+    readonly context: Readapt.GlobalContext
   }
 ) => Promise<void> | void
 

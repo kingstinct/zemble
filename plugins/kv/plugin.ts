@@ -45,7 +45,7 @@ declare global {
   }
 }
 
-export function kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes>(prefix: K): IKeyValue<T> {
+export function kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K): IKeyValue<T> {
   const prefixStr = prefix.toString()
   if (config.implementation === 'cloudflare' || config.cloudflareNamespace) {
     console.log('initing cloudflare kv')
