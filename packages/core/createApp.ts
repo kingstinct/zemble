@@ -33,6 +33,16 @@ export type ReadaptApp = {
   readonly start: () => Readapt.Server
 }
 
+const logFilter = (log: string) => (log.includes('BEGIN PRIVATE KEY') || log.includes('BEGIN PUBLIC KEY') ? '<<KEY>>' : log)
+
+const filterConfig = (config: Record<string, unknown>) => Object.keys(config).reduce((prev, key) => {
+  const value = config[key as keyof typeof config]
+  return {
+    ...prev,
+    [key]: typeof value === 'string' ? logFilter(value) : value,
+  }
+}, {})
+
 export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure): Promise<ReadaptApp> => {
   const context = {} as Readapt.GlobalContext
 
@@ -55,7 +65,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   console.log(`Initializing ${packageJson.name} with ${plugins.length} plugins whereof ${middleware.length} contains middleware`)
 
   plugins.forEach((plugin) => {
-    console.log(`Loading ${plugin.pluginName} with config: ${JSON.stringify(plugin.config, null, 2)}`)
+    console.log(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
   })
 
   await middleware?.reduce(async (

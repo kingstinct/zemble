@@ -23,11 +23,15 @@ const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
 
   const entry = await loginRequestKeyValue.get(email.toLowerCase())
 
-  if (entry.twoFactorCode !== code) {
+  if (!entry) {
+    return { __typename: 'CodeNotValidError', message: 'Must loginRequest code first, it might have expired' }
+  }
+
+  if (entry?.twoFactorCode !== code) {
     return { __typename: 'CodeNotValidError', message: 'Code not valid' }
   }
 
-  const accessToken = signJwt({ data: await plugin.config.handleAuthSuccess(email), expiresInSeconds: plugin.config.tokenExpiryInSeconds })
+  const accessToken = signJwt({ data: await plugin.config.generateTokenContents(email), expiresInSeconds: plugin.config.tokenExpiryInSeconds })
 
   if (Auth.config.cookies.isEnabled) {
     setCookie(honoContext, Auth.config.cookies.name, accessToken, Auth.config.cookies.opts())

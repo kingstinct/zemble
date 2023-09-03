@@ -78,6 +78,40 @@ importers:
         specifier: ^14.0.1
         version: registry.npmjs.org/lint-staged@14.0.1
 
+  apps/supplement-stack:
+    dependencies:
+      '@envelop/generic-auth':
+        specifier: ^6.0.0
+        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
+      '@readapt/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../../plugins/graphql-yoga
+      readapt-plugin-apple-app-site-association:
+        specifier: workspace:*
+        version: link:../../plugins/apple-app-site-association
+      readapt-plugin-auth-anonymous:
+        specifier: workspace:*
+        version: link:../../plugins/auth-anonymous
+      readapt-plugin-bull:
+        specifier: workspace:^
+        version: link:../../plugins/bull
+      readapt-plugin-todo:
+        specifier: workspace:*
+        version: link:../../plugins/todo
+    devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
+      ts-node-dev:
+        specifier: ^2.0.0
+        version: registry.npmjs.org/ts-node-dev@2.0.0(@types/node@20.5.1)(typescript@5.1.6)
+      typescript:
+        specifier: ^5.1.6
+        version: registry.npmjs.org/typescript@5.1.6
+
   apps/todo-app-with-auth:
     dependencies:
       '@expo/webpack-config':
@@ -401,6 +435,9 @@ importers:
       readapt-plugin-auth:
         specifier: workspace:^
         version: link:../auth
+      readapt-plugin-kv:
+        specifier: workspace:^
+        version: link:../kv
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.1
@@ -460,9 +497,6 @@ importers:
       '@envelop/generic-auth':
         specifier: ^6.0.0
         version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
-      '@pothos/core':
-        specifier: ^3.33.0
-        version: registry.npmjs.org/@pothos/core@3.33.0(graphql@16.8.0)
       '@readapt/core':
         specifier: workspace:^
         version: link:../../packages/core
@@ -503,9 +537,6 @@ importers:
       '@graphql-yoga/redis-event-target':
         specifier: ^2.0.0
         version: registry.npmjs.org/@graphql-yoga/redis-event-target@2.0.0(ioredis@5.3.2)
-      '@pothos/core':
-        specifier: ^3.33.0
-        version: registry.npmjs.org/@pothos/core@3.33.0(graphql@16.8.0)
       '@readapt/core':
         specifier: workspace:^
         version: link:../../packages/core
@@ -6692,17 +6723,6 @@ packages:
       tslib: registry.npmjs.org/tslib@2.6.2
       webcrypto-core: registry.npmjs.org/webcrypto-core@1.7.7
     dev: true
-
-  registry.npmjs.org/@pothos/core@3.33.0(graphql@16.8.0):
-    resolution: {integrity: sha512-qg6LMEqFwqO9c9S6X2bXBtd2fRFnVHzPtEJMkOPuPgtOkosEpd6eGvBQP5NSzewOiIF3lXIyb5X8ncOoMvlUSw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@pothos/core/-/core-3.33.0.tgz}
-    id: registry.npmjs.org/@pothos/core/3.33.0
-    name: '@pothos/core'
-    version: 3.33.0
-    peerDependencies:
-      graphql: '>=15.1.0'
-    dependencies:
-      graphql: registry.npmjs.org/graphql@16.8.0
-    dev: false
 
   registry.npmjs.org/@react-native-async-storage/async-storage@1.18.2(react-native@0.72.3):
     resolution: {integrity: sha512-dM8AfdoeIxlh+zqgr0o5+vCTPQ0Ru1mrPzONZMsr7ufp5h+6WgNxQNza7t0r5qQ6b04AJqTlBNixTWZxqP649Q==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.18.2.tgz}

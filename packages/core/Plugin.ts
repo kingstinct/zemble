@@ -92,10 +92,11 @@ export class Plugin<
   }
 
   async #createApp(): Promise<ReadaptApp> {
+    const resolved = this.configure(this.#devConfig)
     return createApp({
       plugins: [
         ...await this.dependencies,
-        this.configure(this.#devConfig),
+        resolved,
       ] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
     })
   }

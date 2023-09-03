@@ -21,7 +21,8 @@
     "@whatwg-node/server-plugin-cookies": "^1.0.2",
     "graphql": "^16.8.0",
     "jsonwebtoken": "^9.0.1",
-    "readapt-plugin-auth": "workspace:^"
+    "readapt-plugin-auth": "workspace:^",
+    "readapt-plugin-kv": "workspace:^"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

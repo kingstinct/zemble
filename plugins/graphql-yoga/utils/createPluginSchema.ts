@@ -9,18 +9,12 @@ export const createPluginSchema = async (graphqlDir: string) => {
 
   const Query = await readResolvers(join(graphqlDir, '/Query'))
 
-  console.log('QUERY', Query)
-
   const Mutation = await readResolvers(join(graphqlDir, '/Mutation'))
   const Subscription = await readResolvers(join(graphqlDir, '/Subscription'))
 
   const Type = await readResolvers(join(graphqlDir, '/Type'))
 
-  console.log('TYPE', Type)
-
   const Scalars = await readResolvers(join(graphqlDir, '/Scalar'))
-
-  console.log('SCALAR', Scalars)
 
   const schema = createSchema<Readapt.GraphQLContext>({
     typeDefs,

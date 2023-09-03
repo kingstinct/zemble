@@ -26,7 +26,7 @@ const loginRequest: MutationResolvers['loginRequest'] = async (_, {
 
   if (existing?.loginRequestedAt) {
     const { loginRequestedAt } = existing,
-          timeUntilAllowedToSendAnother = loginRequestedAt.valueOf() + (config.minTimeBetweenTwoFactorCodeRequestsInSeconds * 1000) - Date.now()
+          timeUntilAllowedToSendAnother = new Date(loginRequestedAt).valueOf() + (config.minTimeBetweenTwoFactorCodeRequestsInSeconds * 1000) - Date.now()
 
     if (timeUntilAllowedToSendAnother > 0) {
       return {
@@ -39,7 +39,7 @@ const loginRequest: MutationResolvers['loginRequest'] = async (_, {
   const twoFactorCode = getTwoFactorCode()
 
   await loginRequestKeyValue.set(email.toLowerCase(), {
-    loginRequestedAt: new Date(),
+    loginRequestedAt: new Date().toISOString(),
     twoFactorCode,
   }, config.twoFactorCodeExpiryInSeconds)
 

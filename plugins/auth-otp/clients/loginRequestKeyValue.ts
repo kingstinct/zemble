@@ -1,3 +1,3 @@
-import RedisKeyValue from '../utils/RedisKeyValue'
+import { kv } from 'readapt-plugin-kv'
 
-export const loginRequestKeyValue = new RedisKeyValue<{ readonly loginRequestedAt: Date, readonly twoFactorCode: string }>('loginRequests')
+export const loginRequestKeyValue = kv<{ readonly loginRequestedAt: string, readonly twoFactorCode: string }>('loginRequests')
