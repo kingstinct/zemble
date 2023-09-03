@@ -1,0 +1,312 @@
+scalar ObjectId
+scalar DateTime
+
+enum UnitInternal {
+    # glucose-related
+    MILLIMOL_PER_LITER
+    MILLIMOL_PER_MOL
+
+    KILOCALORIE
+
+    CELSIUS
+
+    MILLIMETER
+
+    MILLISECOND
+
+    INTERNATIONAL_UNIT
+
+    GRAM
+
+    COUNT
+    PERCENT
+
+    COUNT_PER_MINUTE # heartbeats per minute for example
+
+    MILLILITRE_PER_KILOGRAM_PER_MINUTE # vo2max
+
+    MILLILITER
+
+    METER_PER_SECOND
+
+    DECIBEL_SOUND_PRESSURE_LEVEL #dBASPL
+
+    MILLIMETRE_OF_MERCURY # mmHg (blood pressure etc)
+}
+
+enum QuantityType {
+    SUBJECTIVE_CARB_AMOUNT
+    SUBJECTIVE_MEAL_SIZE
+    SUBJECTIVE_WORKOUT_PERFORMANCE
+    SUBJECTIVE_SLEEP_QUALITY
+    SUBJECTIVE_ENERGY_LEVEL
+    SUBJECTIVE_MOOD_LEVEL
+    SUBJECTIVE_STRESS_LEVEL
+
+    screenTime
+
+    bodyMassIndex
+    bodyFatPercentage
+    height
+    bodyMass
+    leanBodyMass
+
+    waistCircumference
+
+    # Fitness
+    stepCount
+    distanceWalkingRunning
+    distanceCycling
+    distanceWheelchair
+    basalEnergyBurned
+    activeEnergyBurned
+    flightsClimbed
+    nikeFuel
+    appleExerciseTime
+    pushCount
+    distanceSwimming
+    swimmingStrokeCount
+    vo2Max
+    distanceDownhillSnowSports
+
+    appleStandTime
+    # Vitals
+    heartRate
+    bodyTemperature
+    basalBodyTemperature
+    bloodPressureSystolic
+    bloodPressureDiastolic
+    respiratoryRate
+    # Beats per minute estimate of a user's lowest heart rate while at rest
+    restingHeartRate
+    # Average heartbeats per minute captured by an Apple Watch while a user is walking
+    walkingHeartRateAverage
+    # The standard deviation of heart beat-to-beat intevals (Standard Deviation of Normal to Normal)
+
+    heartRateVariabilitySDNN
+    # Results
+    oxygenSaturation
+    peripheralPerfusionIndex
+    bloodGlucose
+    numberOfTimesFallen
+    electrodermalActivity
+    inhalerUsage
+    insulinDeliveryBasal
+    insulinDeliveryBolus
+    bloodAlcoholContent
+    forcedVitalCapacity
+    forcedExpiratoryVolume1
+    peakExpiratoryFlowRate
+    environmentalAudioExposure
+
+    headphoneAudioExposure
+    # Nutrition
+    dietaryFatTotal
+    dietaryFatPolyunsaturated
+    dietaryFatMonounsaturated
+    dietaryFatSaturated
+    dietaryCholesterol
+    dietarySodium
+    dietaryCarbohydrates
+    dietaryFiber
+    dietarySugar
+    dietaryEnergyConsumed
+    dietaryProtein
+
+    dietaryVitaminA
+    dietaryVitaminB6
+    dietaryVitaminB12
+    dietaryVitaminC
+    dietaryVitaminD
+    dietaryVitaminE
+    dietaryVitaminK
+    dietaryCalcium
+    dietaryIron
+    dietaryThiamin
+    dietaryRiboflavin
+    dietaryNiacin
+    dietaryFolate
+    dietaryBiotin
+    dietaryPantothenicAcid
+    dietaryPhosphorus
+    dietaryIodine
+    dietaryMagnesium
+    dietaryZinc
+    dietarySelenium
+    dietaryCopper
+    dietaryManganese
+    dietaryChromium
+    dietaryMolybdenum
+    dietaryChloride
+    dietaryPotassium
+    dietaryCaffeine
+    dietaryWater
+
+    uvExposure
+
+    stairAscentSpeed
+    stairDescentSpeed
+
+    appleWalkingSteadiness
+    appleMoveTime
+
+    numberOfAlcoholicBeverages
+
+    walkingStepLength
+    walkingSpeed
+
+    sixMinuteWalkTestDistance
+
+    walkingAsymmetryPercentage
+    walkingDoubleSupportPercentage
+
+    timeAsleep
+
+    atrialFibrillationBurden
+    timeInDaylight
+    heartRateRecoveryOneMinute
+
+    appleSleepingWristTemperature
+    cyclingCadence
+    cyclingFunctionalThresholdPower
+    cyclingPower
+    cyclingSpeed
+    environmentalSoundReduction
+    physicalEffort
+    underwaterDepth
+    waterTemperature
+}
+
+type NutrientQuantity {
+    amountInGrams: Float!
+    nutrient: QuantityType!
+}
+
+enum ServingSizeType {
+    STANDARD
+}
+
+type ServingSize {
+    amountInGrams: Float!
+    type: ServingSizeType!
+}
+
+input ServingSizeInput {
+    amountInGrams: Float!
+    type: ServingSizeType!
+}
+
+type Image {
+  url: String!
+}
+
+interface Eatable {
+    nutrientsPer100g: [NutrientQuantity!]!
+
+    _id: ObjectId!
+    title: String! # could be anything - might not be wellformed ("breakfast", "kellogs cornflakes", "the usual", "Pizza with extra cheese", etc)
+    images: [Image!]! # a picture to remember it
+
+    servingSizes: [ServingSize!]!
+
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Ingredient implements Eatable {
+    _id: ObjectId!
+    title: String! # could be anything - might not be wellformed ("breakfast", "kellogs cornflakes", "the usual", "Pizza with extra cheese", etc)
+    images: [Image!]! # a picture to remember it
+
+    # directly related nutrients
+    nutrientsPer100g: [NutrientQuantity!]!
+
+    servingSizes: [ServingSize!]!
+
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+# global recursive food object - can be personal, shared. can represent a meal, a recipe, a product etc
+type Food implements Eatable {
+    _id: ObjectId!
+    title: String! # could be anything - might not be wellformed ("breakfast", "kellogs cornflakes", "the usual", "Pizza with extra cheese", etc)
+    images: [Image!]! # a picture to remember it
+
+    nutrientsPer100g: [NutrientQuantity!]!
+
+    # could in turn contain other foods (this could be a recipe for example)
+    ingredients: [EatableProportion!]!
+
+    servingSizes: [ServingSize!]!
+
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type EatableProportion {
+    proportion: Float! # 0.5 means 50% of the food
+    eatable: Eatable!
+    eatableId: ObjectId!
+}
+
+input EatableProportionInput {
+    proportion: Float! # 0.5 means 50% of the food
+    eatableId: ObjectId!
+}
+
+enum IntakeTime {
+  WAKEUP
+  BREAKFAST
+  LUNCH
+  DINNER
+  BEDTIME
+}
+
+type SupplementIntake {
+  _id: ObjectId!
+  foodId: ObjectId!
+  food: Food!
+  amountInGrams: Float! # usually standard serving size
+  intakeTime: IntakeTime!
+}
+
+input NutrientQuantityInput {
+  nutrient: QuantityType!
+  amountInGrams: Float!
+}
+
+type User {
+  _id: ObjectId!
+  email: String!
+}
+
+type Query {
+  searchEatables(query: String!): [Eatable!]!
+  mySupplementIntakes: [SupplementIntake!]!
+}
+
+type Mutation {
+  addSupplement(
+    supplementId: ObjectId
+    foodId: ObjectId!
+    amountInGrams: Float! # usually standard serving size
+    intakeTime: IntakeTime!
+  ): SupplementIntake!
+
+  addFood(
+    foodId: ObjectId
+    title: String!
+    imageUrls: [String!]
+    ingredients: [EatableProportionInput!]
+    servingSizes: [ServingSizeInput!]
+  ): Food!
+
+  addIngredient(
+    ingredientId: ObjectId
+    title: String!
+    imageUrls: [String!]
+    nutrientsPer100g: [NutrientQuantityInput!]
+    servingSizes: [ServingSizeInput!]
+  ): Ingredient! @skipAuth
+}

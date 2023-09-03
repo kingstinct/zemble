@@ -9,6 +9,7 @@ const config = {
         useIndexSignature: true,
         contextType: 'Readapt.GraphQLContext',
         immutableTypes: true,
+        directiveContextTypes: ['skipAuth#Readapt.NoAuth'],
       },
       plugins: ['typescript', 'typescript-resolvers'],
     },

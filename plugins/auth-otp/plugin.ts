@@ -14,20 +14,38 @@ interface OtpAuthConfig extends Readapt.GlobalConfig {
    * Use this to handle the request for a two factor code, usually by sending an email with the code.
    */
   readonly handleAuthRequest: (email: string, twoFactorCode: string) => Promise<void> | void
-  readonly generateTokenContents: <TTokenContents extends Record<string, unknown>>(email: string) => Promise<TTokenContents> | TTokenContents
+  readonly generateTokenContents: (email: string) => Promise<Readapt.OtpToken> | Readapt.OtpToken
+}
+
+interface DefaultOtpToken {
+  readonly type: 'AuthOtp',
+  readonly email: string,
+}
+
+declare global {
+  namespace Readapt {
+    interface OtpToken extends DefaultOtpToken {
+
+    }
+
+    interface TokenRegistry {
+      readonly AuthOtp: OtpToken
+    }
+  }
+}
+
+function generateTokenContents(email: string): Readapt.OtpToken {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore - this is a default implementation
+  return { email, type: 'AuthOtp' as const }
 }
 
 const defaultConfig = {
   tokenExpiryInSeconds: undefined,
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
+  generateTokenContents,
 } satisfies Partial<OtpAuthConfig>
-
-async function generateTokenContents<TTokenContents extends Record<string, unknown>>(email: string) {
-  console.log('handleAuthSuccess', email)
-
-  return {} as TTokenContents
-}
 
 const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(__dirname, {
   dependencies: ({ config }) => [

@@ -11,6 +11,12 @@
       "@typescript-eslint/no-shadow": 1
   },
   "overrides": [
+        {
+            "files": ["*.graphql"],
+            "rules": {
+                "comment-length/limit-single-line-comments": 0
+            }
+        },
       {
           "files": ["*.ts", "*.tsx"],
           "rules": {

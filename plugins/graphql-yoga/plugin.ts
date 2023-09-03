@@ -30,13 +30,15 @@ declare global {
     interface GlobalContext {
       // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
-      readonly token?: string
-      readonly decodedToken?: Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & DecodedTokenBase
     }
 
     interface GraphQLContext extends YogaInitialContext, GlobalContext {
+      readonly token: string
+      readonly decodedToken: Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & DecodedTokenBase
       readonly honoContext: HonoContext
     }
+
+    type NoAuth<T> = Omit<T, 'token' | 'decodedToken'>
   }
 }
 
@@ -57,6 +59,9 @@ export interface GraphQLMiddlewareConfig extends Readapt.GlobalConfig {
 const defaultConfig = {
   yoga: {
     graphqlEndpoint: '/graphql',
+    maskedErrors: {
+      isDev: process.env.NODE_ENV === 'development',
+    },
   },
   redisUrl: process.env.REDIS_URL,
 } satisfies GraphQLMiddlewareConfig
