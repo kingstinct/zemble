@@ -64,3 +64,11 @@ InMemory
 Redis
 Cloudflare
 MongoDB ?
+
+
+Plugin philosophy:
+Försöka köra ett plugin per implementation (alltså en KV som har separata dependencies på redis etc). Utmaningen är att streamlinea interface? Så att vi så enkelt som möjligt för både plugin-utvecklare och plugin-användare kan återanvända samma interface oavsett implementation. Kanske erbjuda ett antal standard-interface i core (för KV, pubsub etc)?
+
+
+CMS-plugin:
+Gör så att det är lätt att extenda åt "båda hållen". Har vi en entitet (Recipe) så vore det coolt att kunna hantera det dynamiskt på CMS-nivå - men lägga till resolvers som extendar funktionaliteten.

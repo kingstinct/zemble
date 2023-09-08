@@ -50,7 +50,18 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   app.use('*', cors())
 
-  app.get('/', (c) => c.text(`Hello ReAdapt! Serving ${packageJson.name}`))
+  app.get('/', (c) => c.html(`<html>
+    <head>
+      <title>${packageJson.name}</title>
+      <meta name="color-scheme" content="light dark">
+    </head>
+    <body>
+      <div>
+        <p>Hello ReAdapt! Serving ${packageJson.name}</p>
+        <p><a href='/graphql'>Check out your GraphQL API here</a></p>
+      </div>
+    </body>
+  </html>`))
 
   const resolved = await Promise.all(
     pluginsBeforeResolvingDeps.flatMap(async (plugin) => [...await plugin.dependencies, plugin]),
