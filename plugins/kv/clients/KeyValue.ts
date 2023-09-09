@@ -1,13 +1,13 @@
 /* eslint-disable functional/prefer-readonly-type */
 /* eslint-disable @typescript-eslint/require-await */
 
-import IKeyValue from './IKeyValue'
+import { IStandardKeyValueService } from '@readapt/core'
 
 const inMemoryMaps: Record<string, Map<string, unknown>> = {
 
 }
 
-class KeyValue<T> extends IKeyValue<T> {
+class KeyValue<T> extends IStandardKeyValueService<T> {
   keys(): readonly string[] {
     return Array.from(this.internalMap.keys())
   }

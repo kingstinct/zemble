@@ -1,8 +1,8 @@
-import IKeyValue from './IKeyValue'
+import { IStandardKeyValueService } from '@readapt/core'
 
 import type { KVNamespace } from '@cloudflare/workers-types'
 
-class CloudflareKeyValue<T> extends IKeyValue<T> {
+class CloudflareKeyValue<T> extends IStandardKeyValueService<T> {
   async keys() {
     const all = await this.namespace.list({ prefix: this.prefix })
     return all.keys.map((key) => key.name)

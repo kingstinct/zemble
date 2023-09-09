@@ -17,13 +17,13 @@ export type Scalars = {
 };
 
 export type GenerateApiKeyResponse = {
-  __typename?: 'GenerateAPIKeyResponse';
-  apiKey: Scalars['String']['output'];
+  readonly __typename?: 'GenerateAPIKeyResponse';
+  readonly apiKey: Scalars['String']['output'];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  generateAPIKey: GenerateApiKeyResponse;
+  readonly __typename?: 'Mutation';
+  readonly generateAPIKey: GenerateApiKeyResponse;
 };
 
 
@@ -33,8 +33,8 @@ export type MutationGenerateApiKeyArgs = {
 };
 
 export type Query = {
-  __typename?: 'Query';
-  validateAPIKey: Scalars['Boolean']['output'];
+  readonly __typename?: 'Query';
+  readonly validateAPIKey: Scalars['Boolean']['output'];
 };
 
 
@@ -132,6 +132,10 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
 }>;
 
+export type ApiAuthDirectiveArgs = { };
+
+export type ApiAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = ApiAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type GenerateApiKeyResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['GenerateAPIKeyResponse'] = ResolversParentTypes['GenerateAPIKeyResponse']> = ResolversObject<{
   apiKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -151,3 +155,6 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
 }>;
 
+export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+  apiAuth?: ApiAuthDirectiveResolver<any, any, ContextType>;
+}>;

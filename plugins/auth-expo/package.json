@@ -10,7 +10,6 @@
     "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

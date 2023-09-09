@@ -18,13 +18,13 @@ export type Scalars = {
 };
 
 export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  token: Scalars['String']['output'];
+  readonly __typename?: 'LoginResponse';
+  readonly token: Scalars['String']['output'];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  login: LoginResponse;
+  readonly __typename?: 'Mutation';
+  readonly login: LoginResponse;
 };
 
 
@@ -33,14 +33,14 @@ export type MutationLoginArgs = {
 };
 
 export type Query = {
-  __typename?: 'Query';
-  me: User;
+  readonly __typename?: 'Query';
+  readonly me: User;
 };
 
 export type User = {
-  __typename?: 'User';
-  userId: Scalars['ID']['output'];
-  username: Scalars['String']['output'];
+  readonly __typename?: 'User';
+  readonly userId: Scalars['ID']['output'];
+  readonly username: Scalars['String']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -140,12 +140,12 @@ export type SkipAuthDirectiveArgs = { };
 export type SkipAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = SkipAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type LoginResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, Readapt.NoAuth<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  login?: Resolver<ResolversTypes['LoginResponse'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'username'>>;
+  login?: Resolver<ResolversTypes['LoginResponse'], ParentType, Readapt.NoAuth<ContextType>, RequireFields<MutationLoginArgs, 'username'>>;
 }>;
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{

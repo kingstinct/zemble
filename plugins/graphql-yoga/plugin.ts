@@ -66,4 +66,8 @@ const defaultConfig = {
   redisUrl: process.env.REDIS_URL,
 } satisfies GraphQLMiddlewareConfig
 
-export default new PluginWithMiddleware<GraphQLMiddlewareConfig>(__dirname, middleware, { defaultConfig })
+export default new PluginWithMiddleware<GraphQLMiddlewareConfig>(
+  __dirname,
+  middleware,
+  { defaultConfig },
+)

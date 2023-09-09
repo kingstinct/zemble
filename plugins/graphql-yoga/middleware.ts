@@ -106,6 +106,8 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
 
   context.pubsub = pubsub
 
+  const globalContext = context
+
   app.use(config!.yoga!.graphqlEndpoint!, async (context) => {
     const handler = await handleYoga(
       async () => buildMergedSchema(plugins, config),
@@ -121,19 +123,13 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
             ...typeof resolved === 'boolean' ? {} : resolved,
           })
         },
-        context: (initialContext) => {
-          const contextWithPubSub: Readapt.GraphQLContext = {
-            ...initialContext,
-            pubsub,
-          }
-
-          // eslint-disable-next-line no-nested-ternary
-          return config.yoga?.context
-            ? (typeof config.yoga.context === 'function'
-              ? config.yoga.context(contextWithPubSub)
-              : { ...contextWithPubSub, ...(config.yoga.context) })
-            : contextWithPubSub
-        },
+        // eslint-disable-next-line no-nested-ternary
+        context: () => (config.yoga?.context
+          ? (typeof config.yoga.context === 'function'
+            ? config.yoga.context(globalContext)
+            : { ...globalContext, ...(config.yoga.context) })
+          : globalContext)
+        ,
       },
     )
     return handler(context)

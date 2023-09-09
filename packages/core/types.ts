@@ -4,6 +4,39 @@ import type { Plugin, PluginWithMiddleware } from '.'
 import type { PubSub } from 'graphql-yoga'
 import type { Hono, Context as HonoContext } from 'hono'
 
+export interface IEmail {
+  readonly email: string
+  readonly name?: string
+}
+
+export type IStandardSendEmailService = (options: {
+  readonly to: readonly IEmail[] | IEmail | string | readonly string[],
+  readonly html?: string,
+  readonly text: string,
+  readonly subject: string,
+  readonly from: IEmail | string,
+}) => Promise<boolean>
+
+export abstract class IStandardKeyValueService<T = unknown> {
+  abstract set(key: string, value: T, expireAfterSeconds?: number): Promise<void> | void
+
+  abstract get(key: string): Promise<T | null> | T | null
+
+  abstract has(key: string): Promise<boolean> | boolean
+
+  abstract delete(key: string): Promise<void> | void
+
+  abstract size(): Promise<number> | number
+
+  abstract clear(): Promise<void> | void
+
+  abstract keys(): Promise<readonly string[]> | readonly string[]
+
+  abstract values(): Promise<ReadonlyArray<T>> | ReadonlyArray<T>
+
+  abstract entries(): Promise<readonly (readonly [string, T])[]> | readonly (readonly [string, T])[]
+}
+
 declare global {
   namespace Readapt {
     interface Server extends Hono {
@@ -15,7 +48,6 @@ declare global {
     }
 
     interface GlobalContext {
-
     }
 
     interface RequestContext extends GlobalContext, HonoContext {

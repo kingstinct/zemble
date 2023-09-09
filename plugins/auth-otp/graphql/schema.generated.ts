@@ -18,47 +18,47 @@ export type Scalars = {
 };
 
 export type CodeNotValidError = Error & {
-  __typename?: 'CodeNotValidError';
-  message: Scalars['String']['output'];
+  readonly __typename?: 'CodeNotValidError';
+  readonly message: Scalars['String']['output'];
 };
 
 export type EmailNotValidError = Error & {
-  __typename?: 'EmailNotValidError';
-  message: Scalars['String']['output'];
+  readonly __typename?: 'EmailNotValidError';
+  readonly message: Scalars['String']['output'];
 };
 
 export type Error = {
-  message: Scalars['String']['output'];
+  readonly message: Scalars['String']['output'];
 };
 
 export type LoginConfirmResponse = CodeNotValidError | EmailNotValidError | LoginConfirmSuccessfulResponse | LoginFailedError;
 
 export type LoginConfirmSuccessfulResponse = {
-  __typename?: 'LoginConfirmSuccessfulResponse';
-  accessToken: Scalars['String']['output'];
+  readonly __typename?: 'LoginConfirmSuccessfulResponse';
+  readonly accessToken: Scalars['String']['output'];
 };
 
 export type LoginFailedError = Error & {
-  __typename?: 'LoginFailedError';
-  message: Scalars['String']['output'];
+  readonly __typename?: 'LoginFailedError';
+  readonly message: Scalars['String']['output'];
 };
 
 export type LoginRequestResponse = EmailNotValidError | LoginRequestSuccessResponse;
 
 export type LoginRequestSuccessResponse = {
-  __typename?: 'LoginRequestSuccessResponse';
-  success: Scalars['Boolean']['output'];
+  readonly __typename?: 'LoginRequestSuccessResponse';
+  readonly success: Scalars['Boolean']['output'];
 };
 
 export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  token: Scalars['String']['output'];
+  readonly __typename?: 'LoginResponse';
+  readonly token: Scalars['String']['output'];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  loginConfirm: LoginConfirmResponse;
-  loginRequest: LoginRequestResponse;
+  readonly __typename?: 'Mutation';
+  readonly loginConfirm: LoginConfirmResponse;
+  readonly loginRequest: LoginRequestResponse;
 };
 
 
@@ -188,18 +188,18 @@ export type SkipAuthDirectiveArgs = { };
 export type SkipAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = SkipAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type CodeNotValidErrorResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['CodeNotValidError'] = ResolversParentTypes['CodeNotValidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Readapt.NoAuth<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type EmailNotValidErrorResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['EmailNotValidError'] = ResolversParentTypes['EmailNotValidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Readapt.NoAuth<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ErrorResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
   __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginFailedError', ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Readapt.NoAuth<ContextType>>;
 }>;
 
 export type LoginConfirmResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginConfirmResponse'] = ResolversParentTypes['LoginConfirmResponse']> = ResolversObject<{
@@ -207,12 +207,12 @@ export type LoginConfirmResponseResolvers<ContextType = Readapt.GraphQLContext, 
 }>;
 
 export type LoginConfirmSuccessfulResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginConfirmSuccessfulResponse'] = ResolversParentTypes['LoginConfirmSuccessfulResponse']> = ResolversObject<{
-  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  accessToken?: Resolver<ResolversTypes['String'], ParentType, Readapt.NoAuth<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type LoginFailedErrorResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginFailedError'] = ResolversParentTypes['LoginFailedError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Readapt.NoAuth<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -221,18 +221,18 @@ export type LoginRequestResponseResolvers<ContextType = Readapt.GraphQLContext, 
 }>;
 
 export type LoginRequestSuccessResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginRequestSuccessResponse'] = ResolversParentTypes['LoginRequestSuccessResponse']> = ResolversObject<{
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.NoAuth<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type LoginResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, Readapt.NoAuth<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  loginConfirm?: Resolver<ResolversTypes['LoginConfirmResponse'], ParentType, ContextType, RequireFields<MutationLoginConfirmArgs, 'code' | 'email'>>;
-  loginRequest?: Resolver<ResolversTypes['LoginRequestResponse'], ParentType, ContextType, RequireFields<MutationLoginRequestArgs, 'email'>>;
+  loginConfirm?: Resolver<ResolversTypes['LoginConfirmResponse'], ParentType, Readapt.NoAuth<ContextType>, RequireFields<MutationLoginConfirmArgs, 'code' | 'email'>>;
+  loginRequest?: Resolver<ResolversTypes['LoginRequestResponse'], ParentType, Readapt.NoAuth<ContextType>, RequireFields<MutationLoginRequestArgs, 'email'>>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{

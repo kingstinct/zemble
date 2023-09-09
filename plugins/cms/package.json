@@ -23,6 +23,8 @@
     "hono": "^3.4.3",
     "jose": "^4.14.4",
     "jsonwebtoken": "^9.0.1",
+    "mongodb": "5",
+    "papr": "^14.1.0",
     "readapt-plugin-kv": "workspace:^"
   },
   "devDependencies": {

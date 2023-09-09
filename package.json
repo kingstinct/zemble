@@ -7,7 +7,7 @@
     "test": "pnpm recursive --no-bail run test",
     "lint": "pnpm recursive run lint",
     "typecheck": "pnpm recursive run typecheck",
-    "codegen": "pnpm recursive run codegen"
+    "graphql-codegen": "pnpm recursive run graphql-codegen"
   },
   "keywords": [],
   "author": "",

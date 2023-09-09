@@ -1,10 +1,11 @@
-import IKeyValue from './IKeyValue'
+import { IStandardKeyValueService } from '@readapt/core'
+
 import createClient from './redis'
 
 import type Redis from 'ioredis'
 import type { RedisOptions } from 'ioredis'
 
-class RedisKeyValue<T> extends IKeyValue<T> {
+class RedisKeyValue<T> extends IStandardKeyValueService<T> {
   async keys() {
     const keys = await this.client.keys(`${this.prefix}:*`)
 

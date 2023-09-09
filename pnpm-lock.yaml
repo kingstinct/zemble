@@ -547,6 +547,25 @@ importers:
         specifier: ^9.0.2
         version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
 
+  plugins/email-sendgrid:
+    dependencies:
+      '@readapt/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../graphql-yoga
+      '@sendgrid/mail':
+        specifier: ^7.7.0
+        version: registry.npmjs.org/@sendgrid/mail@7.7.0
+      graphql:
+        specifier: ^16.8.0
+        version: registry.npmjs.org/graphql@16.8.0
+    devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
+
   plugins/graphql-yoga:
     dependencies:
       '@graphql-tools/schema':
@@ -7110,6 +7129,39 @@ packages:
       join-component: registry.npmjs.org/join-component@1.1.0
     dev: false
 
+  registry.npmjs.org/@sendgrid/client@7.7.0:
+    resolution: {integrity: sha512-SxH+y8jeAQSnDavrTD0uGDXYIIkFylCo+eDofVmZLQ0f862nnqbC3Vd1ej6b7Le7lboyzQF6F7Fodv02rYspuA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@sendgrid/client/-/client-7.7.0.tgz}
+    name: '@sendgrid/client'
+    version: 7.7.0
+    engines: {node: 6.* || 8.* || >=10.*}
+    dependencies:
+      '@sendgrid/helpers': registry.npmjs.org/@sendgrid/helpers@7.7.0
+      axios: registry.npmjs.org/axios@0.26.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  registry.npmjs.org/@sendgrid/helpers@7.7.0:
+    resolution: {integrity: sha512-3AsAxfN3GDBcXoZ/y1mzAAbKzTtUZ5+ZrHOmWQ279AuaFXUNCh9bPnRpN504bgveTqoW+11IzPg3I0WVgDINpw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@sendgrid/helpers/-/helpers-7.7.0.tgz}
+    name: '@sendgrid/helpers'
+    version: 7.7.0
+    engines: {node: '>= 6.0.0'}
+    dependencies:
+      deepmerge: registry.npmjs.org/deepmerge@4.3.1
+    dev: false
+
+  registry.npmjs.org/@sendgrid/mail@7.7.0:
+    resolution: {integrity: sha512-5+nApPE9wINBvHSUxwOxkkQqM/IAAaBYoP9hw7WwgDNQPxraruVqHizeTitVtKGiqWCKm2mnjh4XGN3fvFLqaw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@sendgrid/mail/-/mail-7.7.0.tgz}
+    name: '@sendgrid/mail'
+    version: 7.7.0
+    engines: {node: 6.* || 8.* || >=10.*}
+    dependencies:
+      '@sendgrid/client': registry.npmjs.org/@sendgrid/client@7.7.0
+      '@sendgrid/helpers': registry.npmjs.org/@sendgrid/helpers@7.7.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   registry.npmjs.org/@sideway/address@4.1.4:
     resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@sideway/address/-/address-4.1.4.tgz}
     name: '@sideway/address'
@@ -8678,6 +8730,16 @@ packages:
     version: 4.7.2
     engines: {node: '>=4'}
     dev: true
+
+  registry.npmjs.org/axios@0.26.1:
+    resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/axios/-/axios-0.26.1.tgz}
+    name: axios
+    version: 0.26.1
+    dependencies:
+      follow-redirects: registry.npmjs.org/follow-redirects@1.15.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   registry.npmjs.org/axobject-query@3.2.1:
     resolution: {integrity: sha512-jsyHu61e6N4Vbz/v18DHwWYKK0bSWLqn47eeDSKPB7m8tqMHF9YJ+mhIk2lVteyZrY8tnSj/jHOv4YiTCuCJgg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/axobject-query/-/axobject-query-3.2.1.tgz}

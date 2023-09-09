@@ -30,7 +30,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   countdown: Scalars['Int']['output'];
   randomNumber: Scalars['Int']['output'];
-  tick: Scalars['Int']['output'];
+  tick: Scalars['Float']['output'];
 };
 
 

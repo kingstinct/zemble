@@ -7,6 +7,7 @@ import type { Context } from 'hono'
 export default async (
   getSchema: () => Promise<GraphQLSchemaWithContext<Readapt.GraphQLContext>>,
   pubsub: Readapt.GraphQLContext['pubsub'],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   opts?: Omit<YogaServerOptions<Readapt.GraphQLContext, Record<string, any>>, 'schema'>,
 ) => {
   let yoga = createYoga({

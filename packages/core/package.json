@@ -6,7 +6,6 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
     "dev": "ts-node-dev server.ts",
     "typecheck": "tsc --noEmit"
   },

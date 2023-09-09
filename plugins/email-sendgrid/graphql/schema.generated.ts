@@ -16,26 +16,23 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Email = {
+  readonly email: Scalars['String']['input'];
+  readonly name?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Mutation = {
   readonly __typename?: 'Mutation';
-  readonly randomNumber: Scalars['Int']['output'];
-};
-
-export type Query = {
-  readonly __typename?: 'Query';
-  readonly hello: Scalars['String']['output'];
-};
-
-export type Subscription = {
-  readonly __typename?: 'Subscription';
-  readonly countdown: Scalars['Int']['output'];
-  readonly randomNumber: Scalars['Int']['output'];
-  readonly tick: Scalars['Float']['output'];
+  readonly sendEmail: Scalars['Boolean']['output'];
 };
 
 
-export type SubscriptionCountdownArgs = {
-  from: Scalars['Int']['input'];
+export type MutationSendEmailArgs = {
+  from: Email;
+  html?: InputMaybe<Scalars['String']['input']>;
+  subject: Scalars['String']['input'];
+  text: Scalars['String']['input'];
+  to: ReadonlyArray<Email>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -111,42 +108,24 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Email: Email;
   Mutation: ResolverTypeWrapper<{}>;
-  Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Subscription: ResolverTypeWrapper<{}>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
-  Float: Scalars['Float']['output'];
-  Int: Scalars['Int']['output'];
+  Email: Email;
   Mutation: {};
-  Query: {};
   String: Scalars['String']['output'];
-  Subscription: {};
 }>;
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  randomNumber?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-}>;
-
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-}>;
-
-export type SubscriptionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
-  countdown?: SubscriptionResolver<ResolversTypes['Int'], "countdown", ParentType, ContextType, RequireFields<SubscriptionCountdownArgs, 'from'>>;
-  randomNumber?: SubscriptionResolver<ResolversTypes['Int'], "randomNumber", ParentType, ContextType>;
-  tick?: SubscriptionResolver<ResolversTypes['Float'], "tick", ParentType, ContextType>;
+  sendEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendEmailArgs, 'from' | 'subject' | 'text' | 'to'>>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
-  Subscription?: SubscriptionResolvers<ContextType>;
 }>;
 

@@ -20,14 +20,14 @@ export type Scalars = {
 };
 
 export type Job = {
-  __typename?: 'Job';
-  data: Scalars['JSON']['output'];
-  delay?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
-  name: Scalars['String']['output'];
-  progress?: Maybe<Scalars['Float']['output']>;
-  state: JobState;
-  timestamp: Scalars['Int']['output'];
+  readonly __typename?: 'Job';
+  readonly data: Scalars['JSON']['output'];
+  readonly delay?: Maybe<Scalars['Int']['output']>;
+  readonly id?: Maybe<Scalars['ID']['output']>;
+  readonly name: Scalars['String']['output'];
+  readonly progress?: Maybe<Scalars['Float']['output']>;
+  readonly state: JobState;
+  readonly timestamp: Scalars['Int']['output'];
 };
 
 export enum JobState {
@@ -54,8 +54,8 @@ export enum JobType {
 }
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  addJob: Job;
+  readonly __typename?: 'Mutation';
+  readonly addJob: Job;
 };
 
 
@@ -64,22 +64,22 @@ export type MutationAddJobArgs = {
 };
 
 export type Query = {
-  __typename?: 'Query';
-  queues: Array<Queue>;
+  readonly __typename?: 'Query';
+  readonly queues: ReadonlyArray<Queue>;
 };
 
 export type Queue = {
-  __typename?: 'Queue';
-  activeCount: Scalars['Int']['output'];
-  completedCount: Scalars['Int']['output'];
-  count: Scalars['Int']['output'];
-  delayedCount: Scalars['Int']['output'];
-  failedCount: Scalars['Int']['output'];
-  isPaused: Scalars['Boolean']['output'];
-  jobs: Array<Job>;
-  name: Scalars['String']['output'];
-  waitingChildrenCount: Scalars['Int']['output'];
-  waitingCount: Scalars['Int']['output'];
+  readonly __typename?: 'Queue';
+  readonly activeCount: Scalars['Int']['output'];
+  readonly completedCount: Scalars['Int']['output'];
+  readonly count: Scalars['Int']['output'];
+  readonly delayedCount: Scalars['Int']['output'];
+  readonly failedCount: Scalars['Int']['output'];
+  readonly isPaused: Scalars['Boolean']['output'];
+  readonly jobs: ReadonlyArray<Job>;
+  readonly name: Scalars['String']['output'];
+  readonly waitingChildrenCount: Scalars['Int']['output'];
+  readonly waitingCount: Scalars['Int']['output'];
 };
 
 
@@ -87,19 +87,19 @@ export type QueueJobsArgs = {
   asc?: InputMaybe<Scalars['Boolean']['input']>;
   end?: InputMaybe<Scalars['Int']['input']>;
   start?: InputMaybe<Scalars['Int']['input']>;
-  type?: InputMaybe<Array<JobType>>;
+  type?: InputMaybe<ReadonlyArray<JobType>>;
 };
 
 export type Subscription = {
-  __typename?: 'Subscription';
-  jobUpdated: Job;
+  readonly __typename?: 'Subscription';
+  readonly jobUpdated: Job;
 };
 
 export type Todo = {
-  __typename?: 'Todo';
-  completed: Scalars['Boolean']['output'];
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
+  readonly __typename?: 'Todo';
+  readonly completed: Scalars['Boolean']['output'];
+  readonly id: Scalars['ID']['output'];
+  readonly title: Scalars['String']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -232,7 +232,7 @@ export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType e
 }>;
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  queues?: Resolver<Array<ResolversTypes['Queue']>, ParentType, ContextType>;
+  queues?: Resolver<ReadonlyArray<ResolversTypes['Queue']>, ParentType, ContextType>;
 }>;
 
 export type QueueResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Queue'] = ResolversParentTypes['Queue']> = ResolversObject<{
@@ -242,7 +242,7 @@ export type QueueResolvers<ContextType = Readapt.GraphQLContext, ParentType exte
   delayedCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   failedCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   isPaused?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  jobs?: Resolver<Array<ResolversTypes['Job']>, ParentType, ContextType, Partial<QueueJobsArgs>>;
+  jobs?: Resolver<ReadonlyArray<ResolversTypes['Job']>, ParentType, ContextType, Partial<QueueJobsArgs>>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   waitingChildrenCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   waitingCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;

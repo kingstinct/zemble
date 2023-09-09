@@ -8,8 +8,8 @@ import CloudflareKeyValue from './clients/CloudFlareKeyValue'
 import KeyValue from './clients/KeyValue'
 import RedisKeyValue from './clients/RedisKeyValue'
 
-import type IKeyValue from './clients/IKeyValue'
 import type { KVNamespace } from '@cloudflare/workers-types'
+import type { IStandardKeyValueService } from '@readapt/core'
 import type { RedisOptions } from 'ioredis'
 
 interface KeyValueConfig extends Readapt.GlobalConfig {
@@ -45,7 +45,7 @@ declare global {
   }
 }
 
-export function kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K): IKeyValue<T> {
+export function kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K): IStandardKeyValueService<T> {
   const prefixStr = prefix.toString()
   if (config.implementation === 'cloudflare' || config.cloudflareNamespace) {
     console.log('initing cloudflare kv')
