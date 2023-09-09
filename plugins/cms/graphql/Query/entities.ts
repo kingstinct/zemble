@@ -1,8 +1,10 @@
+import { Entity } from '../../clients/papr'
+
 import type { QueryResolvers } from '../schema.generated'
 
-// @ts-expect-error TODO: fix types
-const entities: QueryResolvers['entities'] = async (_, __, { kv }) => {
-  const result = await kv('cms-entities').values()
+const entities: QueryResolvers['entities'] = async () => {
+  const result = await Entity.find({})
+
   return result
 }
 

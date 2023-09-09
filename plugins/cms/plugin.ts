@@ -3,6 +3,7 @@ import { Plugin } from '@readapt/core'
 import graphqlYoga from '@readapt/graphql-yoga'
 import kvPlugin from 'readapt-plugin-kv'
 
+import { connect } from './clients/papr'
 import getDynamicSchema from './getDynamicSchema'
 
 import type { DependenciesResolver } from '@readapt/core'
@@ -33,6 +34,6 @@ const plugin = new Plugin(__dirname, {
   defaultConfig,
 })
 
-export const { config } = plugin
+void connect()
 
 export default plugin

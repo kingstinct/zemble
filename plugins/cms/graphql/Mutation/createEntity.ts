@@ -1,23 +1,33 @@
-import type { Entity, MutationResolvers } from '../schema.generated'
+import { Entity } from '../../clients/papr'
 
-const createEntity: MutationResolvers['createEntity'] = async (_, { name }, { kv, pubsub }) => {
-  const entity: Entity = {
+import type { EntitySchema } from '../../clients/papr'
+import type { MutationResolvers } from '../schema.generated'
+import type { DocumentForInsert } from 'papr'
+
+const createEntity: MutationResolvers['createEntity'] = async (_, { name }, { pubsub }) => {
+  const entity: DocumentForInsert<typeof EntitySchema[0], typeof EntitySchema[1]> = {
     name,
     fields: [
       {
-        // @ts-expect-error asdasd f
         __typename: 'IDField',
         isRequired: true,
-        name: 'id',
+        name: '_id',
       },
     ],
   }
 
-  await kv('cms-entities').set(name, entity)
+  const prev = await Entity.findOneAndUpdate({ name: entity.name }, {
+    $set: {
+      fields: entity.fields,
+      name: entity.name,
+    },
+  }, {
+    upsert: true,
+  })
 
   pubsub.publish('reload-schema', {})
 
-  return entity
+  return prev!
 }
 
 export default createEntity

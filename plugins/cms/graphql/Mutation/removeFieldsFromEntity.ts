@@ -28,14 +28,12 @@ const mapInputToField = (input: FieldInput): Field => {
   }
 }
 
-const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
-  // eslint-disable-next-line functional/prefer-readonly-type
-  const fields: Field[] = fieldsInput.map(mapInputToField)
-
-  console.log('fields', fields)
+const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = async (_, { entityName, fields }, { pubsub }) => {
   const prev = await Entity.findOneAndUpdate({ name: entityName }, {
-    $addToSet: {
-      fields: { $each: fields },
+    $pull: {
+      fields: {
+        name: { $in: fields },
+      },
     },
   }, {
     upsert: true,
@@ -48,9 +46,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   pubsub.publish('reload-schema', {})
 
-  console.log('updated', prev)
-
   return prev
 }
 
-export default addFieldsToEntity
+export default removeFieldsFromEntity

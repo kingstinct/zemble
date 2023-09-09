@@ -3,9 +3,11 @@
 import {
   GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLList, GraphQLNonNull, GraphQLID, GraphQLInputObjectType, GraphQLFloat, GraphQLBoolean, GraphQLInterfaceType, GraphQLUnionType,
 } from 'graphql'
+import { ObjectId } from 'mongodb'
 
+import { Entity, EntityEntry } from './clients/papr'
 import {
-  EntityEntryStore, EntityStore, capitalize, pluralize,
+  capitalize, pluralize,
 } from './utils'
 
 import type {
@@ -52,14 +54,17 @@ const fieldToType = (field: IField): GraphQLType => {
 }
 
 export default async () => {
-  const entities = await EntityStore.values()
+  const entities = await Entity.find({})
 
   const config = await entities.reduce(async (prevP, entity) => {
     const prev = await prevP
     const obj = new GraphQLObjectType({
-      fields: entity.fields.reduce((prev, field: IField) => {
+      fields: entity.fields.reduce((prev, field) => {
         // eslint-disable-next-line no-nested-ternary
-        const baseType = field.__typename === 'NumberField' ? GraphQLFloat : (field.__typename === 'BooleanField' ? GraphQLBoolean : /* field.__typename === 'RepeaterField' ? GraphQLList(field.availableFields.map(fieldToType)) : */ GraphQLString)
+        const baseType = field.__typename === 'NumberField'
+          ? GraphQLFloat : (field.__typename === 'BooleanField'
+            ? GraphQLBoolean /* field.__typename === 'RepeaterField'
+            ? GraphQLList(field.availableFields.map(fieldToType)) : */ : GraphQLString)
         return ({
           ...prev,
           [field.name]: {
@@ -72,20 +77,19 @@ export default async () => {
 
     const inputObj = new GraphQLInputObjectType({
       fields: entity.fields.reduce((prev, field) => {
-        // @ts-expect-error type it up
         // eslint-disable-next-line no-nested-ternary
-        const baseType = field.__typename === 'NumberField' ? GraphQLFloat : (field.__typename === 'BooleanField' ? GraphQLBoolean : GraphQLString)
+        const baseType = field.__typename === 'NumberField'
+          ? GraphQLFloat : (field.__typename === 'BooleanField'
+            ? GraphQLBoolean : GraphQLString)
         return ({
           ...prev,
           [field.name]: {
-            type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
+            type: field.isRequired && field.__typename !== 'IDField' ? new GraphQLNonNull(baseType) : baseType,
           },
         })
       }, {}),
       name: `${capitalize(entity.name)}Input`,
     })
-
-    const entryStore = EntityEntryStore(entity.name)
 
     const getById: GraphQLFieldConfig<unknown, unknown, {readonly id: string}> = { // "book"
       type: new GraphQLNonNull(obj),
@@ -94,7 +98,7 @@ export default async () => {
           type: new GraphQLNonNull(GraphQLID),
         },
       },
-      resolve: (_, { id }) => entryStore.get(id),
+      resolve: async (_, { id }) => EntityEntry.findOne({ entityType: entity.name, _id: new ObjectId(id) }),
     } as const
 
     const retVal: ReducerType = {
@@ -102,7 +106,7 @@ export default async () => {
         ...prev.query,
         [pluralize(entity.name)]: { // "books"
           type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
-          resolve: async () => entryStore.values(),
+          resolve: async () => EntityEntry.find({}),
         },
         [entity.name]: getById,
       },
@@ -117,9 +121,20 @@ export default async () => {
             },
           },
           resolve: async (_, { input }) => {
-            const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-            await entryStore.set(id, input)
-            return input
+            const actualInput = {
+              entityType: entity.name,
+              ...input,
+            }
+            console.log('actualInput', actualInput)
+            const res = await EntityEntry.findOneAndUpdate({
+              entityType: entity.name,
+            }, {
+              $set: actualInput,
+            }, {
+              upsert: true,
+              returnDocument: 'after',
+            })
+            return res!
           },
         },
       },
