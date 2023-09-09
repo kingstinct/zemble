@@ -11,26 +11,27 @@ import type { DocumentForInsert } from 'papr'
 const addSupplement: MutationResolvers['addSupplement'] = async (parent, {
   amountInGrams, foodId, intakeTime, supplementId,
 }, { decodedToken }) => {
-  if ('userId' in decodedToken) {
-    const supplement: DocumentForInsert<typeof SupplementIntakeDbType[0], typeof SupplementIntakeDbType[1]> = {
-      _id: supplementId ? new ObjectId(supplementId) : new ObjectId(),
-      amountInGrams,
-      foodId: new ObjectId(foodId),
-      userId: decodedToken.userId,
-      intakeTime,
-    }
-
-    const s = await Supplements.findOneAndUpdate({ _id: supplement._id }, {
-      $set: supplement,
-    }, { upsert: true, returnDocument: 'after' })
-
-    if (!s) {
-      throw new Error('Could not add supplement')
-    }
-
-    return { ...s, ...supplement }
+  const supplement: DocumentForInsert<typeof SupplementIntakeDbType[0], typeof SupplementIntakeDbType[1]> = {
+    amountInGrams,
+    foodId: new ObjectId(foodId),
+    userId: new ObjectId(decodedToken.userId),
+    intakeTime,
   }
-  throw new Error('Could not add supplement')
+
+  const _id = supplementId ? new ObjectId(supplementId) : new ObjectId()
+
+  const s = await Supplements.findOneAndUpdate({ _id }, {
+    $set: supplement,
+    $setOnInsert: {
+      _id,
+    },
+  }, { upsert: true, returnDocument: 'after' })
+
+  if (!s) {
+    throw new Error('Could not add supplement')
+  }
+
+  return { ...s, ...supplement }
 }
 
 export default addSupplement

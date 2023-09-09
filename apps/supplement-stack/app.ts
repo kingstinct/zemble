@@ -5,13 +5,11 @@ import AuthOTP from 'readapt-plugin-auth-otp'
 import { connect } from './clients/papr'
 import { Users } from './models'
 
-import type { ObjectId } from 'mongodb'
-
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Readapt {
     interface OtpToken {
-      readonly userId: ObjectId,
+      readonly userId: string,
     }
   }
 }
@@ -39,7 +37,7 @@ const app = createApp({
           returnDocument: 'after',
         })
 
-        const ret = ({ email, type: 'AuthOtp' as const, userId: user!._id })
+        const ret = ({ email, type: 'AuthOtp' as const, userId: user!._id.toHexString() })
 
         return ret
       },

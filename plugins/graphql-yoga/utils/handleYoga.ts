@@ -51,8 +51,6 @@ export default async (
       'content-type': 'text/html', // default to html, for playground to load
     } as Record<string, string>)
 
-    console.log('headers', headers)
-
     return c.newResponse(res.body, res.status, headers)
   }
 }
