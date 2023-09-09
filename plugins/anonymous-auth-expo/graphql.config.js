@@ -4,7 +4,7 @@
 const config = {
   projects: {
     backend: {
-      schema: '../simple-anonymous-auth/graphql/schema.graphql',
+      schema: ['../auth/graphql/schema.graphql', '../auth-anonymous/graphql/schema.graphql'],
       documents: ['./components/**/*.tsx'],
       // extensions: {
       //   endpoints: {

@@ -63,6 +63,4 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(__dirname, {
   },
 })
 
-export const { config } = plugin
-
 export default plugin

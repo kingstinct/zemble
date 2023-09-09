@@ -1,13 +1,12 @@
+import { useState } from 'react'
+import { Button, TextInput, View } from 'react-native'
+import { useMutation } from 'urql'
 
-import {useContext, useState} from 'react'
-import {Button, TextInput, View} from 'react-native'
-import AuthContext from 'readapt-plugin-auth-anonymous-expo/contexts/Auth';
-import {useMutation, useQuery} from 'urql'
-import { graphql } from '../gql';
+import { graphql } from '../gql'
 
 const CreateTodo = graphql(/* GraphQL */ `
-  mutation CreateTodo($token: String!, $title: String!) {
-    createTodo(token: $token, title: $title) {
+  mutation CreateTodo($title: String!) {
+    createTodo(title: $title) {
       id
       title
       completed
@@ -15,20 +14,31 @@ const CreateTodo = graphql(/* GraphQL */ `
   }
 `)
 
-const TodoCreate: React.FC<{refetch: () => void}> = ({ refetch }) => {
-  const { token } = useContext(AuthContext)
+const TodoCreate: React.FC<{readonly refetch: () => void}> = ({ refetch }) => {
+  // const { token } = useContext(AuthContext)
   const [title, setTitle] = useState('')
   const [, createTodo] = useMutation(CreateTodo)
-  
-  return <View>
-    <TextInput placeholder="Add a new todo" value={title} onChangeText={setTitle}  />
-    <Button title="Add" onPress={() => {
-      createTodo({ title, token: token! }).then(() => {
-        setTitle('')
-        refetch()
-      })
-    }} />
-  </View>
+
+  return (
+    <View>
+      <TextInput
+        accessibilityLabel='Text input field'
+        placeholder='Add a new todo'
+        value={title}
+        onChangeText={setTitle}
+        accessibilityHint='Enter a title for the todo item'
+      />
+      <Button
+        title='Add'
+        onPress={() => {
+          void createTodo({ title }).then(() => {
+            setTitle('')
+            refetch()
+          })
+        }}
+      />
+    </View>
+  )
 }
 
 export default TodoCreate

@@ -1,7 +1,5 @@
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
-import {
-  config,
-} from '../../plugin'
+import plugin from '../../plugin'
 import { isValidEmail } from '../../utils/isValidEmail'
 
 import type { MutationResolvers } from '../schema.generated'
@@ -26,7 +24,7 @@ const loginRequest: MutationResolvers['loginRequest'] = async (_, {
 
   if (existing?.loginRequestedAt) {
     const { loginRequestedAt } = existing,
-          timeUntilAllowedToSendAnother = new Date(loginRequestedAt).valueOf() + (config.minTimeBetweenTwoFactorCodeRequestsInSeconds * 1000) - Date.now()
+          timeUntilAllowedToSendAnother = new Date(loginRequestedAt).valueOf() + (plugin.config.minTimeBetweenTwoFactorCodeRequestsInSeconds * 1000) - Date.now()
 
     if (timeUntilAllowedToSendAnother > 0) {
       return {
@@ -41,9 +39,9 @@ const loginRequest: MutationResolvers['loginRequest'] = async (_, {
   await loginRequestKeyValue.set(email.toLowerCase(), {
     loginRequestedAt: new Date().toISOString(),
     twoFactorCode,
-  }, config.twoFactorCodeExpiryInSeconds)
+  }, plugin.config.twoFactorCodeExpiryInSeconds)
 
-  await config.handleAuthRequest(email, twoFactorCode)
+  await plugin.config.handleAuthRequest(email, twoFactorCode)
 
   return {
     __typename: 'LoginRequestSuccessResponse',

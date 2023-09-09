@@ -1,14 +1,15 @@
-import { PropsWithChildren } from 'react'
+import UrqlProvider from 'readapt-plugin-urql-expo/contexts/UrqlProvider'
 
-import UrqlProvider from 'readapt-plugin-urql-expo/contexts/UrqlProvider';
-import { SimpleAnonymousAuthProvider } from './Auth';
+import { SimpleAnonymousAuthProvider } from './Auth'
 
-const PluginProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  return <UrqlProvider>
+import type { PropsWithChildren } from 'react'
+
+const PluginProvider: React.FC<PropsWithChildren> = ({ children }) => (
+  <UrqlProvider>
     <SimpleAnonymousAuthProvider>
       {children}
     </SimpleAnonymousAuthProvider>
   </UrqlProvider>
-}
+)
 
 export default PluginProvider

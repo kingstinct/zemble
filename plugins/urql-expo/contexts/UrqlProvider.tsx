@@ -1,21 +1,23 @@
-import { ClientOptions, Provider, errorExchange } from 'urql'
-import { PropsWithChildren, useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import AuthContext from 'readapt-plugin-auth-expo/contexts/Auth'
+import {
+  Provider, fetchExchange, createClient,
+} from 'urql'
+
 import { GRAPHQL_ENDPOINT } from '../config'
 
-import { fetchExchange, createClient } from 'urql';
+import type { PropsWithChildren } from 'react'
+import type { ClientOptions } from 'urql'
 
-export const bearerTokenConfigTransformer = (config: ClientOptions, token: string | null): ClientOptions => {
-  return {
-    ...config, 
-    fetchOptions: {
-      ...config.fetchOptions,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    }
-  }
-}
+export const bearerTokenConfigTransformer = (config: ClientOptions, token: string | null): ClientOptions => ({
+  ...config,
+  fetchOptions: {
+    ...config.fetchOptions,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  },
+})
 
 const createUrqlClient = (token: string | null, transformer: typeof bearerTokenConfigTransformer) => createClient(transformer({
   url: GRAPHQL_ENDPOINT,
@@ -23,20 +25,20 @@ const createUrqlClient = (token: string | null, transformer: typeof bearerTokenC
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/graphql-response+json, application/json, multipart/mixed, text/plain',
-    }
+    },
   },
-  exchanges: [
-    fetchExchange
-  ],
-}, token));
+  exchanges: [fetchExchange],
+}, token))
 
-const UrqlProvider: React.FC<PropsWithChildren<{configTransformer?: typeof bearerTokenConfigTransformer}>> = ({ children, configTransformer }) => {
+const UrqlProvider: React.FC<PropsWithChildren<{readonly configTransformer?: typeof bearerTokenConfigTransformer}>> = ({ children, configTransformer }) => {
   const { token } = useContext(AuthContext)
-  const client = useMemo(() => createUrqlClient(token, configTransformer ?? bearerTokenConfigTransformer), [token])
+  const client = useMemo(() => createUrqlClient(token, configTransformer ?? bearerTokenConfigTransformer), [token, configTransformer])
 
-  return <Provider value={client}>
+  return (
+    <Provider value={client}>
       {children}
-  </Provider>
+    </Provider>
+  )
 }
 
 export default UrqlProvider

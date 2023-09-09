@@ -6,7 +6,8 @@
   "scripts": {
     "test": "pnpm recursive --no-bail run test",
     "lint": "pnpm recursive run lint",
-    "typecheck": "pnpm recursive run typecheck"
+    "typecheck": "pnpm recursive run typecheck",
+    "codegen": "pnpm recursive run codegen"
   },
   "keywords": [],
   "author": "",

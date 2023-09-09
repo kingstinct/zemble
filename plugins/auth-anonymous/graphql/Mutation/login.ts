@@ -2,7 +2,7 @@
 import {
   setCookie,
 } from 'hono/cookie'
-import { config } from 'readapt-plugin-auth'
+import authPlugin from 'readapt-plugin-auth'
 import { encodeToken } from 'readapt-plugin-auth/utils/encodeToken'
 
 import type { MutationResolvers } from '../schema.generated'
@@ -11,8 +11,8 @@ const login: MutationResolvers['login'] = (_: unknown, { username }, { honoConte
   const userId = Math.random().toString(36).substring(7)
   const token = encodeToken({ userId, username, type: 'AnonymousAuth' })
 
-  if (config.cookies.isEnabled) {
-    setCookie(honoContext, config.cookies.name, token, config.cookies.opts())
+  if (authPlugin.config.cookies.isEnabled) {
+    setCookie(honoContext, authPlugin.config.cookies.name, token, authPlugin.config.cookies.opts())
   }
 
   return { token }

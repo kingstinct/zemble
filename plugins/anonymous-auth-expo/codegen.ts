@@ -1,11 +1,11 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-  schema: '../simple-anonymous-auth/graphql/schema.graphql',
-  documents: ['contexts/**/*.tsx'],
+  schema: ['../auth/graphql/schema.graphql', '../auth-anonymous/graphql/schema.graphql'],
+  documents: ['contexts/**/*.tsx', 'components/**/*.tsx'],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
-    './graphql/client.generated/': {
+    './gql/': {
       preset: 'client',
     },
   },

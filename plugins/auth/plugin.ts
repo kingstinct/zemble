@@ -76,6 +76,4 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
   defaultConfig,
 })
 
-export const { config } = plugin
-
 export default plugin

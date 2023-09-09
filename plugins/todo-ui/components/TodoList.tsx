@@ -1,16 +1,13 @@
+import { View } from 'react-native'
+import { useQuery } from 'urql'
 
-import {useContext} from 'react'
-import {View} from 'react-native'
-import AuthContext from 'readapt-plugin-auth-anonymous-expo/contexts/Auth';
-import {useQuery} from 'urql'
-import { graphql } from '../gql';
-import TodoListItem from './TodoListItem';
-import TodoCreate from './TodoCreate';
-
+import TodoCreate from './TodoCreate'
+import TodoListItem from './TodoListItem'
+import { graphql } from '../gql'
 
 const AllTodos = graphql(/* GraphQL */ `
-  query AllTodos($token: String!) {
-    todos(token: $token) {
+  query AllTodos {
+    todos {
       id
       title
       completed
@@ -18,19 +15,19 @@ const AllTodos = graphql(/* GraphQL */ `
   }
 `)
 
-
-
 const AllTodoList = () => {
-  const { token } = useContext(AuthContext)
-  const [{data}, refetch] = useQuery({
+  // const { token } = useContext(AuthContext)
+  const [{ data }, refetch] = useQuery({
     query: AllTodos,
-    variables: { token: token! },
-    pause: !token
+    variables: {},
+    // pause: !token,
   })
-  return <View>
-    { data?.todos.map((todo) => <TodoListItem key={todo.id} todo={todo} refetch={refetch} />) }
-    <TodoCreate refetch={refetch} />
-  </View>
+  return (
+    <View>
+      { data?.todos.map((todo) => <TodoListItem key={todo.id} todo={todo} refetch={refetch} />) }
+      <TodoCreate refetch={refetch} />
+    </View>
+  )
 }
 
 export default AllTodoList

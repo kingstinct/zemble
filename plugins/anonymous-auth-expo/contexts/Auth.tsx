@@ -1,13 +1,16 @@
-
-import {createContext, useEffect, useMemo, useState} from 'react'
+import {
+  createContext, useEffect, useMemo, useState,
+} from 'react'
+import { AuthProvider } from 'readapt-plugin-auth-expo/contexts/Auth'
 import { useMutation } from 'urql'
-import {AuthProvider} from 'readapt-plugin-auth-expo/contexts/Auth'
 
 import { graphql } from '../gql'
 
 const Login = graphql(/* GraphQL */ `
-  mutation Login {
-    login
+  mutation Login($username: String!) {
+    login(username: $username){
+      token
+    }
   }
 `)
 
@@ -19,12 +22,12 @@ export const SimpleAnonymousAuthProvider: React.FC<React.PropsWithChildren> = ({
   const [token, setToken] = useState<string | null>(null)
 
   const [response, login] = useMutation(Login)
-  
+
   useEffect(() => {
-    const token = response.data?.login
-    
-    if (token) {
-      setToken(token)
+    const res = response.data?.login
+
+    if (res?.token) {
+      setToken(res.token)
     }
   }, [response])
 
@@ -32,10 +35,13 @@ export const SimpleAnonymousAuthProvider: React.FC<React.PropsWithChildren> = ({
     <AuthProvider setToken={setToken} token={token}>
       <SimpleAnonymousAuthContext.Provider value={useMemo(() => ({
         login: () => {
-          void login({})
-        }
-      }), [])}>
-      {children}
+          void login({
+            username: 'anonymous',
+          })
+        },
+      }), [login])}
+      >
+        {children}
       </SimpleAnonymousAuthContext.Provider>
     </AuthProvider>
   )

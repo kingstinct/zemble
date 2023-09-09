@@ -1,3 +1,4 @@
+directive @skipAuth on FIELD_DEFINITION
 scalar ObjectId
 scalar DateTime
 

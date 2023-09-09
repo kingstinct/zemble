@@ -14,32 +14,54 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  JSON: { input: any; output: any; }
+};
+
+export type LoginResponse = {
+  __typename?: 'LoginResponse';
+  token: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login: Scalars['String']['output'];
+  login: LoginResponse;
+};
+
+
+export type MutationLoginArgs = {
+  username: Scalars['String']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
   me: User;
+  publicKey: Scalars['String']['output'];
+  readJWT: Scalars['JSON']['output'];
+  validateJWT: Scalars['Boolean']['output'];
 };
 
 
-export type QueryMeArgs = {
+export type QueryReadJwtArgs = {
+  token: Scalars['String']['input'];
+};
+
+
+export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
 };
 
 export type User = {
   __typename?: 'User';
   userId: Scalars['ID']['output'];
+  username: Scalars['String']['output'];
 };
 
-export type LoginMutationVariables = Exact<{ [key: string]: never; }>;
+export type LoginMutationVariables = Exact<{
+  username: Scalars['String']['input'];
+}>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: string };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', token: string } };
 
 
-export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;

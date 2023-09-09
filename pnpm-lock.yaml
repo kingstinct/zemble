@@ -530,6 +530,12 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.1
         version: registry.npmjs.org/jsonwebtoken@9.0.1
+      mongodb:
+        specifier: '5'
+        version: registry.npmjs.org/mongodb@5.0.0
+      papr:
+        specifier: ^14.1.0
+        version: registry.npmjs.org/papr@14.1.0(mongodb@5.0.0)
       readapt-plugin-kv:
         specifier: workspace:^
         version: link:../kv
