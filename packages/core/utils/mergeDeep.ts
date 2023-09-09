@@ -22,17 +22,8 @@ export function mergeDeep(...objects: readonly Record<string, unknown>[]) {
         // eslint-disable-next-line no-param-reassign
         prev[key] = mergeDeep(pVal as Record<string, unknown>, oVal as Record<string, unknown>)
       } else {
-        if (typeof oVal === 'function') {
-          console.log({ key, oVal, pVal })
-        }
         // eslint-disable-next-line no-param-reassign
         prev[key] = oVal
-
-        if (typeof oVal === 'function') {
-          console.log({
-            key, oVal, pVal, res: prev[key],
-          })
-        }
       }
     })
 

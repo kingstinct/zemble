@@ -2,7 +2,6 @@
 import { useExtendContext } from '@envelop/core'
 import { Plugin } from '@readapt/core'
 import gql from '@readapt/graphql-yoga'
-import authApiToken from 'readapt-plugin-auth-api-token'
 
 import CloudflareKeyValue from './clients/CloudFlareKeyValue'
 import KeyValue from './clients/KeyValue'
@@ -46,10 +45,6 @@ export function kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPr
 
 const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
   dependencies: ({ config }) => [
-    {
-      plugin: authApiToken,
-      devOnly: true,
-    },
     {
       plugin: gql.configure({
         yoga: {

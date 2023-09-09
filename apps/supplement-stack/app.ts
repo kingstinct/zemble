@@ -1,10 +1,11 @@
 import { createApp } from '@readapt/core'
 import YogaGraphQL from '@readapt/graphql-yoga'
-import { ObjectId } from 'mongodb'
 import AuthOTP from 'readapt-plugin-auth-otp'
-import './models'
 
 import { connect } from './clients/papr'
+import { Users } from './models'
+
+import type { ObjectId } from 'mongodb'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -23,10 +24,23 @@ const app = createApp({
       },
     }),
     AuthOTP.configure({
-      handleAuthRequest: (email, code) => { console.log('handleAuthRequest', code) },
-      generateTokenContents: (email): Readapt.OtpToken => {
-        // todo: get user id from email
-        const ret = ({ email, type: 'AuthOtp' as const, userId: new ObjectId() })
+      from: { email: 'robert@herber.me' },
+      generateTokenContents: async (email): Promise<Readapt.OtpToken> => {
+        const user = await Users.findOneAndUpdate({ email }, {
+          $set: {
+            lastLoginAt: new Date(),
+          },
+          $setOnInsert: {
+            firstLoginAt: new Date(),
+            email,
+          },
+        }, {
+          upsert: true,
+          returnDocument: 'after',
+        })
+
+        const ret = ({ email, type: 'AuthOtp' as const, userId: user!._id })
+
         return ret
       },
     }),

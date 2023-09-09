@@ -309,5 +309,5 @@ type Mutation {
     imageUrls: [String!]
     nutrientsPer100g: [NutrientQuantityInput!]
     servingSizes: [ServingSizeInput!]
-  ): Ingredient! @skipAuth
+  ): Ingredient!
 }

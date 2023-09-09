@@ -22,7 +22,8 @@
           "rules": {
               "@typescript-eslint/no-unsafe-enum-comparison": 1,
               "@typescript-eslint/no-redundant-type-constituents": 1
-          }
+          },
+          "excludedFiles": ["**/*.generated/**/*.ts"]
       }
   ]
 }

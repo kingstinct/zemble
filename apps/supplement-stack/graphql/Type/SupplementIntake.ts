@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb'
-
 import { Eatables } from '../../models'
 
 import type { SupplementIntakeResolvers } from '../schema.generated'

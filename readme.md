@@ -72,3 +72,12 @@ Försöka köra ett plugin per implementation (alltså en KV som har separata de
 
 CMS-plugin:
 Gör så att det är lätt att extenda åt "båda hållen". Har vi en entitet (Recipe) så vore det coolt att kunna hantera det dynamiskt på CMS-nivå - men lägga till resolvers som extendar funktionaliteten.
+
+
+Support parallel authentication flows?
+Use directives to separate expected authentication mechanisms. So we can have a token that contains { integrationId: ObjectId }, { userId: ObjectId } as well as { apiKey: ObjectId } and type them safely for each resolver, for example:
+resolver1 @noAuth (no auth required)
+resolver2 (user auth, default)
+resolver3 @integrationAuth (integration auth)
+resolver4 @integrationAuth @userAuth (either goes)
+resolver5 @apiAuth (api auth)

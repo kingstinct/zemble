@@ -81,3 +81,17 @@ export const SupplementIntakeDbType = schema(
 export type SupplementIntakeDbType = typeof SupplementIntakeDbType[0]
 
 export const Supplements = papr.model('supplement-intakes', SupplementIntakeDbType)
+
+export const UserDbType = schema(
+  {
+    _id: types.objectId({ required: true }),
+    email: types.string({ required: true }),
+    lastLoginAt: types.date({ required: true }),
+    firstLoginAt: types.date({ required: true }),
+  },
+  {
+    timestamps: true,
+  },
+)
+
+export const Users = papr.model('users', UserDbType)

@@ -21,7 +21,6 @@
     "mongodb": "5",
     "papr": "^14.1.0",
     "readapt-plugin-apple-app-site-association": "workspace:*",
-    "readapt-plugin-auth-anonymous": "workspace:*",
     "readapt-plugin-auth-otp": "workspace:^",
     "readapt-plugin-bull": "workspace:^",
     "readapt-plugin-todo": "workspace:*"

@@ -41,7 +41,7 @@ const loginRequest: MutationResolvers['loginRequest'] = async (_, {
     twoFactorCode,
   }, plugin.config.twoFactorCodeExpiryInSeconds)
 
-  await plugin.config.handleAuthRequest(email, twoFactorCode, context)
+  await plugin.config.handleAuthRequest({ email }, twoFactorCode, context)
 
   return {
     __typename: 'LoginRequestSuccessResponse',

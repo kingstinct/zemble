@@ -101,9 +101,6 @@ importers:
       readapt-plugin-apple-app-site-association:
         specifier: workspace:*
         version: link:../../plugins/apple-app-site-association
-      readapt-plugin-auth-anonymous:
-        specifier: workspace:*
-        version: link:../../plugins/auth-anonymous
       readapt-plugin-auth-otp:
         specifier: workspace:^
         version: link:../../plugins/auth-otp
@@ -590,6 +587,9 @@ importers:
         specifier: ^5.3.2
         version: registry.npmjs.org/ioredis@5.3.2
     devDependencies:
+      '@graphql-codegen/add':
+        specifier: ^5.0.0
+        version: registry.npmjs.org/@graphql-codegen/add@5.0.0(graphql@16.8.0)
       '@graphql-codegen/cli':
         specifier: ^5.0.0
         version: registry.npmjs.org/@graphql-codegen/cli@5.0.0(graphql@16.8.0)

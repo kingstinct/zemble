@@ -11,7 +11,10 @@ const config = {
         immutableTypes: true,
         directiveContextTypes: ['skipAuth#Readapt.NoAuth'],
       },
-      plugins: ['typescript', 'typescript-resolvers'],
+      plugins: [
+        'typescript',
+        'typescript-resolvers',
+      ],
     },
     [`./graphql/client.generated/`]: {
       documents: [
@@ -19,6 +22,16 @@ const config = {
         `./**/*.ts`,
         `!./**/*.generated.ts`,
         `!./node_modules/**/*`,
+      ],
+      plugins: [
+        {
+          add: {
+            placement: 'prepend',
+            content: `
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-nocheck`,
+          },
+        },
       ],
       preset: 'client',
     },

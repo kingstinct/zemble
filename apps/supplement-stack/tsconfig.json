@@ -4,5 +4,6 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "CommonJS"
-  }
+  },
+  "exclude": [ "graphql/client.generated/*.ts" ]
 }
