@@ -15,7 +15,7 @@ const getTwoFactorCode = () => {
 
 const loginRequest: MutationResolvers['loginRequest'] = async (_, {
   email,
-}) => {
+}, context) => {
   if (!isValidEmail(email)) {
     return { message: 'Not a valid email', __typename: 'EmailNotValidError' }
   }
@@ -41,7 +41,7 @@ const loginRequest: MutationResolvers['loginRequest'] = async (_, {
     twoFactorCode,
   }, plugin.config.twoFactorCodeExpiryInSeconds)
 
-  await plugin.config.handleAuthRequest(email, twoFactorCode)
+  await plugin.config.handleAuthRequest(email, twoFactorCode, context)
 
   return {
     __typename: 'LoginRequestSuccessResponse',

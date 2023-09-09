@@ -6,14 +6,29 @@ import { Plugin } from '@readapt/core'
 import Auth from 'readapt-plugin-auth'
 import kv from 'readapt-plugin-kv'
 
+import type { IEmail } from '@readapt/core'
+
 interface OtpAuthConfig extends Readapt.GlobalConfig {
   readonly tokenExpiryInSeconds?: number
   readonly twoFactorCodeExpiryInSeconds?: number
   readonly minTimeBetweenTwoFactorCodeRequestsInSeconds?: number
-  /**
-   * Use this to handle the request for a two factor code, usually by sending an email with the code.
-   */
-  readonly handleAuthRequest: (email: string, twoFactorCode: string) => Promise<void> | void
+  readonly from: IEmail
+  /*
+   * Write {{email}}, {{name}} and {{twoFactorCode}} to have them replaced with the
+   * email, name and two factor code.
+    */
+  readonly emailSubject?: string
+  /*
+   * Write {{email}}, {{name}} and {{twoFactorCode}} to have them replaced with the
+   * email, name and two factor code.
+    */
+  readonly emailText?: string
+  /*
+   * Write {{email}}, {{name}} and {{twoFactorCode}} to have them replaced with the
+   * email, name and two factor code.
+    */
+  readonly emailHtml?: string
+  readonly handleAuthRequest?: (email: IEmail, twoFactorCode: string, context: Readapt.GlobalContext) => Promise<void> | void
   readonly generateTokenContents: (email: string) => Promise<Readapt.OtpToken> | Readapt.OtpToken
 }
 
@@ -40,15 +55,36 @@ function generateTokenContents(email: string): Readapt.OtpToken {
   return { email, type: 'AuthOtp' as const }
 }
 
+const simpleTemplating = (template: string, values: Record<string, string>): string => {
+  let result = template
+  Object.entries(values).forEach(([key, value]) => {
+    result = result.replaceAll(`{{${key}}}`, value)
+  })
+  return result
+}
+
 const defaultConfig = {
   tokenExpiryInSeconds: undefined,
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
   generateTokenContents,
+  handleAuthRequest: async (to, twoFactorCode, context) => {
+    if (context.sendEmail) {
+      void context.sendEmail({
+        from: plugin.config.from,
+        subject: plugin.config.emailSubject ? simpleTemplating(plugin.config.emailSubject, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : 'Login',
+        text: plugin.config.emailText ? simpleTemplating(plugin.config.emailText, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : `Your two factor code is ${twoFactorCode}`,
+        html: plugin.config.emailHtml ? simpleTemplating(plugin.config.emailHtml, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : `Your two factor code is <b>${twoFactorCode}</b>`,
+        to,
+      })
+    } else {
+      console.log(`handleAuthRequest for ${to.email}`, twoFactorCode)
+    }
+  },
 } satisfies Partial<OtpAuthConfig>
 
 const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(__dirname, {
-  dependencies: ({ config }) => [
+  dependencies: [
     {
       plugin: Auth,
     },
@@ -58,8 +94,9 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(__dirname, {
   ],
   defaultConfig,
   devConfig: {
-    handleAuthRequest: (_, code) => { console.log('handleAuthRequest', code) },
+    handleAuthRequest: ({ email }, code) => { console.log(`handleAuthRequest for ${email}`, code) },
     generateTokenContents,
+    from: { email: 'noreply@readapt.com' },
   },
 })
 

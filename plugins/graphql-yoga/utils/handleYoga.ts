@@ -16,7 +16,6 @@ export default async (
   })
 
   async function subscribe() {
-    console.log('about to subscribe')
     const eventSource = pubsub.subscribe('reload-schema')
 
     // eslint-disable-next-line no-restricted-syntax

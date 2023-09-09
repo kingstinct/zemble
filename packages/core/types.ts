@@ -47,7 +47,16 @@ declare global {
 
     }
 
-    interface GlobalContext {
+    // optional standard services here, so we can override them
+    interface BaseStandardContext {
+      // eslint-disable-next-line functional/prefer-readonly-type
+      sendEmail?: IStandardSendEmailService
+      // eslint-disable-next-line functional/prefer-readonly-type
+      kv?: IStandardKeyValueService
+    }
+
+    interface GlobalContext extends BaseStandardContext {
+
     }
 
     interface RequestContext extends GlobalContext, HonoContext {
