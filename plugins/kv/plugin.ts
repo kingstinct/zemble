@@ -23,28 +23,6 @@ const defaultConfig = {
   redisUrl: process.env.REDIS_URL,
 } satisfies KeyValueConfig
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Readapt {
-    interface GraphQLContext {
-      readonly kv: typeof kv
-    }
-  }
-}
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Readapt {
-    interface KVPrefixes extends Record<string, unknown> {
-      // allow typing and extending prefixes
-      // readonly 'test': {
-      //   readonly 'yo': string
-      // }
-
-    }
-  }
-}
-
 export function kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K): IStandardKeyValueService<T> {
   const prefixStr = prefix.toString()
   if (config.implementation === 'cloudflare' || config.cloudflareNamespace) {
@@ -76,7 +54,7 @@ const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
       plugin: gql.configure({
         yoga: {
           plugins: [
-            useExtendContext((ctx) => {
+            useExtendContext((ctx: Readapt.GraphQLContext) => {
               // eslint-disable-next-line functional/immutable-data
               ctx.kv = kv
             }),

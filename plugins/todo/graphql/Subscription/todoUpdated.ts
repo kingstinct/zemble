@@ -11,14 +11,11 @@ declare global {
 
 const todoUpdated: SubscriptionResolvers['todoUpdated'] = {
   // subscribe to the todoUpdated event
-  subscribe: (_, __, { pubsub }) => {
-    console.log('subscribing to todoUpdated')
+  subscribe: (_, __, { pubsub, logger }) => {
+    logger.log('subscribing to todoUpdated')
     return pubsub.subscribe('todoUpdated')
   },
-  resolve: (payload: Todo) => {
-    console.log('resolving todoUpdated', payload)
-    return payload
-  },
+  resolve: (payload: Todo) => payload,
 }
 
 export default todoUpdated

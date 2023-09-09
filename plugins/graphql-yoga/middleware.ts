@@ -112,6 +112,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
     const handler = await handleYoga(
       async () => buildMergedSchema(plugins, config),
       pubsub,
+      globalContext.logger,
       {
         ...config.yoga,
         graphiql: async (req, context) => {

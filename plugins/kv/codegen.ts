@@ -1,4 +1,3 @@
-import { defineConfig } from '@eddeee888/gcg-typescript-resolver-files'
 import defaultConfig from '@readapt/graphql-yoga/codegen'
 
 import type { CodegenConfig } from '@graphql-codegen/cli'

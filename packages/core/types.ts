@@ -37,6 +37,10 @@ export abstract class IStandardKeyValueService<T = unknown> {
   abstract entries(): Promise<readonly (readonly [string, T])[]> | readonly (readonly [string, T])[]
 }
 
+interface IStandardLogger extends Pick<typeof console, 'log' | 'debug' | 'warn' | 'error' | 'info' |'time' |'timeEnd'> {
+
+}
+
 declare global {
   namespace Readapt {
     interface Server extends Hono {
@@ -47,16 +51,26 @@ declare global {
 
     }
 
+    interface KVPrefixes extends Record<string, unknown> {
+      // allow typing and extending prefixes
+      // readonly 'test': {
+      //   readonly 'yo': string
+      // }
+
+    }
+
     // optional standard services here, so we can override them
     interface BaseStandardContext {
       // eslint-disable-next-line functional/prefer-readonly-type
       sendEmail?: IStandardSendEmailService
       // eslint-disable-next-line functional/prefer-readonly-type
-      kv?: IStandardKeyValueService
     }
 
     interface GlobalContext extends BaseStandardContext {
-
+      // eslint-disable-next-line functional/prefer-readonly-type
+      logger: IStandardLogger
+      // eslint-disable-next-line functional/prefer-readonly-type
+      kv: <T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
     }
 
     interface RequestContext extends GlobalContext, HonoContext {

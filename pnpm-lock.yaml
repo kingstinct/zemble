@@ -661,6 +661,49 @@ importers:
         specifier: workspace:^
         version: link:../auth-api-token
 
+  plugins/logger-graphql:
+    dependencies:
+      '@graphql-yoga/plugin-defer-stream':
+        specifier: ^2.0.4
+        version: registry.npmjs.org/@graphql-yoga/plugin-defer-stream@2.0.4(graphql-yoga@4.0.4)(graphql@16.8.0)
+      '@readapt/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../graphql-yoga
+      graphql-yoga:
+        specifier: ^4.0.4
+        version: registry.npmjs.org/graphql-yoga@4.0.4(graphql@16.8.0)
+      hono:
+        specifier: ^3.4.3
+        version: registry.npmjs.org/hono@3.4.3
+    devDependencies:
+      '@graphql-codegen/cli':
+        specifier: ^5.0.0
+        version: registry.npmjs.org/@graphql-codegen/cli@5.0.0(graphql@16.8.0)
+      '@graphql-codegen/typescript':
+        specifier: ^4.0.1
+        version: registry.npmjs.org/@graphql-codegen/typescript@4.0.1(graphql@16.8.0)
+      '@graphql-codegen/typescript-resolvers':
+        specifier: ^4.0.1
+        version: registry.npmjs.org/@graphql-codegen/typescript-resolvers@4.0.1(graphql@16.8.0)
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
+      '@types/jest':
+        specifier: ^29.5.4
+        version: registry.npmjs.org/@types/jest@29.5.4
+      '@urql/core':
+        specifier: ^4.1.1
+        version: registry.npmjs.org/@urql/core@4.1.1(graphql@16.8.0)
+      jest:
+        specifier: ^29.6.4
+        version: registry.npmjs.org/jest@29.6.4
+      ts-jest:
+        specifier: ^29.1.1
+        version: registry.npmjs.org/ts-jest@29.1.1(@babel/core@7.22.10)(jest@29.6.4)(typescript@5.1.6)
+
   plugins/todo:
     dependencies:
       '@bull-board/api':
@@ -5986,6 +6029,21 @@ packages:
       tslib: registry.npmjs.org/tslib@2.6.2
     dev: false
 
+  registry.npmjs.org/@graphql-yoga/plugin-defer-stream@2.0.4(graphql-yoga@4.0.4)(graphql@16.8.0):
+    resolution: {integrity: sha512-VW59oqldg/9lZOEJrS/D4JQL3M5ARZD3TqUXrGKMAJdmvraZpQ11I+A3ZKLvnznT5Wcoqne6NemEjsD/eB0DKA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@graphql-yoga/plugin-defer-stream/-/plugin-defer-stream-2.0.4.tgz}
+    id: registry.npmjs.org/@graphql-yoga/plugin-defer-stream/2.0.4
+    name: '@graphql-yoga/plugin-defer-stream'
+    version: 2.0.4
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      graphql: ^15.2.0 || ^16.0.0
+      graphql-yoga: ^4.0.4
+    dependencies:
+      '@graphql-tools/utils': registry.npmjs.org/@graphql-tools/utils@10.0.5(graphql@16.8.0)
+      graphql: registry.npmjs.org/graphql@16.8.0
+      graphql-yoga: registry.npmjs.org/graphql-yoga@4.0.4(graphql@16.8.0)
+    dev: false
+
   registry.npmjs.org/@graphql-yoga/redis-event-target@2.0.0(ioredis@5.3.2):
     resolution: {integrity: sha512-JH/UCeQjaXM+qFqZyBG5kjlSrS/hRlqm0RiAnA4LK1W/kGk3Ns/8yMENmlxlQuU9ySdPz9mkgmzgN4MemR+ZqQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@graphql-yoga/redis-event-target/-/redis-event-target-2.0.0.tgz}
     id: registry.npmjs.org/@graphql-yoga/redis-event-target/2.0.0
@@ -6345,14 +6403,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  registry.npmjs.org/@jest/schemas@29.6.0:
-    resolution: {integrity: sha512-rxLjXyJBTL4LQeJW3aKo0M/+GkCOXsO+8i9Iu7eDb6KwtP65ayoDsitrdPBtujxQ88k4wI2FNYfa6TOGwSn6cQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@jest/schemas/-/schemas-29.6.0.tgz}
-    name: '@jest/schemas'
-    version: 29.6.0
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dependencies:
-      '@sinclair/typebox': registry.npmjs.org/@sinclair/typebox@0.27.8
 
   registry.npmjs.org/@jest/schemas@29.6.3:
     resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@jest/schemas/-/schemas-29.6.3.tgz}
@@ -7428,7 +7478,7 @@ packages:
     version: 29.5.4
     dependencies:
       expect: registry.npmjs.org/expect@29.6.4
-      pretty-format: registry.npmjs.org/pretty-format@29.6.2
+      pretty-format: registry.npmjs.org/pretty-format@29.6.3
     dev: true
 
   registry.npmjs.org/@types/js-yaml@4.0.5:
@@ -14643,19 +14693,11 @@ packages:
       jest-util: registry.npmjs.org/jest-util@29.6.3
     dev: true
 
-  registry.npmjs.org/jest-get-type@29.4.3:
-    resolution: {integrity: sha512-J5Xez4nRRMjk8emnTpWrlkyb9pfRQQanDrvWHhsR1+VUfbwxi30eVcZFlcdGInRibU4G5LwHXpI7IRHU0CY+gg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/jest-get-type/-/jest-get-type-29.4.3.tgz}
-    name: jest-get-type
-    version: 29.4.3
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dev: false
-
   registry.npmjs.org/jest-get-type@29.6.3:
     resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/jest-get-type/-/jest-get-type-29.6.3.tgz}
     name: jest-get-type
     version: 29.6.3
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dev: true
 
   registry.npmjs.org/jest-haste-map@29.6.4:
     resolution: {integrity: sha512-12Ad+VNTDHxKf7k+M65sviyynRoZYuL1/GTuhEVb8RYsNSNln71nANRb/faSyWvx0j+gHcivChXHIoMJrGYjog==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/jest-haste-map/-/jest-haste-map-29.6.4.tgz}
@@ -14712,7 +14754,7 @@ packages:
       chalk: registry.npmjs.org/chalk@4.1.2
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       micromatch: registry.npmjs.org/micromatch@4.0.5
-      pretty-format: registry.npmjs.org/pretty-format@29.6.2
+      pretty-format: registry.npmjs.org/pretty-format@29.6.3
       slash: registry.npmjs.org/slash@3.0.0
       stack-utils: registry.npmjs.org/stack-utils@2.0.6
     dev: false
@@ -14943,9 +14985,9 @@ packages:
       '@jest/types': registry.npmjs.org/@jest/types@29.6.3
       camelcase: registry.npmjs.org/camelcase@6.3.0
       chalk: registry.npmjs.org/chalk@4.1.2
-      jest-get-type: registry.npmjs.org/jest-get-type@29.4.3
+      jest-get-type: registry.npmjs.org/jest-get-type@29.6.3
       leven: registry.npmjs.org/leven@3.1.0
-      pretty-format: registry.npmjs.org/pretty-format@29.6.2
+      pretty-format: registry.npmjs.org/pretty-format@29.6.3
     dev: false
 
   registry.npmjs.org/jest-validate@29.6.3:
@@ -18216,16 +18258,6 @@ packages:
       react-is: registry.npmjs.org/react-is@17.0.2
     dev: false
 
-  registry.npmjs.org/pretty-format@29.6.2:
-    resolution: {integrity: sha512-1q0oC8eRveTg5nnBEWMXAU2qpv65Gnuf2eCQzSjxpWFkPaPARwqZZDGuNE0zPAZfTCHzIk3A8dIjwlQKKLphyg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/pretty-format/-/pretty-format-29.6.2.tgz}
-    name: pretty-format
-    version: 29.6.2
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dependencies:
-      '@jest/schemas': registry.npmjs.org/@jest/schemas@29.6.0
-      ansi-styles: registry.npmjs.org/ansi-styles@5.2.0
-      react-is: registry.npmjs.org/react-is@18.2.0
-
   registry.npmjs.org/pretty-format@29.6.3:
     resolution: {integrity: sha512-ZsBgjVhFAj5KeK+nHfF1305/By3lechHQSMWCTl8iHSbfOm2TN5nHEtFc/+W7fAyUeCs2n5iow72gld4gW0xDw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/pretty-format/-/pretty-format-29.6.3.tgz}
     name: pretty-format
@@ -18235,7 +18267,6 @@ packages:
       '@jest/schemas': registry.npmjs.org/@jest/schemas@29.6.3
       ansi-styles: registry.npmjs.org/ansi-styles@5.2.0
       react-is: registry.npmjs.org/react-is@18.2.0
-    dev: true
 
   registry.npmjs.org/pretty@2.0.0:
     resolution: {integrity: sha512-G9xUchgTEiNpormdYBl+Pha50gOUovT18IvAe7EYMZ1/f9W/WWMPRn+xI68yXNMUk3QXHDwo/1wV/4NejVNe1w==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/pretty/-/pretty-2.0.0.tgz}

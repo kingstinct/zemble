@@ -1,0 +1,11 @@
+directive @stream on FIELD_DEFINITION | FIELD
+
+type Query {
+  logger: [LogOutput!]! @stream
+}
+
+type LogOutput {
+  severity: String!
+  message: String!
+  timestamp: String!
+}

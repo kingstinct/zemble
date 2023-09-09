@@ -1,11 +1,14 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { logger } from 'hono/logger'
 
+import KeyValue from './clients/KeyValue'
 import initializePlugin from './utils/initializePlugin'
 import { readPackageJson } from './utils/readPackageJson'
 import { uniqBy } from './utils/uniqBy'
 
+import type { IStandardKeyValueService } from '.'
 import type Plugin from './Plugin'
 import type { PluginWithMiddleware } from './PluginWithMiddleware'
 
@@ -44,24 +47,20 @@ const filterConfig = (config: Record<string, unknown>) => Object.keys(config).re
 }, {})
 
 export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure): Promise<ReadaptApp> => {
-  const context = {} as Readapt.GlobalContext
+  const context = {
+    logger: console,
+    kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K): IStandardKeyValueService<T> {
+      // @ts-expect-error fix sometime maybe :)
+      return new KeyValue<T>(prefix) as unknown as IStandardKeyValueService<T>
+    },
+  } as unknown as Readapt.GlobalContext
 
   const app = new Hono() as Readapt.Server
 
-  app.use('*', cors())
+  // maybe this should be later - how about middleware that overrides logger?
+  app.use('*', logger(context.logger.log))
 
-  app.get('/', (c) => c.html(`<html>
-    <head>
-      <title>${packageJson.name}</title>
-      <meta name="color-scheme" content="light dark">
-    </head>
-    <body>
-      <div>
-        <p>Hello ReAdapt! Serving ${packageJson.name}</p>
-        <p><a href='/graphql'>Check out your GraphQL API here</a></p>
-      </div>
-    </body>
-  </html>`))
+  app.use('*', cors())
 
   const resolved = await Promise.all(
     pluginsBeforeResolvingDeps.flatMap(async (plugin) => [...await plugin.dependencies, plugin]),
@@ -90,6 +89,19 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   }, Promise.resolve(undefined))
 
   await initializePlugins(plugins, app)
+
+  app.get('/', (c) => c.html(`<html>
+    <head>
+      <title>${packageJson.name}</title>
+      <meta name="color-scheme" content="light dark">
+    </head>
+    <body>
+      <div>
+        <p>Hello ReAdapt! Serving ${packageJson.name}</p>
+        <p><a href='/graphql'>Check out your GraphQL API here</a></p>
+      </div>
+    </body>
+  </html>`))
 
   return {
     app,

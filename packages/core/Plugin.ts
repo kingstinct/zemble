@@ -72,6 +72,9 @@ export class Plugin<
     return this
   }
 
+  /**
+   * Warning: don't export this directly from your plugin file, it will snapshot the config at that point in time
+   */
   get config() {
     return this.#config
   }

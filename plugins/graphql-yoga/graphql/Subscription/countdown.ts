@@ -1,17 +1,23 @@
-import { SubscriptionResolvers } from "../schema.generated";
+import type { SubscriptionResolvers } from '../schema.generated'
 
 const countdown: SubscriptionResolvers['countdown'] = {
   // This will return the value on every 1 sec until it reaches 0
-  subscribe: async function* (_, { from }) {
+  // eslint-disable-next-line object-shorthand
+  subscribe: async function* (_, { from }, { logger }) {
+    // eslint-disable-next-line no-plusplus
     for (let i = from; i >= 0; i--) {
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        logger.info('countdown', { countdown: i })
+        setTimeout(resolve, 1000)
+      })
       yield { countdown: i }
     }
   },
   resolve: (payload: unknown) => {
-    console.log('resolving countdown', payload);
-    return (payload as { countdown: number}).countdown
-  }
+    console.log('resolving countdown', payload)
+    return (payload as { readonly countdown: number}).countdown
+  },
 }
 
 export default countdown
