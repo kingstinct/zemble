@@ -37,17 +37,22 @@ export default async (
       honoContext: c,
     })
 
-    return c.newResponse(res.body, res.status, c.req.headers.get('Accept')?.includes('text/html')
-      ? {
-        'Content-Type': 'text/html',
-      } : (c.req.headers.get('Accept')?.includes('text/event-stream') ? {
-        'Content-Type': 'text/event-stream',
-      // eslint-disable-next-line unicorn/no-nested-ternary
-      } : c.req.headers.get('Accept')?.includes('multipart/mixed') ? {
-        'Content-Type': 'multipart/mixed',
+    const headers = Array.from(c.req.headers.keys()).reduce((acc, key) => {
+      const value = c.req.headers.get(key)
+      // eslint-disable-next-line unicorn/prefer-ternary
+      if (key === 'content-type') {
+        // only copy content-type - for whatever reason, copying all headers breaks the response
+        // eslint-disable-next-line functional/immutable-data
+        acc[key] = value!
       }
-        : {
-          'Content-Type': 'application/graphql-response+json',
-        }))
+
+      return acc
+    }, {
+      'content-type': 'text/html', // default to html, for playground to load
+    } as Record<string, string>)
+
+    console.log('headers', headers)
+
+    return c.newResponse(res.body, res.status, headers)
   }
 }
