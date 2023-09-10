@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { OneOfInputObjectsRule, useExtendedValidation } from '@envelop/extended-validation'
 import { Plugin } from '@readapt/core'
 import graphqlYoga from '@readapt/graphql-yoga'
 import kvPlugin from 'readapt-plugin-kv'
@@ -22,6 +23,13 @@ const plugin = new Plugin(__dirname, {
       {
         plugin: graphqlYoga.configure({
           extendSchema: async () => Promise.all([getDynamicSchema()]),
+          yoga: {
+            plugins: [
+              useExtendedValidation({
+                rules: [OneOfInputObjectsRule],
+              }),
+            ],
+          },
         }),
       },
       {

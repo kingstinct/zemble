@@ -11,23 +11,28 @@ import type {
 type Field = typeof EntitySchema[0]['fields'][0]
 
 const mapInputToField = (input: FieldInput): Field => {
-  const hey = ({
+  const fieldConfig = ({
     ...input.NumberField,
     ...input.StringField,
     ...input.BooleanField,
-    __typename: Object.keys(input)[0] as 'BooleanField' | 'StringField' | 'NumberField',
+    ...input.EntityLinkField,
+    ...input.ArrayField,
+    __typename: Object.keys(input)[0] as 'BooleanField' | 'StringField' | 'NumberField' | 'EntityLinkField' | 'ArrayField',
   })
 
   // @ts-expect-error fix sometime
   return {
-    ...hey,
-    isRequired: hey.isRequired ?? false,
+    ...fieldConfig,
+    isRequired: fieldConfig.isRequired ?? false,
+    ...input.ArrayField ? { availableFields: input.ArrayField.availableFields.map(mapInputToField) } : {},
   }
 }
 
 const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
   // eslint-disable-next-line functional/prefer-readonly-type
   const fields: Field[] = fieldsInput.map(mapInputToField)
+
+  console.log(JSON.stringify(fields, null, 2))
 
   const prev = await Entity.findOneAndUpdate({ name: entityName }, {
     $addToSet: {

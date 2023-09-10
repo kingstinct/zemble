@@ -6,6 +6,9 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-nocheck
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -15,6 +18,23 @@ export type Scalars = {
   Float: { input: number; output: number; }
   Date: { input: any; output: any; }
   DateTime: { input: any; output: any; }
+};
+
+export type ArrayField = Field & {
+  __typename?: 'ArrayField';
+  availableFields: Array<Field>;
+  isRequired: Scalars['Boolean']['output'];
+  maxItems?: Maybe<Scalars['Int']['output']>;
+  minItems?: Maybe<Scalars['Int']['output']>;
+  name: Scalars['String']['output'];
+};
+
+export type ArrayFieldInput = {
+  availableFields: Array<FieldInputWithoutArray>;
+  isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  maxItems?: InputMaybe<Scalars['Int']['input']>;
+  minItems?: InputMaybe<Scalars['Int']['input']>;
+  name: Scalars['String']['input'];
 };
 
 export type BooleanField = Field & {
@@ -40,34 +60,42 @@ export type EntityInput = {
   name: Scalars['String']['input'];
 };
 
-export type Field = {
-  isRequired: Scalars['Boolean']['output'];
-  name: Scalars['String']['output'];
-};
-
-export type FieldInput =
-  { BooleanField: BooleanFieldInput; NumberField?: never; StringField?: never; }
-  |  { BooleanField?: never; NumberField: NumberFieldInput; StringField?: never; }
-  |  { BooleanField?: never; NumberField?: never; StringField: StringFieldInput; };
-
-export type IdField = Field & {
-  __typename?: 'IDField';
-  isRequired: Scalars['Boolean']['output'];
-  name: Scalars['String']['output'];
-};
-
-export type LinkField = Field & {
-  __typename?: 'LinkField';
+export type EntityLinkField = Field & {
+  __typename?: 'EntityLinkField';
   entity: Entity;
   entityName: Scalars['String']['output'];
   isRequired: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
 };
 
-export type LinkFieldInput = {
+export type EntityLinkFieldInput = {
   entityName: Scalars['String']['input'];
   isRequired: Scalars['Boolean']['input'];
   name: Scalars['String']['input'];
+};
+
+export type Field = {
+  isRequired: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type FieldInput =
+  { ArrayField: ArrayFieldInput; BooleanField?: never; EntityLinkField?: never; NumberField?: never; StringField?: never; }
+  |  { ArrayField?: never; BooleanField: BooleanFieldInput; EntityLinkField?: never; NumberField?: never; StringField?: never; }
+  |  { ArrayField?: never; BooleanField?: never; EntityLinkField: EntityLinkFieldInput; NumberField?: never; StringField?: never; }
+  |  { ArrayField?: never; BooleanField?: never; EntityLinkField?: never; NumberField: NumberFieldInput; StringField?: never; }
+  |  { ArrayField?: never; BooleanField?: never; EntityLinkField?: never; NumberField?: never; StringField: StringFieldInput; };
+
+export type FieldInputWithoutArray =
+  { BooleanField: BooleanFieldInput; EntityLinkField?: never; NumberField?: never; StringField?: never; }
+  |  { BooleanField?: never; EntityLinkField: EntityLinkFieldInput; NumberField?: never; StringField?: never; }
+  |  { BooleanField?: never; EntityLinkField?: never; NumberField: NumberFieldInput; StringField?: never; }
+  |  { BooleanField?: never; EntityLinkField?: never; NumberField?: never; StringField: StringFieldInput; };
+
+export type IdField = Field & {
+  __typename?: 'IDField';
+  isRequired: Scalars['Boolean']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type Mutation = {
@@ -125,23 +153,6 @@ export type Query = {
 
 
 export type QueryEntityArgs = {
-  name: Scalars['String']['input'];
-};
-
-export type RepeaterField = Field & {
-  __typename?: 'RepeaterField';
-  availableFields: Array<Field>;
-  isRequired: Scalars['Boolean']['output'];
-  maxItems?: Maybe<Scalars['Int']['output']>;
-  minItems?: Maybe<Scalars['Int']['output']>;
-  name: Scalars['String']['output'];
-};
-
-export type RepeaterFieldInput = {
-  availableFields: Array<FieldInput>;
-  isRequired?: InputMaybe<Scalars['Boolean']['input']>;
-  maxItems?: InputMaybe<Scalars['Int']['input']>;
-  minItems?: InputMaybe<Scalars['Int']['input']>;
   name: Scalars['String']['input'];
 };
 

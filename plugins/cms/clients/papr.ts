@@ -33,50 +33,58 @@ export async function disconnect() {
   await client?.close()
 }
 
+export const ArrayFieldObject = types.object({
+  name: types.string({ required: true }),
+  isRequired: types.boolean({ required: true }),
+  maxItems: types.number({ required: false }),
+  minItems: types.number({ required: false }),
+  availableFields: types.array(types.unknown, { required: true }),
+  __typename: types.constant('ArrayField' as const, { required: true }),
+}, {
+  required: true,
+})
+
+export type ArrayFieldType = typeof ArrayFieldObject
+
+const AllFields = types.array(types.oneOf([
+  types.object({
+    name: types.string({ required: true }),
+    isRequired: types.boolean({ required: true }),
+    __typename: types.constant('IDField' as const, { required: true }),
+  }),
+  types.object({
+    name: types.string({ required: true }),
+    isRequired: types.boolean({ required: true }),
+    defaultValue: types.number({ required: false }),
+    max: types.number({ required: false }),
+    min: types.number({ required: false }),
+    __typename: types.constant('NumberField' as const, { required: true }),
+  }),
+  types.object({
+    name: types.string({ required: true }),
+    isRequired: types.boolean({ required: true }),
+    defaultValue: types.boolean({ required: false }),
+    __typename: types.constant('BooleanField' as const, { required: true }),
+  }),
+  types.object({
+    name: types.string({ required: true }),
+    isRequired: types.boolean({ required: true }),
+    maxLength: types.number({ required: false }),
+    minLength: types.number({ required: false }),
+    defaultValue: types.string({ required: false }),
+    __typename: types.constant('StringField' as const, { required: true }),
+  }),
+  ArrayFieldObject,
+], {
+  required: true,
+}),
+{
+  required: true,
+})
+
 export const EntitySchema = schema({
   name: types.string({ required: true }),
-  fields: types.array(types.oneOf([
-    types.object({
-      name: types.string({ required: true }),
-      isRequired: types.boolean({ required: true }),
-      __typename: types.constant('IDField' as const, { required: true }),
-    }, {
-      required: true,
-    }),
-    types.object({
-      name: types.string({ required: true }),
-      isRequired: types.boolean({ required: true }),
-      defaultValue: types.number({ required: false }),
-      max: types.number({ required: false }),
-      min: types.number({ required: false }),
-      __typename: types.constant('NumberField' as const, { required: true }),
-    }, {
-      required: true,
-    }),
-    types.object({
-      name: types.string({ required: true }),
-      isRequired: types.boolean({ required: true }),
-      defaultValue: types.boolean({ required: false }),
-      __typename: types.constant('BooleanField' as const, { required: true }),
-    }, {
-      required: true,
-    }),
-    types.object({
-      name: types.string({ required: true }),
-      isRequired: types.boolean({ required: true }),
-      maxLength: types.number({ required: false }),
-      minLength: types.number({ required: false }),
-      defaultValue: types.string({ required: false }),
-      __typename: types.constant('StringField' as const, { required: true }),
-    }, {
-      required: true,
-    }),
-  ], {
-    required: true,
-  }),
-  {
-    required: true,
-  }),
+  fields: AllFields,
 }, {
   timestamps: true,
 })

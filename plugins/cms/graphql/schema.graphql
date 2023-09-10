@@ -20,8 +20,15 @@ input FieldInput @oneOf {
   StringField: StringFieldInput
   NumberField: NumberFieldInput
   BooleanField: BooleanFieldInput
-  # RepeaterField: RepeaterFieldInput
-  # LinkField: LinkFieldInput
+  ArrayField: ArrayFieldInput
+  EntityLinkField: EntityLinkFieldInput
+}
+
+input FieldInputWithoutArray @oneOf {
+  StringField: StringFieldInput
+  NumberField: NumberFieldInput
+  BooleanField: BooleanFieldInput
+  EntityLinkField: EntityLinkFieldInput
 }
 
 input StringFieldInput {
@@ -46,15 +53,15 @@ input BooleanFieldInput {
   defaultValue: Boolean
 }
 
-input RepeaterFieldInput {
+input ArrayFieldInput {
   name: String!
-  availableFields: [FieldInput!]!
+  availableFields: [FieldInputWithoutArray!]!
   isRequired: Boolean
   maxItems: Int
   minItems: Int
 }
 
-input LinkFieldInput {
+input EntityLinkFieldInput {
   name: String!
   entityName: String!
   isRequired: Boolean!
@@ -127,7 +134,7 @@ type BooleanField implements Field {
 #   name: String!
 # }
 
-type RepeaterField implements Field {
+type ArrayField implements Field {
   name: String!
   availableFields: [Field!]!
   isRequired: Boolean!
@@ -135,7 +142,7 @@ type RepeaterField implements Field {
   minItems: Int
 }
 
-type LinkField implements Field {
+type EntityLinkField implements Field {
   name: String!
   entityName: String!
   entity: Entity!

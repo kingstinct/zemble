@@ -503,6 +503,9 @@ importers:
       '@envelop/core':
         specifier: ^4.0.0
         version: registry.npmjs.org/@envelop/core@4.0.0
+      '@envelop/extended-validation':
+        specifier: ^3.0.1
+        version: registry.npmjs.org/@envelop/extended-validation@3.0.1(@envelop/core@4.0.0)(graphql@16.8.0)
       '@envelop/generic-auth':
         specifier: ^6.0.0
         version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
@@ -4386,14 +4389,14 @@ packages:
       tslib: registry.npmjs.org/tslib@2.6.2
     dev: false
 
-  registry.npmjs.org/@envelop/extended-validation@3.0.0(@envelop/core@4.0.0)(graphql@16.8.0):
-    resolution: {integrity: sha512-nW3EjF27qghKszEbhSJFf7jTyoXZcU5XtWCHCuq+ghJOzkjMRQdMHkoiTWhScpAvJc0i26lyWTsZ/SZ0+xIRVA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@envelop/extended-validation/-/extended-validation-3.0.0.tgz}
-    id: registry.npmjs.org/@envelop/extended-validation/3.0.0
+  registry.npmjs.org/@envelop/extended-validation@3.0.1(@envelop/core@4.0.0)(graphql@16.8.0):
+    resolution: {integrity: sha512-UQDt8/MrRKuyX8r6tJmzfqzNyPiibfLeWpeW8+CeG9oNIVYYjjq6+rB5EJCMHWb3uLpY09lD1OxxV3jFcyZq3A==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@envelop/extended-validation/-/extended-validation-3.0.1.tgz}
+    id: registry.npmjs.org/@envelop/extended-validation/3.0.1
     name: '@envelop/extended-validation'
-    version: 3.0.0
+    version: 3.0.1
     engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@envelop/core': ^4.0.0
+      '@envelop/core': ^4.0.1
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       '@envelop/core': registry.npmjs.org/@envelop/core@4.0.0
@@ -4413,7 +4416,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       '@envelop/core': registry.npmjs.org/@envelop/core@4.0.0
-      '@envelop/extended-validation': registry.npmjs.org/@envelop/extended-validation@3.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
+      '@envelop/extended-validation': registry.npmjs.org/@envelop/extended-validation@3.0.1(@envelop/core@4.0.0)(graphql@16.8.0)
       graphql: registry.npmjs.org/graphql@16.8.0
       tslib: registry.npmjs.org/tslib@2.6.2
     dev: false

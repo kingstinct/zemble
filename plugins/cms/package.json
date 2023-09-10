@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^4.0.0",
+    "@envelop/extended-validation": "^3.0.1",
     "@envelop/generic-auth": "^6.0.0",
     "@readapt/core": "workspace:^",
     "@readapt/graphql-yoga": "workspace:^",

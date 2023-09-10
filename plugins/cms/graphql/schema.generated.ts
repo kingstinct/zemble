@@ -18,6 +18,23 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type ArrayField = Field & {
+  readonly __typename?: 'ArrayField';
+  readonly availableFields: ReadonlyArray<Field>;
+  readonly isRequired: Scalars['Boolean']['output'];
+  readonly maxItems?: Maybe<Scalars['Int']['output']>;
+  readonly minItems?: Maybe<Scalars['Int']['output']>;
+  readonly name: Scalars['String']['output'];
+};
+
+export type ArrayFieldInput = {
+  readonly availableFields: ReadonlyArray<FieldInputWithoutArray>;
+  readonly isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  readonly maxItems?: InputMaybe<Scalars['Int']['input']>;
+  readonly minItems?: InputMaybe<Scalars['Int']['input']>;
+  readonly name: Scalars['String']['input'];
+};
+
 export type BooleanField = Field & {
   readonly __typename?: 'BooleanField';
   readonly defaultValue?: Maybe<Scalars['Boolean']['output']>;
@@ -41,34 +58,42 @@ export type EntityInput = {
   readonly name: Scalars['String']['input'];
 };
 
-export type Field = {
-  readonly isRequired: Scalars['Boolean']['output'];
-  readonly name: Scalars['String']['output'];
-};
-
-export type FieldInput =
-  { readonly BooleanField: BooleanFieldInput; readonly NumberField?: never; readonly StringField?: never; }
-  |  { readonly BooleanField?: never; readonly NumberField: NumberFieldInput; readonly StringField?: never; }
-  |  { readonly BooleanField?: never; readonly NumberField?: never; readonly StringField: StringFieldInput; };
-
-export type IdField = Field & {
-  readonly __typename?: 'IDField';
-  readonly isRequired: Scalars['Boolean']['output'];
-  readonly name: Scalars['String']['output'];
-};
-
-export type LinkField = Field & {
-  readonly __typename?: 'LinkField';
+export type EntityLinkField = Field & {
+  readonly __typename?: 'EntityLinkField';
   readonly entity: Entity;
   readonly entityName: Scalars['String']['output'];
   readonly isRequired: Scalars['Boolean']['output'];
   readonly name: Scalars['String']['output'];
 };
 
-export type LinkFieldInput = {
+export type EntityLinkFieldInput = {
   readonly entityName: Scalars['String']['input'];
   readonly isRequired: Scalars['Boolean']['input'];
   readonly name: Scalars['String']['input'];
+};
+
+export type Field = {
+  readonly isRequired: Scalars['Boolean']['output'];
+  readonly name: Scalars['String']['output'];
+};
+
+export type FieldInput =
+  { readonly ArrayField: ArrayFieldInput; readonly BooleanField?: never; readonly EntityLinkField?: never; readonly NumberField?: never; readonly StringField?: never; }
+  |  { readonly ArrayField?: never; readonly BooleanField: BooleanFieldInput; readonly EntityLinkField?: never; readonly NumberField?: never; readonly StringField?: never; }
+  |  { readonly ArrayField?: never; readonly BooleanField?: never; readonly EntityLinkField: EntityLinkFieldInput; readonly NumberField?: never; readonly StringField?: never; }
+  |  { readonly ArrayField?: never; readonly BooleanField?: never; readonly EntityLinkField?: never; readonly NumberField: NumberFieldInput; readonly StringField?: never; }
+  |  { readonly ArrayField?: never; readonly BooleanField?: never; readonly EntityLinkField?: never; readonly NumberField?: never; readonly StringField: StringFieldInput; };
+
+export type FieldInputWithoutArray =
+  { readonly BooleanField: BooleanFieldInput; readonly EntityLinkField?: never; readonly NumberField?: never; readonly StringField?: never; }
+  |  { readonly BooleanField?: never; readonly EntityLinkField: EntityLinkFieldInput; readonly NumberField?: never; readonly StringField?: never; }
+  |  { readonly BooleanField?: never; readonly EntityLinkField?: never; readonly NumberField: NumberFieldInput; readonly StringField?: never; }
+  |  { readonly BooleanField?: never; readonly EntityLinkField?: never; readonly NumberField?: never; readonly StringField: StringFieldInput; };
+
+export type IdField = Field & {
+  readonly __typename?: 'IDField';
+  readonly isRequired: Scalars['Boolean']['output'];
+  readonly name: Scalars['String']['output'];
 };
 
 export type Mutation = {
@@ -127,23 +152,6 @@ export type Query = {
 
 export type QueryEntityArgs = {
   name: Scalars['String']['input'];
-};
-
-export type RepeaterField = Field & {
-  readonly __typename?: 'RepeaterField';
-  readonly availableFields: ReadonlyArray<Field>;
-  readonly isRequired: Scalars['Boolean']['output'];
-  readonly maxItems?: Maybe<Scalars['Int']['output']>;
-  readonly minItems?: Maybe<Scalars['Int']['output']>;
-  readonly name: Scalars['String']['output'];
-};
-
-export type RepeaterFieldInput = {
-  readonly availableFields: ReadonlyArray<FieldInput>;
-  readonly isRequired?: InputMaybe<Scalars['Boolean']['input']>;
-  readonly maxItems?: InputMaybe<Scalars['Int']['input']>;
-  readonly minItems?: InputMaybe<Scalars['Int']['input']>;
-  readonly name: Scalars['String']['input'];
 };
 
 export type StringField = Field & {
@@ -234,11 +242,13 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  Field: ( BooleanField ) | ( IdField ) | ( LinkField ) | ( NumberField ) | ( RepeaterField ) | ( StringField );
+  Field: ( ArrayField ) | ( BooleanField ) | ( EntityLinkField ) | ( IdField ) | ( NumberField ) | ( StringField );
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  ArrayField: ResolverTypeWrapper<ArrayField>;
+  ArrayFieldInput: ArrayFieldInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   BooleanField: ResolverTypeWrapper<BooleanField>;
   BooleanFieldInput: BooleanFieldInput;
@@ -246,19 +256,18 @@ export type ResolversTypes = ResolversObject<{
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Entity: ResolverTypeWrapper<Entity>;
   EntityInput: EntityInput;
+  EntityLinkField: ResolverTypeWrapper<EntityLinkField>;
+  EntityLinkFieldInput: EntityLinkFieldInput;
   Field: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Field']>;
   FieldInput: FieldInput;
+  FieldInputWithoutArray: FieldInputWithoutArray;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   IDField: ResolverTypeWrapper<IdField>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  LinkField: ResolverTypeWrapper<LinkField>;
-  LinkFieldInput: LinkFieldInput;
   Mutation: ResolverTypeWrapper<{}>;
   NumberField: ResolverTypeWrapper<NumberField>;
   NumberFieldInput: NumberFieldInput;
   Query: ResolverTypeWrapper<{}>;
-  RepeaterField: ResolverTypeWrapper<RepeaterField>;
-  RepeaterFieldInput: RepeaterFieldInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringField: ResolverTypeWrapper<StringField>;
   StringFieldInput: StringFieldInput;
@@ -266,6 +275,8 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  ArrayField: ArrayField;
+  ArrayFieldInput: ArrayFieldInput;
   Boolean: Scalars['Boolean']['output'];
   BooleanField: BooleanField;
   BooleanFieldInput: BooleanFieldInput;
@@ -273,19 +284,18 @@ export type ResolversParentTypes = ResolversObject<{
   DateTime: Scalars['DateTime']['output'];
   Entity: Entity;
   EntityInput: EntityInput;
+  EntityLinkField: EntityLinkField;
+  EntityLinkFieldInput: EntityLinkFieldInput;
   Field: ResolversInterfaceTypes<ResolversParentTypes>['Field'];
   FieldInput: FieldInput;
+  FieldInputWithoutArray: FieldInputWithoutArray;
   Float: Scalars['Float']['output'];
   IDField: IdField;
   Int: Scalars['Int']['output'];
-  LinkField: LinkField;
-  LinkFieldInput: LinkFieldInput;
   Mutation: {};
   NumberField: NumberField;
   NumberFieldInput: NumberFieldInput;
   Query: {};
-  RepeaterField: RepeaterField;
-  RepeaterFieldInput: RepeaterFieldInput;
   String: Scalars['String']['output'];
   StringField: StringField;
   StringFieldInput: StringFieldInput;
@@ -294,6 +304,15 @@ export type ResolversParentTypes = ResolversObject<{
 export type OneOfDirectiveArgs = { };
 
 export type OneOfDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = OneOfDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type ArrayFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['ArrayField'] = ResolversParentTypes['ArrayField']> = ResolversObject<{
+  availableFields?: Resolver<ReadonlyArray<ResolversTypes['Field']>, ParentType, ContextType>;
+  isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  maxItems?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  minItems?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export type BooleanFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['BooleanField'] = ResolversParentTypes['BooleanField']> = ResolversObject<{
   defaultValue?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -316,21 +335,21 @@ export type EntityResolvers<ContextType = Readapt.GraphQLContext, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type FieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Field'] = ResolversParentTypes['Field']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'BooleanField' | 'IDField' | 'LinkField' | 'NumberField' | 'RepeaterField' | 'StringField', ParentType, ContextType>;
-  isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-}>;
-
-export type IdFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['IDField'] = ResolversParentTypes['IDField']> = ResolversObject<{
+export type EntityLinkFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['EntityLinkField'] = ResolversParentTypes['EntityLinkField']> = ResolversObject<{
+  entity?: Resolver<ResolversTypes['Entity'], ParentType, ContextType>;
+  entityName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type LinkFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LinkField'] = ResolversParentTypes['LinkField']> = ResolversObject<{
-  entity?: Resolver<ResolversTypes['Entity'], ParentType, ContextType>;
-  entityName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+export type FieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Field'] = ResolversParentTypes['Field']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'ArrayField' | 'BooleanField' | 'EntityLinkField' | 'IDField' | 'NumberField' | 'StringField', ParentType, ContextType>;
+  isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+}>;
+
+export type IdFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['IDField'] = ResolversParentTypes['IDField']> = ResolversObject<{
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -357,15 +376,6 @@ export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType exte
   entity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<QueryEntityArgs, 'name'>>;
 }>;
 
-export type RepeaterFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['RepeaterField'] = ResolversParentTypes['RepeaterField']> = ResolversObject<{
-  availableFields?: Resolver<ReadonlyArray<ResolversTypes['Field']>, ParentType, ContextType>;
-  isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  maxItems?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  minItems?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type StringFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['StringField'] = ResolversParentTypes['StringField']> = ResolversObject<{
   defaultValue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -376,17 +386,17 @@ export type StringFieldResolvers<ContextType = Readapt.GraphQLContext, ParentTyp
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+  ArrayField?: ArrayFieldResolvers<ContextType>;
   BooleanField?: BooleanFieldResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   Entity?: EntityResolvers<ContextType>;
+  EntityLinkField?: EntityLinkFieldResolvers<ContextType>;
   Field?: FieldResolvers<ContextType>;
   IDField?: IdFieldResolvers<ContextType>;
-  LinkField?: LinkFieldResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   NumberField?: NumberFieldResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  RepeaterField?: RepeaterFieldResolvers<ContextType>;
   StringField?: StringFieldResolvers<ContextType>;
 }>;
 
