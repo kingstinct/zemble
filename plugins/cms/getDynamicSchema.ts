@@ -2,8 +2,12 @@
 
 import Dataloader from 'dataloader'
 import {
-  GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLList,
-  GraphQLNonNull, GraphQLID, GraphQLInputObjectType, GraphQLFloat, GraphQLBoolean, GraphQLUnionType, Kind, GraphQLEnumType,
+  GraphQLObjectType, GraphQLSchema,
+  GraphQLString, GraphQLList,
+  GraphQLNonNull, GraphQLID,
+  GraphQLFloat, GraphQLBoolean,
+  GraphQLUnionType, Kind, GraphQLEnumType,
+  GraphQLInputObjectType,
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 
@@ -12,12 +16,23 @@ import {
   capitalize, pluralize,
 } from './utils'
 
-import type { ArrayFieldType, EntityRelationType } from './clients/papr'
 import type {
-  BooleanField, IdField, EntityRelationField, NumberField, ArrayField, StringField,
+  ArrayFieldType,
+  EntityRelationType,
+  EntityType,
+} from './clients/papr'
+import type {
+  BooleanField,
+  IdField,
+  EntityRelationField,
+  NumberField,
+  ArrayField,
+  StringField,
 } from './graphql/schema.generated'
 import type {
-  GraphQLFieldConfig, GraphQLOutputType, GraphQLScalarType, GraphQLType,
+  GraphQLFieldConfig,
+  GraphQLOutputType,
+  GraphQLScalarType,
   GraphQLInputObjectTypeConfig,
 } from 'graphql'
 
@@ -40,6 +55,8 @@ function typeDeduper<T extends GraphQLUnionType | GraphQLObjectType>(type: T): T
   return type
 }
 
+const mapRelationField = (entityName: string, data: string) => ({ __typename: `${entityName}Relation`, externalId: data })
+
 const fieldToOutputType = (
   typePrefix: string,
   field: IField,
@@ -54,18 +71,31 @@ const fieldToOutputType = (
       return GraphQLID
     case 'ArrayField':
       // eslint-disable-next-line no-case-declarations
-      const availableFields = field.availableFields.map((f) => new GraphQLObjectType({
-        name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name)}`,
-        fields: {
-          [f.name]: {
-            type: fieldToOutputType(typePrefix, f as any, relationTypes),
+      const availableFields = field.availableFields.map((f) => {
+        const resolvedType = fieldToOutputType(typePrefix, f as any, relationTypes)
+
+        const hasDeep = (resolvedType as { readonly name: string }).name.includes('Deep')
+
+        return typeDeduper(new GraphQLObjectType({
+          name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name) + (hasDeep ? 'Deep' : '')}`,
+          fields: {
+            [f.name]: {
+              type: resolvedType,
+            },
           },
-        },
-      }))
-      console.log('availableFields', availableFields)
+        }))
+      })
+
+      // eslint-disable-next-line no-case-declarations
+      const deepSuffix = availableFields.some((a) => {
+        const fields = a.getFields()
+
+        return Object.values(fields).some((f) => (f.type as { readonly name: string }).name.includes('Deep'))
+      }) ? 'Deep' : ''
+
       // eslint-disable-next-line no-case-declarations
       const union = typeDeduper(new GraphQLUnionType({
-        name: `${capitalize(typePrefix)}${capitalize(field.name)}Union`,
+        name: `${capitalize(typePrefix)}${capitalize(field.name)}Union${deepSuffix}`,
         types: availableFields,
       }))
       return new GraphQLList(union)
@@ -125,34 +155,60 @@ const fieldToInputType = (typePrefix: string, field: IField): GraphQLScalarType 
           },
         ],
       } as GraphQLInputObjectTypeConfig)
-      // console.log('availableFields', availableFields)
-      // eslint-disable-next-line no-case-declarations
-      // const union = new GraphQLInputObjectType({
-      //   name: `${capitalize(typePrefix)}${capitalize(field.name)}Input`,
-      //   // types: availableFields,
-      //   fields: {
-      //     hello: { type: GraphQLString  }
-      //   },
-      // })
       return new GraphQLList(new GraphQLInputObjectType(availableFields))
-    // case 'EntityRelationField':
-    //   return new GraphQLObjectType({
-    //     name: `${capitalize(field.name)}Link`,
-    //     fields: {
-    //       externalId: {
-    //         type: new GraphQLNonNull(GraphQLID),
-    //       },
-    //     },
-    //   })
     default:
       return GraphQLString
   }
 }
 
+// modifies input data so it can be saved to the db
+const createTraverser = (entity: EntityType) => {
+  const arrayFieldNames = new Set(entity.fields.filter((f) => f.__typename === 'ArrayField').map((f) => f.name))
+  const entityRelationFieldNamesWithEntity = {
+    ...entity.fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
+      ...prev,
+      [f.name]: (f as EntityRelationField).entityName,
+    }), {} as Record<string, string>),
+
+    // get those deep entity relation fields, could probaby be cleaned up
+    ...entity.fields.filter((f) => f.__typename === 'ArrayField').reduce((prev, f) => ({
+      ...(f as unknown as ArrayField).availableFields.filter((f) => (f as IField).__typename === 'EntityRelationField').reduce((prev, f) => ({
+        ...prev,
+        [f.name]: (f as EntityRelationField).entityName,
+      }), prev),
+    }), {} as Record<string, string>),
+  }
+
+  // eslint-disable-next-line arrow-body-style
+  const fieldValueMapper = (key: string, data: Record<string, unknown>) => {
+  // eslint-disable-next-line no-nested-ternary
+    return arrayFieldNames.has(key)
+      ? mapArrayFields(key, data[key] as Record<string, unknown> | readonly Record<string, unknown>[]) : (entityRelationFieldNamesWithEntity[key]
+        ? mapRelationField(entityRelationFieldNamesWithEntity[key], data[key] as string)
+        : data[key])
+  }
+
+  const traverseData = (data: Record<string, unknown>) => Object.keys(data).reduce((prev, key) => ({
+    ...prev,
+    // eslint-disable-next-line no-nested-ternary
+    [key]: fieldValueMapper(key, data),
+  }), {} as Record<string, unknown>)
+
+  const mapArrayFields = (
+    fieldName: string,
+    data: Record<string, unknown> | readonly Record<string, unknown>[],
+  ) => (Array.isArray(data) ? data : [data]).map((el: Record<string, unknown>): Record<string, unknown> => ({
+    __typename: capitalize(entity.name) + capitalize(fieldName) + capitalize(Object.keys(el)[0]),
+    ...traverseData(el),
+  }))
+
+  return traverseData
+}
+
 export default async () => {
   const entities = await Entity.find({})
 
-  const relationTypes = entities.reduce((prev, entity) => {
+  const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((prev, entity) => {
     const getById = new Dataloader(async (ids: readonly string[]) => {
       const entries = await EntityEntry.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
 
@@ -182,7 +238,12 @@ export default async () => {
       ...prev,
       [entity.name]: objRelation,
     }
-  }, {} as Record<string, GraphQLObjectType>)
+  }, initialTypes)
+
+  // some way to resolve the deep types
+  let relationTypes = resolveRelationTypes({})
+  relationTypes = resolveRelationTypes(relationTypes)
+  relationTypes = resolveRelationTypes(relationTypes)
 
   const config = await entities.reduce(async (prevP, entity) => {
     const prev = await prevP
@@ -227,31 +288,7 @@ export default async () => {
         })
       }, {}),
       resolve: async (_, { _id: idInput, ...input }) => {
-        const arrayFieldNames = new Set(entity.fields.filter((f) => f.__typename === 'ArrayField').map((f) => f.name))
-        const entityRelationFieldNamesWithEntity = entity.fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
-          ...prev,
-          [f.name]: (f as EntityRelationField).entityName,
-        }), {} as Record<string, string>)
-
-        const mapArrayFields = (fieldName: string, data: Record<string, unknown> | readonly Record<string, unknown>[]) => (Array.isArray(data) ? data : [data]).map((el) => ({
-          ...el,
-          __typename: capitalize(entity.name) + capitalize(fieldName) + capitalize(Object.keys(el)[0]),
-        }))
-
-        const mappedStuff = Object.keys(input).reduce((prev, key) => ({
-          ...prev,
-          // eslint-disable-next-line no-nested-ternary
-          [key]: arrayFieldNames.has(key)
-            ? mapArrayFields(key, input[key] as Record<string, unknown> | readonly Record<string, unknown>[]) : (entityRelationFieldNamesWithEntity[key]
-              ? { __typename: `${capitalize(entityRelationFieldNamesWithEntity[key])}Relation`, externalId: input[key] }
-              : input[key]),
-        }), {} as Record<string, unknown>)
-        const actualInput = {
-          entityType: entity.name,
-          ...mappedStuff,
-        }
-
-        console.log('actualInput', actualInput)
+        const mappedData = createTraverser(entity)(input)
 
         const _id = idInput ? new ObjectId(idInput) : new ObjectId()
 
@@ -261,7 +298,10 @@ export default async () => {
         } : {
           entityType: entity.name,
         }, {
-          $set: actualInput,
+          $set: {
+            entityType: entity.name,
+            ...mappedData,
+          },
           $setOnInsert: { _id },
         }, {
           upsert: true,

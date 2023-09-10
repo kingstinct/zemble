@@ -94,12 +94,16 @@ const AllFields = types.array(types.oneOf([
   required: true,
 })
 
-export const EntitySchema = schema({
+const EntitySchemaObject = {
   name: types.string({ required: true }),
   fields: AllFields,
-}, {
+}
+
+export const EntitySchema = schema(EntitySchemaObject, {
   timestamps: true,
 })
+
+export type EntityType = typeof EntitySchemaObject
 
 const EntityEntrySchema = schema({
   _id: types.objectId({ required: true }),
