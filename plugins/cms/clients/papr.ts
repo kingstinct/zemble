@@ -6,9 +6,7 @@ export let client: MongoClient | undefined
 
 const papr = new Papr()
 
-export async function connect() {
-  const mongoUrl = process.env.MONGO_URL
-
+export async function connect(mongoUrl = process.env.MONGO_URL) {
   if (!mongoUrl) throw new Error('MONGO_URL not set')
 
   console.log('Connecting to MongoDB...', mongoUrl)

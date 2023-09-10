@@ -21,6 +21,14 @@ declare global {
         readonly data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
         readonly errors?: readonly GraphQLFormattedError[]
       }>
+
+      readonly gqlRequestUntyped: <TRes, TVars>(
+        query: string,
+        vars?: TVars
+      ) => Promise<{
+        readonly data?: TRes,
+        readonly errors?: readonly GraphQLFormattedError[]
+      }>
     }
 
     interface GlobalConfig {

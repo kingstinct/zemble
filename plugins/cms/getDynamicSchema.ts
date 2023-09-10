@@ -6,7 +6,7 @@ import {
   GraphQLString, GraphQLList,
   GraphQLNonNull, GraphQLID,
   GraphQLFloat, GraphQLBoolean,
-  GraphQLUnionType, Kind, GraphQLEnumType,
+  GraphQLUnionType, Kind,
   GraphQLInputObjectType,
 } from 'graphql'
 import { ObjectId } from 'mongodb'
@@ -34,6 +34,7 @@ import type {
   GraphQLOutputType,
   GraphQLScalarType,
   GraphQLInputObjectTypeConfig,
+  GraphQLEnumType,
 } from 'graphql'
 
 type ReducerType = {
@@ -329,18 +330,18 @@ export default async () => {
   }, Promise.resolve<ReducerType>({
     query: {},
     types: [
-      new GraphQLEnumType({
-        name: 'EntityEnum',
-        values: entities.reduce((prev, entity) => ({
-          ...prev,
-          [entity.name.toUpperCase()]: {
-            value: entity.name,
-          },
-        }), {}),
-        // values:  {
-        //   a: { value: 'a' },
-        // },
-      }),
+      // new GraphQLEnumType({
+      //   name: 'EntityEnum',
+      //   values: entities.reduce((prev, entity) => ({
+      //     ...prev,
+      //     [entity.name.toUpperCase()]: {
+      //       value: entity.name,
+      //     },
+      //   }), {}),
+      //   // values:  {
+      //   //   a: { value: 'a' },
+      //   // },
+      // }),
     ],
     mutations: {},
   }))

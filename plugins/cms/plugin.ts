@@ -42,6 +42,4 @@ const plugin = new Plugin(__dirname, {
   defaultConfig,
 })
 
-void connect()
-
 export default plugin

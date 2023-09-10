@@ -27,6 +27,28 @@ const processPluginSchema = async (pluginPath: string) => {
   return []
 }
 
+async function gqlRequestUntyped<TRes, TVars>(
+  app: Readapt.Server,
+  query: string,
+  variables: TVars,
+) {
+  const res = await app.request(new Request('http://localhost/graphql', {
+    method: 'POST',
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }))
+
+  return res.json() as unknown as {
+    readonly data?: TRes,
+    readonly errors: readonly GraphQLFormattedError[]
+  }
+}
+
 async function gqlRequest<TQuery, TVars>(
   app: Readapt.Server,
   query: TypedDocumentNode<TQuery, TVars>,
@@ -101,6 +123,12 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
   // @ts-expect-error sdfgsdfg
   app.gqlRequest = async (query, vars) => {
     const response = await gqlRequest(app, query, vars)
+    return response
+  }
+
+  // @ts-expect-error sdfgsdfg
+  app.gqlRequestUntyped = async (untypedQuery: string, vars) => {
+    const response = await gqlRequestUntyped(app, untypedQuery, vars)
     return response
   }
 
