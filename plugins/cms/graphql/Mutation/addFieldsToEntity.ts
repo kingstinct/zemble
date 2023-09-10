@@ -29,18 +29,13 @@ const mapInputToField = (input: FieldInput): Field => {
 }
 
 const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
-  // eslint-disable-next-line functional/prefer-readonly-type
-  const fields: Field[] = fieldsInput.map(mapInputToField)
-
-  console.log(JSON.stringify(fields, null, 2))
+  const fields: readonly Field[] = fieldsInput.map(mapInputToField)
 
   const prev = await Entity.findOneAndUpdate({ name: entityName }, {
-    $set: {
-      fields: fields.reduce((acc, field) => ({
-        ...acc,
-        [field.name]: field,
-      }), {}),
-    },
+    $set: fields.reduce((acc, field) => ({
+      ...acc,
+      [`fields.${field.name}`]: field,
+    }), {}),
   }, {
     upsert: true,
     returnDocument: 'after',

@@ -1,8 +1,11 @@
+import { ObjectId } from 'mongodb'
+
 import { Entity } from '../../clients/papr'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
-const CreateEntityMutation = graphql(`
+// eslint-disable-next-line jest/no-export
+export const CreateEntityMutation = graphql(`
   mutation CreateEntity($name: String!) {
     createEntity(name: $name) {
       name
@@ -23,6 +26,19 @@ describe('createEntity', () => {
     const entitites = await Entity.find({})
 
     expect(entitites).toHaveLength(1)
+    expect(entitites[0]).toEqual({
+      _id: expect.any(ObjectId),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+      name: 'book',
+      fields: {
+        _id: {
+          __typename: 'IDField',
+          isRequired: true,
+          name: '_id',
+        },
+      },
+    })
 
     const res2 = await app.gqlRequestUntyped<{readonly books: readonly unknown[]}, unknown>('query { books { _id } }')
 

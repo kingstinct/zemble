@@ -20,6 +20,8 @@ const config = {
       documents: [
         `./**/*.tsx`,
         `./**/*.ts`,
+        `./*.tsx`,
+        `./*.ts`,
         `!./**/*.generated.ts`,
         `!./node_modules/**/*`,
       ],
