@@ -9,12 +9,12 @@ const HelloWorldQuery = graphql(`
 
 describe('Query.hello', () => {
   it('Should return world!', async () => {
-    const app = await plugin.devApp()
+    const { app } = await plugin.devApp()
 
     const response = await app.gqlRequest(HelloWorldQuery, {})
     expect(response).toEqual({
       data: {
-        hell: 'world!',
+        hello: 'world!',
       },
     })
   })

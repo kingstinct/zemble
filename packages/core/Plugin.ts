@@ -41,12 +41,12 @@ export class Plugin<
     this.#dependencies = opts?.dependencies ?? []
 
     if (this.#isPluginDevMode) {
-      void this.#createApp().then((app) => app.start())
+      void this.devApp().then((app) => app.start())
     }
   }
 
   get #isPluginDevMode() {
-    return process.env.NODE_ENV === 'test' || (process.env.PLUGIN_DEV && process.cwd() === this.pluginPath)
+    return (process.env.PLUGIN_DEV && process.cwd() === this.pluginPath)
   }
 
   #filterDevDependencies(dep: Dependency) {
@@ -94,7 +94,7 @@ export class Plugin<
     })
   }
 
-  async #createApp(): Promise<ReadaptApp> {
+  async devApp(): Promise<ReadaptApp> {
     const resolved = this.configure(this.#devConfig)
     return createApp({
       plugins: [

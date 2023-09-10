@@ -9,7 +9,7 @@ const randomNumberMutation = graphql(`
 
 describe('Mutation.randomNumber', () => {
   it('Should return a number', async () => {
-    const app = await plugin.devApp()
+    const { app } = await plugin.devApp()
 
     const response = await app.gqlRequest(randomNumberMutation, {})
     expect(response).toEqual({
