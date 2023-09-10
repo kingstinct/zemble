@@ -4,11 +4,8 @@ import { Entity } from '../../clients/papr'
 
 import type { EntitySchema } from '../../clients/papr'
 import type {
-  BooleanField,
   FieldInput,
   MutationResolvers,
-  NumberField,
-  StringField,
 } from '../schema.generated'
 
 type Field = typeof EntitySchema[0]['fields'][0]
@@ -32,7 +29,6 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
   // eslint-disable-next-line functional/prefer-readonly-type
   const fields: Field[] = fieldsInput.map(mapInputToField)
 
-  console.log('fields', fields)
   const prev = await Entity.findOneAndUpdate({ name: entityName }, {
     $addToSet: {
       fields: { $each: fields },
@@ -47,8 +43,6 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
   }
 
   pubsub.publish('reload-schema', {})
-
-  console.log('updated', prev)
 
   return prev
 }

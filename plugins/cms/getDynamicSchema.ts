@@ -11,7 +11,7 @@ import {
 } from './utils'
 
 import type {
-  BooleanField, LinkField, NumberField, RepeaterField, StringField,
+  BooleanField, IdField, LinkField, NumberField, RepeaterField, StringField,
 } from './graphql/schema.generated'
 import type { GraphQLFieldConfig, GraphQLType } from 'graphql'
 
@@ -21,33 +21,30 @@ type ReducerType = {
   readonly mutations: Record<string, GraphQLFieldConfig<any, any, any>>,
 }
 
-type IField = NumberField | StringField | BooleanField // | RepeaterField | LinkField
+type IField = NumberField | StringField | BooleanField | IdField | RepeaterField | LinkField
 
 const fieldToType = (field: IField): GraphQLType => {
-  // eslint-disable-next-line no-nested-ternary, unicorn/no-nested-ternary
-  // const baseType = field.__typename === 'NumberField' ? GraphQLFloat : (field.__typename === 'BooleanField' ?
-  // GraphQLBoolean : field.__typename === 'RepeaterField' ? new GraphQLList(field.availableFields.map(fieldToType)) :
-  // GraphQLString)
   switch (field.__typename) {
     case 'NumberField':
       return GraphQLFloat
     case 'BooleanField':
       return GraphQLBoolean
-      // case 'RepeaterField':
-      //   // eslint-disable-next-line no-case-declarations
-      //   const availableFields = field.availableFields.map((a) => new GraphQLObjectType({
-      //     name: `${capitalize(field.name)}${capitalize(a.name)}`,
-      //     fields: {
-
-    //       [a.name]: {
-    //         type: fieldToType(a),
-    //       },
-    //     }
-    //   }))
-    //   return new GraphQLList(new GraphQLUnionType({
-    //     name: `${capitalize(field.name)}Union`,
-    //     types: availableFields,
-    //   }))
+    case 'IDField':
+      return GraphQLID
+    /* case 'RepeaterField':
+      // eslint-disable-next-line no-case-declarations
+      const availableFields = field.availableFields.map((a) => new GraphQLObjectType({
+        name: `${capitalize(field.name)}${capitalize(a.name)}`,
+        fields: {
+          [a.name]: {
+            type: fieldToType(a),
+          },
+        },
+      }))
+      return new GraphQLList(new GraphQLUnionType({
+        name: `${capitalize(field.name)}Union`,
+        types: availableFields,
+      })) */
     default:
       return GraphQLString
   }
@@ -60,11 +57,7 @@ export default async () => {
     const prev = await prevP
     const obj = new GraphQLObjectType({
       fields: entity.fields.reduce((prev, field) => {
-        // eslint-disable-next-line no-nested-ternary
-        const baseType = field.__typename === 'NumberField'
-          ? GraphQLFloat : (field.__typename === 'BooleanField'
-            ? GraphQLBoolean /* field.__typename === 'RepeaterField'
-            ? GraphQLList(field.availableFields.map(fieldToType)) : */ : GraphQLString)
+        const baseType = fieldToType(field)
         return ({
           ...prev,
           [field.name]: {
@@ -73,22 +66,6 @@ export default async () => {
         })
       }, {}),
       name: capitalize(entity.name),
-    })
-
-    const inputObj = new GraphQLInputObjectType({
-      fields: entity.fields.reduce((prev, field) => {
-        // eslint-disable-next-line no-nested-ternary
-        const baseType = field.__typename === 'NumberField'
-          ? GraphQLFloat : (field.__typename === 'BooleanField'
-            ? GraphQLBoolean : GraphQLString)
-        return ({
-          ...prev,
-          [field.name]: {
-            type: field.isRequired && field.__typename !== 'IDField' ? new GraphQLNonNull(baseType) : baseType,
-          },
-        })
-      }, {}),
-      name: `${capitalize(entity.name)}Input`,
     })
 
     const getById: GraphQLFieldConfig<unknown, unknown, {readonly id: string}> = { // "book"
@@ -101,42 +78,72 @@ export default async () => {
       resolve: async (_, { id }) => EntityEntry.findOne({ entityType: entity.name, _id: new ObjectId(id) }),
     } as const
 
+    const getAll: GraphQLFieldConfig<unknown, unknown, unknown> = { // "books"
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
+      resolve: async () => EntityEntry.find({}),
+    }
+
+    const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly _id: string }> = {
+      type: obj,
+      args: entity.fields.reduce((prev, field) => {
+        const baseType = fieldToType(field)
+        return ({
+          ...prev,
+          [field.name]: {
+            type: field.isRequired && field.__typename !== 'IDField' ? new GraphQLNonNull(baseType) : baseType,
+          },
+        })
+      }, {}),
+      resolve: async (_, { _id, ...input }) => {
+        const actualInput = {
+          entityType: entity.name,
+          _id: _id ? new ObjectId(_id) : new ObjectId(),
+          ...input,
+        }
+
+        const res = await EntityEntry.findOneAndUpdate(_id ? {
+          _id: new ObjectId(_id),
+          entityType: entity.name,
+        } : {
+          entityType: entity.name,
+        }, {
+          $set: actualInput,
+        }, {
+          upsert: true,
+          returnDocument: 'after',
+        })
+
+        return res!
+      },
+    }
+
+    const deleteEntityEntry: GraphQLFieldConfig<unknown, unknown, { readonly _id: string }> = {
+      type: new GraphQLNonNull(GraphQLBoolean),
+      args: {
+        _id: {
+          type: new GraphQLNonNull(GraphQLString),
+        },
+      },
+      resolve: async (_, { _id }) => {
+        await EntityEntry.findOneAndDelete({
+          entityType: entity.name,
+          _id: new ObjectId(_id),
+        })
+        return true
+      },
+    }
+
     const retVal: ReducerType = {
       query: {
         ...prev.query,
-        [pluralize(entity.name)]: { // "books"
-          type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
-          resolve: async () => EntityEntry.find({}),
-        },
+        [pluralize(entity.name)]: getAll,
         [entity.name]: getById,
       },
       types: [...prev.types],
       mutations: {
         ...prev.mutations,
-        [`create${capitalize(entity.name)}`]: {
-          type: obj,
-          args: {
-            input: {
-              type: new GraphQLNonNull(inputObj),
-            },
-          },
-          resolve: async (_, { input }) => {
-            const actualInput = {
-              entityType: entity.name,
-              ...input,
-            }
-            console.log('actualInput', actualInput)
-            const res = await EntityEntry.findOneAndUpdate({
-              entityType: entity.name,
-            }, {
-              $set: actualInput,
-            }, {
-              upsert: true,
-              returnDocument: 'after',
-            })
-            return res!
-          },
-        },
+        [`create${capitalize(entity.name)}`]: createEntityEntry,
+        [`delete${capitalize(entity.name)}`]: deleteEntityEntry,
       },
     }
     return retVal
