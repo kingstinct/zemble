@@ -25,6 +25,8 @@ export async function connect(mongoUrl = process.env.MONGO_URL) {
   })
 
   await papr.updateSchemas()
+
+  await db.collection('name').createIndex({ name: -1 }, { unique: true })
 }
 
 export async function disconnect() {

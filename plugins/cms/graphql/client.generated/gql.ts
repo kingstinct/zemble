@@ -15,6 +15,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation AddFieldsToEntity($name: String!, $fields: [FieldInput!]!) {\n    addFieldsToEntity(entityName: $name, fields: $fields) {\n      name\n    }\n  }\n": types.AddFieldsToEntityDocument,
     "\n  mutation CreateEntity($name: String!) {\n    createEntity(name: $name) {\n      name\n    }\n  }\n": types.CreateEntityDocument,
+    "\n  mutation RemoveEntity($name: String!) {\n    removeEntity(name: $name)\n  }\n": types.RemoveEntityDocument,
+    "\n  mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(entityName: $name, fields: $fields) {\n      name\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n": types.RemoveFieldsFromEntityDocument,
 };
 
 /**
@@ -39,6 +41,14 @@ export function graphql(source: "\n  mutation AddFieldsToEntity($name: String!, 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation CreateEntity($name: String!) {\n    createEntity(name: $name) {\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation CreateEntity($name: String!) {\n    createEntity(name: $name) {\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RemoveEntity($name: String!) {\n    removeEntity(name: $name)\n  }\n"): (typeof documents)["\n  mutation RemoveEntity($name: String!) {\n    removeEntity(name: $name)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(entityName: $name, fields: $fields) {\n      name\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(entityName: $name, fields: $fields) {\n      name\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
