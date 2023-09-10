@@ -60,15 +60,15 @@ export type EntityInput = {
   name: Scalars['String']['input'];
 };
 
-export type EntityLinkField = Field & {
-  __typename?: 'EntityLinkField';
+export type EntityRelationField = Field & {
+  __typename?: 'EntityRelationField';
   entity: Entity;
   entityName: Scalars['String']['output'];
   isRequired: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
 };
 
-export type EntityLinkFieldInput = {
+export type EntityRelationFieldInput = {
   entityName: Scalars['String']['input'];
   isRequired: Scalars['Boolean']['input'];
   name: Scalars['String']['input'];
@@ -80,17 +80,17 @@ export type Field = {
 };
 
 export type FieldInput =
-  { ArrayField: ArrayFieldInput; BooleanField?: never; EntityLinkField?: never; NumberField?: never; StringField?: never; }
-  |  { ArrayField?: never; BooleanField: BooleanFieldInput; EntityLinkField?: never; NumberField?: never; StringField?: never; }
-  |  { ArrayField?: never; BooleanField?: never; EntityLinkField: EntityLinkFieldInput; NumberField?: never; StringField?: never; }
-  |  { ArrayField?: never; BooleanField?: never; EntityLinkField?: never; NumberField: NumberFieldInput; StringField?: never; }
-  |  { ArrayField?: never; BooleanField?: never; EntityLinkField?: never; NumberField?: never; StringField: StringFieldInput; };
+  { ArrayField: ArrayFieldInput; BooleanField?: never; EntityRelationField?: never; NumberField?: never; StringField?: never; }
+  |  { ArrayField?: never; BooleanField: BooleanFieldInput; EntityRelationField?: never; NumberField?: never; StringField?: never; }
+  |  { ArrayField?: never; BooleanField?: never; EntityRelationField: EntityRelationFieldInput; NumberField?: never; StringField?: never; }
+  |  { ArrayField?: never; BooleanField?: never; EntityRelationField?: never; NumberField: NumberFieldInput; StringField?: never; }
+  |  { ArrayField?: never; BooleanField?: never; EntityRelationField?: never; NumberField?: never; StringField: StringFieldInput; };
 
 export type FieldInputWithoutArray =
-  { BooleanField: BooleanFieldInput; EntityLinkField?: never; NumberField?: never; StringField?: never; }
-  |  { BooleanField?: never; EntityLinkField: EntityLinkFieldInput; NumberField?: never; StringField?: never; }
-  |  { BooleanField?: never; EntityLinkField?: never; NumberField: NumberFieldInput; StringField?: never; }
-  |  { BooleanField?: never; EntityLinkField?: never; NumberField?: never; StringField: StringFieldInput; };
+  { BooleanField: BooleanFieldInput; EntityRelationField?: never; NumberField?: never; StringField?: never; }
+  |  { BooleanField?: never; EntityRelationField: EntityRelationFieldInput; NumberField?: never; StringField?: never; }
+  |  { BooleanField?: never; EntityRelationField?: never; NumberField: NumberFieldInput; StringField?: never; }
+  |  { BooleanField?: never; EntityRelationField?: never; NumberField?: never; StringField: StringFieldInput; };
 
 export type IdField = Field & {
   __typename?: 'IDField';

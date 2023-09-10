@@ -15,9 +15,9 @@ const mapInputToField = (input: FieldInput): Field => {
     ...input.NumberField,
     ...input.StringField,
     ...input.BooleanField,
-    ...input.EntityLinkField,
+    ...input.EntityRelationField,
     ...input.ArrayField,
-    __typename: Object.keys(input)[0] as 'BooleanField' | 'StringField' | 'NumberField' | 'EntityLinkField' | 'ArrayField',
+    __typename: Object.keys(input)[0] as 'BooleanField' | 'StringField' | 'NumberField' | 'EntityRelationField' | 'ArrayField',
   })
 
   // @ts-expect-error fix sometime

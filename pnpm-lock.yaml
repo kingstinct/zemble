@@ -82,7 +82,7 @@ importers:
     dependencies:
       '@envelop/generic-auth':
         specifier: ^6.0.0
-        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
+        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.1)(graphql@16.8.0)
       '@readapt/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -168,7 +168,7 @@ importers:
     dependencies:
       '@envelop/generic-auth':
         specifier: ^6.0.0
-        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.0)(graphql@16.8.0)
+        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.1)(graphql@16.8.0)
       '@readapt/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -515,6 +515,9 @@ importers:
       '@readapt/graphql-yoga':
         specifier: workspace:^
         version: link:../graphql-yoga
+      dataloader:
+        specifier: ^2.2.2
+        version: registry.npmjs.org/dataloader@2.2.2
       graphql:
         specifier: ^16.8.0
         version: registry.npmjs.org/graphql@16.8.0
@@ -4389,6 +4392,16 @@ packages:
       tslib: registry.npmjs.org/tslib@2.6.2
     dev: false
 
+  registry.npmjs.org/@envelop/core@4.0.1:
+    resolution: {integrity: sha512-uBLI7ql3hZopz7vMi9UDAb9HWzKw4STKiqg4QT+lb+tu5ZNaeuJ4fom2rrmgITz38B85QZOhZrGyVrlJXxfDzw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@envelop/core/-/core-4.0.1.tgz}
+    name: '@envelop/core'
+    version: 4.0.1
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@envelop/types': registry.npmjs.org/@envelop/types@4.0.1
+      tslib: registry.npmjs.org/tslib@2.6.2
+    dev: false
+
   registry.npmjs.org/@envelop/extended-validation@3.0.1(@envelop/core@4.0.0)(graphql@16.8.0):
     resolution: {integrity: sha512-UQDt8/MrRKuyX8r6tJmzfqzNyPiibfLeWpeW8+CeG9oNIVYYjjq6+rB5EJCMHWb3uLpY09lD1OxxV3jFcyZq3A==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@envelop/extended-validation/-/extended-validation-3.0.1.tgz}
     id: registry.npmjs.org/@envelop/extended-validation/3.0.1
@@ -4400,6 +4413,22 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       '@envelop/core': registry.npmjs.org/@envelop/core@4.0.0
+      '@graphql-tools/utils': registry.npmjs.org/@graphql-tools/utils@10.0.5(graphql@16.8.0)
+      graphql: registry.npmjs.org/graphql@16.8.0
+      tslib: registry.npmjs.org/tslib@2.6.2
+    dev: false
+
+  registry.npmjs.org/@envelop/extended-validation@3.0.1(@envelop/core@4.0.1)(graphql@16.8.0):
+    resolution: {integrity: sha512-UQDt8/MrRKuyX8r6tJmzfqzNyPiibfLeWpeW8+CeG9oNIVYYjjq6+rB5EJCMHWb3uLpY09lD1OxxV3jFcyZq3A==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@envelop/extended-validation/-/extended-validation-3.0.1.tgz}
+    id: registry.npmjs.org/@envelop/extended-validation/3.0.1
+    name: '@envelop/extended-validation'
+    version: 3.0.1
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@envelop/core': ^4.0.1
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@envelop/core': registry.npmjs.org/@envelop/core@4.0.1
       '@graphql-tools/utils': registry.npmjs.org/@graphql-tools/utils@10.0.5(graphql@16.8.0)
       graphql: registry.npmjs.org/graphql@16.8.0
       tslib: registry.npmjs.org/tslib@2.6.2
@@ -4421,10 +4450,35 @@ packages:
       tslib: registry.npmjs.org/tslib@2.6.2
     dev: false
 
+  registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.1)(graphql@16.8.0):
+    resolution: {integrity: sha512-retM3YQPuUyLzhFR7x1E3lzGW8uh/Rp4m9DmCfdP35mHKL8jijJP8KbvLZb5WmSkVemt2L9ilP5m3opOy/2BiQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@envelop/generic-auth/-/generic-auth-6.0.0.tgz}
+    id: registry.npmjs.org/@envelop/generic-auth/6.0.0
+    name: '@envelop/generic-auth'
+    version: 6.0.0
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@envelop/core': ^4.0.0
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@envelop/core': registry.npmjs.org/@envelop/core@4.0.1
+      '@envelop/extended-validation': registry.npmjs.org/@envelop/extended-validation@3.0.1(@envelop/core@4.0.1)(graphql@16.8.0)
+      graphql: registry.npmjs.org/graphql@16.8.0
+      tslib: registry.npmjs.org/tslib@2.6.2
+    dev: false
+
   registry.npmjs.org/@envelop/types@4.0.0:
     resolution: {integrity: sha512-dmBK16VVfKCkqYYemvE+gt1cPBP0d9CbYO4yjNhSSYy9K+w6+Lw48wOLK238mSR339PNAvwj/JW/qzNy2llggA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@envelop/types/-/types-4.0.0.tgz}
     name: '@envelop/types'
     version: 4.0.0
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      tslib: registry.npmjs.org/tslib@2.6.2
+    dev: false
+
+  registry.npmjs.org/@envelop/types@4.0.1:
+    resolution: {integrity: sha512-ULo27/doEsP7uUhm2iTnElx13qTO6I5FKvmLoX41cpfuw8x6e0NUFknoqhEsLzAbgz8xVS5mjwcxGCXh4lDYzg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@envelop/types/-/types-4.0.1.tgz}
+    name: '@envelop/types'
+    version: 4.0.1
     engines: {node: '>=16.0.0'}
     dependencies:
       tslib: registry.npmjs.org/tslib@2.6.2
@@ -10739,7 +10793,6 @@ packages:
     resolution: {integrity: sha512-8YnDaaf7N3k/q5HnTJVuzSyLETjoZjVmHc4AeKAzOvKHEFQKcn64OKBfzHYtE9zGjctNM7V9I0MfnUVLpi7M5g==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/dataloader/-/dataloader-2.2.2.tgz}
     name: dataloader
     version: 2.2.2
-    dev: true
 
   registry.npmjs.org/date-fns@2.30.0:
     resolution: {integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/date-fns/-/date-fns-2.30.0.tgz}

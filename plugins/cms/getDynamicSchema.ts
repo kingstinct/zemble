@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import Dataloader from 'dataloader'
 import {
-  GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLList, GraphQLNonNull, GraphQLID, GraphQLInputObjectType, GraphQLFloat, GraphQLBoolean, GraphQLInterfaceType, GraphQLUnionType, Kind,
+  GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLList,
+  GraphQLNonNull, GraphQLID, GraphQLInputObjectType, GraphQLFloat, GraphQLBoolean, GraphQLUnionType, Kind, GraphQLEnumType,
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 
@@ -10,9 +12,9 @@ import {
   capitalize, pluralize,
 } from './utils'
 
-import type { ArrayFieldType } from './clients/papr'
+import type { ArrayFieldType, EntityRelationType } from './clients/papr'
 import type {
-  BooleanField, IdField, EntityLinkField, NumberField, ArrayField, StringField,
+  BooleanField, IdField, EntityRelationField, NumberField, ArrayField, StringField,
 } from './graphql/schema.generated'
 import type {
   GraphQLFieldConfig, GraphQLOutputType, GraphQLScalarType, GraphQLType,
@@ -21,24 +23,28 @@ import type {
 
 type ReducerType = {
   readonly query: Record<string, GraphQLFieldConfig<any, any, any>>,
-  readonly types: readonly GraphQLObjectType<any, any>[],
+  readonly types: readonly (GraphQLObjectType<any, any> | GraphQLEnumType)[],
   readonly mutations: Record<string, GraphQLFieldConfig<any, any, any>>,
 }
 
-type IField = NumberField | StringField | BooleanField | IdField | EntityLinkField | ArrayFieldType
+type IField = NumberField | StringField | BooleanField | IdField | EntityRelationType | ArrayFieldType
 
-const types: Record<string, GraphQLUnionType> = {}
+const types: Record<string, GraphQLUnionType | GraphQLObjectType> = {}
 
-const typeDeduper = (type: GraphQLUnionType) => {
+function typeDeduper<T extends GraphQLUnionType | GraphQLObjectType>(type: T): T {
   if (types[type.name]) {
-    return types[type.name]
+    return types[type.name] as T
   }
   // eslint-disable-next-line functional/immutable-data
   types[type.name] = type
   return type
 }
 
-const fieldToOutputType = (typePrefix: string, field: IField): GraphQLScalarType | GraphQLList<GraphQLOutputType> | GraphQLObjectType => {
+const fieldToOutputType = (
+  typePrefix: string,
+  field: IField,
+  relationTypes: Record<string, GraphQLObjectType>,
+): GraphQLScalarType | GraphQLList<GraphQLOutputType> | GraphQLObjectType => {
   switch (field.__typename) {
     case 'NumberField':
       return GraphQLFloat
@@ -52,7 +58,7 @@ const fieldToOutputType = (typePrefix: string, field: IField): GraphQLScalarType
         name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name)}`,
         fields: {
           [f.name]: {
-            type: fieldToOutputType(typePrefix, f as any),
+            type: fieldToOutputType(typePrefix, f as any, relationTypes),
           },
         },
       }))
@@ -63,15 +69,15 @@ const fieldToOutputType = (typePrefix: string, field: IField): GraphQLScalarType
         types: availableFields,
       }))
       return new GraphQLList(union)
-    case 'EntityLinkField':
-      return new GraphQLObjectType({
-        name: `${capitalize(field.name)}Link`,
+    case 'EntityRelationField':
+      return typeDeduper(relationTypes[field.entityName] ?? new GraphQLObjectType({
+        name: `${capitalize(field.entityName)}RelationDeep`, // just to get past this
         fields: {
           externalId: {
             type: new GraphQLNonNull(GraphQLID),
           },
         },
-      })
+      }))
     default:
       return GraphQLString
   }
@@ -84,6 +90,8 @@ const fieldToInputType = (typePrefix: string, field: IField): GraphQLScalarType 
     case 'BooleanField':
       return GraphQLBoolean
     case 'IDField':
+      return GraphQLID
+    case 'EntityRelationField':
       return GraphQLID
     case 'ArrayField':
       // eslint-disable-next-line no-case-declarations
@@ -127,7 +135,7 @@ const fieldToInputType = (typePrefix: string, field: IField): GraphQLScalarType 
       //   },
       // })
       return new GraphQLList(new GraphQLInputObjectType(availableFields))
-    // case 'EntityLinkField':
+    // case 'EntityRelationField':
     //   return new GraphQLObjectType({
     //     name: `${capitalize(field.name)}Link`,
     //     fields: {
@@ -144,11 +152,43 @@ const fieldToInputType = (typePrefix: string, field: IField): GraphQLScalarType 
 export default async () => {
   const entities = await Entity.find({})
 
+  const relationTypes = entities.reduce((prev, entity) => {
+    const getById = new Dataloader(async (ids: readonly string[]) => {
+      const entries = await EntityEntry.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
+
+      return ids.map((id) => entries.find((entry) => entry._id.toHexString() === id))
+    })
+
+    const objRelation = new GraphQLObjectType({
+      fields: entity.fields.reduce((prev, field) => {
+        const baseType = fieldToOutputType(entity.name, field, {})
+        return ({
+          ...prev,
+          [field.name]: {
+            type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
+            resolve: async (parent: { readonly externalId: string }) => {
+              const id = parent.externalId
+              const resolved = await getById.load(id)
+              // @ts-expect-error fix sometime
+              return resolved[field.name]
+            },
+          },
+        })
+      }, {}),
+      name: `${capitalize(entity.name)}Relation`,
+    })
+
+    return {
+      ...prev,
+      [entity.name]: objRelation,
+    }
+  }, {} as Record<string, GraphQLObjectType>)
+
   const config = await entities.reduce(async (prevP, entity) => {
     const prev = await prevP
     const obj = new GraphQLObjectType({
       fields: entity.fields.reduce((prev, field) => {
-        const baseType = fieldToOutputType(entity.name, field)
+        const baseType = fieldToOutputType(entity.name, field, relationTypes)
         return ({
           ...prev,
           [field.name]: {
@@ -171,7 +211,7 @@ export default async () => {
 
     const getAll: GraphQLFieldConfig<unknown, unknown, unknown> = { // "books"
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
-      resolve: async () => EntityEntry.find({}),
+      resolve: async () => EntityEntry.find({ entityType: entity.name }),
     }
 
     const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly _id: string }> = {
@@ -188,12 +228,23 @@ export default async () => {
       }, {}),
       resolve: async (_, { _id: idInput, ...input }) => {
         const arrayFieldNames = new Set(entity.fields.filter((f) => f.__typename === 'ArrayField').map((f) => f.name))
+        const entityRelationFieldNamesWithEntity = entity.fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
+          ...prev,
+          [f.name]: (f as EntityRelationField).entityName,
+        }), {} as Record<string, string>)
+
+        const mapArrayFields = (fieldName: string, data: Record<string, unknown> | readonly Record<string, unknown>[]) => (Array.isArray(data) ? data : [data]).map((el) => ({
+          ...el,
+          __typename: capitalize(entity.name) + capitalize(fieldName) + capitalize(Object.keys(el)[0]),
+        }))
+
         const mappedStuff = Object.keys(input).reduce((prev, key) => ({
           ...prev,
-          [key]: arrayFieldNames.has(key) ? (Array.isArray(input[key]) ? input[key] as readonly Record<string, unknown>[] : [input[key]] as readonly Record<string, unknown>[]).map((el) => ({
-            ...el,
-            __typename: capitalize(entity.name) + capitalize(key) + capitalize(Object.keys(el)[0]),
-          })) : input[key],
+          // eslint-disable-next-line no-nested-ternary
+          [key]: arrayFieldNames.has(key)
+            ? mapArrayFields(key, input[key] as Record<string, unknown> | readonly Record<string, unknown>[]) : (entityRelationFieldNamesWithEntity[key]
+              ? { __typename: `${capitalize(entityRelationFieldNamesWithEntity[key])}Relation`, externalId: input[key] }
+              : input[key]),
         }), {} as Record<string, unknown>)
         const actualInput = {
           entityType: entity.name,
@@ -253,7 +304,20 @@ export default async () => {
     return retVal
   }, Promise.resolve<ReducerType>({
     query: {},
-    types: [],
+    types: [
+      new GraphQLEnumType({
+        name: 'EntityEnum',
+        values: entities.reduce((prev, entity) => ({
+          ...prev,
+          [entity.name.toUpperCase()]: {
+            value: entity.name,
+          },
+        }), {}),
+        // values:  {
+        //   a: { value: 'a' },
+        // },
+      }),
+    ],
     mutations: {},
   }))
 
