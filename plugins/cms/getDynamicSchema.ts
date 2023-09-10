@@ -74,10 +74,8 @@ const fieldToOutputType = (
       const availableFields = field.availableFields.map((f) => {
         const resolvedType = fieldToOutputType(typePrefix, f as any, relationTypes)
 
-        const hasDeep = (resolvedType as { readonly name: string }).name.includes('Deep')
-
         return typeDeduper(new GraphQLObjectType({
-          name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name) + (hasDeep ? 'Deep' : '')}`,
+          name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name)}`,
           fields: {
             [f.name]: {
               type: resolvedType,
@@ -87,27 +85,13 @@ const fieldToOutputType = (
       })
 
       // eslint-disable-next-line no-case-declarations
-      const deepSuffix = availableFields.some((a) => {
-        const fields = a.getFields()
-
-        return Object.values(fields).some((f) => (f.type as { readonly name: string }).name.includes('Deep'))
-      }) ? 'Deep' : ''
-
-      // eslint-disable-next-line no-case-declarations
       const union = typeDeduper(new GraphQLUnionType({
-        name: `${capitalize(typePrefix)}${capitalize(field.name)}Union${deepSuffix}`,
+        name: `${capitalize(typePrefix)}${capitalize(field.name)}Union`,
         types: availableFields,
       }))
       return new GraphQLList(union)
     case 'EntityRelationField':
-      return typeDeduper(relationTypes[field.entityName] ?? new GraphQLObjectType({
-        name: `${capitalize(field.entityName)}RelationDeep`, // just to get past this
-        fields: {
-          externalId: {
-            type: new GraphQLNonNull(GraphQLID),
-          },
-        },
-      }))
+      return typeDeduper(relationTypes[field.entityName])
     default:
       return GraphQLString
   }
@@ -208,7 +192,7 @@ const createTraverser = (entity: EntityType) => {
 export default async () => {
   const entities = await Entity.find({})
 
-  const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((prev, entity) => {
+  const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((acc, entity) => {
     const getById = new Dataloader(async (ids: readonly string[]) => {
       const entries = await EntityEntry.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
 
@@ -216,8 +200,8 @@ export default async () => {
     })
 
     const objRelation = new GraphQLObjectType({
-      fields: entity.fields.reduce((prev, field) => {
-        const baseType = fieldToOutputType(entity.name, field, {})
+      fields: () => entity.fields.reduce((prev, field) => {
+        const baseType = fieldToOutputType(entity.name, field, acc)
         return ({
           ...prev,
           [field.name]: {
@@ -235,14 +219,13 @@ export default async () => {
     })
 
     return {
-      ...prev,
+      ...acc,
       [entity.name]: objRelation,
     }
   }, initialTypes)
 
   // some way to resolve the deep types
   let relationTypes = resolveRelationTypes({})
-  relationTypes = resolveRelationTypes(relationTypes)
   relationTypes = resolveRelationTypes(relationTypes)
 
   const config = await entities.reduce(async (prevP, entity) => {
