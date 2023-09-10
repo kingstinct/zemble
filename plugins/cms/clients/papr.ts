@@ -57,7 +57,7 @@ export type ArrayFieldType = typeof ArrayFieldObject
 
 export type EntityRelationType = typeof EntityRelationObject
 
-const AllFields = types.array(types.oneOf([
+const AllFields = types.oneOf([
   types.object({
     name: types.string({ required: true }),
     isRequired: types.boolean({ required: true }),
@@ -89,14 +89,11 @@ const AllFields = types.array(types.oneOf([
   EntityRelationObject,
 ], {
   required: true,
-}),
-{
-  required: true,
 })
 
 const EntitySchemaObject = {
   name: types.string({ required: true }),
-  fields: AllFields,
+  fields: types.objectGeneric(AllFields, undefined, { required: true }),
 }
 
 export const EntitySchema = schema(EntitySchemaObject, {

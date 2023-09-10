@@ -147,15 +147,16 @@ const fieldToInputType = (typePrefix: string, field: IField): GraphQLScalarType 
 
 // modifies input data so it can be saved to the db
 const createTraverser = (entity: EntityType) => {
-  const arrayFieldNames = new Set(entity.fields.filter((f) => f.__typename === 'ArrayField').map((f) => f.name))
+  const fields = Object.values(entity.fields)
+  const arrayFieldNames = new Set(fields.filter((f) => f.__typename === 'ArrayField').map((f) => f.name))
   const entityRelationFieldNamesWithEntity = {
-    ...entity.fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
+    ...fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
       ...prev,
       [f.name]: (f as EntityRelationField).entityName,
     }), {} as Record<string, string>),
 
     // get those deep entity relation fields, could probaby be cleaned up
-    ...entity.fields.filter((f) => f.__typename === 'ArrayField').reduce((prev, f) => ({
+    ...fields.filter((f) => f.__typename === 'ArrayField').reduce((prev, f) => ({
       ...(f as unknown as ArrayField).availableFields.filter((f) => (f as IField).__typename === 'EntityRelationField').reduce((prev, f) => ({
         ...prev,
         [f.name]: (f as EntityRelationField).entityName,
@@ -200,7 +201,7 @@ export default async () => {
     })
 
     const objRelation = new GraphQLObjectType({
-      fields: () => entity.fields.reduce((prev, field) => {
+      fields: () => Object.values(entity.fields).reduce((prev, field) => {
         const baseType = fieldToOutputType(entity.name, field, acc)
         return ({
           ...prev,
@@ -231,7 +232,7 @@ export default async () => {
   const config = await entities.reduce(async (prevP, entity) => {
     const prev = await prevP
     const obj = new GraphQLObjectType({
-      fields: entity.fields.reduce((prev, field) => {
+      fields: Object.values(entity.fields).reduce((prev, field) => {
         const baseType = fieldToOutputType(entity.name, field, relationTypes)
         return ({
           ...prev,
@@ -260,7 +261,7 @@ export default async () => {
 
     const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly _id: string }> = {
       type: obj,
-      args: entity.fields.reduce((prev, field) => {
+      args: Object.values(entity.fields).reduce((prev, field) => {
         const baseType = fieldToInputType(entity.name, field)
 
         return ({

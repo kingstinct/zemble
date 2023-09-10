@@ -35,8 +35,11 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
   console.log(JSON.stringify(fields, null, 2))
 
   const prev = await Entity.findOneAndUpdate({ name: entityName }, {
-    $addToSet: {
-      fields: { $each: fields },
+    $set: {
+      fields: fields.reduce((acc, field) => ({
+        ...acc,
+        [field.name]: field,
+      }), {}),
     },
   }, {
     upsert: true,
@@ -49,7 +52,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   pubsub.publish('reload-schema', {})
 
-  return prev
+  return { ...prev, fields: Object.values(prev.fields) }
 }
 
 export default addFieldsToEntity

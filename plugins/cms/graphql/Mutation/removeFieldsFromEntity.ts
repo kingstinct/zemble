@@ -8,11 +8,10 @@ import type {
 
 const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = async (_, { entityName, fields }, { pubsub }) => {
   const prev = await Entity.findOneAndUpdate({ name: entityName }, {
-    $pull: {
-      fields: {
-        name: { $in: fields },
-      },
-    },
+    $unset: fields.reduce((acc, field) => ({
+      ...acc,
+      [`fields.${field}`]: '',
+    }), {}),
   }, {
     upsert: true,
     returnDocument: 'after',
@@ -24,7 +23,7 @@ const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = asyn
 
   pubsub.publish('reload-schema', {})
 
-  return prev
+  return { ...prev, fields: Object.values(prev.fields) }
 }
 
 export default removeFieldsFromEntity
