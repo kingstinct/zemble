@@ -45,7 +45,7 @@ type ReducerType = {
 
 type IField = NumberField | StringField | BooleanField | IdField | EntityRelationType | ArrayFieldType
 
-const types: Record<string, GraphQLUnionType | GraphQLObjectType> = {}
+let types: Record<string, GraphQLUnionType | GraphQLObjectType> = {}
 
 function typeDeduper<T extends GraphQLUnionType | GraphQLObjectType>(type: T): T {
   if (types[type.name]) {
@@ -56,7 +56,7 @@ function typeDeduper<T extends GraphQLUnionType | GraphQLObjectType>(type: T): T
   return type
 }
 
-const mapRelationField = (entityName: string, data: string) => ({ __typename: `${entityName}Relation`, externalId: data })
+const mapRelationField = (entityName: string, data: string) => ({ __typename: `${capitalize(entityName)}Relation`, externalId: data })
 
 const fieldToOutputType = (
   typePrefix: string,
@@ -194,6 +194,8 @@ const createTraverser = (entity: EntityType) => {
 export default async () => {
   const entities = await Entity.find({})
 
+  types = {}
+
   const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((acc, entity) => {
     const getById = new Dataloader(async (ids: readonly string[]) => {
       const entries = await EntityEntry.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
@@ -226,9 +228,12 @@ export default async () => {
     }
   }, initialTypes)
 
+  console.log('about to resolve relation types')
   // some way to resolve the deep types
   let relationTypes = resolveRelationTypes({})
   relationTypes = resolveRelationTypes(relationTypes)
+
+  console.log('resolved relation types!')
 
   const config = await entities.reduce(async (prevP, entity) => {
     const prev = await prevP

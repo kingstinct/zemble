@@ -22,7 +22,7 @@ declare global {
         readonly errors?: readonly GraphQLFormattedError[]
       }>
 
-      readonly gqlRequestUntyped: <TRes, TVars>(
+      readonly gqlRequestUntyped: <TRes, TVars = unknown>(
         query: string,
         vars?: TVars
       ) => Promise<{

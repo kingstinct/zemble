@@ -42,4 +42,8 @@ const plugin = new Plugin(__dirname, {
   defaultConfig,
 })
 
+if (process.env.PLUGIN_DEV) {
+  void connect()
+}
+
 export default plugin

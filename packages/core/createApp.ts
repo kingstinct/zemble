@@ -58,7 +58,9 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   const app = new Hono() as Readapt.Server
 
   // maybe this should be later - how about middleware that overrides logger?
-  app.use('*', logger(context.logger.log))
+  if (process.env.NODE_ENV !== 'test') {
+    app.use('*', logger(context.logger.log))
+  }
 
   app.use('*', cors())
 
