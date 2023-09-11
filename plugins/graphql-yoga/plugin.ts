@@ -46,7 +46,7 @@ declare global {
       readonly honoContext: HonoContext
     }
 
-    type NoAuth<T> = Omit<T, 'token' | 'decodedToken'>
+    type skipAuth<T> = Omit<T, 'token' | 'decodedToken'>
   }
 }
 
