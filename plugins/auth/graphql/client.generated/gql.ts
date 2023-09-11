@@ -13,9 +13,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query Includes($id: String!) {\n    includes(organisationId: $id)\n  }\n": types.IncludesDocument,
     "\n  query PrivateShit {\n    privateShit\n  }\n": types.PrivateShitDocument,
     "\n  query PrivateShitWithRole {\n    privateShitWithRole\n  }\n": types.PrivateShitWithRoleDocument,
     "\n  query PublicShit {\n    publicShit\n  }\n": types.PublicShitDocument,
+    "\n  query VariableReference($id: String!) {\n    variableReference(organisationId: $id)\n  }\n": types.VariableReferenceDocument,
 };
 
 /**
@@ -35,6 +37,10 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  query Includes($id: String!) {\n    includes(organisationId: $id)\n  }\n"): (typeof documents)["\n  query Includes($id: String!) {\n    includes(organisationId: $id)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query PrivateShit {\n    privateShit\n  }\n"): (typeof documents)["\n  query PrivateShit {\n    privateShit\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -44,6 +50,10 @@ export function graphql(source: "\n  query PrivateShitWithRole {\n    privateShi
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query PublicShit {\n    publicShit\n  }\n"): (typeof documents)["\n  query PublicShit {\n    publicShit\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query VariableReference($id: String!) {\n    variableReference(organisationId: $id)\n  }\n"): (typeof documents)["\n  query VariableReference($id: String!) {\n    variableReference(organisationId: $id)\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

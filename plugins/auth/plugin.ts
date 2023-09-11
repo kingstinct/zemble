@@ -3,10 +3,14 @@ import { useExtendContext } from '@envelop/core'
 import { UnauthenticatedError, useGenericAuth } from '@envelop/generic-auth'
 import { Plugin } from '@readapt/core'
 import graphqlYoga from '@readapt/graphql-yoga'
+import { Kind } from 'graphql'
 import { getCookie } from 'hono/cookie'
 
 import { decodeToken } from './utils/decodeToken'
 
+import type {
+  ExecutionArgs, FieldNode, GraphQLObjectType, ListValueNode, ObjectFieldNode, ObjectValueNode, ValueNode,
+} from 'graphql'
 import type { CookieOptions } from 'hono/utils/cookie'
 
 const { PUBLIC_KEY, PRIVATE_KEY } = process.env
@@ -42,6 +46,90 @@ const defaultConfig = {
   },
 } satisfies AuthConfig
 
+const getVariableReferenceSimple = (
+  referenceWithPrefix: string, {
+    fieldNode,
+    objectType,
+    executionArgs,
+  }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
+) => {
+  const variableName = referenceWithPrefix.substring(1)
+
+  const argument = fieldNode.arguments?.find(
+    (arg) => arg.name.value === variableName,
+  )
+
+  if (!argument) {
+    throw new Error(`Could not find argument '${variableName}' in '${objectType.name}.${fieldNode?.name.value}'`)
+  }
+
+  if ('value' in argument.value) {
+    const valueToMatch = argument.value.value
+    return valueToMatch
+  } if (argument.value.kind === Kind.VARIABLE) {
+    const valueFromVariable = executionArgs?.variableValues?.[argument.value.name.value]
+
+    return valueFromVariable
+  }
+
+  // more to handle here
+  return null
+}
+
+const handleValueNode = (
+  value: ValueNode, {
+    fieldNode,
+    objectType,
+    executionArgs,
+  }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
+): unknown => {
+  if (value.kind === Kind.STRING) {
+    if (value.value.startsWith('$')) {
+      return getVariableReferenceSimple(value.value, { fieldNode, objectType, executionArgs })
+    }
+    return value.value
+  }
+  if (value.kind === Kind.OBJECT) {
+    return transformObjectNode(value, { executionArgs, fieldNode, objectType })
+  }
+  if (value.kind === Kind.LIST) {
+    return value.values.map((v) => handleValueNode(v, { executionArgs, fieldNode, objectType }))
+  }
+  if (value.kind === Kind.NULL) {
+    return null
+  }
+  if (value.kind === Kind.BOOLEAN) {
+    return value.value
+  }
+  if (value.kind === Kind.INT) {
+    return parseInt(value.value, 10)
+  }
+  if (value.kind === Kind.FLOAT) {
+    return parseFloat(value.value)
+  }
+  if (value.kind === Kind.ENUM) {
+    return value.value
+  }
+
+  const valueFromVariable = executionArgs?.variableValues?.[value.name.value]
+  return valueFromVariable
+}
+
+const transformObjectNode = (
+  objectNode: ObjectValueNode,
+  {
+    fieldNode,
+    objectType,
+    executionArgs,
+  }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
+): Record<string, unknown> => {
+  const { fields } = objectNode
+  return fields.reduce((acc, field) => ({
+    ...acc,
+    [field.name.value]: handleValueNode(field.value, { executionArgs, fieldNode, objectType }),
+  }), {})
+}
+
 const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
   dependencies: ({ config }) => {
     const gql = graphqlYoga.configure({
@@ -62,31 +150,8 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
           useGenericAuth<Record<string, unknown>, Readapt.GraphQLContext>({
             resolveUserFn: (context) => context.decodedToken,
             validateUser: ({
-              fieldAuthDirectiveNode, user, fieldNode, objectType,
+              fieldAuthDirectiveNode, user, fieldNode, objectType, executionArgs,
             }) => {
-              const matchArg = fieldAuthDirectiveNode?.arguments?.find(
-                (arg) => arg.name.value === 'match',
-              )
-
-              if (matchArg?.value.kind === 'ObjectValue' && user) {
-                const match = matchArg.value.fields.reduce((acc, field) => {
-                  // todo [>=1.0.0]: handle deeper objects (this is only 1 level deep)
-                  if ('value' in field.value) {
-                    return {
-                      ...acc,
-                      [field.name.value]: field.value.value,
-                    }
-                  }
-                  return acc
-                }, {})
-
-                const isValid = Object.entries(match).every(([key, value]) => user[key] === value)
-
-                if (!isValid) {
-                  return new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token matching ${JSON.stringify(match)}.`)
-                }
-              }
-
               if (!user) {
                 let skipValidation = false
                 const skipArg = fieldAuthDirectiveNode?.arguments?.find(
@@ -99,6 +164,45 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
 
                 if (!skipArg) {
                   return new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires authentication.`)
+                }
+              }
+
+              const matchArg = fieldAuthDirectiveNode?.arguments?.find(
+                (arg) => arg.name.value === 'match',
+              )
+
+              if (matchArg?.value.kind === 'ObjectValue') {
+                const matcher = transformObjectNode(matchArg.value, { executionArgs, fieldNode, objectType })
+
+                const isValid = user && Object.entries(matcher).every(([key, value]) => user[key] === value)
+
+                if (!isValid) {
+                  return new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token matching ${JSON.stringify(matcher)}.`)
+                }
+              }
+
+              const includesArg = fieldAuthDirectiveNode?.arguments?.find(
+                (arg) => arg.name.value === 'includes',
+              )
+
+              if (includesArg?.value.kind === 'ObjectValue') {
+                const matcher = transformObjectNode(includesArg.value, { executionArgs, fieldNode, objectType })
+
+                const isValid = user && Object.entries(matcher).every(([arrayName, value]) => {
+                  const arrayVal = user[arrayName]
+                  if (Array.isArray(arrayVal)) {
+                    return arrayVal.some((v) => {
+                      if (value && typeof value === 'object') {
+                        return Object.entries(value).every(([key, val]) => v[key] === val)
+                      }
+                      return v === value
+                    })
+                  }
+                  throw new Error(`'${objectType.name}.${fieldNode?.name.value}' includes matcher can only be used on arrays.`)
+                })
+
+                if (!isValid) {
+                  return new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including arrays matching ${JSON.stringify(matcher)}.`)
                 }
               }
 

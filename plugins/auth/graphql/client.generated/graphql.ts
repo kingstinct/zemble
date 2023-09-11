@@ -22,12 +22,19 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  includes: Scalars['String']['output'];
   privateShit: Scalars['String']['output'];
   privateShitWithRole: Scalars['String']['output'];
   publicKey: Scalars['String']['output'];
   publicShit: Scalars['String']['output'];
   readJWT: Scalars['JSONObject']['output'];
   validateJWT: Scalars['Boolean']['output'];
+  variableReference: Scalars['String']['output'];
+};
+
+
+export type QueryIncludesArgs = {
+  organisationId: Scalars['String']['input'];
 };
 
 
@@ -39,6 +46,18 @@ export type QueryReadJwtArgs = {
 export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
 };
+
+
+export type QueryVariableReferenceArgs = {
+  organisationId: Scalars['String']['input'];
+};
+
+export type IncludesQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type IncludesQuery = { __typename?: 'Query', includes: string };
 
 export type PrivateShitQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -55,7 +74,16 @@ export type PublicShitQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type PublicShitQuery = { __typename?: 'Query', publicShit: string };
 
+export type VariableReferenceQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
 
+
+export type VariableReferenceQuery = { __typename?: 'Query', variableReference: string };
+
+
+export const IncludesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Includes"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"includes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"organisationId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<IncludesQuery, IncludesQueryVariables>;
 export const PrivateShitDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PrivateShit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"privateShit"}}]}}]} as unknown as DocumentNode<PrivateShitQuery, PrivateShitQueryVariables>;
 export const PrivateShitWithRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PrivateShitWithRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"privateShitWithRole"}}]}}]} as unknown as DocumentNode<PrivateShitWithRoleQuery, PrivateShitWithRoleQueryVariables>;
 export const PublicShitDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PublicShit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicShit"}}]}}]} as unknown as DocumentNode<PublicShitQuery, PublicShitQueryVariables>;
+export const VariableReferenceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"VariableReference"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"variableReference"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"organisationId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<VariableReferenceQuery, VariableReferenceQueryVariables>;

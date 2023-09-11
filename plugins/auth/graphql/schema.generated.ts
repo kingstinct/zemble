@@ -19,12 +19,19 @@ export type Scalars = {
 
 export type Query = {
   readonly __typename?: 'Query';
+  readonly includes: Scalars['String']['output'];
   readonly privateShit: Scalars['String']['output'];
   readonly privateShitWithRole: Scalars['String']['output'];
   readonly publicKey: Scalars['String']['output'];
   readonly publicShit: Scalars['String']['output'];
   readonly readJWT: Scalars['JSONObject']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
+  readonly variableReference: Scalars['String']['output'];
+};
+
+
+export type QueryIncludesArgs = {
+  organisationId: Scalars['String']['input'];
 };
 
 
@@ -35,6 +42,11 @@ export type QueryReadJwtArgs = {
 
 export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
+};
+
+
+export type QueryVariableReferenceArgs = {
+  organisationId: Scalars['String']['input'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -124,6 +136,7 @@ export type ResolversParentTypes = ResolversObject<{
 }>;
 
 export type AuthDirectiveArgs = {
+  includes?: Maybe<Scalars['JSONObject']['input']>;
   match?: Maybe<Scalars['JSONObject']['input']>;
   skip?: Maybe<Scalars['Boolean']['input']>;
 };
@@ -135,12 +148,14 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  includes?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryIncludesArgs, 'organisationId'>>;
   privateShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   privateShitWithRole?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   publicKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   publicShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType, RequireFields<QueryReadJwtArgs, 'token'>>;
   validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryValidateJwtArgs, 'token'>>;
+  variableReference?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryVariableReferenceArgs, 'organisationId'>>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
