@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -16,13 +17,16 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  JSON: { input: any; output: any; }
+  JSONObject: { input: any; output: any; }
 };
 
 export type Query = {
   __typename?: 'Query';
+  privateShit: Scalars['String']['output'];
+  privateShitWithRole: Scalars['String']['output'];
   publicKey: Scalars['String']['output'];
-  readJWT: Scalars['JSON']['output'];
+  publicShit: Scalars['String']['output'];
+  readJWT: Scalars['JSONObject']['output'];
   validateJWT: Scalars['Boolean']['output'];
 };
 
@@ -35,3 +39,23 @@ export type QueryReadJwtArgs = {
 export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
 };
+
+export type PrivateShitQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PrivateShitQuery = { __typename?: 'Query', privateShit: string };
+
+export type PrivateShitWithRoleQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PrivateShitWithRoleQuery = { __typename?: 'Query', privateShitWithRole: string };
+
+export type PublicShitQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PublicShitQuery = { __typename?: 'Query', publicShit: string };
+
+
+export const PrivateShitDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PrivateShit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"privateShit"}}]}}]} as unknown as DocumentNode<PrivateShitQuery, PrivateShitQueryVariables>;
+export const PrivateShitWithRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PrivateShitWithRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"privateShitWithRole"}}]}}]} as unknown as DocumentNode<PrivateShitWithRoleQuery, PrivateShitWithRoleQueryVariables>;
+export const PublicShitDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PublicShit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"publicShit"}}]}}]} as unknown as DocumentNode<PublicShitQuery, PublicShitQueryVariables>;

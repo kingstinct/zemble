@@ -14,13 +14,16 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  JSON: { input: any; output: any; }
+  JSONObject: { input: any; output: any; }
 };
 
 export type Query = {
   readonly __typename?: 'Query';
+  readonly privateShit: Scalars['String']['output'];
+  readonly privateShitWithRole: Scalars['String']['output'];
   readonly publicKey: Scalars['String']['output'];
-  readonly readJWT: Scalars['JSON']['output'];
+  readonly publicShit: Scalars['String']['output'];
+  readonly readJWT: Scalars['JSONObject']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
 };
 
@@ -107,7 +110,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
@@ -115,23 +118,36 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
-  JSON: Scalars['JSON']['output'];
+  JSONObject: Scalars['JSONObject']['output'];
   Query: {};
   String: Scalars['String']['output'];
 }>;
 
-export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
-  name: 'JSON';
+export type AuthDirectiveArgs = {
+  match?: Maybe<Scalars['JSONObject']['input']>;
+  skip?: Maybe<Scalars['Boolean']['input']>;
+};
+
+export type AuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject';
 }
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  privateShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  privateShitWithRole?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   publicKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  readJWT?: Resolver<ResolversTypes['JSON'], ParentType, ContextType, RequireFields<QueryReadJwtArgs, 'token'>>;
+  publicShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType, RequireFields<QueryReadJwtArgs, 'token'>>;
   validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryValidateJwtArgs, 'token'>>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
-  JSON?: GraphQLScalarType;
+  JSONObject?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
 }>;
 
+export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
+}>;

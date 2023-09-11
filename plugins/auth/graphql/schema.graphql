@@ -1,7 +1,13 @@
-scalar JSON
+scalar JSONObject
+
+directive @auth(match: JSONObject, skip: Boolean) on FIELD_DEFINITION
 
 type Query {
-  validateJWT(token: String!): Boolean!
-  readJWT(token: String!): JSON!
-  publicKey: String!
+  validateJWT(token: String!): Boolean! @auth(skip: true)
+  readJWT(token: String!): JSONObject! @auth(skip: true)
+  publicKey: String! @auth(skip: true)
+
+  privateShitWithRole: String! @auth(match: { role: "admin" })
+  privateShit: String!
+  publicShit: String! @auth(skip: true)
 }

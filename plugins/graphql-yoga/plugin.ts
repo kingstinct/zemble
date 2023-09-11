@@ -16,7 +16,8 @@ declare global {
     interface Server extends Hono {
       readonly gqlRequest: <TQuery, TVars>(
         query: TypedDocumentNode<TQuery, TVars>,
-        vars: TVars
+        vars?: TVars,
+        opts?: {readonly headers?: Record<string, string>}
       ) => Promise<{
         readonly data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
         readonly errors?: readonly GraphQLFormattedError[]
@@ -24,7 +25,8 @@ declare global {
 
       readonly gqlRequestUntyped: <TRes, TVars = unknown>(
         query: string,
-        vars?: TVars
+        vars?: TVars,
+        opts?: {readonly headers?: Record<string, string>}
       ) => Promise<{
         readonly data?: TRes,
         readonly errors?: readonly GraphQLFormattedError[]

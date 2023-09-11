@@ -31,6 +31,7 @@ async function gqlRequestUntyped<TRes, TVars>(
   app: Readapt.Server,
   query: string,
   variables: TVars,
+  options: {readonly headers?: Record<string, string>} = {},
 ) {
   const res = await app.request(new Request('http://localhost/graphql', {
     method: 'POST',
@@ -40,6 +41,7 @@ async function gqlRequestUntyped<TRes, TVars>(
     }),
     headers: {
       'Content-Type': 'application/json',
+      ...options.headers,
     },
   }))
 
@@ -53,6 +55,7 @@ async function gqlRequest<TQuery, TVars>(
   app: Readapt.Server,
   query: TypedDocumentNode<TQuery, TVars>,
   variables: TVars,
+  options: {readonly headers?: Record<string, string>} = {},
 ) {
   const res = await app.request(new Request('http://localhost/graphql', {
     method: 'POST',
@@ -62,6 +65,7 @@ async function gqlRequest<TQuery, TVars>(
     }),
     headers: {
       'Content-Type': 'application/json',
+      ...options.headers,
     },
   }))
 
@@ -121,14 +125,14 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
   )
 
   // @ts-expect-error sdfgsdfg
-  app.gqlRequest = async (query, vars) => {
-    const response = await gqlRequest(app, query, vars)
+  app.gqlRequest = async (query, vars, opts) => {
+    const response = await gqlRequest(app, query, vars, opts)
     return response
   }
 
   // @ts-expect-error sdfgsdfg
-  app.gqlRequestUntyped = async (untypedQuery: string, vars) => {
-    const response = await gqlRequestUntyped(app, untypedQuery, vars)
+  app.gqlRequestUntyped = async (untypedQuery: string, vars, opts) => {
+    const response = await gqlRequestUntyped(app, untypedQuery, vars, opts)
     return response
   }
 

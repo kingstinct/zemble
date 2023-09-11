@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useExtendContext } from '@envelop/core'
-import { useGenericAuth } from '@envelop/generic-auth'
+import { UnauthenticatedError, useGenericAuth } from '@envelop/generic-auth'
 import { Plugin } from '@readapt/core'
 import graphqlYoga from '@readapt/graphql-yoga'
 import { getCookie } from 'hono/cookie'
@@ -59,9 +59,52 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
               decodedToken,
             }
           }),
-          useGenericAuth<Readapt.TokenRegistry[keyof Readapt.TokenRegistry], Readapt.GraphQLContext>({
+          useGenericAuth<Record<string, unknown>, Readapt.GraphQLContext>({
             resolveUserFn: (context) => context.decodedToken,
+            validateUser: ({
+              fieldAuthDirectiveNode, user, fieldNode, objectType,
+            }) => {
+              const matchArg = fieldAuthDirectiveNode?.arguments?.find(
+                (arg) => arg.name.value === 'match',
+              )
+
+              if (matchArg?.value.kind === 'ObjectValue' && user) {
+                const match = matchArg.value.fields.reduce((acc, field) => {
+                  if ('value' in field.value) {
+                    return {
+                      ...acc,
+                      [field.name.value]: field.value.value,
+                    }
+                  }
+                  return acc
+                }, {})
+
+                const isValid = Object.entries(match).every(([key, value]) => user[key] === value)
+
+                if (!isValid) {
+                  return new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token matching ${JSON.stringify(match)}.`)
+                }
+              }
+
+              if (!user) {
+                let skipValidation = false
+                const skipArg = fieldAuthDirectiveNode?.arguments?.find(
+                  (arg) => arg.name.value === 'skip',
+                )
+
+                if (skipArg?.value.kind === 'BooleanValue') {
+                  skipValidation = skipArg.value.value
+                }
+
+                if (!skipArg) {
+                  return new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires authentication.`)
+                }
+              }
+
+              return undefined
+            },
             mode: 'protect-all',
+            directiveOrExtensionFieldName: 'auth',
           }),
         ],
       },
