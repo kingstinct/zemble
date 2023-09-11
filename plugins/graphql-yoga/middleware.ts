@@ -10,6 +10,7 @@ import createPluginSchema from './utils/createPluginSchema'
 import handleYoga from './utils/handleYoga'
 
 import type { GraphQLMiddlewareConfig } from './plugin'
+import type { Subschema } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
 import type { Plugin } from '@readapt/core'
 import type { Middleware } from '@readapt/core/types'
@@ -18,11 +19,13 @@ import type {
   GraphQLSchemaWithContext,
 } from 'graphql-yoga'
 
-const processPluginSchema = async (pluginPath: string) => {
-  const graphqlPath = path.join(pluginPath, '/graphql')
-  const hasGraphQL = fs.existsSync(graphqlPath)
+const processPluginSchema = async (pluginPath: string, {
+  transforms,
+}: { readonly transforms: Subschema['transforms'] }) => {
+  const graphqlDir = path.join(pluginPath, '/graphql')
+  const hasGraphQL = fs.existsSync(graphqlDir)
   if (hasGraphQL) {
-    return [await createPluginSchema(graphqlPath)]
+    return [await createPluginSchema({ graphqlDir, transforms })]
   }
   return []
 }
@@ -79,8 +82,10 @@ const buildMergedSchema = async (
   plugins: readonly Plugin[],
   config: GraphQLMiddlewareConfig,
 ) => {
+  const isPlugin = plugins.some(({ pluginPath }) => pluginPath === process.cwd())
   const selfSchemas: readonly GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
-    ...await processPluginSchema(process.cwd()),
+    // don't load if we're already a plugin
+    ...!isPlugin ? await processPluginSchema(process.cwd(), { transforms: [] }) : [],
     // eslint-disable-next-line no-nested-ternary
     ...(config.extendSchema
       ? (typeof config.extendSchema === 'function'
@@ -94,12 +99,12 @@ const buildMergedSchema = async (
   // eslint-disable-next-line @typescript-eslint/await-thenable
   const graphQLSchemas = await pluginsToAdd.reduce(async (
     prev,
-    { pluginPath },
+    { pluginPath, config: { graphqlSchemaTransforms } },
   ) => {
     // eslint-disable-next-line functional/prefer-readonly-type
     const toReturn: GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
       ...await prev,
-      ...await processPluginSchema(pluginPath),
+      ...await processPluginSchema(pluginPath, { transforms: graphqlSchemaTransforms ?? [] }),
     ]
 
     return toReturn

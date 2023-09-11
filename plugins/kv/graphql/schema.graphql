@@ -1,17 +1,16 @@
-directive @apiAuth on FIELD_DEFINITION
 scalar JSON
 
 type Query {
-  size(prefix: String!): Int! @apiAuth
-  has(prefix: String!, key: String!): Boolean! @apiAuth
-  get(prefix: String!, key: String!): JSON @apiAuth
-  keys(prefix: String!): [String!]! @apiAuth
-  values(prefix: String!): [JSON!]! @apiAuth
-  entries(prefix: String!): [JSON!]! @apiAuth
+  size(prefix: String!): Int!
+  has(prefix: String!, key: String!): Boolean!
+  get(prefix: String!, key: String!): JSON
+  keys(prefix: String!): [String!]!
+  values(prefix: String!): [JSON!]!
+  entries(prefix: String!): [JSON!]!
 }
 
 type Mutation {
-  delete(prefix: String!, key: String!): Boolean! @apiAuth
-  set(prefix: String!, key: String!, value: JSON!, expireAfterSeconds: Int): Boolean! @apiAuth
-  clear(prefix: String!): Boolean! @apiAuth
+  delete(prefix: String!, key: String!): Boolean!
+  set(prefix: String!, key: String!, value: JSON!, expireAfterSeconds: Int): Boolean!
+  clear(prefix: String!): Boolean!
 }

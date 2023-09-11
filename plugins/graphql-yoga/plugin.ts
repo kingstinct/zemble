@@ -2,6 +2,7 @@ import { PluginWithMiddleware } from '@readapt/core'
 
 import middleware from './middleware'
 
+import type { SubschemaConfig } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
 import type { GraphQLFormattedError, GraphQLSchema } from 'graphql'
 import type {
@@ -35,6 +36,7 @@ declare global {
 
     interface GlobalConfig {
       readonly skipGraphQL?: boolean
+      readonly graphqlSchemaTransforms?: SubschemaConfig['transforms']
     }
 
     interface GlobalContext {

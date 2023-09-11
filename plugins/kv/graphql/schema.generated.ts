@@ -175,10 +175,6 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
 }>;
 
-export type ApiAuthDirectiveArgs = { };
-
-export type ApiAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = ApiAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
-
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
@@ -204,6 +200,3 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
-  apiAuth?: ApiAuthDirectiveResolver<any, any, ContextType>;
-}>;

@@ -1,10 +1,13 @@
+import { wrapSchema } from '@graphql-tools/wrap'
 import { readFileSync } from 'fs'
 import { createSchema } from 'graphql-yoga'
 import { join } from 'path'
 
 import readResolvers from './readResolvers'
 
-export const createPluginSchema = async (graphqlDir: string) => {
+import type { Subschema } from '@graphql-tools/delegate'
+
+export const createPluginSchema = async ({ graphqlDir, transforms }: { readonly graphqlDir: string; readonly transforms: Subschema['transforms'] }) => {
   const typeDefs = readFileSync(join(graphqlDir, '/schema.graphql'), 'utf8')
 
   const Query = await readResolvers(join(graphqlDir, '/Query'))
@@ -16,15 +19,18 @@ export const createPluginSchema = async (graphqlDir: string) => {
 
   const Scalars = await readResolvers(join(graphqlDir, '/Scalar'))
 
-  const schema = createSchema<Readapt.GraphQLContext>({
-    typeDefs,
-    resolvers: {
-      ...(Object.keys(Query).length > 0 ? { Query } : {}),
-      ...(Object.keys(Mutation).length > 0 ? { Mutation } : {}),
-      ...(Object.keys(Subscription).length > 0 ? { Subscription } : {}),
-      ...Type,
-      ...Scalars,
-    },
+  const schema = wrapSchema({
+    schema: createSchema<Readapt.GraphQLContext>({
+      typeDefs,
+      resolvers: {
+        ...(Object.keys(Query).length > 0 ? { Query } : {}),
+        ...(Object.keys(Mutation).length > 0 ? { Mutation } : {}),
+        ...(Object.keys(Subscription).length > 0 ? { Subscription } : {}),
+        ...Type,
+        ...Scalars,
+      },
+    }),
+    transforms,
   })
 
   return schema
