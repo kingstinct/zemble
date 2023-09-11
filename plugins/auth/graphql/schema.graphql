@@ -1,6 +1,10 @@
 scalar JSONObject
 
-directive @auth(match: JSONObject, skip: Boolean) on FIELD_DEFINITION
+directive @auth(
+  match: JSONObject,
+  skip: Boolean
+  # includes: JSONObject
+) on FIELD_DEFINITION
 
 type Query {
   validateJWT(token: String!): Boolean! @auth(skip: true)
@@ -8,6 +12,34 @@ type Query {
   publicKey: String! @auth(skip: true)
 
   privateShitWithRole: String! @auth(match: { role: "admin" })
+  # todo [>=1.0.0]: support argument matching
+  # privateShitWithRoleAndOrganization(organisationId: String!): String! @auth(
+  #   match: {
+  #     role: "admin",
+  #     organisationId: "$organisationId"
+  #   }
+  # )
+  # todo [>=1.0.0]: support array matching
+  # privateShitWithRoleAndOrganizationArray(organisationId: String!): String! @auth(
+  #   includes: {
+  #     roles: {
+  #       role: "admin",
+  #       organisationId: "$organisationId"
+  #     }
+  #   }
+  # )
+  # todo [>=1.0.0]: support array matching one of many
+  # privateShitWithRoleAndOrganizationArray(organisationId: String!): String! @auth(
+  #   includesAny: {
+  #     roles: [{
+  #       role: "admin",
+  #       organisationId: "$organisationId"
+  #     }, {
+  #       role: "superadmin",
+  #       organisationId: "$organisationId"
+  #     }]
+  #   }
+  # )
   privateShit: String!
   publicShit: String! @auth(skip: true)
 }

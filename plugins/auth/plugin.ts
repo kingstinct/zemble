@@ -70,6 +70,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
 
               if (matchArg?.value.kind === 'ObjectValue' && user) {
                 const match = matchArg.value.fields.reduce((acc, field) => {
+                  // todo [>=1.0.0]: handle deeper objects (this is only 1 level deep)
                   if ('value' in field.value) {
                     return {
                       ...acc,
