@@ -10,14 +10,14 @@ const VariableReferenceQuery = graphql(`
 
 describe('variableReference', () => {
   it('Should fail authentication', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const response = await app.gqlRequest(VariableReferenceQuery, { id: '1' })
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.variableReference' requires authentication.`)
   })
 
   it('Should fail without right id in JWT', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { role: 'admin', organisationId: '2' } })
 
@@ -30,7 +30,7 @@ describe('variableReference', () => {
   })
 
   it('Should fail when trying to reference the exact variable literal', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { role: 'admin', organisationId: '$organisationId' } })
 
@@ -43,7 +43,7 @@ describe('variableReference', () => {
   })
 
   it('Should succeed with role in JWT', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { role: 'admin', organisationId: '1' } })
 

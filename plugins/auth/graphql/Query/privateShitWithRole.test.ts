@@ -10,14 +10,14 @@ const PrivateShitWithRoleQuery = graphql(`
 
 describe('PrivateShitWithRole', () => {
   it('Should fail authentication', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const response = await app.gqlRequest(PrivateShitWithRoleQuery, {})
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.privateShitWithRole' requires authentication.`)
   })
 
   it('Should fail without role in JWT', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { } })
 
@@ -30,7 +30,7 @@ describe('PrivateShitWithRole', () => {
   })
 
   it('Should succeed with role in JWT', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { role: 'admin' } })
 

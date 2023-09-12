@@ -10,14 +10,14 @@ const PublicShitQuery = graphql(`
 
 describe('publicShit', () => {
   it('Should succeed authentication without token', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const response = await app.gqlRequest(PublicShitQuery, {})
     expect(response.data?.publicShit).toEqual(`public shit`)
   })
 
   it('Should succeed authentication with token', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { } })
 

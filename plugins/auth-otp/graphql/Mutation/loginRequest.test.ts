@@ -15,7 +15,7 @@ export const LoginRequestMutation = graphql(`
 
 describe('Mutation.loginRequest', () => {
   it('Should succeed', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const email = 'test@example.com'
 
@@ -29,7 +29,7 @@ describe('Mutation.loginRequest', () => {
   })
 
   it('Should fail if not email', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const email = 'test@.com'
 

@@ -23,7 +23,7 @@ describe('Mutation.loginConfirm', () => {
   })
 
   it('Should return a token', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const email = 'test@example.com'
 
@@ -39,7 +39,7 @@ describe('Mutation.loginConfirm', () => {
   })
 
   it('Should fail if not requested before', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const email = 'test@example.com'
 

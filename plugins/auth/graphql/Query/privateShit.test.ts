@@ -10,14 +10,14 @@ const PrivateShitQuery = graphql(`
 
 describe('privateShit', () => {
   it('Should fail authentication', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const response = await app.gqlRequest(PrivateShitQuery, {})
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.privateShit' requires authentication.`)
   })
 
   it('Should succeed authentication', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { } })
 

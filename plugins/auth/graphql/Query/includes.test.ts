@@ -10,14 +10,14 @@ const IncludesQuery = graphql(`
 
 describe('Includes', () => {
   it('Should fail authentication', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const response = await app.gqlRequest(IncludesQuery, { id: '1' })
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.includes' requires authentication.`)
   })
 
   it('Should fail without right id in JWT', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { roles: [{ role: 'admin', organisationId: '2' }] } })
 
@@ -30,7 +30,7 @@ describe('Includes', () => {
   })
 
   it('Should fail when trying to reference the exact variable literal', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { roles: [{ role: 'admin', organisationId: '$organisationId' }] } })
 
@@ -43,7 +43,7 @@ describe('Includes', () => {
   })
 
   it('Should succeed with role in JWT', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { roles: [{ role: 'admin', organisationId: '1' }] } })
 
@@ -56,7 +56,7 @@ describe('Includes', () => {
   })
 
   it('Should succeed with role in JWT as one of many', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const token = signJwt({ data: { roles: [{ role: 'superuser', organisationId: '2' }, { role: 'admin', organisationId: '1' }, { role: 'superuser', organisationId: '3' }] } })
 

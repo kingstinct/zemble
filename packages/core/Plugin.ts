@@ -41,7 +41,7 @@ export class Plugin<
     this.#dependencies = opts?.dependencies ?? []
 
     if (this.#isPluginDevMode) {
-      void this.devApp().then((app) => app.start())
+      void this.#devApp().then((app) => app.start())
     }
   }
 
@@ -94,7 +94,7 @@ export class Plugin<
     })
   }
 
-  async devApp(): Promise<ReadaptApp> {
+  async #devApp(): Promise<ReadaptApp> {
     const resolved = this.configure(this.#devConfig)
     return createApp({
       plugins: [
@@ -102,6 +102,10 @@ export class Plugin<
         resolved,
       ] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
     })
+  }
+
+  async testApp(): Promise<ReadaptApp['app']> {
+    return (await this.#devApp()).app
   }
 }
 

@@ -15,7 +15,7 @@ export const CreateEntityMutation = graphql(`
 
 describe('createEntity', () => {
   test('should create an entity', async () => {
-    const { app } = await plugin.devApp()
+    const app = await plugin.testApp()
 
     const res = await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
