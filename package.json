@@ -43,6 +43,9 @@
       "lint",
       "test",
       "typecheck"
-    ]
+    ],
+    "patchedDependencies": {
+      "@graphql-codegen/visitor-plugin-common@4.0.1": "patches/@graphql-codegen__visitor-plugin-common@4.0.1.patch"
+    }
   }
 }
