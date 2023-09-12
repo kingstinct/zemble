@@ -19,6 +19,7 @@ export type Scalars = {
   Float: { input: number; output: number; }
   Date: { input: any; output: any; }
   DateTime: { input: any; output: any; }
+  JSONObject: { input: any; output: any; }
 };
 
 export type ArrayField = Field & {

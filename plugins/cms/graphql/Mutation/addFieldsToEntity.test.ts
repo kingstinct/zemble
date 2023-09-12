@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb'
+import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import { CreateEntityMutation } from './createEntity.test'
 import { Entity } from '../../clients/papr'
@@ -18,13 +19,20 @@ export const AddFieldsToEntityMutation = graphql(`
 
 describe('addFieldsToEntity', () => {
   let app: Readapt.Server
+  let opts: Record<string, unknown>
 
   beforeEach(async () => {
-    app = (await plugin.devApp()).app
+    app = await plugin.testApp()
+    const token = signJwt({ data: { cmsUserCanModifyEntities: true } })
+    opts = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
 
     await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
-    })
+    }, opts)
   })
 
   test('should add a title field', async () => {
@@ -38,7 +46,7 @@ describe('addFieldsToEntity', () => {
           },
         },
       ],
-    })
+    }, opts)
 
     expect(addFieldsToEntityRes.data).toEqual<AddFieldsToEntityMutationType>({
       addFieldsToEntity: {

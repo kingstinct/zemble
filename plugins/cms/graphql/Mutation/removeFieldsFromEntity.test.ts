@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb'
+import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import { AddFieldsToEntityMutation } from './addFieldsToEntity.test'
 import { CreateEntityMutation } from './createEntity.test'
@@ -21,13 +22,20 @@ export const RemoveFieldsFromEntityMutation = graphql(`
 
 describe('RemoveFieldsFromEntity', () => {
   let app: Readapt.Server
+  let opts: Record<string, unknown>
 
   beforeEach(async () => {
-    app = (await plugin.devApp()).app
+    app = await plugin.testApp()
+    const token = signJwt({ data: { cmsUserCanModifyEntities: true } })
+    opts = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
 
     await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
-    })
+    }, opts)
   })
 
   test('should remove a title field', async () => {
@@ -41,12 +49,12 @@ describe('RemoveFieldsFromEntity', () => {
           },
         },
       ],
-    })
+    }, opts)
 
     const removeFieldsFromEntityRes = await app.gqlRequest(RemoveFieldsFromEntityMutation, {
       name: 'book',
       fields: ['title'],
-    })
+    }, opts)
 
     expect(removeFieldsFromEntityRes.data).toEqual({
       removeFieldsFromEntity: {

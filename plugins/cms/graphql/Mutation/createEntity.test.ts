@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb'
+import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import { Entity } from '../../clients/papr'
 import plugin from '../../plugin'
@@ -14,12 +15,23 @@ export const CreateEntityMutation = graphql(`
 `)
 
 describe('createEntity', () => {
-  test('should create an entity', async () => {
-    const app = await plugin.testApp()
+  let app: Readapt.Server
+  let opts: Record<string, unknown>
 
+  beforeEach(async () => {
+    app = await plugin.testApp()
+    const token = signJwt({ data: { cmsUserCanModifyEntities: true } })
+    opts = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  })
+
+  test('should create an entity', async () => {
     const res = await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
-    })
+    }, opts)
 
     expect(res.data?.createEntity.name).toEqual('book')
 
@@ -40,7 +52,7 @@ describe('createEntity', () => {
       },
     })
 
-    const res2 = await app.gqlRequestUntyped<{readonly books: readonly unknown[]}, unknown>('query { books { _id } }')
+    const res2 = await app.gqlRequestUntyped<{readonly books: readonly unknown[]}, unknown>('query { books { _id } }', {}, opts)
 
     expect(res2.data?.books).toEqual([])
   })

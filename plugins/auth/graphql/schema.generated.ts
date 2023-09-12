@@ -148,14 +148,14 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  includes?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryIncludesArgs, 'organisationId'>>;
+  includes?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"roles":{"role":"admin","organisationId":"$organisationId"}}}>, RequireFields<QueryIncludesArgs, 'organisationId'>>;
   privateShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  privateShitWithRole?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  publicKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  publicShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType, RequireFields<QueryReadJwtArgs, 'token'>>;
-  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryValidateJwtArgs, 'token'>>;
-  variableReference?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryVariableReferenceArgs, 'organisationId'>>;
+  privateShitWithRole?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"role":"admin"}}>>;
+  publicKey?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
+  publicShit?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
+  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>, RequireFields<QueryReadJwtArgs, 'token'>>;
+  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>, RequireFields<QueryValidateJwtArgs, 'token'>>;
+  variableReference?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"role":"admin","organisationId":"$organisationId"}}>, RequireFields<QueryVariableReferenceArgs, 'organisationId'>>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{

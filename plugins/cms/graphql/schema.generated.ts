@@ -16,6 +16,7 @@ export type Scalars = {
   Float: { input: number; output: number; }
   Date: { input: any; output: any; }
   DateTime: { input: any; output: any; }
+  JSONObject: { input: any; output: any; }
 };
 
 export type ArrayField = Field & {
@@ -264,6 +265,7 @@ export type ResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   IDField: ResolverTypeWrapper<IdField>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   NumberField: ResolverTypeWrapper<NumberField>;
   NumberFieldInput: NumberFieldInput;
@@ -292,6 +294,7 @@ export type ResolversParentTypes = ResolversObject<{
   Float: Scalars['Float']['output'];
   IDField: IdField;
   Int: Scalars['Int']['output'];
+  JSONObject: Scalars['JSONObject']['output'];
   Mutation: {};
   NumberField: NumberField;
   NumberFieldInput: NumberFieldInput;
@@ -300,6 +303,14 @@ export type ResolversParentTypes = ResolversObject<{
   StringField: StringField;
   StringFieldInput: StringFieldInput;
 }>;
+
+export type AuthDirectiveArgs = {
+  includes?: Maybe<Scalars['JSONObject']['input']>;
+  match?: Maybe<Scalars['JSONObject']['input']>;
+  skip?: Maybe<Scalars['Boolean']['input']>;
+};
+
+export type AuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type OneOfDirectiveArgs = { };
 
@@ -355,11 +366,15 @@ export type IdFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType ex
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject';
+}
+
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, ContextType, RequireFields<MutationAddFieldsToEntityArgs, 'entityName' | 'fields'>>;
-  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, ContextType, RequireFields<MutationCreateEntityArgs, 'name'>>;
-  removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveEntityArgs, 'name'>>;
-  removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, ContextType, RequireFields<MutationRemoveFieldsFromEntityArgs, 'entityName' | 'fields'>>;
+  addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"cmsUserCanModifyEntities":true}}>, RequireFields<MutationAddFieldsToEntityArgs, 'entityName' | 'fields'>>;
+  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"cmsUserCanModifyEntities":true}}>, RequireFields<MutationCreateEntityArgs, 'name'>>;
+  removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"cmsUserCanModifyEntities":true}}>, RequireFields<MutationRemoveEntityArgs, 'name'>>;
+  removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"cmsUserCanModifyEntities":true}}>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'entityName' | 'fields'>>;
 }>;
 
 export type NumberFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['NumberField'] = ResolversParentTypes['NumberField']> = ResolversObject<{
@@ -394,6 +409,7 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   EntityRelationField?: EntityRelationFieldResolvers<ContextType>;
   Field?: FieldResolvers<ContextType>;
   IDField?: IdFieldResolvers<ContextType>;
+  JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   NumberField?: NumberFieldResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -401,5 +417,6 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
 }>;
 
 export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
   oneOf?: OneOfDirectiveResolver<any, any, ContextType>;
 }>;

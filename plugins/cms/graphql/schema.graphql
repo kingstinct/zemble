@@ -1,4 +1,11 @@
+scalar JSONObject
 directive @oneOf on INPUT_OBJECT | FIELD_DEFINITION
+
+directive @auth (
+  match: JSONObject
+  skip: Boolean
+  includes: JSONObject
+) on FIELD_DEFINITION
 
 scalar Date
 scalar DateTime
@@ -9,11 +16,11 @@ type Query {
 }
 
 type Mutation {
-  createEntity(name: String!): Entity!
-  removeEntity(name: String!): Boolean!
+  createEntity(name: String!): Entity! @auth(match: { cmsUserCanModifyEntities: true })
+  removeEntity(name: String!): Boolean! @auth(match: { cmsUserCanModifyEntities: true })
 
-  addFieldsToEntity(entityName: String!, fields: [FieldInput!]!): Entity!
-  removeFieldsFromEntity(entityName: String!, fields: [String!]!): Entity!
+  addFieldsToEntity(entityName: String!, fields: [FieldInput!]!): Entity! @auth(match: { cmsUserCanModifyEntities: true })
+  removeFieldsFromEntity(entityName: String!, fields: [String!]!): Entity! @auth(match: { cmsUserCanModifyEntities: true })
 }
 
 input FieldInput @oneOf {

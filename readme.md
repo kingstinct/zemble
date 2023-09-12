@@ -76,7 +76,7 @@ Gör så att det är lätt att extenda åt "båda hållen". Har vi en entitet (R
 
 Support parallel authentication flows?
 Use directives to separate expected authentication mechanisms. So we can have a token that contains { integrationId: ObjectId }, { userId: ObjectId } as well as { apiKey: ObjectId } and type them safely for each resolver, for example:
-resolver1 @skipAuth (no auth required)
+resolver1 @AuthContextWithToken (no auth required)
 resolver2 (user auth, default)
 resolver3 @integrationAuth (integration auth)
 resolver4 @integrationAuth @userAuth (either goes)

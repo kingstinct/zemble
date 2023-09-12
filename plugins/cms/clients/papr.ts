@@ -1,3 +1,4 @@
+import readaptContext from '@readapt/core/readaptContext'
 import { MongoClient } from 'mongodb'
 import Papr, { VALIDATION_LEVEL, schema, types } from 'papr'
 
@@ -9,19 +10,19 @@ const papr = new Papr()
 export async function connect(mongoUrl = process.env.MONGO_URL) {
   if (!mongoUrl) throw new Error('MONGO_URL not set')
 
-  console.log('Connecting to MongoDB...', mongoUrl)
+  readaptContext.logger.log('Connecting to MongoDB...', mongoUrl)
 
   client = await MongoClient.connect(mongoUrl)
 
-  console.log('Connected to MongoDB!')
+  readaptContext.logger.log('Connected to MongoDB!')
 
   const db = client.db()
 
   papr.initialize(db)
 
-  console.log(`Registering ${papr.models.size} models...`)
+  readaptContext.logger.log(`Registering ${papr.models.size} models...`)
   papr.models.forEach((model) => {
-    console.log(`Registering model: ${model.collection.collectionName}`)
+    readaptContext.logger.log(`Registering model: ${model.collection.collectionName}`)
   })
 
   await papr.updateSchemas()

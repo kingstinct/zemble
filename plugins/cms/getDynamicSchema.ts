@@ -228,12 +228,9 @@ export default async () => {
     }
   }, initialTypes)
 
-  console.log('about to resolve relation types')
   // some way to resolve the deep types
   let relationTypes = resolveRelationTypes({})
   relationTypes = resolveRelationTypes(relationTypes)
-
-  console.log('resolved relation types!')
 
   const config = await entities.reduce(async (prevP, entity) => {
     const prev = await prevP

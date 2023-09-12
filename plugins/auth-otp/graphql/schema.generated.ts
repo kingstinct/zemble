@@ -195,18 +195,18 @@ export type AuthDirectiveArgs = {
 export type AuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type CodeNotValidErrorResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['CodeNotValidError'] = ResolversParentTypes['CodeNotValidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type EmailNotValidErrorResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['EmailNotValidError'] = ResolversParentTypes['EmailNotValidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ErrorResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
   __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginFailedError', ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
 }>;
 
 export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
@@ -218,12 +218,12 @@ export type LoginConfirmResponseResolvers<ContextType = Readapt.GraphQLContext, 
 }>;
 
 export type LoginConfirmSuccessfulResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginConfirmSuccessfulResponse'] = ResolversParentTypes['LoginConfirmSuccessfulResponse']> = ResolversObject<{
-  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  accessToken?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type LoginFailedErrorResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginFailedError'] = ResolversParentTypes['LoginFailedError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -232,18 +232,18 @@ export type LoginRequestResponseResolvers<ContextType = Readapt.GraphQLContext, 
 }>;
 
 export type LoginRequestSuccessResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginRequestSuccessResponse'] = ResolversParentTypes['LoginRequestSuccessResponse']> = ResolversObject<{
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type LoginResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  loginConfirm?: Resolver<ResolversTypes['LoginConfirmResponse'], ParentType, ContextType, RequireFields<MutationLoginConfirmArgs, 'code' | 'email'>>;
-  loginRequest?: Resolver<ResolversTypes['LoginRequestResponse'], ParentType, ContextType, RequireFields<MutationLoginRequestArgs, 'email'>>;
+  loginConfirm?: Resolver<ResolversTypes['LoginConfirmResponse'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>, RequireFields<MutationLoginConfirmArgs, 'code' | 'email'>>;
+  loginRequest?: Resolver<ResolversTypes['LoginRequestResponse'], ParentType, Readapt.AuthContextWithToken<ContextType, {"skip":true}>, RequireFields<MutationLoginRequestArgs, 'email'>>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
