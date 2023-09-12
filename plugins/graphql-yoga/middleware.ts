@@ -40,7 +40,7 @@ async function gqlRequestUntyped<TRes, TVars>(
   app: Readapt.Server,
   query: string,
   variables: TVars,
-  options: {readonly headers?: Record<string, string>} = {},
+  options?: {readonly headers?: Record<string, string>},
 ) {
   const res = await app.request(new Request('http://localhost/graphql', {
     method: 'POST',
@@ -50,14 +50,20 @@ async function gqlRequestUntyped<TRes, TVars>(
     }),
     headers: {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...options?.headers,
     },
   }))
 
-  return res.json() as unknown as {
+  const resJson = res.json() as unknown as {
     readonly data?: TRes,
     readonly errors: readonly GraphQLFormattedError[]
   }
+
+  if (resJson.errors) {
+    console.error(resJson.errors)
+  }
+
+  return resJson
 }
 
 async function gqlRequest<TQuery, TVars>(
@@ -78,10 +84,16 @@ async function gqlRequest<TQuery, TVars>(
     },
   }))
 
-  return res.json() as unknown as {
+  const resJson = res.json() as unknown as {
     readonly data?: ResultOf<TQuery>,
     readonly errors: readonly GraphQLFormattedError[]
   }
+
+  if (resJson.errors) {
+    console.error(resJson.errors)
+  }
+
+  return resJson
 }
 
 const buildMergedSchema = async (

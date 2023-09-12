@@ -1,5 +1,5 @@
 diff --git a/cjs/base-resolvers-visitor.js b/cjs/base-resolvers-visitor.js
-index 4d4adf34e1f5b9f0dbec01bbc21dcb1bc21085fa..79f2ceeb44dd2f6cd5229568c40dc8c94643ee33 100644
+index 4d4adf34e1f5b9f0dbec01bbc21dcb1bc21085fa..23d19dbaa27868514ccb7b6f8aff7a603aba4fab 100644
 --- a/cjs/base-resolvers-visitor.js
 +++ b/cjs/base-resolvers-visitor.js
 @@ -642,12 +642,62 @@ class BaseResolversVisitor extends base_visitor_js_1.BaseVisitor {
@@ -62,7 +62,7 @@ index 4d4adf34e1f5b9f0dbec01bbc21dcb1bc21085fa..79f2ceeb44dd2f6cd5229568c40dc8c9
 +                    }
 +                    
 +                }, {})
-+                contextType = `${directiveMap.type}<${contextType}, ${JSON.stringify(args, null, 2)}>`;
++                contextType = `${directiveMap.type}<${contextType}, ${JSON.stringify(args)}>`;
              }
          }
          return contextType;

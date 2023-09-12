@@ -27,6 +27,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongodb": "5",
     "papr": "^14.1.0",
+    "readapt-plugin-auth": "workspace:^",
     "readapt-plugin-kv": "workspace:^"
   },
   "devDependencies": {

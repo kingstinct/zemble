@@ -2,6 +2,7 @@
 import { OneOfInputObjectsRule, useExtendedValidation } from '@envelop/extended-validation'
 import { Plugin } from '@readapt/core'
 import graphqlYoga from '@readapt/graphql-yoga'
+import auth from 'readapt-plugin-auth'
 import kvPlugin from 'readapt-plugin-kv'
 
 import { connect } from './clients/papr'
@@ -34,6 +35,9 @@ const plugin = new Plugin(__dirname, {
       },
       {
         plugin: kvPlugin,
+      },
+      {
+        plugin: auth,
       },
     ]
 

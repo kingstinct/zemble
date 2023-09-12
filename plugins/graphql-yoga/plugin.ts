@@ -50,7 +50,17 @@ declare global {
       readonly honoContext: HonoContext
     }
 
-    type skipAuth<T> = Omit<T, 'token' | 'decodedToken'>
+    type AuthContextWithToken<TContext, DirectiveArgs extends {
+      readonly match?: Record<string, unknown>
+      readonly includes?: Record<string, unknown>
+      readonly skip?: boolean
+    }> = DirectiveArgs['skip'] extends true
+      ? Omit<TContext, 'decodedToken' | 'token'>
+      : Omit<TContext, 'decodedToken'> & {
+        readonly decodedToken: DirectiveArgs['match']
+        & Record<keyof DirectiveArgs['includes'],
+        ReadonlyArray<DirectiveArgs['includes']>> & DecodedTokenBase & Readapt.TokenRegistry[keyof Readapt.TokenRegistry]
+      }
   }
 }
 
