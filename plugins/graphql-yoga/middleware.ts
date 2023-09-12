@@ -22,11 +22,16 @@ import type {
 const processPluginSchema = async (pluginPath: string, {
   transforms,
   scalars,
-}: { readonly transforms: Subschema['transforms'], readonly scalars: Record<string, GraphQLScalarType> }) => {
+  skipGraphQLValidation,
+}: { readonly transforms: Subschema['transforms'], readonly scalars: Record<string, GraphQLScalarType>, readonly skipGraphQLValidation?: boolean }) => {
   const graphqlDir = path.join(pluginPath, '/graphql')
   const hasGraphQL = fs.existsSync(graphqlDir)
   if (hasGraphQL) {
-    return [await createPluginSchema({ graphqlDir, transforms, scalars })]
+    return [
+      await createPluginSchema({
+        graphqlDir, transforms, scalars, skipGraphQLValidation: !!skipGraphQLValidation,
+      }),
+    ]
   }
   return []
 }
@@ -86,7 +91,7 @@ const buildMergedSchema = async (
   const isPlugin = plugins.some(({ pluginPath }) => pluginPath === process.cwd())
   const selfSchemas: readonly GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
     // don't load if we're already a plugin
-    ...!isPlugin ? await processPluginSchema(process.cwd(), { transforms: [], scalars: config.scalars || {} }) : [],
+    ...!isPlugin ? await processPluginSchema(process.cwd(), { transforms: [], scalars: config.scalars || {}, skipGraphQLValidation: false }) : [],
     // eslint-disable-next-line no-nested-ternary
     ...(config.extendSchema
       ? (typeof config.extendSchema === 'function'
@@ -105,7 +110,11 @@ const buildMergedSchema = async (
     // eslint-disable-next-line functional/prefer-readonly-type
     const toReturn: GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
       ...await prev,
-      ...await processPluginSchema(pluginPath, { transforms: graphqlSchemaTransforms ?? [], scalars: config.scalars || {} }),
+      ...await processPluginSchema(pluginPath, {
+        transforms: graphqlSchemaTransforms ?? [],
+        scalars: config.scalars || {},
+        skipGraphQLValidation: pluginPath === process.cwd(), // skip validation so we don't need to provide root queries for plugins where it doesn't make sense
+      }),
     ]
 
     return toReturn

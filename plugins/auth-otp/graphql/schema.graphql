@@ -46,8 +46,3 @@ interface Error {
   message: String! @auth(skip: true)
   # code: ErrorCode!
 }
-
-# why do I need this? it's only part of a schema
-type Query {
-  helloWorld: String!
-}

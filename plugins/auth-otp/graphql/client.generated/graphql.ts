@@ -75,11 +75,6 @@ export type MutationLoginRequestArgs = {
   email: Scalars['String']['input'];
 };
 
-export type Query = {
-  __typename?: 'Query';
-  helloWorld: Scalars['String']['output'];
-};
-
 export type LoginConfirmMutationVariables = Exact<{
   email: Scalars['String']['input'];
   code: Scalars['String']['input'];

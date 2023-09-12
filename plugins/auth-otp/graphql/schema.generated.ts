@@ -73,11 +73,6 @@ export type MutationLoginRequestArgs = {
   email: Scalars['String']['input'];
 };
 
-export type Query = {
-  readonly __typename?: 'Query';
-  readonly helloWorld: Scalars['String']['output'];
-};
-
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 
@@ -171,7 +166,6 @@ export type ResolversTypes = ResolversObject<{
   LoginRequestSuccessResponse: ResolverTypeWrapper<LoginRequestSuccessResponse>;
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
   Mutation: ResolverTypeWrapper<{}>;
-  Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
 
@@ -189,7 +183,6 @@ export type ResolversParentTypes = ResolversObject<{
   LoginRequestSuccessResponse: LoginRequestSuccessResponse;
   LoginResponse: LoginResponse;
   Mutation: {};
-  Query: {};
   String: Scalars['String']['output'];
 }>;
 
@@ -253,10 +246,6 @@ export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType e
   loginRequest?: Resolver<ResolversTypes['LoginRequestResponse'], ParentType, ContextType, RequireFields<MutationLoginRequestArgs, 'email'>>;
 }>;
 
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  helloWorld?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-}>;
-
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   CodeNotValidError?: CodeNotValidErrorResolvers<ContextType>;
   EmailNotValidError?: EmailNotValidErrorResolvers<ContextType>;
@@ -269,7 +258,6 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   LoginRequestSuccessResponse?: LoginRequestSuccessResponseResolvers<ContextType>;
   LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
 }>;
 
 export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
