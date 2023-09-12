@@ -4,7 +4,7 @@ import middleware from './middleware'
 
 import type { SubschemaConfig } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
-import type { GraphQLFormattedError, GraphQLSchema } from 'graphql'
+import type { GraphQLFormattedError, GraphQLScalarType, GraphQLSchema } from 'graphql'
 import type {
   YogaServerOptions, YogaInitialContext,
 } from 'graphql-yoga'
@@ -66,6 +66,7 @@ export interface GraphQLMiddlewareConfig extends Readapt.GlobalConfig {
   readonly redisOptions?: RedisOptions
 
   readonly extendSchema?: readonly GraphQLSchema[] | (() => Promise<readonly GraphQLSchema[]>)
+  readonly scalars?: Record<string, GraphQLScalarType>
 }
 
 const defaultConfig = {

@@ -68,9 +68,9 @@ const defaultConfig = {
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
   generateTokenContents,
-  handleAuthRequest: async (to, twoFactorCode, context) => {
-    if (context.sendEmail) {
-      void context.sendEmail({
+  handleAuthRequest: async (to, twoFactorCode, { sendEmail, logger }) => {
+    if (sendEmail) {
+      void sendEmail({
         from: plugin.config.from,
         subject: plugin.config.emailSubject ? simpleTemplating(plugin.config.emailSubject, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : 'Login',
         text: plugin.config.emailText ? simpleTemplating(plugin.config.emailText, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : `Your two factor code is ${twoFactorCode}`,
@@ -78,7 +78,7 @@ const defaultConfig = {
         to,
       })
     } else {
-      console.log(`handleAuthRequest for ${to.email}`, twoFactorCode)
+      logger.log(`handleAuthRequest for ${to.email}`, twoFactorCode)
     }
   },
 } satisfies Partial<OtpAuthConfig>
@@ -94,7 +94,7 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(__dirname, {
   ],
   defaultConfig,
   devConfig: {
-    handleAuthRequest: ({ email }, code) => { console.log(`handleAuthRequest for ${email}`, code) },
+    handleAuthRequest: ({ email }, code, { logger }) => { logger.log(`handleAuthRequest for ${email}`, code) },
     generateTokenContents,
     from: { email: 'noreply@readapt.com' },
   },

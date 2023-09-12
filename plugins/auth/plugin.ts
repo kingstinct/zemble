@@ -2,8 +2,6 @@
 import { useExtendContext } from '@envelop/core'
 import { UnauthenticatedError, useGenericAuth } from '@envelop/generic-auth'
 import {
-  RenameRootFields,
-  PruneSchema,
   FilterRootFields,
 } from '@graphql-tools/wrap'
 import { Plugin } from '@readapt/core'
@@ -14,7 +12,7 @@ import { getCookie } from 'hono/cookie'
 import { decodeToken } from './utils/decodeToken'
 
 import type {
-  ExecutionArgs, FieldNode, GraphQLObjectType, ListValueNode, ObjectFieldNode, ObjectValueNode, ValueNode,
+  ExecutionArgs, FieldNode, GraphQLObjectType, ObjectValueNode, ValueNode,
 } from 'graphql'
 import type { CookieOptions } from 'hono/utils/cookie'
 
@@ -163,7 +161,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
               decodedToken,
             }
           }),
-          useGenericAuth<Record<string, unknown>, Readapt.GraphQLContext>({
+          useGenericAuth<object, Readapt.GraphQLContext>({
             resolveUserFn: (context) => context.decodedToken,
             validateUser: ({
               fieldAuthDirectiveNode, user, fieldNode, objectType, executionArgs,
@@ -190,6 +188,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
               if (matchArg?.value.kind === 'ObjectValue') {
                 const matcher = transformObjectNode(matchArg.value, { executionArgs, fieldNode, objectType })
 
+                // @ts-expect-error can be improved
                 const isValid = user && Object.entries(matcher).every(([key, value]) => user[key] === value)
 
                 if (!isValid) {
@@ -205,6 +204,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
                 const matcher = transformObjectNode(includesArg.value, { executionArgs, fieldNode, objectType })
 
                 const isValid = user && Object.entries(matcher).every(([arrayName, value]) => {
+                  // @ts-expect-error can be improved
                   const arrayVal = user[arrayName]
                   if (Array.isArray(arrayVal)) {
                     return arrayVal.some((v) => {

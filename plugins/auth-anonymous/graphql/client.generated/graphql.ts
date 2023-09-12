@@ -16,6 +16,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  JSONObject: { input: any; output: any; }
 };
 
 export type LoginResponse = {

@@ -6,8 +6,13 @@ import { join } from 'path'
 import readResolvers from './readResolvers'
 
 import type { Subschema } from '@graphql-tools/delegate'
+import type { GraphQLScalarType } from 'graphql'
 
-export const createPluginSchema = async ({ graphqlDir, transforms }: { readonly graphqlDir: string; readonly transforms: Subschema['transforms'] }) => {
+export const createPluginSchema = async ({ graphqlDir, transforms, scalars }: {
+  readonly graphqlDir: string;
+  readonly transforms: Subschema['transforms'],
+  readonly scalars: Record<string, GraphQLScalarType>
+}) => {
   const typeDefs = readFileSync(join(graphqlDir, '/schema.graphql'), 'utf8')
 
   const Query = await readResolvers(join(graphqlDir, '/Query'))
@@ -28,6 +33,7 @@ export const createPluginSchema = async ({ graphqlDir, transforms }: { readonly 
         ...(Object.keys(Subscription).length > 0 ? { Subscription } : {}),
         ...Type,
         ...Scalars,
+        ...scalars,
       },
     }),
     transforms,

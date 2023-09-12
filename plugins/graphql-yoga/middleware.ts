@@ -14,18 +14,19 @@ import type { Subschema } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
 import type { Plugin } from '@readapt/core'
 import type { Middleware } from '@readapt/core/types'
-import type { GraphQLFormattedError } from 'graphql'
+import type { GraphQLFormattedError, GraphQLScalarType } from 'graphql'
 import type {
   GraphQLSchemaWithContext,
 } from 'graphql-yoga'
 
 const processPluginSchema = async (pluginPath: string, {
   transforms,
-}: { readonly transforms: Subschema['transforms'] }) => {
+  scalars,
+}: { readonly transforms: Subschema['transforms'], readonly scalars: Record<string, GraphQLScalarType> }) => {
   const graphqlDir = path.join(pluginPath, '/graphql')
   const hasGraphQL = fs.existsSync(graphqlDir)
   if (hasGraphQL) {
-    return [await createPluginSchema({ graphqlDir, transforms })]
+    return [await createPluginSchema({ graphqlDir, transforms, scalars })]
   }
   return []
 }
@@ -85,7 +86,7 @@ const buildMergedSchema = async (
   const isPlugin = plugins.some(({ pluginPath }) => pluginPath === process.cwd())
   const selfSchemas: readonly GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
     // don't load if we're already a plugin
-    ...!isPlugin ? await processPluginSchema(process.cwd(), { transforms: [] }) : [],
+    ...!isPlugin ? await processPluginSchema(process.cwd(), { transforms: [], scalars: config.scalars || {} }) : [],
     // eslint-disable-next-line no-nested-ternary
     ...(config.extendSchema
       ? (typeof config.extendSchema === 'function'
@@ -104,7 +105,7 @@ const buildMergedSchema = async (
     // eslint-disable-next-line functional/prefer-readonly-type
     const toReturn: GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
       ...await prev,
-      ...await processPluginSchema(pluginPath, { transforms: graphqlSchemaTransforms ?? [] }),
+      ...await processPluginSchema(pluginPath, { transforms: graphqlSchemaTransforms ?? [], scalars: config.scalars || {} }),
     ]
 
     return toReturn

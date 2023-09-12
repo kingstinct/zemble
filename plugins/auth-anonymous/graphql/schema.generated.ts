@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { TokenContents } from '@readapt/core/types';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  JSONObject: { input: any; output: any; }
 };
 
 export type LoginResponse = {
@@ -117,6 +118,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -128,6 +130,7 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
+  JSONObject: Scalars['JSONObject']['output'];
   LoginResponse: LoginResponse;
   Mutation: {};
   Query: {};
@@ -135,17 +138,25 @@ export type ResolversParentTypes = ResolversObject<{
   User: TokenContents;
 }>;
 
-export type SkipAuthDirectiveArgs = { };
+export type AuthDirectiveArgs = {
+  includes?: Maybe<Scalars['JSONObject']['input']>;
+  match?: Maybe<Scalars['JSONObject']['input']>;
+  skip?: Maybe<Scalars['Boolean']['input']>;
+};
 
-export type SkipAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = SkipAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type AuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject';
+}
 
 export type LoginResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, Readapt.NoAuth<ContextType>>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  login?: Resolver<ResolversTypes['LoginResponse'], ParentType, Readapt.NoAuth<ContextType>, RequireFields<MutationLoginArgs, 'username'>>;
+  login?: Resolver<ResolversTypes['LoginResponse'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'username'>>;
 }>;
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
@@ -159,6 +170,7 @@ export type UserResolvers<ContextType = Readapt.GraphQLContext, ParentType exten
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+  JSONObject?: GraphQLScalarType;
   LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
@@ -166,5 +178,5 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
 }>;
 
 export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
-  skipAuth?: SkipAuthDirectiveResolver<any, any, ContextType>;
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
 }>;

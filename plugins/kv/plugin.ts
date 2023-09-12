@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useExtendContext } from '@envelop/core'
 import { Plugin } from '@readapt/core'
+import readaptContext from '@readapt/core/readaptContext'
 import gql from '@readapt/graphql-yoga'
 
 import CloudflareKeyValue from './clients/CloudFlareKeyValue'
@@ -22,26 +23,34 @@ const defaultConfig = {
   redisUrl: process.env.REDIS_URL,
 } satisfies KeyValueConfig
 
-export function kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K): IStandardKeyValueService<T> {
+type KvBound = <T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
+
+function kvUnbound<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(this: Readapt.GlobalContext, prefix: K): IStandardKeyValueService<T> {
   const prefixStr = prefix.toString()
+  const { config } = plugin
+
   if (config.implementation === 'cloudflare' || config.cloudflareNamespace) {
-    console.log('initing cloudflare kv')
+    this.logger.log('initing cloudflare kv')
     if (!config.cloudflareNamespace) throw new Error('cloudflareNamespace is required for cloudflare implementation')
     return new CloudflareKeyValue<T>(config.cloudflareNamespace, prefixStr)
   } if (config.implementation === 'redis' || config.redisUrl) {
     if (!config.redisUrl) throw new Error('REDIS_URL is required for redis implementation')
-    console.log('initing redis kv')
+    this.logger.log('initing redis kv')
     return new RedisKeyValue<T>(prefixStr, config.redisUrl, config.redisOptions)
   }
 
   if (process.env.NODE_ENV === 'production') {
-    console.warn('Using in-memory key-value store in production is not recommended, since you can\'t share data between multiple instances of your app')
+    this.logger.warn('Using in-memory key-value store in production is not recommended, since you can\'t share data between multiple instances of your app')
   }
 
-  console.log('initing in-memory kv')
+  this.logger.log('initing in-memory kv')
 
   return new KeyValue<T>(prefixStr)
 }
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore fix later
+export const kv: KvBound = kvUnbound.bind(readaptContext)
 
 const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
   dependencies: ({ config }) => [
@@ -61,7 +70,5 @@ const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
   ],
   defaultConfig,
 })
-
-export const { config } = plugin
 
 export default plugin

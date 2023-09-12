@@ -1,34 +1,40 @@
-directive @skipAuth on FIELD_DEFINITION
+scalar JSONObject
+
+directive @auth(
+  match: JSONObject,
+  skip: Boolean
+  includes: JSONObject
+) on FIELD_DEFINITION
 
 type Mutation {
-  loginRequest(email: String!): LoginRequestResponse! @skipAuth
-  loginConfirm(email: String!, code: String!): LoginConfirmResponse! @skipAuth
+  loginRequest(email: String!): LoginRequestResponse! @auth(skip: true)
+  loginConfirm(email: String!, code: String!): LoginConfirmResponse! @auth(skip: true)
 }
 
 type LoginResponse {
-  token: String! @skipAuth
+  token: String! @auth(skip: true)
 }
 
 type LoginRequestSuccessResponse {
-    success: Boolean! @skipAuth
+    success: Boolean! @auth(skip: true)
 }
 
 type EmailNotValidError implements Error {
-    message: String! @skipAuth
+    message: String! @auth(skip: true)
 }
 
 type CodeNotValidError implements Error {
-    message: String! @skipAuth
+    message: String! @auth(skip: true)
 }
 
 type LoginFailedError implements Error {
-    message: String! @skipAuth
+    message: String! @auth(skip: true)
 }
 
 union LoginRequestResponse = LoginRequestSuccessResponse | EmailNotValidError
 
 type LoginConfirmSuccessfulResponse {
-    accessToken: String! @skipAuth
+    accessToken: String! @auth(skip: true)
 }
 
 union LoginConfirmResponse = LoginConfirmSuccessfulResponse
@@ -37,6 +43,11 @@ union LoginConfirmResponse = LoginConfirmSuccessfulResponse
   | LoginFailedError
 
 interface Error {
-  message: String! @skipAuth
+  message: String! @auth(skip: true)
   # code: ErrorCode!
+}
+
+# why do I need this? it's only part of a schema
+type Query {
+  helloWorld: String!
 }

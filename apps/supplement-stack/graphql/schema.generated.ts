@@ -420,10 +420,6 @@ export type ResolversParentTypes = ResolversObject<{
   User: User;
 }>;
 
-export type SkipAuthDirectiveArgs = { };
-
-export type SkipAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = SkipAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
-
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
@@ -532,6 +528,3 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   User?: UserResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
-  skipAuth?: SkipAuthDirectiveResolver<any, any, ContextType>;
-}>;

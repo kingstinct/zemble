@@ -3,12 +3,11 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 
-import KeyValue from './clients/KeyValue'
+import context from './readaptContext'
 import initializePlugin from './utils/initializePlugin'
 import { readPackageJson } from './utils/readPackageJson'
 import { uniqBy } from './utils/uniqBy'
 
-import type { IStandardKeyValueService } from '.'
 import type Plugin from './Plugin'
 import type { PluginWithMiddleware } from './PluginWithMiddleware'
 
@@ -47,14 +46,6 @@ const filterConfig = (config: Record<string, unknown>) => Object.keys(config).re
 }, {})
 
 export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure): Promise<ReadaptApp> => {
-  const context = {
-    logger: console,
-    kv<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K): IStandardKeyValueService<T> {
-      // @ts-expect-error fix sometime maybe :)
-      return new KeyValue<T>(prefix) as unknown as IStandardKeyValueService<T>
-    },
-  } as unknown as Readapt.GlobalContext
-
   const app = new Hono() as Readapt.Server
 
   // maybe this should be later - how about middleware that overrides logger?
@@ -74,10 +65,10 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     (plugin): plugin is PluginWithMiddleware => 'initializeMiddleware' in plugin,
   )
 
-  console.log(`Initializing ${packageJson.name} with ${plugins.length} plugins whereof ${middleware.length} contains middleware`)
+  context.logger.log(`Initializing ${packageJson.name} with ${plugins.length} plugins whereof ${middleware.length} contains middleware`)
 
   plugins.forEach((plugin) => {
-    console.log(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
+    context.logger.log(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
   })
 
   await middleware?.reduce(async (
@@ -86,6 +77,8 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   ) => {
     await prev
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore sometimes context contains more stuff, initiated at other places
     await middleware.initializeMiddleware({ plugins, app, context })
     return undefined
   }, Promise.resolve(undefined))
@@ -108,7 +101,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   return {
     app,
     start: () => {
-      serve(app, (info) => console.log(info))
+      serve(app, (info) => context.logger.log(info))
       return app
     },
   }
