@@ -1,9 +1,15 @@
 scalar JSONObject
 
+input AuthOr {
+  includes: JSONObject
+  match: JSONObject
+}
+
 directive @auth(
   match: JSONObject,
   skip: Boolean
   includes: JSONObject
+  or: [AuthOr!]
 ) on FIELD_DEFINITION
 
 type Query {
@@ -31,18 +37,28 @@ type Query {
       }
     }
   )
-  # todo [>=1.0.0]: support array matching one of many
-  # privateShitWithRoleAndOrganizationArray(organisationId: String!): String! @auth(
-  #   includesAny: {
-  #     roles: [{
-  #       role: "admin",
-  #       organisationId: "$organisationId"
-  #     }, {
-  #       role: "superadmin",
-  #       organisationId: "$organisationId"
-  #     }]
-  #   }
-  # )
+
+  advancedWithOr(organisationId: String!): String! @auth(
+    match: { type: "user-token" }
+    or: [
+      {
+        includes: {
+          roles: {
+            role: "admin",
+            organisationId: "$organisationId"
+          }
+        }
+      },
+      {
+        includes: {
+          roles: {
+            role: "superadmin",
+            organisationId: "$organisationId"
+          }
+        }
+      }
+    ]
+  )
   privateShit: String!
   publicShit: String! @auth(skip: true)
 }

@@ -36,6 +36,11 @@ export type ArrayFieldInput = {
   readonly name: Scalars['String']['input'];
 };
 
+export type AuthOr = {
+  readonly includes?: InputMaybe<Scalars['JSONObject']['input']>;
+  readonly match?: InputMaybe<Scalars['JSONObject']['input']>;
+};
+
 export type BooleanField = Field & {
   readonly __typename?: 'BooleanField';
   readonly defaultValue?: Maybe<Scalars['Boolean']['output']>;
@@ -250,6 +255,7 @@ export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = R
 export type ResolversTypes = ResolversObject<{
   ArrayField: ResolverTypeWrapper<ArrayField>;
   ArrayFieldInput: ArrayFieldInput;
+  AuthOr: AuthOr;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   BooleanField: ResolverTypeWrapper<BooleanField>;
   BooleanFieldInput: BooleanFieldInput;
@@ -279,6 +285,7 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   ArrayField: ArrayField;
   ArrayFieldInput: ArrayFieldInput;
+  AuthOr: AuthOr;
   Boolean: Scalars['Boolean']['output'];
   BooleanField: BooleanField;
   BooleanFieldInput: BooleanFieldInput;
@@ -307,6 +314,7 @@ export type ResolversParentTypes = ResolversObject<{
 export type AuthDirectiveArgs = {
   includes?: Maybe<Scalars['JSONObject']['input']>;
   match?: Maybe<Scalars['JSONObject']['input']>;
+  or?: Maybe<ReadonlyArray<AuthOr>>;
   skip?: Maybe<Scalars['Boolean']['input']>;
 };
 
@@ -371,10 +379,10 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"cmsUserCanModifyEntities":true}}>, RequireFields<MutationAddFieldsToEntityArgs, 'entityName' | 'fields'>>;
-  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"cmsUserCanModifyEntities":true}}>, RequireFields<MutationCreateEntityArgs, 'name'>>;
-  removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"cmsUserCanModifyEntities":true}}>, RequireFields<MutationRemoveEntityArgs, 'name'>>;
-  removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"cmsUserCanModifyEntities":true}}>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'entityName' | 'fields'>>;
+  addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":"modify-entity"}}>, RequireFields<MutationAddFieldsToEntityArgs, 'entityName' | 'fields'>>;
+  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":"modify-entity"}}>, RequireFields<MutationCreateEntityArgs, 'name'>>;
+  removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":"modify-entity"}}>, RequireFields<MutationRemoveEntityArgs, 'name'>>;
+  removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":"modify-entity"}}>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'entityName' | 'fields'>>;
 }>;
 
 export type NumberFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['NumberField'] = ResolversParentTypes['NumberField']> = ResolversObject<{

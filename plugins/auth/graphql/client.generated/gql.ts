@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query advancedWithOr($organisationId: String!) {\n    advancedWithOr(organisationId: $organisationId)\n  }\n": types.AdvancedWithOrDocument,
     "\n  query Includes($id: String!) {\n    includes(organisationId: $id)\n  }\n": types.IncludesDocument,
     "\n  query PrivateShit {\n    privateShit\n  }\n": types.PrivateShitDocument,
     "\n  query PrivateShitWithRole {\n    privateShitWithRole\n  }\n": types.PrivateShitWithRoleDocument,
@@ -34,6 +35,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query advancedWithOr($organisationId: String!) {\n    advancedWithOr(organisationId: $organisationId)\n  }\n"): (typeof documents)["\n  query advancedWithOr($organisationId: String!) {\n    advancedWithOr(organisationId: $organisationId)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

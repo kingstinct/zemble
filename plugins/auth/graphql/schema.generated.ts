@@ -17,8 +17,14 @@ export type Scalars = {
   JSONObject: { input: any; output: any; }
 };
 
+export type AuthOr = {
+  readonly includes?: InputMaybe<Scalars['JSONObject']['input']>;
+  readonly match?: InputMaybe<Scalars['JSONObject']['input']>;
+};
+
 export type Query = {
   readonly __typename?: 'Query';
+  readonly advancedWithOr: Scalars['String']['output'];
   readonly includes: Scalars['String']['output'];
   readonly privateShit: Scalars['String']['output'];
   readonly privateShitWithRole: Scalars['String']['output'];
@@ -27,6 +33,11 @@ export type Query = {
   readonly readJWT: Scalars['JSONObject']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
   readonly variableReference: Scalars['String']['output'];
+};
+
+
+export type QueryAdvancedWithOrArgs = {
+  organisationId: Scalars['String']['input'];
 };
 
 
@@ -121,6 +132,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AuthOr: AuthOr;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Query: ResolverTypeWrapper<{}>;
@@ -129,6 +141,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AuthOr: AuthOr;
   Boolean: Scalars['Boolean']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Query: {};
@@ -138,6 +151,7 @@ export type ResolversParentTypes = ResolversObject<{
 export type AuthDirectiveArgs = {
   includes?: Maybe<Scalars['JSONObject']['input']>;
   match?: Maybe<Scalars['JSONObject']['input']>;
+  or?: Maybe<ReadonlyArray<AuthOr>>;
   skip?: Maybe<Scalars['Boolean']['input']>;
 };
 
@@ -148,6 +162,7 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  advancedWithOr?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"type":"user-token"},"or":[{"includes":{"roles":{"role":"admin","organisationId":"$organisationId"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"$organisationId"}}}]}>, RequireFields<QueryAdvancedWithOrArgs, 'organisationId'>>;
   includes?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"roles":{"role":"admin","organisationId":"$organisationId"}}}>, RequireFields<QueryIncludesArgs, 'organisationId'>>;
   privateShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   privateShitWithRole?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType, {"match":{"role":"admin"}}>>;

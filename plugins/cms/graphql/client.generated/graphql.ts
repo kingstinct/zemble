@@ -39,6 +39,11 @@ export type ArrayFieldInput = {
   name: Scalars['String']['input'];
 };
 
+export type AuthOr = {
+  includes?: InputMaybe<Scalars['JSONObject']['input']>;
+  match?: InputMaybe<Scalars['JSONObject']['input']>;
+};
+
 export type BooleanField = Field & {
   __typename?: 'BooleanField';
   defaultValue?: Maybe<Scalars['Boolean']['output']>;

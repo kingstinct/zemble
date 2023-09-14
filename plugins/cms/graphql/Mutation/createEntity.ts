@@ -6,7 +6,7 @@ import type { EntitySchema } from '../../clients/papr'
 import type { MutationResolvers } from '../schema.generated'
 import type { DocumentForInsert } from 'papr'
 
-const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameInput }, { pubsub }) => {
+const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameInput }, { pubsub, decodedToken }) => {
   const name = nameInput.trim().toLowerCase()
 
   if (name.endsWith('s')) {

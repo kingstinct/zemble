@@ -20,8 +20,14 @@ export type Scalars = {
   JSONObject: { input: any; output: any; }
 };
 
+export type AuthOr = {
+  includes?: InputMaybe<Scalars['JSONObject']['input']>;
+  match?: InputMaybe<Scalars['JSONObject']['input']>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  advancedWithOr: Scalars['String']['output'];
   includes: Scalars['String']['output'];
   privateShit: Scalars['String']['output'];
   privateShitWithRole: Scalars['String']['output'];
@@ -30,6 +36,11 @@ export type Query = {
   readJWT: Scalars['JSONObject']['output'];
   validateJWT: Scalars['Boolean']['output'];
   variableReference: Scalars['String']['output'];
+};
+
+
+export type QueryAdvancedWithOrArgs = {
+  organisationId: Scalars['String']['input'];
 };
 
 
@@ -51,6 +62,13 @@ export type QueryValidateJwtArgs = {
 export type QueryVariableReferenceArgs = {
   organisationId: Scalars['String']['input'];
 };
+
+export type AdvancedWithOrQueryVariables = Exact<{
+  organisationId: Scalars['String']['input'];
+}>;
+
+
+export type AdvancedWithOrQuery = { __typename?: 'Query', advancedWithOr: string };
 
 export type IncludesQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -82,6 +100,7 @@ export type VariableReferenceQueryVariables = Exact<{
 export type VariableReferenceQuery = { __typename?: 'Query', variableReference: string };
 
 
+export const AdvancedWithOrDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"advancedWithOr"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"organisationId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"advancedWithOr"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"organisationId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"organisationId"}}}]}]}}]} as unknown as DocumentNode<AdvancedWithOrQuery, AdvancedWithOrQueryVariables>;
 export const IncludesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Includes"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"includes"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"organisationId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}]}}]} as unknown as DocumentNode<IncludesQuery, IncludesQueryVariables>;
 export const PrivateShitDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PrivateShit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"privateShit"}}]}}]} as unknown as DocumentNode<PrivateShitQuery, PrivateShitQueryVariables>;
 export const PrivateShitWithRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PrivateShitWithRole"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"privateShitWithRole"}}]}}]} as unknown as DocumentNode<PrivateShitWithRoleQuery, PrivateShitWithRoleQueryVariables>;

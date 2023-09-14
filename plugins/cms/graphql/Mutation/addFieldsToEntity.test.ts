@@ -23,7 +23,7 @@ describe('addFieldsToEntity', () => {
 
   beforeEach(async () => {
     app = await plugin.testApp()
-    const token = signJwt({ data: { cmsUserCanModifyEntities: true } })
+    const token = signJwt({ data: { permissions: ['modify-entity'] } })
     opts = {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -58,8 +58,10 @@ declare global {
       ? Omit<TContext, 'decodedToken' | 'token'>
       : Omit<TContext, 'decodedToken'> & {
         readonly decodedToken: DirectiveArgs['match']
-        & Record<keyof DirectiveArgs['includes'],
-        ReadonlyArray<DirectiveArgs['includes']>> & DecodedTokenBase & Readapt.TokenRegistry[keyof Readapt.TokenRegistry]
+        & Record<
+        keyof DirectiveArgs['includes'],
+        ReadonlyArray<DirectiveArgs['includes'][keyof DirectiveArgs['includes']]>
+        > & DecodedTokenBase & Readapt.TokenRegistry[keyof Readapt.TokenRegistry]
       }
   }
 }
