@@ -20,6 +20,11 @@ export type Scalars = {
   JSONObject: { input: any; output: any; }
 };
 
+export type AuthOr = {
+  includes?: InputMaybe<Scalars['JSONObject']['input']>;
+  match?: InputMaybe<Scalars['JSONObject']['input']>;
+};
+
 export type CodeNotValidError = Error & {
   __typename?: 'CodeNotValidError';
   message: Scalars['String']['output'];

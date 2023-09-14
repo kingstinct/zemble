@@ -1,0 +1,45 @@
+scalar JSONObject
+directive @oneOf on INPUT_OBJECT | FIELD_DEFINITION
+
+input AuthOr {
+  includes: JSONObject
+  match: JSONObject
+}
+
+directive @auth(
+  match: JSONObject,
+  skip: Boolean
+  includes: JSONObject
+  or: [AuthOr!]
+) on FIELD_DEFINITION
+
+scalar Date
+scalar DateTime
+
+type Permission {
+  type: String!
+  scope: String!
+}
+
+input PermissionInput {
+  type: String!
+  scope: String!
+}
+
+type User {
+  email: String!
+  id: ID!
+  lastLoginAt: DateTime!,
+  permissions: [Permission!]!,
+}
+
+type Query {
+  users: [User!]! @auth(includes: { permissions: { type: "user-admin" } })
+}
+
+type Mutation {
+  updatePermissions(
+    userId: ID!,
+    permissions: [PermissionInput!]!
+  ): User! @auth(includes: { permissions: { type: "user-admin" } })
+}

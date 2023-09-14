@@ -125,7 +125,7 @@ const buildMergedSchema = async (
       ...await processPluginSchema(pluginPath, {
         transforms: graphqlSchemaTransforms ?? [],
         scalars: config.scalars || {},
-        skipGraphQLValidation: pluginPath === process.cwd(), // skip validation so we don't need to provide root queries for plugins where it doesn't make sense
+        skipGraphQLValidation: true, // skip validation so we don't need to provide root queries for plugins where it doesn't make sense
       }),
     ]
 

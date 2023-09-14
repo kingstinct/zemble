@@ -18,6 +18,11 @@ export type Scalars = {
   JSONObject: { input: any; output: any; }
 };
 
+export type AuthOr = {
+  readonly includes?: InputMaybe<Scalars['JSONObject']['input']>;
+  readonly match?: InputMaybe<Scalars['JSONObject']['input']>;
+};
+
 export type CodeNotValidError = Error & {
   readonly __typename?: 'CodeNotValidError';
   readonly message: Scalars['String']['output'];
@@ -154,6 +159,7 @@ export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = R
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AuthOr: AuthOr;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CodeNotValidError: ResolverTypeWrapper<CodeNotValidError>;
   EmailNotValidError: ResolverTypeWrapper<EmailNotValidError>;
@@ -171,6 +177,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AuthOr: AuthOr;
   Boolean: Scalars['Boolean']['output'];
   CodeNotValidError: CodeNotValidError;
   EmailNotValidError: EmailNotValidError;
@@ -189,6 +196,7 @@ export type ResolversParentTypes = ResolversObject<{
 export type AuthDirectiveArgs = {
   includes?: Maybe<Scalars['JSONObject']['input']>;
   match?: Maybe<Scalars['JSONObject']['input']>;
+  or?: Maybe<ReadonlyArray<AuthOr>>;
   skip?: Maybe<Scalars['Boolean']['input']>;
 };
 

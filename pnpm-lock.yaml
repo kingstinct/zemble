@@ -570,6 +570,70 @@ importers:
         specifier: ^8.15.1
         version: registry.npmjs.org/mongodb-memory-server@8.15.1
 
+  plugins/cms-users:
+    dependencies:
+      '@envelop/core':
+        specifier: ^4.0.0
+        version: registry.npmjs.org/@envelop/core@4.0.1
+      '@envelop/extended-validation':
+        specifier: ^3.0.1
+        version: registry.npmjs.org/@envelop/extended-validation@3.0.1(@envelop/core@4.0.1)(graphql@16.8.0)
+      '@envelop/generic-auth':
+        specifier: ^6.0.0
+        version: registry.npmjs.org/@envelop/generic-auth@6.0.0(@envelop/core@4.0.1)(graphql@16.8.0)
+      '@readapt/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@readapt/graphql-yoga':
+        specifier: workspace:^
+        version: link:../graphql-yoga
+      dataloader:
+        specifier: ^2.2.2
+        version: registry.npmjs.org/dataloader@2.2.2
+      graphql:
+        specifier: ^16.8.0
+        version: registry.npmjs.org/graphql@16.8.0
+      graphql-scalars:
+        specifier: ^1.22.2
+        version: registry.npmjs.org/graphql-scalars@1.22.2(graphql@16.8.0)
+      hono:
+        specifier: ^3.4.3
+        version: registry.npmjs.org/hono@3.4.3
+      jose:
+        specifier: ^4.14.4
+        version: registry.npmjs.org/jose@4.14.4
+      jsonwebtoken:
+        specifier: ^9.0.1
+        version: registry.npmjs.org/jsonwebtoken@9.0.1
+      mongodb:
+        specifier: '5'
+        version: registry.npmjs.org/mongodb@5.0.0
+      papr:
+        specifier: ^14.1.0
+        version: registry.npmjs.org/papr@14.1.0(mongodb@5.0.0)
+      readapt-plugin-auth:
+        specifier: workspace:^
+        version: link:../auth
+      readapt-plugin-auth-otp:
+        specifier: workspace:^
+        version: link:../auth-otp
+      readapt-plugin-cms:
+        specifier: workspace:^
+        version: link:../cms
+      readapt-plugin-kv:
+        specifier: workspace:^
+        version: link:../kv
+    devDependencies:
+      '@tsconfig/node20':
+        specifier: ^20.1.1
+        version: registry.npmjs.org/@tsconfig/node20@20.1.1
+      '@types/jsonwebtoken':
+        specifier: ^9.0.2
+        version: registry.npmjs.org/@types/jsonwebtoken@9.0.2
+      mongodb-memory-server:
+        specifier: ^8.15.1
+        version: registry.npmjs.org/mongodb-memory-server@8.15.1
+
   plugins/email-sendgrid:
     dependencies:
       '@readapt/core':
@@ -14416,7 +14480,7 @@ packages:
     peerDependencies:
       graphql: ^15.2.0 || ^16.0.0
     dependencies:
-      '@envelop/core': registry.npmjs.org/@envelop/core@4.0.0
+      '@envelop/core': registry.npmjs.org/@envelop/core@4.0.1
       '@graphql-tools/executor': registry.npmjs.org/@graphql-tools/executor@1.2.0(graphql@16.8.0)
       '@graphql-tools/schema': registry.npmjs.org/@graphql-tools/schema@10.0.0(graphql@16.8.0)
       '@graphql-tools/utils': registry.npmjs.org/@graphql-tools/utils@10.0.5(graphql@16.8.0)

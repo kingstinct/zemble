@@ -33,7 +33,7 @@ interface OtpAuthConfig extends Readapt.GlobalConfig {
 }
 
 interface DefaultOtpToken {
-  readonly type: 'AuthOtp',
+  // readonly type: 'AuthOtp',
   readonly email: string,
 }
 
