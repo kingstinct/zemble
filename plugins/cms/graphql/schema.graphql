@@ -22,11 +22,11 @@ type Query {
 }
 
 type Mutation {
-  createEntity(name: String!): Entity! @auth(includes: { permissions: "modify-entity" })
-  removeEntity(name: String!): Boolean! @auth(includes: { permissions: "modify-entity" })
+  createEntity(name: String!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
+  removeEntity(name: String!): Boolean! @auth(includes: { permissions: { type: "modify-entity" } })
 
-  addFieldsToEntity(entityName: String!, fields: [FieldInput!]!): Entity! @auth(includes: { permissions: "modify-entity" })
-  removeFieldsFromEntity(entityName: String!, fields: [String!]!): Entity! @auth(includes: { permissions: "modify-entity" })
+  addFieldsToEntity(entityName: String!, fields: [FieldInput!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
+  removeFieldsFromEntity(entityName: String!, fields: [String!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
 }
 
 input FieldInput @oneOf {

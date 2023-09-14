@@ -379,10 +379,10 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":"modify-entity"}}>, RequireFields<MutationAddFieldsToEntityArgs, 'entityName' | 'fields'>>;
-  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":"modify-entity"}}>, RequireFields<MutationCreateEntityArgs, 'name'>>;
-  removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":"modify-entity"}}>, RequireFields<MutationRemoveEntityArgs, 'name'>>;
-  removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":"modify-entity"}}>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'entityName' | 'fields'>>;
+  addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationAddFieldsToEntityArgs, 'entityName' | 'fields'>>;
+  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationCreateEntityArgs, 'name'>>;
+  removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationRemoveEntityArgs, 'name'>>;
+  removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'entityName' | 'fields'>>;
 }>;
 
 export type NumberFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['NumberField'] = ResolversParentTypes['NumberField']> = ResolversObject<{
