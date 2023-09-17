@@ -1,11 +1,11 @@
-import { useContext, useState } from 'react'
+import { AuthContext } from '@kingstinct/react'
+import { useCallback, useContext, useState } from 'react'
 import {
   Button, Text, TextInput, View,
 } from 'react-native'
-import { useMutation, useQuery } from 'urql'
+import { useMutation } from 'urql'
 
 import { graphql } from '../../gql'
-import { AuthContext } from '@kingstinct/react'
 
 export const LoginConfirmMutation = graphql(`
   mutation LoginConfirm($email: String!, $code: String!) {
@@ -33,24 +33,25 @@ export const LoginRequestMutation = graphql(`
 `)
 
 const Login = () => {
-  const {setToken} = useContext(AuthContext)
+  const { setToken } = useContext(AuthContext)
 
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [, loginRequest] = useMutation(LoginRequestMutation)
   const [, loginConfirm] = useMutation(LoginConfirmMutation)
-  const doRequest = () => {
-    loginRequest({ email })
-  }
-  const doConfirm = async () => {
-    const { data} = await loginConfirm({ email, code })
+  const doRequest = useCallback(() => {
+    void loginRequest({ email })
+  }, [email, loginRequest])
+  const doConfirm = useCallback(async () => {
+    const { data } = await loginConfirm({ email, code })
 
-    if(data.loginConfirm.__typename === 'LoginConfirmSuccessfulResponse'){
+    if (data.loginConfirm.__typename === 'LoginConfirmSuccessfulResponse') {
       setToken(data.loginConfirm.accessToken)
     }
-    
-    
-  }
+  }, [
+    email, code, loginConfirm, setToken,
+  ])
+
   return (
     <View>
       <Text>Email</Text>

@@ -1,6 +1,9 @@
 {
   "expo": {
     "scheme": "acme",
+    "experiments": {
+      "typedRoutes": true
+    },
     "web": {
       "bundler": "metro"
     },

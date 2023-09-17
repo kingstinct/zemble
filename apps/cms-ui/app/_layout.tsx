@@ -1,15 +1,15 @@
-import AuthProvider, { AuthContext } from '@kingstinct/react/contexts/Auth'
+import AuthProvider, { AuthContext, Status } from '@kingstinct/react/contexts/Auth'
 import UrqlProvider from '@kingstinct/react/contexts/Urql'
 import { Stack, router, useSegments } from 'expo-router'
 import { useContext, useEffect } from 'react'
 
 import createClientWithToken from '../clients/urql'
 
-function useProtectedRoute(token?: string | null) {
+function useProtectedRoute(token: string | null, status: Status) {
   const segments = useSegments()
 
   useEffect(() => {
-    setTimeout(() => {
+    if (status !== Status.INITIALIZING) {
       const inAuthGroup = segments[0] === '(auth)'
 
       if (
@@ -20,39 +20,35 @@ function useProtectedRoute(token?: string | null) {
         router.replace('/login')
       } else if (token && inAuthGroup) {
         // Redirect away from the sign-in page.
-        router.replace('/(tabs)/entities')
+        router.replace('/index')
       }
-    }, 0)
-  }, [token, segments])
+    }
+  }, [token, segments, status])
 }
 
 const App = () => {
-  const {token} = useContext(AuthContext)
-  useProtectedRoute(token)
+  const { token, status } = useContext(AuthContext)
+  useProtectedRoute(token, status)
 
   return (
     <Stack
       screenOptions={{
-        headerShown: false,
-        // headerStyle: { backgroundColor: theme.backgroundStrong.get() },
         animation: 'flip',
+        headerShown: false,
         animationTypeForReplace: 'pop',
-        // contentStyle: { backgroundColor: theme.backgroundStrong.get() },
-        // headerTitleStyle: { color: theme.color.get() },
       }}
     >
       <Stack.Screen
-        name='(tabs)/entities'
+        name='(tabs)/index'
         options={{
-          title: 'Tabs',
+          title: 'cms-ui',
           headerShown: false,
         }}
       />
       <Stack.Screen
         name='(auth)/login'
         options={{
-          title: 'Tabs',
-          headerShown: false,
+          title: 'Login',
         }}
       />
     </Stack>

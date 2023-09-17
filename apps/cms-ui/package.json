@@ -10,6 +10,8 @@
     "graphql-codegen": "graphql-codegen"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
+    "@gorhom/bottom-sheet": "^4",
     "@kingstinct/react": "^1.0.7",
     "@urql/core": "^4.1.2",
     "expo": "^49.0.10",
@@ -20,6 +22,7 @@
     "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",
     "expo-system-ui": "^2.6.0",
+    "formik": "^2.4.4",
     "graphql-ws": "^5.14.0",
     "jwt-decode": "^3.1.2",
     "react": "18.2.0",

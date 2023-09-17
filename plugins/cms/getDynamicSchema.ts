@@ -92,7 +92,11 @@ const fieldToOutputType = (
       }))
       return new GraphQLList(union)
     case 'EntityRelationField':
-      return typeDeduper(relationTypes[field.entityName])
+      // eslint-disable-next-line no-case-declarations
+      const relatedType = relationTypes[field.entityName]
+
+      // just fallback to something if there is no type, for now
+      return relatedType ? typeDeduper(relatedType) : GraphQLString
     default:
       return GraphQLString
   }
