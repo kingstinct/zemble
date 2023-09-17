@@ -7,10 +7,12 @@ import { capitalize, pluralize } from '../../../utils/text'
 
 export const GetEntitiesQuery = graphql(`
   query GetEntities {
-    entities {
+    getAllEntities {
       name
+      pluralizedName
       fields {
         name
+        isRequired
       }
     }
   }
@@ -25,11 +27,11 @@ const EntityList = () => {
   return (
     <View>
       {
-        data?.entities.map((entity) => (
+        data?.getAllEntities.map((entity) => (
           <View key={entity.name} style={{ margin: 10 }}>
             <Button
               title={capitalize(pluralize(entity.name))}
-              onPress={() => router.push(`/${pluralize(entity.name)}`)}
+              onPress={() => router.push(`/${entity.pluralizedName}`)}
             />
           </View>
         ))

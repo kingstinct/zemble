@@ -245,10 +245,14 @@ export default async () => {
           ...prev,
           [field.name]: {
             type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
-            ...field.name === 'id' ? {
-              resolve: ({ _id }: { readonly _id: ObjectId }) => _id.toHexString(),
-            } : {},
-
+            resolve: (props: { readonly _id: ObjectId } & Record<string, unknown>) => (
+              field.name === 'id'
+                ? props._id.toHexString()
+                : (props[field.name] ?? ('defaultValue' in field
+                  ? field.defaultValue
+                  : null)
+                )
+            ),
           },
         })
       }, {}),

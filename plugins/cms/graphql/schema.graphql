@@ -17,13 +17,15 @@ scalar Date
 scalar DateTime
 
 type Query {
-  entity(name: String!): Entity
-  entities: [Entity!]!
+  getEntityByName(name: String!): Entity
+  getEntityByPluralizedName(pluralizedName: String!): Entity
+  getAllEntities: [Entity!]!
 }
 
 type Mutation {
-  createEntity(name: String!, pluralizedName: String): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
+  createEntity(name: String!, pluralizedName: String!, isPublishable: Boolean): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
   removeEntity(name: String!): Boolean! @auth(includes: { permissions: { type: "modify-entity" } })
+  renameEntity(fromName: String!, toName: String!, pluralizedName: String!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
 
   addFieldsToEntity(entityName: String!, fields: [FieldInput!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
   removeFieldsFromEntity(entityName: String!, fields: [String!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
@@ -47,6 +49,7 @@ input FieldInputWithoutArray @oneOf {
 input StringFieldInput {
   name: String!
   isRequired: Boolean
+  isRequiredInput: Boolean
   maxLength: Int
   minLength: Int
   defaultValue: String
@@ -55,6 +58,7 @@ input StringFieldInput {
 input NumberFieldInput {
   name: String!
   isRequired: Boolean
+  isRequiredInput: Boolean
   max: Float
   min: Float
   defaultValue: Float
@@ -63,6 +67,7 @@ input NumberFieldInput {
 input BooleanFieldInput {
   name: String!
   isRequired: Boolean
+  isRequiredInput: Boolean
   defaultValue: Boolean
 }
 
@@ -70,6 +75,7 @@ input ArrayFieldInput {
   name: String!
   availableFields: [FieldInputWithoutArray!]!
   isRequired: Boolean
+  isRequiredInput: Boolean
   maxItems: Int
   minItems: Int
 }
@@ -79,16 +85,19 @@ input EntityRelationFieldInput {
   #entityName: EntityEnum! // lets make this a string for now, would be nice to tie together with the dynamic schema
   entityName: String!
   isRequired: Boolean!
+  isRequiredInput: Boolean
 }
 
 interface Field {
   name: String!
   isRequired: Boolean!
+  isRequiredInput: Boolean!
 }
 
 type StringField implements Field {
   name: String!
   isRequired: Boolean!
+  isRequiredInput: Boolean!
   maxLength: Int
   minLength: Int
   defaultValue: String
@@ -97,11 +106,13 @@ type StringField implements Field {
 type IDField implements Field {
   name: String!
   isRequired: Boolean!
+  isRequiredInput: Boolean!
 }
 
 type NumberField implements Field {
   name: String!
   isRequired: Boolean!
+  isRequiredInput: Boolean!
   max: Float
   min: Float
   defaultValue: Float
@@ -110,6 +121,7 @@ type NumberField implements Field {
 type BooleanField implements Field {
   name: String!
   isRequired: Boolean!
+  isRequiredInput: Boolean!
   defaultValue: Boolean
 }
 
@@ -152,6 +164,7 @@ type ArrayField implements Field {
   name: String!
   availableFields: [Field!]!
   isRequired: Boolean!
+  isRequiredInput: Boolean!
   maxItems: Int
   minItems: Int
 }
@@ -161,11 +174,29 @@ type EntityRelationField implements Field {
   entityName: String!
   entity: Entity!
   isRequired: Boolean!
+  isRequiredInput: Boolean!
+}
+
+type EntityPermission {
+  # null means available without auth
+  type: String
+
+  read: Boolean!
+  create: Boolean!
+  modify: Boolean!
+  delete: Boolean!
+  publish: Boolean!
+  unpublish: Boolean!
+
+  granular: Boolean!
 }
 
 type Entity {
   name: String!
   fields: [Field!]!
+  pluralizedName: String!
+  permissions: [EntityPermission!]
+  isPublishable: Boolean!
 }
 
 input EntityInput {

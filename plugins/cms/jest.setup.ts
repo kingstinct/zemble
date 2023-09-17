@@ -1,12 +1,13 @@
 import papr, { connect, disconnect } from './clients/papr'
 
-import type { MongoMemoryServer } from 'mongodb-memory-server'
+import type { MongoMemoryReplSet } from 'mongodb-memory-server'
 
-let mongodb: MongoMemoryServer | null = null
+let mongodb: MongoMemoryReplSet | null = null
 
 beforeAll(async () => {
-  mongodb = new (require('mongodb-memory-server').MongoMemoryServer)()
+  mongodb = new (require('mongodb-memory-server').MongoMemoryReplSet)()
   await mongodb!.start()
+  // const replset = await mongodb.create({ replSet: { count: 4 } }); // This will create an ReplSet with 4 members
   const MONGO_URL = mongodb!.getUri()
 
   await connect(MONGO_URL)

@@ -9,8 +9,8 @@ import { graphql } from '../../../gql'
 import { capitalize } from '../../../utils/text'
 
 const CreateEntityMutation = graphql(`
-mutation CreateEntity($name: String!) {
-  createEntity(name: $name) {
+mutation CreateEntity($name: String!, $pluralizedName: String!) {
+  createEntity(name: $name, pluralizedName: $pluralizedName) {
     name
   }
 }
@@ -24,7 +24,7 @@ const EntitiesLayout = () => {
   const onAddEntity = useCallback(async () => {
     const name = prompt('Create new entity, give it a name:', '')
     if (name) {
-      await createEntityMutation({ name })
+      await createEntityMutation({ name, pluralizedName: `${name}s` })
       router.push(`/${name}`)
       refetch()
     }

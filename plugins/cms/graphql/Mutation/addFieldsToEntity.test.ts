@@ -17,6 +17,8 @@ export const AddFieldsToEntityMutation = graphql(`
   }
 `)
 
+// todo: add tests for required-checks/migration
+
 describe('addFieldsToEntity', () => {
   let app: Readapt.Server
   let opts: Record<string, unknown>
@@ -32,6 +34,7 @@ describe('addFieldsToEntity', () => {
 
     await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
+      pluralizedName: 'books',
     }, opts)
   })
 
@@ -43,6 +46,7 @@ describe('addFieldsToEntity', () => {
           StringField: {
             name: 'title',
             isRequired: true,
+            isRequiredInput: false,
           },
         },
       ],
@@ -63,15 +67,18 @@ describe('addFieldsToEntity', () => {
         updatedAt: expect.any(Date),
         name: 'book',
         pluralizedName: 'books',
+        isPublishable: false,
         fields: {
           id: {
             __typename: 'IDField',
             isRequired: true,
+            isRequiredInput: false,
             name: 'id',
           },
           title: {
             __typename: 'StringField',
             isRequired: true,
+            isRequiredInput: false,
             name: 'title',
           },
         },

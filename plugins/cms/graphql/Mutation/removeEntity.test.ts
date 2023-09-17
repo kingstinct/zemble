@@ -26,6 +26,7 @@ describe('addFieldsToEntity', () => {
 
     await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
+      pluralizedName: 'books',
     }, opts)
   })
 

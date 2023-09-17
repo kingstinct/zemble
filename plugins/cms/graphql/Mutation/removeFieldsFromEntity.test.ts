@@ -35,6 +35,7 @@ describe('RemoveFieldsFromEntity', () => {
 
     await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
+      pluralizedName: 'books',
     }, opts)
   })
 
@@ -75,10 +76,12 @@ describe('RemoveFieldsFromEntity', () => {
         updatedAt: expect.any(Date),
         name: 'book',
         pluralizedName: 'books',
+        isPublishable: false,
         fields: {
           id: {
             __typename: 'IDField',
             isRequired: true,
+            isRequiredInput: false,
             name: 'id',
           },
         },

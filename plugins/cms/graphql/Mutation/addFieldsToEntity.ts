@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-import { Entities } from '../../clients/papr'
+import { Content, Entities } from '../../clients/papr'
 
 import type { EntitySchema } from '../../clients/papr'
 import type {
@@ -24,12 +24,54 @@ const mapInputToField = (input: FieldInput): Field => {
   return {
     ...fieldConfig,
     isRequired: fieldConfig.isRequired ?? false,
-    ...input.ArrayField ? { availableFields: input.ArrayField.availableFields.map(mapInputToField) } : {},
+    isRequiredInput: fieldConfig.isRequiredInput ?? false,
+    ...input.ArrayField ? {
+      availableFields: input.ArrayField.availableFields.map(mapInputToField),
+    } : {},
   }
 }
 
 const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
   const fields: readonly Field[] = fieldsInput.map(mapInputToField)
+
+  const validateFields = async (fields: readonly Field[]) => {
+    const all = fields.map((field) => {
+      if (!field.isRequired) {
+        return null
+      }
+
+      if ('defaultValue' in field && field.defaultValue !== undefined) {
+        return null
+      }
+
+      return field.name
+    })
+    const fieldsRequiringValidation = all.filter(Boolean) as readonly string[]
+    if (fieldsRequiringValidation.length > 1) {
+      const failingDocs = await Content.find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
+        ...acc,
+        $or: [
+          { [fieldName]: { $exists: false } },
+          { [fieldName]: { $eq: null } },
+        ],
+      }), {}))
+
+      // @ts-expect-error fix sometime
+      const fieldsFailingValidation = fieldsRequiringValidation.filter((fieldName) => failingDocs.some((doc) => !doc[fieldName] && doc[fieldName] !== false))
+
+      if (failingDocs.length > 0) {
+        throw new GraphQLError(`Cannot require ${fieldsFailingValidation.join(', ')} on entity ${entityName}. Either provide a default value or add it without requiring these fields.`)
+      }
+    }
+    return null
+  }
+
+  await validateFields(fields)
+
+  console.log('fields', fields.reduce((acc, field) => ({
+    ...acc,
+    [`fields.${field.name}`]: field,
+  }), {}))
 
   const prev = await Entities.findOneAndUpdate({ name: entityName }, {
     $set: fields.reduce((acc, field) => ({
@@ -37,12 +79,11 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
       [`fields.${field.name}`]: field,
     }), {}),
   }, {
-    upsert: true,
     returnDocument: 'after',
   })
 
   if (!prev) {
-    throw new GraphQLError(`Entity with id ${entityName} not found`)
+    throw new GraphQLError(`Entity with name ${entityName} not found`)
   }
 
   pubsub.publish('reload-schema', {})

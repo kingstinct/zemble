@@ -6,22 +6,10 @@ import type { EntitySchema } from '../../clients/papr'
 import type { MutationResolvers } from '../schema.generated'
 import type { DocumentForInsert } from 'papr'
 
-const getSingularName = (singular: string) => {
-  const name = singular.trim()
+const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameInput, pluralizedName: pluralIn, isPublishable }, { pubsub }) => {
+  const name = nameInput.trim()
 
-  return name
-}
-
-const getPuralizedName = (singular: string, plural?: string | null) => {
-  const name = plural ? plural.trim() : `${singular}s`
-
-  return name
-}
-
-const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameInput, pluralizedName: pluralIn }, { pubsub }) => {
-  const name = getSingularName(nameInput)
-
-  const pluralizedName = getPuralizedName(name, pluralIn)
+  const pluralizedName = pluralIn.trim()
 
   if (name.endsWith('s') && !pluralIn) {
     throw new GraphQLError('If entity name ends with "s", pluralized name must be explicitely provided')
@@ -30,26 +18,19 @@ const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameIn
   const entity: DocumentForInsert<typeof EntitySchema[0], typeof EntitySchema[1]> = {
     name,
     pluralizedName,
+    isPublishable: isPublishable ?? false,
     fields:
       {
         id: {
           __typename: 'IDField',
           isRequired: true,
+          isRequiredInput: false,
           name: 'id',
         },
       },
   }
 
-  const prev = await Entities.findOneAndUpdate({ name: entity.name }, {
-    $set: {
-      fields: entity.fields,
-      name: entity.name,
-      pluralizedName: entity.pluralizedName,
-    },
-  }, {
-    upsert: true,
-    returnDocument: 'after',
-  })
+  const prev = await Entities.insertOne(entity)
 
   pubsub.publish('reload-schema', {})
 

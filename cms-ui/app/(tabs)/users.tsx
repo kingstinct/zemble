@@ -11,7 +11,7 @@ export const GetUsersQuery = graphql(`
   }
 `)
 
-const EntityList = () => {
+const UserList = () => {
   const [{ data }] = useQuery({
     query: GetUsersQuery,
     variables: {},
@@ -26,4 +26,4 @@ const EntityList = () => {
   )
 }
 
-export default EntityList
+export default UserList

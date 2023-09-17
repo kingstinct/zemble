@@ -1,11 +1,11 @@
-import { wrapSchema } from '@graphql-tools/wrap'
+import { createDefaultExecutor, delegateToSchema, type Subschema } from '@graphql-tools/delegate'
+import { makeExecutableSchema } from '@graphql-tools/schema'
+import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
 import { readFileSync } from 'fs'
-import { createSchema } from 'graphql-yoga'
 import { join } from 'path'
 
 import readResolvers from './readResolvers'
 
-import type { Subschema } from '@graphql-tools/delegate'
 import type { GraphQLScalarType } from 'graphql'
 
 export const createPluginSchema = async ({
@@ -27,21 +27,26 @@ export const createPluginSchema = async ({
 
   const Scalars = await readResolvers(join(graphqlDir, '/Scalar'))
 
-  const schema = wrapSchema({
-    schema: createSchema<Readapt.GraphQLContext>({
-      typeDefs,
-      assumeValid: !!skipGraphQLValidation,
-      resolvers: {
-        ...(Object.keys(Query).length > 0 ? { Query } : {}),
-        ...(Object.keys(Mutation).length > 0 ? { Mutation } : {}),
-        ...(Object.keys(Subscription).length > 0 ? { Subscription } : {}),
-        ...Type,
-        ...Scalars,
-        ...scalars,
-      },
-    }),
-    transforms,
+  const internalSchema = makeExecutableSchema<Readapt.GraphQLContext>({
+    typeDefs,
+    assumeValid: !!skipGraphQLValidation,
+    resolvers: {
+      ...(Object.keys(Query).length > 0 ? { Query } : {}),
+      ...(Object.keys(Mutation).length > 0 ? { Mutation } : {}),
+      ...(Object.keys(Subscription).length > 0 ? { Subscription } : {}),
+      ...Type,
+      ...Scalars,
+      ...scalars,
+    },
   })
+
+  // todo: fix wrapping to work with aliases, something is missing here
+  const schema = transforms.length > 0 ? wrapSchema({
+    schema: internalSchema,
+    executor: createDefaultExecutor(internalSchema),
+    createProxyingResolver: defaultCreateProxyingResolver,
+    transforms,
+  }) : internalSchema
 
   return schema
 }

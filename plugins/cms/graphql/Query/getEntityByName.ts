@@ -2,7 +2,7 @@ import { Entities } from '../../clients/papr'
 
 import type { QueryResolvers } from '../schema.generated'
 
-const entity: QueryResolvers['entity'] = async (_, { name }) => {
+const getEntityByName: QueryResolvers['getEntityByName'] = async (_, { name }) => {
   const result = await Entities.findOne({ name })
 
   if (!result) {
@@ -12,4 +12,4 @@ const entity: QueryResolvers['entity'] = async (_, { name }) => {
   return { ...result, fields: Object.values(result.fields) }
 }
 
-export default entity
+export default getEntityByName

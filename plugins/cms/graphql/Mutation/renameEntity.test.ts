@@ -1,20 +1,21 @@
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
+import { CreateEntityMutation } from './createEntity.test'
 import { Entities } from '../../clients/papr'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
-// eslint-disable-next-line jest/no-export
-export const CreateEntityMutation = graphql(`
-  mutation CreateEntity($name: String!, $pluralizedName: String!) {
-    createEntity(name: $name, pluralizedName: $pluralizedName) {
+const RenameEntityMutation = graphql(`
+  mutation RenameEntity($fromName: String!,$toName: String!, $pluralizedName: String!) {
+    renameEntity(fromName: $fromName, toName: $toName, pluralizedName: $pluralizedName) {
       name
+      pluralizedName
     }
   }
 `)
 
-describe('createEntity', () => {
+describe('renameEntity', () => {
   let app: Readapt.Server
   let opts: Record<string, unknown>
 
@@ -28,7 +29,7 @@ describe('createEntity', () => {
     }
   })
 
-  test('should create an entity', async () => {
+  test('should rename an entity', async () => {
     const res = await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
       pluralizedName: 'books',
@@ -36,15 +37,23 @@ describe('createEntity', () => {
 
     expect(res.data?.createEntity.name).toEqual('book')
 
-    const entitites = await Entities.find({})
+    const { data } = await app.gqlRequest(RenameEntityMutation, {
+      fromName: 'book',
+      toName: 'article',
+      pluralizedName: 'articles',
+    }, opts)
 
+    expect(data?.renameEntity.name).toEqual('article')
+    expect(data?.renameEntity.pluralizedName).toEqual('articles')
+
+    const entitites = await Entities.find({})
     expect(entitites).toHaveLength(1)
     expect(entitites[0]).toEqual({
       _id: expect.any(ObjectId),
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
-      name: 'book',
-      pluralizedName: 'books',
+      name: 'article',
+      pluralizedName: 'articles',
       isPublishable: false,
       fields: {
         id: {
@@ -55,9 +64,5 @@ describe('createEntity', () => {
         },
       },
     })
-
-    const { data } = await app.gqlRequestUntyped<{readonly getAllBooks: readonly unknown[]}, unknown>('query { getAllBooks { id } }', {}, opts)
-
-    expect(data?.getAllBooks).toEqual([])
   })
 })

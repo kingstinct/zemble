@@ -23,6 +23,7 @@ export type ArrayField = Field & {
   readonly __typename?: 'ArrayField';
   readonly availableFields: ReadonlyArray<Field>;
   readonly isRequired: Scalars['Boolean']['output'];
+  readonly isRequiredInput: Scalars['Boolean']['output'];
   readonly maxItems?: Maybe<Scalars['Int']['output']>;
   readonly minItems?: Maybe<Scalars['Int']['output']>;
   readonly name: Scalars['String']['output'];
@@ -31,6 +32,7 @@ export type ArrayField = Field & {
 export type ArrayFieldInput = {
   readonly availableFields: ReadonlyArray<FieldInputWithoutArray>;
   readonly isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  readonly isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   readonly maxItems?: InputMaybe<Scalars['Int']['input']>;
   readonly minItems?: InputMaybe<Scalars['Int']['input']>;
   readonly name: Scalars['String']['input'];
@@ -45,23 +47,40 @@ export type BooleanField = Field & {
   readonly __typename?: 'BooleanField';
   readonly defaultValue?: Maybe<Scalars['Boolean']['output']>;
   readonly isRequired: Scalars['Boolean']['output'];
+  readonly isRequiredInput: Scalars['Boolean']['output'];
   readonly name: Scalars['String']['output'];
 };
 
 export type BooleanFieldInput = {
   readonly defaultValue?: InputMaybe<Scalars['Boolean']['input']>;
   readonly isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  readonly isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   readonly name: Scalars['String']['input'];
 };
 
 export type Entity = {
   readonly __typename?: 'Entity';
   readonly fields: ReadonlyArray<Field>;
+  readonly isPublishable: Scalars['Boolean']['output'];
   readonly name: Scalars['String']['output'];
+  readonly permissions?: Maybe<ReadonlyArray<EntityPermission>>;
+  readonly pluralizedName: Scalars['String']['output'];
 };
 
 export type EntityInput = {
   readonly name: Scalars['String']['input'];
+};
+
+export type EntityPermission = {
+  readonly __typename?: 'EntityPermission';
+  readonly create: Scalars['Boolean']['output'];
+  readonly delete: Scalars['Boolean']['output'];
+  readonly granular: Scalars['Boolean']['output'];
+  readonly modify: Scalars['Boolean']['output'];
+  readonly publish: Scalars['Boolean']['output'];
+  readonly read: Scalars['Boolean']['output'];
+  readonly type?: Maybe<Scalars['String']['output']>;
+  readonly unpublish: Scalars['Boolean']['output'];
 };
 
 export type EntityRelationField = Field & {
@@ -69,17 +88,20 @@ export type EntityRelationField = Field & {
   readonly entity: Entity;
   readonly entityName: Scalars['String']['output'];
   readonly isRequired: Scalars['Boolean']['output'];
+  readonly isRequiredInput: Scalars['Boolean']['output'];
   readonly name: Scalars['String']['output'];
 };
 
 export type EntityRelationFieldInput = {
   readonly entityName: Scalars['String']['input'];
   readonly isRequired: Scalars['Boolean']['input'];
+  readonly isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   readonly name: Scalars['String']['input'];
 };
 
 export type Field = {
   readonly isRequired: Scalars['Boolean']['output'];
+  readonly isRequiredInput: Scalars['Boolean']['output'];
   readonly name: Scalars['String']['output'];
 };
 
@@ -99,6 +121,7 @@ export type FieldInputWithoutArray =
 export type IdField = Field & {
   readonly __typename?: 'IDField';
   readonly isRequired: Scalars['Boolean']['output'];
+  readonly isRequiredInput: Scalars['Boolean']['output'];
   readonly name: Scalars['String']['output'];
 };
 
@@ -108,6 +131,7 @@ export type Mutation = {
   readonly createEntity: Entity;
   readonly removeEntity: Scalars['Boolean']['output'];
   readonly removeFieldsFromEntity: Entity;
+  readonly renameEntity: Entity;
 };
 
 
@@ -118,8 +142,9 @@ export type MutationAddFieldsToEntityArgs = {
 
 
 export type MutationCreateEntityArgs = {
+  isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
-  pluralizedName?: InputMaybe<Scalars['String']['input']>;
+  pluralizedName: Scalars['String']['input'];
 };
 
 
@@ -133,10 +158,18 @@ export type MutationRemoveFieldsFromEntityArgs = {
   fields: ReadonlyArray<Scalars['String']['input']>;
 };
 
+
+export type MutationRenameEntityArgs = {
+  fromName: Scalars['String']['input'];
+  pluralizedName: Scalars['String']['input'];
+  toName: Scalars['String']['input'];
+};
+
 export type NumberField = Field & {
   readonly __typename?: 'NumberField';
   readonly defaultValue?: Maybe<Scalars['Float']['output']>;
   readonly isRequired: Scalars['Boolean']['output'];
+  readonly isRequiredInput: Scalars['Boolean']['output'];
   readonly max?: Maybe<Scalars['Float']['output']>;
   readonly min?: Maybe<Scalars['Float']['output']>;
   readonly name: Scalars['String']['output'];
@@ -145,6 +178,7 @@ export type NumberField = Field & {
 export type NumberFieldInput = {
   readonly defaultValue?: InputMaybe<Scalars['Float']['input']>;
   readonly isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  readonly isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   readonly max?: InputMaybe<Scalars['Float']['input']>;
   readonly min?: InputMaybe<Scalars['Float']['input']>;
   readonly name: Scalars['String']['input'];
@@ -152,19 +186,26 @@ export type NumberFieldInput = {
 
 export type Query = {
   readonly __typename?: 'Query';
-  readonly entities: ReadonlyArray<Entity>;
-  readonly entity?: Maybe<Entity>;
+  readonly getAllEntities: ReadonlyArray<Entity>;
+  readonly getEntityByName?: Maybe<Entity>;
+  readonly getEntityByPluralizedName?: Maybe<Entity>;
 };
 
 
-export type QueryEntityArgs = {
+export type QueryGetEntityByNameArgs = {
   name: Scalars['String']['input'];
+};
+
+
+export type QueryGetEntityByPluralizedNameArgs = {
+  pluralizedName: Scalars['String']['input'];
 };
 
 export type StringField = Field & {
   readonly __typename?: 'StringField';
   readonly defaultValue?: Maybe<Scalars['String']['output']>;
   readonly isRequired: Scalars['Boolean']['output'];
+  readonly isRequiredInput: Scalars['Boolean']['output'];
   readonly maxLength?: Maybe<Scalars['Int']['output']>;
   readonly minLength?: Maybe<Scalars['Int']['output']>;
   readonly name: Scalars['String']['output'];
@@ -173,6 +214,7 @@ export type StringField = Field & {
 export type StringFieldInput = {
   readonly defaultValue?: InputMaybe<Scalars['String']['input']>;
   readonly isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  readonly isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   readonly maxLength?: InputMaybe<Scalars['Int']['input']>;
   readonly minLength?: InputMaybe<Scalars['Int']['input']>;
   readonly name: Scalars['String']['input'];
@@ -264,6 +306,7 @@ export type ResolversTypes = ResolversObject<{
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Entity: ResolverTypeWrapper<Entity>;
   EntityInput: EntityInput;
+  EntityPermission: ResolverTypeWrapper<EntityPermission>;
   EntityRelationField: ResolverTypeWrapper<EntityRelationField>;
   EntityRelationFieldInput: EntityRelationFieldInput;
   Field: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Field']>;
@@ -294,6 +337,7 @@ export type ResolversParentTypes = ResolversObject<{
   DateTime: Scalars['DateTime']['output'];
   Entity: Entity;
   EntityInput: EntityInput;
+  EntityPermission: EntityPermission;
   EntityRelationField: EntityRelationField;
   EntityRelationFieldInput: EntityRelationFieldInput;
   Field: ResolversInterfaceTypes<ResolversParentTypes>['Field'];
@@ -328,6 +372,7 @@ export type OneOfDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQL
 export type ArrayFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['ArrayField'] = ResolversParentTypes['ArrayField']> = ResolversObject<{
   availableFields?: Resolver<ReadonlyArray<ResolversTypes['Field']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   maxItems?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   minItems?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -337,6 +382,7 @@ export type ArrayFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType
 export type BooleanFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['BooleanField'] = ResolversParentTypes['BooleanField']> = ResolversObject<{
   defaultValue?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -351,7 +397,22 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type EntityResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Entity'] = ResolversParentTypes['Entity']> = ResolversObject<{
   fields?: Resolver<ReadonlyArray<ResolversTypes['Field']>, ParentType, ContextType>;
+  isPublishable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  permissions?: Resolver<Maybe<ReadonlyArray<ResolversTypes['EntityPermission']>>, ParentType, ContextType>;
+  pluralizedName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type EntityPermissionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['EntityPermission'] = ResolversParentTypes['EntityPermission']> = ResolversObject<{
+  create?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  delete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  granular?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  modify?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  publish?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  read?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  unpublish?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -359,6 +420,7 @@ export type EntityRelationFieldResolvers<ContextType = Readapt.GraphQLContext, P
   entity?: Resolver<ResolversTypes['Entity'], ParentType, ContextType>;
   entityName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -366,11 +428,13 @@ export type EntityRelationFieldResolvers<ContextType = Readapt.GraphQLContext, P
 export type FieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Field'] = ResolversParentTypes['Field']> = ResolversObject<{
   __resolveType: TypeResolveFn<'ArrayField' | 'BooleanField' | 'EntityRelationField' | 'IDField' | 'NumberField' | 'StringField', ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 }>;
 
 export type IdFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['IDField'] = ResolversParentTypes['IDField']> = ResolversObject<{
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -381,14 +445,16 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 
 export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationAddFieldsToEntityArgs, 'entityName' | 'fields'>>;
-  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationCreateEntityArgs, 'name'>>;
+  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationCreateEntityArgs, 'name' | 'pluralizedName'>>;
   removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationRemoveEntityArgs, 'name'>>;
   removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'entityName' | 'fields'>>;
+  renameEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType, {"includes":{"permissions":{"type":"modify-entity"}}}>, RequireFields<MutationRenameEntityArgs, 'fromName' | 'pluralizedName' | 'toName'>>;
 }>;
 
 export type NumberFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['NumberField'] = ResolversParentTypes['NumberField']> = ResolversObject<{
   defaultValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   max?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   min?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -396,13 +462,15 @@ export type NumberFieldResolvers<ContextType = Readapt.GraphQLContext, ParentTyp
 }>;
 
 export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  entities?: Resolver<ReadonlyArray<ResolversTypes['Entity']>, ParentType, ContextType>;
-  entity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<QueryEntityArgs, 'name'>>;
+  getAllEntities?: Resolver<ReadonlyArray<ResolversTypes['Entity']>, ParentType, ContextType>;
+  getEntityByName?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<QueryGetEntityByNameArgs, 'name'>>;
+  getEntityByPluralizedName?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<QueryGetEntityByPluralizedNameArgs, 'pluralizedName'>>;
 }>;
 
 export type StringFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['StringField'] = ResolversParentTypes['StringField']> = ResolversObject<{
   defaultValue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   maxLength?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   minLength?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -415,6 +483,7 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   Entity?: EntityResolvers<ContextType>;
+  EntityPermission?: EntityPermissionResolvers<ContextType>;
   EntityRelationField?: EntityRelationFieldResolvers<ContextType>;
   Field?: FieldResolvers<ContextType>;
   IDField?: IdFieldResolvers<ContextType>;

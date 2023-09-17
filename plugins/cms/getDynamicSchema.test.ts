@@ -6,6 +6,8 @@ import { AddFieldsToEntityMutation } from './graphql/Mutation/addFieldsToEntity.
 import { CreateEntityMutation } from './graphql/Mutation/createEntity.test'
 import plugin from './plugin'
 
+// todo: add tests for default value handling
+
 describe('createEntity', () => {
   let app: Readapt.Server
   let opts: Record<string, unknown>
@@ -21,10 +23,12 @@ describe('createEntity', () => {
 
     await app.gqlRequest(CreateEntityMutation, {
       name: 'book',
+      pluralizedName: 'books',
     }, opts)
 
     await app.gqlRequest(CreateEntityMutation, {
       name: 'author',
+      pluralizedName: 'authors',
     }, opts)
 
     await app.gqlRequest(AddFieldsToEntityMutation, {

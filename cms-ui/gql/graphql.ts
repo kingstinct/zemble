@@ -23,6 +23,7 @@ export type ArrayField = Field & {
   __typename?: 'ArrayField';
   availableFields: Array<Field>;
   isRequired: Scalars['Boolean']['output'];
+  isRequiredInput: Scalars['Boolean']['output'];
   maxItems?: Maybe<Scalars['Int']['output']>;
   minItems?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
@@ -31,6 +32,7 @@ export type ArrayField = Field & {
 export type ArrayFieldInput = {
   availableFields: Array<FieldInputWithoutArray>;
   isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   maxItems?: InputMaybe<Scalars['Int']['input']>;
   minItems?: InputMaybe<Scalars['Int']['input']>;
   name: Scalars['String']['input'];
@@ -45,12 +47,14 @@ export type BooleanField = Field & {
   __typename?: 'BooleanField';
   defaultValue?: Maybe<Scalars['Boolean']['output']>;
   isRequired: Scalars['Boolean']['output'];
+  isRequiredInput: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
 };
 
 export type BooleanFieldInput = {
   defaultValue?: InputMaybe<Scalars['Boolean']['input']>;
   isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
 };
 
@@ -67,11 +71,26 @@ export type EmailNotValidError = Error & {
 export type Entity = {
   __typename?: 'Entity';
   fields: Array<Field>;
+  isPublishable: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
+  permissions?: Maybe<Array<EntityPermission>>;
+  pluralizedName: Scalars['String']['output'];
 };
 
 export type EntityInput = {
   name: Scalars['String']['input'];
+};
+
+export type EntityPermission = {
+  __typename?: 'EntityPermission';
+  create: Scalars['Boolean']['output'];
+  delete: Scalars['Boolean']['output'];
+  granular: Scalars['Boolean']['output'];
+  modify: Scalars['Boolean']['output'];
+  publish: Scalars['Boolean']['output'];
+  read: Scalars['Boolean']['output'];
+  type?: Maybe<Scalars['String']['output']>;
+  unpublish: Scalars['Boolean']['output'];
 };
 
 export type EntityRelationField = Field & {
@@ -79,12 +98,14 @@ export type EntityRelationField = Field & {
   entity: Entity;
   entityName: Scalars['String']['output'];
   isRequired: Scalars['Boolean']['output'];
+  isRequiredInput: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
 };
 
 export type EntityRelationFieldInput = {
   entityName: Scalars['String']['input'];
   isRequired: Scalars['Boolean']['input'];
+  isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
 };
 
@@ -94,6 +115,7 @@ export type Error = {
 
 export type Field = {
   isRequired: Scalars['Boolean']['output'];
+  isRequiredInput: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
 };
 
@@ -113,6 +135,7 @@ export type FieldInputWithoutArray =
 export type IdField = Field & {
   __typename?: 'IDField';
   isRequired: Scalars['Boolean']['output'];
+  isRequiredInput: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
 };
 
@@ -148,6 +171,7 @@ export type Mutation = {
   loginRequest: LoginRequestResponse;
   removeEntity: Scalars['Boolean']['output'];
   removeFieldsFromEntity: Entity;
+  renameEntity: Entity;
   updatePermissions: User;
 };
 
@@ -159,8 +183,9 @@ export type MutationAddFieldsToEntityArgs = {
 
 
 export type MutationCreateEntityArgs = {
+  isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
-  pluralizedName?: InputMaybe<Scalars['String']['input']>;
+  pluralizedName: Scalars['String']['input'];
 };
 
 
@@ -186,6 +211,13 @@ export type MutationRemoveFieldsFromEntityArgs = {
 };
 
 
+export type MutationRenameEntityArgs = {
+  fromName: Scalars['String']['input'];
+  pluralizedName: Scalars['String']['input'];
+  toName: Scalars['String']['input'];
+};
+
+
 export type MutationUpdatePermissionsArgs = {
   permissions: Array<PermissionInput>;
   userId: Scalars['ID']['input'];
@@ -195,6 +227,7 @@ export type NumberField = Field & {
   __typename?: 'NumberField';
   defaultValue?: Maybe<Scalars['Float']['output']>;
   isRequired: Scalars['Boolean']['output'];
+  isRequiredInput: Scalars['Boolean']['output'];
   max?: Maybe<Scalars['Float']['output']>;
   min?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];
@@ -203,6 +236,7 @@ export type NumberField = Field & {
 export type NumberFieldInput = {
   defaultValue?: InputMaybe<Scalars['Float']['input']>;
   isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   max?: InputMaybe<Scalars['Float']['input']>;
   min?: InputMaybe<Scalars['Float']['input']>;
   name: Scalars['String']['input'];
@@ -221,20 +255,27 @@ export type PermissionInput = {
 
 export type Query = {
   __typename?: 'Query';
-  entities: Array<Entity>;
-  entity?: Maybe<Entity>;
+  getAllEntities: Array<Entity>;
+  getEntityByName?: Maybe<Entity>;
+  getEntityByPluralizedName?: Maybe<Entity>;
   users: Array<User>;
 };
 
 
-export type QueryEntityArgs = {
+export type QueryGetEntityByNameArgs = {
   name: Scalars['String']['input'];
+};
+
+
+export type QueryGetEntityByPluralizedNameArgs = {
+  pluralizedName: Scalars['String']['input'];
 };
 
 export type StringField = Field & {
   __typename?: 'StringField';
   defaultValue?: Maybe<Scalars['String']['output']>;
   isRequired: Scalars['Boolean']['output'];
+  isRequiredInput: Scalars['Boolean']['output'];
   maxLength?: Maybe<Scalars['Int']['output']>;
   minLength?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
@@ -243,6 +284,7 @@ export type StringField = Field & {
 export type StringFieldInput = {
   defaultValue?: InputMaybe<Scalars['String']['input']>;
   isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+  isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   maxLength?: InputMaybe<Scalars['Int']['input']>;
   minLength?: InputMaybe<Scalars['Int']['input']>;
   name: Scalars['String']['input'];
@@ -271,12 +313,30 @@ export type LoginRequestMutationVariables = Exact<{
 
 export type LoginRequestMutation = { __typename?: 'Mutation', loginRequest: { __typename: 'EmailNotValidError', message: string } | { __typename: 'LoginRequestSuccessResponse' } };
 
-export type GetEntityQueryVariables = Exact<{
-  name: Scalars['String']['input'];
+export type GetEntityByPluralizedNameQueryVariables = Exact<{
+  pluralizedName: Scalars['String']['input'];
 }>;
 
 
-export type GetEntityQuery = { __typename?: 'Query', entity?: { __typename?: 'Entity', name: string, fields: Array<{ __typename: 'ArrayField', name: string, isRequired: boolean } | { __typename: 'BooleanField', name: string, isRequired: boolean, defaultValueBoolean?: boolean | null } | { __typename: 'EntityRelationField', name: string, isRequired: boolean } | { __typename: 'IDField', name: string, isRequired: boolean } | { __typename: 'NumberField', name: string, isRequired: boolean, defaultValueNumber?: number | null } | { __typename: 'StringField', name: string, isRequired: boolean, defaultValueString?: string | null }> } | null };
+export type GetEntityByPluralizedNameQuery = { __typename?: 'Query', getEntityByPluralizedName?: { __typename?: 'Entity', name: string, pluralizedName: string, fields: Array<{ __typename: 'ArrayField', name: string, isRequired: boolean, isRequiredInput: boolean } | { __typename: 'BooleanField', name: string, isRequired: boolean, isRequiredInput: boolean, defaultValueBoolean?: boolean | null } | { __typename: 'EntityRelationField', name: string, isRequired: boolean, isRequiredInput: boolean } | { __typename: 'IDField', name: string, isRequired: boolean, isRequiredInput: boolean } | { __typename: 'NumberField', name: string, isRequired: boolean, isRequiredInput: boolean, defaultValueNumber?: number | null } | { __typename: 'StringField', name: string, isRequired: boolean, isRequiredInput: boolean, defaultValueString?: string | null }> } | null };
+
+export type CreateEntityMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  pluralizedName: Scalars['String']['input'];
+}>;
+
+
+export type CreateEntityMutation = { __typename?: 'Mutation', createEntity: { __typename?: 'Entity', name: string } };
+
+export type GetEntitiesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetEntitiesQuery = { __typename?: 'Query', getAllEntities: Array<{ __typename?: 'Entity', name: string, pluralizedName: string, fields: Array<{ __typename?: 'ArrayField', name: string, isRequired: boolean } | { __typename?: 'BooleanField', name: string, isRequired: boolean } | { __typename?: 'EntityRelationField', name: string, isRequired: boolean } | { __typename?: 'IDField', name: string, isRequired: boolean } | { __typename?: 'NumberField', name: string, isRequired: boolean } | { __typename?: 'StringField', name: string, isRequired: boolean }> }> };
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', email: string }> };
 
 export type AddFieldsToEntityMutationVariables = Exact<{
   name: Scalars['String']['input'];
@@ -286,28 +346,11 @@ export type AddFieldsToEntityMutationVariables = Exact<{
 
 export type AddFieldsToEntityMutation = { __typename?: 'Mutation', addFieldsToEntity: { __typename?: 'Entity', name: string } };
 
-export type CreateEntityMutationVariables = Exact<{
-  name: Scalars['String']['input'];
-}>;
-
-
-export type CreateEntityMutation = { __typename?: 'Mutation', createEntity: { __typename?: 'Entity', name: string } };
-
-export type GetEntitiesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetEntitiesQuery = { __typename?: 'Query', entities: Array<{ __typename?: 'Entity', name: string, fields: Array<{ __typename?: 'ArrayField', name: string } | { __typename?: 'BooleanField', name: string } | { __typename?: 'EntityRelationField', name: string } | { __typename?: 'IDField', name: string } | { __typename?: 'NumberField', name: string } | { __typename?: 'StringField', name: string }> }> };
-
-export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', email: string }> };
-
 
 export const LoginConfirmDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginConfirm"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"code"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginConfirm"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"code"},"value":{"kind":"Variable","name":{"kind":"Name","value":"code"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"LoginConfirmSuccessfulResponse"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accessToken"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Error"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]} as unknown as DocumentNode<LoginConfirmMutation, LoginConfirmMutationVariables>;
 export const LoginRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Error"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]} as unknown as DocumentNode<LoginRequestMutation, LoginRequestMutationVariables>;
-export const GetEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"entity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"isRequired"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StringField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"defaultValueString"},"name":{"kind":"Name","value":"defaultValue"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NumberField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"defaultValueNumber"},"name":{"kind":"Name","value":"defaultValue"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BooleanField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"defaultValueBoolean"},"name":{"kind":"Name","value":"defaultValue"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetEntityQuery, GetEntityQueryVariables>;
-export const AddFieldsToEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddFieldsToEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FieldInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addFieldsToEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"entityName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<AddFieldsToEntityMutation, AddFieldsToEntityMutationVariables>;
-export const CreateEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateEntityMutation, CreateEntityMutationVariables>;
-export const GetEntitiesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetEntities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"entities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetEntitiesQuery, GetEntitiesQueryVariables>;
+export const GetEntityByPluralizedNameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetEntityByPluralizedName"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pluralizedName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getEntityByPluralizedName"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pluralizedName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pluralizedName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"pluralizedName"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"isRequired"}},{"kind":"Field","name":{"kind":"Name","value":"isRequiredInput"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"StringField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"defaultValueString"},"name":{"kind":"Name","value":"defaultValue"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NumberField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"defaultValueNumber"},"name":{"kind":"Name","value":"defaultValue"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"BooleanField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"defaultValueBoolean"},"name":{"kind":"Name","value":"defaultValue"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetEntityByPluralizedNameQuery, GetEntityByPluralizedNameQueryVariables>;
+export const CreateEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pluralizedName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"pluralizedName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pluralizedName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateEntityMutation, CreateEntityMutationVariables>;
+export const GetEntitiesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetEntities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllEntities"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"pluralizedName"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"isRequired"}}]}}]}}]}}]} as unknown as DocumentNode<GetEntitiesQuery, GetEntitiesQueryVariables>;
 export const GetUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<GetUsersQuery, GetUsersQueryVariables>;
+export const AddFieldsToEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddFieldsToEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FieldInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addFieldsToEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"entityName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<AddFieldsToEntityMutation, AddFieldsToEntityMutationVariables>;
