@@ -1,9 +1,9 @@
-import { Entity } from '../../clients/papr'
+import { Entities } from '../../clients/papr'
 
 import type { QueryResolvers } from '../schema.generated'
 
 const entities: QueryResolvers['entities'] = async () => {
-  const result = await Entity.find({})
+  const result = await Entities.find({})
 
   return result.map((entity) => ({
     ...entity,

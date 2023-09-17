@@ -11,9 +11,9 @@ import {
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 
-import { Entity, EntityEntry } from './clients/papr'
+import { Entities, Content } from './clients/papr'
 import {
-  capitalize, pluralize,
+  capitalize,
 } from './utils'
 
 import type {
@@ -196,13 +196,13 @@ const createTraverser = (entity: EntityType) => {
 }
 
 export default async () => {
-  const entities = await Entity.find({})
+  const entities = await Entities.find({})
 
   types = {}
 
   const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((acc, entity) => {
     const getById = new Dataloader(async (ids: readonly string[]) => {
-      const entries = await EntityEntry.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
+      const entries = await Content.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
 
       return ids.map((id) => entries.find((entry) => entry._id.toHexString() === id))
     })
@@ -245,6 +245,10 @@ export default async () => {
           ...prev,
           [field.name]: {
             type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
+            ...field.name === 'id' ? {
+              resolve: ({ _id }: { readonly _id: ObjectId }) => _id.toHexString(),
+            } : {},
+
           },
         })
       }, {}),
@@ -258,15 +262,15 @@ export default async () => {
           type: new GraphQLNonNull(GraphQLID),
         },
       },
-      resolve: async (_, { id }) => EntityEntry.findOne({ entityType: entity.name, _id: new ObjectId(id) }),
+      resolve: async (_, { id }) => Content.findOne({ entityType: entity.name, _id: new ObjectId(id) }),
     } as const
 
     const getAll: GraphQLFieldConfig<unknown, unknown, unknown> = { // "books"
       type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
-      resolve: async () => EntityEntry.find({ entityType: entity.name }),
+      resolve: async () => Content.find({ entityType: entity.name }),
     }
 
-    const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly _id: string }> = {
+    const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly id: string }> = {
       type: obj,
       args: Object.values(entity.fields).reduce((prev, field) => {
         const baseType = fieldToInputType(entity.name, field)
@@ -278,15 +282,13 @@ export default async () => {
           },
         })
       }, {}),
-      resolve: async (_, { _id: idInput, ...input }) => {
+      resolve: async (_, { id, ...input }) => {
         const mappedData = createTraverser(entity)(input)
 
-        const _id = idInput ? new ObjectId(idInput) : new ObjectId()
+        const _id = id ? new ObjectId(id) : new ObjectId()
 
-        const res = await EntityEntry.findOneAndUpdate(_id ? {
-          _id: new ObjectId(_id),
-          entityType: entity.name,
-        } : {
+        const res = await Content.findOneAndUpdate({
+          _id,
           entityType: entity.name,
         }, {
           $set: {
@@ -303,17 +305,17 @@ export default async () => {
       },
     }
 
-    const deleteEntityEntry: GraphQLFieldConfig<unknown, unknown, { readonly _id: string }> = {
+    const deleteEntityEntry: GraphQLFieldConfig<unknown, unknown, { readonly id: string }> = {
       type: new GraphQLNonNull(GraphQLBoolean),
       args: {
-        _id: {
+        id: {
           type: new GraphQLNonNull(GraphQLString),
         },
       },
-      resolve: async (_, { _id }) => {
-        await EntityEntry.findOneAndDelete({
+      resolve: async (_, { id }) => {
+        await Content.findOneAndDelete({
           entityType: entity.name,
-          _id: new ObjectId(_id),
+          _id: new ObjectId(id),
         })
         return true
       },
@@ -322,8 +324,8 @@ export default async () => {
     const retVal: ReducerType = {
       query: {
         ...prev.query,
-        [pluralize(entity.name)]: getAll,
-        [entity.name]: getById,
+        [`getAll${capitalize(entity.pluralizedName)}`]: getAll,
+        [`get${capitalize(entity.name)}ById`]: getById,
       },
       types: [...prev.types],
       mutations: {
@@ -336,18 +338,18 @@ export default async () => {
   }, Promise.resolve<ReducerType>({
     query: {},
     types: [
-      // new GraphQLEnumType({
-      //   name: 'EntityEnum',
-      //   values: entities.reduce((prev, entity) => ({
-      //     ...prev,
-      //     [entity.name.toUpperCase()]: {
-      //       value: entity.name,
-      //     },
-      //   }), {}),
-      //   // values:  {
-      //   //   a: { value: 'a' },
-      //   // },
-      // }),
+      /* new GraphQLEnumType({
+      name: 'EntityEnum',
+      values: entities.reduce((prev, entity) => ({
+        ...prev,
+        [entity.name.toUpperCase()]: {
+          value: entity.name,
+        },
+      }), {}),
+      values:  {
+      a: { value: 'a' },
+       },
+       }), */
     ],
     mutations: {},
   }))

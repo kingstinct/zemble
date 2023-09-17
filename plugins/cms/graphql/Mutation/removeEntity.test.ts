@@ -1,7 +1,7 @@
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import { CreateEntityMutation } from './createEntity.test'
-import { Entity } from '../../clients/papr'
+import { Entities } from '../../clients/papr'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
@@ -17,7 +17,7 @@ describe('addFieldsToEntity', () => {
 
   beforeEach(async () => {
     app = await plugin.testApp()
-    const token = signJwt({ data: { permissions: ['modify-entity'] } })
+    const token = signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
     opts = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -29,15 +29,19 @@ describe('addFieldsToEntity', () => {
     }, opts)
   })
 
-  test('should add a title field', async () => {
+  test('should remove entity', async () => {
+    const entititesBefore = await Entities.find({})
+
+    expect(entititesBefore).toHaveLength(1)
+
     const removeEntityRes = await app.gqlRequest(RemoveEntityMutation, {
       name: 'book',
     }, opts)
 
     expect(removeEntityRes.data?.removeEntity).toEqual(true)
 
-    const entitites = await Entity.find({})
+    const entititesAfter = await Entities.find({})
 
-    expect(entitites).toEqual([])
+    expect(entititesAfter).toHaveLength(0)
   })
 })

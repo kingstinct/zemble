@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-import { Entity } from '../../clients/papr'
+import { Entities } from '../../clients/papr'
 
 import type { EntitySchema } from '../../clients/papr'
 import type {
@@ -31,7 +31,7 @@ const mapInputToField = (input: FieldInput): Field => {
 const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
   const fields: readonly Field[] = fieldsInput.map(mapInputToField)
 
-  const prev = await Entity.findOneAndUpdate({ name: entityName }, {
+  const prev = await Entities.findOneAndUpdate({ name: entityName }, {
     $set: fields.reduce((acc, field) => ({
       ...acc,
       [`fields.${field.name}`]: field,

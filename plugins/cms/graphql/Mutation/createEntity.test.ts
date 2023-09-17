@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { Entity } from '../../clients/papr'
+import { Entities } from '../../clients/papr'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
@@ -20,7 +20,7 @@ describe('createEntity', () => {
 
   beforeEach(async () => {
     app = await plugin.testApp()
-    const token = signJwt({ data: { permissions: ['modify-entity'] } })
+    const token = signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
     opts = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ describe('createEntity', () => {
 
     expect(res.data?.createEntity.name).toEqual('book')
 
-    const entitites = await Entity.find({})
+    const entitites = await Entities.find({})
 
     expect(entitites).toHaveLength(1)
     expect(entitites[0]).toEqual({
@@ -43,17 +43,18 @@ describe('createEntity', () => {
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
       name: 'book',
+      pluralizedName: 'books',
       fields: {
-        _id: {
+        id: {
           __typename: 'IDField',
           isRequired: true,
-          name: '_id',
+          name: 'id',
         },
       },
     })
 
-    const res2 = await app.gqlRequestUntyped<{readonly books: readonly unknown[]}, unknown>('query { books { _id } }', {}, opts)
+    const { data, errors } = await app.gqlRequestUntyped<{readonly getAllBooks: readonly unknown[]}, unknown>('query { getAllBooks { id } }', {}, opts)
 
-    expect(res2.data?.books).toEqual([])
+    expect(data?.getAllBooks).toEqual([])
   })
 })

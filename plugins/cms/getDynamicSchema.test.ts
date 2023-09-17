@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { EntityEntry } from './clients/papr'
+import { Content } from './clients/papr'
 import { AddFieldsToEntityMutation } from './graphql/Mutation/addFieldsToEntity.test'
 import { CreateEntityMutation } from './graphql/Mutation/createEntity.test'
 import plugin from './plugin'
@@ -12,7 +12,7 @@ describe('createEntity', () => {
 
   beforeEach(async () => {
     app = await plugin.testApp()
-    const token = signJwt({ data: { permissions: ['modify-entity'] } })
+    const token = signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
     opts = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -92,20 +92,17 @@ describe('createEntity', () => {
       },
     })
 
-    const allBooks = await app.gqlRequestUntyped<{
-      readonly books: readonly unknown[]
-    }, unknown>('query { books { title } }', {}, opts)
+    const { data } = await app.gqlRequestUntyped<{
+      readonly getAllBooks: readonly unknown[]
+    }, unknown>('query { getAllBooks { title } }', {}, opts)
 
-    expect(allBooks.data).toEqual({
-      books: [
-        {
-          title: 'Lord of the rings',
-        },
-      ],
+    expect(data?.getAllBooks).toEqual([
+      {
+        title: 'Lord of the rings',
+      },
+    ])
 
-    })
-
-    const entityEntry = await EntityEntry.find({})
+    const entityEntry = await Content.find({})
 
     expect(entityEntry).toEqual([
       {
@@ -121,16 +118,16 @@ describe('createEntity', () => {
   test('should create a book with authors', async () => {
     type CreateAuthorMutationType = {
       readonly createAuthor: {
-        readonly _id: string
+        readonly id: string
       }
     }
-    const { data: jrr } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "J.R.R.", lastName: "Tolkien") { _id, firstName, lastName } }`, {}, opts)
-    const { data: christopher } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "Christopher", lastName: "Tolkien") { _id, firstName, lastName } } `, {}, opts)
+    const { data: jrr } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "J.R.R.", lastName: "Tolkien") { id, firstName, lastName } }`, {}, opts)
+    const { data: christopher } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "Christopher", lastName: "Tolkien") { id, firstName, lastName } } `, {}, opts)
 
     const createBookReq = await app.gqlRequestUntyped<{readonly books: readonly unknown[]}, unknown>(`mutation { 
       createBook(title: "Silmarillion", contributors: [
-        { author: "${jrr?.createAuthor._id}" },
-        { editor: "${christopher?.createAuthor._id}" },
+        { author: "${jrr?.createAuthor.id}" },
+        { editor: "${christopher?.createAuthor.id}" },
       ])
       { 
         title
@@ -176,7 +173,7 @@ describe('createEntity', () => {
       },
     })
 
-    const entityEntry = await EntityEntry.find({})
+    const entityEntry = await Content.find({})
 
     expect(entityEntry).toEqual([
       {

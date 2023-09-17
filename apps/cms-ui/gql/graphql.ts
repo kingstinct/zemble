@@ -160,6 +160,7 @@ export type MutationAddFieldsToEntityArgs = {
 
 export type MutationCreateEntityArgs = {
   name: Scalars['String']['input'];
+  pluralizedName?: InputMaybe<Scalars['String']['input']>;
 };
 
 

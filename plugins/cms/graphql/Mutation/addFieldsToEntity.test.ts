@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import { CreateEntityMutation } from './createEntity.test'
-import { Entity } from '../../clients/papr'
+import { Entities } from '../../clients/papr'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
@@ -23,7 +23,7 @@ describe('addFieldsToEntity', () => {
 
   beforeEach(async () => {
     app = await plugin.testApp()
-    const token = signJwt({ data: { permissions: ['modify-entity'] } })
+    const token = signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
     opts = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ describe('addFieldsToEntity', () => {
       },
     })
 
-    const entitites = await Entity.find({})
+    const entitites = await Entities.find({})
 
     expect(entitites).toEqual([
       {
@@ -62,11 +62,12 @@ describe('addFieldsToEntity', () => {
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
         name: 'book',
+        pluralizedName: 'books',
         fields: {
-          _id: {
+          id: {
             __typename: 'IDField',
             isRequired: true,
-            name: '_id',
+            name: 'id',
           },
           title: {
             __typename: 'StringField',

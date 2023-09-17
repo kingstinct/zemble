@@ -22,7 +22,7 @@ type Query {
 }
 
 type Mutation {
-  createEntity(name: String!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
+  createEntity(name: String!, pluralizedName: String): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
   removeEntity(name: String!): Boolean! @auth(includes: { permissions: { type: "modify-entity" } })
 
   addFieldsToEntity(entityName: String!, fields: [FieldInput!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })

@@ -94,6 +94,7 @@ const AllFields = types.oneOf([
 
 const EntitySchemaObject = {
   name: types.string({ required: true }),
+  pluralizedName: types.string({ required: true }),
   fields: types.objectGeneric(AllFields, undefined, { required: true }),
 }
 
@@ -103,7 +104,7 @@ export const EntitySchema = schema(EntitySchemaObject, {
 
 export type EntityType = typeof EntitySchemaObject
 
-const EntityEntrySchema = schema({
+export const EntityEntrySchema = schema({
   _id: types.objectId({ required: true }),
   entityType: types.string({ required: true }),
 }, {
@@ -111,8 +112,8 @@ const EntityEntrySchema = schema({
   validationLevel: VALIDATION_LEVEL.OFF, // let's skip it for now - how do we handle the unknown fields?
 })
 
-export const Entity = papr.model('Entities', EntitySchema)
+export const Entities = papr.model('entities', EntitySchema)
 
-export const EntityEntry = papr.model('EntityEntries', EntityEntrySchema)
+export const Content = papr.model('content', EntityEntrySchema)
 
 export default papr

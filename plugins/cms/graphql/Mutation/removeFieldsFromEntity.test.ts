@@ -3,7 +3,7 @@ import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import { AddFieldsToEntityMutation } from './addFieldsToEntity.test'
 import { CreateEntityMutation } from './createEntity.test'
-import { Entity } from '../../clients/papr'
+import { Entities } from '../../clients/papr'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
@@ -26,7 +26,7 @@ describe('RemoveFieldsFromEntity', () => {
 
   beforeEach(async () => {
     app = await plugin.testApp()
-    const token = signJwt({ data: { permissions: ['modify-entity'] } })
+    const token = signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
     opts = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,24 +51,22 @@ describe('RemoveFieldsFromEntity', () => {
       ],
     }, opts)
 
-    const removeFieldsFromEntityRes = await app.gqlRequest(RemoveFieldsFromEntityMutation, {
+    const { data } = await app.gqlRequest(RemoveFieldsFromEntityMutation, {
       name: 'book',
       fields: ['title'],
     }, opts)
 
-    expect(removeFieldsFromEntityRes.data).toEqual({
-      removeFieldsFromEntity: {
-        name: 'book',
-        fields: [
-          {
-            __typename: 'IDField',
-            name: '_id',
-          },
-        ],
-      },
+    expect(data?.removeFieldsFromEntity).toEqual({
+      name: 'book',
+      fields: [
+        {
+          __typename: 'IDField',
+          name: 'id',
+        },
+      ],
     })
 
-    const entitites = await Entity.find({})
+    const entitites = await Entities.find({})
 
     expect(entitites).toEqual([
       {
@@ -76,11 +74,12 @@ describe('RemoveFieldsFromEntity', () => {
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
         name: 'book',
+        pluralizedName: 'books',
         fields: {
-          _id: {
+          id: {
             __typename: 'IDField',
             isRequired: true,
-            name: '_id',
+            name: 'id',
           },
         },
       },
