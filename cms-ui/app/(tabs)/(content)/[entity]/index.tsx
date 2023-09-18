@@ -1,14 +1,15 @@
 import BottomSheet from '@gorhom/bottom-sheet'
-import { useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
+import { useEffect, useState } from 'react'
 import {
-  View, Text, StyleSheet, ScrollView,
+  View, Text, StyleSheet, ScrollView, Button,
 } from 'react-native'
 import { useQuery } from 'urql'
 
-import CreateEntityEntry from '../../../components/createEntityEntry'
-import CreateField from '../../../components/createEntityField'
-import { graphql } from '../../../gql'
-import { capitalize } from '../../../utils/text'
+import CreateEntityEntry from '../../../../components/createEntityEntry'
+import CreateField from '../../../../components/createEntityField'
+import { graphql } from '../../../../gql'
+import { capitalize } from '../../../../utils/text'
 
 const styles = StyleSheet.create({
   row: {
@@ -51,7 +52,7 @@ const ListOfEntries: React.FC<{readonly pluralizedName: string, readonly fields:
   )
 }
 
-const GetEntityByPluralizedNameQuery = graphql(`
+export const GetEntityByPluralizedNameQuery = graphql(`
   query GetEntityByPluralizedName($pluralizedName: String!) { getEntityByPluralizedName(pluralizedName: $pluralizedName) { 
     name
     pluralizedName
@@ -76,27 +77,39 @@ const GetEntityByPluralizedNameQuery = graphql(`
 `)
 
 const EntityDetails = () => {
-  const { entity } = useLocalSearchParams()
+  const { entity, create } = useLocalSearchParams()
 
   const [{ data }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
     variables: { pluralizedName: entity },
   })
 
-  return (
-    <View style={{ flex: 1}}>
-      <ScrollView>
-        { data?.getEntityByPluralizedName ? <CreateField entityName={data.getEntityByPluralizedName.name} onUpdated={refetch} /> : null }
-        <Text>{ `Entity JSON:${JSON.stringify(data?.getEntityByPluralizedName, null, 2)}` }</Text>
+  const [index, setIndex] = useState(-1)
 
+  useEffect(() => {
+    const nextIndex = create && create !== 'false' ? 1 : -1
+    setIndex(nextIndex)
+  }, [create])
+
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView>
+        <Button title='Modify schema' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />
         { data?.getEntityByPluralizedName ? <ListOfEntries pluralizedName={data.getEntityByPluralizedName.pluralizedName} fields={data.getEntityByPluralizedName.fields} /> : null }
-        <View style={{height: 200}}></View>
+        <View style={{ height: 200 }} />
       </ScrollView>
 
-      <BottomSheet snapPoints={[100, 500]}>
+      <BottomSheet
+        snapPoints={[200, 500]}
+        index={index}
+        enablePanDownToClose
+        onClose={() => router.setParams({ create: 'false' })}
+        onChange={(i) => setIndex(i)}
+      >
         { data?.getEntityByPluralizedName ? (
           <CreateEntityEntry
             entity={data.getEntityByPluralizedName}
+            onUpdated={refetch}
           />
         ) : null }
       </BottomSheet>

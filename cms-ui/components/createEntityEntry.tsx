@@ -1,12 +1,14 @@
 /* eslint-disable functional/immutable-data */
 
+import { useBottomSheet } from '@gorhom/bottom-sheet'
 import { Formik } from 'formik'
 import { useMemo } from 'react'
 import {
-  View, Text, Button, TextInput, Switch,
+  View, Text, Button, TextInput, Switch, StyleSheet,
 } from 'react-native'
 import { useMutation } from 'urql'
 
+import { styles } from '../style'
 import { capitalize } from '../utils/text'
 
 import type { GetEntityByPluralizedNameQuery } from '../gql/graphql'
@@ -38,15 +40,19 @@ const buildCreateEntryMutation = (entity: Entity) => {
     } 
   }`
 
-  console.log(createEntryStr)
-
   return createEntryStr
 }
 
-const CreateEntry: React.FC<{readonly entity: Entity, readonly onUpdated?: () => void}> = ({ entity, onUpdated }) => {
-  console.log({ entity })
-
+const CreateEntry: React.FC<{
+  readonly entity: Entity,
+  readonly onUpdated?: () => void,
+}> = ({
+  entity,
+  onUpdated,
+}) => {
   const { fields } = entity
+
+  const { close } = useBottomSheet()
 
   const [, createEntry] = useMutation(useMemo(() => buildCreateEntryMutation(entity), [entity]))
 
@@ -57,14 +63,9 @@ const CreateEntry: React.FC<{readonly entity: Entity, readonly onUpdated?: () =>
   }, {} as Record<string, unknown>)
 
   const validate = (values) => {
-    /* if (!values.email) {
-      errors.email = 'Required'
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      errors.email = 'Invalid email address'
-    } */
-
     const errors = fields.reduce((acc, field) => {
-      if (field.isRequired && values[field.name] === undefined && field.name !== '_id') {
+      const value = values[field.name]
+      if (field.isRequiredInput && (value === undefined || value === '') && field.name !== '_id') {
         acc[field.name] = `${field.name} is required`
       }
 
@@ -80,7 +81,7 @@ const CreateEntry: React.FC<{readonly entity: Entity, readonly onUpdated?: () =>
     <Formik
       initialValues={defaults}
       validate={validate}
-      onSubmit={async (values) => {
+      onSubmit={async (values, actions) => {
         const mappedValues = fields.reduce((acc, field) => {
           if (field.__typename === 'BooleanField' && values[field.name] !== undefined && values[field.name] !== '') {
             acc[field.name] = JSON.parse(values[field.name])
@@ -90,13 +91,17 @@ const CreateEntry: React.FC<{readonly entity: Entity, readonly onUpdated?: () =>
 
         await createEntry(mappedValues)
         onUpdated?.()
+
+        actions.resetForm({
+          values: defaults,
+        })
       }}
     >
       {({
         handleChange, handleBlur, handleSubmit, values, errors,
       }) => (
         <View>
-          <Text>{ `Create ${entity.name}` }</Text>
+          <Text style={styles.title}>{ `Create ${entity.name}` }</Text>
           {
             entity.fields.map((field) => {
               if (field.__typename === 'IDField' && values[field.name]) {
@@ -114,10 +119,12 @@ const CreateEntry: React.FC<{readonly entity: Entity, readonly onUpdated?: () =>
                 return (
                   <TextInput
                     key={field.name}
+                    style={[styles.textInputStyle, { color: errors[field.name] ? 'red' : 'black' }]}
                     accessibilityHint={field.name}
+                    placeholderTextColor={errors[field.name] ? 'red' : 'black'}
                     accessibilityLabel={field.name}
                     onBlur={handleBlur(field.name)}
-                    placeholder={field.name}
+                    placeholder={field.name + (field.isRequiredInput ? ' (required)' : '')}
                     onChangeText={handleChange(field.name)}
                     value={values[field.name] as string}
                   />
@@ -129,7 +136,9 @@ const CreateEntry: React.FC<{readonly entity: Entity, readonly onUpdated?: () =>
                     key={field.name}
                     accessibilityHint={field.name}
                     accessibilityLabel={field.name}
-                    placeholder={field.name}
+                    placeholderTextColor={errors[field.name] ? 'red' : 'black'}
+                    style={[styles.textInputStyle, { color: errors[field.name] ? 'red' : 'black' }]}
+                    placeholder={field.name + (field.isRequiredInput ? ' (required)' : '')}
                     keyboardType='numeric'
                     onBlur={handleBlur(field.name)}
                     value={values[field.name] as string}
@@ -139,12 +148,13 @@ const CreateEntry: React.FC<{readonly entity: Entity, readonly onUpdated?: () =>
               }
               if (field.__typename === 'BooleanField') {
                 return (
-                  <View key={field.name} style={{ flexDirection: 'row' }}>
+                  <View key={field.name} style={styles.booleanFieldInput}>
                     <Text>
-                      {field.name}
+                      {field.name + (field.isRequiredInput ? ' (required)' : '')}
                     </Text>
                     <Switch
                       accessibilityHint={field.name}
+                      style={styles.booleanFieldSwitch}
                       accessibilityLabel={field.name}
                       value={values[field.name] || values[field.name] === false ? JSON.parse(values[field.name]) : false}
                       onValueChange={(e) => {
@@ -158,10 +168,21 @@ const CreateEntry: React.FC<{readonly entity: Entity, readonly onUpdated?: () =>
               return null
             })
           }
-          <Button
-            onPress={handleSubmit as () => void}
-            title='Save'
-          />
+          <View style={{ margin: 8 }}>
+            { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{errors[key]}</Text>) }
+            <Button
+              onPress={handleSubmit as () => void}
+              title='Save'
+            />
+          </View>
+          <View style={{ padding: 8 }}>
+            <Button
+              onPress={() => {
+                close()
+              }}
+              title='Dismiss'
+            />
+          </View>
         </View>
       )}
 

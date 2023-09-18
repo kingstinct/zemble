@@ -4,9 +4,9 @@ import { useCallback } from 'react'
 import { Pressable } from 'react-native'
 import { useMutation, useQuery } from 'urql'
 
-import { GetEntitiesQuery } from '.'
-import { graphql } from '../../../gql'
-import { capitalize } from '../../../utils/text'
+import { GetEntitiesQuery } from '..'
+import { graphql } from '../../../../gql'
+import { capitalize } from '../../../../utils/text'
 
 const CreateEntityMutation = graphql(`
 mutation CreateEntity($name: String!, $pluralizedName: String!) {
@@ -42,25 +42,23 @@ const EntitiesLayout = () => {
               size={24}
               style={{ marginRight: 16 }}
               color={tintColor}
-              onPress={onAddEntity}
+              onPress={() => router.setParams({ create: 'true' })}
             />
           </Pressable>
-        ), [onAddEntity]),
+        ), []),
       }}
     >
       <Stack.Screen
-        name='index'
-        options={{
-          title: 'Content',
-        }}
-      />
-      <Stack.Screen
-        name='[entity]'
+        name='schema'
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        options={{
-          headerShown: false
-        }}
+        options={({ route }) => ({ title: `${capitalize(route.params.entity)} Schema` })}
+      />
+      <Stack.Screen
+        name='index'
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        options={({ route }) => ({ title: capitalize(route.params.entity) })}
       />
     </Stack>
   )

@@ -38,13 +38,13 @@ const App = () => {
         animationTypeForReplace: 'pop',
       }}
     >
-      <Stack.Screen
+      {/* <Stack.Screen
         name='(tabs)/index'
         options={{
           title: 'cms-ui',
           headerShown: false,
         }}
-      />
+      /> */}
       <Stack.Screen
         name='(auth)/login'
         options={{
