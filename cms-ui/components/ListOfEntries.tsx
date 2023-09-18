@@ -15,12 +15,22 @@ const styles = StyleSheet.create({
 
 type ListOfEntriesProps = {
   readonly pluralizedName: string,
-  readonly fields: readonly {readonly name: string, readonly __typename: string}[],
+  readonly fields: readonly {readonly name: string, readonly __typename: string, readonly availableFields?: readonly {readonly name: string}[]}[],
   readonly onSelected: (s: Record<string, unknown>) => void
+  readonly entityName: string
 }
 
-const ListOfEntries: React.FC<ListOfEntriesProps> = ({ fields, pluralizedName, onSelected }) => {
-  const fs = fields.map((field) => field.name)
+const ArraySubFieldName = ({ entityName, arrayFieldName, subFieldName }: {readonly entityName: string, readonly arrayFieldName: string, readonly subFieldName: string }) => `${capitalize(entityName)}${capitalize(arrayFieldName)}${capitalize(subFieldName)}`.replaceAll(' ', '_')
+
+const ListOfEntries: React.FC<ListOfEntriesProps> = ({
+  fields, pluralizedName, entityName, onSelected,
+}) => {
+  const fs = fields.map((field) => (field.availableFields && field.availableFields.length > 0
+    ? `${field.name} { __typename ${field.availableFields.map((f) => {
+      const fieldName = f.name.replaceAll(' ', '_')
+      return `... on ${ArraySubFieldName({ arrayFieldName: field.name, entityName, subFieldName: f.name })} { ${fieldName} }`
+    }).join(' ')} }`
+    : field.name))
 
   const queryName = `getAll${capitalize(pluralizedName)}`
 
@@ -36,7 +46,7 @@ const ListOfEntries: React.FC<ListOfEntriesProps> = ({ fields, pluralizedName, o
       <View
         style={[styles.row, { backgroundColor: 'black' }]}
       >
-        { fs.map((f) => <Text key={f} style={[styles.cell, { color: 'white' }]}>{ f }</Text>) }
+        { fields.map((f) => <Text key={f.name} style={[styles.cell, { color: 'white' }]}>{ f.name }</Text>) }
       </View>
       {
         entries?.map((entity) => (

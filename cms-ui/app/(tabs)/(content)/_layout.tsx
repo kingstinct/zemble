@@ -6,7 +6,6 @@ import { useMutation, useQuery } from 'urql'
 
 import { GetEntitiesQuery } from '.'
 import { graphql } from '../../../gql'
-import { capitalize } from '../../../utils/text'
 
 const CreateEntityMutation = graphql(`
 mutation CreateEntity($name: String!, $pluralizedName: String!) {
@@ -32,6 +31,7 @@ const EntitiesLayout = () => {
 
   return (
     <Stack
+      initialRouteName='index'
       screenOptions={{
         animation: 'flip',
         animationTypeForReplace: 'pop',
@@ -59,7 +59,7 @@ const EntitiesLayout = () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={{
-          headerShown: false
+          headerShown: false,
         }}
       />
     </Stack>

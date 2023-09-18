@@ -37,7 +37,11 @@ const app = createApp({
           returnDocument: 'after',
         })
 
-        const ret = ({ email, type: 'AuthOtp' as const, userId: user!._id.toHexString() })
+        const ret = ({
+          email,
+          type: 'AuthOtp' as const,
+          userId: user!._id.toHexString(),
+        })
 
         return ret
       },

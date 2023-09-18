@@ -32,6 +32,12 @@ export const GetEntityByPluralizedNameQuery = graphql(`
       ... on  BooleanField{
         defaultValueBoolean: defaultValue
       }
+      ... on ArrayField {
+        availableFields {
+          name
+          __typename
+        }
+      }
    } } }
 `)
 
@@ -58,6 +64,7 @@ const EntityDetails = () => {
         <Button title='Modify schema' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />
         { data?.getEntityByPluralizedName ? (
           <ListOfEntries
+            entityName={data.getEntityByPluralizedName.name}
             onSelected={(s) => {
               setSelected(s)
               router.setParams({ create: 'true' })

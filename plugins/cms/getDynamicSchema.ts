@@ -11,7 +11,11 @@ import {
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 
-import { Entities, Content } from './clients/papr'
+import {
+  Entities,
+  Content,
+  connect,
+} from './clients/papr'
 import {
   capitalize,
 } from './utils'
@@ -76,9 +80,9 @@ const fieldToOutputType = (
         const resolvedType = fieldToOutputType(typePrefix, f as any, relationTypes)
 
         return typeDeduper(new GraphQLObjectType({
-          name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name)}`,
+          name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name)}`.replaceAll(' ', '_'),
           fields: {
-            [f.name]: {
+            [f.name.replaceAll(' ', '_')]: {
               type: resolvedType,
             },
           },
@@ -87,7 +91,7 @@ const fieldToOutputType = (
 
       // eslint-disable-next-line no-case-declarations
       const union = typeDeduper(new GraphQLUnionType({
-        name: `${capitalize(typePrefix)}${capitalize(field.name)}Union`,
+        name: `${capitalize(typePrefix)}${capitalize(field.name)}Union`.replaceAll(' ', '_'),
         types: availableFields,
       }))
       return new GraphQLList(union)
@@ -118,7 +122,7 @@ const fieldToInputType = (typePrefix: string, field: IField): GraphQLScalarType 
         ...prev,
         fields: {
           ...prev.fields,
-          [f.name]: {
+          [f.name.replaceAll(' ', '_')]: {
             type: fieldToInputType(typePrefix, f as any),
           },
         },
@@ -164,7 +168,7 @@ const createTraverser = (entity: EntityType) => {
     ...fields.filter((f) => f.__typename === 'ArrayField').reduce((prev, f) => ({
       ...(f as unknown as ArrayField).availableFields.filter((f) => (f as IField).__typename === 'EntityRelationField').reduce((prev, f) => ({
         ...prev,
-        [f.name]: (f as EntityRelationField).entityName,
+        [f.name.replaceAll(' ', '_')]: (f as EntityRelationField).entityName,
       }), prev),
     }), {} as Record<string, string>),
   }
@@ -188,7 +192,7 @@ const createTraverser = (entity: EntityType) => {
     fieldName: string,
     data: Record<string, unknown> | readonly Record<string, unknown>[],
   ) => (Array.isArray(data) ? data : [data]).map((el: Record<string, unknown>): Record<string, unknown> => ({
-    __typename: capitalize(entity.name) + capitalize(fieldName) + capitalize(Object.keys(el)[0]),
+    __typename: (capitalize(entity.name) + capitalize(fieldName) + capitalize(Object.keys(el)[0])).replaceAll(' ', '_'),
     ...traverseData(el),
   }))
 
@@ -196,6 +200,10 @@ const createTraverser = (entity: EntityType) => {
 }
 
 export default async () => {
+  if (process.env.NODE_ENV !== 'test') {
+    await connect()
+  }
+
   const entities = await Entities.find({})
 
   types = {}
@@ -256,7 +264,7 @@ export default async () => {
           },
         })
       }, {}),
-      name: capitalize(entity.name),
+      name: capitalize(entity.name).replaceAll(' ', '_'),
     })
 
     const getById: GraphQLFieldConfig<unknown, unknown, {readonly id: string}> = { // "book"

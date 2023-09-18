@@ -14,7 +14,7 @@ const addSupplement: MutationResolvers['addSupplement'] = async (parent, {
   const supplement: DocumentForInsert<typeof SupplementIntakeDbType[0], typeof SupplementIntakeDbType[1]> = {
     amountInGrams,
     foodId: new ObjectId(foodId),
-    userId: new ObjectId(decodedToken.userId),
+    userId: new ObjectId(decodedToken.userId as string),
     intakeTime,
   }
 

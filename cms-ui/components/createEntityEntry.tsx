@@ -132,6 +132,12 @@ const CreateEntry: React.FC<{
                   />
                 )
               }
+              if (field.__typename === 'ArrayField') {
+                return <Text key={field.name}>Array input here</Text>
+              }
+              if (field.__typename === 'EntityRelationField') {
+                return <Text key={field.name}>Relation input here</Text>
+              }
               if (field.__typename === 'NumberField') {
                 return (
                   <TextInput

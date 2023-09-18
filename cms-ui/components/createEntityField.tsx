@@ -29,6 +29,80 @@ type Props = {
   readonly onUpdated?: () => void
 }
 
+type CreateFieldProps = {
+  readonly updateField: (fieldInput: FieldInput) => void
+}
+
+const CreateArrayField: React.FC<CreateFieldProps> = ({ updateField }) => (
+  <Formik
+    initialValues={{
+      fieldName: '',
+      fieldType: 'StringField' as FieldType,
+    }}
+    validate={(values) => {
+      if (values.fieldName === '' || values.fieldName === undefined) {
+        return { fieldName: 'FieldName is required' }
+      }
+      return {}
+    }}
+    onSubmit={(values) => {
+      const { fieldType } = values
+
+      const field = {
+        [fieldType]: {
+          name: values.fieldName,
+        },
+      } as unknown as FieldInput
+
+      updateField(field)
+    }}
+  >
+    {({
+      handleChange, handleBlur, handleSubmit, values, errors,
+    }) => (
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', flex: 1 }}>
+          <View style={{ flex: 1 }}>
+            <TextInput
+              accessibilityHint='Name of array field'
+              accessibilityLabel='Name of array field'
+              onBlur={handleBlur('fieldName')}
+              placeholder='Name of array field (required)'
+              style={styles.textInputStyle}
+              placeholderTextColor={errors.fieldName ? 'red' : 'black'}
+              onChangeText={handleChange('fieldName')}
+              value={values.fieldName as string}
+            />
+          </View>
+        </View>
+        <SelectDropdown
+          data={[
+            'BooleanField',
+            'StringField',
+            'NumberField',
+            'EntityRelationField',
+          ]}
+          buttonStyle={{
+            margin: 10, padding: 10, borderRadius: 10,
+          }}
+          defaultValue={values.fieldType}
+          onSelect={handleChange('fieldType')}
+          rowTextForSelection={(item) => item}
+          buttonTextAfterSelection={(selectedItem) => selectedItem}
+        />
+
+        <View style={{ padding: 8 }}>
+          { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{errors[key]}</Text>) }
+          <Button
+            onPress={handleSubmit as () => void}
+            title='Save'
+          />
+        </View>
+      </View>
+    )}
+  </Formik>
+)
+
 const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
   const [, createField] = useMutation(AddFieldsToEntityMutation)
   const { close } = useBottomSheet()
@@ -40,6 +114,7 @@ const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
         isRequired: 'false',
         isRequiredInput: 'false',
         fieldType: 'StringField' as FieldType,
+        availableFields: '[]',
         defaultValue: '',
       }}
       validate={(values) => {
@@ -60,7 +135,12 @@ const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
               ? parseFloat(defaultValue) : defaultValue)
 
         const field = {
-          [fieldType]: {
+          [fieldType]: fieldType === 'ArrayField' ? {
+            name: values.fieldName,
+            isRequired: JSON.parse(values.isRequired),
+            isRequiredInput: JSON.parse(values.isRequiredInput),
+            availableFields: JSON.parse(values.availableFields),
+          } : {
             name: values.fieldName,
             isRequired: JSON.parse(values.isRequired),
             isRequiredInput: JSON.parse(values.isRequiredInput),
@@ -95,37 +175,53 @@ const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
               'BooleanField',
               'StringField',
               'NumberField',
+              'EntityRelationField',
+              'ArrayField',
             ]}
+            buttonStyle={{
+              flex: 1, margin: 10, padding: 10, borderRadius: 10,
+            }}
             defaultValue={values.fieldType}
             onSelect={handleChange('fieldType')}
             rowTextForSelection={(item) => item}
             buttonTextAfterSelection={(selectedItem) => selectedItem}
           />
-          <View style={styles.booleanFieldInput}>
-            <Text>
-              Required
-            </Text>
-            <Switch
-              accessibilityHint='Is field required'
-              accessibilityLabel='Is field required'
-              value={JSON.parse(values.isRequired)}
-              style={styles.booleanFieldSwitch}
-              onValueChange={(e) => handleChange('isRequired')(e.toString())}
-            />
-          </View>
 
-          <View style={styles.booleanFieldInput}>
+          { values.fieldType !== 'ArrayField' ? (
+            <View style={styles.booleanFieldInput}>
+              <Text>
+                Required
+              </Text>
+              <Switch
+                accessibilityHint='Is field required'
+                accessibilityLabel='Is field required'
+                value={JSON.parse(values.isRequired)}
+                style={styles.booleanFieldSwitch}
+                onValueChange={(e) => handleChange('isRequired')(e.toString())}
+              />
+            </View>
+          ) : null }
+
+          { values.fieldType !== 'ArrayField' ? (
+            <View style={styles.booleanFieldInput}>
+              <Text>
+                Required Input
+              </Text>
+              <Switch
+                accessibilityHint='Is field required on input'
+                accessibilityLabel='Is field required on input'
+                value={JSON.parse(values.isRequiredInput)}
+                style={styles.booleanFieldSwitch}
+                onValueChange={(e) => handleChange('isRequiredInput')(e.toString())}
+              />
+            </View>
+          ) : null }
+
+          { values.fieldType === 'EntityRelationField' ? (
             <Text>
-              Required Input
+              {`${values.fieldType}`}
             </Text>
-            <Switch
-              accessibilityHint='Is field required on input'
-              accessibilityLabel='Is field required on input'
-              value={JSON.parse(values.isRequiredInput)}
-              style={styles.booleanFieldSwitch}
-              onValueChange={(e) => handleChange('isRequiredInput')(e.toString())}
-            />
-          </View>
+          ) : null }
 
           { values.fieldType === 'BooleanField' ? (
             <View style={styles.booleanFieldInput}>
@@ -155,6 +251,27 @@ const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
               value={values.defaultValue as string}
             />
           ) : null)}
+
+          {
+            values.fieldType === 'ArrayField' ? (
+              <View>
+                <Text>{ JSON.stringify(values.availableFields) }</Text>
+                <CreateArrayField updateField={(field) => {
+                // eslint-disable-next-line no-param-reassign
+                  handleChange('availableFields')(JSON.stringify([
+                    ...JSON.parse(values.availableFields).filter((a) => {
+                      const f = Object.values(a)[0] as {readonly name: string}
+                      const f2 = Object.values(field)[0] as {readonly name: string}
+                      console.log({ f, f2 })
+                      return f.name !== f2.name
+                    }),
+                    field,
+                  ]))
+                }}
+                />
+              </View>
+            ) : null
+          }
 
           <View style={{ padding: 8 }}>
             { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{errors[key]}</Text>) }

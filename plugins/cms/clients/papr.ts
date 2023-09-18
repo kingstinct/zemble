@@ -78,7 +78,7 @@ const AllFields = types.oneOf([
     isRequired: types.boolean({ required: true }),
     isRequiredInput: types.boolean({ required: true }),
     defaultValue: types.oneOf([
-      types.null({ required: false }), 
+      types.null({ required: false }),
       types.number({ required: false }),
     ]),
     max: types.number({ required: false }),
@@ -90,7 +90,7 @@ const AllFields = types.oneOf([
     isRequired: types.boolean({ required: true }),
     isRequiredInput: types.boolean({ required: true }),
     defaultValue: types.oneOf([
-      types.null({ required: false }), 
+      types.null({ required: false }),
       types.boolean({ required: false }),
     ]),
     __typename: types.constant('BooleanField' as const, { required: true }),
@@ -102,9 +102,9 @@ const AllFields = types.oneOf([
     maxLength: types.number({ required: false }),
     minLength: types.number({ required: false }),
     defaultValue: types.oneOf([
-      types.null({ required: false }), 
-      types.string({ required: false })
-    ]) ,
+      types.null({ required: false }),
+      types.string({ required: false }),
+    ]),
     __typename: types.constant('StringField' as const, { required: true }),
   }),
   ArrayFieldObject,
