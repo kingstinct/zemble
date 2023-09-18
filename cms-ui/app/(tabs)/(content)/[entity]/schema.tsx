@@ -8,6 +8,7 @@ import { useQuery } from 'urql'
 
 import { GetEntityByPluralizedNameQuery } from '.'
 import CreateField from '../../../../components/createEntityField'
+import { styles } from '../../../../style'
 
 const EntityDetails = () => {
   const { entity, create } = useLocalSearchParams()
@@ -37,6 +38,7 @@ const EntityDetails = () => {
         onClose={() => router.setParams({ create: 'false' })}
         enablePanDownToClose
         onChange={(i) => setIndex(i)}
+        backgroundStyle={styles.bottomSheetBackground}
       >
         { data?.getEntityByPluralizedName ? (
           <CreateField

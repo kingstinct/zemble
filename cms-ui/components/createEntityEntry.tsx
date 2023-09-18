@@ -2,9 +2,9 @@
 
 import { useBottomSheet } from '@gorhom/bottom-sheet'
 import { Formik } from 'formik'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
-  View, Text, Button, TextInput, Switch, StyleSheet,
+  View, Text, Button, TextInput, Switch,
 } from 'react-native'
 import { useMutation } from 'urql'
 
@@ -45,9 +45,11 @@ const buildCreateEntryMutation = (entity: Entity) => {
 
 const CreateEntry: React.FC<{
   readonly entity: Entity,
+  readonly previousEntry?: Record<string, unknown> | null,
   readonly onUpdated?: () => void,
 }> = ({
   entity,
+  previousEntry,
   onUpdated,
 }) => {
   const { fields } = entity
@@ -56,13 +58,13 @@ const CreateEntry: React.FC<{
 
   const [, createEntry] = useMutation(useMemo(() => buildCreateEntryMutation(entity), [entity]))
 
-  const defaults = fields.reduce((acc, field) => {
+  const defaults = useMemo(() => previousEntry ?? fields.reduce((acc, field) => {
     // eslint-disable-next-line no-nested-ternary, functional/immutable-data, unicorn/no-nested-ternary
-    acc[field.name as unknown as string] = (field.__typename === 'BooleanField' ? field.defaultValueBoolean : field.__typename === 'NumberField' ? field.defaultValueNumber : field.__typename === 'StringField' ? field.defaultValueString : '') ?? ''
+    acc[field.name as unknown as string] = previousEntry ?? (field.__typename === 'BooleanField' ? field.defaultValueBoolean : field.__typename === 'NumberField' ? field.defaultValueNumber : field.__typename === 'StringField' ? field.defaultValueString : '') ?? ''
     return acc
-  }, {} as Record<string, unknown>)
+  }, {} as Record<string, unknown>), [fields, previousEntry])
 
-  const validate = (values) => {
+  const validate = useCallback((values) => {
     const errors = fields.reduce((acc, field) => {
       const value = values[field.name]
       if (field.isRequiredInput && (value === undefined || value === '') && field.name !== '_id') {
@@ -72,15 +74,14 @@ const CreateEntry: React.FC<{
       return acc
     }, {})
 
-    console.log({ errors })
-
     return errors
-  }
+  }, [fields])
 
   return (
     <Formik
       initialValues={defaults}
       validate={validate}
+      enableReinitialize
       onSubmit={async (values, actions) => {
         const mappedValues = fields.reduce((acc, field) => {
           if (field.__typename === 'BooleanField' && values[field.name] !== undefined && values[field.name] !== '') {
@@ -101,7 +102,7 @@ const CreateEntry: React.FC<{
         handleChange, handleBlur, handleSubmit, values, errors,
       }) => (
         <View>
-          <Text style={styles.title}>{ `Create ${entity.name}` }</Text>
+          <Text style={styles.title}>{`${previousEntry ? 'Edit' : 'Create'} ${entity.name}` }</Text>
           {
             entity.fields.map((field) => {
               if (field.__typename === 'IDField' && values[field.name]) {
@@ -109,6 +110,7 @@ const CreateEntry: React.FC<{
                   <Text
                     key={field.name}
                     accessibilityHint={field.name}
+                    style={{ padding: 8, margin: 8 }}
                     accessibilityLabel={field.name}
                   >
                     {`ID: ${values[field.name]}` as string}
