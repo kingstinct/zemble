@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { Content } from './clients/papr'
-import { AddFieldsToEntityMutation } from './graphql/Mutation/addFieldsToEntity.test'
-import { CreateEntityMutation } from './graphql/Mutation/createEntity.test'
-import plugin from './plugin'
+import { Content } from '../clients/papr'
+import { AddFieldsToEntityMutation } from '../graphql/Mutation/addFieldsToEntity.test'
+import { CreateEntityMutation } from '../graphql/Mutation/createEntity.test'
+import plugin from '../plugin'
 
 // todo: add tests for default value handling
 
@@ -135,6 +135,31 @@ describe('createEntity', () => {
     ])
   })
 
+  test('should get books by id', async () => {
+    const createBookReq = await app.gqlRequestUntyped<{
+      readonly createBook: {readonly id: string}
+    }, unknown>('mutation { createBook(title: "Lord of the rings") { id } }', {}, opts)
+
+    const silmarillionCreateBookReq = await app.gqlRequestUntyped<{
+      readonly createBook: {readonly id: string}
+    }, unknown>('mutation { createBook(title: "Simarillion") { id } }', {}, opts)
+
+    const { data } = await app.gqlRequestUntyped<{
+      readonly getBooksById: readonly unknown[]
+    }, unknown>(`query GetBooksById($ids: [ID!]!) { getBooksById(ids: $ids) { title } }`, {
+      ids: [createBookReq.data?.createBook?.id, silmarillionCreateBookReq.data?.createBook?.id],
+    }, opts)
+
+    expect(data?.getBooksById).toEqual([
+      {
+        title: 'Lord of the rings',
+      },
+      {
+        title: 'Simarillion',
+      },
+    ])
+  })
+
   test('should create a book with authors', async () => {
     type CreateAuthorMutationType = {
       readonly createAuthor: {
@@ -249,6 +274,24 @@ describe('createEntity', () => {
 
     expect(results.data).toEqual({
       searchBooks: [
+        {
+          title: 'Lord of the rings',
+        },
+      ],
+    })
+  })
+
+  test('should filter on title field', async () => {
+    await app.gqlRequestUntyped<{
+      readonly books: readonly unknown[]
+    }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+
+    const results = await app.gqlRequestUntyped<{
+      readonly filterBooks: readonly unknown[]
+    }, unknown>('query { filterBooks(title: { eq: "Lord of the rings" }) { title } }', {}, opts)
+
+    expect(results.data).toEqual({
+      filterBooks: [
         {
           title: 'Lord of the rings',
         },

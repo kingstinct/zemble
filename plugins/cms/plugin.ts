@@ -6,7 +6,7 @@ import auth from 'readapt-plugin-auth'
 import kvPlugin from 'readapt-plugin-kv'
 
 import { connect } from './clients/papr'
-import getDynamicSchema from './getDynamicSchema'
+import createDynamicSchema from './dynamicSchema/createDynamicSchema'
 
 import type { DependenciesResolver } from '@readapt/core'
 
@@ -23,7 +23,7 @@ const plugin = new Plugin(__dirname, {
     const deps: DependenciesResolver<readonly Readapt.GlobalConfig[]> = [
       {
         plugin: graphqlYoga.configure({
-          extendSchema: async () => Promise.all([getDynamicSchema()]),
+          extendSchema: async () => Promise.all([createDynamicSchema()]),
           yoga: {
             plugins: [
               useExtendedValidation({
