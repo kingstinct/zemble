@@ -2,6 +2,8 @@ import readaptContext from '@readapt/core/readaptContext'
 import { MongoClient } from 'mongodb'
 import Papr, { VALIDATION_LEVEL, schema, types } from 'papr'
 
+import type { Db } from 'mongodb'
+
 let clientInternal: MongoClient | undefined
 
 let clientInternalPromise: Promise<MongoClient>
@@ -9,6 +11,9 @@ let clientInternalPromise: Promise<MongoClient>
 export const getClient = async () => clientInternalPromise
 
 const papr = new Papr()
+
+let db: Db
+export const getDb = () => db
 
 export async function connect(mongoUrl = process.env.MONGO_URL) {
   if (!mongoUrl) throw new Error('MONGO_URL not set')
@@ -20,7 +25,7 @@ export async function connect(mongoUrl = process.env.MONGO_URL) {
 
   readaptContext.logger.log('Connected to MongoDB!')
 
-  const db = clientInternal.db()
+  db = clientInternal.db()
 
   papr.initialize(db)
 
@@ -99,6 +104,7 @@ const AllFields = types.oneOf([
     name: types.string({ required: true }),
     isRequired: types.boolean({ required: true }),
     isRequiredInput: types.boolean({ required: true }),
+    isSearchable: types.boolean({ required: true }),
     maxLength: types.number({ required: false }),
     minLength: types.number({ required: false }),
     defaultValue: types.oneOf([

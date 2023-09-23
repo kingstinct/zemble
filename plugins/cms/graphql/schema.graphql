@@ -53,6 +53,7 @@ input StringFieldInput {
   maxLength: Int
   minLength: Int
   defaultValue: String
+  isSearchable: Boolean
 }
 
 input NumberFieldInput {
@@ -101,6 +102,7 @@ type StringField implements Field {
   maxLength: Int
   minLength: Int
   defaultValue: String
+  isSearchable: Boolean!
 }
 
 type IDField implements Field {

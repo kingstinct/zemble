@@ -79,6 +79,7 @@ describe('addFieldsToEntity', () => {
             __typename: 'StringField',
             isRequired: true,
             isRequiredInput: false,
+            isSearchable: false,
             name: 'title',
           },
         },

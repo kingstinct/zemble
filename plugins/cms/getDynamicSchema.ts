@@ -221,7 +221,7 @@ export default async () => {
         return ({
           ...prev,
           [field.name]: {
-            type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
+            type: field.isRequiredInput ? new GraphQLNonNull(baseType) : baseType,
             resolve: async (parent: { readonly externalId: string }) => {
               const id = parent.externalId
               const resolved = await getById.load(id)
@@ -252,7 +252,7 @@ export default async () => {
         return ({
           ...prev,
           [field.name]: {
-            type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
+            type: field.isRequiredInput ? new GraphQLNonNull(baseType) : baseType,
             resolve: (props: { readonly _id: ObjectId } & Record<string, unknown>) => (
               field.name === 'id'
                 ? props._id.toHexString()
@@ -282,6 +282,29 @@ export default async () => {
       resolve: async () => Content.find({ entityType: entity.name }),
     }
 
+    const search: GraphQLFieldConfig<unknown, unknown, {
+      readonly query: string,
+      readonly caseSensitive?: boolean,
+      readonly diacriticSensitive?: boolean,
+      readonly language?: string,
+    }> = { // "books"
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
+      args: {
+        query: { type: new GraphQLNonNull(GraphQLString) },
+        caseSensitive: { type: GraphQLBoolean },
+        diacriticSensitive: { type: GraphQLBoolean },
+        language: { type: GraphQLString },
+      },
+      resolve: async (_, {
+        query, caseSensitive, diacriticSensitive, language,
+      }) => Content.find({
+        entityType: entity.name,
+        $text: {
+          $search: query, $caseSensitive: caseSensitive ?? false, $diacriticSensitive: diacriticSensitive ?? false, $language: language,
+        },
+      }),
+    }
+
     const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly id: string }> = {
       type: obj,
       args: Object.values(entity.fields).reduce((prev, field) => {
@@ -290,7 +313,7 @@ export default async () => {
         return ({
           ...prev,
           [field.name]: {
-            type: field.isRequired && field.__typename !== 'IDField' ? new GraphQLNonNull(baseType) : baseType,
+            type: field.isRequiredInput && field.__typename !== 'IDField' ? new GraphQLNonNull(baseType) : baseType,
           },
         })
       }, {}),
@@ -337,6 +360,7 @@ export default async () => {
       query: {
         ...prev.query,
         [`getAll${capitalize(entity.pluralizedName)}`]: getAll,
+        [`search${capitalize(entity.pluralizedName)}`]: search,
         [`get${capitalize(entity.name)}ById`]: getById,
       },
       types: [...prev.types],

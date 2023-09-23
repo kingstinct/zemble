@@ -38,6 +38,22 @@ describe('createEntity', () => {
           StringField: {
             name: 'title',
             isRequired: true,
+            isSearchable: true,
+          },
+        },
+        {
+          StringField: {
+            name: 'description',
+            isRequired: false,
+            isSearchable: true,
+          },
+        },
+        {
+          BooleanField: {
+            name: 'hasKindleVersion',
+            isRequiredInput: false,
+            isRequired: true,
+            defaultValue: true,
           },
         },
         {
@@ -220,5 +236,42 @@ describe('createEntity', () => {
         updatedAt: expect.any(Date),
       },
     ])
+  })
+
+  test('should search title field', async () => {
+    await app.gqlRequestUntyped<{
+      readonly books: readonly unknown[]
+    }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+
+    const results = await app.gqlRequestUntyped<{
+      readonly searchBooks: readonly unknown[]
+    }, unknown>('query { searchBooks(query: "Lord of") { title } }', {}, opts)
+
+    expect(results.data).toEqual({
+      searchBooks: [
+        {
+          title: 'Lord of the rings',
+        },
+      ],
+    })
+  })
+
+  test('should get default hasKindleVersion', async () => {
+    await app.gqlRequestUntyped<{
+      readonly books: readonly unknown[]
+    }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+
+    const results = await app.gqlRequestUntyped<{
+      readonly searchBooks: readonly unknown[]
+    }, unknown>('query { searchBooks(query: "Lord of") { title hasKindleVersion } }', {}, opts)
+
+    expect(results.data).toEqual({
+      searchBooks: [
+        {
+          title: 'Lord of the rings',
+          hasKindleVersion: true,
+        },
+      ],
+    })
   })
 })

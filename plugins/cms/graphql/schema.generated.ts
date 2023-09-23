@@ -206,6 +206,7 @@ export type StringField = Field & {
   readonly defaultValue?: Maybe<Scalars['String']['output']>;
   readonly isRequired: Scalars['Boolean']['output'];
   readonly isRequiredInput: Scalars['Boolean']['output'];
+  readonly isSearchable: Scalars['Boolean']['output'];
   readonly maxLength?: Maybe<Scalars['Int']['output']>;
   readonly minLength?: Maybe<Scalars['Int']['output']>;
   readonly name: Scalars['String']['output'];
@@ -215,6 +216,7 @@ export type StringFieldInput = {
   readonly defaultValue?: InputMaybe<Scalars['String']['input']>;
   readonly isRequired?: InputMaybe<Scalars['Boolean']['input']>;
   readonly isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
+  readonly isSearchable?: InputMaybe<Scalars['Boolean']['input']>;
   readonly maxLength?: InputMaybe<Scalars['Int']['input']>;
   readonly minLength?: InputMaybe<Scalars['Int']['input']>;
   readonly name: Scalars['String']['input'];
@@ -471,6 +473,7 @@ export type StringFieldResolvers<ContextType = Readapt.GraphQLContext, ParentTyp
   defaultValue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isSearchable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   maxLength?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   minLength?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

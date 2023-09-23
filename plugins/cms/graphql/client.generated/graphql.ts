@@ -209,6 +209,7 @@ export type StringField = Field & {
   defaultValue?: Maybe<Scalars['String']['output']>;
   isRequired: Scalars['Boolean']['output'];
   isRequiredInput: Scalars['Boolean']['output'];
+  isSearchable: Scalars['Boolean']['output'];
   maxLength?: Maybe<Scalars['Int']['output']>;
   minLength?: Maybe<Scalars['Int']['output']>;
   name: Scalars['String']['output'];
@@ -218,6 +219,7 @@ export type StringFieldInput = {
   defaultValue?: InputMaybe<Scalars['String']['input']>;
   isRequired?: InputMaybe<Scalars['Boolean']['input']>;
   isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
+  isSearchable?: InputMaybe<Scalars['Boolean']['input']>;
   maxLength?: InputMaybe<Scalars['Int']['input']>;
   minLength?: InputMaybe<Scalars['Int']['input']>;
   name: Scalars['String']['input'];

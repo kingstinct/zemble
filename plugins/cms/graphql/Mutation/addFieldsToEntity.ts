@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-import { Content, Entities } from '../../clients/papr'
+import { Content, Entities, getDb } from '../../clients/papr'
 
 import type { EntitySchema } from '../../clients/papr'
 import type {
@@ -27,6 +27,9 @@ const mapInputToField = (input: FieldInput): Field => {
     isRequiredInput: fieldConfig.isRequiredInput ?? false,
     ...input.ArrayField ? {
       availableFields: input.ArrayField.availableFields.map(mapInputToField),
+    } : {},
+    ...input.StringField ? {
+      isSearchable: fieldConfig.isSearchable ?? false,
     } : {},
   }
 }
@@ -79,6 +82,26 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   if (!prev) {
     throw new GraphQLError(`Entity with name ${entityName} not found`)
+  }
+
+  const searchableFields = Object.values(prev.fields).filter((field) => 'isSearchable' in field && field.isSearchable)
+
+  const db = getDb()
+  const collection = db.collection('content')
+  const hasIndex = await collection.indexExists(`search_index`)
+
+  // seems to fail to add in tests if dropping index?
+  if (hasIndex && process.env.NODE_ENV !== 'test') {
+    await collection.dropIndex(`search_index`)
+  }
+  if (searchableFields.length > 0) {
+    const index = searchableFields.reduce((acc, field) => ({
+      ...acc,
+      [field.name]: 'text',
+    }), {})
+    await collection.createIndex(index, {
+      name: 'search_index',
+    })
   }
 
   pubsub.publish('reload-schema', {})
