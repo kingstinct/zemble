@@ -1,5 +1,5 @@
 import BottomSheet from '@gorhom/bottom-sheet'
-import { router, useLocalSearchParams } from 'expo-router'
+import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import {
   View, ScrollView, Button,
@@ -42,11 +42,12 @@ export const GetEntityByPluralizedNameQuery = graphql(`
 `)
 
 const EntityDetails = () => {
-  const { entity, create } = useLocalSearchParams()
+  const { entity, create } = useGlobalSearchParams()
 
   const [{ data }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
     variables: { pluralizedName: entity },
+    pause: !entity,
   })
 
   const [index, setIndex] = useState(-1)

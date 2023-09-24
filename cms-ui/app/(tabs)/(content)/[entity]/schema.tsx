@@ -16,6 +16,7 @@ const EntityDetails = () => {
   const [{ data }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
     variables: { pluralizedName: entity },
+    pause: !entity,
   })
 
   const [index, setIndex] = useState(-1)

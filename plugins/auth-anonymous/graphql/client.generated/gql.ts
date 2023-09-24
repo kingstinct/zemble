@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 /* eslint-disable */
 import * as types from './graphql';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';

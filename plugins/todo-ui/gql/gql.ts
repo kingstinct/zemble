@@ -15,7 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "\n  mutation CreateTodo($title: String!) {\n    createTodo(title: $title) {\n      id\n      title\n      completed\n    }\n  }\n": types.CreateTodoDocument,
     "\n  query AllTodos {\n    todos {\n      id\n      title\n      completed\n    }\n  }\n": types.AllTodosDocument,
-    "\n  mutation CompleteTodo($token: String!, $completed: Boolean!, $id: ID!) {\n    updateTodoStatus(completed: $completed, id: $id) {\n      id\n      title\n      completed\n    }\n  }\n": types.CompleteTodoDocument,
+    "\n  mutation CompleteTodo($completed: Boolean!, $id: ID!) {\n    updateTodoStatus(completed: $completed, id: $id) {\n      id\n      title\n      completed\n    }\n  }\n": types.CompleteTodoDocument,
 };
 
 /**
@@ -43,7 +43,7 @@ export function graphql(source: "\n  query AllTodos {\n    todos {\n      id\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CompleteTodo($token: String!, $completed: Boolean!, $id: ID!) {\n    updateTodoStatus(completed: $completed, id: $id) {\n      id\n      title\n      completed\n    }\n  }\n"): (typeof documents)["\n  mutation CompleteTodo($token: String!, $completed: Boolean!, $id: ID!) {\n    updateTodoStatus(completed: $completed, id: $id) {\n      id\n      title\n      completed\n    }\n  }\n"];
+export function graphql(source: "\n  mutation CompleteTodo($completed: Boolean!, $id: ID!) {\n    updateTodoStatus(completed: $completed, id: $id) {\n      id\n      title\n      completed\n    }\n  }\n"): (typeof documents)["\n  mutation CompleteTodo($completed: Boolean!, $id: ID!) {\n    updateTodoStatus(completed: $completed, id: $id) {\n      id\n      title\n      completed\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

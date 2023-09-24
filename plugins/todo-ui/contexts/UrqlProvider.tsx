@@ -1,5 +1,5 @@
+import AuthContext from 'plugins/auth-expo/contexts/Auth'
 import { useContext, useMemo } from 'react'
-import AuthContext from 'readapt-plugin-auth-expo/contexts/Auth'
 import {
   Provider, fetchExchange, createClient,
 } from 'urql'

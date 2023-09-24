@@ -6,6 +6,7 @@ import { useMutation, useQuery } from 'urql'
 
 import { GetEntitiesQuery } from '.'
 import { graphql } from '../../../gql'
+import { capitalize } from '../../../utils/text'
 
 const CreateEntityMutation = graphql(`
 mutation CreateEntity($name: String!, $pluralizedName: String!) {
@@ -14,6 +15,12 @@ mutation CreateEntity($name: String!, $pluralizedName: String!) {
   }
 }
 `)
+
+// eslint-disable-next-line camelcase
+export const unstable_settings = {
+  // Ensure any route can link back to `/`
+  initialRouteName: 'index',
+}
 
 const EntitiesLayout = () => {
   const [, createEntityMutation] = useMutation(CreateEntityMutation)
@@ -61,6 +68,18 @@ const EntitiesLayout = () => {
         options={{
           headerShown: false,
         }}
+      />
+      <Stack.Screen
+        name='[entity]/index'
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        options={({ route }) => ({ title: route.params?.entity ? capitalize(route.params.entity) : null })}
+      />
+      <Stack.Screen
+        name='[entity]/schema'
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        options={({ route }) => ({ title: route.params?.entity ? `${capitalize(route.params.entity)} Schema` : null })}
       />
     </Stack>
   )

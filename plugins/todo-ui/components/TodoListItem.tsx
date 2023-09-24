@@ -6,7 +6,7 @@ import { graphql } from '../gql'
 import type { AllTodosQuery } from '../gql/graphql'
 
 const CompleteTodo = graphql(/* GraphQL */ `
-  mutation CompleteTodo($token: String!, $completed: Boolean!, $id: ID!) {
+  mutation CompleteTodo($completed: Boolean!, $id: ID!) {
     updateTodoStatus(completed: $completed, id: $id) {
       id
       title
