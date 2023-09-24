@@ -1,5 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Stack, router } from 'expo-router'
+import {
+  Stack, router, useGlobalSearchParams,
+} from 'expo-router'
 import { useCallback } from 'react'
 import { Pressable } from 'react-native'
 import { useMutation, useQuery } from 'urql'
@@ -23,6 +25,7 @@ export const unstable_settings = {
 }
 
 const EntitiesLayout = () => {
+  const { entity } = useGlobalSearchParams()
   const [, createEntityMutation] = useMutation(CreateEntityMutation)
 
   const [, refetch] = useQuery({ query: GetEntitiesQuery, pause: true })
@@ -35,6 +38,8 @@ const EntitiesLayout = () => {
       refetch()
     }
   }, [createEntityMutation, refetch])
+
+  const onPressHeaderRightDetailsView = useCallback(() => router.setParams({ create: 'true' }), [])
 
   return (
     <Stack
@@ -49,10 +54,10 @@ const EntitiesLayout = () => {
               size={24}
               style={{ marginRight: 16 }}
               color={tintColor}
-              onPress={onAddEntity}
+              onPress={entity ? onPressHeaderRightDetailsView : onAddEntity}
             />
           </Pressable>
-        ), [onAddEntity]),
+        ), [onAddEntity, onPressHeaderRightDetailsView, entity]),
       }}
     >
       <Stack.Screen
