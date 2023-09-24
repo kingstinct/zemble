@@ -8,13 +8,13 @@ import type { MutationResolvers } from '../schema.generated'
 
 const { API_KEY_SECRET } = plugin.config
 
-const generateAPIKey: MutationResolvers['generateAPIKey'] = (_: unknown, { expiresInSeconds, apiKeySecret }) => {
+const generateAPIKey: MutationResolvers['generateAPIKey'] = async (_: unknown, { expiresInSeconds, apiKeySecret }) => {
   if (apiKeySecret !== API_KEY_SECRET) {
     throw new GraphQLError('Invalid apiKeySecret')
   }
 
   return {
-    apiKey: signJwt({
+    apiKey: await signJwt({
       data: { isAPIKey: true },
       expiresInSeconds: expiresInSeconds ?? undefined,
     }),

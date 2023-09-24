@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'bun:test'
+
 import plugin from '../../plugin'
 import { signJwt } from '../../utils/signJwt'
 import { graphql } from '../client.generated'

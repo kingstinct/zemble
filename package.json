@@ -7,7 +7,7 @@
     "test-recursive": "pnpm recursive --filter=!*cms* --filter=!*cms-users* run test",
     "lint": "manypkg exec bun run lint",
     "lint-quiet": "manypkg exec bun run lint --quiet",
-    "typecheck": "manypkg exec typecheck",
+    "typecheck": "pnpm recursive run typecheck",
     "graphql-codegen": "manypkg exec graphql-codegen",
     "prepare": "husky install",
     "pre-push": "concurrently \"pnpm lint-quiet\" \"pnpm typecheck\" \"pnpm test-recursive\""

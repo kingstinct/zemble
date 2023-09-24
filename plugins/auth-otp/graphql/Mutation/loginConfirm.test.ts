@@ -1,3 +1,7 @@
+import {
+  describe, beforeEach, it, expect,
+} from 'bun:test'
+
 import { LoginRequestMutation } from './loginRequest.test'
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'

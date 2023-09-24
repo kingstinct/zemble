@@ -3,7 +3,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "types": [ "bun-types" ]
   },
   "exclude": [ "graphql/client.generated/*.ts" ]
 }

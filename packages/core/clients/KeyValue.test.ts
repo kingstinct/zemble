@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'bun:test'
+
 import KeyValue from './KeyValue'
 
 describe('KeyValue', () => {

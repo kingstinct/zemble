@@ -1,3 +1,7 @@
+import {
+  describe, it, expect,
+} from 'bun:test'
+
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
