@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "module": "CommonJS",
     "noUncheckedIndexedAccess": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noImplicitAny": false
   }
 }

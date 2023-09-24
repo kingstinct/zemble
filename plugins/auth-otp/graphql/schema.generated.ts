@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { TokenContents } from '@readapt/core/types';
 export type Maybe<T> = T | null;

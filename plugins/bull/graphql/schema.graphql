@@ -1,13 +1,7 @@
 scalar JSON
 scalar DateTime
 
-type Todo {
-  id: ID!
-  title: String!
-  completed: Boolean!
-}
-
-type Job {
+type BullJob {
   name: String!
   data: JSON!
   id: ID
@@ -27,7 +21,7 @@ enum JobState {
   waiting_children
 }
 
-type Queue {
+type BullQueue {
   name: String!
   count: Int!
   completedCount: Int!
@@ -42,7 +36,7 @@ type Queue {
     start: Int
     end: Int
     asc: Boolean
-  ): [Job!]!
+  ): [BullJob!]!
 }
 
 enum JobType {
@@ -59,13 +53,13 @@ enum JobType {
 }
 
 type Query {
-  queues: [Queue!]!
+  queues: [BullQueue!]!
 }
 
 type Mutation {
-  addJob(queue: String!): Job!
+  addJob(queue: String!): BullJob!
 }
 
 type Subscription {
-  jobUpdated: Job!
+  jobUpdated: BullJob!
 }

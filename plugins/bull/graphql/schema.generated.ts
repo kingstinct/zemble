@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { Job, Queue } from 'bullmq';
@@ -21,8 +20,8 @@ export type Scalars = {
   JSON: { input: any; output: any; }
 };
 
-export type Job = {
-  readonly __typename?: 'Job';
+export type BullJob = {
+  readonly __typename?: 'BullJob';
   readonly data: Scalars['JSON']['output'];
   readonly delay?: Maybe<Scalars['Int']['output']>;
   readonly id?: Maybe<Scalars['ID']['output']>;
@@ -30,6 +29,28 @@ export type Job = {
   readonly progress?: Maybe<Scalars['Float']['output']>;
   readonly state: JobState;
   readonly timestamp: Scalars['Int']['output'];
+};
+
+export type BullQueue = {
+  readonly __typename?: 'BullQueue';
+  readonly activeCount: Scalars['Int']['output'];
+  readonly completedCount: Scalars['Int']['output'];
+  readonly count: Scalars['Int']['output'];
+  readonly delayedCount: Scalars['Int']['output'];
+  readonly failedCount: Scalars['Int']['output'];
+  readonly isPaused: Scalars['Boolean']['output'];
+  readonly jobs: ReadonlyArray<BullJob>;
+  readonly name: Scalars['String']['output'];
+  readonly waitingChildrenCount: Scalars['Int']['output'];
+  readonly waitingCount: Scalars['Int']['output'];
+};
+
+
+export type BullQueueJobsArgs = {
+  asc?: InputMaybe<Scalars['Boolean']['input']>;
+  end?: InputMaybe<Scalars['Int']['input']>;
+  start?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<ReadonlyArray<JobType>>;
 };
 
 export enum JobState {
@@ -57,7 +78,7 @@ export enum JobType {
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
-  readonly addJob: Job;
+  readonly addJob: BullJob;
 };
 
 
@@ -67,41 +88,12 @@ export type MutationAddJobArgs = {
 
 export type Query = {
   readonly __typename?: 'Query';
-  readonly queues: ReadonlyArray<Queue>;
-};
-
-export type Queue = {
-  readonly __typename?: 'Queue';
-  readonly activeCount: Scalars['Int']['output'];
-  readonly completedCount: Scalars['Int']['output'];
-  readonly count: Scalars['Int']['output'];
-  readonly delayedCount: Scalars['Int']['output'];
-  readonly failedCount: Scalars['Int']['output'];
-  readonly isPaused: Scalars['Boolean']['output'];
-  readonly jobs: ReadonlyArray<Job>;
-  readonly name: Scalars['String']['output'];
-  readonly waitingChildrenCount: Scalars['Int']['output'];
-  readonly waitingCount: Scalars['Int']['output'];
-};
-
-
-export type QueueJobsArgs = {
-  asc?: InputMaybe<Scalars['Boolean']['input']>;
-  end?: InputMaybe<Scalars['Int']['input']>;
-  start?: InputMaybe<Scalars['Int']['input']>;
-  type?: InputMaybe<ReadonlyArray<JobType>>;
+  readonly queues: ReadonlyArray<BullQueue>;
 };
 
 export type Subscription = {
   readonly __typename?: 'Subscription';
-  readonly jobUpdated: Job;
-};
-
-export type Todo = {
-  readonly __typename?: 'Todo';
-  readonly completed: Scalars['Boolean']['output'];
-  readonly id: Scalars['ID']['output'];
-  readonly title: Scalars['String']['output'];
+  readonly jobUpdated: BullJob;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -177,48 +169,38 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  BullJob: ResolverTypeWrapper<Job>;
+  BullQueue: ResolverTypeWrapper<Queue>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
-  Job: ResolverTypeWrapper<Job>;
   JobState: JobState;
   JobType: JobType;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  Queue: ResolverTypeWrapper<Queue>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Subscription: ResolverTypeWrapper<{}>;
-  Todo: ResolverTypeWrapper<Todo>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
+  BullJob: Job;
+  BullQueue: Queue;
   DateTime: Scalars['DateTime']['output'];
   Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   JSON: Scalars['JSON']['output'];
-  Job: Job;
   Mutation: {};
   Query: {};
-  Queue: Queue;
   String: Scalars['String']['output'];
   Subscription: {};
-  Todo: Todo;
 }>;
 
-export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
-  name: 'DateTime';
-}
-
-export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
-  name: 'JSON';
-}
-
-export type JobResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Job'] = ResolversParentTypes['Job']> = ResolversObject<{
+export type BullJobResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['BullJob'] = ResolversParentTypes['BullJob']> = ResolversObject<{
   data?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   delay?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -229,47 +211,47 @@ export type JobResolvers<ContextType = Readapt.GraphQLContext, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addJob?: Resolver<ResolversTypes['Job'], ParentType, ContextType, RequireFields<MutationAddJobArgs, 'queue'>>;
-}>;
-
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  queues?: Resolver<ReadonlyArray<ResolversTypes['Queue']>, ParentType, ContextType>;
-}>;
-
-export type QueueResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Queue'] = ResolversParentTypes['Queue']> = ResolversObject<{
+export type BullQueueResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['BullQueue'] = ResolversParentTypes['BullQueue']> = ResolversObject<{
   activeCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   delayedCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   failedCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   isPaused?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  jobs?: Resolver<ReadonlyArray<ResolversTypes['Job']>, ParentType, ContextType, Partial<QueueJobsArgs>>;
+  jobs?: Resolver<ReadonlyArray<ResolversTypes['BullJob']>, ParentType, ContextType, Partial<BullQueueJobsArgs>>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   waitingChildrenCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   waitingCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type SubscriptionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
-  jobUpdated?: SubscriptionResolver<ResolversTypes['Job'], "jobUpdated", ParentType, ContextType>;
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
+
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
+export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  addJob?: Resolver<ResolversTypes['BullJob'], ParentType, ContextType, RequireFields<MutationAddJobArgs, 'queue'>>;
 }>;
 
-export type TodoResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = ResolversObject<{
-  completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  queues?: Resolver<ReadonlyArray<ResolversTypes['BullQueue']>, ParentType, ContextType>;
+}>;
+
+export type SubscriptionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+  jobUpdated?: SubscriptionResolver<ResolversTypes['BullJob'], "jobUpdated", ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+  BullJob?: BullJobResolvers<ContextType>;
+  BullQueue?: BullQueueResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   JSON?: GraphQLScalarType;
-  Job?: JobResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  Queue?: QueueResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
-  Todo?: TodoResolvers<ContextType>;
 }>;
 

@@ -59,7 +59,6 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
         ],
       }), {}))
 
-      // @ts-expect-error fix sometime
       const fieldsFailingValidation = fieldsRequiringValidation.filter((fieldName) => failingDocs.some((doc) => !doc[fieldName] && doc[fieldName] !== false))
 
       if (failingDocs.length > 0) {

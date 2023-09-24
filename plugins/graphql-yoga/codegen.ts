@@ -10,18 +10,17 @@ const config = {
         contextType: 'Readapt.GraphQLContext',
         immutableTypes: true,
         directiveContextTypes: ['auth#Readapt.AuthContextWithToken'],
+        showUnusedMappers: true,
       },
       plugins: [
-        'typescript',
-        'typescript-resolvers',
         {
           add: {
             placement: 'prepend',
-            content: `
-              /* eslint-disable */
-              // @ts-nocheck`,
+            content: `// @ts-nocheck`,
           },
         },
+        'typescript',
+        'typescript-resolvers',
       ],
     },
     [`./graphql/client.generated/`]: {
@@ -37,8 +36,7 @@ const config = {
         {
           add: {
             placement: 'prepend',
-            content: `/* eslint-disable */
-            // @ts-nocheck`,
+            content: `// @ts-nocheck`,
           },
         },
       ],

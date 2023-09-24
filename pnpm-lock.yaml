@@ -670,6 +670,15 @@ importers:
         specifier: workspace:^
         version: link:../kv
     devDependencies:
+      '@graphql-codegen/add':
+        specifier: ^5.0.0
+        version: registry.npmjs.org/@graphql-codegen/add@5.0.0(graphql@16.8.0)
+      '@graphql-codegen/cli':
+        specifier: ^5.0.0
+        version: registry.npmjs.org/@graphql-codegen/cli@5.0.0(graphql@16.8.0)
+      '@graphql-codegen/client-preset':
+        specifier: ^4.1.0
+        version: registry.npmjs.org/@graphql-codegen/client-preset@4.1.0(graphql@16.8.0)
       '@tsconfig/node20':
         specifier: ^20.1.1
         version: registry.npmjs.org/@tsconfig/node20@20.1.1
@@ -6882,9 +6891,9 @@ packages:
       '@parcel/watcher':
         optional: true
     dependencies:
-      '@babel/generator': registry.npmjs.org/@babel/generator@7.22.10
-      '@babel/template': registry.npmjs.org/@babel/template@7.22.5
-      '@babel/types': registry.npmjs.org/@babel/types@7.22.10
+      '@babel/generator': registry.npmjs.org/@babel/generator@7.22.15
+      '@babel/template': registry.npmjs.org/@babel/template@7.22.15
+      '@babel/types': registry.npmjs.org/@babel/types@7.22.19
       '@graphql-codegen/core': registry.npmjs.org/@graphql-codegen/core@4.0.0(graphql@16.8.0)
       '@graphql-codegen/plugin-helpers': registry.npmjs.org/@graphql-codegen/plugin-helpers@5.0.1(graphql@16.8.0)
       '@graphql-tools/apollo-engine-loader': registry.npmjs.org/@graphql-tools/apollo-engine-loader@8.0.0(graphql@16.8.0)
@@ -6936,7 +6945,7 @@ packages:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils@7.22.5
-      '@babel/template': registry.npmjs.org/@babel/template@7.22.5
+      '@babel/template': registry.npmjs.org/@babel/template@7.22.15
       '@graphql-codegen/add': registry.npmjs.org/@graphql-codegen/add@5.0.0(graphql@16.8.0)
       '@graphql-codegen/gql-tag-operations': registry.npmjs.org/@graphql-codegen/gql-tag-operations@4.0.1(graphql@16.8.0)
       '@graphql-codegen/plugin-helpers': registry.npmjs.org/@graphql-codegen/plugin-helpers@5.0.1(graphql@16.8.0)

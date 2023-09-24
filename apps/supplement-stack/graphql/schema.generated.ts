@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { EatableDbType, SupplementIntakeDbType } from '../models';
 export type Maybe<T> = T | null;

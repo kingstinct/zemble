@@ -88,7 +88,7 @@ declare global {
 
     // Extend the TokenRegistry for the new type
     interface TokenRegistry {
-      readonly UnknownToken: Record<string, unknown>
+      // readonly UnknownToken: Record<string, unknown>
     }
 
     interface DecodedTokenBase {
