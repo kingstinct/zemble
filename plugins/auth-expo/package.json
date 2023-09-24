@@ -7,7 +7,6 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
@@ -16,7 +15,8 @@
     "@react-native-async-storage/async-storage": "1.18.2",
     "expo": "~49.0.7",
     "react": "18.2.0",
-    "react-native": "0.72.3"
+    "react-native": "0.72.3",
+    "readapt-plugin-auth-expo": "workspace:^"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

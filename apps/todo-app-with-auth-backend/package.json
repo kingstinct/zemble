@@ -4,7 +4,6 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "test": "jest",
     "dev": "ts-node-dev app.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"

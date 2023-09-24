@@ -1,11 +1,11 @@
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, Text } from 'react-native'
+import LogoutButton from 'readapt-plugin-auth-expo/components/LogoutButton'
+import { ShowForAuthenticated } from 'readapt-plugin-auth-expo/components/ShowForAuthenticated'
+import { ShowForUnauthenticated } from 'readapt-plugin-auth-expo/components/ShowForUnauthenticated'
+import UrqlProvider from 'readapt-plugin-urql-expo/contexts/UrqlProvider'
 
-import { ShowForAuthenticated } from 'readapt-plugin-auth-expo/components/ShowForAuthenticated';
-import { ShowForUnauthenticated } from 'readapt-plugin-auth-expo/components/ShowForUnauthenticated';
-import LogoutButton from 'readapt-plugin-auth-expo/components/LogoutButton';
-import UrqlProvider from 'readapt-plugin-urql-expo/contexts/UrqlProvider';
-import LoginButton from './components/LoginButton';
-import { SimpleAnonymousAuthProvider } from './contexts/Auth';
+import LoginButton from './components/LoginButton'
+import { SimpleAnonymousAuthProvider } from './contexts/Auth'
 
 export default function App() {
   return (
@@ -23,5 +23,5 @@ export default function App() {
         </SimpleAnonymousAuthProvider>
       </UrqlProvider>
     </SafeAreaView>
-  );
+  )
 }

@@ -1,8 +1,8 @@
-import { Job } from "bullmq";
+import type { Job } from 'bullmq'
 
 export default {
-  name: ({name}: Job) => name,
-  id: ({id}: Job) => id,
-  delay: ({delay}: Job) => delay,
-  state: (queue: Job) => queue.getState(),
+  name: ({ name }: Job) => name,
+  id: ({ id }: Job) => id,
+  delay: ({ delay }: Job) => delay,
+  state: async (queue: Job) => queue.getState(),
 }

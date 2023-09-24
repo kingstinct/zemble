@@ -4,7 +4,6 @@
   "description": "",
   "main": "plugin.ts",
   "scripts": {
-    "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev plugin.ts",
     "lint": "eslint .",
     "graphql-codegen": "graphql-codegen",

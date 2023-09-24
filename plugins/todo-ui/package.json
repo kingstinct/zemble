@@ -8,7 +8,6 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "codegen": "graphql-code-generator",
-    "test": "jest",
     "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
     "lint": "eslint .",
     "graphql-codegen": "graphql-codegen",

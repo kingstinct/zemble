@@ -12,7 +12,7 @@ const createFilterResolver = (entity: EntityType, obj: GraphQLObjectType) => {
   const args = Object.values(entity.fields).reduce((prev, field) => {
     const baseType = fieldToInputType(entity.name, field)
 
-    // todo: add support for array fields (need to map EntityRelationField to GraphQLID)
+    // todo [>=1]: add support for array fields (need to map EntityRelationField to GraphQLID)
     if (field.__typename === 'ArrayField') {
       return prev
     }

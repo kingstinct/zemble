@@ -17,7 +17,7 @@ export const AddFieldsToEntityMutation = graphql(`
   }
 `)
 
-// todo: add tests for required-checks/migration
+// todo [>=1]: add tests for required-checks/migration
 
 describe('addFieldsToEntity', () => {
   let app: Readapt.Server

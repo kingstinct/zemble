@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphql-tools/delegate": "^10.0.3",
     "@graphql-tools/schema": "^10.0.0",
     "@graphql-tools/wrap": "^10.0.1",
     "@graphql-yoga/redis-event-target": "^2.0.0",
@@ -28,7 +29,6 @@
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
-    "@graphql-tools/delegate": "^10.0.3",
     "@tsconfig/node20": "^20.1.1",
     "@types/jest": "^29.5.4",
     "@urql/core": "^4.1.1",

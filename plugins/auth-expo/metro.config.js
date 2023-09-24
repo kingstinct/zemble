@@ -1,6 +1,5 @@
 // Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require('expo/metro-config')
-const os = require('os')
 const path = require('path')
 
 const config = getDefaultConfig(__dirname)

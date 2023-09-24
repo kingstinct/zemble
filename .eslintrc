@@ -10,6 +10,10 @@
       "import/extensions": 0,
       "@typescript-eslint/no-shadow": 1
   },
+  "ignorePatterns":[
+    "**/*.generated/**/*.ts",
+    "**/gql/**/*.ts"
+  ],
   "overrides": [
         {
             "files": ["*.graphql"],

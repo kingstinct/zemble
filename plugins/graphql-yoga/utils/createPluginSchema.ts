@@ -1,4 +1,4 @@
-import { createDefaultExecutor, delegateToSchema, type Subschema } from '@graphql-tools/delegate'
+import { createDefaultExecutor } from '@graphql-tools/delegate'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
 import { readFileSync } from 'fs'
@@ -6,6 +6,7 @@ import { join } from 'path'
 
 import readResolvers from './readResolvers'
 
+import type { Subschema } from '@graphql-tools/delegate'
 import type { GraphQLScalarType } from 'graphql'
 
 export const createPluginSchema = async ({
@@ -40,7 +41,7 @@ export const createPluginSchema = async ({
     },
   })
 
-  // todo: fix wrapping to work with aliases, something is missing here
+  // todo [>=1]: fix wrapping to work with aliases, something is missing here
   const schema = transforms.length > 0 ? wrapSchema({
     schema: internalSchema,
     executor: createDefaultExecutor(internalSchema),

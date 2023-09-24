@@ -1,7 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { SimpleAnonymousAuthProvider } from 'readapt-plugin-auth-anonymous-expo/contexts/Auth';
-import LoginButton from 'plugins/anonymous-auth-expo/components/LoginButton';
+/* eslint-disable react/style-prop-object */
+import { StatusBar } from 'expo-status-bar'
+import LoginButton from 'plugins/anonymous-auth-expo/components/LoginButton'
+import { StyleSheet, Text, View } from 'react-native'
+import { SimpleAnonymousAuthProvider } from 'readapt-plugin-auth-anonymous-expo/contexts/Auth'
+
+import UrqlProvider from './contexts/UrqlProvider'
 
 export default function App() {
   return (
@@ -9,12 +12,12 @@ export default function App() {
       <SimpleAnonymousAuthProvider>
         <View style={styles.container}>
           <Text>Open up App.tsx to start working on your app!</Text>
-          <StatusBar style="auto" />
+          <StatusBar style='auto' />
           <LoginButton />
         </View>
       </SimpleAnonymousAuthProvider>
     </UrqlProvider>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -24,4 +27,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+})

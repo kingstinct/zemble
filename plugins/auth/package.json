@@ -19,6 +19,7 @@
   "dependencies": {
     "@envelop/core": "^4.0.0",
     "@envelop/generic-auth": "^6.0.0",
+    "@graphql-tools/wrap": "^10.0.1",
     "@readapt/core": "workspace:^",
     "@readapt/graphql-yoga": "workspace:^",
     "graphql": "^16.8.0",
