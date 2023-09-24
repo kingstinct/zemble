@@ -1,3 +1,5 @@
+import { expect, describe, it } from 'bun:test'
+
 import plugin from '../../plugin'
 import { signJwt } from '../../utils/signJwt'
 import { graphql } from '../client.generated'
@@ -19,7 +21,7 @@ describe('PrivateShitWithRole', () => {
   it('Should fail without role in JWT', async () => {
     const app = await plugin.testApp()
 
-    const token = signJwt({ data: { } })
+    const token = await signJwt({ data: { } })
 
     const response = await app.gqlRequest(PrivateShitWithRoleQuery, {}, {
       headers: {
@@ -32,7 +34,7 @@ describe('PrivateShitWithRole', () => {
   it('Should succeed with role in JWT', async () => {
     const app = await plugin.testApp()
 
-    const token = signJwt({ data: { role: 'admin' } })
+    const token = await signJwt({ data: { role: 'admin' } })
 
     const response = await app.gqlRequest(PrivateShitWithRoleQuery, {}, {
       headers: {

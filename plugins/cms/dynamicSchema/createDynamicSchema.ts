@@ -2,10 +2,9 @@
 
 import Dataloader from 'dataloader'
 import {
-  GraphQLObjectType, GraphQLSchema,
-
-  GraphQLNonNull
-  ,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLNonNull,
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 

@@ -4,6 +4,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "CommonJS",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "types": [ "bun-types" ]
   }
 }

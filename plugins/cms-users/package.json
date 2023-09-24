@@ -4,8 +4,8 @@
   "description": "",
   "main": "plugin.ts",
   "scripts": {
-    "test": "jest",
-    "dev": "MONGO_URL=mongodb://localhost:27017/test-db PLUGIN_DEV=true ts-node-dev plugin.ts",
+    "test": "bun test",
+    "dev": "MONGO_URL=mongodb://localhost:27017/test-db PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
@@ -16,26 +16,24 @@
   "dependencies": {
     "@envelop/core": "^4.0.0",
     "@envelop/extended-validation": "^3.0.1",
-    "@envelop/generic-auth": "^6.0.0",
+    "@envelop/generic-auth": "^6.0.1",
     "@graphql-tools/executor": "^1.2.0",
-    "@readapt/core": "workspace:^",
-    "@readapt/graphql-yoga": "workspace:^",
+    "@readapt/core": "workspace:*",
+    "@readapt/graphql-yoga": "workspace:*",
     "dataloader": "^2.2.2",
     "graphql": "^16.8.0",
     "graphql-scalars": "^1.22.2",
-    "hono": "^3.4.3",
+    "hono": "^3.7.2",
     "jose": "^4.14.4",
-    "jsonwebtoken": "^9.0.1",
     "mongodb": "5",
     "papr": "^14.1.0",
-    "readapt-plugin-auth": "workspace:^",
-    "readapt-plugin-auth-otp": "workspace:^",
-    "readapt-plugin-cms": "workspace:^",
-    "readapt-plugin-kv": "workspace:^"
+    "readapt-plugin-auth": "workspace:*",
+    "readapt-plugin-auth-otp": "workspace:*",
+    "readapt-plugin-cms": "workspace:*",
+    "readapt-plugin-kv": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",
-    "@types/jsonwebtoken": "^9.0.2",
     "mongodb-memory-server": "^8.15.1"
   }
 }

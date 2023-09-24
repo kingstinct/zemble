@@ -31,7 +31,7 @@ const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
     return { __typename: 'CodeNotValidError', message: 'Code not valid' }
   }
 
-  const accessToken = signJwt({
+  const accessToken = await signJwt({
     data: await plugin.config.generateTokenContents(email),
     expiresInSeconds: plugin.config.tokenExpiryInSeconds,
   })

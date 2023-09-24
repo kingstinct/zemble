@@ -1,21 +1,27 @@
-import * as jwt from 'jsonwebtoken'
+import * as jose from 'jose'
 
 import plugin from '../plugin'
 
 const { PRIVATE_KEY, ISSUER } = plugin.config
 
-export function signJwt<T extends object>({ data, expiresInSeconds }: { readonly data: T, readonly expiresInSeconds?: number }) {
+export async function signJwt<T extends object>({ data, expiresInSeconds }: { readonly data: T, readonly expiresInSeconds?: number }) {
+  const ecPrivateKey = await jose.importPKCS8(PRIVATE_KEY as string, 'RS256')
+
   if (!PRIVATE_KEY) {
     throw new Error('PRIVATE_KEY is not set')
   }
 
-  return jwt.sign(
-    data,
-    PRIVATE_KEY,
-    {
-      algorithm: 'RS256',
-      ...expiresInSeconds !== undefined ? { expiresIn: expiresInSeconds } : {},
-      issuer: ISSUER,
-    },
-  )
+  const jwt = new jose.SignJWT({
+    ...data,
+    iss: ISSUER,
+  })
+    .setIssuedAt()
+    .setIssuer(ISSUER)
+    .setProtectedHeader({ alg: 'RS256' })
+
+  if (expiresInSeconds) {
+    jwt.setExpirationTime(expiresInSeconds)
+  }
+
+  return jwt.sign(ecPrivateKey)
 }

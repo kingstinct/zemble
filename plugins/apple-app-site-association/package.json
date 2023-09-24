@@ -4,7 +4,7 @@
   "description": "",
   "main": "plugin.ts",
   "scripts": {
-    "dev": "PLUGIN_DEV=true ts-node-dev plugin.ts",
+    "dev": "PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
@@ -12,11 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@readapt/core": "workspace:^",
-    "jsonwebtoken": "^9.0.1"
+    "@readapt/core": "workspace:*"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.1",
-    "@types/jsonwebtoken": "^9.0.2"
+    "@tsconfig/node20": "^20.1.1"
   }
 }

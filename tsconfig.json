@@ -6,6 +6,7 @@
     "module": "CommonJS",
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "types": [ "bun-types" ]
   }
 }

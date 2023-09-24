@@ -4,7 +4,7 @@
   "description": "",
   "main": "plugin.ts",
   "scripts": {
-    "dev": "PLUGIN_DEV=true ts-node-dev plugin.ts",
+    "dev": "PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
@@ -14,19 +14,16 @@
   "license": "ISC",
   "dependencies": {
     "@graphql-yoga/plugin-defer-stream": "^2.0.4",
-    "@readapt/core": "workspace:^",
-    "@readapt/graphql-yoga": "workspace:^",
+    "@readapt/core": "workspace:*",
+    "@readapt/graphql-yoga": "workspace:*",
     "graphql-yoga": "^4.0.4",
-    "hono": "^3.4.3"
+    "hono": "^3.7.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@tsconfig/node20": "^20.1.1",
-    "@types/jest": "^29.5.4",
-    "@urql/core": "^4.1.1",
-    "jest": "^29.6.4",
-    "ts-jest": "^29.1.1"
+    "@urql/core": "^4.1.1"
   }
 }

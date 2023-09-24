@@ -19,7 +19,7 @@ describe('publicShit', () => {
   it('Should succeed authentication with token', async () => {
     const app = await plugin.testApp()
 
-    const token = signJwt({ data: { } })
+    const token = await signJwt({ data: { } })
 
     const response = await app.gqlRequest(PublicShitQuery, {}, {
       headers: {

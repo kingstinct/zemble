@@ -42,7 +42,7 @@ async function gqlRequestUntyped<TRes, TVars>(
   variables: TVars,
   options?: {readonly headers?: Record<string, string>},
 ) {
-  const res = await app.request(new Request('http://localhost/graphql', {
+  const res = await app.fetch(new Request('http://localhost/graphql', {
     method: 'POST',
     body: JSON.stringify({
       query,
@@ -72,7 +72,7 @@ async function gqlRequest<TQuery, TVars>(
   variables: TVars,
   options: {readonly headers?: Record<string, string>} = {},
 ) {
-  const res = await app.request(new Request('http://localhost/graphql', {
+  const req = new Request('http://localhost/graphql', {
     method: 'POST',
     body: JSON.stringify({
       query: print(query),
@@ -82,7 +82,9 @@ async function gqlRequest<TQuery, TVars>(
       'Content-Type': 'application/json',
       ...options.headers,
     },
-  }))
+  })
+
+  const res = await app.fetch(req)
 
   const resJson = res.json() as unknown as {
     readonly data?: ResultOf<TQuery>,
@@ -154,6 +156,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
   // @ts-expect-error sdfgsdfg
   app.gqlRequest = async (query, vars, opts) => {
     const response = await gqlRequest(app, query, vars, opts)
+
     return response
   }
 

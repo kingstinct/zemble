@@ -1,0 +1,144 @@
+diff --git a/node_modules/@graphql-codegen/visitor-plugin-common/cjs/base-resolvers-visitor.js b/node_modules/@graphql-codegen/visitor-plugin-common/cjs/base-resolvers-visitor.js
+index 4d4adf3..d4ebef0 100644
+--- a/node_modules/@graphql-codegen/visitor-plugin-common/cjs/base-resolvers-visitor.js
++++ b/node_modules/@graphql-codegen/visitor-plugin-common/cjs/base-resolvers-visitor.js
+@@ -12,6 +12,49 @@ const mappers_js_1 = require("./mappers.js");
+ const scalars_js_1 = require("./scalars.js");
+ const utils_js_1 = require("./utils.js");
+ const variables_to_object_js_1 = require("./variables-to-object.js");
++
++const transformObjectNode = (
++    objectNode,
++) => {
++    const { fields } = objectNode
++    return fields.reduce((acc, field) => ({
++        ...acc,
++        [field.name]: handleValueNode(field.value),
++    }), {})
++}
++
++const handleValueNode = (
++    value
++) => {
++    if (value.kind === 'StringValue') {
++        return value.value
++    }
++    if (value.kind === 'ObjectValue') {
++        return transformObjectNode(value)
++    }
++    if (value.kind === 'ListValue') {
++        return value.values.map(handleValueNode)
++    }
++    if (value.kind === 'NullValue') {
++        return null
++    }
++    if (value.kind === 'BooleanValue') {
++        return value.value
++    }
++    if (value.kind === 'IntValue') {
++        return parseInt(value.value, 10)
++    }
++    if (value.kind === 'FloatValue') {
++        return parseFloat(value.value)
++    }
++    if (value.kind === 'EnumValue') {
++        return value.value
++    }
++
++    const valueFromVariable = executionArgs?.variableValues?.[value.name.value]
++    return valueFromVariable
++}
++
+ class BaseResolversVisitor extends base_visitor_js_1.BaseVisitor {
+     constructor(rawConfig, additionalConfig, _schema, defaultScalars = scalars_js_1.DEFAULT_SCALARS) {
+         super(rawConfig, {
+@@ -647,7 +690,16 @@ class BaseResolversVisitor extends base_visitor_js_1.BaseVisitor {
+             const name = directive.name;
+             const directiveMap = this._directiveContextTypesMap[name];
+             if (directiveMap) {
+-                contextType = `${directiveMap.type}<${contextType}>`;
++                const args = directive.arguments.reduce((prev, dir) => {
++                    const { name, value } = dir
++                    
++                    return {
++                        ...prev, 
++                        [name]: handleValueNode(value)
++                    }
++                    
++                }, {})
++                contextType = `${directiveMap.type}<${contextType}, ${JSON.stringify(args)}>`;
+             }
+         }
+         return contextType;
+diff --git a/node_modules/@graphql-codegen/visitor-plugin-common/esm/base-resolvers-visitor.js b/node_modules/@graphql-codegen/visitor-plugin-common/esm/base-resolvers-visitor.js
+index a05d27e..f4688ca 100644
+--- a/node_modules/@graphql-codegen/visitor-plugin-common/esm/base-resolvers-visitor.js
++++ b/node_modules/@graphql-codegen/visitor-plugin-common/esm/base-resolvers-visitor.js
+@@ -8,6 +8,49 @@ import { buildMapperImport, parseMapper, transformMappers } from './mappers.js';
+ import { DEFAULT_SCALARS } from './scalars.js';
+ import { buildScalarsFromConfig, DeclarationBlock, getBaseTypeNode, getConfigValue, indent, OMIT_TYPE, REQUIRE_FIELDS_TYPE, stripMapperTypeInterpolation, wrapTypeWithModifiers, } from './utils.js';
+ import { OperationVariablesToObject } from './variables-to-object.js';
++
++const transformObjectNode = (
++    objectNode,
++) => {
++    const { fields } = objectNode
++    return fields.reduce((acc, field) => ({
++        ...acc,
++        [field.name]: handleValueNode(field.value),
++    }), {})
++}
++
++const handleValueNode = (
++    value
++) => {
++    if (value.kind === 'StringValue') {
++        return value.value
++    }
++    if (value.kind === 'ObjectValue') {
++        return transformObjectNode(value)
++    }
++    if (value.kind === 'ListValue') {
++        return value.values.map(handleValueNode)
++    }
++    if (value.kind === 'NullValue') {
++        return null
++    }
++    if (value.kind === 'BooleanValue') {
++        return value.value
++    }
++    if (value.kind === 'IntValue') {
++        return parseInt(value.value, 10)
++    }
++    if (value.kind === 'FloatValue') {
++        return parseFloat(value.value)
++    }
++    if (value.kind === 'EnumValue') {
++        return value.value
++    }
++
++    const valueFromVariable = executionArgs?.variableValues?.[value.name.value]
++    return valueFromVariable
++}
++
+ export class BaseResolversVisitor extends BaseVisitor {
+     constructor(rawConfig, additionalConfig, _schema, defaultScalars = DEFAULT_SCALARS) {
+         super(rawConfig, {
+@@ -643,7 +686,16 @@ export class BaseResolversVisitor extends BaseVisitor {
+             const name = directive.name;
+             const directiveMap = this._directiveContextTypesMap[name];
+             if (directiveMap) {
+-                contextType = `${directiveMap.type}<${contextType}>`;
++                const args = directive.arguments.reduce((prev, dir) => {
++                    const { name, value } = dir
++                    
++                    return {
++                        ...prev, 
++                        [name]: handleValueNode(value)
++                    }
++                    
++                }, {})
++                contextType = `${directiveMap.type}<${contextType}, ${JSON.stringify(args)}>`;
+             }
+         }
+         return contextType;

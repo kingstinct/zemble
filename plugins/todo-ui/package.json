@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "codegen": "graphql-code-generator",
-    "dev": "PLUGIN_DEV=true ts-node-dev index.ts",
+    "dev": "PLUGIN_DEV=true bun --hot index.ts",
     "lint": "eslint .",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
@@ -20,7 +20,7 @@
     "graphql": "^16.8.0",
     "react": "18.2.0",
     "react-native": "0.72.3",
-    "readapt-plugin-auth-anonymous-expo": "workspace:^",
+    "readapt-plugin-auth-anonymous-expo": "workspace:*",
     "urql": "^4.0.5"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { serve } from '@hono/node-server'
+import Bun from 'bun'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
@@ -101,7 +101,8 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   return {
     app,
     start: () => {
-      serve(app, (info) => context.logger.log(info))
+      const bunServer = Bun.serve({ fetch: app.fetch })
+      console.log(`Serving on ${bunServer.hostname}:${bunServer.port}`)
       return app
     },
   }

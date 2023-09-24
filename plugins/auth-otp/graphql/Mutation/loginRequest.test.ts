@@ -1,7 +1,8 @@
+import { describe, expect, it } from 'bun:test'
+
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
-// eslint-disable-next-line jest/no-export
 export const LoginRequestMutation = graphql(`
   mutation LoginRequest($email: String!) {
     loginRequest(email: $email) {

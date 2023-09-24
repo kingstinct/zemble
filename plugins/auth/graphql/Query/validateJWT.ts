@@ -1,8 +1,8 @@
 import { verifyJwt } from '../../utils/verifyJwt'
 
-const validate = (_: unknown, { token }: {readonly token: string}) => {
+const validate = async (_: unknown, { token }: {readonly token: string}) => {
   try {
-    verifyJwt(token)
+    await verifyJwt(token)
     return true
   } catch (e) {
     return false

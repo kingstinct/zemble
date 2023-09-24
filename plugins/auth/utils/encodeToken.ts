@@ -1,3 +1,6 @@
 import { signJwt } from './signJwt'
 
-export const encodeToken = (data: Readapt.TokenRegistry[keyof Readapt.TokenRegistry]) => signJwt({ data })
+export const encodeToken = async (data: Readapt.TokenRegistry[keyof Readapt.TokenRegistry]) => {
+  const token = await signJwt({ data })
+  return token
+}

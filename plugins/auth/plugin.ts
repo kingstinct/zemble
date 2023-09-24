@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useExtendContext } from '@envelop/core'
-import { UnauthenticatedError, useGenericAuth } from '@envelop/generic-auth'
+import { useGenericAuth } from '@envelop/generic-auth'
 import {
   FilterRootFields,
 } from '@graphql-tools/wrap'
@@ -8,6 +8,7 @@ import { Plugin } from '@readapt/core'
 import graphqlYoga from '@readapt/graphql-yoga'
 import {
   Kind,
+  GraphQLError,
 } from 'graphql'
 import { getCookie } from 'hono/cookie'
 
@@ -15,7 +16,6 @@ import { decodeToken } from './utils/decodeToken'
 import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers'
 
 import type {
-  GraphQLError,
   ExecutionArgs, FieldNode, GraphQLObjectType, ObjectValueNode,
 } from 'graphql'
 import type { CookieOptions } from 'hono/utils/cookie'
@@ -56,11 +56,11 @@ const validateIncludes = (matchValueNode: ObjectValueNode, decodedToken: Record<
       })
 
       if (!hasMatch) {
-        errors = [...errors, new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including arrays matching ${JSON.stringify(matcher)}.`)]
+        errors = [...errors, new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including arrays matching ${JSON.stringify(matcher)}.`)]
       }
       return hasMatch
     }
-    errors = [...errors, new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including array '${arrayName}'.`)]
+    errors = [...errors, new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including array '${arrayName}'.`)]
     return false
   })
 
@@ -77,7 +77,7 @@ const validateMatch = (matchValueNode: ObjectValueNode, decodedToken: Record<str
 
   return {
     isValid,
-    errors: isValid ? [] : [new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token matching ${JSON.stringify(matcher)}.`)],
+    errors: isValid ? [] : [new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token matching ${JSON.stringify(matcher)}.`)],
   }
 }
 
@@ -115,12 +115,12 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
     const gql = graphqlYoga.configure({
       yoga: {
         plugins: [
-          useExtendContext((context: Readapt.GraphQLContext) => {
+          useExtendContext(async (context: Readapt.GraphQLContext) => {
             const headerName = config.headerName ?? 'authorization',
                   headerToken = context.request.headers.get(headerName)?.split(' ')[1],
                   cookieToken = config.cookies.isEnabled !== false ? getCookie(context.honoContext)[config.cookies.name] : undefined,
                   token = headerToken ?? cookieToken,
-                  decodedToken = token ? decodeToken(token) : undefined
+                  decodedToken = token ? await decodeToken(token) : undefined
 
             return {
               token,
@@ -144,8 +144,8 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
                   skipValidation = skipArg.value.value
                 }
 
-                if (!skipArg) {
-                  return new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires authentication.`)
+                if (!skipValidation) {
+                  return new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires authentication.`)
                 }
               }
 
@@ -204,9 +204,10 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
                   }
                   throw new Error(`'${objectType.name}.${fieldNode?.name.value}' auth directive malformed`)
                 })
+
                 if (!valid) {
                   const val = handleValueNode(orArg.value, { executionArgs, fieldNode, objectType })
-                  return new UnauthenticatedError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including arrays matching one of ${JSON.stringify(val)}.`)
+                  return new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including arrays matching one of ${JSON.stringify(val)}.`)
                 }
               }
 

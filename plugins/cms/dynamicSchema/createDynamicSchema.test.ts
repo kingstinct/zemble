@@ -1,164 +1,166 @@
+import {
+  expect, test, beforeEach,
+} from 'bun:test'
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import { Content } from '../clients/papr'
 import { AddFieldsToEntityMutation } from '../graphql/Mutation/addFieldsToEntity.test'
-import { CreateEntityMutation } from '../graphql/Mutation/createEntity.test'
 import plugin from '../plugin'
+import { CreateEntityMutation } from '../utils/createEntityMutation'
 
-describe('createEntity', () => {
-  let app: Readapt.Server
-  let opts: Record<string, unknown>
+let app: Readapt.Server
+let opts: Record<string, unknown>
 
-  beforeEach(async () => {
-    app = await plugin.testApp()
-    const token = signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
-    opts = {
-      headers: {
-        Authorization: `Bearer ${token}`,
+beforeEach(async () => {
+  app = await plugin.testApp()
+  const token = await signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
+  opts = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  await app.gqlRequest(CreateEntityMutation, {
+    name: 'book',
+    pluralizedName: 'books',
+  }, opts)
+
+  await app.gqlRequest(CreateEntityMutation, {
+    name: 'author',
+    pluralizedName: 'authors',
+  }, opts)
+
+  await app.gqlRequest(AddFieldsToEntityMutation, {
+    name: 'book',
+    fields: [
+      {
+        StringField: {
+          name: 'title',
+          isRequired: true,
+          isSearchable: true,
+        },
       },
-    }
-
-    await app.gqlRequest(CreateEntityMutation, {
-      name: 'book',
-      pluralizedName: 'books',
-    }, opts)
-
-    await app.gqlRequest(CreateEntityMutation, {
-      name: 'author',
-      pluralizedName: 'authors',
-    }, opts)
-
-    await app.gqlRequest(AddFieldsToEntityMutation, {
-      name: 'book',
-      fields: [
-        {
-          StringField: {
-            name: 'title',
-            isRequired: true,
-            isSearchable: true,
-          },
+      {
+        StringField: {
+          name: 'description',
+          isRequired: false,
+          isSearchable: true,
         },
-        {
-          StringField: {
-            name: 'description',
-            isRequired: false,
-            isSearchable: true,
-          },
+      },
+      {
+        BooleanField: {
+          name: 'hasKindleVersion',
+          isRequiredInput: false,
+          isRequired: true,
+          defaultValue: true,
         },
-        {
-          BooleanField: {
-            name: 'hasKindleVersion',
-            isRequiredInput: false,
-            isRequired: true,
-            defaultValue: true,
-          },
-        },
-        {
-          ArrayField: {
-            name: 'contributors',
-            availableFields: [
-              {
-                EntityRelationField: {
-                  entityName: 'author',
-                  name: 'author',
-                  isRequired: true,
-                },
+      },
+      {
+        ArrayField: {
+          name: 'contributors',
+          availableFields: [
+            {
+              EntityRelationField: {
+                entityName: 'author',
+                name: 'author',
+                isRequired: true,
               },
-              {
-                EntityRelationField: {
-                  entityName: 'author',
-                  name: 'editor',
-                  isRequired: true,
-                },
+            },
+            {
+              EntityRelationField: {
+                entityName: 'author',
+                name: 'editor',
+                isRequired: true,
               },
-            ],
-          },
-        },
-      ],
-    }, opts)
-
-    await app.gqlRequest(AddFieldsToEntityMutation, {
-      name: 'author',
-      fields: [
-        {
-          StringField: {
-            name: 'firstName',
-            isRequired: true,
-          },
-        },
-        {
-          StringField: {
-            name: 'lastName',
-            isRequired: true,
-          },
-        },
-      ],
-    }, opts)
-  })
-
-  test('should create a book', async () => {
-    const createBookReq = await app.gqlRequestUntyped<{
-      readonly books: readonly unknown[]
-    }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
-
-    expect(createBookReq).toEqual({
-      data: {
-        createBook: {
-          title: 'Lord of the rings',
+            },
+          ],
         },
       },
-    })
+    ],
+  }, opts)
 
-    const { data } = await app.gqlRequestUntyped<{
-      readonly getAllBooks: readonly unknown[]
-    }, unknown>('query { getAllBooks { title } }', {}, opts)
-
-    expect(data?.getAllBooks).toEqual([
+  await app.gqlRequest(AddFieldsToEntityMutation, {
+    name: 'author',
+    fields: [
       {
+        StringField: {
+          name: 'firstName',
+          isRequired: true,
+        },
+      },
+      {
+        StringField: {
+          name: 'lastName',
+          isRequired: true,
+        },
+      },
+    ],
+  }, opts)
+})
+
+test('should create a book', async () => {
+  const createBookReq = await app.gqlRequestUntyped<{
+    readonly books: readonly unknown[]
+  }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+
+  expect(createBookReq).toEqual({
+    data: {
+      createBook: {
         title: 'Lord of the rings',
       },
-    ])
-
-    const entityEntry = await Content.find({})
-
-    expect(entityEntry).toEqual([
-      {
-        _id: expect.any(ObjectId),
-        createdAt: expect.any(Date),
-        entityType: 'book',
-        title: 'Lord of the rings',
-        updatedAt: expect.any(Date),
-      },
-    ])
+    },
   })
 
-  test('should get books by id', async () => {
-    const createBookReq = await app.gqlRequestUntyped<{
-      readonly createBook: {readonly id: string}
-    }, unknown>('mutation { createBook(title: "Lord of the rings") { id } }', {}, opts)
+  const { data } = await app.gqlRequestUntyped<{
+    readonly getAllBooks: readonly unknown[]
+  }, unknown>('query { getAllBooks { title } }', {}, opts)
 
-    const silmarillionCreateBookReq = await app.gqlRequestUntyped<{
-      readonly createBook: {readonly id: string}
-    }, unknown>('mutation { createBook(title: "Simarillion") { id } }', {}, opts)
+  expect(data?.getAllBooks).toEqual([
+    {
+      title: 'Lord of the rings',
+    },
+  ])
 
-    const { data } = await app.gqlRequestUntyped<{
-      readonly getBooksById: readonly unknown[]
-    }, unknown>(`query GetBooksById($ids: [ID!]!) { getBooksById(ids: $ids) { title } }`, {
-      ids: [createBookReq.data?.createBook?.id, silmarillionCreateBookReq.data?.createBook?.id],
-    }, opts)
+  const entityEntry = await Content.find({})
 
-    expect(data?.getBooksById).toEqual([
-      {
-        title: 'Lord of the rings',
-      },
-      {
-        title: 'Simarillion',
-      },
-    ])
-  })
+  expect(entityEntry).toEqual([
+    {
+      _id: expect.any(ObjectId),
+      createdAt: expect.any(Date),
+      entityType: 'book',
+      title: 'Lord of the rings',
+      updatedAt: expect.any(Date),
+    },
+  ])
+})
 
-  test('should create a book with authors', async () => {
+test('should get books by id', async () => {
+  const createBookReq = await app.gqlRequestUntyped<{
+    readonly createBook: {readonly id: string}
+  }, unknown>('mutation { createBook(title: "Lord of the rings") { id } }', {}, opts)
+
+  const silmarillionCreateBookReq = await app.gqlRequestUntyped<{
+    readonly createBook: {readonly id: string}
+  }, unknown>('mutation { createBook(title: "Simarillion") { id } }', {}, opts)
+
+  const { data } = await app.gqlRequestUntyped<{
+    readonly getBooksById: readonly unknown[]
+  }, unknown>(`query GetBooksById($ids: [ID!]!) { getBooksById(ids: $ids) { title } }`, {
+    ids: [createBookReq.data?.createBook?.id, silmarillionCreateBookReq.data?.createBook?.id],
+  }, opts)
+
+  expect(data?.getBooksById).toEqual([
+    {
+      title: 'Lord of the rings',
+    },
+    {
+      title: 'Simarillion',
+    },
+  ])
+})
+
+test('should create a book with authors', async () => {
     type CreateAuthorMutationType = {
       readonly createAuthor: {
         readonly id: string
@@ -259,60 +261,59 @@ describe('createEntity', () => {
         updatedAt: expect.any(Date),
       },
     ])
+})
+
+test('should search title field', async () => {
+  await app.gqlRequestUntyped<{
+    readonly books: readonly unknown[]
+  }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+
+  const results = await app.gqlRequestUntyped<{
+    readonly searchBooks: readonly unknown[]
+  }, unknown>('query { searchBooks(query: "Lord of") { title } }', {}, opts)
+
+  expect(results.data).toEqual({
+    searchBooks: [
+      {
+        title: 'Lord of the rings',
+      },
+    ],
   })
+})
 
-  test('should search title field', async () => {
-    await app.gqlRequestUntyped<{
-      readonly books: readonly unknown[]
-    }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+test('should filter on title field', async () => {
+  await app.gqlRequestUntyped<{
+    readonly books: readonly unknown[]
+  }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
 
-    const results = await app.gqlRequestUntyped<{
-      readonly searchBooks: readonly unknown[]
-    }, unknown>('query { searchBooks(query: "Lord of") { title } }', {}, opts)
+  const results = await app.gqlRequestUntyped<{
+    readonly filterBooks: readonly unknown[]
+  }, unknown>('query { filterBooks(title: { eq: "Lord of the rings" }) { title } }', {}, opts)
 
-    expect(results.data).toEqual({
-      searchBooks: [
-        {
-          title: 'Lord of the rings',
-        },
-      ],
-    })
+  expect(results.data).toEqual({
+    filterBooks: [
+      {
+        title: 'Lord of the rings',
+      },
+    ],
   })
+})
 
-  test('should filter on title field', async () => {
-    await app.gqlRequestUntyped<{
-      readonly books: readonly unknown[]
-    }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+test('should get default hasKindleVersion', async () => {
+  await app.gqlRequestUntyped<{
+    readonly books: readonly unknown[]
+  }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
 
-    const results = await app.gqlRequestUntyped<{
-      readonly filterBooks: readonly unknown[]
-    }, unknown>('query { filterBooks(title: { eq: "Lord of the rings" }) { title } }', {}, opts)
+  const results = await app.gqlRequestUntyped<{
+    readonly searchBooks: readonly unknown[]
+  }, unknown>('query { searchBooks(query: "Lord of") { title hasKindleVersion } }', {}, opts)
 
-    expect(results.data).toEqual({
-      filterBooks: [
-        {
-          title: 'Lord of the rings',
-        },
-      ],
-    })
-  })
-
-  test('should get default hasKindleVersion', async () => {
-    await app.gqlRequestUntyped<{
-      readonly books: readonly unknown[]
-    }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
-
-    const results = await app.gqlRequestUntyped<{
-      readonly searchBooks: readonly unknown[]
-    }, unknown>('query { searchBooks(query: "Lord of") { title hasKindleVersion } }', {}, opts)
-
-    expect(results.data).toEqual({
-      searchBooks: [
-        {
-          title: 'Lord of the rings',
-          hasKindleVersion: true,
-        },
-      ],
-    })
+  expect(results.data).toEqual({
+    searchBooks: [
+      {
+        title: 'Lord of the rings',
+        hasKindleVersion: true,
+      },
+    ],
   })
 })

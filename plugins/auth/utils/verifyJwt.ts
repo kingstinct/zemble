@@ -1,12 +1,11 @@
-import { verify } from 'jsonwebtoken'
+import * as jose from 'jose'
 
 import plugin from '../plugin'
 
-export function verifyJwt(token: string, publicKey?: string) {
-  const actualPublicKey = publicKey ?? plugin.config.PUBLIC_KEY
-  if (!actualPublicKey) {
-    throw new Error('PUBLIC_KEY not set')
-  }
+export async function verifyJwt(token: string, publicKey?: string) {
+  const actualPublicKey = await jose.importSPKI(publicKey ?? plugin.config.PUBLIC_KEY as string, 'RS256')
 
-  return verify(token, actualPublicKey, { algorithms: ['RS256'] }) as Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & Readapt.DecodedTokenBase
+  const decodedToken = await jose.jwtVerify(token, actualPublicKey)
+
+  return decodedToken.payload
 }

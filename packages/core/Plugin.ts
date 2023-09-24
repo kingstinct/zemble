@@ -1,11 +1,11 @@
 import { configDotenv } from 'dotenv'
 
-import { createApp } from './createApp'
+import { createApp } from './server'
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 
-import type { ReadaptApp } from './createApp'
 import type PluginWithMiddleware from './PluginWithMiddleware'
+import type { ReadaptApp } from './server'
 import type { DependenciesResolver, Dependency, PluginOpts } from './types'
 
 // initialize dotenv before any plugins are loaded/configured
@@ -105,7 +105,9 @@ export class Plugin<
   }
 
   async testApp(): Promise<ReadaptApp['app']> {
-    return (await this.#devApp()).app
+    const gotApp = (await this.#devApp()).app
+
+    return gotApp
   }
 }
 
