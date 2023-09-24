@@ -14,6 +14,14 @@ const config = {
       plugins: [
         'typescript',
         'typescript-resolvers',
+        {
+          add: {
+            placement: 'prepend',
+            content: `
+              /* eslint-disable */
+              // @ts-nocheck`,
+          },
+        },
       ],
     },
     [`./graphql/client.generated/`]: {
@@ -29,9 +37,8 @@ const config = {
         {
           add: {
             placement: 'prepend',
-            content: `
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-nocheck`,
+            content: `/* eslint-disable */
+            // @ts-nocheck`,
           },
         },
       ],

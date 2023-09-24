@@ -98,6 +98,8 @@ declare global {
   }
 }
 
+export type TokenContents = Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & Readapt.DecodedTokenBase
+
 export type Dependency<TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig> = {
   readonly plugin: Plugin<TConfig> | PluginWithMiddleware<TConfig>,
   readonly config?: TConfig,
