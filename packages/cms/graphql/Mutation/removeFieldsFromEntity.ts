@@ -1,13 +1,13 @@
 import { GraphQLError } from 'graphql'
 
-import { Entities } from '../../clients/papr'
+import papr, { } from '../../clients/papr'
 
 import type {
   MutationResolvers,
 } from '../schema.generated'
 
 const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = async (_, { entityName, fields }, { pubsub }) => {
-  const prev = await Entities.findOneAndUpdate({ name: entityName }, {
+  const prev = await papr.Entities.findOneAndUpdate({ name: entityName }, {
     $unset: fields.reduce((acc, field) => ({
       ...acc,
       [`fields.${field}`]: '',

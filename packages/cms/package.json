@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "MONGO_URL=mongodb://localhost:27017/test-db PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },

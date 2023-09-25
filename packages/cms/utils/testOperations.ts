@@ -7,3 +7,11 @@ export const CreateEntityMutation = graphql(`
     }
   }
 `)
+
+export const AddFieldsToEntityMutation = graphql(`
+  mutation AddFieldsToEntity($name: String!, $fields: [FieldInput!]!) {
+    addFieldsToEntity(entityName: $name, fields: $fields) {
+      name
+    }
+  }
+`)

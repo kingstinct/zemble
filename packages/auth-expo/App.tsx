@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Button, SafeAreaView, Text } from 'react-native'
-import { ShowForAuthenticated } from 'readapt-plugin-auth-expo/components/ShowForAuthenticated'
-import { ShowForUnauthenticated } from 'readapt-plugin-auth-expo/components/ShowForUnauthenticated'
 
 import LogoutButton from './components/LogoutButton'
+import { ShowForAuthenticated } from './components/ShowForAuthenticated'
+import { ShowForUnauthenticated } from './components/ShowForUnauthenticated'
 import { AuthProvider } from './contexts/Auth'
 
 export default function App() {

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "lint": {},
+    "lint-quiet": {},
+    "test": {},
+    "typecheck": {
+      "inputs": [
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.js",
+        "**/*.jsx"
+      ]
+    },
+    "graphql-codegen": {
+      "inputs": [ "**/*.graphql" ]
+    }
+  }
+}

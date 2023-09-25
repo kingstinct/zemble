@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-import { Entities } from '../../clients/papr'
+import papr from '../../clients/papr'
 
 import type { EntitySchema } from '../../clients/papr'
 import type { MutationResolvers } from '../schema.generated'
@@ -30,7 +30,7 @@ const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameIn
       },
   }
 
-  const prev = await Entities.insertOne(entity)
+  const prev = await papr.Entities.insertOne(entity)
 
   pubsub.publish('reload-schema', {})
 

@@ -1,4 +1,4 @@
-import { Content, Entities, getClient } from '../../clients/papr'
+import papr from '../../clients/papr'
 
 import type { EntityType } from '../../clients/papr'
 import type { MutationResolvers } from '../schema.generated'
@@ -8,13 +8,13 @@ const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, to
 
   const pluralizedName = pluralIn.trim()
 
-  const client = await getClient()
-  const session = client.startSession()
+  const { client } = papr
+  const session = client!.startSession()
 
   let updated: EntityType | undefined | null
 
   await session.withTransaction(async () => {
-    updated = await Entities.findOneAndUpdate({ name: fromName }, {
+    updated = await papr.Entities.findOneAndUpdate({ name: fromName }, {
       $set: {
         name,
         pluralizedName,
@@ -24,7 +24,7 @@ const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, to
       session,
     })
 
-    await Content.updateMany({ entityType: fromName }, {
+    await papr.Content.updateMany({ entityType: fromName }, {
       $set: { entityType: name },
     }, {
       session,

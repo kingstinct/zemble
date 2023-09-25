@@ -3,9 +3,7 @@ import {
   GraphQLNonNull,
 } from 'graphql'
 
-import {
-  Content,
-} from '../clients/papr'
+import papr from '../clients/papr'
 
 import type {
   EntityType,
@@ -18,7 +16,7 @@ import type {
 const createGetAll = (entity: EntityType, type: GraphQLOutputType) => {
   const getAll: GraphQLFieldConfig<unknown, unknown, unknown> = { // "books"
     type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(type))),
-    resolve: async () => Content.find({ entityType: entity.name }),
+    resolve: async () => papr.Content.find({ entityType: entity.name }),
   }
 
   return getAll

@@ -1,49 +1,10 @@
+/* eslint-disable functional/immutable-data, functional/prefer-readonly-type, no-multi-assign */
 import readaptContext from '@readapt/core/readaptContext'
 import { MongoClient } from 'mongodb'
 import Papr, { VALIDATION_LEVEL, schema, types } from 'papr'
 
 import type { Db } from 'mongodb'
-
-let clientInternal: MongoClient | undefined
-
-let clientInternalPromise: Promise<MongoClient>
-
-export const getClient = async () => clientInternalPromise
-
-const papr = new Papr()
-
-let db: Db
-export const getDb = () => db
-
-export async function connect(mongoUrl = process.env.MONGO_URL) {
-  if (!mongoUrl) throw new Error('MONGO_URL not set')
-
-  readaptContext.logger.log('Connecting to MongoDB...', mongoUrl)
-
-  clientInternalPromise = MongoClient.connect(mongoUrl)
-  clientInternal = await clientInternalPromise
-
-  readaptContext.logger.log('Connected to MongoDB!')
-
-  db = clientInternal.db()
-
-  papr.initialize(db)
-
-  readaptContext.logger.log(`Registering ${papr.models.size} models...`)
-  papr.models.forEach((model) => {
-    readaptContext.logger.log(`Registering model: ${model.collection.collectionName}`)
-  })
-
-  await papr.updateSchemas()
-
-  await db.collection('entities').createIndex({ name: -1 }, { unique: true })
-  await db.collection('entities').createIndex({ pluralizedName: -1 }, { unique: true })
-  await db.collection('content').createIndex({ entityType: -1 })
-}
-
-export async function disconnect() {
-  await clientInternal?.close()
-}
+import type { Model } from 'papr'
 
 export const ArrayFieldObject = types.object({
   name: types.string({ required: true }),
@@ -141,8 +102,62 @@ export const EntityEntrySchema = schema({
   validationLevel: VALIDATION_LEVEL.OFF, // let's skip it for now - how do we handle the unknown fields?
 })
 
-export const Entities = papr.model('entities', EntitySchema)
+class PaprWrapper {
+  db: Db | undefined
 
-export const Content = papr.model('content', EntityEntrySchema)
+  papr: Papr | undefined
 
-export default papr
+  client: MongoClient | undefined
+
+  #entities: Model<typeof EntitySchema[0], typeof EntitySchema[1]> | undefined
+
+  #content: Model<typeof EntityEntrySchema[0], typeof EntityEntrySchema[1]> | undefined
+
+  get Entities() {
+    if (!this.papr || !this.#entities) throw new Error('Papr not initialized')
+    return this.#entities
+  }
+
+  get Content() {
+    if (!this.papr || !this.#content) throw new Error('Papr not initialized')
+    return this.#content
+  }
+
+  async connect(mongoUrl = process.env.MONGO_URL) {
+    const papr = this.papr = new Papr()
+    if (!mongoUrl) throw new Error('MONGO_URL not set')
+
+    readaptContext.logger.log('Connecting to MongoDB...', mongoUrl)
+
+    const clientInternalPromise = MongoClient.connect(mongoUrl)
+    const client = this.client = await clientInternalPromise
+
+    readaptContext.logger.log('Connected to MongoDB!')
+
+    const db = this.db = client.db()
+
+    this.#entities = papr.model('entities', EntitySchema)
+    this.#content = papr.model('content', EntityEntrySchema)
+
+    this.papr.initialize(db)
+
+    readaptContext.logger.log(`Registering ${this.papr.models.size} models...`)
+    this.papr.models.forEach((model) => {
+      readaptContext.logger.log(`Registering model: ${model.collection.collectionName}`)
+    })
+
+    await this.papr.updateSchemas()
+
+    await db.collection('entities').createIndex({ name: -1 }, { unique: true })
+    await db.collection('entities').createIndex({ pluralizedName: -1 }, { unique: true })
+    await db.collection('content').createIndex({ entityType: -1 })
+  }
+
+  async disconnect() {
+    await this.client?.close()
+    this.papr = undefined
+    this.db = undefined
+  }
+}
+
+export default new PaprWrapper()

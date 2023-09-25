@@ -50,7 +50,9 @@ const plugin = new Plugin(__dirname, {
       },
       {
         plugin: authOtp.configure({
-          from: { email: 'noreply@cmsexample.com' },
+          from: {
+            email: 'noreply@cmsexample.com',
+          },
           generateTokenContents: async (emailIn) => {
             const email = emailIn.trim().toLowerCase()
 

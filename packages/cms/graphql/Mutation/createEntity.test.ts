@@ -1,19 +1,25 @@
 import {
-  beforeEach, test, expect, describe, afterEach, afterAll,
+  beforeEach, test, expect, describe, afterEach, afterAll, beforeAll,
 } from 'bun:test'
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { Entities } from '../../clients/papr'
+import papr from '../../clients/papr'
 import plugin from '../../plugin'
-import { CreateEntityMutation } from '../../utils/createEntityMutation'
+import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
+import { CreateEntityMutation } from '../../utils/testOperations'
+
+beforeAll(setupBeforeAll)
+
+afterAll(teardownAfterAll)
+
+afterEach(tearDownAfterEach)
 
 describe('Mutation.createEntity', () => {
   let app: Readapt.Server
   let opts: Record<string, unknown>
 
   beforeEach(async () => {
-    console.log('beforeEach', process.env.NODE_ENV)
     app = await plugin.testApp()
     const token = await signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
     opts = {
@@ -21,14 +27,6 @@ describe('Mutation.createEntity', () => {
         Authorization: `Bearer ${token}`,
       },
     }
-  })
-
-  afterAll(() => {
-    console.log('afterAll!!')
-  })
-
-  afterEach(() => {
-    console.log('afterEach', process.env.NODE_ENV)
   })
 
   test('should create an entity', async () => {
@@ -39,9 +37,7 @@ describe('Mutation.createEntity', () => {
 
     expect(res.data?.createEntity.name).toEqual('book')
 
-    const entitites = await Entities.find({})
-
-    console.log('entitites', entitites)
+    const entitites = await papr.Entities.find({})
 
     expect(entitites).toHaveLength(1)
     expect(entitites[0]).toEqual({

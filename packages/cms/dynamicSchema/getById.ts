@@ -3,8 +3,8 @@ import {
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 
-import {
-  Content,
+import papr, {
+
 } from '../clients/papr'
 
 import type { EntityType } from '../clients/papr'
@@ -21,7 +21,7 @@ const createGetByIdResolver = (entity: EntityType, outputType: GraphQLOutputType
         type: new GraphQLNonNull(GraphQLID),
       },
     },
-    resolve: async (_, { id }) => Content.findOne({ entityType: entity.name, _id: new ObjectId(id) }),
+    resolve: async (_, { id }) => papr.Content.findOne({ entityType: entity.name, _id: new ObjectId(id) }),
   } as const
 
   return getById

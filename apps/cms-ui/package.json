@@ -5,6 +5,7 @@
   "scripts": {
     "start": "expo start",
     "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "typecheck": "tsc --noEmit",

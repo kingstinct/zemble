@@ -7,6 +7,7 @@
     "test": "bun test",
     "dev": "PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },

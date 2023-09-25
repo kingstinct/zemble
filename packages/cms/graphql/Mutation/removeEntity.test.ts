@@ -1,12 +1,19 @@
 import {
-  beforeEach, test, expect,
+  beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { Entities } from '../../clients/papr'
+import papr from '../../clients/papr'
 import plugin from '../../plugin'
-import { CreateEntityMutation } from '../../utils/createEntityMutation'
+import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
+import { CreateEntityMutation } from '../../utils/testOperations'
 import { graphql } from '../client.generated'
+
+beforeAll(setupBeforeAll)
+
+afterAll(teardownAfterAll)
+
+afterEach(tearDownAfterEach)
 
 const RemoveEntityMutation = graphql(`
   mutation RemoveEntity($name: String!) {
@@ -33,7 +40,7 @@ beforeEach(async () => {
 })
 
 test('should remove entity', async () => {
-  const entititesBefore = await Entities.find({})
+  const entititesBefore = await papr.Entities.find({})
 
   expect(entititesBefore).toHaveLength(1)
 
@@ -43,7 +50,7 @@ test('should remove entity', async () => {
 
   expect(removeEntityRes.data?.removeEntity).toEqual(true)
 
-  const entititesAfter = await Entities.find({})
+  const entititesAfter = await papr.Entities.find({})
 
   expect(entititesAfter).toHaveLength(0)
 })

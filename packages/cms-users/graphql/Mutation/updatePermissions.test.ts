@@ -1,9 +1,15 @@
-import { describe, it, expect } from 'bun:test'
+import {
+  describe, it, expect,
+  beforeAll, afterAll, afterEach,
+} from 'bun:test'
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { PermissionType, User } from '../../clients/papr'
+import {
+  PermissionType, User,
+} from '../../clients/papr'
 import plugin from '../../plugin'
+import { setupBeforeAll, teardownAfterAll, tearDownAfterEach } from '../../test-setup'
 import { graphql } from '../client.generated'
 
 export const UpdatePermissionsMutation = graphql(`
@@ -17,6 +23,10 @@ export const UpdatePermissionsMutation = graphql(`
     }
   }
 `)
+
+beforeAll(setupBeforeAll)
+afterEach(tearDownAfterEach)
+afterAll(teardownAfterAll)
 
 describe('Mutation.updatePermissions', () => {
   it('Should fail without permission', async () => {

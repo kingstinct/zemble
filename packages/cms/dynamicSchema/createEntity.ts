@@ -2,7 +2,7 @@ import { GraphQLNonNull } from 'graphql'
 import { ObjectId } from 'mongodb'
 
 import { createTraverser, fieldToInputType } from './utils'
-import { Content } from '../clients/papr'
+import papr from '../clients/papr'
 
 import type { EntityType } from '../clients/papr'
 import type { GraphQLFieldConfig, GraphQLOutputType } from 'graphql'
@@ -25,7 +25,7 @@ const createEntityResolver = (entity: EntityType, type: GraphQLOutputType) => {
 
       const _id = id ? new ObjectId(id) : new ObjectId()
 
-      const res = await Content.findOneAndUpdate({
+      const res = await papr.Content.findOneAndUpdate({
         _id,
         entityType: entity.name,
       }, {

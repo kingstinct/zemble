@@ -4,7 +4,7 @@ import { Plugin } from '@readapt/core'
 import graphqlYoga from '@readapt/graphql-yoga'
 import auth from 'readapt-plugin-auth'
 
-import { connect } from './clients/papr'
+import papr from './clients/papr'
 import createDynamicSchema from './dynamicSchema/createDynamicSchema'
 
 import type { DependenciesResolver } from '@readapt/core'
@@ -43,7 +43,7 @@ const plugin = new Plugin(__dirname, {
 })
 
 if (process.env.PLUGIN_DEV) {
-  void connect()
+  void papr.connect()
 }
 
 export default plugin

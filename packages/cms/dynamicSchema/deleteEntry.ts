@@ -3,7 +3,7 @@ import {
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 
-import { Content } from '../clients/papr'
+import papr from '../clients/papr'
 
 import type { EntityType } from '../clients/papr'
 import type { GraphQLFieldConfig } from 'graphql'
@@ -17,7 +17,7 @@ const createDeleteEntryResolver = (entity: EntityType) => {
       },
     },
     resolve: async (_, { id }) => {
-      await Content.findOneAndDelete({
+      await papr.Content.findOneAndDelete({
         entityType: entity.name,
         _id: new ObjectId(id),
       })

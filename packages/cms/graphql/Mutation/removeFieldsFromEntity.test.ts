@@ -1,14 +1,18 @@
 import {
-  beforeEach, test, expect,
+  beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { AddFieldsToEntityMutation } from './addFieldsToEntity.test'
-import { Entities } from '../../clients/papr'
+import papr from '../../clients/papr'
 import plugin from '../../plugin'
-import { CreateEntityMutation } from '../../utils/createEntityMutation'
+import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
+import { AddFieldsToEntityMutation, CreateEntityMutation } from '../../utils/testOperations'
 import { graphql } from '../client.generated'
+
+beforeAll(setupBeforeAll)
+afterAll(teardownAfterAll)
+afterEach(tearDownAfterEach)
 
 const RemoveFieldsFromEntityMutation = graphql(`
   mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {
@@ -68,7 +72,7 @@ test('should remove a title field', async () => {
     ],
   })
 
-  const entitites = await Entities.find({})
+  const entitites = await papr.Entities.find({})
 
   expect(entitites).toEqual([
     {

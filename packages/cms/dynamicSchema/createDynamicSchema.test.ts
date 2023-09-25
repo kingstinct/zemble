@@ -1,13 +1,19 @@
 import {
-  expect, test, beforeEach,
+  expect, test, beforeEach, beforeAll, afterAll, afterEach,
 } from 'bun:test'
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { Content } from '../clients/papr'
-import { AddFieldsToEntityMutation } from '../graphql/Mutation/addFieldsToEntity.test'
+import papr from '../clients/papr'
 import plugin from '../plugin'
-import { CreateEntityMutation } from '../utils/createEntityMutation'
+import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../test-setup'
+import { CreateEntityMutation, AddFieldsToEntityMutation } from '../utils/testOperations'
+
+beforeAll(setupBeforeAll)
+
+afterAll(teardownAfterAll)
+
+afterEach(tearDownAfterEach)
 
 let app: Readapt.Server
 let opts: Record<string, unknown>
@@ -122,7 +128,7 @@ test('should create a book', async () => {
     },
   ])
 
-  const entityEntry = await Content.find({})
+  const entityEntry = await papr.Content.find({})
 
   expect(entityEntry).toEqual([
     {
@@ -218,7 +224,7 @@ test('should create a book with authors', async () => {
       },
     })
 
-    const entityEntry = await Content.find({})
+    const entityEntry = await papr.Content.find({})
 
     expect(entityEntry).toEqual([
       {

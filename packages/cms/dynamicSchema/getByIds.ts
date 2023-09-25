@@ -3,8 +3,8 @@ import {
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 
-import {
-  Content,
+import papr, {
+
 } from '../clients/papr'
 
 import type { EntityType } from '../clients/papr'
@@ -20,7 +20,7 @@ const createGetByIdsResolver = (entity: EntityType, outputType: GraphQLObjectTyp
         type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLID))),
       },
     },
-    resolve: async (_, { ids }) => Content.find({
+    resolve: async (_, { ids }) => papr.Content.find({
       entityType: entity.name,
       _id: { $in: ids.map((id) => new ObjectId(id)) },
     }),

@@ -1,21 +1,19 @@
 import {
-  beforeEach, test, expect,
+  beforeEach, test, expect, afterAll, afterEach, beforeAll,
 } from 'bun:test'
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import { Entities } from '../../clients/papr'
+import papr from '../../clients/papr'
 import plugin from '../../plugin'
-import { CreateEntityMutation } from '../../utils/createEntityMutation'
-import { graphql } from '../client.generated'
+import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
+import { AddFieldsToEntityMutation, CreateEntityMutation } from '../../utils/testOperations'
 
-export const AddFieldsToEntityMutation = graphql(`
-  mutation AddFieldsToEntity($name: String!, $fields: [FieldInput!]!) {
-    addFieldsToEntity(entityName: $name, fields: $fields) {
-      name
-    }
-  }
-`)
+beforeAll(setupBeforeAll)
+
+afterAll(teardownAfterAll)
+
+afterEach(tearDownAfterEach)
 
 // todo [>=1]: add tests for required-checks/migration
 
@@ -57,7 +55,7 @@ test('should add a title field', async () => {
     },
   })
 
-  const entitites = await Entities.find({})
+  const entitites = await papr.Entities.find({})
 
   expect(entitites).toEqual([
     {

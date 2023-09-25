@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],

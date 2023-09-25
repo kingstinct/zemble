@@ -16,11 +16,7 @@ import createGetByIdResolver from './getById'
 import createGetByIdsResolver from './getByIds'
 import createSearch from './search'
 import { fieldToOutputType, resetTypes } from './utils'
-import {
-  Entities,
-  Content,
-  connect,
-} from '../clients/papr'
+import papr from '../clients/papr'
 import {
   capitalize,
 } from '../utils'
@@ -38,16 +34,16 @@ type ReducerType = {
 
 export default async () => {
   if (process.env.NODE_ENV !== 'test') {
-    await connect()
+    await papr.connect()
   }
 
-  const entities = await Entities.find({})
+  const entities = await papr.Entities.find({})
 
   resetTypes()
 
   const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((acc, entity) => {
     const getById = new Dataloader(async (ids: readonly string[]) => {
-      const entries = await Content.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
+      const entries = await papr.Content.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
 
       return ids.map((id) => entries.find((entry) => entry._id.toHexString() === id))
     })

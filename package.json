@@ -4,13 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-recursive": "pnpm recursive --filter=!*cms* --filter=!*cms-users* run test",
-    "lint": "manypkg exec bun run lint",
-    "lint-quiet": "manypkg exec bun run lint --quiet",
-    "typecheck": "manypkg exec bun run typecheck",
-    "graphql-codegen": "manypkg exec bun run graphql-codegen",
+    "test-recursive": "bunx turbo run test",
+    "lint-quiet": "bunx turbo run lint -- --quiet",
+    "typecheck": "bunx turbo run typecheck",
+    "graphql-codegen": "bunx turbo run graphql-codegen",
     "prepare": "husky install",
-    "pre-push": "concurrently \"pnpm lint-quiet\" \"pnpm typecheck\" \"pnpm test-recursive\""
+    "pre-push": "bunx turbo run lint-quiet test typecheck"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +17,6 @@
   "devDependencies": {
     "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@graphql-typed-document-node/core": "^3.2.0",
-    "@manypkg/cli": "^0.21.0",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "bun-types": "^1.0.3",
@@ -42,7 +40,8 @@
     "eslint-plugin-yml": "^1.8.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "patch-package": "^8.0.0"
+    "patch-package": "^8.0.0",
+    "turbo": "^1.10.14"
   },
   "workspaces": [
     "packages/*",

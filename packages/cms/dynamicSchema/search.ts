@@ -2,7 +2,7 @@ import {
   GraphQLBoolean, GraphQLList, GraphQLNonNull, GraphQLString,
 } from 'graphql'
 
-import { Content } from '../clients/papr'
+import papr, { } from '../clients/papr'
 
 import type { EntityType } from '../clients/papr'
 import type { GraphQLFieldConfig, GraphQLObjectType } from 'graphql'
@@ -23,7 +23,7 @@ const createSearch = (entity: EntityType, obj: GraphQLObjectType) => {
     },
     resolve: async (_, {
       query, caseSensitive, diacriticSensitive, language,
-    }) => Content.find({
+    }) => papr.Content.find({
       entityType: entity.name,
       $text: {
         $search: query,

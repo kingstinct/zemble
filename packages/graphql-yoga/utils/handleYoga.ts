@@ -21,8 +21,6 @@ export default async (
 
     // eslint-disable-next-line no-restricted-syntax, @typescript-eslint/no-unused-vars
     for await (const _ of eventSource) {
-      console.log('reload-schema!!')
-      // logger.log('Updating schema...')
       yoga = createYoga({
         ...opts,
         schema: await getSchema(),

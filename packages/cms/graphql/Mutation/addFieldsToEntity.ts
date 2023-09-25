@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 
-import { Content, Entities, getDb } from '../../clients/papr'
+import papr from '../../clients/papr'
 
 import type { EntitySchema } from '../../clients/papr'
 import type {
@@ -51,7 +51,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
     })
     const fieldsRequiringValidation = all.filter(Boolean) as readonly string[]
     if (fieldsRequiringValidation.length > 1) {
-      const failingDocs = await Content.find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
+      const failingDocs = await papr.Content.find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
         ...acc,
         $or: [
           { [fieldName]: { $exists: false } },
@@ -70,7 +70,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await validateFields(fields)
 
-  const prev = await Entities.findOneAndUpdate({ name: entityName }, {
+  const prev = await papr.Entities.findOneAndUpdate({ name: entityName }, {
     $set: fields.reduce((acc, field) => ({
       ...acc,
       [`fields.${field.name}`]: field,
@@ -85,8 +85,8 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   const searchableFields = Object.values(prev.fields).filter((field) => 'isSearchable' in field && field.isSearchable)
 
-  const db = getDb()
-  const collection = db.collection('content')
+  const { db } = papr
+  const collection = db!.collection('content')
   const hasIndex = await collection.indexExists(`search_index`)
 
   // seems to fail to add in tests if dropping index?

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "bun app.ts",
     "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],

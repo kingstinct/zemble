@@ -3,9 +3,10 @@ import {
 } from 'graphql'
 
 import { fieldToInputType } from './utils'
-import { Content, type EntityType } from '../clients/papr'
+import papr from '../clients/papr'
 import { capitalize } from '../utils'
 
+import type { EntityType } from '../clients/papr'
 import type { GraphQLFieldConfig, GraphQLObjectType } from 'graphql'
 
 const createFilterResolver = (entity: EntityType, obj: GraphQLObjectType) => {
@@ -51,7 +52,7 @@ const createFilterResolver = (entity: EntityType, obj: GraphQLObjectType) => {
         }), {}),
       }), {})
 
-      return Content.find({
+      return papr.Content.find({
         entityType: entity.name,
         ...filter,
       })

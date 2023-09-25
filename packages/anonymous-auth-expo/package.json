@@ -10,6 +10,7 @@
     "codegen": "graphql-code-generator",
     "dev": "PLUGIN_DEV=true bun --hot index.ts",
     "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
