@@ -7,8 +7,8 @@
     "test-recursive": "pnpm recursive --filter=!*cms* --filter=!*cms-users* run test",
     "lint": "manypkg exec bun run lint",
     "lint-quiet": "manypkg exec bun run lint --quiet",
-    "typecheck": "pnpm recursive run typecheck",
-    "graphql-codegen": "manypkg exec graphql-codegen",
+    "typecheck": "manypkg exec bun run typecheck",
+    "graphql-codegen": "manypkg exec bun run graphql-codegen",
     "prepare": "husky install",
     "pre-push": "concurrently \"pnpm lint-quiet\" \"pnpm typecheck\" \"pnpm test-recursive\""
   },
@@ -46,7 +46,6 @@
   },
   "workspaces": [
     "packages/*",
-    "apps/*",
-    "plugins/*"
+    "apps/*"
   ]
 }

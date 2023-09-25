@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "jsx": "react-native",
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true,
+    "types": [ "bun-types" ]
+  },
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "!expo-env.d.ts",
+    "*.js",
+    "expo-env.d.ts"
+  ]
+}
