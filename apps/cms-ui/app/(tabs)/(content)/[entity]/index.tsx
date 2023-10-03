@@ -1,5 +1,5 @@
 import BottomSheet from '@gorhom/bottom-sheet'
-import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
+import { router, useGlobalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import {
   View, ScrollView, Button,

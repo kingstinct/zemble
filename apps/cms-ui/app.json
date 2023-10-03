@@ -4,6 +4,9 @@
     "experiments": {
       "typedRoutes": true
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "web": {
       "bundler": "metro"
     },

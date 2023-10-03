@@ -1,6 +1,7 @@
 import {
-  View, Text, StyleSheet, Pressable,
+  Text, StyleSheet,
 } from 'react-native'
+import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
 import { capitalize } from '../utils/text'
@@ -42,35 +43,25 @@ const ListOfEntries: React.FC<ListOfEntriesProps> = ({
   const entries = data?.[queryName] as Record<string, unknown> & readonly {readonly id: string}[] | undefined
 
   return (
-    <View style={styles.table}>
-      <View
-        style={[styles.row, { backgroundColor: 'black' }]}
-      >
-        { fields.map((f) => <Text key={f.name} style={[styles.cell, { color: 'white' }]}>{ f.name }</Text>) }
-      </View>
+    <DataTable>
+
+      <DataTable.Header>
+        { fields.map((f) => <DataTable.Title key={f.name}>{ f.name }</DataTable.Title>) }
+      </DataTable.Header>
       {
-        entries?.map((entity) => (
-          <Pressable
-            accessibilityRole='button'
-            key={entity.id}
-            onPress={() => onSelected(entity)}
-          >
-            <View
-              style={styles.row}
-            >
-              { fs.map((f) => (
-                <Text
-                  key={f}
-                  style={styles.cell}
-                >
-                  { entity[f] ? entity[f].toString() : '(null)' }
+        entries?.map((entry) => (
+          <DataTable.Row key={entry.id} onPress={() => onSelected(entry)}>
+            { fs.map((f) => (
+              <DataTable.Cell key={f}>
+                <Text>
+                  { entry[f] ? entry[f].toString() : '(null)' }
                 </Text>
-              )) }
-            </View>
-          </Pressable>
+              </DataTable.Cell>
+            )) }
+          </DataTable.Row>
         ))
       }
-    </View>
+    </DataTable>
   )
 }
 

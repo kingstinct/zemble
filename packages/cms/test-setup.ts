@@ -17,9 +17,8 @@ export const setupBeforeAll = async () => {
 }
 
 export const setupBeforeAllRepl = async () => {
-  mongodb = await ((await import('mongodb-memory-server')).MongoMemoryReplSet).create({ replSet: { count: 1 }, instanceOpts: [{ storageEngine: 'devnull' }] })
-
-  // await mongodb!.start()
+  const memoryServer = await import('mongodb-memory-server')
+  mongodb = await memoryServer.MongoMemoryReplSet.create()
 
   const MONGO_URL = mongodb!.getUri()
 

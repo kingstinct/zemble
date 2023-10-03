@@ -2,6 +2,7 @@
 import { Plugin } from '@readapt/core'
 import authOtp from 'readapt-plugin-auth-otp'
 import cms from 'readapt-plugin-cms'
+import papr from 'readapt-plugin-cms/clients/papr'
 
 import { PermissionType, User, connect } from './clients/papr'
 
@@ -92,6 +93,7 @@ const plugin = new Plugin(__dirname, {
 
 if (process.env.PLUGIN_DEV) {
   void connect()
+  void papr.connect()
 }
 
 export default plugin
