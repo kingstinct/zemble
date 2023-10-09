@@ -1,6 +1,4 @@
-import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet'
-import { router, useLocalSearchParams } from 'expo-router'
-import { useEffect, useRef, useState } from 'react'
+import { useLocalSearchParams } from 'expo-router'
 import {
   View, Text, ScrollView,
 } from 'react-native'
@@ -8,26 +6,16 @@ import { RefreshControl } from 'react-native-gesture-handler'
 import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
-import { GetEntityByPluralizedNameQuery } from '.'
-import CreateField from '../../../../components/createEntityField'
-import { styles } from '../../../../style'
+import { GetEntityByPluralizedNameQuery } from '..'
 
 const EntityDetails = () => {
-  const { entity, selectedId: selectedIdRaw } = useLocalSearchParams()
+  const { entity } = useLocalSearchParams()
 
   const [{ data, fetching }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
     variables: { pluralizedName: entity },
     pause: !entity,
   })
-
-  const bottomSheet = useRef<BottomSheet>(null)
-
-  useEffect(() => {
-    if (selectedIdRaw === 'new') {
-      bottomSheet.current?.expand()
-    }
-  }, [selectedIdRaw])
 
   return (
     <View style={{ flex: 1 }}>
@@ -57,29 +45,6 @@ const EntityDetails = () => {
         <Text>{ JSON.stringify(data?.getEntityByPluralizedName, null, 2) }</Text>
         <View style={{ height: 200 }} />
       </ScrollView>
-
-      <BottomSheet
-        ref={bottomSheet}
-        snapPoints={[200, 500]}
-        index={-1}
-        backdropComponent={BottomSheetBackdrop}
-        enablePanDownToClose
-        onChange={(index) => {
-          if (index === -1) {
-            router.setParams({ selectedId: '' })
-          }
-        }}
-        backgroundStyle={styles.bottomSheetBackground}
-      >
-        <BottomSheetScrollView>
-          { data?.getEntityByPluralizedName ? (
-            <CreateField
-              entityName={data.getEntityByPluralizedName.name}
-              onUpdated={refetch}
-            />
-          ) : null }
-        </BottomSheetScrollView>
-      </BottomSheet>
     </View>
   )
 }

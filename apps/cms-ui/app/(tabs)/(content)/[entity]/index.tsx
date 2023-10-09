@@ -1,15 +1,11 @@
-import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
 import { router, useLocalSearchParams } from 'expo-router'
-import { useEffect, useRef } from 'react'
 import {
   View, ScrollView, Button, RefreshControl,
 } from 'react-native'
 import { useQuery } from 'urql'
 
 import ListOfEntries from '../../../../components/ListOfEntries'
-import ModifyEntityEntry from '../../../../components/modifyEntityEntry'
 import { graphql } from '../../../../gql'
-import { styles } from '../../../../style'
 
 export const GetEntityByPluralizedNameQuery = graphql(`
   query GetEntityByPluralizedName($pluralizedName: String!) { getEntityByPluralizedName(pluralizedName: $pluralizedName) { 
@@ -42,25 +38,13 @@ export const GetEntityByPluralizedNameQuery = graphql(`
 `)
 
 const EntityDetails = () => {
-  const { entity, selectedId: selectedIdRaw } = useLocalSearchParams()
-
-  console.log('selectedIdRaw', selectedIdRaw)
-
-  const selectedId = selectedIdRaw === '' || selectedIdRaw === 'new' ? undefined : selectedIdRaw as string | undefined
+  const { entity } = useLocalSearchParams()
 
   const [{ data, fetching }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
     variables: { pluralizedName: entity },
     pause: !entity,
   })
-
-  const bottomSheet = useRef<BottomSheet>(null)
-
-  useEffect(() => {
-    if (selectedIdRaw === 'new') {
-      bottomSheet.current?.expand()
-    }
-  }, [selectedIdRaw])
 
   return (
     <View style={{ flex: 1 }}>
@@ -77,8 +61,7 @@ const EntityDetails = () => {
           <ListOfEntries
             entityName={data.getEntityByPluralizedName.name}
             onSelected={(s) => {
-              router.setParams({ selectedId: s.id })
-              bottomSheet.current?.expand()
+              router.push(`/(tabs)/(content)/${entity as string}/edit/${s.id}`)
             }}
             pluralizedName={data.getEntityByPluralizedName.pluralizedName}
             fields={data.getEntityByPluralizedName.fields}
@@ -86,31 +69,6 @@ const EntityDetails = () => {
         ) : null }
         <View style={{ height: 200 }} />
       </ScrollView>
-
-      <BottomSheet
-        ref={bottomSheet}
-        snapPoints={[200, 500]}
-        enablePanDownToClose
-        backdropComponent={BottomSheetBackdrop}
-        index={-1}
-        onClose={() => {
-          // router.setParams({ selectedId: '' })
-        }}
-        onChange={(index) => {
-          if (index === -1) {
-            router.setParams({ selectedId: '' })
-          }
-        }}
-        backgroundStyle={styles.bottomSheetBackground}
-      >
-        { data?.getEntityByPluralizedName ? (
-          <ModifyEntityEntry
-            entity={data.getEntityByPluralizedName}
-            previousEntryId={selectedId}
-            onUpdated={refetch}
-          />
-        ) : null }
-      </BottomSheet>
     </View>
   )
 }

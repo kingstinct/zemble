@@ -1,18 +1,17 @@
 /* eslint-disable functional/immutable-data */
-
-import { useBottomSheet } from '@gorhom/bottom-sheet'
 import { Formik } from 'formik'
 import { useCallback, useMemo } from 'react'
 import {
-  View, Text, Button, TextInput, Switch,
+  View, Text, Switch,
 } from 'react-native'
+import { Button, TextInput } from 'react-native-paper'
 import { useMutation, useQuery } from 'urql'
 
 import { styles } from '../style'
+import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
 
 import type { GetEntityByPluralizedNameQuery } from '../gql/graphql'
-import getSelectionSet from '../utils/getSelectionSet'
 
 const fieldToTypeMap: Record<string, string> = {
   StringField: 'String',
@@ -65,11 +64,7 @@ const CreateEntry: React.FC<{
     pause: !previousEntryId,
   })
 
-  console.log('previousEntryId', previousEntryId)
-
   const previousEntry = previousEntryId ? (data?.[queryName]as Record<string, unknown> | undefined) : undefined
-
-  const { close } = useBottomSheet()
 
   const [, createEntry] = useMutation(useMemo(() => buildCreateEntryMutation(entity), [entity]))
 
@@ -117,7 +112,6 @@ const CreateEntry: React.FC<{
         handleChange, handleBlur, handleSubmit, values, errors,
       }) => (
         <View>
-          <Text style={styles.title}>{`${previousEntry ? 'Edit' : 'Create'} ${entity.name}` }</Text>
           {
             entity.fields.map((field) => {
               if (field.__typename === 'IDField' && values[field.name]) {
@@ -197,16 +191,10 @@ const CreateEntry: React.FC<{
             }
             <Button
               onPress={handleSubmit as () => void}
-              title='Save'
-            />
-          </View>
-          <View style={{ padding: 8 }}>
-            <Button
-              onPress={() => {
-                close()
-              }}
-              title='Dismiss'
-            />
+              mode='contained'
+            >
+              Save
+            </Button>
           </View>
         </View>
       )}
