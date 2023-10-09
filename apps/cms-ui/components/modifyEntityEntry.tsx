@@ -6,12 +6,13 @@ import { useCallback, useMemo } from 'react'
 import {
   View, Text, Button, TextInput, Switch,
 } from 'react-native'
-import { useMutation } from 'urql'
+import { useMutation, useQuery } from 'urql'
 
 import { styles } from '../style'
 import { capitalize } from '../utils/text'
 
 import type { GetEntityByPluralizedNameQuery } from '../gql/graphql'
+import getSelectionSet from '../utils/getSelectionSet'
 
 const fieldToTypeMap: Record<string, string> = {
   StringField: 'String',
@@ -45,14 +46,28 @@ const buildCreateEntryMutation = (entity: Entity) => {
 
 const CreateEntry: React.FC<{
   readonly entity: Entity,
-  readonly previousEntry?: Record<string, unknown> | null,
+  readonly previousEntryId?: string,
   readonly onUpdated?: () => void,
 }> = ({
   entity,
-  previousEntry,
+  previousEntryId,
   onUpdated,
 }) => {
   const { fields } = entity
+
+  const selectionSet = getSelectionSet(entity.name, fields)
+
+  const queryName = `get${capitalize(entity.name)}ById`
+
+  const [{ data }] = useQuery({
+    query: `query GetEntity { ${queryName}(id: "${previousEntryId}") { ${selectionSet.join(' ')} } }`,
+    variables: {},
+    pause: !previousEntryId,
+  })
+
+  console.log('previousEntryId', previousEntryId)
+
+  const previousEntry = previousEntryId ? (data?.[queryName]as Record<string, unknown> | undefined) : undefined
 
   const { close } = useBottomSheet()
 
@@ -177,7 +192,6 @@ const CreateEntry: React.FC<{
             })
           }
           <View style={{ margin: 8 }}>
-
             { // @ts-expect-error fix later
               Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{errors[key]}</Text>)
             }

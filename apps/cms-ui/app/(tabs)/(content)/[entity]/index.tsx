@@ -1,12 +1,12 @@
 import BottomSheet from '@gorhom/bottom-sheet'
-import { router, useGlobalSearchParams } from 'expo-router'
-import { useEffect, useState } from 'react'
+import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
+import { useEffect, useRef } from 'react'
 import {
   View, ScrollView, Button, RefreshControl,
 } from 'react-native'
 import { useQuery } from 'urql'
 
-import CreateEntityEntry from '../../../../components/createEntityEntry'
+import ModifyEntityEntry from '../../../../components/modifyEntityEntry'
 import ListOfEntries from '../../../../components/ListOfEntries'
 import { graphql } from '../../../../gql'
 import { styles } from '../../../../style'
@@ -42,7 +42,11 @@ export const GetEntityByPluralizedNameQuery = graphql(`
 `)
 
 const EntityDetails = () => {
-  const { entity, create } = useGlobalSearchParams()
+  const { entity, selectedId: selectedIdRaw } = useLocalSearchParams()
+
+  console.log('selectedIdRaw', selectedIdRaw)
+
+  const selectedId = selectedIdRaw === '' || selectedIdRaw === 'new' ? undefined : selectedIdRaw as string | undefined
 
   const [{ data, fetching }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
@@ -50,14 +54,13 @@ const EntityDetails = () => {
     pause: !entity,
   })
 
-  const [index, setIndex] = useState(-1)
+  const bottomSheet = useRef<BottomSheet>(null)
 
   useEffect(() => {
-    const nextIndex = create && create !== 'false' ? 1 : -1
-    setIndex(nextIndex)
-  }, [create])
-
-  const [selected, setSelected] = useState<Record<string, unknown> | null>(null)
+    if(selectedIdRaw === 'new') {
+      bottomSheet.current?.expand()
+    }
+  }, [selectedIdRaw])
 
   return (
     <View style={{ flex: 1 }}>
@@ -72,8 +75,8 @@ const EntityDetails = () => {
           <ListOfEntries
             entityName={data.getEntityByPluralizedName.name}
             onSelected={(s) => {
-              setSelected(s)
-              router.setParams({ create: 'true' })
+              router.setParams({ selectedId: s.id!.toString() })
+              bottomSheet.current?.expand()
             }}
             pluralizedName={data.getEntityByPluralizedName.pluralizedName}
             fields={data.getEntityByPluralizedName.fields}
@@ -83,20 +86,24 @@ const EntityDetails = () => {
       </ScrollView>
 
       <BottomSheet
+        ref={bottomSheet}
         snapPoints={[200, 500]}
-        index={index}
         enablePanDownToClose
+        index={-1}
         onClose={() => {
-          router.setParams({ create: 'false' })
-          setSelected(null)
+          // router.setParams({ selectedId: '' })
+        }}
+        onChange={(index) => {
+if(index === -1){
+  router.setParams({ selectedId: '' })
+}
         }}
         backgroundStyle={styles.bottomSheetBackground}
-        onChange={(i) => setIndex(i)}
       >
         { data?.getEntityByPluralizedName ? (
-          <CreateEntityEntry
+          <ModifyEntityEntry
             entity={data.getEntityByPluralizedName}
-            previousEntry={selected}
+            previousEntryId={selectedId}
             onUpdated={refetch}
           />
         ) : null }

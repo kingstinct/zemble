@@ -40,7 +40,7 @@ const EntitiesLayout = () => {
     }
   }, [createEntityMutation, refetch])
 
-  const onPressHeaderRightDetailsView = useCallback(() => router.setParams({ create: 'true' }), [])
+  const onPressHeaderRightDetailsView = useCallback(() => router.setParams({ selectedId: 'new' }), [])
 
   return (
     <Stack

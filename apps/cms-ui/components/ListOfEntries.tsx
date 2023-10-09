@@ -5,6 +5,7 @@ import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
 import { capitalize } from '../utils/text'
+import getSelectionSet from '../utils/getSelectionSet'
 
 const styles = StyleSheet.create({
   row: {
@@ -42,22 +43,15 @@ const formatFieldValue = (value: unknown) => {
   return value.toString();
 }
 
-const ArraySubFieldName = ({ entityName, arrayFieldName, subFieldName }: {readonly entityName: string, readonly arrayFieldName: string, readonly subFieldName: string }) => `${capitalize(entityName)}${capitalize(arrayFieldName)}${capitalize(subFieldName)}`.replaceAll(' ', '_')
-
 const ListOfEntries: React.FC<ListOfEntriesProps> = ({
   fields, pluralizedName, entityName, onSelected,
 }) => {
-  const fs = fields.map((field) => (field.availableFields && field.availableFields.length > 0
-    ? `${field.name} { __typename ${field.availableFields.map((f) => {
-      const fieldName = f.name.replaceAll(' ', '_')
-      return `... on ${ArraySubFieldName({ arrayFieldName: field.name, entityName, subFieldName: f.name })} { ${fieldName} }`
-    }).join(' ')} }`
-    : field.name))
+  const selectionSet = getSelectionSet(entityName, fields)
 
   const queryName = `getAll${capitalize(pluralizedName)}`
 
   const [{ data }] = useQuery({
-    query: `query GetEntries { ${queryName} { ${fs.join(' ')} } }`,
+    query: `query GetEntries { ${queryName} { ${selectionSet.join(' ')} } }`,
     variables: {},
   })
 

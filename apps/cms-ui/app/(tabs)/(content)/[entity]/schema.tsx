@@ -1,6 +1,6 @@
 import BottomSheet from '@gorhom/bottom-sheet'
 import { router, useLocalSearchParams } from 'expo-router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   View, Text, ScrollView,
 } from 'react-native'
@@ -13,7 +13,7 @@ import { RefreshControl } from 'react-native-gesture-handler'
 import { DataTable } from 'react-native-paper'
 
 const EntityDetails = () => {
-  const { entity, create } = useLocalSearchParams()
+  const { entity, selectedId: selectedIdRaw } = useLocalSearchParams()
 
   const [{ data, fetching }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
@@ -21,12 +21,13 @@ const EntityDetails = () => {
     pause: !entity,
   })
 
-  const [index, setIndex] = useState(-1)
+  const bottomSheet = useRef<BottomSheet>(null)
 
   useEffect(() => {
-    const nextIndex = create && create !== 'false' ? 1 : -1
-    setIndex(nextIndex)
-  }, [create])
+    if(selectedIdRaw === 'new'){
+      bottomSheet.current?.expand()
+    }
+  }, [selectedIdRaw])
 
   return (
     <View style={{ flex: 1 }}>
@@ -57,11 +58,15 @@ const EntityDetails = () => {
       </ScrollView>
 
       <BottomSheet
+        ref={bottomSheet}
         snapPoints={[200, 500]}
-        index={index}
-        onClose={() => router.setParams({ create: 'false' })}
+        index={-1}
         enablePanDownToClose
-        onChange={(i) => setIndex(i)}
+        onChange={(index) => {
+          if(index === -1){
+            router.setParams({ selectedId: '' })
+          }
+        }}
         backgroundStyle={styles.bottomSheetBackground}
       >
         { data?.getEntityByPluralizedName ? (
