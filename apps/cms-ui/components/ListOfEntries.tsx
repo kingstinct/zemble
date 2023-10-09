@@ -8,7 +8,12 @@ import { capitalize } from '../utils/text'
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row', borderColor: 'gray', borderWidth: StyleSheet.hairlineWidth, margin: 10, padding: 10, justifyContent: 'space-between',
+    flexDirection: 'row', 
+    borderColor: 'gray', 
+    borderWidth: StyleSheet.hairlineWidth, 
+    margin: 10, 
+    padding: 10, 
+    justifyContent: 'space-between',
   },
   cell: { alignSelf: 'stretch' },
   table: { borderRadius: 10, margin: 10, padding: 10 },
@@ -19,6 +24,22 @@ type ListOfEntriesProps = {
   readonly fields: readonly {readonly name: string, readonly __typename: string, readonly availableFields?: readonly {readonly name: string}[]}[],
   readonly onSelected: (s: Record<string, unknown>) => void
   readonly entityName: string
+}
+
+const formatFieldValue = (value: unknown) => {
+  if(value === null){
+    return '(null)'
+  }
+
+  if(value === undefined){
+    return '(undefined)'
+  }
+
+  if(typeof value === 'boolean'){
+    return value ? '✅' : '❌'
+  }
+
+  return value.toString();
 }
 
 const ArraySubFieldName = ({ entityName, arrayFieldName, subFieldName }: {readonly entityName: string, readonly arrayFieldName: string, readonly subFieldName: string }) => `${capitalize(entityName)}${capitalize(arrayFieldName)}${capitalize(subFieldName)}`.replaceAll(' ', '_')
@@ -42,19 +63,21 @@ const ListOfEntries: React.FC<ListOfEntriesProps> = ({
 
   const entries = data?.[queryName] as Record<string, unknown> & readonly {readonly id: string}[] | undefined
 
+  const fieldsExceptId = fields.filter(f => f.name !== 'id').map(f => f.name)
+
   return (
     <DataTable>
 
       <DataTable.Header>
-        { fields.map((f) => <DataTable.Title key={f.name}>{ f.name }</DataTable.Title>) }
+        { fieldsExceptId.map((fieldName) => <DataTable.Title key={fieldName}>{ fieldName }</DataTable.Title>) }
       </DataTable.Header>
       {
         entries?.map((entry) => (
           <DataTable.Row key={entry.id} onPress={() => onSelected(entry)}>
-            { fs.map((f) => (
-              <DataTable.Cell key={f}>
+            { fieldsExceptId.map((fieldName) => (
+              <DataTable.Cell key={fieldName}>
                 <Text>
-                  { entry[f] ? entry[f].toString() : '(null)' }
+                  { formatFieldValue(entry[fieldName]) }
                 </Text>
               </DataTable.Cell>
             )) }

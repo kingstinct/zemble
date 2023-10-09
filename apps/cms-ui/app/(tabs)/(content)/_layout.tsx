@@ -67,14 +67,14 @@ const EntitiesLayout = () => {
           title: 'Content',
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name='[entity]'
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
       <Stack.Screen
         name='[entity]/index'
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

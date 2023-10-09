@@ -4,6 +4,7 @@ import { Stack, router, useSegments } from 'expo-router'
 import { useContext, useEffect } from 'react'
 
 import createClientWithToken from '../clients/urql'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 
 function useProtectedRoute(token: string | null, status: Status) {
   const segments = useSegments()
@@ -31,27 +32,29 @@ const App = () => {
   useProtectedRoute(token, status)
 
   return (
-    <Stack
-      screenOptions={{
-        animation: 'flip',
-        headerShown: false,
-        animationTypeForReplace: 'pop',
-      }}
-    >
-      {/* <Stack.Screen
-        name='(tabs)/index'
-        options={{
-          title: 'cms-ui',
+    <SafeAreaProvider>
+      <Stack
+        screenOptions={{
+          animation: 'flip',
           headerShown: false,
+          animationTypeForReplace: 'pop',
         }}
-      /> */}
-      <Stack.Screen
-        name='(auth)/login'
-        options={{
-          title: 'Login',
-        }}
-      />
-    </Stack>
+      >
+        {/* <Stack.Screen
+          name='(tabs)/index'
+          options={{
+            title: 'cms-ui',
+            headerShown: false,
+          }}
+        /> */}
+        <Stack.Screen
+          name='(auth)/login'
+          options={{
+            title: 'Login',
+          }}
+        />
+      </Stack>
+    </SafeAreaProvider>
   )
 }
 

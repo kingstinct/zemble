@@ -5,8 +5,9 @@ import {
 import { createClient as createWSClient } from 'graphql-ws'
 
 import type { CombinedErrorWithExtensions, CreateUrqlClient } from '@kingstinct/react/contexts/Urql'
+import { Platform } from 'react-native'
 
-const BACKEND_ROOT_URL = 'http://localhost:3000'
+const BACKEND_ROOT_URL = Platform.OS === 'web' ? 'http://localhost:3000' : 'http://robmax.local:3000'
 
 export const CACHE_DATA_KEY = 'graphcache-data'
 export const CACHE_METADATA_KEY = 'graphcache-metadata'
