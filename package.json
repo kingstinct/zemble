@@ -14,6 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "private": true,
   "devDependencies": {
     "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@graphql-typed-document-node/core": "^3.2.0",

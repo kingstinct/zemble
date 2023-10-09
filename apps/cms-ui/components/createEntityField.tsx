@@ -179,7 +179,11 @@ const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
               'ArrayField',
             ]}
             buttonStyle={{
-              flex: 1, margin: 10, padding: 10, borderRadius: 10,
+              margin: 10, padding: 10, 
+              borderRadius: 10,
+            }}
+            dropdownStyle={{
+              borderRadius: 10,
             }}
             defaultValue={values.fieldType}
             onSelect={handleChange('fieldType')}
