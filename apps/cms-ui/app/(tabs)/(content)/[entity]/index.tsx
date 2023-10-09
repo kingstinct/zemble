@@ -2,7 +2,7 @@ import BottomSheet from '@gorhom/bottom-sheet'
 import { router, useGlobalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import {
-  View, ScrollView, Button,
+  View, ScrollView, Button, RefreshControl,
 } from 'react-native'
 import { useQuery } from 'urql'
 
@@ -44,7 +44,7 @@ export const GetEntityByPluralizedNameQuery = graphql(`
 const EntityDetails = () => {
   const { entity, create } = useGlobalSearchParams()
 
-  const [{ data }, refetch] = useQuery({
+  const [{ data, fetching }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
     variables: { pluralizedName: entity },
     pause: !entity,
@@ -61,7 +61,12 @@ const EntityDetails = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView>
+      <ScrollView 
+        refreshControl={
+          <RefreshControl 
+            refreshing={fetching} 
+            onRefresh={refetch} />
+        }>
         <Button title='Modify schema' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />
         { data?.getEntityByPluralizedName ? (
           <ListOfEntries

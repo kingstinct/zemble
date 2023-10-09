@@ -31,7 +31,7 @@ const formatFieldValue = (value: unknown) => {
     return '(null)'
   }
 
-  if(value === undefined){
+  if(value === undefined || typeof value === 'undefined'){
     return '(undefined)'
   }
 
@@ -69,7 +69,9 @@ const ListOfEntries: React.FC<ListOfEntriesProps> = ({
     <DataTable>
 
       <DataTable.Header>
-        { fieldsExceptId.map((fieldName) => <DataTable.Title key={fieldName}>{ fieldName }</DataTable.Title>) }
+        { fieldsExceptId.map((fieldName) => <DataTable.Title 
+          key={fieldName}
+        >{ fieldName }</DataTable.Title>) }
       </DataTable.Header>
       {
         entries?.map((entry) => (

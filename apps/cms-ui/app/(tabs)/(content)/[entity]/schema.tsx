@@ -9,11 +9,12 @@ import { useQuery } from 'urql'
 import { GetEntityByPluralizedNameQuery } from '.'
 import CreateField from '../../../../components/createEntityField'
 import { styles } from '../../../../style'
+import { RefreshControl } from 'react-native-gesture-handler'
 
 const EntityDetails = () => {
   const { entity, create } = useLocalSearchParams()
 
-  const [{ data }, refetch] = useQuery({
+  const [{ data, fetching }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
     variables: { pluralizedName: entity },
     pause: !entity,
@@ -28,7 +29,11 @@ const EntityDetails = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView>
+      <ScrollView refreshControl={
+          <RefreshControl 
+            refreshing={fetching} 
+            onRefresh={refetch} />
+        }>
         <Text>{ JSON.stringify(data?.getEntityByPluralizedName, null, 2) }</Text>
         <View style={{ height: 200 }} />
       </ScrollView>
