@@ -81,3 +81,23 @@ resolver2 (user auth, default)
 resolver3 @integrationAuth (integration auth)
 resolver4 @integrationAuth @userAuth (either goes)
 resolver5 @apiAuth (api auth)
+
+
+
+
+## Plugins
+
+Plugins are reusable pieces of functionality that can be added to a system. Plugins can depend on other plugins, and can be depended on by other plugins. Plugins should preferably contain one piece of functionality, and should be as loosely coupled as possible.
+
+Some plugins act as middleware, which means they can traverse other plugins without any direct dependency on them. Examples of this is: 
+- the core GraphQL plugin, which adds schema and resolvers from other plugins.
+- the core Queue plugin, which adds queues from other plugins.
+
+Every plugin exposes a config. The config is fully typed and can be configured in detail when composing the app. Environment variables (including .env-files) are also fully supported it is suggested that plugins listens to environment variables wherever possible, for example the core KV, Queue and PubSub plugins accepts the REDIS_URL environment variable to configure the Redis connection, while still allowing overriding this for every plugin individually.
+
+An app can be just a set of plugins without any custom code. It can also contain custom code, any middleware will traverse this custom code in the same way as it traverses plugins.
+
+Concepts:
+- An app is a set of configured plugins with or without custom code.
+- A plugin is a reusable piece of functionality that can be added to an app. It can provide middleware that traverses other plugins.
+- Every plugin has a config that can be configured in detail when composing an app. 
