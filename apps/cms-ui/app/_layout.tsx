@@ -2,9 +2,9 @@ import AuthProvider, { AuthContext, Status } from '@kingstinct/react/contexts/Au
 import UrqlProvider from '@kingstinct/react/contexts/Urql'
 import { Stack, router, useSegments } from 'expo-router'
 import { useContext, useEffect } from 'react'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import createClientWithToken from '../clients/urql'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 
 function useProtectedRoute(token: string | null, status: Status) {
   const segments = useSegments()

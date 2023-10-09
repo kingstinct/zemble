@@ -1,11 +1,12 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable functional/immutable-data */
 
-import { useBottomSheet } from '@gorhom/bottom-sheet'
+import { BottomSheetTextInput, useBottomSheet } from '@gorhom/bottom-sheet'
 import { Formik } from 'formik'
 import {
-  View, Text, Button, TextInput, Switch,
+  View, Text, Switch,
 } from 'react-native'
+import { Button, TextInput } from 'react-native-paper'
 import SelectDropdown from 'react-native-select-dropdown'
 import { useMutation } from 'urql'
 
@@ -63,7 +64,7 @@ const CreateArrayField: React.FC<CreateFieldProps> = ({ updateField }) => (
       <View style={{ flexDirection: 'row' }}>
         <View style={{ flexDirection: 'row', flex: 1 }}>
           <View style={{ flex: 1 }}>
-            <TextInput
+            <BottomSheetTextInput
               accessibilityHint='Name of array field'
               accessibilityLabel='Name of array field'
               onBlur={handleBlur('fieldName')}
@@ -95,8 +96,9 @@ const CreateArrayField: React.FC<CreateFieldProps> = ({ updateField }) => (
           { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{errors[key]}</Text>) }
           <Button
             onPress={handleSubmit as () => void}
-            title='Save'
-          />
+          >
+            Save
+          </Button>
         </View>
       </View>
     )}
@@ -160,7 +162,7 @@ const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
       }) => (
         <View>
           <Text style={styles.title}>{ `Add field to ${entityName} schema` }</Text>
-          <TextInput
+          <BottomSheetTextInput
             accessibilityHint='Name of field'
             accessibilityLabel='Name of field'
             onBlur={handleBlur('fieldName')}
@@ -179,7 +181,8 @@ const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
               'ArrayField',
             ]}
             buttonStyle={{
-              margin: 10, padding: 10, 
+              margin: 10,
+              padding: 10,
               borderRadius: 10,
             }}
             dropdownStyle={{
@@ -279,18 +282,23 @@ const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
 
           <View style={{ padding: 8 }}>
             { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{errors[key]}</Text>) }
-            <Button
-              onPress={handleSubmit as () => void}
-              title='Save'
-            />
           </View>
-          <View style={{ padding: 8 }}>
+
+          <View style={{ padding: 16, flexDirection: 'row', justifyContent: 'space-between' }}>
             <Button
               onPress={() => {
                 close()
               }}
-              title='Dismiss'
-            />
+            >
+              Dismiss
+            </Button>
+            <Button
+              onPress={handleSubmit as () => void}
+              mode='contained'
+            >
+              Save
+            </Button>
+
           </View>
         </View>
       )}

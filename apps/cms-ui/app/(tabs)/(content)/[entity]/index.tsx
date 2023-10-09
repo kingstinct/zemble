@@ -1,13 +1,13 @@
-import BottomSheet from '@gorhom/bottom-sheet'
-import { router, useGlobalSearchParams, useLocalSearchParams } from 'expo-router'
+import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import {
   View, ScrollView, Button, RefreshControl,
 } from 'react-native'
 import { useQuery } from 'urql'
 
-import ModifyEntityEntry from '../../../../components/modifyEntityEntry'
 import ListOfEntries from '../../../../components/ListOfEntries'
+import ModifyEntityEntry from '../../../../components/modifyEntityEntry'
 import { graphql } from '../../../../gql'
 import { styles } from '../../../../style'
 
@@ -57,25 +57,27 @@ const EntityDetails = () => {
   const bottomSheet = useRef<BottomSheet>(null)
 
   useEffect(() => {
-    if(selectedIdRaw === 'new') {
+    if (selectedIdRaw === 'new') {
       bottomSheet.current?.expand()
     }
   }, [selectedIdRaw])
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView 
-        refreshControl={
-          <RefreshControl 
-            refreshing={fetching} 
-            onRefresh={refetch} />
-        }>
+      <ScrollView
+        refreshControl={(
+          <RefreshControl
+            refreshing={fetching}
+            onRefresh={refetch}
+          />
+        )}
+      >
         <Button title='Modify schema' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />
         { data?.getEntityByPluralizedName ? (
           <ListOfEntries
             entityName={data.getEntityByPluralizedName.name}
             onSelected={(s) => {
-              router.setParams({ selectedId: s.id!.toString() })
+              router.setParams({ selectedId: s.id })
               bottomSheet.current?.expand()
             }}
             pluralizedName={data.getEntityByPluralizedName.pluralizedName}
@@ -89,14 +91,15 @@ const EntityDetails = () => {
         ref={bottomSheet}
         snapPoints={[200, 500]}
         enablePanDownToClose
+        backdropComponent={BottomSheetBackdrop}
         index={-1}
         onClose={() => {
           // router.setParams({ selectedId: '' })
         }}
         onChange={(index) => {
-if(index === -1){
-  router.setParams({ selectedId: '' })
-}
+          if (index === -1) {
+            router.setParams({ selectedId: '' })
+          }
         }}
         backgroundStyle={styles.bottomSheetBackground}
       >

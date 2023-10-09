@@ -4,16 +4,16 @@ import {
 import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
-import { capitalize } from '../utils/text'
 import getSelectionSet from '../utils/getSelectionSet'
+import { capitalize } from '../utils/text'
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row', 
-    borderColor: 'gray', 
-    borderWidth: StyleSheet.hairlineWidth, 
-    margin: 10, 
-    padding: 10, 
+    flexDirection: 'row',
+    borderColor: 'gray',
+    borderWidth: StyleSheet.hairlineWidth,
+    margin: 10,
+    padding: 10,
     justifyContent: 'space-between',
   },
   cell: { alignSelf: 'stretch' },
@@ -23,24 +23,24 @@ const styles = StyleSheet.create({
 type ListOfEntriesProps = {
   readonly pluralizedName: string,
   readonly fields: readonly {readonly name: string, readonly __typename: string, readonly availableFields?: readonly {readonly name: string}[]}[],
-  readonly onSelected: (s: Record<string, unknown>) => void
+  readonly onSelected: (s: Record<string, unknown> & { readonly id: string }) => void
   readonly entityName: string
 }
 
 const formatFieldValue = (value: unknown) => {
-  if(value === null){
+  if (value === null) {
     return '(null)'
   }
 
-  if(value === undefined || typeof value === 'undefined'){
+  if (value === undefined || typeof value === 'undefined') {
     return '(undefined)'
   }
 
-  if(typeof value === 'boolean'){
+  if (typeof value === 'boolean') {
     return value ? '✅' : '❌'
   }
 
-  return value.toString();
+  return value.toString()
 }
 
 const ListOfEntries: React.FC<ListOfEntriesProps> = ({
@@ -57,15 +57,19 @@ const ListOfEntries: React.FC<ListOfEntriesProps> = ({
 
   const entries = data?.[queryName] as Record<string, unknown> & readonly {readonly id: string}[] | undefined
 
-  const fieldsExceptId = fields.filter(f => f.name !== 'id').map(f => f.name)
+  const fieldsExceptId = fields.filter((f) => f.name !== 'id').map((f) => f.name)
 
   return (
     <DataTable>
 
       <DataTable.Header>
-        { fieldsExceptId.map((fieldName) => <DataTable.Title 
-          key={fieldName}
-        >{ fieldName }</DataTable.Title>) }
+        { fieldsExceptId.map((fieldName) => (
+          <DataTable.Title
+            key={fieldName}
+          >
+            { fieldName }
+          </DataTable.Title>
+        )) }
       </DataTable.Header>
       {
         entries?.map((entry) => (

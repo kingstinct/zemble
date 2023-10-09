@@ -18,6 +18,7 @@
   "devDependencies": {
     "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@types/uuid": "3",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "bun-types": "^1.0.3",
@@ -47,5 +48,8 @@
   "workspaces": [
     "packages/*",
     "apps/*"
-  ]
+  ],
+  "dependencies": {
+    "uuid": "3"
+  }
 }
