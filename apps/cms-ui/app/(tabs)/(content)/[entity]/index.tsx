@@ -1,4 +1,5 @@
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router'
+import { useCallback } from 'react'
 import {
   View, ScrollView, RefreshControl,
 } from 'react-native'
@@ -7,7 +8,6 @@ import { useQuery } from 'urql'
 
 import ListOfEntries from '../../../../components/ListOfEntries'
 import { graphql } from '../../../../gql'
-import { useCallback } from 'react'
 
 export const GetEntityByPluralizedNameQuery = graphql(`
   query GetEntityByPluralizedName($pluralizedName: String!) { getEntityByPluralizedName(pluralizedName: $pluralizedName) { 
@@ -49,18 +49,18 @@ const EntityDetails = () => {
   })
 
   return (
-    <View style={{ flex: 1 }}>      
-        <Button mode='contained' style={{ margin: 16 }} onPress={() => router.push(`/(tabs)/(content)/${entity as string}/create`)}>{ 'Create ' + data?.getEntityByPluralizedName?.name }</Button>
-        { data?.getEntityByPluralizedName ? (
-          <ListOfEntries
-            entityName={data.getEntityByPluralizedName.name}
-            onSelected={(s) => {
-              router.push(`/(tabs)/(content)/${entity as string}/edit/${s.id}`)
-            }}
-            pluralizedName={data.getEntityByPluralizedName.pluralizedName}
-            fields={data.getEntityByPluralizedName.fields}
-          />
-        ) : null }        
+    <View style={{ flex: 1 }}>
+      <Button mode='contained' style={{ margin: 16 }} onPress={() => router.push(`/(tabs)/(content)/${entity as string}/create`)}>{ `Create ${data?.getEntityByPluralizedName?.name}` }</Button>
+      { data?.getEntityByPluralizedName ? (
+        <ListOfEntries
+          entityName={data.getEntityByPluralizedName.name}
+          onSelected={(s) => {
+            router.push(`/(tabs)/(content)/${entity as string}/edit/${s.id}`)
+          }}
+          pluralizedName={data.getEntityByPluralizedName.pluralizedName}
+          fields={data.getEntityByPluralizedName.fields}
+        />
+      ) : null }
     </View>
   )
 }

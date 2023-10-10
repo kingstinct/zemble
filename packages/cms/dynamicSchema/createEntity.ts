@@ -21,7 +21,6 @@ const createEntityResolver = (entity: EntityType, type: GraphQLOutputType) => {
       })
     }, {}),
     resolve: async (_, { id, ...input }) => {
-      console.log('createEntityEntry', entity.name, input)
       const mappedData = createTraverser(entity)(input)
 
       const _id = id ? new ObjectId(id) : new ObjectId()

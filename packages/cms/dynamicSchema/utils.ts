@@ -146,7 +146,7 @@ export const fieldToInputType = (typePrefix: string, field: IField): GraphQLScal
 // modifies input data so it can be saved to the db
 export const createTraverser = (entity: EntityType) => {
   const fields = Object.values(entity.fields)
-  const arrayFieldNames = new Set(fields.filter((f) => f.__typename === 'ArrayField').map((f) => f.name))
+  // const arrayFieldNames = new Set(fields.filter((f) => f.__typename === 'ArrayField').map((f) => f.name))
   const entityRelationFieldNamesWithEntity = {
     ...fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
       ...prev,
@@ -164,8 +164,7 @@ export const createTraverser = (entity: EntityType) => {
 
   // eslint-disable-next-line arrow-body-style
   const fieldValueMapper = (key: string, data: Record<string, unknown>) => {
-  // eslint-disable-next-line no-nested-ternary
-    return arrayFieldNames.has(key)
+    return Array.isArray(data[key])
       ? mapArrayFields(key, data[key] as Record<string, unknown> | readonly Record<string, unknown>[]) : (entityRelationFieldNamesWithEntity[key]
         ? mapRelationField(entityRelationFieldNamesWithEntity[key], data[key] as string)
         : data[key])
@@ -173,7 +172,6 @@ export const createTraverser = (entity: EntityType) => {
 
   const traverseData = (data: Record<string, unknown>) => Object.keys(data).reduce((prev, key) => ({
     ...prev,
-    // eslint-disable-next-line no-nested-ternary
     [key]: fieldValueMapper(key, data),
   }), {} as Record<string, unknown>)
 

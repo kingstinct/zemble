@@ -18,7 +18,7 @@ import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
 
 import type {
-  ArrayField, GetEntityByPluralizedNameQuery,
+  GetEntityByPluralizedNameQuery,
 } from '../gql/graphql'
 import type { UseFormProps } from 'react-hook-form'
 
@@ -55,8 +55,6 @@ const buildUpsertEntryMutation = (entity: Entity) => {
     } 
   }`
 
-  console.log('upsertEntryStr', upsertEntryStr)
-
   return upsertEntryStr
 }
 
@@ -75,6 +73,13 @@ export const getDefaultValueFromEntityField = (field: Entity['fields'][number]) 
   }
   return null
 }
+type ArrayField = {
+  readonly __typename: 'ArrayField',
+  readonly name: string,
+  readonly isRequired: boolean,
+  readonly isRequiredInput: boolean,
+  readonly availableFields: ReadonlyArray<{ readonly __typename: 'ArrayField', readonly name: string } | { readonly __typename: 'BooleanField', readonly name: string } | { readonly __typename: 'EntityRelationField', readonly name: string } | { readonly __typename: 'IDField', readonly name: string } | { readonly __typename: 'NumberField', readonly name: string } | { readonly __typename: 'StringField', readonly name: string }>
+}
 
 type ArrayFieldComponentProps = {
   readonly field: ArrayField,
@@ -83,7 +88,9 @@ type ArrayFieldComponentProps = {
 }
 
 const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items, onChange }) => {
-  const { control, handleSubmit, setValue } = useForm({
+  const {
+    control, handleSubmit, setValue, getValues, formState: { isValid, touchedFields },
+  } = useForm({
 
   })
 
@@ -91,6 +98,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
     items.forEach((item, index) => {
       const key = `${index}-${Object.keys(item)[0]!}`
       const value = Object.values(item)[0]
+      console.log('setting value', key, value)
       setValue(key, value)
     })
   }, [field.name, items, setValue])
@@ -103,6 +111,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
 
       return { [label as string]: value }
     })
+    console.log('mappedValues from array form', mappedValues)
     onChange(mappedValues)
   }, [onChange]))
 
@@ -116,18 +125,46 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
       <Card.Content>
         {
           items.map((v, index) => {
-            console.log(v)
             const label = Object.keys(v as object)[0] as string
+            const type = field.availableFields.find((f) => f.name === label)!.__typename
+            // prefix name with index to avoid collisions
+            const name = `${index.toString()}-${label}`
+            if (type === 'NumberField') {
+              return (
+                <TextControl
+                  control={control}
+                  name={name}
+                  label={label}
+                  keyboardType='numeric'
+                  onSubmitEditing={onSubmit}
+                  // todo [>=1]: should probably introduce an id here
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={name}
+                />
+              )
+            }
+            if (type === 'BooleanField') {
+              return (
+                <SwitchControl
+                  control={control}
+                  name={name}
+                  label={label}
+                  switchProps={{ onValueChange: async () => onSubmit() }}
+                  // todo [>=1]: should probably introduce an id here
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={name}
+                />
+              )
+            }
             return (
               <TextControl
                 control={control}
-                name={`${index.toString()}-${label}`}
+                name={name}
                 label={label}
                 onSubmitEditing={onSubmit}
-                // onChange={async () => onSubmit()}
                 // todo [>=1]: should probably introduce an id here
                 // eslint-disable-next-line react/no-array-index-key
-                key={`${label}${index}`}
+                key={name}
               />
             )
           })
@@ -206,11 +243,9 @@ const UpsertEntry: React.FC<{
       return acc
     }, values)
 
-    console.log('mappedValues', mappedValues)
+    console.log('mappedValues onSubmit', mappedValues)
 
-    const res = await createEntry(mappedValues)
-
-    console.log('res', res)
+    await createEntry(mappedValues)
 
     onUpdated?.()
   }, [createEntry, fields, onUpdated]))
