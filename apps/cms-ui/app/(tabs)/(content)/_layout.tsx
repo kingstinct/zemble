@@ -7,23 +7,17 @@ import { Pressable } from 'react-native'
 import { useMutation, useQuery } from 'urql'
 
 import { GetEntitiesQuery } from '.'
-import { graphql } from '../../../gql'
+
 import { capitalize, singularize } from '../../../utils/text'
 
 import type { HeaderButtonProps } from '@react-navigation/native-stack/src/types'
 
-const CreateEntityMutation = graphql(`
-mutation CreateEntity($name: String!, $pluralizedName: String!) {
-  createEntity(name: $name, pluralizedName: $pluralizedName) {
-    name
-  }
-}
-`)
+
 
 // eslint-disable-next-line camelcase
 export const unstable_settings = {
   // Ensure any route can link back to `/`
-  initialRouteName: 'index',
+  initialRouteName: '(content)/index',
 }
 
 const HeaderRightButton = ({ onPress, tintColor }: HeaderButtonProps & { readonly onPress: () => void }) => (
@@ -39,28 +33,11 @@ const HeaderRightButton = ({ onPress, tintColor }: HeaderButtonProps & { readonl
 )
 
 const EntitiesLayout = () => {
-  const { entity } = useGlobalSearchParams()
-  const [, createEntityMutation] = useMutation(CreateEntityMutation)
-
-  const [, refetch] = useQuery({ query: GetEntitiesQuery, pause: true })
-
-  const onAddEntity = useCallback(async () => {
-    const name = prompt('Create new entity, give it a name:', '')
-    if (name) {
-      await createEntityMutation({ name, pluralizedName: `${name}s` })
-      // @ts-expect-error fix later
-      router.push(`/${name}`)
-      refetch()
-    }
-  }, [createEntityMutation, refetch])
+  const { entity } = useGlobalSearchParams()  
 
   const headerRightForListView = useCallback((props: HeaderButtonProps) => (
     <HeaderRightButton {...props} onPress={() => router.push(`/(tabs)/(content)/${entity}/create`)} />
   ), [entity])
-
-  const headerRightForContentView = useCallback((props: HeaderButtonProps) => (
-    <HeaderRightButton {...props} onPress={onAddEntity} />
-  ), [onAddEntity])
 
   const headerRightForSchemaView = useCallback((props: HeaderButtonProps) => (
     <HeaderRightButton {...props} onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/addField`)} />
@@ -75,10 +52,11 @@ const EntitiesLayout = () => {
     >
       <Stack.Screen
         name='index'
-        options={{
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        options={({ route }) => ({
           title: 'Content',
-          headerRight: headerRightForContentView,
-        }}
+        })}
       />
       {/* <Stack.Screen
         name='[entity]'
@@ -122,7 +100,7 @@ const EntitiesLayout = () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
-          title: route.params?.entity ? `${capitalize(route.params.entity)} Schema` : null,
+          title: route.params?.entity ? `${singularize(capitalize(route.params.entity))} Schema` : null,
           headerRight: headerRightForSchemaView,
         })}
       />
@@ -132,7 +110,7 @@ const EntitiesLayout = () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
-          title: route.params?.entity ? `Add field to ${singularize(capitalize(route.params.entity))}` : null,
+          title: 'Add field',
         })}
       />
     </Stack>

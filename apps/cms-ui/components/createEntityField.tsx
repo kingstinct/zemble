@@ -1,19 +1,23 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable functional/immutable-data */
 
-import { Formik } from 'formik'
+import BottomSheet from '@gorhom/bottom-sheet';
+import { Controller, useForm } from 'react-hook-form'
 import {
-  View, Text, Switch,
+  View, Text,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Button, TextInput } from 'react-native-paper'
-import SelectDropdown from 'react-native-select-dropdown'
+import {
+  Button, DataTable, Divider, Title,
+} from 'react-native-paper'
 import { useMutation } from 'urql'
 
 import { graphql } from '../gql'
-import { styles } from '../style'
 
-import type { FieldInput } from '../gql/graphql'
+import type { FieldInput, FieldInputWithoutArray } from '../gql/graphql'
+import SwitchControl from './SwitchControl'
+import SelectOneController from './SelectOneControl'
+import TextControl, { TextControlInBottomSheet } from './TextControl'
+import { Styles, styles } from '@kingstinct/react';
+import { useRef } from 'react';
 
 const AddFieldsToEntityMutation = graphql(`
   mutation AddFieldsToEntity($name: String!, $fields: [FieldInput!]!) {
@@ -34,265 +38,211 @@ type CreateFieldProps = {
   readonly updateField: (fieldInput: FieldInput) => void
 }
 
-const CreateArrayField: React.FC<CreateFieldProps> = ({ updateField }) => (
-  <Formik
-    initialValues={{
+const CreateArrayField: React.FC<CreateFieldProps> = ({ updateField }) => {
+  const { control, watch, handleSubmit, setValue, formState: { errors } } = useForm({
+    defaultValues: {
       fieldName: '',
-      fieldType: 'StringField' as FieldType,
-    }}
-    validate={(values) => {
-      if (values.fieldName === '' || values.fieldName === undefined) {
-        return { fieldName: 'FieldName is required' }
-      }
-      return {}
-    }}
-    onSubmit={(values) => {
-      const { fieldType } = values
+      fieldType: 'StringField' as Exclude<FieldType, 'ArrayField'>,
+    },
+  })
 
-      const field = {
-        [fieldType]: {
-          name: values.fieldName,
-        },
-      } as unknown as FieldInput
+  const onSubmit = handleSubmit((values) => {
+    const { fieldType } = values
 
-      updateField(field)
-    }}
-  >
-    {({
-      handleChange, handleBlur, handleSubmit, values, errors,
-    }) => (
-      <View style={{ flexDirection: 'row' }}>
-        <View style={{ flexDirection: 'row', flex: 1 }}>
-          <View style={{ flex: 1 }}>
-            <TextInput
-              accessibilityHint='Name of array field'
-              accessibilityLabel='Name of array field'
-              onBlur={handleBlur('fieldName')}
-              placeholder='Name of array field (required)'
-              style={styles.textInputStyle}
-              placeholderTextColor={errors.fieldName ? 'red' : 'black'}
-              onChangeText={handleChange('fieldName')}
-              value={values.fieldName as string}
-            />
-          </View>
-        </View>
-        <SelectDropdown
-          data={[
-            'BooleanField',
-            'StringField',
-            'NumberField',
-            'EntityRelationField',
-          ]}
-          buttonStyle={{
-            margin: 10, padding: 10, borderRadius: 10,
-          }}
-          defaultValue={values.fieldType}
-          onSelect={handleChange('fieldType')}
-          rowTextForSelection={(item) => item}
-          buttonTextAfterSelection={(selectedItem) => selectedItem}
-        />
+    const field = {
+      [fieldType]: {
+        name: values.fieldName,
+      },
+    } as unknown as FieldInput
 
-        <View style={{ padding: 8 }}>
-          { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{errors[key]}</Text>) }
-          <Button
-            onPress={handleSubmit as () => void}
-            mode='contained'
-          >
-            Save
-          </Button>
-        </View>
-      </View>
-    )}
-  </Formik>
-)
+    updateField(field)
+    setValue('fieldName', '')
+  })
+
+  return (
+    <View style={Styles.margin8}>
+      <Title style={{ textAlign: 'center' }}>Add field type to array</Title>
+      <Divider style={Styles.margin16} />
+      <TextControlInBottomSheet
+        placeholder='Name of array field (required)'
+        control={control}
+        name='fieldName'
+        rules={{ required: true, minLength: 1 }}
+        keyboardType={watch('fieldType') === 'NumberField' ? 'numeric' : 'default'}
+        returnKeyType='done'
+      />
+      <SelectOneController
+        control={control}
+        name='fieldType'
+        options={[
+          'BooleanField', 'StringField', 'NumberField', 'EntityRelationField',
+        ]}
+        rules={{ required: true }}
+        buttonStyle={Styles.margin8}
+      />
+        { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>) }
+        <Button
+          onPress={onSubmit}
+          mode='contained'
+          style={Styles.margin8}
+        >
+          Save
+        </Button>
+
+    </View>
+  )
+}
+
 
 const CreateField: React.FC<Props> = ({ entityName, onUpdated }) => {
   const [, createField] = useMutation(AddFieldsToEntityMutation)
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm({
+    defaultValues: {
+      fieldName: '',
+      isRequired: false,
+      fieldType: 'StringField' as FieldType,
+      availableFields: [] as readonly FieldInputWithoutArray[],
+      defaultValue: null as string | number | boolean | null,
+    },
+  })
+
+  const fieldType = watch('fieldType')
+  const onSubmit = handleSubmit(async (values) => {
+    const { fieldType, defaultValue } = values
+
+    const field = {
+      [fieldType]: fieldType === 'ArrayField' ? {
+        name: values.fieldName,
+        isRequired: values.isRequired,
+        isRequiredInput: values.isRequired,
+        availableFields: values.availableFields,
+      } : {
+        name: values.fieldName,
+        isRequired: values.isRequired,
+        isRequiredInput: values.isRequired && !defaultValue,
+        defaultValue,
+      },
+    } as unknown as FieldInput
+
+    await createField({
+      name: entityName,
+      fields: [field],
+    })
+    onUpdated?.()
+  })
+
+  const bottomSheet = useRef<BottomSheet>(null)
+
   return (
-    <Formik
-      initialValues={{
-        fieldName: '',
-        isRequired: 'false',
-        isRequiredInput: 'false',
-        fieldType: 'StringField' as FieldType,
-        availableFields: '[]',
-        defaultValue: '',
-      }}
-      validate={(values) => {
-        if (values.fieldName === '' || values.fieldName === undefined) {
-          return { fieldName: 'FieldName is required' }
-        }
-        return {}
-      }}
-      onSubmit={async (values) => {
-        const { fieldType, defaultValue } = values
+    <View style={{ flex: 1 }}>
+    <ScrollView contentContainerStyle={{ flex: 1, margin: 16 }}>
+      <TextControl 
+      name='fieldName' control={control} label='Name of field (required)' rules={{ required: true }} />
 
-        // eslint-disable-next-line unicorn/no-nested-ternary
-        const defaultValueParsed = defaultValue === ''
-          ? null
-          : (fieldType === 'BooleanField'
-            // eslint-disable-next-line unicorn/no-nested-ternary
-            ? JSON.parse(defaultValue) : fieldType === 'NumberField'
-              ? parseFloat(defaultValue) : defaultValue)
+      <SelectOneController
+        control={control}
+        name='fieldType'
+        options={[
+          'BooleanField', 'StringField', 'NumberField', 'EntityRelationField', 'ArrayField',
+        ]}
+        rules={{ required: true }}
+      />
 
-        const field = {
-          [fieldType]: fieldType === 'ArrayField' ? {
-            name: values.fieldName,
-            isRequired: JSON.parse(values.isRequired),
-            isRequiredInput: JSON.parse(values.isRequiredInput),
-            availableFields: JSON.parse(values.availableFields),
-          } : {
-            name: values.fieldName,
-            isRequired: JSON.parse(values.isRequired),
-            isRequiredInput: JSON.parse(values.isRequiredInput),
-            defaultValue: defaultValueParsed,
-          },
-        } as unknown as FieldInput
+      { fieldType !== 'ArrayField' ? (
+        <SwitchControl
+          control={control}
+          label='Is required'
+          name='isRequired'
+        />
+      ) : null }
 
-        await createField({
-          name: entityName,
-          fields: [field],
-        })
-        onUpdated?.()
-      }}
-    >
-      {({
-        handleChange, handleBlur, handleSubmit, values, errors,
-      }) => (
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
-          <TextInput
-            accessibilityHint='Name of field'
-            accessibilityLabel='Name of field'
-            onBlur={handleBlur('fieldName')}
-            placeholder='Name of field (required)'
-            style={styles.textInputStyle}
-            placeholderTextColor={errors.fieldName ? 'red' : 'black'}
-            onChangeText={handleChange('fieldName')}
-            value={values.fieldName as string}
-          />
-          <SelectDropdown
-            data={[
-              'BooleanField',
-              'StringField',
-              'NumberField',
-              'EntityRelationField',
-              'ArrayField',
-            ]}
-            buttonStyle={{
-              margin: 10,
-              padding: 10,
-              borderRadius: 10,
-            }}
-            dropdownStyle={{
-              borderRadius: 10,
-            }}
-            defaultValue={values.fieldType}
-            onSelect={handleChange('fieldType')}
-            rowTextForSelection={(item) => item}
-            buttonTextAfterSelection={(selectedItem) => selectedItem}
-          />
+      { fieldType === 'EntityRelationField' ? (
+        <Text>
+          {`${fieldType}`}
+        </Text>
+      ) : null }
 
-          { values.fieldType !== 'ArrayField' ? (
-            <View style={styles.booleanFieldInput}>
-              <Text>
-                Required
-              </Text>
-              <Switch
-                accessibilityHint='Is field required'
-                accessibilityLabel='Is field required'
-                value={JSON.parse(values.isRequired)}
-                style={styles.booleanFieldSwitch}
-                onValueChange={(e) => handleChange('isRequired')(e.toString())}
-              />
-            </View>
-          ) : null }
+      { fieldType === 'BooleanField' ? (
+        <SwitchControl
+          control={control}
+          label='Default Value'
+          name='defaultValue'
+        />
+      ) : (fieldType === 'StringField' || fieldType === 'NumberField' ? (
+        <TextControl
+          placeholder='Default Value'
+          control={control}
+          name='defaultValue'
+          keyboardType={fieldType === 'NumberField' ? 'numeric' : 'default'}
+        />
+      ) : null)}
 
-          { values.fieldType !== 'ArrayField' ? (
-            <View style={styles.booleanFieldInput}>
-              <Text>
-                Required Input
-              </Text>
-              <Switch
-                accessibilityHint='Is field required on input'
-                accessibilityLabel='Is field required on input'
-                value={JSON.parse(values.isRequiredInput)}
-                style={styles.booleanFieldSwitch}
-                onValueChange={(e) => handleChange('isRequiredInput')(e.toString())}
-              />
-            </View>
-          ) : null }
+{
+        fieldType === 'ArrayField' ? (
+          
+                <DataTable>
+                  <DataTable.Header>
+                    <DataTable.Title>Name</DataTable.Title>
+                    <DataTable.Title>Type</DataTable.Title>
+                  </DataTable.Header>
+                  {watch('availableFields').map((field) => {
+                    const type = Object.keys(field)[0] as 'BooleanField' | 'StringField' | 'NumberField' | 'EntityRelationField'
+                    const value = field[type]!
+                    return (
+                      <DataTable.Row key={value.name}>
+                        <DataTable.Cell><Text>{value.name}</Text></DataTable.Cell>
+                        <DataTable.Cell><Text>{type}</Text></DataTable.Cell>
+                      </DataTable.Row>
+                    )
+                  })}
+                </DataTable>) : null
+      }
 
-          { values.fieldType === 'EntityRelationField' ? (
-            <Text>
-              {`${values.fieldType}`}
-            </Text>
-          ) : null }
+      
+        { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>) }
+        <Button
+          onPress={onSubmit}
+          mode='contained'
+        >
+          Save
+        </Button>
+      
 
-          { values.fieldType === 'BooleanField' ? (
-            <View style={styles.booleanFieldInput}>
-              <Text>
-                Default Value
-              </Text>
-              <Switch
-                accessibilityHint='Default Value'
-                accessibilityLabel='Default Value'
-                style={styles.booleanFieldSwitch}
-                value={values.defaultValue ? JSON.parse(values.defaultValue) : false}
-                onValueChange={(e) => {
-                  handleChange('defaultValue')(e.toString())
-                }}
-              />
-            </View>
-          ) : (values.fieldType === 'StringField' || values.fieldType === 'NumberField' ? (
-            <TextInput
-              accessibilityHint='Default Value'
-              accessibilityLabel='Default Value'
-              onBlur={handleBlur('defaultValue')}
-              placeholder='Default Value'
-              style={styles.textInputStyle}
-              placeholderTextColor={errors.defaultValue ? 'red' : 'black'}
-              keyboardType={values.fieldType === 'NumberField' ? 'numeric' : 'default'}
-              onChangeText={handleChange('defaultValue')}
-              value={values.defaultValue as string}
-            />
-          ) : null)}
-
-          {
-            values.fieldType === 'ArrayField' ? (
-              <View>
-                <Text>{ JSON.stringify(values.availableFields) }</Text>
+    </ScrollView>
+    {
+      fieldType === 'ArrayField' ? (
+        <Controller
+          control={control}
+          name='availableFields'
+          rules={{ required: true, minLength: 1 }}
+          render={({ field: { onChange, onBlur, value } }) => (
+              <BottomSheet ref={bottomSheet} snapPoints={[80, 200, 500]} keyboardBehavior='interactive' keyboardBlurBehavior='restore'>
                 <CreateArrayField updateField={(field) => {
-                // eslint-disable-next-line no-param-reassign
-                  handleChange('availableFields')(JSON.stringify([
-                    ...JSON.parse(values.availableFields).filter((a) => {
+                  bottomSheet.current?.collapse()
+                  onChange([
+                    ...value.filter((a) => {
                       const f = Object.values(a)[0] as {readonly name: string}
                       const f2 = Object.values(field)[0] as {readonly name: string}
                       console.log({ f, f2 })
                       return f.name !== f2.name
                     }),
                     field,
-                  ]))
+                  ])
                 }}
                 />
-              </View>
-            ) : null
-          }
+              </BottomSheet>
+          )}
+        />
+      ) : null
+    }
+    </View>
 
-          <View style={{ padding: 8 }}>
-            { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{errors[key]}</Text>) }
-            <Button
-              onPress={handleSubmit as () => void}
-              mode='contained'
-            >
-              Save
-            </Button>
-          </View>
-
-        </ScrollView>
-      )}
-
-    </Formik>
   )
 }
 

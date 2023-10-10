@@ -1,11 +1,13 @@
 import { router, useLocalSearchParams } from 'expo-router'
 import {
-  View, ScrollView, Button, RefreshControl,
+  View, ScrollView, RefreshControl,
 } from 'react-native'
-import { useQuery } from 'urql'
+import { Button } from 'react-native-paper'
+import { useMutation, useQuery } from 'urql'
 
 import ListOfEntries from '../../../../components/ListOfEntries'
 import { graphql } from '../../../../gql'
+import { useCallback } from 'react'
 
 export const GetEntityByPluralizedNameQuery = graphql(`
   query GetEntityByPluralizedName($pluralizedName: String!) { getEntityByPluralizedName(pluralizedName: $pluralizedName) { 
@@ -56,7 +58,7 @@ const EntityDetails = () => {
           />
         )}
       >
-        <Button title='Modify schema' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />
+        <Button mode='contained' style={{ margin: 16 }} onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)}>Modify schema</Button>
         { data?.getEntityByPluralizedName ? (
           <ListOfEntries
             entityName={data.getEntityByPluralizedName.name}
@@ -66,7 +68,7 @@ const EntityDetails = () => {
             pluralizedName={data.getEntityByPluralizedName.pluralizedName}
             fields={data.getEntityByPluralizedName.fields}
           />
-        ) : null }
+        ) : null }        
         <View style={{ height: 200 }} />
       </ScrollView>
     </View>

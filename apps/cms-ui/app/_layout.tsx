@@ -2,9 +2,16 @@ import AuthProvider, { AuthContext, Status } from '@kingstinct/react/contexts/Au
 import UrqlProvider from '@kingstinct/react/contexts/Urql'
 import { Stack, router, useSegments } from 'expo-router'
 import { useContext, useEffect } from 'react'
+import { PaperProvider } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import {
+  ThemeProvider,
+  DarkTheme,
+  DefaultTheme,
+} from "@react-navigation/native";
 
 import createClientWithToken from '../clients/urql'
+import { useColorScheme } from 'react-native'
 
 function useProtectedRoute(token: string | null, status: Status) {
   const segments = useSegments()
@@ -58,13 +65,22 @@ const App = () => {
   )
 }
 
-export default () => (
-  <AuthProvider>
-    <UrqlProvider
-      onError={(error) => alert(error.message)}
-      createClient={createClientWithToken}
-    >
-      <App />
-    </UrqlProvider>
-  </AuthProvider>
-)
+export default () => {
+  let colorScheme = useColorScheme();
+
+  return (
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <PaperProvider>
+      <AuthProvider>
+        <UrqlProvider
+          onError={(error) => alert(error.message)}
+          createClient={createClientWithToken}
+        >
+          <App />
+        </UrqlProvider>
+      </AuthProvider>
+    </PaperProvider>
+    </ThemeProvider>
+  )
+  
+} 
