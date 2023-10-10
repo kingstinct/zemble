@@ -1,8 +1,8 @@
 import AuthProvider, { AuthContext, Status } from '@kingstinct/react/contexts/Auth'
 import UrqlProvider from '@kingstinct/react/contexts/Urql'
 import { Stack, router, useSegments } from 'expo-router'
-import { useContext, useEffect } from 'react'
-import { PaperProvider } from 'react-native-paper'
+import { useContext, useEffect, useMemo } from 'react'
+import { PaperProvider, MD3DarkTheme, MD2LightTheme, MD2DarkTheme, MD3LightTheme } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import {
   ThemeProvider,
@@ -68,8 +68,14 @@ const App = () => {
 export default () => {
   let colorScheme = useColorScheme();
 
+  const navigationTheme = useMemo(() => {
+    return colorScheme === 'dark' 
+      ? { ...DarkTheme, colors: { ...DarkTheme.colors, primary: MD3DarkTheme.colors.primary } }
+      : { ...DefaultTheme, colors: { ...DefaultTheme.colors, primary: MD3LightTheme.colors.primary } }
+  }, [colorScheme])
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={navigationTheme}>
     <PaperProvider>
       <AuthProvider>
         <UrqlProvider

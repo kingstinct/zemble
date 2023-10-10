@@ -102,6 +102,7 @@ const buildMergedSchema = async (
   plugins: readonly Plugin[],
   config: GraphQLMiddlewareConfig,
 ) => {
+  console.log('buildMergedSchema')
   const isPlugin = plugins.some(({ pluginPath }) => pluginPath === process.cwd())
   const selfSchemas: readonly GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
     // don't load if we're already a plugin
@@ -170,31 +171,36 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
 
   const globalContext = context
 
-  app.use(config!.yoga!.graphqlEndpoint!, async (context) => {
-    const handler = await handleYoga(
-      async () => buildMergedSchema(plugins, config),
-      pubsub,
-      globalContext.logger,
-      {
-        ...config.yoga,
-        graphiql: async (req, context) => {
-          const resolved = (typeof config.yoga?.graphiql === 'function'
-            ? await config.yoga?.graphiql?.(req, context)
-            : (config.yoga?.graphiql ?? {}))
-          return ({
-            credentials: 'include',
-            ...typeof resolved === 'boolean' ? {} : resolved,
-          })
-        },
-        // eslint-disable-next-line no-nested-ternary
-        context: () => (config.yoga?.context
-          ? (typeof config.yoga.context === 'function'
-            ? config.yoga.context(globalContext)
-            : { ...globalContext, ...(config.yoga.context) })
-          : globalContext)
-        ,
+  const handlerPromise = handleYoga(
+    async () => buildMergedSchema(plugins, config),
+    pubsub,
+    globalContext.logger,
+    {
+      ...config.yoga,
+      graphiql: async (req, context) => {
+        const resolved = (typeof config.yoga?.graphiql === 'function'
+          ? await config.yoga?.graphiql?.(req, context)
+          : (config.yoga?.graphiql ?? {}))
+        return ({
+          credentials: 'include',
+          ...typeof resolved === 'boolean' ? {} : resolved,
+        })
       },
-    )
+      // eslint-disable-next-line no-nested-ternary
+      context: () => (config.yoga?.context
+        ? (typeof config.yoga.context === 'function'
+          ? config.yoga.context(globalContext)
+          : { ...globalContext, ...(config.yoga.context) })
+        : globalContext)
+      ,
+    },
+  )
+
+  app.use(config!.yoga!.graphqlEndpoint!, async (context) => {
+    console.log('request')
+
+    const handler = await handlerPromise
+    
     return handler(context)
   })
 }

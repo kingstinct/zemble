@@ -1,5 +1,5 @@
 import { router } from 'expo-router'
-import { View } from 'react-native'
+import { RefreshControl, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import { useMutation, useQuery } from 'urql'
 
@@ -7,6 +7,7 @@ import { graphql } from '../../../gql'
 import { capitalize, pluralize } from '../../../utils/text'
 import { useCallback } from 'react'
 import { Styles } from '@kingstinct/react'
+import { ScrollView } from 'react-native-gesture-handler'
 
 export const GetEntitiesQuery = graphql(`
   query GetEntities {
@@ -31,7 +32,7 @@ mutation CreateEntity($name: String!, $pluralizedName: String!) {
 `)
 
 const EntityList = () => {
-  const [{ data }, refetch] = useQuery({
+  const [{ data, fetching }, refetch] = useQuery({
     query: GetEntitiesQuery,
     variables: {},
   })
@@ -50,7 +51,7 @@ const EntityList = () => {
   }, [createEntityMutation, refetch])
 
   return (
-    <View>
+    <ScrollView refreshControl={<RefreshControl onRefresh={refetch} refreshing={fetching} />}>
       {
         data?.getAllEntities.map((entity) => (
           <View key={entity.name} style={Styles.margin16}>
@@ -67,7 +68,7 @@ const EntityList = () => {
         ))
       }
       <Button mode='outlined' icon='plus' style={Styles.margin16} onPress={onAddEntity}>Add content type</Button>
-    </View>
+    </ScrollView>
   )
 }
 

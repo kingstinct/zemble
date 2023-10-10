@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable functional/immutable-data */
 
+import { useBottomSheetInternal } from '@gorhom/bottom-sheet'
+import { useCallback } from 'react'
 import { Controller } from 'react-hook-form'
 import {
   TextInput,
@@ -11,23 +13,22 @@ import { styles } from '../style'
 import type {
   Control, ControllerFieldState, ControllerRenderProps, FieldValues, Path, RegisterOptions, UseFormStateReturn,
 } from 'react-hook-form'
+import type { NativeSyntheticEvent, TextInputFocusEventData } from 'react-native'
 import type { TextInputProps } from 'react-native-paper'
-import { useCallback } from 'react'
-import { useBottomSheetInternal } from '@gorhom/bottom-sheet'
-import { NativeSyntheticEvent, TextInputFocusEventData } from 'react-native'
 
 type Props<T extends FieldValues> = { readonly control: Control<T>, readonly name: Path<T>, readonly rules?: RegisterOptions<T> } & TextInputProps
 
 export function TextControl<T extends FieldValues>({
   control, name, rules, ...textInputProps
 }: Props<T>) {
+  const labelOrPlaceholder = (textInputProps.label ? textInputProps.label.toString() : textInputProps.placeholder) ?? ''
   const render = useCallback(
-    ({ 
-      field: { onChange, onBlur, value } 
+    ({
+      field: { onChange, onBlur, value },
     }: {
-        field: ControllerRenderProps<T, typeof name>;
-        fieldState: ControllerFieldState;
-        formState: UseFormStateReturn<T>;
+      readonly field: ControllerRenderProps<T, typeof name>;
+      readonly fieldState: ControllerFieldState;
+      readonly formState: UseFormStateReturn<T>;
     }) => {
       const onBlurInternal = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
         onBlur()
@@ -35,17 +36,19 @@ export function TextControl<T extends FieldValues>({
       }
       return (
         <TextInput
-          accessibilityHint={textInputProps.placeholder}
-          accessibilityLabel={textInputProps.placeholder}
+          accessibilityHint={labelOrPlaceholder + (rules?.required ? ' - required' : ' - optional')}
+          accessibilityLabel={labelOrPlaceholder + (rules?.required ? ' - required' : ' - optional')}
           onBlur={onBlurInternal}
           style={styles.textInputStyle}
           onChangeText={onChange}
           value={typeof value === 'string' ? value : ''}
           {...textInputProps}
+          label={labelOrPlaceholder + (rules?.required ? ' *' : '')}
         />
       )
-    }, [textInputProps, name, control])
-    
+    }, [labelOrPlaceholder, rules?.required, textInputProps],
+  )
+
   return (
     <Controller
       control={control}
@@ -56,26 +59,25 @@ export function TextControl<T extends FieldValues>({
   )
 }
 
-export function TextControlInBottomSheet<T extends FieldValues>({ onFocus, onBlur, ...props}: Props<T>) {
-  const {shouldHandleKeyboardEvents} = useBottomSheetInternal()
+export function TextControlInBottomSheet<T extends FieldValues>({ onFocus, onBlur, ...props }: Props<T>) {
+  const { shouldHandleKeyboardEvents } = useBottomSheetInternal()
 
   const handleOnFocus = useCallback(
     (args: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      shouldHandleKeyboardEvents.value = true;
-      onFocus?.(args);
+      shouldHandleKeyboardEvents.value = true
+      onFocus?.(args)
     },
-    [onFocus, shouldHandleKeyboardEvents]
-  );
+    [onFocus, shouldHandleKeyboardEvents],
+  )
   const handleOnBlur = useCallback(
     (args: NativeSyntheticEvent<TextInputFocusEventData>) => {
-      shouldHandleKeyboardEvents.value = false;
-      onBlur?.(args);
+      shouldHandleKeyboardEvents.value = false
+      onBlur?.(args)
     },
-    [onBlur, shouldHandleKeyboardEvents]
-  );
+    [onBlur, shouldHandleKeyboardEvents],
+  )
 
   return <TextControl {...props} onFocus={handleOnFocus} onBlur={handleOnBlur} />
 }
-
 
 export default TextControl

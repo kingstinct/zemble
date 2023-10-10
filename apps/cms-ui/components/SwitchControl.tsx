@@ -1,9 +1,10 @@
 import { Controller } from 'react-hook-form'
 import {
-  Text, Pressable,
+  Pressable,
 } from 'react-native'
 import {
   Switch,
+  Text
 } from 'react-native-paper'
 
 import { styles } from '../style'

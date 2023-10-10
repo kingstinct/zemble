@@ -87,14 +87,27 @@ export default async () => {
           ...prev,
           [field.name]: {
             type: field.isRequiredInput ? new GraphQLNonNull(baseType) : baseType,
-            resolve: (props: { readonly _id: ObjectId } & Record<string, unknown>) => (
-              field.name === 'id'
-                ? props._id.toHexString()
-                : (props[field.name] ?? ('defaultValue' in field
-                  ? field.defaultValue
-                  : null)
-                )
-            ),
+            resolve: (props: { readonly _id: ObjectId } & Record<string, unknown>) => {
+              if (field.name === 'test') {
+                // console.log('props', props)
+                console.log('__typename', field.__typename)
+                console.log('props[field.name]', props[field.name])
+              }
+              if (field.name === 'id') {
+                return props._id.toHexString()
+              }
+              if (props[field.name] !== undefined && props[field.name] !== null) {
+                return props[field.name]
+              }
+              if (field.__typename === 'ArrayField') {
+                return []
+              }
+              if ('defaultValue' in field) {
+                return field.defaultValue
+              }
+
+              return null
+            },
           },
         })
       }, {}),

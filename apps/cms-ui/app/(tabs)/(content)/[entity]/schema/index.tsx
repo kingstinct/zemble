@@ -35,7 +35,7 @@ const EntityDetails = () => {
           </DataTable.Header>
           {
             data?.getEntityByPluralizedName?.fields.map((field) => (
-              <DataTable.Row key={field.name}>
+              <DataTable.Row key={field.name} onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/fields/${field.name}`)}>
                 <DataTable.Cell><Text key={field.name}>{field.name}</Text></DataTable.Cell>
                 <DataTable.Cell><Text key={field.name}>{field.__typename}</Text></DataTable.Cell>
                 <DataTable.Cell><Text key={field.name}>{field.isRequired ? 'Yes' : 'No'}</Text></DataTable.Cell>
@@ -45,7 +45,7 @@ const EntityDetails = () => {
           <Button 
             icon='plus'
             style={Styles.margin8}
-            onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/addField`)}>Add Field</Button>
+            onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/fields/create`)}>Add Field</Button>
         </DataTable>
         <Text>{ JSON.stringify(data?.getEntityByPluralizedName, null, 2) }</Text>
         <View style={{ height: 200 }} />

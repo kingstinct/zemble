@@ -19,8 +19,11 @@ export default async (
   async function subscribe() {
     const eventSource = pubsub.subscribe('reload-schema')
 
+    
+
     // eslint-disable-next-line no-restricted-syntax, @typescript-eslint/no-unused-vars
     for await (const _ of eventSource) {
+      console.log('reload-schema!!!', _)
       yoga = createYoga({
         ...opts,
         schema: await getSchema(),

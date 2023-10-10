@@ -1,8 +1,8 @@
 import { AuthContext, useDecodedToken } from '@kingstinct/react'
 import { router } from 'expo-router'
 import { useCallback, useContext } from 'react'
-import { View, Button } from 'react-native'
-import { Text } from 'react-native-paper'
+import { View } from 'react-native'
+import { Button, Text } from 'react-native-paper'
 
 const ProfileScreen = () => {
   const { clearToken, token } = useContext(AuthContext)
@@ -21,8 +21,7 @@ const ProfileScreen = () => {
       </Text>
       <Button
         onPress={logout}
-        title='Logout'
-      />
+      >Logout</Button>
     </View>
   )
 }

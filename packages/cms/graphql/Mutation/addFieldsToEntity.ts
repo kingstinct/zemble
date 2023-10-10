@@ -38,6 +38,13 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
   const fields: readonly Field[] = fieldsInput.map(mapInputToField)
 
   const validateFields = async (fields: readonly Field[]) => {
+    fields.forEach((field) => {
+      const isValid = /^[^-\s\d][^-\s]+$/.test(field.name)
+      if (!isValid) {
+        throw new GraphQLError(`Field name ${field.name} is invalid. It must not contain spaces or dashes.`)
+      }
+    })
+
     const all = fields.map((field) => {
       if (!field.isRequired) {
         return null
@@ -70,11 +77,15 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await validateFields(fields)
 
+  const $set = fields.reduce((acc, field) => ({
+    ...acc,
+    [`fields.${field.name}`]: field,
+  }), {})
+
+  console.log('$set', $set)
+
   const prev = await papr.Entities.findOneAndUpdate({ name: entityName }, {
-    $set: fields.reduce((acc, field) => ({
-      ...acc,
-      [`fields.${field.name}`]: field,
-    }), {}),
+    $set,
   }, {
     returnDocument: 'after',
   })
@@ -103,7 +114,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
     })
   }
 
-  pubsub.publish('reload-schema', {})
+  await pubsub.publish('reload-schema', {})
 
   return { ...prev, fields: Object.values(prev.fields) }
 }

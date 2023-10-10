@@ -1,24 +1,15 @@
+import { useFocusEffect } from 'expo-router'
+import { useCallback } from 'react'
 import {
-  Text, StyleSheet,
+  Text,
 } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
+import ManualRefreshControl from './ManualRefreshControl'
 import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    borderColor: 'gray',
-    borderWidth: StyleSheet.hairlineWidth,
-    margin: 10,
-    padding: 10,
-    justifyContent: 'space-between',
-  },
-  cell: { alignSelf: 'stretch' },
-  table: { borderRadius: 10, margin: 10, padding: 10 },
-})
 
 type ListOfEntriesProps = {
   readonly pluralizedName: string,
@@ -40,6 +31,10 @@ const formatFieldValue = (value: unknown) => {
     return value ? '✅' : '❌'
   }
 
+  if (Array.isArray(value)) {
+    return `${value.length.toString()} items`
+  }
+
   return value.toString()
 }
 
@@ -50,41 +45,56 @@ const ListOfEntries: React.FC<ListOfEntriesProps> = ({
 
   const queryName = `getAll${capitalize(pluralizedName)}`
 
-  const [{ data }] = useQuery({
+  const [{ data, fetching }, refetch] = useQuery({
     query: `query GetEntries { ${queryName} { ${selectionSet.join(' ')} } }`,
     variables: {},
   })
 
   const entries = data?.[queryName] as Record<string, unknown> & readonly {readonly id: string}[] | undefined
 
-  const fieldsExceptId = fields.filter((f) => f.name !== 'id').map((f) => f.name)
+  const fieldsExceptId = fields.filter((f) => f.name !== 'id')
+  const fieldNamesExceptId = fieldsExceptId.map((f) => f.name)
+
+  useFocusEffect(useCallback(() => {
+    refetch()
+  }, [refetch]))
 
   return (
-    <DataTable>
+    <ScrollView
+      refreshControl={(
+        <ManualRefreshControl
+          fetching={fetching}
+          refetch={refetch}
+        />
+      )}
+      contentContainerStyle={{ flex: 1 }}
+    >
+      <DataTable>
 
-      <DataTable.Header>
-        { fieldsExceptId.map((fieldName) => (
-          <DataTable.Title
-            key={fieldName}
-          >
-            { fieldName }
-          </DataTable.Title>
-        )) }
-      </DataTable.Header>
-      {
-        entries?.map((entry) => (
-          <DataTable.Row key={entry.id} onPress={() => onSelected(entry)}>
-            { fieldsExceptId.map((fieldName) => (
-              <DataTable.Cell key={fieldName}>
-                <Text>
-                  { formatFieldValue(entry[fieldName]) }
-                </Text>
-              </DataTable.Cell>
-            )) }
-          </DataTable.Row>
-        ))
-      }
-    </DataTable>
+        <DataTable.Header>
+          { fieldNamesExceptId.map((fieldName) => (
+            <DataTable.Title
+              key={fieldName}
+            >
+              { fieldName }
+            </DataTable.Title>
+          )) }
+        </DataTable.Header>
+        {
+          entries?.map((entry) => (
+            <DataTable.Row key={entry.id} onPress={() => onSelected(entry)}>
+              { fieldsExceptId.map((field) => (
+                <DataTable.Cell key={field.name}>
+                  <Text>
+                    { formatFieldValue(entry[field.name]) }
+                  </Text>
+                </DataTable.Cell>
+              )) }
+            </DataTable.Row>
+          ))
+        }
+      </DataTable>
+    </ScrollView>
   )
 }
 

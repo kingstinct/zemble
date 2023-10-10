@@ -1,13 +1,13 @@
-import { useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useQuery } from 'urql'
 
 import { GetEntityByPluralizedNameQuery } from '.'
-import ModifyEntityEntry from '../../../../components/modifyEntityEntry'
+import ModifyEntityEntry from '../../../../components/UpsertEntry'
 
 const CreateEntity = () => {
   const { entity } = useLocalSearchParams()
 
-  const [{ data, fetching }, refetch] = useQuery({
+  const [{ data }] = useQuery({
     query: GetEntityByPluralizedNameQuery,
     variables: { pluralizedName: entity },
     pause: !entity,
@@ -16,7 +16,9 @@ const CreateEntity = () => {
   return data?.getEntityByPluralizedName ? (
     <ModifyEntityEntry
       entity={data.getEntityByPluralizedName}
-      onUpdated={refetch}
+      onUpdated={() => {
+        router.back()
+      }}
     />
   ) : null
 }
