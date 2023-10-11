@@ -1,26 +1,31 @@
 /* eslint-disable functional/immutable-data */
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { Styles } from '@kingstinct/react'
 import {
-  useCallback, useEffect, useMemo,
+  useCallback, useEffect, useMemo, useRef, useState,
 } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
   View, ScrollView,
 } from 'react-native'
 import {
-  ActivityIndicator, Avatar, Button, Card, Text,
+  ActivityIndicator, Avatar, Button, Card, Searchbar, Text, useTheme,
 } from 'react-native-paper'
 import { useMutation, useQuery } from 'urql'
 
+import { SearchEntries } from './ListOfEntries'
 import SwitchControl from './SwitchControl'
 import TextControl from './TextControl'
+import { graphql } from '../gql'
 import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
 
 import type {
-  GetEntityByPluralizedNameQuery,
+  Field, GetEntityByPluralizedNameQuery as GetEntityByPluralizedNameQueryType,
 } from '../gql/graphql'
-import type { UseFormProps } from 'react-hook-form'
+import type {
+  Control, FieldValues, Path, UseFormProps,
+} from 'react-hook-form'
 
 const fieldToTypeMap: Record<string, string | ((entityName: string, fieldName: string) => string)> = {
   StringField: 'String',
@@ -28,10 +33,10 @@ const fieldToTypeMap: Record<string, string | ((entityName: string, fieldName: s
   BooleanField: 'Boolean',
   IDField: 'ID',
   ArrayField: (entityName: string, fieldName: string) => `[${capitalize(entityName)}${capitalize(fieldName)}Input!]`,
-  // ObjectRelationField: 'Object',
+  EntityRelationField: (entityName: string, fieldName: string) => `${capitalize(entityName)}${capitalize(fieldName)}Input`,
 }
 
-export type Entity = NonNullable<GetEntityByPluralizedNameQuery['getEntityByPluralizedName']>
+export type Entity = NonNullable<GetEntityByPluralizedNameQueryType['getEntityByPluralizedName']>
 
 const buildUpsertEntryMutation = (entity: Entity) => {
   const { fields } = entity
@@ -73,6 +78,7 @@ export const getDefaultValueFromEntityField = (field: Entity['fields'][number]) 
   }
   return null
 }
+
 type ArrayField = {
   readonly __typename: 'ArrayField',
   readonly name: string,
@@ -89,16 +95,13 @@ type ArrayFieldComponentProps = {
 
 const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items, onChange }) => {
   const {
-    control, handleSubmit, setValue, getValues, formState: { isValid, touchedFields },
-  } = useForm({
-
-  })
+    control, handleSubmit, setValue,
+  } = useForm({ })
 
   useEffect(() => {
     items.forEach((item, index) => {
       const key = `${index}-${Object.keys(item)[0]!}`
       const value = Object.values(item)[0]
-      console.log('setting value', key, value)
       setValue(key, value)
     })
   }, [field.name, items, setValue])
@@ -107,11 +110,11 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
     const keys = Object.keys(vals)
     const mappedValues = keys.map((key) => {
       const value = vals[key]
-      const [index, label] = key.split('-')
+      // here we only care about the label, not the index in the key
+      const [, label] = key.split('-')
 
       return { [label as string]: value }
     })
-    console.log('mappedValues from array form', mappedValues)
     onChange(mappedValues)
   }, [onChange]))
 
@@ -187,6 +190,96 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
   )
 }
 
+export const GetEntityByNameQuery = graphql(`
+  query GetEntityByName($name: String!) { getEntityByName(name: $name) { 
+    name
+    pluralizedName
+    fields { 
+      name
+      __typename 
+      isRequired
+      isRequiredInput
+
+      ... on EntityRelationField {
+        entityName
+      }
+
+      ... on StringField {
+        defaultValueString: defaultValue
+        isSearchable
+      }
+      
+      ... on NumberField {
+        defaultValueNumber: defaultValue
+      }
+      
+      ... on  BooleanField{
+        defaultValueBoolean: defaultValue
+      }
+      ... on ArrayField {
+        availableFields {
+          name
+          __typename
+        }
+      }
+   } } }
+`)
+
+function SelectEntityRelation<T extends FieldValues>({ control, fieldName, entityName }: { readonly control: Control<T>, readonly fieldName: Path<T>, readonly entityName: string }) {
+  const bottomSheet = useRef<BottomSheet>(null)
+  const theme = useTheme()
+
+  const [{ data }] = useQuery({
+    query: GetEntityByNameQuery,
+    variables: { name: entityName },
+    pause: !entityName,
+  })
+
+  const [query, setQuery] = useState('')
+
+  useEffect(() => {
+    if (fieldName) {
+      // bottomSheet.current?.expand()
+    } else {
+      bottomSheet.current?.close()
+    }
+  }, [fieldName])
+
+  const entity = data?.getEntityByName
+
+  return (
+    <Controller
+      control={control}
+      name={fieldName}
+      render={({ field: { onChange, value } }) => (
+        <BottomSheet
+          backgroundStyle={{ backgroundColor: theme.colors.background }}
+          ref={bottomSheet}
+          snapPoints={[80, 400]}
+          keyboardBehavior='interactive'
+          keyboardBlurBehavior='restore'
+        >
+          <Text>{fieldName}</Text>
+          <Searchbar value={query} onChangeText={setQuery} placeholder='Search for entity..' />
+          <ScrollView>
+            {entity ? (
+              <SearchEntries
+                entityName={entityName}
+                query={query}
+                pluralizedName={entity.pluralizedName}
+                fields={entity.fields}
+                onSelected={(entry) => {
+                  onChange(entry.id)
+                }}
+              />
+            ) : null}
+          </ScrollView>
+        </BottomSheet>
+      )}
+    />
+  )
+}
+
 const UpsertEntry: React.FC<{
   readonly entity: Entity,
   readonly previousEntryId?: string,
@@ -250,6 +343,8 @@ const UpsertEntry: React.FC<{
     onUpdated?.()
   }, [createEntry, fields, onUpdated]))
 
+  const [fieldForEntitySelection, setFieldForEntity] = useState<Field | null>(null)
+
   return fetching && previousEntryId ? <ActivityIndicator style={Styles.margin16} /> : (
     <View>
       <ScrollView>
@@ -297,7 +392,7 @@ const UpsertEntry: React.FC<{
               )
             }
             if (field.__typename === 'EntityRelationField') {
-              return <Text key={field.name}>Relation input here</Text>
+              return <Button onPress={() => { setFieldForEntity(field) }} key={field.name}>Relation input here</Button>
             }
             if (field.__typename === 'NumberField') {
               return (
@@ -342,7 +437,15 @@ const UpsertEntry: React.FC<{
         </View>
         <View style={{ height: 400 }} />
       </ScrollView>
-
+      {
+        fieldForEntitySelection ? (
+          <SelectEntityRelation
+            control={control}
+            fieldName={fieldForEntitySelection.name}
+            entityName={'entityName' in fieldForEntitySelection ? fieldForEntitySelection.entityName as string : ''}
+          />
+        ) : null
+      }
     </View>
   )
 }

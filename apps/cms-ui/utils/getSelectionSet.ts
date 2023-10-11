@@ -14,15 +14,21 @@ export const getSelectionSet = (
     readonly name: string,
     readonly __typename: string,
     readonly availableFields?: readonly {readonly name: string}[]
+    readonly entityName?: string,
   }[],
 ) => {
-  const selectionSet = fields.map((field) => (field.availableFields && field.availableFields.length > 0
-    ? `${field.name} { ${field.availableFields.map((f) => {
-      const fieldName = f.name.replaceAll(' ', '_')
-      return `... on ${ArraySubFieldName({ arrayFieldName: field.name, entityName, subFieldName: f.name })} { ${fieldName} }`
-    }).join(' ')} }`
-    : field.name))
-
+  const selectionSet = fields.map((field) => {
+    if (field.availableFields && field.availableFields.length > 0) {
+      return `${field.name} { ${field.availableFields.map((f) => {
+        const fieldName = f.name.replaceAll(' ', '_')
+        return `... on ${ArraySubFieldName({ arrayFieldName: field.name, entityName, subFieldName: f.name })} { ${fieldName} }`
+      }).join(' ')} }`
+    }
+    if (field.entityName) {
+      return `${field.name} { __typename id }`
+    }
+    return field.name
+  })
   return selectionSet
 }
 

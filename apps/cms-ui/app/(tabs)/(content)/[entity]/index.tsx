@@ -1,7 +1,6 @@
-import { router, useFocusEffect, useLocalSearchParams } from 'expo-router'
-import { useCallback } from 'react'
+import { router, useLocalSearchParams } from 'expo-router'
 import {
-  View, ScrollView, RefreshControl,
+  View,
 } from 'react-native'
 import { Button } from 'react-native-paper'
 import { useQuery } from 'urql'
@@ -19,8 +18,13 @@ export const GetEntityByPluralizedNameQuery = graphql(`
       isRequired
       isRequiredInput
 
+      ... on EntityRelationField {
+        entityName
+      }
+
       ... on StringField {
         defaultValueString: defaultValue
+        isSearchable
       }
       
       ... on NumberField {

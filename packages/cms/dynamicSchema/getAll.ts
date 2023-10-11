@@ -16,7 +16,10 @@ import type {
 const createGetAll = (entity: EntityType, type: GraphQLOutputType) => {
   const getAll: GraphQLFieldConfig<unknown, unknown, unknown> = { // "books"
     type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(type))),
-    resolve: async () => (await papr.contentCollection(entity.pluralizedName)).find({ entityType: entity.name }),
+    resolve: async () => {
+      const collection = await papr.contentCollection(entity.pluralizedName)
+      return collection.find({ entityType: entity.name })
+    },
   }
 
   return getAll

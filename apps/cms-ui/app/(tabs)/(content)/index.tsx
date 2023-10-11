@@ -1,13 +1,13 @@
+import { Styles } from '@kingstinct/react'
 import { router } from 'expo-router'
+import { useCallback } from 'react'
 import { RefreshControl, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { Button } from 'react-native-paper'
 import { useMutation, useQuery } from 'urql'
 
 import { graphql } from '../../../gql'
 import { capitalize, pluralize } from '../../../utils/text'
-import { useCallback } from 'react'
-import { Styles } from '@kingstinct/react'
-import { ScrollView } from 'react-native-gesture-handler'
 
 export const GetEntitiesQuery = graphql(`
   query GetEntities {
@@ -22,7 +22,6 @@ export const GetEntitiesQuery = graphql(`
   }
 `)
 
-
 const CreateEntityMutation = graphql(`
 mutation CreateEntity($name: String!, $pluralizedName: String!) {
   createEntity(name: $name, pluralizedName: $pluralizedName) {
@@ -36,7 +35,6 @@ const EntityList = () => {
     query: GetEntitiesQuery,
     variables: {},
   })
-
 
   const [, createEntityMutation] = useMutation(CreateEntityMutation)
 

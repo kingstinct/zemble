@@ -7,6 +7,7 @@ import type {
   FieldInput,
   MutationResolvers,
 } from '../schema.generated'
+import type { IndexDescription } from 'mongodb'
 
 type Field = typeof EntitySchema[0]['fields'][0]
 
@@ -93,6 +94,8 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await validateFields(fields)
 
+  console.log('validated', fields)
+
   const $set = fields.reduce((acc, field) => ({
     ...acc,
     [`fields.${field.name}`]: field,
@@ -130,6 +133,14 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
     }), {})
     await collection.createIndex(index, {
       name: 'search_index',
+    })
+
+    await collection.createIndexes(searchableFields.map<IndexDescription>((s) => ({
+      key: {
+        [s.name]: 1,
+      },
+    })), {
+      sparse: true,
     })
   }
 

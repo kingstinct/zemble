@@ -23,15 +23,33 @@ const createSearch = (entity: EntityType, obj: GraphQLObjectType) => {
     },
     resolve: async (_, {
       query, caseSensitive, diacriticSensitive, language,
-    }) => (await papr.contentCollection(entity.pluralizedName)).find({
-      entityType: entity.name,
-      $text: {
-        $search: query,
-        $caseSensitive: caseSensitive ?? false,
-        $diacriticSensitive: diacriticSensitive ?? false,
-        $language: language,
-      },
-    }),
+    }) => {
+      const collection = await papr.contentCollection(entity.pluralizedName)
+
+      const searchableFields = Object.values(entity.fields ?? []).filter((e) => e.__typename === 'StringField' && e.isSearchable)
+
+      const $or = [
+        ...searchableFields.map((s) => ({
+          [s.name]: {
+            $regex: `^${query}`,
+            $options: 'i',
+          },
+        })),
+        {
+          $text: {
+            $search: query,
+            $caseSensitive: caseSensitive ?? false,
+            $diacriticSensitive: diacriticSensitive ?? false,
+            $language: language,
+          },
+        },
+      ]
+
+      return collection.find({
+        // entityType: entity.name,
+        $or,
+      })
+    },
   }
 
   return search

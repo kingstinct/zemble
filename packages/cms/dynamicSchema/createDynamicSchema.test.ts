@@ -63,6 +63,14 @@ beforeEach(async () => {
         },
       },
       {
+        EntityRelationField: {
+          name: 'yo',
+          isRequiredInput: false,
+          isRequired: true,
+          entityName: 'test',
+        },
+      },
+      {
         ArrayField: {
           name: 'contributors',
           availableFields: [

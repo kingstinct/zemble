@@ -3,11 +3,11 @@ import { Styles } from '@kingstinct/react'
 import { useCallback, useEffect, useRef } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
-  View, Text,
+  View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import {
-  Button, DataTable, Divider, Title, useTheme,
+  Button, DataTable, Divider, Title, useTheme, Text,
 } from 'react-native-paper'
 import { useMutation } from 'urql'
 
@@ -47,6 +47,7 @@ type Props = {
   readonly entity: Entity,
   readonly onUpdated?: () => void
   readonly fieldNameToModify?: string
+  readonly availableEntityNames: readonly string[]
 }
 
 type UpsertFieldProps = {
@@ -115,9 +116,11 @@ const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField }) => {
   )
 }
 
-const UpsertField: React.FC<Props> = ({ entity, onUpdated, fieldNameToModify }) => {
+const UpsertField: React.FC<Props> = ({
+  entity, onUpdated, fieldNameToModify, availableEntityNames,
+}) => {
   const entityName = entity.name
-  const [, createField] = useMutation(AddFieldsToEntityMutation)
+  const [, upsertField] = useMutation(AddFieldsToEntityMutation)
   const [, removeField] = useMutation(RemoveFieldsFromEntityMutation)
 
   const {
@@ -130,9 +133,11 @@ const UpsertField: React.FC<Props> = ({ entity, onUpdated, fieldNameToModify }) 
     defaultValues: {
       fieldName: '',
       isRequired: false,
+      isSearchable: true,
       fieldType: 'StringField' as FieldType,
       availableFields: [] as readonly FieldInputWithoutArray[],
       defaultValue: null as string | number | boolean | null | undefined,
+      entityName,
     },
   })
 
@@ -155,12 +160,16 @@ const UpsertField: React.FC<Props> = ({ entity, onUpdated, fieldNameToModify }) 
         setValue('isRequired', field.isRequired)
         if (field.__typename === 'StringField') {
           setValue('defaultValue', field.defaultValueString)
+          setValue('isSearchable', field.isSearchable)
         }
         if (field.__typename === 'NumberField') {
           setValue('defaultValue', field.defaultValueNumber)
         }
         if (field.__typename === 'BooleanField') {
           setValue('defaultValue', field.defaultValueBoolean)
+        }
+        if (field.__typename === 'EntityRelationField') {
+          setValue('entityName', field.entityName)
         }
         if (field.__typename === 'ArrayField') {
           setValue('availableFields', field.availableFields.map((f) => ({ [f.__typename]: { name: f.name } } as unknown as FieldInputWithoutArray)))
@@ -174,7 +183,11 @@ const UpsertField: React.FC<Props> = ({ entity, onUpdated, fieldNameToModify }) 
     const { fieldType, defaultValue } = values
 
     const field = {
-      [fieldType]: fieldType === 'ArrayField' ? {
+      [fieldType]: fieldType === 'EntityRelationField' ? {
+        name: values.fieldName,
+        isRequired: values.isRequired,
+        entityName: values.entityName,
+      } : (fieldType === 'ArrayField' ? {
         name: values.fieldName,
         isRequired: values.isRequired,
         isRequiredInput: values.isRequired,
@@ -184,10 +197,14 @@ const UpsertField: React.FC<Props> = ({ entity, onUpdated, fieldNameToModify }) 
         isRequired: values.isRequired,
         isRequiredInput: values.isRequired && !defaultValue,
         defaultValue,
-      },
+
+        ...fieldType === 'StringField' ? {
+          isSearchable: values.isSearchable,
+        } : {},
+      }),
     } as unknown as FieldInput
 
-    await createField({
+    await upsertField({
       name: entityName,
       fields: [field],
     })
@@ -245,10 +262,21 @@ const UpsertField: React.FC<Props> = ({ entity, onUpdated, fieldNameToModify }) 
           />
         ) : null }
 
+        { fieldType === 'StringField' ? (
+          <SwitchControl
+            control={control}
+            label='Searchable'
+            name='isSearchable'
+          />
+        ) : null }
+
         { fieldType === 'EntityRelationField' ? (
-          <Text>
-            {`${fieldType}`}
-          </Text>
+          <SelectOneController
+            control={control}
+            name='entityName'
+            options={availableEntityNames}
+          />
+
         ) : null }
 
         {

@@ -8,12 +8,9 @@ import {
   Button, Menu,
 } from 'react-native-paper'
 
-
 import type {
   Control, FieldValues, Path, RegisterOptions,
 } from 'react-hook-form'
-import { Animated, StyleProp, ViewStyle } from 'react-native'
-
 
 const FieldTypeMenuItem = ({ onChange, fieldType, value }) => (
   <Menu.Item
@@ -39,7 +36,7 @@ function SelectOneController<T extends FieldValues>({
   rules,
   buttonStyle,
   options,
-}: { readonly control: Control<T>, readonly name: Path<T>, readonly rules?: RegisterOptions<T>, readonly options: readonly string[], buttonStyle?: ButtonStyle }) {
+}: { readonly control: Control<T>, readonly name: Path<T>, readonly rules?: RegisterOptions<T>, readonly options: readonly string[], readonly buttonStyle?: ButtonStyle }) {
   const [visible, setVisible] = useState(false)
   return (
     <Controller
