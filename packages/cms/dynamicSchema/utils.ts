@@ -146,7 +146,7 @@ export const fieldToInputType = (typePrefix: string, field: IField): GraphQLScal
 // modifies input data so it can be saved to the db
 export const createTraverser = (entity: EntityType) => {
   const fields = Object.values(entity.fields)
-  // const arrayFieldNames = new Set(fields.filter((f) => f.__typename === 'ArrayField').map((f) => f.name))
+
   const entityRelationFieldNamesWithEntity = {
     ...fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
       ...prev,

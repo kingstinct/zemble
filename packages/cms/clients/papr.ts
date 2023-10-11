@@ -6,16 +6,49 @@ import Papr, { VALIDATION_LEVEL, schema, types } from 'papr'
 import type { Db } from 'mongodb'
 import type { Model } from 'papr'
 
-export const ArrayFieldObject = types.object({
+const StringFieldObject = types.object({
   name: types.string({ required: true }),
   isRequired: types.boolean({ required: true }),
   isRequiredInput: types.boolean({ required: true }),
-  maxItems: types.number({ required: false }),
-  minItems: types.number({ required: false }),
-  availableFields: types.array(types.unknown, { required: true }),
-  __typename: types.constant('ArrayField' as const, { required: true }),
-}, {
-  required: true,
+  isSearchable: types.boolean({ required: true }),
+  maxLength: types.number({ required: false }),
+  minLength: types.number({ required: false }),
+  defaultValue: types.oneOf([
+    types.null({ required: false }),
+    types.string({ required: false }),
+  ]),
+  __typename: types.constant('StringField' as const, { required: true }),
+})
+
+const BooleanFieldObject = types.object({
+  name: types.string({ required: true }),
+  isRequired: types.boolean({ required: true }),
+  isRequiredInput: types.boolean({ required: true }),
+  defaultValue: types.oneOf([
+    types.null({ required: false }),
+    types.boolean({ required: false }),
+  ]),
+  __typename: types.constant('BooleanField' as const, { required: true }),
+})
+
+const NumberFieldObject = types.object({
+  name: types.string({ required: true }),
+  isRequired: types.boolean({ required: true }),
+  isRequiredInput: types.boolean({ required: true }),
+  defaultValue: types.oneOf([
+    types.null({ required: false }),
+    types.number({ required: false }),
+  ]),
+  max: types.number({ required: false }),
+  min: types.number({ required: false }),
+  __typename: types.constant('NumberField' as const, { required: true }),
+})
+
+const IDFieldObject = types.object({
+  name: types.string({ required: true }),
+  isRequired: types.boolean({ required: true }),
+  isRequiredInput: types.boolean({ required: true }),
+  __typename: types.constant('IDField' as const, { required: true }),
 })
 
 export const EntityRelationObject = types.object({
@@ -28,52 +61,36 @@ export const EntityRelationObject = types.object({
   required: true,
 })
 
+const AllFieldsInArray = types.oneOf([
+  NumberFieldObject,
+  BooleanFieldObject,
+  StringFieldObject,
+  EntityRelationObject,
+], {
+  required: true,
+})
+
+export const ArrayFieldObject = types.object({
+  name: types.string({ required: true }),
+  isRequired: types.boolean({ required: true }),
+  isRequiredInput: types.boolean({ required: true }),
+  maxItems: types.number({ required: false }),
+  minItems: types.number({ required: false }),
+  availableFields: types.array(AllFieldsInArray, { required: true }),
+  __typename: types.constant('ArrayField' as const, { required: true }),
+}, {
+  required: true,
+})
+
 export type ArrayFieldType = typeof ArrayFieldObject
 
 export type EntityRelationType = typeof EntityRelationObject
 
 const AllFields = types.oneOf([
-  types.object({
-    name: types.string({ required: true }),
-    isRequired: types.boolean({ required: true }),
-    isRequiredInput: types.boolean({ required: true }),
-    __typename: types.constant('IDField' as const, { required: true }),
-  }),
-  types.object({
-    name: types.string({ required: true }),
-    isRequired: types.boolean({ required: true }),
-    isRequiredInput: types.boolean({ required: true }),
-    defaultValue: types.oneOf([
-      types.null({ required: false }),
-      types.number({ required: false }),
-    ]),
-    max: types.number({ required: false }),
-    min: types.number({ required: false }),
-    __typename: types.constant('NumberField' as const, { required: true }),
-  }),
-  types.object({
-    name: types.string({ required: true }),
-    isRequired: types.boolean({ required: true }),
-    isRequiredInput: types.boolean({ required: true }),
-    defaultValue: types.oneOf([
-      types.null({ required: false }),
-      types.boolean({ required: false }),
-    ]),
-    __typename: types.constant('BooleanField' as const, { required: true }),
-  }),
-  types.object({
-    name: types.string({ required: true }),
-    isRequired: types.boolean({ required: true }),
-    isRequiredInput: types.boolean({ required: true }),
-    isSearchable: types.boolean({ required: true }),
-    maxLength: types.number({ required: false }),
-    minLength: types.number({ required: false }),
-    defaultValue: types.oneOf([
-      types.null({ required: false }),
-      types.string({ required: false }),
-    ]),
-    __typename: types.constant('StringField' as const, { required: true }),
-  }),
+  IDFieldObject,
+  NumberFieldObject,
+  BooleanFieldObject,
+  StringFieldObject,
   ArrayFieldObject,
   EntityRelationObject,
 ], {

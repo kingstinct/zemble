@@ -39,9 +39,19 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   const validateFields = async (fields: readonly Field[]) => {
     fields.forEach((field) => {
-      const isValid = /^[^-\s\d][^-\s]+$/.test(field.name)
+      const validRegex = /^[^-\s\d][^-\s]+$/
+      const isValid = validRegex.test(field.name)
       if (!isValid) {
-        throw new GraphQLError(`Field name ${field.name} is invalid. It must not contain spaces or dashes.`)
+        throw new GraphQLError(`Field name "${field.name}" is invalid. It must not contain spaces or dashes, and cannot start with a number.`)
+      }
+
+      if (field.__typename === 'ArrayField') {
+        field.availableFields.forEach((availableField) => {
+          const isValid = validRegex.test(availableField.name)
+          if (!isValid) {
+            throw new GraphQLError(`Field name "${field.name}.${availableField.name}" is invalid. It must not contain spaces or dashes, and cannot start with a number.`)
+          }
+        })
       }
     })
 
