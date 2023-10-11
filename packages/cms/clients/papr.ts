@@ -128,21 +128,26 @@ class PaprWrapper {
 
   #entities: Model<typeof EntitySchema[0], typeof EntitySchema[1]> | undefined
 
-  #content: Model<typeof EntityEntrySchema[0], typeof EntityEntrySchema[1]> | undefined
-
   get Entities() {
     if (!this.papr || !this.#entities) throw new Error('Papr not initialized')
     return this.#entities
   }
 
-  get Content() {
-    if (!this.papr || !this.#content) throw new Error('Papr not initialized')
-    return this.#content
+  async contentCollection(name: string) {
+    await this.#initializing
+    const model = this.papr?.models.get(name) as Model<typeof EntityEntrySchema[0], typeof EntityEntrySchema[1]>
+    if (!model) throw new Error(`Content collection "${name}" not found or not initialized`)
+    return model
   }
 
-  async connect(mongoUrl = process.env.MONGO_URL) {
+  initializeCollection(collectionName: string) {
+    this.papr?.model(collectionName, EntityEntrySchema)
+  }
+
+  #initializing = Promise.resolve()
+
+  async initialize(mongoUrl: string) {
     const papr = new Papr()
-    if (!mongoUrl) throw new Error('MONGO_URL not set')
 
     readaptContext.logger.log('Connecting to MongoDB...', mongoUrl)
 
@@ -154,28 +159,37 @@ class PaprWrapper {
     const db = client.db()
 
     const entities = papr.model('entities', EntitySchema)
-    const content = papr.model('content', EntityEntrySchema)
-
-    papr.initialize(db)
 
     readaptContext.logger.log(`Registering ${papr.models.size} models...`)
-    papr.models.forEach((model) => {
-      readaptContext.logger.log(`Registering model: ${model.collection.collectionName}`)
-    })
+
+    papr.initialize(db)
 
     await papr.updateSchemas()
 
     await db.collection('entities').createIndex({ name: -1 }, { unique: true })
     await db.collection('entities').createIndex({ pluralizedName: -1 }, { unique: true })
-    await db.collection('content').createIndex({ entityType: -1 })
+    // contentCollections.forEach(async (collection) => {
+    //   await db.collection(collection).createIndex({ entityType: -1 })
+    // })
 
     // update when all is done
+
+    const allEntitites = await entities.find({})
+
+    allEntitites.forEach((entity) => {
+      papr.model(entity.pluralizedName, EntityEntrySchema)
+    })
 
     this.db = db
     this.client = client
     this.papr = papr
     this.#entities = entities
-    this.#content = content
+  }
+
+  async connect(mongoUrl = process.env.MONGO_URL) {
+    if (!mongoUrl) throw new Error('MONGO_URL not set')
+    this.#initializing = this.initialize(mongoUrl)
+    return this.#initializing
   }
 
   async disconnect() {

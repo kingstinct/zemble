@@ -32,6 +32,8 @@ const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameIn
 
   const prev = await papr.Entities.insertOne(entity)
 
+  papr.initializeCollection(pluralizedName)
+
   pubsub.publish('reload-schema', {})
 
   return { ...prev!, fields: Object.values(prev!.fields) }

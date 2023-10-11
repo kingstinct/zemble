@@ -128,7 +128,7 @@ test('should create a book', async () => {
     },
   ])
 
-  const entityEntry = await papr.Content.find({})
+  const entityEntry = await (await papr.contentCollection('books')).find({})
 
   expect(entityEntry).toEqual([
     {
@@ -172,6 +172,10 @@ test('should create a book with authors', async () => {
         readonly id: string
       }
     }
+
+    // wait for schema to be updated
+    await new Promise((resolve) => { setTimeout(resolve, 1000) })
+
     const { data: jrr } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "J.R.R.", lastName: "Tolkien") { id, firstName, lastName } }`, {}, opts)
     const { data: christopher } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "Christopher", lastName: "Tolkien") { id, firstName, lastName } } `, {}, opts)
 
@@ -224,25 +228,15 @@ test('should create a book with authors', async () => {
       },
     })
 
-    const entityEntry = await papr.Content.find({})
+    const booksCollection = await papr.contentCollection('books')
 
-    expect(entityEntry).toEqual([
-      {
-        _id: expect.any(ObjectId),
-        createdAt: expect.any(Date),
-        entityType: 'author',
-        firstName: 'J.R.R.',
-        lastName: 'Tolkien',
-        updatedAt: expect.any(Date),
-      },
-      {
-        _id: expect.any(ObjectId),
-        createdAt: expect.any(Date),
-        entityType: 'author',
-        firstName: 'Christopher',
-        lastName: 'Tolkien',
-        updatedAt: expect.any(Date),
-      },
+    const books = await booksCollection.find({})
+
+    const authorsCollection = await papr.contentCollection('authors')
+
+    const authors = await authorsCollection.find({})
+
+    expect(books).toEqual([
       {
         _id: expect.any(ObjectId),
         createdAt: expect.any(Date),
@@ -264,6 +258,25 @@ test('should create a book with authors', async () => {
             },
           },
         ],
+        updatedAt: expect.any(Date),
+      },
+    ])
+
+    expect(authors).toEqual([
+      {
+        _id: expect.any(ObjectId),
+        createdAt: expect.any(Date),
+        entityType: 'author',
+        firstName: 'J.R.R.',
+        lastName: 'Tolkien',
+        updatedAt: expect.any(Date),
+      },
+      {
+        _id: expect.any(ObjectId),
+        createdAt: expect.any(Date),
+        entityType: 'author',
+        firstName: 'Christopher',
+        lastName: 'Tolkien',
         updatedAt: expect.any(Date),
       },
     ])

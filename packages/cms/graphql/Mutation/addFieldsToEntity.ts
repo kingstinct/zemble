@@ -37,6 +37,12 @@ const mapInputToField = (input: FieldInput): Field => {
 const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
   const fields: readonly Field[] = fieldsInput.map(mapInputToField)
 
+  const entity = await papr.Entities.findOne({ name: entityName })
+
+  if (!entity) {
+    throw new GraphQLError(`Entity with name ${entityName} not found`)
+  }
+
   const validateFields = async (fields: readonly Field[]) => {
     fields.forEach((field) => {
       const validRegex = /^[^-\s\d][^-\s]+$/
@@ -68,7 +74,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
     })
     const fieldsRequiringValidation = all.filter(Boolean) as readonly string[]
     if (fieldsRequiringValidation.length > 1) {
-      const failingDocs = await papr.Content.find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
+      const failingDocs = await (await papr.contentCollection(entity.pluralizedName)).find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
         ...acc,
         $or: [
           { [fieldName]: { $exists: false } },
@@ -92,8 +98,6 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
     [`fields.${field.name}`]: field,
   }), {})
 
-  console.log('$set', $set)
-
   const prev = await papr.Entities.findOneAndUpdate({ name: entityName }, {
     $set,
   }, {
@@ -107,8 +111,13 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
   const searchableFields = Object.values(prev.fields).filter((field) => 'isSearchable' in field && field.isSearchable)
 
   const { db } = papr
-  const collection = db!.collection('content')
-  const hasIndex = await collection.indexExists(`search_index`)
+  const collection = db!.collection(prev.pluralizedName)
+  let hasIndex = false
+  try {
+    hasIndex = await collection.indexExists(`search_index`)
+  } catch {
+    // errors if collection hasnt been created yet
+  }
 
   // seems to fail to add in tests if dropping index?
   if (hasIndex && process.env.NODE_ENV !== 'test') {

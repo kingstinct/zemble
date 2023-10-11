@@ -8,7 +8,7 @@ const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, to
 
   const pluralizedName = pluralIn.trim()
 
-  const { client } = papr
+  const { client, db } = papr
   const session = client!.startSession()
 
   let updated: EntityType | undefined | null
@@ -23,12 +23,7 @@ const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, to
       returnDocument: 'after',
       session,
     })
-
-    await papr.Content.updateMany({ entityType: fromName }, {
-      $set: { entityType: name },
-    }, {
-      session,
-    })
+    await db?.renameCollection(fromName, pluralizedName, { session })
   })
 
   if (!updated) {

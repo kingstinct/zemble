@@ -40,7 +40,6 @@ const createFilterResolver = (entity: EntityType, obj: GraphQLObjectType) => {
   }, {})
 
   const filter: GraphQLFieldConfig<unknown, unknown, Record<string, unknown>> = {
-
     type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
     args,
     resolve: async (_, matchers) => {
@@ -52,7 +51,7 @@ const createFilterResolver = (entity: EntityType, obj: GraphQLObjectType) => {
         }), {}),
       }), {})
 
-      return papr.Content.find({
+      return (await papr.contentCollection(entity.pluralizedName)).find({
         entityType: entity.name,
         ...filter,
       })

@@ -17,7 +17,7 @@ const createDeleteEntryResolver = (entity: EntityType) => {
       },
     },
     resolve: async (_, { id }) => {
-      await papr.Content.findOneAndDelete({
+      await (await papr.contentCollection(entity.pluralizedName)).findOneAndDelete({
         entityType: entity.name,
         _id: new ObjectId(id),
       })

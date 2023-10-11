@@ -102,7 +102,6 @@ const buildMergedSchema = async (
   plugins: readonly Plugin[],
   config: GraphQLMiddlewareConfig,
 ) => {
-  console.log('buildMergedSchema')
   const isPlugin = plugins.some(({ pluginPath }) => pluginPath === process.cwd())
   const selfSchemas: readonly GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
     // don't load if we're already a plugin
@@ -197,10 +196,8 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
   )
 
   app.use(config!.yoga!.graphqlEndpoint!, async (context) => {
-    console.log('request')
-
     const handler = await handlerPromise
-    
+
     return handler(context)
   })
 }

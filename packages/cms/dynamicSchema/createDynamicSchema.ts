@@ -5,10 +5,11 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLNonNull,
+  printSchema,
 } from 'graphql'
-import { ObjectId } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 
-import createEntityResolver from './createEntity'
+import createEntryResolver from './createEntry'
 import createDeleteEntryResolver from './deleteEntry'
 import createFilterResolver from './filter'
 import createGetAll from './getAll'
@@ -43,7 +44,8 @@ export default async () => {
 
   const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((acc, entity) => {
     const getById = new Dataloader(async (ids: readonly string[]) => {
-      const entries = await papr.Content.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
+      const contentCollection = await papr.contentCollection(entity.pluralizedName)
+      const entries = await contentCollection.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
 
       return ids.map((id) => entries.find((entry) => entry._id.toHexString() === id))
     })
@@ -51,10 +53,11 @@ export default async () => {
     const objRelation = new GraphQLObjectType({
       fields: () => Object.values(entity.fields).reduce((prev, field) => {
         const baseType = fieldToOutputType(entity.name, field, acc)
+
         return ({
           ...prev,
           [field.name]: {
-            type: field.isRequiredInput ? new GraphQLNonNull(baseType) : baseType,
+            type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
             resolve: async (parent: { readonly externalId: string }) => {
               const id = parent.externalId
               const resolved = await getById.load(id)
@@ -88,11 +91,6 @@ export default async () => {
           [field.name]: {
             type: field.isRequiredInput ? new GraphQLNonNull(baseType) : baseType,
             resolve: (props: { readonly _id: ObjectId } & Record<string, unknown>) => {
-              if (field.name === 'test') {
-                // console.log('props', props)
-                console.log('__typename', field.__typename)
-                console.log('props[field.name]', props[field.name])
-              }
               if (field.name === 'id') {
                 return props._id.toHexString()
               }
@@ -126,7 +124,7 @@ export default async () => {
       types: [...prev.types],
       mutations: {
         ...prev.mutations,
-        [`create${capitalize(entity.name)}`]: createEntityResolver(entity, outputType),
+        [`create${capitalize(entity.name)}`]: createEntryResolver(entity, outputType),
         [`delete${capitalize(entity.name)}`]: createDeleteEntryResolver(entity),
       },
     }
@@ -165,6 +163,10 @@ export default async () => {
       },
     }),
   })
+
+  if (process.env.DEBUG) {
+    console.log(`Schema updated:\n${printSchema(schema)}`)
+  }
 
   return schema
 }

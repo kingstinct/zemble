@@ -7,7 +7,7 @@ import papr from '../clients/papr'
 import type { EntityType } from '../clients/papr'
 import type { GraphQLFieldConfig, GraphQLOutputType } from 'graphql'
 
-const createEntityResolver = (entity: EntityType, type: GraphQLOutputType) => {
+const createEntryResolver = (entity: EntityType, type: GraphQLOutputType) => {
   const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly id: string }> = {
     type,
     args: Object.values(entity.fields).reduce((prev, field) => {
@@ -25,7 +25,7 @@ const createEntityResolver = (entity: EntityType, type: GraphQLOutputType) => {
 
       const _id = id ? new ObjectId(id) : new ObjectId()
 
-      const res = await papr.Content.findOneAndUpdate({
+      const res = await (await papr.contentCollection(entity.pluralizedName)).findOneAndUpdate({
         _id,
         entityType: entity.name,
       }, {
@@ -46,4 +46,4 @@ const createEntityResolver = (entity: EntityType, type: GraphQLOutputType) => {
   return createEntityEntry
 }
 
-export default createEntityResolver
+export default createEntryResolver

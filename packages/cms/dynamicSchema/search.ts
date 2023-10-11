@@ -23,7 +23,7 @@ const createSearch = (entity: EntityType, obj: GraphQLObjectType) => {
     },
     resolve: async (_, {
       query, caseSensitive, diacriticSensitive, language,
-    }) => papr.Content.find({
+    }) => (await papr.contentCollection(entity.pluralizedName)).find({
       entityType: entity.name,
       $text: {
         $search: query,
