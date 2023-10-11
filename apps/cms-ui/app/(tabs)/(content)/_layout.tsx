@@ -4,14 +4,11 @@ import {
 } from 'expo-router'
 import { useCallback } from 'react'
 import { Pressable } from 'react-native'
-
+import { useTheme } from 'react-native-paper'
 
 import { capitalize, singularize } from '../../../utils/text'
 
 import type { HeaderButtonProps } from '@react-navigation/native-stack/src/types'
-import { useTheme } from 'react-native-paper'
-
-
 
 // eslint-disable-next-line camelcase
 export const unstable_settings = {
@@ -19,12 +16,11 @@ export const unstable_settings = {
   initialRouteName: 'index',
 }
 
-const HeaderRightButton = ({ onPress, tintColor, icon = 'plus' }: HeaderButtonProps & { readonly onPress: () => void, icon?: string }) => {
+const HeaderRightButton = ({ onPress, tintColor, icon = 'plus' }: HeaderButtonProps & { readonly onPress: () => void, readonly icon?: keyof typeof MaterialCommunityIcons.glyphMap }) => {
   const theme = useTheme()
   return (
     <Pressable accessibilityRole='button' onPress={onPress}>
       <MaterialCommunityIcons
-        // @ts-ignore
         name={icon}
         size={24}
         style={{ marginRight: 16 }}
@@ -32,10 +28,10 @@ const HeaderRightButton = ({ onPress, tintColor, icon = 'plus' }: HeaderButtonPr
       />
     </Pressable>
   )
-} 
+}
 
 const EntitiesLayout = () => {
-  const { entity } = useGlobalSearchParams()  
+  const { entity } = useGlobalSearchParams()
 
   const headerRightForListView = useCallback((props: HeaderButtonProps) => (
     <HeaderRightButton {...props} icon='cog' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />
@@ -122,7 +118,7 @@ const EntitiesLayout = () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
-          title: 'Update field ' + route.params?.fieldName,
+          title: `Update field ${route.params?.fieldName}`,
           presentation: 'modal',
         })}
       />

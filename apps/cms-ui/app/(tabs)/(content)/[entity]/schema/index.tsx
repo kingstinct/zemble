@@ -1,3 +1,4 @@
+import { Styles } from '@kingstinct/react'
 import { router, useLocalSearchParams } from 'expo-router'
 import {
   View, Text, ScrollView,
@@ -7,7 +8,6 @@ import { Button, DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
 import { GetEntityByPluralizedNameQuery } from '..'
-import { Styles } from '@kingstinct/react'
 
 const EntityDetails = () => {
   const { entity } = useLocalSearchParams()
@@ -42,10 +42,13 @@ const EntityDetails = () => {
               </DataTable.Row>
             ))
           }
-          <Button 
+          <Button
             icon='plus'
             style={Styles.margin8}
-            onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/fields/create`)}>Add Field</Button>
+            onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/fields/create`)}
+          >
+            Add Field
+          </Button>
         </DataTable>
         <Text>{ JSON.stringify(data?.getEntityByPluralizedName, null, 2) }</Text>
         <View style={{ height: 200 }} />

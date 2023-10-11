@@ -40,7 +40,7 @@ beforeEach(async () => {
   }
 })
 
-// todo [>=1]: skipping because can't get replica set to work (clean up) on bun
+// todo [>1]: skipping because can't get replica set to work (clean up) on bun
 test.skip('should rename an entity', async () => {
   const res = await app.gqlRequest(CreateEntityMutation, {
     name: 'book',

@@ -1,9 +1,9 @@
 import { View, Text } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
+import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
 import { graphql } from '../../gql'
-import { DataTable } from 'react-native-paper'
-import { ScrollView } from 'react-native-gesture-handler'
 
 export const GetUsersQuery = graphql(`
   query GetUsers {
@@ -26,11 +26,11 @@ const UserList = () => {
           <DataTable.Title>Email</DataTable.Title>
         </DataTable.Header>
         {
-          data?.users.map((entity) => 
-          <DataTable.Row key={entity.email}>
-            <DataTable.Cell><Text key={entity.email}>{entity.email}</Text></DataTable.Cell>
-          </DataTable.Row>
-          )
+          data?.users.map((entity) => (
+            <DataTable.Row key={entity.email}>
+              <DataTable.Cell><Text key={entity.email}>{entity.email}</Text></DataTable.Cell>
+            </DataTable.Row>
+          ))
         }
       </DataTable>
     </ScrollView>

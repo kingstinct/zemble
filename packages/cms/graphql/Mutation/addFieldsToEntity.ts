@@ -94,8 +94,6 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await validateFields(fields)
 
-  console.log('validated', fields)
-
   const $set = fields.reduce((acc, field) => ({
     ...acc,
     [`fields.${field.name}`]: field,

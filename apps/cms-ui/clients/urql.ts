@@ -3,9 +3,9 @@ import {
   createClient, errorExchange, fetchExchange, subscriptionExchange,
 } from '@urql/core'
 import { createClient as createWSClient } from 'graphql-ws'
+import { Platform } from 'react-native'
 
 import type { CombinedErrorWithExtensions, CreateUrqlClient } from '@kingstinct/react/contexts/Urql'
-import { Platform } from 'react-native'
 
 const BACKEND_ROOT_URL = Platform.OS === 'web' ? 'http://localhost:3000' : 'http://robmax.local:3000'
 

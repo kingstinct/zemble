@@ -41,7 +41,7 @@ export const createPluginSchema = async ({
     },
   })
 
-  // todo [>=1]: fix wrapping to work with aliases, something is missing here
+  // todo [>1]: fix wrapping to work with aliases, something is missing here
   const schema = transforms.length > 0 ? wrapSchema({
     schema: internalSchema,
     executor: createDefaultExecutor(internalSchema),

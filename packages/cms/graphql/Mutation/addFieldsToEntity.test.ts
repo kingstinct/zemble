@@ -15,7 +15,7 @@ afterAll(teardownAfterAll)
 
 afterEach(tearDownAfterEach)
 
-// todo [>=1]: add tests for required-checks/migration
+// todo [>1]: add tests for required-checks/migration
 
 let app: Readapt.Server
 let opts: Record<string, unknown>

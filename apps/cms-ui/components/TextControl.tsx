@@ -21,6 +21,7 @@ type Props<T extends FieldValues> = { readonly control: Control<T>, readonly nam
 export function TextControl<T extends FieldValues>({
   control, name, rules, ...textInputProps
 }: Props<T>) {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const labelOrPlaceholder = (textInputProps.label ? textInputProps.label.toString() : textInputProps.placeholder) ?? ''
   const render = useCallback(
     ({

@@ -9,7 +9,7 @@ import { Stack, router, useSegments } from 'expo-router'
 import { useContext, useEffect, useMemo } from 'react'
 import { useColorScheme } from 'react-native'
 import {
-  PaperProvider, MD3DarkTheme, MD2LightTheme, MD2DarkTheme, MD3LightTheme,
+  PaperProvider, MD3DarkTheme, MD3LightTheme,
 } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 

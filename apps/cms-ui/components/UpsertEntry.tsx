@@ -140,7 +140,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
                   label={label}
                   keyboardType='numeric'
                   onSubmitEditing={onSubmit}
-                  // todo [>=1]: should probably introduce an id here
+                  // todo [>1]: should probably introduce an id here
                   // eslint-disable-next-line react/no-array-index-key
                   key={name}
                 />
@@ -153,7 +153,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
                   name={name}
                   label={label}
                   switchProps={{ onValueChange: async () => onSubmit() }}
-                  // todo [>=1]: should probably introduce an id here
+                  // todo [>1]: should probably introduce an id here
                   // eslint-disable-next-line react/no-array-index-key
                   key={name}
                 />
@@ -165,7 +165,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
                 name={name}
                 label={label}
                 onSubmitEditing={onSubmit}
-                // todo [>=1]: should probably introduce an id here
+                // todo [>1]: should probably introduce an id here
                 // eslint-disable-next-line react/no-array-index-key
                 key={name}
               />

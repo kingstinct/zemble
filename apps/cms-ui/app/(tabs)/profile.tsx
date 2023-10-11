@@ -21,7 +21,9 @@ const ProfileScreen = () => {
       </Text>
       <Button
         onPress={logout}
-      >Logout</Button>
+      >
+        Logout
+      </Button>
     </View>
   )
 }

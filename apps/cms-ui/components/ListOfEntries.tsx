@@ -35,6 +35,7 @@ const formatFieldValue = (value: unknown) => {
     return `${value.length.toString()} items`
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   return value.toString()
 }
 

@@ -6,6 +6,8 @@ import {
 import { TOKEN_KEY } from '../config'
 import getToken from '../utils/getToken'
 
+import type { PropsWithChildren } from 'react'
+
 export const AuthContext = createContext({
   token: null as string | null,
   logout: () => {},
@@ -13,7 +15,9 @@ export const AuthContext = createContext({
 
 export const ReadToken = async (): Promise<string | null> => AsyncStorage.getItem(TOKEN_KEY)
 
-export const AuthProvider: React.FC<React.PropsWithChildren<{ readonly token: string | null, readonly setToken: (token: string | null) => void }>> = ({ children, token, setToken }) => {
+type Props = { readonly token: string | null, readonly setToken: (token: string | null) => void }
+
+export const AuthProvider: React.FC<PropsWithChildren<Props>> = ({ children, token, setToken }) => {
   useEffect(() => {
     void getToken().then(setToken)
   }, [setToken])
