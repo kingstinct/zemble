@@ -35,6 +35,6 @@
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",
-    "mongodb-memory-server": "^8.15.1"
+    "mongodb-memory-server": "9"
   }
 }

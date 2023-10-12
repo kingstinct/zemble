@@ -4,6 +4,7 @@
   "description": "",
   "main": "plugin.ts",
   "scripts": {
+    "test": "bun test",
     "dev": "MONGO_URL=mongodb://localhost:27017/test-db PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
@@ -30,7 +31,6 @@
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",
-    "bun-types": "^1.0.3",
-    "mongodb-memory-server": "^8.15.1"
+    "mongodb-memory-server": "9"
   }
 }
