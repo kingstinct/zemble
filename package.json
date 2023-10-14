@@ -10,7 +10,8 @@
     "graphql-codegen": "bunx turbo run graphql-codegen",
     "prepare": "husky install",
     "pre-push": "bunx turbo run lint-quiet test typecheck",
-    "generate-cms-json-schema": "typescript-json-schema ./packages/cms/tsconfig.json CmsConfigFile --include ./packages/cms/types.ts --out ./packages/cms/entities-json-schema.json --required --strictNullChecks --rejectDateType"
+    "generate-cms-json-schema": "typescript-json-schema ./packages/cms/tsconfig.json CmsConfigFile --include ./packages/cms/types.ts --out ./packages/cms/entities-json-schema.json --required --strictNullChecks --rejectDateType",
+    "fix-workspace-dependencies": "find . -type f -name 'package.json' -not -path '*/node_modules/*' -exec perl -pi -e 's/\"workspace:[^\"]*\"/\"*\"/g' {} \\;"
   },
   "keywords": [],
   "author": "",
