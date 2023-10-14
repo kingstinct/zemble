@@ -1,7 +1,7 @@
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 import {
   beforeEach, test, expect, afterAll, afterEach, beforeAll,
 } from 'bun:test'
+import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'

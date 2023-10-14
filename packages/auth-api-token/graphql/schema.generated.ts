@@ -135,27 +135,27 @@ export type ResolversParentTypes = ResolversObject<{
 
 export type ApiAuthDirectiveArgs = { };
 
-export type ApiAuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = ApiAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type ApiAuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = ApiAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type GenerateApiKeyResponseResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['GenerateAPIKeyResponse'] = ResolversParentTypes['GenerateAPIKeyResponse']> = ResolversObject<{
+export type GenerateApiKeyResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['GenerateAPIKeyResponse'] = ResolversParentTypes['GenerateAPIKeyResponse']> = ResolversObject<{
   apiKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   generateAPIKey?: Resolver<ResolversTypes['GenerateAPIKeyResponse'], ParentType, ContextType, RequireFields<MutationGenerateApiKeyArgs, 'apiKeySecret'>>;
 }>;
 
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   validateAPIKey?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryValidateApiKeyArgs, 'apiKey'>>;
 }>;
 
-export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   GenerateAPIKeyResponse?: GenerateApiKeyResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   apiAuth?: ApiAuthDirectiveResolver<any, any, ContextType>;
 }>;

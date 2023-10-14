@@ -1,8 +1,8 @@
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 import {
   expect, test, beforeEach, beforeAll, afterAll, afterEach,
 } from 'bun:test'
 import { ObjectId } from 'mongodb'
+import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import papr from '../clients/papr'
 import plugin from '../plugin'

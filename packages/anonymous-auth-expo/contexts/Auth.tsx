@@ -1,8 +1,8 @@
 import {
   createContext, useEffect, useMemo, useState,
 } from 'react'
-import { AuthProvider } from 'zemble-plugin-auth-expo/contexts/Auth'
 import { useMutation } from 'urql'
+import { AuthProvider } from 'zemble-plugin-auth-expo/contexts/Auth'
 
 import { graphql } from '../gql'
 

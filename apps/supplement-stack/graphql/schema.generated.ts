@@ -425,7 +425,7 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
-export type EatableResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Eatable'] = ResolversParentTypes['Eatable']> = ResolversObject<{
+export type EatableResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Eatable'] = ResolversParentTypes['Eatable']> = ResolversObject<{
   __resolveType: TypeResolveFn<'Food' | 'Ingredient', ParentType, ContextType>;
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -436,14 +436,14 @@ export type EatableResolvers<ContextType = Readapt.GraphQLContext, ParentType ex
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
 }>;
 
-export type EatableProportionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['EatableProportion'] = ResolversParentTypes['EatableProportion']> = ResolversObject<{
+export type EatableProportionResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['EatableProportion'] = ResolversParentTypes['EatableProportion']> = ResolversObject<{
   eatable?: Resolver<ResolversTypes['Eatable'], ParentType, ContextType>;
   eatableId?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   proportion?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type FoodResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Food'] = ResolversParentTypes['Food']> = ResolversObject<{
+export type FoodResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Food'] = ResolversParentTypes['Food']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   images?: Resolver<ReadonlyArray<ResolversTypes['Image']>, ParentType, ContextType>;
@@ -455,12 +455,12 @@ export type FoodResolvers<ContextType = Readapt.GraphQLContext, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ImageResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']> = ResolversObject<{
+export type ImageResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']> = ResolversObject<{
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type IngredientResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Ingredient'] = ResolversParentTypes['Ingredient']> = ResolversObject<{
+export type IngredientResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Ingredient'] = ResolversParentTypes['Ingredient']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   images?: Resolver<ReadonlyArray<ResolversTypes['Image']>, ParentType, ContextType>;
@@ -471,13 +471,13 @@ export type IngredientResolvers<ContextType = Readapt.GraphQLContext, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addFood?: Resolver<ResolversTypes['Food'], ParentType, ContextType, RequireFields<MutationAddFoodArgs, 'title'>>;
   addIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationAddIngredientArgs, 'title'>>;
   addSupplement?: Resolver<ResolversTypes['SupplementIntake'], ParentType, ContextType, RequireFields<MutationAddSupplementArgs, 'amountInGrams' | 'foodId' | 'intakeTime'>>;
 }>;
 
-export type NutrientQuantityResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['NutrientQuantity'] = ResolversParentTypes['NutrientQuantity']> = ResolversObject<{
+export type NutrientQuantityResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NutrientQuantity'] = ResolversParentTypes['NutrientQuantity']> = ResolversObject<{
   amountInGrams?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   nutrient?: Resolver<ResolversTypes['QuantityType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -487,18 +487,18 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectId';
 }
 
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   mySupplementIntakes?: Resolver<ReadonlyArray<ResolversTypes['SupplementIntake']>, ParentType, ContextType>;
   searchEatables?: Resolver<ReadonlyArray<ResolversTypes['Eatable']>, ParentType, ContextType, RequireFields<QuerySearchEatablesArgs, 'query'>>;
 }>;
 
-export type ServingSizeResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['ServingSize'] = ResolversParentTypes['ServingSize']> = ResolversObject<{
+export type ServingSizeResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['ServingSize'] = ResolversParentTypes['ServingSize']> = ResolversObject<{
   amountInGrams?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['ServingSizeType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type SupplementIntakeResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['SupplementIntake'] = ResolversParentTypes['SupplementIntake']> = ResolversObject<{
+export type SupplementIntakeResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['SupplementIntake'] = ResolversParentTypes['SupplementIntake']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   amountInGrams?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   food?: Resolver<ResolversTypes['Food'], ParentType, ContextType>;
@@ -507,13 +507,13 @@ export type SupplementIntakeResolvers<ContextType = Readapt.GraphQLContext, Pare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+export type UserResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   DateTime?: GraphQLScalarType;
   Eatable?: EatableResolvers<ContextType>;
   EatableProportion?: EatableProportionResolvers<ContextType>;

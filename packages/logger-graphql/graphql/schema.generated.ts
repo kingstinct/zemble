@@ -116,24 +116,24 @@ export type ResolversParentTypes = ResolversObject<{
 
 export type StreamDirectiveArgs = { };
 
-export type StreamDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = StreamDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type StreamDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = StreamDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type LogOutputResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['LogOutput'] = ResolversParentTypes['LogOutput']> = ResolversObject<{
+export type LogOutputResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LogOutput'] = ResolversParentTypes['LogOutput']> = ResolversObject<{
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   severity?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   timestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   logger?: Resolver<ReadonlyArray<ResolversTypes['LogOutput']>, ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   LogOutput?: LogOutputResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   stream?: StreamDirectiveResolver<any, any, ContextType>;
 }>;

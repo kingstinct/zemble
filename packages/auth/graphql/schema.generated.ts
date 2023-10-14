@@ -156,29 +156,29 @@ export type AuthDirectiveArgs = {
   skip?: Maybe<Scalars['Boolean']['input']>;
 };
 
-export type AuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
   name: 'JSONObject';
 }
 
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  advancedWithOr?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<QueryAdvancedWithOrArgs, 'organisationId'>>;
-  includes?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<QueryIncludesArgs, 'organisationId'>>;
+export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  advancedWithOr?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryAdvancedWithOrArgs, 'organisationId'>>;
+  includes?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryIncludesArgs, 'organisationId'>>;
   privateShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  privateShitWithRole?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType>>;
-  publicKey?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType>>;
-  publicShit?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType>>;
-  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
-  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
-  variableReference?: Resolver<ResolversTypes['String'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<QueryVariableReferenceArgs, 'organisationId'>>;
+  privateShitWithRole?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  publicKey?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  publicShit?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
+  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
+  variableReference?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryVariableReferenceArgs, 'organisationId'>>;
 }>;
 
-export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   JSONObject?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   auth?: AuthDirectiveResolver<any, any, ContextType>;
 }>;

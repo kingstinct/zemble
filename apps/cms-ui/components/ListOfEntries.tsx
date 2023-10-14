@@ -18,7 +18,7 @@ type ListOfEntriesProps = {
   readonly entity: Entity
 }
 
-const formatFieldValue = (value: unknown) => {
+const formatFieldValue = (value: unknown): string => {
   if (value === null) {
     return '(null)'
   }
@@ -36,7 +36,7 @@ const formatFieldValue = (value: unknown) => {
   }
 
   if (typeof value === 'object' && 'displayName' in value) {
-    return value.displayName
+    return value.displayName as string
   }
 
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
@@ -72,7 +72,7 @@ const ListOfEntriesTable: React.FC<ListOfEntriesTableProps> = ({
             { fieldsExceptId.map((field) => (
               <DataTable.Cell key={field.name}>
                 <Text>
-                  { formatFieldValue(entry[field.name]) }
+                  {formatFieldValue(entry[field.name])}
                 </Text>
               </DataTable.Cell>
             )) }

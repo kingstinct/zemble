@@ -200,7 +200,7 @@ export type ResolversParentTypes = ResolversObject<{
   Subscription: {};
 }>;
 
-export type BullJobResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['BullJob'] = ResolversParentTypes['BullJob']> = ResolversObject<{
+export type BullJobResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['BullJob'] = ResolversParentTypes['BullJob']> = ResolversObject<{
   data?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   delay?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
@@ -211,7 +211,7 @@ export type BullJobResolvers<ContextType = Readapt.GraphQLContext, ParentType ex
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type BullQueueResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['BullQueue'] = ResolversParentTypes['BullQueue']> = ResolversObject<{
+export type BullQueueResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['BullQueue'] = ResolversParentTypes['BullQueue']> = ResolversObject<{
   activeCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   completedCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -233,19 +233,19 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'JSON';
 }
 
-export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addJob?: Resolver<ResolversTypes['BullJob'], ParentType, ContextType, RequireFields<MutationAddJobArgs, 'queue'>>;
 }>;
 
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   queues?: Resolver<ReadonlyArray<ResolversTypes['BullQueue']>, ParentType, ContextType>;
 }>;
 
-export type SubscriptionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+export type SubscriptionResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   jobUpdated?: SubscriptionResolver<ResolversTypes['BullJob'], "jobUpdated", ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   BullJob?: BullJobResolvers<ContextType>;
   BullQueue?: BullQueueResolvers<ContextType>;
   DateTime?: GraphQLScalarType;

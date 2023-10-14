@@ -170,11 +170,11 @@ export type AuthDirectiveArgs = {
   skip?: Maybe<Scalars['Boolean']['input']>;
 };
 
-export type AuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type OneOfDirectiveArgs = { };
 
-export type OneOfDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = OneOfDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type OneOfDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = OneOfDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
@@ -188,21 +188,21 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
   name: 'JSONObject';
 }
 
-export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  updatePermissions?: Resolver<ResolversTypes['User'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<MutationUpdatePermissionsArgs, 'permissions' | 'userId'>>;
+export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  updatePermissions?: Resolver<ResolversTypes['User'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationUpdatePermissionsArgs, 'permissions' | 'userId'>>;
 }>;
 
-export type PermissionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Permission'] = ResolversParentTypes['Permission']> = ResolversObject<{
+export type PermissionResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Permission'] = ResolversParentTypes['Permission']> = ResolversObject<{
   scope?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  users?: Resolver<ReadonlyArray<ResolversTypes['User']>, ParentType, Readapt.AuthContextWithToken<ContextType>>;
+export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  users?: Resolver<ReadonlyArray<ResolversTypes['User']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
 }>;
 
-export type UserResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+export type UserResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastLoginAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -210,7 +210,7 @@ export type UserResolvers<ContextType = Readapt.GraphQLContext, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
@@ -220,7 +220,7 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   User?: UserResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   auth?: AuthDirectiveResolver<any, any, ContextType>;
   oneOf?: OneOfDirectiveResolver<any, any, ContextType>;
 }>;

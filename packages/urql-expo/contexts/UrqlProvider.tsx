@@ -1,8 +1,8 @@
 import { useContext, useMemo } from 'react'
-import AuthContext from 'zemble-plugin-auth-expo/contexts/Auth'
 import {
   Provider, fetchExchange, createClient,
 } from 'urql'
+import AuthContext from 'zemble-plugin-auth-expo/contexts/Auth'
 
 import { GRAPHQL_ENDPOINT } from '../config'
 

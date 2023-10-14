@@ -362,13 +362,13 @@ export type AuthDirectiveArgs = {
   skip?: Maybe<Scalars['Boolean']['input']>;
 };
 
-export type AuthDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type OneOfDirectiveArgs = { };
 
-export type OneOfDirectiveResolver<Result, Parent, ContextType = Readapt.GraphQLContext, Args = OneOfDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type OneOfDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = OneOfDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type ArrayFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['ArrayField'] = ResolversParentTypes['ArrayField']> = ResolversObject<{
+export type ArrayFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['ArrayField'] = ResolversParentTypes['ArrayField']> = ResolversObject<{
   availableFields?: Resolver<ReadonlyArray<ResolversTypes['Field']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -378,7 +378,7 @@ export type ArrayFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type BooleanFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['BooleanField'] = ResolversParentTypes['BooleanField']> = ResolversObject<{
+export type BooleanFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['BooleanField'] = ResolversParentTypes['BooleanField']> = ResolversObject<{
   defaultValue?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -394,7 +394,7 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'DateTime';
 }
 
-export type EntityResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Entity'] = ResolversParentTypes['Entity']> = ResolversObject<{
+export type EntityResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Entity'] = ResolversParentTypes['Entity']> = ResolversObject<{
   fields?: Resolver<ReadonlyArray<ResolversTypes['Field']>, ParentType, ContextType>;
   isPublishable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   namePlural?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -403,7 +403,7 @@ export type EntityResolvers<ContextType = Readapt.GraphQLContext, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type EntityPermissionResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['EntityPermission'] = ResolversParentTypes['EntityPermission']> = ResolversObject<{
+export type EntityPermissionResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['EntityPermission'] = ResolversParentTypes['EntityPermission']> = ResolversObject<{
   create?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   delete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   granular?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -415,7 +415,7 @@ export type EntityPermissionResolvers<ContextType = Readapt.GraphQLContext, Pare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type EntityRelationFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['EntityRelationField'] = ResolversParentTypes['EntityRelationField']> = ResolversObject<{
+export type EntityRelationFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['EntityRelationField'] = ResolversParentTypes['EntityRelationField']> = ResolversObject<{
   entity?: Resolver<ResolversTypes['Entity'], ParentType, ContextType>;
   entityNamePlural?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -424,14 +424,14 @@ export type EntityRelationFieldResolvers<ContextType = Readapt.GraphQLContext, P
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type FieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Field'] = ResolversParentTypes['Field']> = ResolversObject<{
+export type FieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Field'] = ResolversParentTypes['Field']> = ResolversObject<{
   __resolveType: TypeResolveFn<'ArrayField' | 'BooleanField' | 'EntityRelationField' | 'IDField' | 'NumberField' | 'StringField', ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 }>;
 
-export type IdFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['IDField'] = ResolversParentTypes['IDField']> = ResolversObject<{
+export type IdFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['IDField'] = ResolversParentTypes['IDField']> = ResolversObject<{
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -442,15 +442,15 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
   name: 'JSONObject';
 }
 
-export type MutationResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<MutationAddFieldsToEntityArgs, 'fields' | 'namePlural'>>;
-  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<MutationCreateEntityArgs, 'namePlural'>>;
-  removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveEntityArgs, 'namePlural'>>;
-  removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'fields' | 'namePlural'>>;
-  renameEntity?: Resolver<ResolversTypes['Entity'], ParentType, Readapt.AuthContextWithToken<ContextType>, RequireFields<MutationRenameEntityArgs, 'fromNamePlural' | 'toNamePlural'>>;
+export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationAddFieldsToEntityArgs, 'fields' | 'namePlural'>>;
+  createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationCreateEntityArgs, 'namePlural'>>;
+  removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveEntityArgs, 'namePlural'>>;
+  removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'fields' | 'namePlural'>>;
+  renameEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRenameEntityArgs, 'fromNamePlural' | 'toNamePlural'>>;
 }>;
 
-export type NumberFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['NumberField'] = ResolversParentTypes['NumberField']> = ResolversObject<{
+export type NumberFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NumberField'] = ResolversParentTypes['NumberField']> = ResolversObject<{
   defaultValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -460,13 +460,13 @@ export type NumberFieldResolvers<ContextType = Readapt.GraphQLContext, ParentTyp
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type QueryResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   getAllEntities?: Resolver<ReadonlyArray<ResolversTypes['Entity']>, ParentType, ContextType>;
   getEntityByNamePlural?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<QueryGetEntityByNamePluralArgs, 'namePlural'>>;
   getEntityByNameSingular?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<QueryGetEntityByNameSingularArgs, 'name'>>;
 }>;
 
-export type StringFieldResolvers<ContextType = Readapt.GraphQLContext, ParentType extends ResolversParentTypes['StringField'] = ResolversParentTypes['StringField']> = ResolversObject<{
+export type StringFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['StringField'] = ResolversParentTypes['StringField']> = ResolversObject<{
   defaultValue?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isRequiredInput?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -477,7 +477,7 @@ export type StringFieldResolvers<ContextType = Readapt.GraphQLContext, ParentTyp
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   ArrayField?: ArrayFieldResolvers<ContextType>;
   BooleanField?: BooleanFieldResolvers<ContextType>;
   Date?: GraphQLScalarType;
@@ -494,7 +494,7 @@ export type Resolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
   StringField?: StringFieldResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Readapt.GraphQLContext> = ResolversObject<{
+export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   auth?: AuthDirectiveResolver<any, any, ContextType>;
   oneOf?: OneOfDirectiveResolver<any, any, ContextType>;
 }>;
