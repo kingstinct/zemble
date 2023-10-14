@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-todo",
+  "name": "zemble-plugin-todo",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -20,14 +20,14 @@
     "@bull-board/hapi": "^5.8.0",
     "@bull-board/koa": "^5.8.0",
     "@bull-board/nestjs": "^5.8.0",
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
     "bullmq": "^4.8.0",
     "graphql": "^16.8.0",
     "hono": "^3.7.2",
-    "readapt-plugin-auth": "workspace:*",
-    "readapt-plugin-auth-anonymous": "workspace:*",
-    "readapt-plugin-kv": "workspace:*"
+    "zemble-plugin-auth": "workspace:*",
+    "zemble-plugin-auth-anonymous": "workspace:*",
+    "zemble-plugin-kv": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1"

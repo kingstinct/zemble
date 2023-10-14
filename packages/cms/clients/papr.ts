@@ -1,5 +1,5 @@
 /* eslint-disable functional/immutable-data, functional/prefer-readonly-type, no-multi-assign */
-import readaptContext from '@readapt/core/readaptContext'
+import zembleContext from '@zemble/core/zembleContext'
 import { MongoClient } from 'mongodb'
 import Papr, { VALIDATION_LEVEL, schema, types } from 'papr'
 
@@ -47,16 +47,16 @@ class PaprWrapper {
   async initialize(mongoUrl: string) {
     const papr = new Papr()
 
-    readaptContext.logger.log('Connecting to MongoDB...', mongoUrl)
+    zembleContext.logger.log('Connecting to MongoDB...', mongoUrl)
 
     const clientInternalPromise = MongoClient.connect(mongoUrl)
     const client = await clientInternalPromise
 
-    readaptContext.logger.log('Connected to MongoDB!')
+    zembleContext.logger.log('Connected to MongoDB!')
 
     const db = client.db()
 
-    readaptContext.logger.log(`Registering ${papr.models.size} models...`)
+    zembleContext.logger.log(`Registering ${papr.models.size} models...`)
 
     papr.initialize(db)
 

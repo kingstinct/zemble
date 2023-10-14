@@ -1,4 +1,4 @@
-import defaultConfig from '@readapt/graphql-yoga/codegen'
+import defaultConfig from '@zemble/graphql/codegen'
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
@@ -11,7 +11,7 @@ const config: CodegenConfig = {
       config: {
         ...defaultConfig.generates[`./graphql/schema.generated.ts`].config,
         mappers: {
-          User: '@readapt/core/types#TokenContents',
+          User: '@zemble/core/types#TokenContents',
         },
       },
     },

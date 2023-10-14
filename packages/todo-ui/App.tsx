@@ -1,8 +1,8 @@
 /* eslint-disable react/style-prop-object */
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
-import LoginButton from 'readapt-plugin-auth-anonymous-expo/components/LoginButton'
-import { SimpleAnonymousAuthProvider } from 'readapt-plugin-auth-anonymous-expo/contexts/Auth'
+import LoginButton from 'zemble-plugin-auth-anonymous-expo/components/LoginButton'
+import { SimpleAnonymousAuthProvider } from 'zemble-plugin-auth-anonymous-expo/contexts/Auth'
 
 import UrqlProvider from './contexts/UrqlProvider'
 

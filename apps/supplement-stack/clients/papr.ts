@@ -1,4 +1,4 @@
-import readaptContext from '@readapt/core/readaptContext'
+import zembleContext from '@zemble/core/zembleContext'
 import { MongoClient } from 'mongodb'
 import Papr from 'papr'
 
@@ -12,19 +12,19 @@ export async function connect() {
 
   if (!mongoUrl) throw new Error('MONGO_URL not set')
 
-  readaptContext.logger.log('Connecting to MongoDB...', mongoUrl)
+  zembleContext.logger.log('Connecting to MongoDB...', mongoUrl)
 
   client = await MongoClient.connect(mongoUrl)
 
-  readaptContext.logger.log('Connected to MongoDB!')
+  zembleContext.logger.log('Connected to MongoDB!')
 
   const db = client.db()
 
   papr.initialize(db)
 
-  readaptContext.logger.log(`Registering ${papr.models.size} models...`)
+  zembleContext.logger.log(`Registering ${papr.models.size} models...`)
   papr.models.forEach((model) => {
-    readaptContext.logger.log(`Registering model: ${model.collection.collectionName}`)
+    zembleContext.logger.log(`Registering model: ${model.collection.collectionName}`)
   })
 
   await papr.updateSchemas()

@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-auth-expo",
+  "name": "zemble-plugin-auth-expo",
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {

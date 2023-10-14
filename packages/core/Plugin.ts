@@ -5,14 +5,14 @@ import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 
 import type PluginWithMiddleware from './PluginWithMiddleware'
-import type { ReadaptApp } from './server'
+import type { ZembleApp } from './server'
 import type { DependenciesResolver, Dependency, PluginOpts } from './types'
 
 // initialize dotenv before any plugins are loaded/configured
 configDotenv()
 
 export class Plugin<
-  TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig,
+  TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
   TDefaultConfig extends Partial<TConfig> = TConfig,
   TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
 > {
@@ -21,7 +21,7 @@ export class Plugin<
 
   readonly #devConfig?: TConfig
 
-  readonly #dependencies: DependenciesResolver<Plugin<Readapt.GlobalConfig>>
+  readonly #dependencies: DependenciesResolver<Plugin<Zemble.GlobalConfig>>
 
   readonly pluginPath: string
 
@@ -65,7 +65,7 @@ export class Plugin<
     return this.#pluginName!
   }
 
-  configure(config?: TConfig & Readapt.GlobalConfig) {
+  configure(config?: TConfig & Zemble.GlobalConfig) {
     // eslint-disable-next-line functional/immutable-data
     this.#config = mergeDeep(this.#config as Record<string, unknown>, (config ?? {}) as Record<string, unknown>) as TResolvedConfig
 
@@ -94,17 +94,17 @@ export class Plugin<
     })
   }
 
-  async #devApp(): Promise<ReadaptApp> {
+  async #devApp(): Promise<ZembleApp> {
     const resolved = this.configure(this.#devConfig)
     return createApp({
       plugins: [
         ...await this.dependencies,
         resolved,
-      ] as readonly (Plugin<Readapt.GlobalConfig> | PluginWithMiddleware<Readapt.GlobalConfig>)[],
+      ] as readonly (Plugin<Zemble.GlobalConfig> | PluginWithMiddleware<Zemble.GlobalConfig>)[],
     })
   }
 
-  async testApp(): Promise<ReadaptApp['app']> {
+  async testApp(): Promise<ZembleApp['app']> {
     const gotApp = (await this.#devApp()).app
 
     return gotApp

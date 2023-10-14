@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import cmsPapr from 'readapt-plugin-cms/clients/papr'
+import cmsPapr from 'zemble-plugin-cms/clients/papr'
 
 import papr, { connect, disconnect } from './clients/papr'
 

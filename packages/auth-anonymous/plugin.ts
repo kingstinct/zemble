@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { Plugin } from '@readapt/core'
-import Auth from 'readapt-plugin-auth'
+import { Plugin } from '@zemble/core'
+import Auth from 'zemble-plugin-auth'
 
 declare global {
-  namespace Readapt {
+  namespace Brix {
     interface TokenRegistry {
       readonly AnonymousAuth: {
         readonly type: 'AnonymousAuth',

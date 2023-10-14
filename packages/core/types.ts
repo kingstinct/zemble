@@ -42,7 +42,7 @@ interface IStandardLogger extends Pick<typeof console, 'log' | 'debug' | 'warn' 
 }
 
 declare global {
-  namespace Readapt {
+  namespace Brix {
     interface Server extends Hono {
 
     }
@@ -70,7 +70,7 @@ declare global {
       // eslint-disable-next-line functional/prefer-readonly-type
       logger: IStandardLogger
       // eslint-disable-next-line functional/prefer-readonly-type
-      kv: <T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
+      kv: <T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
     }
 
     interface RequestContext extends GlobalContext, HonoContext {
@@ -98,9 +98,9 @@ declare global {
   }
 }
 
-export type TokenContents = Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & Readapt.DecodedTokenBase
+export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & Zemble.DecodedTokenBase
 
-export type Dependency<TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig> = {
+export type Dependency<TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig> = {
   readonly plugin: Plugin<TConfig> | PluginWithMiddleware<TConfig>,
   readonly config?: TConfig,
   readonly devOnly?: boolean, // decides if we should warn if this plugin is not used in production
@@ -108,7 +108,7 @@ export type Dependency<TConfig extends Readapt.GlobalConfig = Readapt.GlobalConf
 
 export type DependenciesResolver<TSelf> = readonly Dependency[] | Promise<readonly Dependency[]> | ((self: TSelf) => readonly Dependency[]) | ((self: TSelf) => Promise<readonly Dependency[]>)
 
-export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf, TConfig extends Readapt.GlobalConfig> = {
+export type PluginOpts<TDefaultConfig extends Zemble.GlobalConfig, TSelf, TConfig extends Zemble.GlobalConfig> = {
   /**
    * Default config for the plugin, will be merged (last write wins) with any configs passed to configure()
    */
@@ -125,12 +125,12 @@ export type PluginOpts<TDefaultConfig extends Readapt.GlobalConfig, TSelf, TConf
 
 export type ConfiguredMiddleware = (
   opts: {
-    readonly plugins: readonly Plugin<Readapt.GlobalConfig>[],
-    readonly app: Readapt.Server,
-    readonly context: Readapt.GlobalContext
+    readonly plugins: readonly Plugin<Zemble.GlobalConfig>[],
+    readonly app: Zemble.Server,
+    readonly context: Zemble.GlobalContext
   }
 ) => Promise<void> | void
 
-export type Middleware<TMiddlewareConfig extends Readapt.GlobalConfig> = (
+export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig> = (
   config: TMiddlewareConfig
 ) => ConfiguredMiddleware

@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-kv",
+  "name": "zemble-plugin-kv",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -16,8 +16,8 @@
   "dependencies": {
     "@envelop/core": "^4.0.0",
     "@envelop/generic-auth": "^6.0.1",
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
     "graphql-scalars": "^1.22.2",
     "hono": "^3.7.2",
     "jose": "^4.14.4",
@@ -27,6 +27,6 @@
     "@cloudflare/workers-types": "^4.20230821.0",
     "@eddeee888/gcg-typescript-resolver-files": "^0.6.0",
     "@tsconfig/node20": "^20.1.1",
-    "readapt-plugin-auth-api-token": "workspace:*"
+    "zemble-plugin-auth-api-token": "workspace:*"
   }
 }

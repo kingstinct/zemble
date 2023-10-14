@@ -15,15 +15,15 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/generic-auth": "^6.0.1",
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
     "graphql-scalars": "^1.22.2",
     "mongodb": "5",
     "papr": "^14.1.0",
-    "readapt-plugin-apple-app-site-association": "workspace:*",
-    "readapt-plugin-auth-otp": "workspace:*",
-    "readapt-plugin-bull": "workspace:*",
-    "readapt-plugin-todo": "workspace:*"
+    "zemble-plugin-apple-app-site-association": "workspace:*",
+    "zemble-plugin-auth-otp": "workspace:*",
+    "zemble-plugin-bull": "workspace:*",
+    "zemble-plugin-todo": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

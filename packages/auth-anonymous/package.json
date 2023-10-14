@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-auth-anonymous",
+  "name": "zemble-plugin-auth-anonymous",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -16,11 +16,11 @@
   "dependencies": {
     "@envelop/core": "^4.0.0",
     "@envelop/generic-auth": "^6.0.1",
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
     "@whatwg-node/server-plugin-cookies": "^1.0.2",
     "graphql": "^16.8.0",
-    "readapt-plugin-auth": "workspace:*"
+    "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1"

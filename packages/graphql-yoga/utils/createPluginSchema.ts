@@ -28,7 +28,7 @@ export const createPluginSchema = async ({
 
   const Scalars = await readResolvers(join(graphqlDir, '/Scalar'))
 
-  const internalSchema = makeExecutableSchema<Readapt.GraphQLContext>({
+  const internalSchema = makeExecutableSchema<Zemble.GraphQLContext>({
     typeDefs,
     assumeValid: !!skipGraphQLValidation,
     resolvers: {

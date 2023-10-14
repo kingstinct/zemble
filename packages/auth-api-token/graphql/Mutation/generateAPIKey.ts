@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { GraphQLError } from 'graphql'
-import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
+import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
 

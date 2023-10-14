@@ -4,8 +4,8 @@ import { useGenericAuth } from '@envelop/generic-auth'
 import {
   FilterRootFields,
 } from '@graphql-tools/wrap'
-import { Plugin } from '@readapt/core'
-import graphqlYoga from '@readapt/graphql-yoga'
+import { Plugin } from '@zemble/core'
+import graphqlYoga from '@zemble/graphql'
 import {
   Kind,
   GraphQLError,
@@ -21,9 +21,9 @@ import type {
 import type { CookieOptions } from 'hono/utils/cookie'
 
 const { PUBLIC_KEY, PRIVATE_KEY } = process.env
-const ISSUER = process.env.ISSUER ?? 'readapt-plugin-auth'
+const ISSUER = process.env.ISSUER ?? 'zemble-plugin-auth'
 
-interface AuthConfig extends Readapt.GlobalConfig {
+interface AuthConfig extends Zemble.GlobalConfig {
   readonly PUBLIC_KEY?: string;
   readonly PRIVATE_KEY?: string;
   readonly ISSUER?: string;
@@ -115,7 +115,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
     const gql = graphqlYoga.configure({
       yoga: {
         plugins: [
-          useExtendContext(async (context: Readapt.GraphQLContext) => {
+          useExtendContext(async (context: Zemble.GraphQLContext) => {
             const headerName = config.headerName ?? 'authorization',
                   headerToken = context.request.headers.get(headerName)?.split(' ')[1],
                   cookieToken = config.cookies.isEnabled !== false ? getCookie(context.honoContext)[config.cookies.name] : undefined,
@@ -127,7 +127,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
               decodedToken,
             }
           }),
-          useGenericAuth<Record<string, unknown>, Readapt.GraphQLContext>({
+          useGenericAuth<Record<string, unknown>, Zemble.GraphQLContext>({
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             resolveUserFn: (context) => context.decodedToken,

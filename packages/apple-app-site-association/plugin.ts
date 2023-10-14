@@ -1,4 +1,4 @@
-import { Plugin } from '@readapt/core'
+import { Plugin } from '@zemble/core'
 
 export interface AppDetails {
   readonly appID: string;
@@ -8,7 +8,7 @@ export interface AppDetails {
 /**
  * @see {@link https://developer.apple.com/documentation/xcode/supporting-associated-domains Supporting associated domains (Apple Docs)}
  */
-export interface AASAFile extends Readapt.GlobalConfig {
+export interface AASAFile extends Zemble.GlobalConfig {
   readonly applinks: {
     readonly apps: readonly string[];
     readonly details: readonly AppDetails[];

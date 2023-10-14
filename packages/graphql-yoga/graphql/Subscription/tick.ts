@@ -1,7 +1,7 @@
 import type { SubscriptionResolvers } from '../schema.generated'
 
 let initialized = false
-const initializeOnce = (pubsub: Readapt.PubSubType) => {
+const initializeOnce = (pubsub: Zemble.PubSubType) => {
   if (initialized) return
   initialized = true
   setInterval(() => {

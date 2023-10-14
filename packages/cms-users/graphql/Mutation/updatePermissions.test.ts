@@ -3,7 +3,7 @@ import {
   beforeAll, afterAll, afterEach,
 } from 'bun:test'
 import { ObjectId } from 'mongodb'
-import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
+import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import {
   PermissionType, User,

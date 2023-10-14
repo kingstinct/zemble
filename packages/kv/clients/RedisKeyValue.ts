@@ -1,4 +1,4 @@
-import { IStandardKeyValueService } from '@readapt/core'
+import { IStandardKeyValueService } from '@zemble/core'
 
 import createClient from './redis'
 
@@ -36,7 +36,7 @@ class RedisKeyValue<T> extends IStandardKeyValueService<T> {
       redisOptions,
     )
 
-    this.prefix = `readapt-plugin-kv:${prefix}`
+    this.prefix = `zemble-plugin-kv:${prefix}`
   }
 
   private getPrefixedKey(key: string): string {

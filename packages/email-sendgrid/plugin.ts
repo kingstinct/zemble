@@ -2,19 +2,19 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { PluginWithMiddleware } from '@readapt/core'
-import yoga from '@readapt/graphql-yoga'
 import sendgrid from '@sendgrid/mail'
+import { PluginWithMiddleware } from '@zemble/core'
+import yoga from '@zemble/graphql'
 
-import type { IEmail, IStandardSendEmailService } from '@readapt/core'
+import type { IEmail, IStandardSendEmailService } from '@zemble/core'
 
-interface EmailSendgridConfig extends Readapt.GlobalConfig {
+interface EmailSendgridConfig extends Zemble.GlobalConfig {
   readonly SENDGRID_API_KEY?: string
 }
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Readapt {
+  namespace Brix {
     interface GlobalContext {
       // eslint-disable-next-line functional/prefer-readonly-type
       sendEmail: IStandardSendEmailService

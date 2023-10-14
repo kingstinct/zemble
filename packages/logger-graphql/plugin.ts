@@ -1,8 +1,8 @@
 import { useDeferStream } from '@graphql-yoga/plugin-defer-stream'
-import { PluginWithMiddleware } from '@readapt/core'
-import YogaPlugin from '@readapt/graphql-yoga'
+import { PluginWithMiddleware } from '@zemble/core'
+import YogaPlugin from '@zemble/graphql'
 
-export interface GraphQLMiddlewareConfig extends Readapt.GlobalConfig {
+export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
 
 }
 

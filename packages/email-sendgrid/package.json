@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-email-sendgrid",
+  "name": "zemble-plugin-email-sendgrid",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -14,11 +14,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
     "@sendgrid/mail": "^7.7.0",
     "graphql": "^16.8.0",
-    "readapt-plugin-kv": "workspace:*"
+    "zemble-plugin-kv": "workspace:*"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.0",

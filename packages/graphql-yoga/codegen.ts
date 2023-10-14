@@ -7,9 +7,9 @@ const config = {
     [`./graphql/schema.generated.ts`]: {
       config: {
         useIndexSignature: true,
-        contextType: 'Readapt.GraphQLContext',
+        contextType: 'Zemble.GraphQLContext',
         immutableTypes: true,
-        directiveContextTypes: ['auth#Readapt.AuthContextWithToken'],
+        directiveContextTypes: ['auth#Zemble.AuthContextWithToken'],
         showUnusedMappers: true,
       },
       plugins: [

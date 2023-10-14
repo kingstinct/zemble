@@ -1,1 +1,1 @@
-export * from 'readapt-plugin-auth-expo/components/ShowForUnauthenticated'
+export * from 'zemble-plugin-auth-expo/components/ShowForUnauthenticated'

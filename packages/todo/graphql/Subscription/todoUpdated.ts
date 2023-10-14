@@ -2,7 +2,7 @@ import type { SubscriptionResolvers, Todo } from '../schema.generated'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Readapt {
+  namespace Brix {
     interface PubSubTopics {
       readonly todoUpdated: readonly [Todo]
     }

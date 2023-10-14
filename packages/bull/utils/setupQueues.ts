@@ -1,9 +1,9 @@
-import readDir from '@readapt/core/utils/readDir'
+import readDir from '@zemble/core/utils/readDir'
 import { Queue, Worker } from 'bullmq'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-import '@readapt/graphql-yoga'
+import '@zemble/graphql'
 
 import createClient from '../clients/redis'
 
@@ -17,7 +17,7 @@ export type QueueConfig<DataType = unknown, ReturnType = unknown> = {
 // eslint-disable-next-line functional/prefer-readonly-type
 const queues: Queue[] = []
 
-const setupQueues = (pluginPath: string, pubSub: Readapt.PubSubType, config: BullPluginConfig | undefined) => {
+const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: BullPluginConfig | undefined) => {
   const queuePath = path.join(pluginPath, '/queues')
 
   const hasQueues = fs.existsSync(queuePath)

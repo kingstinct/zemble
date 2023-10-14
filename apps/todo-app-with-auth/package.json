@@ -21,9 +21,9 @@
     "react": "18.2.0",
     "react-native": "0.72.3",
     "react-native-web": "~0.19.6",
-    "readapt-plugin-auth-anonymous-expo": "workspace:*",
-    "readapt-plugin-auth-expo": "workspace:*",
-    "readapt-plugin-todo-ui": "workspace:*"
+    "zemble-plugin-auth-anonymous-expo": "workspace:*",
+    "zemble-plugin-auth-expo": "workspace:*",
+    "zemble-plugin-todo-ui": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

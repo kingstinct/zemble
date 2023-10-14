@@ -1,4 +1,4 @@
-import { PluginWithMiddleware } from '@readapt/core'
+import { PluginWithMiddleware } from '@zemble/core'
 
 import middleware from './middleware'
 
@@ -13,7 +13,7 @@ import type { RedisOptions } from 'ioredis'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Readapt {
+  namespace Brix {
     interface Server extends Hono {
       readonly gqlRequest: <TQuery, TVars>(
         query: TypedDocumentNode<TQuery, TVars>,
@@ -46,7 +46,7 @@ declare global {
 
     interface GraphQLContext extends YogaInitialContext, GlobalContext {
       readonly token: string
-      readonly decodedToken: Readapt.TokenRegistry[keyof Readapt.TokenRegistry] & DecodedTokenBase
+      readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & DecodedTokenBase
       readonly honoContext: HonoContext
     }
 
@@ -61,13 +61,13 @@ declare global {
         & Record<
         keyof DirectiveArgs['includes'],
         ReadonlyArray<DirectiveArgs['includes'][keyof DirectiveArgs['includes']]>
-        > & DecodedTokenBase & Readapt.TokenRegistry[keyof Readapt.TokenRegistry]
+        > & DecodedTokenBase & Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
       }
   }
 }
 
-export interface GraphQLMiddlewareConfig extends Readapt.GlobalConfig {
-  readonly yoga?: Omit<YogaServerOptions<Readapt.GraphQLContext, unknown>, 'schema'>
+export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
+  readonly yoga?: Omit<YogaServerOptions<Zemble.GraphQLContext, unknown>, 'schema'>
   /**
    * The url of the redis instance to use for pubsub
    */

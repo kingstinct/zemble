@@ -1,13 +1,13 @@
-import { createApp } from '@readapt/core'
-import YogaGraphQL from '@readapt/graphql-yoga'
-import AuthOTP from 'readapt-plugin-auth-otp'
+import { createApp } from '@zemble/core'
+import YogaGraphQL from '@zemble/graphql'
+import AuthOTP from 'zemble-plugin-auth-otp'
 
 import { connect } from './clients/papr'
 import { Users } from './models'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Readapt {
+  namespace Brix {
     interface OtpToken {
       readonly userId: string,
     }
@@ -23,7 +23,7 @@ const app = createApp({
     }),
     AuthOTP.configure({
       from: { email: 'robert@herber.me' },
-      generateTokenContents: async (email): Promise<Readapt.OtpToken> => {
+      generateTokenContents: async (email): Promise<Zemble.OtpToken> => {
         const user = await Users.findOneAndUpdate({ email }, {
           $set: {
             lastLoginAt: new Date(),

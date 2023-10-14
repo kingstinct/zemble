@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useExtendContext } from '@envelop/core'
-import { Plugin } from '@readapt/core'
-import readaptContext from '@readapt/core/readaptContext'
-import gql from '@readapt/graphql-yoga'
+import { Plugin } from '@zemble/core'
+import zembleContext from '@zemble/core/zembleContext'
+import gql from '@zemble/graphql'
 
 import CloudflareKeyValue from './clients/CloudFlareKeyValue'
 import KeyValue from './clients/KeyValue'
 import RedisKeyValue from './clients/RedisKeyValue'
 
 import type { KVNamespace } from '@cloudflare/workers-types'
-import type { IStandardKeyValueService } from '@readapt/core'
+import type { IStandardKeyValueService } from '@zemble/core'
 import type { RedisOptions } from 'ioredis'
 
-interface KeyValueConfig extends Readapt.GlobalConfig {
+interface KeyValueConfig extends Zemble.GlobalConfig {
   readonly implementation?: 'in-memory' | 'redis' | 'cloudflare';
   readonly redisOptions?: RedisOptions
   readonly redisUrl?: string
@@ -23,9 +23,9 @@ const defaultConfig = {
   redisUrl: process.env.REDIS_URL,
 } satisfies KeyValueConfig
 
-type KvBound = <T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
+type KvBound = <T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
 
-function kvUnbound<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPrefixes = keyof Readapt.KVPrefixes>(this: Readapt.GlobalContext, prefix: K): IStandardKeyValueService<T> {
+function kvUnbound<T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(this: Zemble.GlobalContext, prefix: K): IStandardKeyValueService<T> {
   const prefixStr = prefix.toString()
   const { config } = plugin
 
@@ -50,7 +50,7 @@ function kvUnbound<T extends Readapt.KVPrefixes[K], K extends keyof Readapt.KVPr
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore fix later
-export const kv: KvBound = kvUnbound.bind(readaptContext)
+export const kv: KvBound = kvUnbound.bind(zembleContext)
 
 const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
   dependencies: ({ config }) => [
@@ -58,7 +58,7 @@ const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
       plugin: gql.configure({
         yoga: {
           plugins: [
-            useExtendContext((ctx: Readapt.GraphQLContext) => {
+            useExtendContext((ctx: Zemble.GraphQLContext) => {
               // eslint-disable-next-line functional/immutable-data
               ctx.kv = kv
             }),

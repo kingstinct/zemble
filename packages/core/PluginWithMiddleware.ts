@@ -8,7 +8,7 @@ import type { Middleware, PluginOpts } from './types'
 configDotenv()
 
 export class PluginWithMiddleware<
-  TConfig extends Readapt.GlobalConfig = Readapt.GlobalConfig,
+  TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
   TDefaultConfig extends Partial<TConfig> = TConfig,
   TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
 > extends Plugin<TConfig, TDefaultConfig, TResolvedConfig> {

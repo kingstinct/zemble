@@ -1,9 +1,9 @@
-import { createApp } from '@readapt/core'
-import YogaGraphQL from '@readapt/graphql-yoga'
-import AppleAppSiteAssociation from 'readapt-plugin-apple-app-site-association'
-import AnonymousAuth from 'readapt-plugin-auth-anonymous'
-import Bull from 'readapt-plugin-bull'
-import TodoPlugin from 'readapt-plugin-todo'
+import { createApp } from '@zemble/core'
+import YogaGraphQL from '@zemble/graphql'
+import AppleAppSiteAssociation from 'zemble-plugin-apple-app-site-association'
+import AnonymousAuth from 'zemble-plugin-auth-anonymous'
+import Bull from 'zemble-plugin-bull'
+import TodoPlugin from 'zemble-plugin-todo'
 
 const app = createApp({
   plugins: [

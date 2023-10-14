@@ -1,4 +1,4 @@
-import type { QueueConfig } from 'readapt-plugin-bull/utils/setupQueues'
+import type { QueueConfig } from 'zemble-plugin-bull/utils/setupQueues'
 
 const config: QueueConfig = {
   worker: (job) => {

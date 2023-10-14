@@ -1,7 +1,7 @@
 /* eslint-disable functional/prefer-readonly-type */
 /* eslint-disable @typescript-eslint/require-await */
 
-import { IStandardKeyValueService } from '@readapt/core'
+import { IStandardKeyValueService } from '@zemble/core'
 
 const inMemoryMaps: Record<string, Map<string, unknown>> = {
 

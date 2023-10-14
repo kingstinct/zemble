@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import { Plugin } from '@readapt/core'
-import Auth from 'readapt-plugin-auth'
-import kv from 'readapt-plugin-kv'
+import { Plugin } from '@zemble/core'
+import Auth from 'zemble-plugin-auth'
+import kv from 'zemble-plugin-kv'
 
-import type { IEmail } from '@readapt/core'
+import type { IEmail } from '@zemble/core'
 
-interface OtpAuthConfig extends Readapt.GlobalConfig {
+interface OtpAuthConfig extends Zemble.GlobalConfig {
   readonly tokenExpiryInSeconds?: number
   readonly twoFactorCodeExpiryInSeconds?: number
   readonly minTimeBetweenTwoFactorCodeRequestsInSeconds?: number
@@ -28,8 +28,8 @@ interface OtpAuthConfig extends Readapt.GlobalConfig {
    * email, name and two factor code.
     */
   readonly emailHtml?: string
-  readonly handleAuthRequest?: (email: IEmail, twoFactorCode: string, context: Readapt.GlobalContext) => Promise<void> | void
-  readonly generateTokenContents: (email: string) => Promise<Readapt.OtpToken> | Readapt.OtpToken
+  readonly handleAuthRequest?: (email: IEmail, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
+  readonly generateTokenContents: (email: string) => Promise<Zemble.OtpToken> | Zemble.OtpToken
 }
 
 interface DefaultOtpToken {
@@ -38,7 +38,7 @@ interface DefaultOtpToken {
 }
 
 declare global {
-  namespace Readapt {
+  namespace Brix {
     interface OtpToken extends DefaultOtpToken {
 
     }
@@ -49,7 +49,7 @@ declare global {
   }
 }
 
-function generateTokenContents(email: string): Readapt.OtpToken {
+function generateTokenContents(email: string): Zemble.OtpToken {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - this is a default implementation
   return { email, type: 'AuthOtp' as const }
@@ -96,7 +96,7 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(__dirname, {
   devConfig: {
     handleAuthRequest: ({ email }, code, { logger }) => { logger.log(`handleAuthRequest for ${email}`, code) },
     generateTokenContents,
-    from: { email: 'noreply@readapt.com' },
+    from: { email: 'noreply@Zemble.com' },
   },
 })
 

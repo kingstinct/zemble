@@ -14,12 +14,12 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/generic-auth": "^6.0.1",
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
-    "readapt-plugin-auth-anonymous": "workspace:*",
-    "readapt-plugin-apple-app-site-association": "workspace:*",
-    "readapt-plugin-bull": "workspace:*",
-    "readapt-plugin-todo": "workspace:*"
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
+    "zemble-plugin-auth-anonymous": "workspace:*",
+    "zemble-plugin-apple-app-site-association": "workspace:*",
+    "zemble-plugin-bull": "workspace:*",
+    "zemble-plugin-todo": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

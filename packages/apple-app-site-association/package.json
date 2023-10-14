@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-apple-app-site-association",
+  "name": "zemble-plugin-apple-app-site-association",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@readapt/core": "workspace:*"
+    "@zemble/core": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1"

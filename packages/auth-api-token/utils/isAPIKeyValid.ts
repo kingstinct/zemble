@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { verifyJwt } from 'readapt-plugin-auth/utils/verifyJwt'
+import { verifyJwt } from 'zemble-plugin-auth/utils/verifyJwt'
 
 import plugin from '../plugin'
 

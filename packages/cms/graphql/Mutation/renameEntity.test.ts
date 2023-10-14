@@ -1,7 +1,7 @@
+import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 import {
   beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
-import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
 import {
@@ -27,7 +27,7 @@ afterAll(teardownAfterAll)
 
 afterEach(tearDownAfterEach)
 
-let app: Readapt.Server
+let app: Zemble.Server
 let opts: Record<string, unknown>
 
 beforeEach(async () => {

@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-logger-graphql",
+  "name": "zemble-plugin-logger-graphql",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -15,8 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "@graphql-yoga/plugin-defer-stream": "^2.0.4",
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
     "graphql-yoga": "^4.0.4",
     "hono": "^3.7.2"
   },

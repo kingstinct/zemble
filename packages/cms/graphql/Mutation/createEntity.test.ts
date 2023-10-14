@@ -1,7 +1,7 @@
+import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 import {
   beforeEach, test, expect, describe, afterEach, afterAll, beforeAll,
 } from 'bun:test'
-import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
@@ -15,7 +15,7 @@ afterAll(teardownAfterAll)
 afterEach(tearDownAfterEach)
 
 describe('Mutation.createEntity', () => {
-  let app: Readapt.Server
+  let app: Zemble.Server
   let opts: Record<string, unknown>
 
   beforeEach(async () => {

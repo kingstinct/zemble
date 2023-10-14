@@ -1,4 +1,4 @@
-import { IStandardKeyValueService } from '@readapt/core'
+import { IStandardKeyValueService } from '@zemble/core'
 
 import type { KVNamespace } from '@cloudflare/workers-types'
 

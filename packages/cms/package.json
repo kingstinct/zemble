@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-cms",
+  "name": "zemble-plugin-cms",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -18,8 +18,8 @@
     "@envelop/core": "^4.0.0",
     "@envelop/extended-validation": "^3.0.1",
     "@envelop/generic-auth": "^6.0.1",
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
     "dataloader": "^2.2.2",
     "graphql": "^16.8.0",
     "graphql-scalars": "^1.22.2",
@@ -28,7 +28,7 @@
     "memfs": "^4.6.0",
     "mongodb": "5",
     "papr": "^14.1.0",
-    "readapt-plugin-auth": "workspace:*"
+    "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

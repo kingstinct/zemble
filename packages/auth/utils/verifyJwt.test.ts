@@ -8,6 +8,6 @@ test('Should verify JWT', async () => {
   const token = await verifyJwt(encodedToken)
   expect(token).toEqual({
     iat: expect.any(Number),
-    iss: 'readapt-plugin-auth',
+    iss: 'zemble-plugin-auth',
   })
 })

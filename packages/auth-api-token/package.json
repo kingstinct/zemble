@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-auth-api-token",
+  "name": "zemble-plugin-auth-api-token",
   "version": "0.0.1",
   "description": "",
   "main": "plugin.ts",
@@ -14,13 +14,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@readapt/core": "workspace:*",
-    "@readapt/graphql-yoga": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.0",
     "graphql-scalars": "^1.22.2",
     "hono": "^3.7.2",
     "jose": "^4.14.4",
-    "readapt-plugin-auth": "workspace:*"
+    "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1"

@@ -1,4 +1,4 @@
-import defaultConfig from '@readapt/graphql-yoga/codegen'
+import defaultConfig from '@zemble/graphql/codegen'
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
 

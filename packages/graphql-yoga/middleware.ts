@@ -12,8 +12,8 @@ import handleYoga from './utils/handleYoga'
 import type { GraphQLMiddlewareConfig } from './plugin'
 import type { Subschema } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
-import type { Plugin } from '@readapt/core'
-import type { Middleware } from '@readapt/core/types'
+import type { Plugin } from '@zemble/core'
+import type { Middleware } from '@zemble/core/types'
 import type { GraphQLFormattedError, GraphQLScalarType } from 'graphql'
 import type {
   GraphQLSchemaWithContext,
@@ -37,7 +37,7 @@ const processPluginSchema = async (pluginPath: string, {
 }
 
 async function gqlRequestUntyped<TRes, TVars>(
-  app: Readapt.Server,
+  app: Zemble.Server,
   query: string,
   variables: TVars,
   options?: {readonly headers?: Record<string, string>},
@@ -67,7 +67,7 @@ async function gqlRequestUntyped<TRes, TVars>(
 }
 
 async function gqlRequest<TQuery, TVars>(
-  app: Readapt.Server,
+  app: Zemble.Server,
   query: TypedDocumentNode<TQuery, TVars>,
   variables: TVars,
   options: {readonly headers?: Record<string, string>} = {},
@@ -103,7 +103,7 @@ const buildMergedSchema = async (
   config: GraphQLMiddlewareConfig,
 ) => {
   const isPlugin = plugins.some(({ pluginPath }) => pluginPath === process.cwd())
-  const selfSchemas: readonly GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
+  const selfSchemas: readonly GraphQLSchemaWithContext<Zemble.GraphQLContext>[] = [
     // don't load if we're already a plugin
     ...!isPlugin ? await processPluginSchema(process.cwd(), { transforms: [], scalars: config.scalars || {}, skipGraphQLValidation: false }) : [],
     // eslint-disable-next-line no-nested-ternary
@@ -122,7 +122,7 @@ const buildMergedSchema = async (
     { pluginPath, config: { graphqlSchemaTransforms } },
   ) => {
     // eslint-disable-next-line functional/prefer-readonly-type
-    const toReturn: GraphQLSchemaWithContext<Readapt.GraphQLContext>[] = [
+    const toReturn: GraphQLSchemaWithContext<Zemble.GraphQLContext>[] = [
       ...await prev,
       ...await processPluginSchema(pluginPath, {
         transforms: graphqlSchemaTransforms ?? [],
@@ -136,7 +136,7 @@ const buildMergedSchema = async (
 
   const mergedSchema = mergeSchemas({
     // eslint-disable-next-line functional/prefer-readonly-type
-    schemas: graphQLSchemas as unknown as GraphQLSchemaWithContext<Readapt.GraphQLContext>[],
+    schemas: graphQLSchemas as unknown as GraphQLSchemaWithContext<Zemble.GraphQLContext>[],
     resolverValidationOptions: {
       requireResolversForArgs: 'warn',
     },

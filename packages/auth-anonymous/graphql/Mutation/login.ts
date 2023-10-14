@@ -2,8 +2,8 @@
 import {
   setCookie,
 } from 'hono/cookie'
-import authPlugin from 'readapt-plugin-auth'
-import { encodeToken } from 'readapt-plugin-auth/utils/encodeToken'
+import authPlugin from 'zemble-plugin-auth'
+import { encodeToken } from 'zemble-plugin-auth/utils/encodeToken'
 
 import type { MutationResolvers } from '../schema.generated'
 

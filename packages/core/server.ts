@@ -3,10 +3,10 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 
-import context from './readaptContext'
 import initializePlugin from './utils/initializePlugin'
 import { readPackageJson } from './utils/readPackageJson'
 import { uniqBy } from './utils/uniqBy'
+import context from './zembleContext'
 
 import type Plugin from './Plugin'
 import type { PluginWithMiddleware } from './PluginWithMiddleware'
@@ -30,9 +30,9 @@ type Configure = {
   readonly plugins: readonly (Plugin | PluginWithMiddleware)[],
 }
 
-export type ReadaptApp = {
-  readonly app: Readapt.Server
-  readonly start: () => Readapt.Server
+export type ZembleApp = {
+  readonly app: Zemble.Server
+  readonly start: () => Zemble.Server
 }
 
 const logFilter = (log: string) => (log.includes('BEGIN PRIVATE KEY') || log.includes('BEGIN PUBLIC KEY') ? '<<KEY>>' : log)
@@ -45,8 +45,8 @@ const filterConfig = (config: Record<string, unknown>) => Object.keys(config).re
   }
 }, {})
 
-export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure): Promise<ReadaptApp> => {
-  const app = new Hono() as Readapt.Server
+export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure): Promise<ZembleApp> => {
+  const app = new Hono() as Zemble.Server
 
   // maybe this should be later - how about middleware that overrides logger?
   if (process.env.NODE_ENV !== 'test') {
@@ -92,7 +92,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     </head>
     <body>
       <div>
-        <p>Hello ReAdapt! Serving ${packageJson.name}</p>
+        <p>Hello Zemble! Serving ${packageJson.name}</p>
         <p><a href='/graphql'>Check out your GraphQL API here</a></p>
       </div>
     </body>

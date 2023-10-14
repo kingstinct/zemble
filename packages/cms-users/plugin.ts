@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Plugin } from '@readapt/core'
-import authOtp from 'readapt-plugin-auth-otp'
-import cms from 'readapt-plugin-cms'
-import papr from 'readapt-plugin-cms/clients/papr'
+import { Plugin } from '@zemble/core'
+import authOtp from 'zemble-plugin-auth-otp'
+import cms from 'zemble-plugin-cms'
+import papr from 'zemble-plugin-cms/clients/papr'
 
 import { PermissionType, User, connect } from './clients/papr'
 
-import type { DependenciesResolver } from '@readapt/core'
+import type { DependenciesResolver } from '@zemble/core'
 
-interface CmsConfig extends Readapt.GlobalConfig {
+interface CmsConfig extends Zemble.GlobalConfig {
 
 }
 
@@ -18,7 +18,7 @@ const defaultConfig = {
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Readapt {
+  namespace Brix {
     interface OtpToken {
       readonly id: string
       readonly type: 'cms-user'
@@ -45,7 +45,7 @@ const isFirstUser = async (): Promise<boolean> => {
 
 const plugin = new Plugin(__dirname, {
   dependencies: () => {
-    const deps: DependenciesResolver<readonly Readapt.GlobalConfig[]> = [
+    const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
       {
         plugin: cms,
       },

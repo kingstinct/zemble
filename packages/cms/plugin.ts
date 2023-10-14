@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { OneOfInputObjectsRule, useExtendedValidation } from '@envelop/extended-validation'
-import { Plugin } from '@readapt/core'
-import graphqlYoga from '@readapt/graphql-yoga'
-import auth from 'readapt-plugin-auth'
+import { Plugin } from '@zemble/core'
+import graphqlYoga from '@zemble/graphql'
+import auth from 'zemble-plugin-auth'
 
 import papr from './clients/papr'
 import createDynamicSchema from './dynamicSchema/createDynamicSchema'
 
-import type { DependenciesResolver } from '@readapt/core'
+import type { DependenciesResolver } from '@zemble/core'
 
-interface CmsConfig extends Readapt.GlobalConfig {
+interface CmsConfig extends Zemble.GlobalConfig {
 
 }
 
@@ -19,7 +19,7 @@ const defaultConfig = {
 
 const plugin = new Plugin(__dirname, {
   dependencies: () => {
-    const deps: DependenciesResolver<readonly Readapt.GlobalConfig[]> = [
+    const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
       {
         plugin: graphqlYoga.configure({
           extendSchema: async () => Promise.all([createDynamicSchema()]),

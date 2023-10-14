@@ -1,7 +1,7 @@
-import { Plugin } from '@readapt/core'
-import Yoga from '@readapt/graphql-yoga'
-import AnonymousAuth from 'readapt-plugin-auth-anonymous'
-import KV from 'readapt-plugin-kv'
+import { Plugin } from '@zemble/core'
+import Yoga from '@zemble/graphql'
+import AnonymousAuth from 'zemble-plugin-auth-anonymous'
+import KV from 'zemble-plugin-kv'
 
 export default new Plugin(__dirname, {
   // this is mostly to ensure we get the global typings past here

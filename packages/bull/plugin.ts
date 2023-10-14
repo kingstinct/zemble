@@ -1,10 +1,10 @@
-import { PluginWithMiddleware } from '@readapt/core'
+import { PluginWithMiddleware } from '@zemble/core'
 
 import setupQueues from './utils/setupQueues'
 
 import type { RedisOptions } from 'bullmq'
 
-export interface BullPluginConfig extends Readapt.GlobalConfig {
+export interface BullPluginConfig extends Zemble.GlobalConfig {
   /**
    * The url of the redis instance to use for pubsub
    */

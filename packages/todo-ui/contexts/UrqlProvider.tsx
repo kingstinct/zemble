@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import AuthContext from 'readapt-plugin-auth-expo/contexts/Auth'
+import AuthContext from 'zemble-plugin-auth-expo/contexts/Auth'
 import {
   Provider, fetchExchange, createClient,
 } from 'urql'

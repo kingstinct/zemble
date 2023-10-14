@@ -1,5 +1,5 @@
 {
-  "name": "readapt-plugin-auth-anonymous-expo",
+  "name": "zemble-plugin-auth-anonymous-expo",
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
@@ -18,8 +18,8 @@
     "graphql": "^16.8.0",
     "react": "18.2.0",
     "react-native": "0.72.3",
-    "readapt-plugin-auth-expo": "workspace:*",
-    "readapt-plugin-urql-expo": "workspace:*",
+    "zemble-plugin-auth-expo": "workspace:*",
+    "zemble-plugin-urql-expo": "workspace:*",
     "urql": "^4.0.5"
   },
   "devDependencies": {

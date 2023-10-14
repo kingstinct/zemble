@@ -5,11 +5,11 @@ import type { GraphQLSchemaWithContext, YogaServerOptions } from 'graphql-yoga'
 import type { Context } from 'hono'
 
 export default async (
-  getSchema: () => Promise<GraphQLSchemaWithContext<Readapt.GraphQLContext>>,
-  pubsub: Readapt.GraphQLContext['pubsub'],
-  logger: Readapt.GraphQLContext['logger'],
+  getSchema: () => Promise<GraphQLSchemaWithContext<Zemble.GraphQLContext>>,
+  pubsub: Zemble.GraphQLContext['pubsub'],
+  logger: Zemble.GraphQLContext['logger'],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  opts?: Omit<YogaServerOptions<Readapt.GraphQLContext, Record<string, any>>, 'schema'>,
+  opts?: Omit<YogaServerOptions<Zemble.GraphQLContext, Record<string, any>>, 'schema'>,
 ) => {
   let yoga = createYoga({
     ...opts,
