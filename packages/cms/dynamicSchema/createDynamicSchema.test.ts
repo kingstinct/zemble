@@ -28,17 +28,17 @@ beforeEach(async () => {
   }
 
   await app.gqlRequest(CreateEntityMutation, {
-    name: 'book',
-    pluralizedName: 'books',
+    nameSingular: 'book',
+    namePlural: 'books',
   }, opts)
 
   await app.gqlRequest(CreateEntityMutation, {
-    name: 'author',
-    pluralizedName: 'authors',
+    nameSingular: 'author',
+    namePlural: 'authors',
   }, opts)
 
   await app.gqlRequest(AddFieldsToEntityMutation, {
-    name: 'book',
+    namePlural: 'books',
     fields: [
       {
         StringField: {
@@ -67,7 +67,7 @@ beforeEach(async () => {
           name: 'yo',
           isRequiredInput: false,
           isRequired: true,
-          entityName: 'test',
+          entityNamePlural: 'test',
         },
       },
       {
@@ -76,14 +76,14 @@ beforeEach(async () => {
           availableFields: [
             {
               EntityRelationField: {
-                entityName: 'author',
+                entityNamePlural: 'authors',
                 name: 'author',
                 isRequired: true,
               },
             },
             {
               EntityRelationField: {
-                entityName: 'author',
+                entityNamePlural: 'authors',
                 name: 'editor',
                 isRequired: true,
               },
@@ -94,8 +94,10 @@ beforeEach(async () => {
     ],
   }, opts)
 
+  await new Promise((resolve) => { setTimeout(resolve, 1000) })
+
   await app.gqlRequest(AddFieldsToEntityMutation, {
-    name: 'author',
+    namePlural: 'authors',
     fields: [
       {
         StringField: {
@@ -160,7 +162,10 @@ test('should get books by id', async () => {
   const { data } = await app.gqlRequestUntyped<{
     readonly getBooksById: readonly unknown[]
   }, unknown>(`query GetBooksById($ids: [ID!]!) { getBooksById(ids: $ids) { title } }`, {
-    ids: [createBookReq.data?.createBook?.id, silmarillionCreateBookReq.data?.createBook?.id],
+    ids: [
+      createBookReq.data?.createBook?.id,
+      silmarillionCreateBookReq.data?.createBook?.id,
+    ],
   }, opts)
 
   expect(data?.getBooksById).toEqual([
@@ -243,31 +248,6 @@ test('should create a book with authors', async () => {
 
     const authors = await authorsCollection.find({})
 
-    expect(books).toEqual([
-      {
-        _id: expect.any(ObjectId),
-        createdAt: expect.any(Date),
-        title: 'Silmarillion',
-        contributors: [
-          {
-            __typename: 'BookContributorsAuthor',
-            author: {
-              __typename: 'AuthorRelation',
-              externalId: expect.any(String),
-            },
-          },
-          {
-            __typename: 'BookContributorsEditor',
-            editor: {
-              __typename: 'AuthorRelation',
-              externalId: expect.any(String),
-            },
-          },
-        ],
-        updatedAt: expect.any(Date),
-      },
-    ])
-
     expect(authors).toEqual([
       {
         _id: expect.any(ObjectId),
@@ -281,6 +261,25 @@ test('should create a book with authors', async () => {
         createdAt: expect.any(Date),
         firstName: 'Christopher',
         lastName: 'Tolkien',
+        updatedAt: expect.any(Date),
+      },
+    ])
+
+    expect(books).toEqual([
+      {
+        _id: expect.any(ObjectId),
+        contributors: [
+          {
+            __typename: 'BookContributorsAuthor',
+            author: expect.any(String),
+          },
+          {
+            __typename: 'BookContributorsEditor',
+            editor: expect.any(String),
+          },
+        ],
+        createdAt: expect.any(Date),
+        title: 'Silmarillion',
         updatedAt: expect.any(Date),
       },
     ])

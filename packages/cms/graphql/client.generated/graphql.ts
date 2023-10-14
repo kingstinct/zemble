@@ -63,13 +63,9 @@ export type Entity = {
   __typename?: 'Entity';
   fields: Array<Field>;
   isPublishable: Scalars['Boolean']['output'];
-  name: Scalars['String']['output'];
+  namePlural: Scalars['String']['output'];
+  nameSingular: Scalars['String']['output'];
   permissions?: Maybe<Array<EntityPermission>>;
-  pluralizedName: Scalars['String']['output'];
-};
-
-export type EntityInput = {
-  name: Scalars['String']['input'];
 };
 
 export type EntityPermission = {
@@ -87,14 +83,14 @@ export type EntityPermission = {
 export type EntityRelationField = Field & {
   __typename?: 'EntityRelationField';
   entity: Entity;
-  entityName: Scalars['String']['output'];
+  entityNamePlural: Scalars['String']['output'];
   isRequired: Scalars['Boolean']['output'];
   isRequiredInput: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
 };
 
 export type EntityRelationFieldInput = {
-  entityName: Scalars['String']['input'];
+  entityNamePlural: Scalars['String']['input'];
   isRequired: Scalars['Boolean']['input'];
   isRequiredInput?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
@@ -137,33 +133,33 @@ export type Mutation = {
 
 
 export type MutationAddFieldsToEntityArgs = {
-  entityName: Scalars['String']['input'];
   fields: Array<FieldInput>;
+  namePlural: Scalars['String']['input'];
 };
 
 
 export type MutationCreateEntityArgs = {
   isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
-  name: Scalars['String']['input'];
-  pluralizedName: Scalars['String']['input'];
+  namePlural: Scalars['String']['input'];
+  nameSingular?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationRemoveEntityArgs = {
-  name: Scalars['String']['input'];
+  namePlural: Scalars['String']['input'];
 };
 
 
 export type MutationRemoveFieldsFromEntityArgs = {
-  entityName: Scalars['String']['input'];
   fields: Array<Scalars['String']['input']>;
+  namePlural: Scalars['String']['input'];
 };
 
 
 export type MutationRenameEntityArgs = {
-  fromName: Scalars['String']['input'];
-  pluralizedName: Scalars['String']['input'];
-  toName: Scalars['String']['input'];
+  fromNamePlural: Scalars['String']['input'];
+  toNamePlural: Scalars['String']['input'];
+  toNameSingular?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type NumberField = Field & {
@@ -188,18 +184,18 @@ export type NumberFieldInput = {
 export type Query = {
   __typename?: 'Query';
   getAllEntities: Array<Entity>;
-  getEntityByName?: Maybe<Entity>;
-  getEntityByPluralizedName?: Maybe<Entity>;
+  getEntityByNamePlural?: Maybe<Entity>;
+  getEntityByNameSingular?: Maybe<Entity>;
 };
 
 
-export type QueryGetEntityByNameArgs = {
+export type QueryGetEntityByNamePluralArgs = {
+  namePlural: Scalars['String']['input'];
+};
+
+
+export type QueryGetEntityByNameSingularArgs = {
   name: Scalars['String']['input'];
-};
-
-
-export type QueryGetEntityByPluralizedNameArgs = {
-  pluralizedName: Scalars['String']['input'];
 };
 
 export type StringField = Field & {
@@ -224,48 +220,48 @@ export type StringFieldInput = {
 };
 
 export type RemoveEntityMutationVariables = Exact<{
-  name: Scalars['String']['input'];
+  namePlural: Scalars['String']['input'];
 }>;
 
 
 export type RemoveEntityMutation = { __typename?: 'Mutation', removeEntity: boolean };
 
 export type RemoveFieldsFromEntityMutationVariables = Exact<{
-  name: Scalars['String']['input'];
+  namePlural: Scalars['String']['input'];
   fields: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
-export type RemoveFieldsFromEntityMutation = { __typename?: 'Mutation', removeFieldsFromEntity: { __typename?: 'Entity', name: string, fields: Array<{ __typename: 'ArrayField', name: string } | { __typename: 'BooleanField', name: string } | { __typename: 'EntityRelationField', name: string } | { __typename: 'IDField', name: string } | { __typename: 'NumberField', name: string } | { __typename: 'StringField', name: string }> } };
+export type RemoveFieldsFromEntityMutation = { __typename?: 'Mutation', removeFieldsFromEntity: { __typename?: 'Entity', nameSingular: string, namePlural: string, fields: Array<{ __typename: 'ArrayField', name: string } | { __typename: 'BooleanField', name: string } | { __typename: 'EntityRelationField', name: string } | { __typename: 'IDField', name: string } | { __typename: 'NumberField', name: string } | { __typename: 'StringField', name: string }> } };
 
 export type RenameEntityMutationVariables = Exact<{
   fromName: Scalars['String']['input'];
   toName: Scalars['String']['input'];
-  pluralizedName: Scalars['String']['input'];
+  namePlural: Scalars['String']['input'];
 }>;
 
 
-export type RenameEntityMutation = { __typename?: 'Mutation', renameEntity: { __typename?: 'Entity', name: string, pluralizedName: string } };
+export type RenameEntityMutation = { __typename?: 'Mutation', renameEntity: { __typename?: 'Entity', nameSingular: string, namePlural: string } };
 
 export type CreateEntityMutationVariables = Exact<{
-  name: Scalars['String']['input'];
-  pluralizedName: Scalars['String']['input'];
+  nameSingular: Scalars['String']['input'];
+  namePlural: Scalars['String']['input'];
 }>;
 
 
-export type CreateEntityMutation = { __typename?: 'Mutation', createEntity: { __typename?: 'Entity', name: string } };
+export type CreateEntityMutation = { __typename?: 'Mutation', createEntity: { __typename?: 'Entity', nameSingular: string, namePlural: string } };
 
 export type AddFieldsToEntityMutationVariables = Exact<{
-  name: Scalars['String']['input'];
+  namePlural: Scalars['String']['input'];
   fields: Array<FieldInput> | FieldInput;
 }>;
 
 
-export type AddFieldsToEntityMutation = { __typename?: 'Mutation', addFieldsToEntity: { __typename?: 'Entity', name: string } };
+export type AddFieldsToEntityMutation = { __typename?: 'Mutation', addFieldsToEntity: { __typename?: 'Entity', nameSingular: string, namePlural: string } };
 
 
-export const RemoveEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}]}]}}]} as unknown as DocumentNode<RemoveEntityMutation, RemoveEntityMutationVariables>;
-export const RemoveFieldsFromEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveFieldsFromEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeFieldsFromEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"entityName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RemoveFieldsFromEntityMutation, RemoveFieldsFromEntityMutationVariables>;
-export const RenameEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RenameEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fromName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"toName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pluralizedName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"renameEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fromName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fromName"}}},{"kind":"Argument","name":{"kind":"Name","value":"toName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"toName"}}},{"kind":"Argument","name":{"kind":"Name","value":"pluralizedName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pluralizedName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"pluralizedName"}}]}}]}}]} as unknown as DocumentNode<RenameEntityMutation, RenameEntityMutationVariables>;
-export const CreateEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pluralizedName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"pluralizedName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pluralizedName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateEntityMutation, CreateEntityMutationVariables>;
-export const AddFieldsToEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddFieldsToEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FieldInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addFieldsToEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"entityName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<AddFieldsToEntityMutation, AddFieldsToEntityMutationVariables>;
+export const RemoveEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"namePlural"},"value":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}}}]}]}}]} as unknown as DocumentNode<RemoveEntityMutation, RemoveEntityMutationVariables>;
+export const RemoveFieldsFromEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RemoveFieldsFromEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"removeFieldsFromEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"namePlural"},"value":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}}},{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nameSingular"}},{"kind":"Field","name":{"kind":"Name","value":"namePlural"}},{"kind":"Field","name":{"kind":"Name","value":"fields"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<RemoveFieldsFromEntityMutation, RemoveFieldsFromEntityMutationVariables>;
+export const RenameEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RenameEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fromName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"toName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"renameEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fromNamePlural"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fromName"}}},{"kind":"Argument","name":{"kind":"Name","value":"toNameSingular"},"value":{"kind":"Variable","name":{"kind":"Name","value":"toName"}}},{"kind":"Argument","name":{"kind":"Name","value":"toNamePlural"},"value":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nameSingular"}},{"kind":"Field","name":{"kind":"Name","value":"namePlural"}}]}}]}}]} as unknown as DocumentNode<RenameEntityMutation, RenameEntityMutationVariables>;
+export const CreateEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nameSingular"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"nameSingular"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nameSingular"}}},{"kind":"Argument","name":{"kind":"Name","value":"namePlural"},"value":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nameSingular"}},{"kind":"Field","name":{"kind":"Name","value":"namePlural"}}]}}]}}]} as unknown as DocumentNode<CreateEntityMutation, CreateEntityMutationVariables>;
+export const AddFieldsToEntityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddFieldsToEntity"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"FieldInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addFieldsToEntity"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"namePlural"},"value":{"kind":"Variable","name":{"kind":"Name","value":"namePlural"}}},{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nameSingular"}},{"kind":"Field","name":{"kind":"Name","value":"namePlural"}}]}}]}}]} as unknown as DocumentNode<AddFieldsToEntityMutation, AddFieldsToEntityMutationVariables>;

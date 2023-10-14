@@ -1,3 +1,76 @@
-type Query
+type Query {
+  getAllBooks: [Books!]!
+  searchBooks(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Books!]!
+  filterBooks(id: BookIdFilter, title: BookTitleFilter, author: BookAuthorFilter): [Books!]!
+  getBookById(id: ID!): Books!
+  getBooksById(ids: [ID!]!): [Books!]!
+  getAllAuthors: [Authors!]!
+  searchAuthors(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Authors!]!
+  filterAuthors(id: AuthorIdFilter, firstName: AuthorFirstNameFilter, lastName: AuthorLastNameFilter): [Authors!]!
+  getAuthorById(id: ID!): Authors!
+  getAuthorsById(ids: [ID!]!): [Authors!]!
+  getAllPublishers: [Publishers!]!
+  searchPublishers(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Publishers!]!
+  filterPublishers(id: PublisherIdFilter): [Publishers!]!
+  getPublisherById(id: ID!): Publishers!
+  getPublishersById(ids: [ID!]!): [Publishers!]!
+}
 
-type Mutation
+type Books {
+  id: ID
+  title: String!
+  author: AuthorsRelation
+}
+
+type AuthorsRelation {
+  id: ID!
+  firstName: String!
+  lastName: String!
+}
+
+input BookIdFilter {
+  eq: ID
+}
+
+input BookTitleFilter {
+  eq: String
+}
+
+input BookAuthorFilter {
+  eq: ID
+}
+
+type Authors {
+  id: ID
+  firstName: String!
+  lastName: String!
+}
+
+input AuthorIdFilter {
+  eq: ID
+}
+
+input AuthorFirstNameFilter {
+  eq: String
+}
+
+input AuthorLastNameFilter {
+  eq: String
+}
+
+type Publishers {
+  id: ID
+}
+
+input PublisherIdFilter {
+  eq: ID
+}
+
+type Mutation {
+  createBook(id: ID, title: String!, author: ID): Books
+  deleteBook(id: ID!): Boolean!
+  createAuthor(id: ID, firstName: String!, lastName: String!): Authors
+  deleteAuthor(id: ID!): Boolean!
+  createPublisher(id: ID): Publishers
+  deletePublisher(id: ID!): Boolean!
+}

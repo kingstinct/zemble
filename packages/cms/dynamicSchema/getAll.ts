@@ -15,7 +15,7 @@ const createGetAll = (entity: EntitySchemaType, type: GraphQLOutputType) => {
   const getAll: GraphQLFieldConfig<unknown, unknown, unknown> = { // "books"
     type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(type))),
     resolve: async () => {
-      const collection = await papr.contentCollection(entity.pluralizedName)
+      const collection = await papr.contentCollection(entity.namePlural)
       return collection.find({ })
     },
   }

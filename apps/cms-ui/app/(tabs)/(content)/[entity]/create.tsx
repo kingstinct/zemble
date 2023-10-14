@@ -9,13 +9,13 @@ const CreateEntity = () => {
 
   const [{ data }] = useQuery({
     query: GetEntityByPluralizedNameQuery,
-    variables: { pluralizedName: entity },
+    variables: { namePlural: entity },
     pause: !entity,
   })
 
-  return data?.getEntityByPluralizedName ? (
+  return data?.getEntityByNamePlural ? (
     <ModifyEntityEntry
-      entity={data.getEntityByPluralizedName}
+      entity={data.getEntityByNamePlural}
       onUpdated={() => {
         router.back()
       }}

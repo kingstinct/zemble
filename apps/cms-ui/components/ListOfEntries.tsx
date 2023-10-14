@@ -11,11 +11,11 @@ import ManualRefreshControl from './ManualRefreshControl'
 import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
 
+import type { Entity } from '../utils/getSelectionSet'
+
 type ListOfEntriesProps = {
-  readonly pluralizedName: string,
-  readonly fields: readonly {readonly name: string, readonly __typename: string, readonly availableFields?: readonly {readonly name: string}[]}[],
   readonly onSelected: (s: Record<string, unknown> & { readonly id: string }) => void
-  readonly entityName: string
+  readonly entity: Entity
 }
 
 const formatFieldValue = (value: unknown) => {
@@ -80,11 +80,12 @@ const ListOfEntriesTable: React.FC<ListOfEntriesTableProps> = ({
 }
 
 const ListOfEntries: React.FC<ListOfEntriesProps> = ({
-  fields, pluralizedName, entityName, onSelected,
+  entity, onSelected,
 }) => {
-  const selectionSet = getSelectionSet(entityName, fields)
+  const { namePlural, fields } = entity
+  const selectionSet = getSelectionSet(entity)
 
-  const queryName = `getAll${capitalize(pluralizedName)}`
+  const queryName = `getAll${capitalize(namePlural)}`
 
   const [{ data, fetching }, refetch] = useQuery({
     query: `query GetEntries { ${queryName} { ${selectionSet.join(' ')} } }`,
@@ -119,19 +120,17 @@ const ListOfEntries: React.FC<ListOfEntriesProps> = ({
 }
 
 type SearchEntriesProps = {
-  readonly pluralizedName: string,
-  readonly fields: readonly {readonly name: string, readonly __typename: string, readonly availableFields?: readonly {readonly name: string}[]}[],
   readonly onSelected: (s: Record<string, unknown> & { readonly id: string }) => void
-  readonly entityName: string
   readonly query: string
+  readonly entity: Entity
 }
 
 export const SearchEntries: React.FC<SearchEntriesProps> = ({
-  fields, pluralizedName, entityName, onSelected, query,
+  onSelected, query, entity,
 }) => {
-  const selectionSet = getSelectionSet(entityName, fields)
+  const selectionSet = getSelectionSet(entity)
 
-  const queryName = `search${capitalize(pluralizedName)}`
+  const queryName = `search${capitalize(entity.namePlural)}`
 
   const [{ data, fetching }, refetch] = useQuery({
     query: `query SearchEntries { ${queryName}(query: "${query}") { ${selectionSet.join(' ')} } }`,
@@ -158,7 +157,7 @@ export const SearchEntries: React.FC<SearchEntriesProps> = ({
       { entries ? (
         <ListOfEntriesTable
           entries={entries}
-          fields={fields}
+          fields={entity.fields}
           onSelected={onSelected}
         />
       ) : (query.length < 3 ? <Text>Type at least 3 characters to search</Text> : null) }

@@ -14,9 +14,10 @@ afterAll(teardownAfterAll)
 afterEach(tearDownAfterEach)
 
 const RemoveFieldsFromEntityMutation = graphql(`
-  mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {
-    removeFieldsFromEntity(entityName: $name, fields: $fields) {
-      name
+  mutation RemoveFieldsFromEntity($namePlural: String!, $fields: [String!]!) {
+    removeFieldsFromEntity(namePlural: $namePlural, fields: $fields) {
+      nameSingular
+      namePlural
       fields {
         __typename
         name
@@ -38,14 +39,14 @@ beforeEach(async () => {
   }
 
   await app.gqlRequest(CreateEntityMutation, {
-    name: 'book',
-    pluralizedName: 'books',
+    nameSingular: 'book',
+    namePlural: 'books',
   }, opts)
 })
 
 test('should remove a title field', async () => {
   await app.gqlRequest(AddFieldsToEntityMutation, {
-    name: 'book',
+    namePlural: 'books',
     fields: [
       {
         StringField: {
@@ -57,12 +58,13 @@ test('should remove a title field', async () => {
   }, opts)
 
   const { data } = await app.gqlRequest(RemoveFieldsFromEntityMutation, {
-    name: 'book',
+    namePlural: 'books',
     fields: ['title'],
   }, opts)
 
   expect(data?.removeFieldsFromEntity).toEqual({
-    name: 'book',
+    namePlural: 'books',
+    nameSingular: 'book',
     fields: [
       {
         __typename: 'IDField',
@@ -75,8 +77,8 @@ test('should remove a title field', async () => {
 
   expect(entitites).toEqual([
     {
-      name: 'book',
-      pluralizedName: 'books',
+      nameSingular: 'book',
+      namePlural: 'books',
       isPublishable: false,
       fields: [
         {

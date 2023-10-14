@@ -38,7 +38,7 @@ export type EntityRelationObject = {
   readonly name: string,
   readonly isRequired: boolean,
   readonly isRequiredInput: boolean,
-  readonly entityName: string,
+  readonly entityNamePlural: string,
   readonly __typename: 'EntityRelationField',
 }
 
@@ -65,8 +65,8 @@ ArrayFieldObject|
 EntityRelationObject
 
 export type EntitySchemaType = {
-  readonly name: string
-  readonly pluralizedName: string
+  readonly nameSingular: string
+  readonly namePlural: string
   readonly fields: readonly AnyField[]
   readonly isPublishable: boolean
 }

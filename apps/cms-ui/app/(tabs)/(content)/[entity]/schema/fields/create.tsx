@@ -11,7 +11,7 @@ const AddField = () => {
 
   const [{ data }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
-    variables: { pluralizedName: entity },
+    variables: { namePlural: entity },
     pause: !entity,
   })
 
@@ -21,11 +21,11 @@ const AddField = () => {
     pause: !entity,
   })
 
-  return data?.getEntityByPluralizedName && entitiesData ? (
+  return data?.getEntityByNamePlural && entitiesData ? (
     <PaperProvider>
       <UpsertField
-        entity={data.getEntityByPluralizedName}
-        availableEntityNames={entitiesData.getAllEntities.map((e) => e.name)}
+        entity={data.getEntityByNamePlural}
+        availableEntityNames={entitiesData.getAllEntities.map((e) => e.namePlural)}
         onUpdated={() => {
           refetch()
           router.back()

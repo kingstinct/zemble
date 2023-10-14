@@ -9,13 +9,13 @@ const EditEntityInstance = () => {
 
   const [{ data }] = useQuery({
     query: GetEntityByPluralizedNameQuery,
-    variables: { pluralizedName: entity },
+    variables: { namePlural: entity },
     pause: !entity,
   })
 
-  return data?.getEntityByPluralizedName ? (
+  return data?.getEntityByNamePlural ? (
     <UpsertEntry
-      entity={data.getEntityByPluralizedName}
+      entity={data.getEntityByNamePlural}
       previousEntryId={id as string}
       onUpdated={() => {
         router.back()

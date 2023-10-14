@@ -1,365 +1,408 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "definitions": {
-    "AllFields": {
-      "anyOf": [
-        {
-          "properties": {
-            "__typename": {
-              "const": "StringField",
-              "type": "string"
-            },
-            "defaultValue": {
-              "type": [
-                "null",
-                "string"
-              ]
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            },
-            "isSearchable": {
-              "type": "boolean"
-            },
-            "maxLength": {
-              "type": [
-                "null",
-                "number"
-              ]
-            },
-            "minLength": {
-              "type": [
-                "null",
-                "number"
-              ]
-            }
-          },
-          "required": [
-            "__typename",
-            "isRequired",
-            "isRequiredInput",
-            "isSearchable"
-          ],
-          "type": "object"
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "AnyField": {
+            "anyOf": [
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "StringField",
+                            "type": "string"
+                        },
+                        "defaultValue": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "isSearchable": {
+                            "type": "boolean"
+                        },
+                        "maxLength": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "minLength": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "isRequired",
+                        "isRequiredInput",
+                        "isSearchable",
+                        "name"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "BooleanField",
+                            "type": "string"
+                        },
+                        "defaultValue": {
+                            "type": [
+                                "null",
+                                "boolean"
+                            ]
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "isRequired",
+                        "isRequiredInput",
+                        "name"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "NumberField",
+                            "type": "string"
+                        },
+                        "defaultValue": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "max": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "min": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "isRequired",
+                        "isRequiredInput",
+                        "name"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "IDField",
+                            "type": "string"
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "isRequired",
+                        "isRequiredInput",
+                        "name"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "EntityRelationField",
+                            "type": "string"
+                        },
+                        "entityName": {
+                            "type": "string"
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "entityName",
+                        "isRequired",
+                        "isRequiredInput",
+                        "name"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "ArrayField",
+                            "type": "string"
+                        },
+                        "availableFields": {
+                            "items": {
+                                "$ref": "#/definitions/AnyFieldsInArray"
+                            },
+                            "type": "array"
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "maxItems": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "minItems": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "availableFields",
+                        "isRequired",
+                        "isRequiredInput",
+                        "name"
+                    ],
+                    "type": "object"
+                }
+            ]
         },
-        {
-          "properties": {
-            "__typename": {
-              "const": "BooleanField",
-              "type": "string"
-            },
-            "defaultValue": {
-              "type": [
-                "null",
-                "boolean"
-              ]
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "__typename",
-            "isRequired",
-            "isRequiredInput"
-          ],
-          "type": "object"
-        },
-        {
-          "properties": {
-            "__typename": {
-              "const": "NumberField",
-              "type": "string"
-            },
-            "defaultValue": {
-              "type": [
-                "null",
-                "number"
-              ]
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            },
-            "max": {
-              "type": [
-                "null",
-                "number"
-              ]
-            },
-            "min": {
-              "type": [
-                "null",
-                "number"
-              ]
-            }
-          },
-          "required": [
-            "__typename",
-            "isRequired",
-            "isRequiredInput"
-          ],
-          "type": "object"
-        },
-        {
-          "properties": {
-            "__typename": {
-              "const": "IDField",
-              "type": "string"
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "__typename",
-            "isRequired",
-            "isRequiredInput"
-          ],
-          "type": "object"
-        },
-        {
-          "properties": {
-            "__typename": {
-              "const": "EntityRelationField",
-              "type": "string"
-            },
-            "entityName": {
-              "type": "string"
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "__typename",
-            "entityName",
-            "isRequired",
-            "isRequiredInput"
-          ],
-          "type": "object"
-        },
-        {
-          "properties": {
-            "__typename": {
-              "const": "ArrayField",
-              "type": "string"
-            },
-            "availableFields": {
-              "items": {
-                "$ref": "#/definitions/AllFieldsInArray"
-              },
-              "type": "array"
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            },
-            "maxItems": {
-              "type": [
-                "null",
-                "number"
-              ]
-            },
-            "minItems": {
-              "type": [
-                "null",
-                "number"
-              ]
-            }
-          },
-          "required": [
-            "__typename",
-            "availableFields",
-            "isRequired",
-            "isRequiredInput"
-          ],
-          "type": "object"
+        "AnyFieldsInArray": {
+            "anyOf": [
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "StringField",
+                            "type": "string"
+                        },
+                        "defaultValue": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "isSearchable": {
+                            "type": "boolean"
+                        },
+                        "maxLength": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "minLength": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "isRequired",
+                        "isRequiredInput",
+                        "isSearchable",
+                        "name"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "BooleanField",
+                            "type": "string"
+                        },
+                        "defaultValue": {
+                            "type": [
+                                "null",
+                                "boolean"
+                            ]
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "isRequired",
+                        "isRequiredInput",
+                        "name"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "NumberField",
+                            "type": "string"
+                        },
+                        "defaultValue": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "max": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "min": {
+                            "type": [
+                                "null",
+                                "number"
+                            ]
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "isRequired",
+                        "isRequiredInput",
+                        "name"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "properties": {
+                        "__typename": {
+                            "const": "EntityRelationField",
+                            "type": "string"
+                        },
+                        "entityName": {
+                            "type": "string"
+                        },
+                        "isRequired": {
+                            "type": "boolean"
+                        },
+                        "isRequiredInput": {
+                            "type": "boolean"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "entityName",
+                        "isRequired",
+                        "isRequiredInput",
+                        "name"
+                    ],
+                    "type": "object"
+                }
+            ]
         }
-      ]
     },
-    "AllFieldsInArray": {
-      "anyOf": [
-        {
-          "properties": {
-            "__typename": {
-              "const": "StringField",
-              "type": "string"
+    "properties": {
+        "entities": {
+            "items": {
+                "properties": {
+                    "fields": {
+                        "items": {
+                            "$ref": "#/definitions/AnyField"
+                        },
+                        "type": "array"
+                    },
+                    "isPublishable": {
+                        "type": "boolean"
+                    },
+                    "namePlural": {
+                        "type": "string"
+                    },
+                    "nameSingular": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "fields",
+                    "isPublishable",
+                    "namePlural",
+                    "nameSingular"
+                ],
+                "type": "object"
             },
-            "defaultValue": {
-              "type": [
-                "null",
-                "string"
-              ]
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            },
-            "isSearchable": {
-              "type": "boolean"
-            },
-            "maxLength": {
-              "type": [
-                "null",
-                "number"
-              ]
-            },
-            "minLength": {
-              "type": [
-                "null",
-                "number"
-              ]
-            }
-          },
-          "required": [
-            "__typename",
-            "isRequired",
-            "isRequiredInput",
-            "isSearchable"
-          ],
-          "type": "object"
-        },
-        {
-          "properties": {
-            "__typename": {
-              "const": "BooleanField",
-              "type": "string"
-            },
-            "defaultValue": {
-              "type": [
-                "null",
-                "boolean"
-              ]
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "__typename",
-            "isRequired",
-            "isRequiredInput"
-          ],
-          "type": "object"
-        },
-        {
-          "properties": {
-            "__typename": {
-              "const": "NumberField",
-              "type": "string"
-            },
-            "defaultValue": {
-              "type": [
-                "null",
-                "number"
-              ]
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            },
-            "max": {
-              "type": [
-                "null",
-                "number"
-              ]
-            },
-            "min": {
-              "type": [
-                "null",
-                "number"
-              ]
-            }
-          },
-          "required": [
-            "__typename",
-            "isRequired",
-            "isRequiredInput"
-          ],
-          "type": "object"
-        },
-        {
-          "properties": {
-            "__typename": {
-              "const": "EntityRelationField",
-              "type": "string"
-            },
-            "entityName": {
-              "type": "string"
-            },
-            "isRequired": {
-              "type": "boolean"
-            },
-            "isRequiredInput": {
-              "type": "boolean"
-            }
-          },
-          "required": [
-            "__typename",
-            "entityName",
-            "isRequired",
-            "isRequiredInput"
-          ],
-          "type": "object"
+            "type": "array"
         }
-      ]
-    }
-  },
-  "properties": {
-    "entities": {
-      "items": {
-        "properties": {
-          "fields": {
-            "additionalProperties": {
-              "$ref": "#/definitions/AllFields"
-            },
-            "type": "object"
-          },
-          "isPublishable": {
-            "type": "boolean"
-          },
-          "name": {
-            "type": "string"
-          },
-          "pluralizedName": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "fields",
-          "isPublishable",
-          "name",
-          "pluralizedName"
-        ],
-        "type": "object"
-      },
-      "type": "array"
-    }
-  },
-  "required": [ "entities" ],
-  "type": "object"
+    },
+    "required": [
+        "entities"
+    ],
+    "type": "object"
 }
+

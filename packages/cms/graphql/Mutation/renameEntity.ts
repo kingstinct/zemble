@@ -4,10 +4,10 @@ import { readEntities, writeEntities } from '../../utils/fs'
 import type { EntitySchemaType } from '../../types'
 import type { MutationResolvers } from '../schema.generated'
 
-const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, toName, pluralizedName: pluralIn }, { pubsub }) => {
-  const name = toName.trim()
+const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromNamePlural, toNameSingular, toNamePlural: pluralIn }, { pubsub }) => {
+  const namePlural = pluralIn.trim()
 
-  const pluralizedName = pluralIn.trim()
+  const nameSingular = toNameSingular?.trim() ?? namePlural.replace(/s$/, '')
 
   const { db } = papr
 
@@ -15,11 +15,11 @@ const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, to
 
   const entities = await readEntities()
   const entitiesUpdated = entities.map((entity) => {
-    if (entity.pluralizedName === fromName) {
+    if (entity.namePlural === fromNamePlural) {
       updated = {
         ...entity,
-        name,
-        pluralizedName,
+        nameSingular,
+        namePlural,
       }
       return updated
     }
@@ -28,13 +28,13 @@ const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, to
 
   await writeEntities(entitiesUpdated)
 
-  await db?.renameCollection(fromName, pluralizedName)
+  await db?.renameCollection(fromNamePlural, namePlural)
 
   if (!updated) {
-    throw new Error(`Entity "${fromName}" not found`)
+    throw new Error(`Entity "${fromNamePlural}" not found`)
   }
 
-  await papr.initializeCollection(pluralizedName)
+  await papr.initializeCollection(namePlural)
 
   pubsub.publish('reload-schema', {})
 

@@ -76,7 +76,7 @@ export const fieldToOutputType = (
       return new GraphQLList(union)
     case 'EntityRelationField':
       // eslint-disable-next-line no-case-declarations
-      const relatedType = relationTypes[field.entityName]
+      const relatedType = relationTypes[field.entityNamePlural]
 
       // just fallback to something if there is no type, for now
       return relatedType ? typeDeduper(relatedType) : GraphQLString
@@ -169,7 +169,7 @@ export const createTraverser = (entity: EntitySchemaType) => {
     fieldName: string,
     data: Record<string, unknown> | readonly Record<string, unknown>[],
   ) => (Array.isArray(data) ? data : [data]).map((el: Record<string, unknown>): Record<string, unknown> => ({
-    __typename: (capitalize(entity.name) + capitalize(fieldName) + capitalize(Object.keys(el)[0])).replaceAll(' ', '_'),
+    __typename: (capitalize(entity.nameSingular) + capitalize(fieldName) + capitalize(Object.keys(el)[0])).replaceAll(' ', '_'),
     ...traverseData(el),
   }))
 

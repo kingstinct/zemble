@@ -11,7 +11,7 @@ import type { GraphQLFieldConfig, GraphQLObjectType } from 'graphql'
 
 const createFilterResolver = (entity: EntitySchemaType, obj: GraphQLObjectType) => {
   const args = entity.fields.reduce((prev, field) => {
-    const baseType = fieldToInputType(entity.name, field)
+    const baseType = fieldToInputType(entity.nameSingular, field)
 
     // todo [>1]: add support for array fields (need to map EntityRelationField to GraphQLID)
     if (field.__typename === 'ArrayField') {
@@ -22,7 +22,7 @@ const createFilterResolver = (entity: EntitySchemaType, obj: GraphQLObjectType) 
       ...prev,
       [field.name]: {
         type: new GraphQLInputObjectType({
-          name: `${capitalize(entity.name)}${capitalize(field.name)}Filter`,
+          name: `${capitalize(entity.nameSingular)}${capitalize(field.name)}Filter`,
           fields: {
             eq: {
               type: field.__typename === 'EntityRelationField' ? GraphQLID : baseType,
@@ -51,7 +51,7 @@ const createFilterResolver = (entity: EntitySchemaType, obj: GraphQLObjectType) 
         }), {}),
       }), {})
 
-      return (await papr.contentCollection(entity.pluralizedName)).find(filter)
+      return (await papr.contentCollection(entity.namePlural)).find(filter)
     },
   }
   return filter

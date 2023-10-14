@@ -14,7 +14,7 @@ const EntityDetails = () => {
 
   const [{ data, fetching }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
-    variables: { pluralizedName: entity },
+    variables: { namePlural: entity },
     pause: !entity,
   })
 
@@ -34,7 +34,7 @@ const EntityDetails = () => {
             <DataTable.Title>Required</DataTable.Title>
           </DataTable.Header>
           {
-            data?.getEntityByPluralizedName?.fields.map((field) => (
+            data?.getEntityByNamePlural?.fields.map((field) => (
               <DataTable.Row key={field.name} onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/fields/${field.name}`)}>
                 <DataTable.Cell><Text key={field.name}>{field.name}</Text></DataTable.Cell>
                 <DataTable.Cell><Text key={field.name}>{field.__typename}</Text></DataTable.Cell>
@@ -50,7 +50,7 @@ const EntityDetails = () => {
             Add Field
           </Button>
         </DataTable>
-        <Text>{ JSON.stringify(data?.getEntityByPluralizedName, null, 2) }</Text>
+        <Text>{ JSON.stringify(data?.getEntityByNamePlural, null, 2) }</Text>
         <View style={{ height: 200 }} />
       </ScrollView>
     </View>

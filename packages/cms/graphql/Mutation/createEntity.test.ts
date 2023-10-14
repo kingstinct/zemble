@@ -30,18 +30,18 @@ describe('Mutation.createEntity', () => {
 
   test('should create an entity', async () => {
     const res = await app.gqlRequest(CreateEntityMutation, {
-      name: 'book',
-      pluralizedName: 'books',
+      nameSingular: 'book',
+      namePlural: 'books',
     }, opts)
 
-    expect(res.data?.createEntity.name).toEqual('book')
+    expect(res.data?.createEntity.nameSingular).toEqual('book')
 
     const entities = await readEntities()
 
     expect(entities).toHaveLength(1)
     expect(entities[0]).toEqual({
-      name: 'book',
-      pluralizedName: 'books',
+      nameSingular: 'book',
+      namePlural: 'books',
       isPublishable: false,
       fields: [
         {
@@ -58,5 +58,42 @@ describe('Mutation.createEntity', () => {
     const { data } = await app.gqlRequestUntyped<{readonly getAllBooks: readonly unknown[]}, unknown>('query { getAllBooks { id } }', {}, opts)
 
     expect(data?.getAllBooks).toEqual([])
+  })
+
+  test('should create a second entity', async () => {
+    await app.gqlRequest(CreateEntityMutation, {
+      nameSingular: 'book',
+      namePlural: 'books',
+    }, opts)
+
+    const res = await app.gqlRequest(CreateEntityMutation, {
+      nameSingular: 'article',
+      namePlural: 'articles',
+    }, opts)
+
+    expect(res.data?.createEntity.nameSingular).toEqual('article')
+
+    const entities = await readEntities()
+
+    expect(entities).toHaveLength(2)
+    expect(entities[1]).toEqual({
+      nameSingular: 'article',
+      namePlural: 'articles',
+      isPublishable: false,
+      fields: [
+        {
+          __typename: 'IDField',
+          isRequired: true,
+          isRequiredInput: false,
+          name: 'id',
+        },
+      ],
+    })
+
+    await new Promise((resolve) => { setTimeout(resolve, 100) })
+
+    const { data } = await app.gqlRequestUntyped<{readonly getAllArticles: readonly unknown[]}, unknown>('query { getAllArticles { id } }', {}, opts)
+
+    expect(data?.getAllArticles).toEqual([])
   })
 })

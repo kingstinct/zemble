@@ -1,23 +1,18 @@
-import { GraphQLError } from 'graphql'
-
 import papr from '../../clients/papr'
 import { readEntities, writeEntities } from '../../utils/fs'
 
 import type { EntitySchemaType } from '../../types'
 import type { MutationResolvers } from '../schema.generated'
 
-const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameInput, pluralizedName: pluralIn, isPublishable }, { pubsub }) => {
-  const name = nameInput.trim()
+const createEntity: MutationResolvers['createEntity'] = async (_, { nameSingular: nameInput, namePlural: pluralIn, isPublishable }, { pubsub }) => {
+  const namePlural = pluralIn.trim()
 
-  const pluralizedName = pluralIn.trim()
-
-  if (name.endsWith('s') && !pluralIn) {
-    throw new GraphQLError('If entity name ends with "s", pluralized name must be explicitely provided')
-  }
+  // just try to remove the "s" from the end of the namePlural
+  const name = nameInput ? nameInput.trim() : namePlural.replace(/s$/, '')
 
   const entity: EntitySchemaType = {
-    name,
-    pluralizedName,
+    nameSingular: name,
+    namePlural,
     isPublishable: isPublishable ?? false,
     fields: [
       {
@@ -33,7 +28,7 @@ const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameIn
 
   await writeEntities([...entities, entity])
 
-  await papr.initializeCollection(pluralizedName)
+  await papr.initializeCollection(namePlural)
 
   pubsub.publish('reload-schema', {})
 

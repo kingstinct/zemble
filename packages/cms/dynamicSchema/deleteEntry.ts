@@ -17,7 +17,7 @@ const createDeleteEntryResolver = (entity: EntitySchemaType) => {
       },
     },
     resolve: async (_, { id }) => {
-      const collection = await papr.contentCollection(entity.pluralizedName)
+      const collection = await papr.contentCollection(entity.namePlural)
       await collection.findOneAndDelete({
         _id: new ObjectId(id),
       })

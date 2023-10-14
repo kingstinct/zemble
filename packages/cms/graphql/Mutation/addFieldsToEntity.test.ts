@@ -1,7 +1,6 @@
 import {
   beforeEach, test, expect, afterAll, afterEach, beforeAll,
 } from 'bun:test'
-import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
@@ -30,14 +29,14 @@ beforeEach(async () => {
   }
 
   await app.gqlRequest(CreateEntityMutation, {
-    name: 'book',
-    pluralizedName: 'books',
+    nameSingular: 'book',
+    namePlural: 'books',
   }, opts)
 })
 
 test('should add a title field', async () => {
   const addFieldsToEntityRes = await app.gqlRequest(AddFieldsToEntityMutation, {
-    name: 'book',
+    namePlural: 'books',
     fields: [
       {
         StringField: {
@@ -51,7 +50,8 @@ test('should add a title field', async () => {
 
   expect(addFieldsToEntityRes.data).toEqual({
     addFieldsToEntity: {
-      name: 'book',
+      nameSingular: 'book',
+      namePlural: 'books',
     },
   })
 
@@ -59,8 +59,8 @@ test('should add a title field', async () => {
 
   expect(entities).toEqual([
     {
-      name: 'book',
-      pluralizedName: 'books',
+      nameSingular: 'book',
+      namePlural: 'books',
       isPublishable: false,
       fields: [
         {

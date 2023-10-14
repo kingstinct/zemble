@@ -11,7 +11,7 @@ const createEntryResolver = (entity: EntitySchemaType, type: GraphQLOutputType) 
   const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly id: string }> = {
     type,
     args: Object.values(entity.fields).reduce((prev, field) => {
-      const baseType = fieldToInputType(entity.name, field)
+      const baseType = fieldToInputType(entity.nameSingular, field)
 
       return ({
         ...prev,
@@ -25,7 +25,7 @@ const createEntryResolver = (entity: EntitySchemaType, type: GraphQLOutputType) 
 
       const _id = id ? new ObjectId(id) : new ObjectId()
 
-      const collection = await papr.contentCollection(entity.pluralizedName)
+      const collection = await papr.contentCollection(entity.namePlural)
       const res = await collection.findOneAndUpdate({
         _id,
       }, {

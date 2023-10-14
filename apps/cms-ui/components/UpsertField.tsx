@@ -16,21 +16,21 @@ import SwitchControl from './SwitchControl'
 import TextControl, { TextControlInBottomSheet } from './TextControl'
 import { graphql } from '../gql'
 
-import type { Entity } from './UpsertEntry'
 import type { FieldInput, FieldInputWithoutArray } from '../gql/graphql'
+import type { Entity } from '../utils/getSelectionSet'
 
 const AddFieldsToEntityMutation = graphql(`
-  mutation AddFieldsToEntity($name: String!, $fields: [FieldInput!]!) {
-    addFieldsToEntity(entityName: $name, fields: $fields) {
-      name
+  mutation AddFieldsToEntity($namePlural: String!, $fields: [FieldInput!]!) {
+    addFieldsToEntity(namePlural: $namePlural, fields: $fields) {
+      namePlural
     }
   }
 `)
 
 const RemoveFieldsFromEntityMutation = graphql(`
-  mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {
-    removeFieldsFromEntity(entityName: $name, fields: $fields) {
-      name
+  mutation RemoveFieldsFromEntity($namePlural: String!, $fields: [String!]!) {
+    removeFieldsFromEntity(namePlural: $namePlural, fields: $fields) {
+      namePlural
       fields {
         __typename
         name
@@ -119,7 +119,7 @@ const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField }) => {
 const UpsertField: React.FC<Props> = ({
   entity, onUpdated, fieldNameToModify, availableEntityNames,
 }) => {
-  const entityName = entity.name
+  const { namePlural } = entity
   const [, upsertField] = useMutation(AddFieldsToEntityMutation)
   const [, removeField] = useMutation(RemoveFieldsFromEntityMutation)
 
@@ -137,18 +137,18 @@ const UpsertField: React.FC<Props> = ({
       fieldType: 'StringField' as FieldType,
       availableFields: [] as readonly FieldInputWithoutArray[],
       defaultValue: null as string | number | boolean | null | undefined,
-      entityName,
+      entityNamePlural: namePlural,
     },
   })
 
   const onDelete = useCallback(async () => {
     await removeField({
-      name: entityName,
+      namePlural,
       fields: [fieldNameToModify!],
     })
     onUpdated?.()
   }, [
-    entityName, fieldNameToModify, onUpdated, removeField,
+    namePlural, fieldNameToModify, onUpdated, removeField,
   ])
 
   useEffect(() => {
@@ -169,7 +169,7 @@ const UpsertField: React.FC<Props> = ({
           setValue('defaultValue', field.defaultValueBoolean)
         }
         if (field.__typename === 'EntityRelationField') {
-          setValue('entityName', field.entityName)
+          setValue('entityNamePlural', field.entityNamePlural)
         }
         if (field.__typename === 'ArrayField') {
           setValue('availableFields', field.availableFields.map((f) => ({ [f.__typename]: { name: f.name } } as unknown as FieldInputWithoutArray)))
@@ -186,7 +186,7 @@ const UpsertField: React.FC<Props> = ({
       [fieldType]: fieldType === 'EntityRelationField' ? {
         name: values.fieldName,
         isRequired: values.isRequired,
-        entityName: values.entityName,
+        entityNamePlural: values.entityNamePlural,
       } : (fieldType === 'ArrayField' ? {
         name: values.fieldName,
         isRequired: values.isRequired,
@@ -205,7 +205,7 @@ const UpsertField: React.FC<Props> = ({
     } as unknown as FieldInput
 
     await upsertField({
-      name: entityName,
+      namePlural,
       fields: [field],
     })
     onUpdated?.()
@@ -273,7 +273,7 @@ const UpsertField: React.FC<Props> = ({
         { fieldType === 'EntityRelationField' ? (
           <SelectOneController
             control={control}
-            name='entityName'
+            name='entityNamePlural'
             options={availableEntityNames}
           />
 

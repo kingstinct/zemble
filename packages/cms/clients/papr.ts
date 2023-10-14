@@ -61,7 +61,7 @@ class PaprWrapper {
     const allEntities = await readEntities()
 
     allEntities.forEach((entity) => {
-      papr.model(entity.pluralizedName, EntityEntrySchema)
+      papr.model(entity.namePlural, EntityEntrySchema)
     })
 
     await papr.updateSchemas()

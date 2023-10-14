@@ -11,7 +11,7 @@ const AddField = () => {
 
   const [{ data }, refetch] = useQuery({
     query: GetEntityByPluralizedNameQuery,
-    variables: { pluralizedName: entity },
+    variables: { namePlural: entity },
     pause: !entity,
   })
 
@@ -21,12 +21,12 @@ const AddField = () => {
     pause: !entity,
   })
 
-  return data?.getEntityByPluralizedName ? (
+  return data?.getEntityByNamePlural ? (
     <PaperProvider>
       <CreateField
-        entity={data.getEntityByPluralizedName}
+        entity={data.getEntityByNamePlural}
         fieldNameToModify={fieldName as string}
-        availableEntityNames={entitiesData?.getAllEntities.map((e) => e.name) ?? []}
+        availableEntityNames={entitiesData?.getAllEntities.map((e) => e.namePlural) ?? []}
         onUpdated={() => {
           refetch()
           router.back()

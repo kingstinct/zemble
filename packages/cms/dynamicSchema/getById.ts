@@ -21,7 +21,7 @@ const createGetByIdResolver = (entity: EntitySchemaType, outputType: GraphQLOutp
         type: new GraphQLNonNull(GraphQLID),
       },
     },
-    resolve: async (_, { id }) => (await papr.contentCollection(entity.pluralizedName)).findOne({ _id: new ObjectId(id) }),
+    resolve: async (_, { id }) => (await papr.contentCollection(entity.namePlural)).findOne({ _id: new ObjectId(id) }),
   } as const
 
   return getById

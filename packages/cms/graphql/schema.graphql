@@ -17,18 +17,18 @@ scalar Date
 scalar DateTime
 
 type Query {
-  getEntityByName(name: String!): Entity
-  getEntityByPluralizedName(pluralizedName: String!): Entity
+  getEntityByNameSingular(name: String!): Entity
+  getEntityByNamePlural(namePlural: String!): Entity
   getAllEntities: [Entity!]!
 }
 
 type Mutation {
-  createEntity(name: String!, pluralizedName: String!, isPublishable: Boolean): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
-  removeEntity(name: String!): Boolean! @auth(includes: { permissions: { type: "modify-entity" } })
-  renameEntity(fromName: String!, toName: String!, pluralizedName: String!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
+  createEntity(nameSingular: String, namePlural: String!, isPublishable: Boolean): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
+  removeEntity(namePlural: String!): Boolean! @auth(includes: { permissions: { type: "modify-entity" } })
+  renameEntity(fromNamePlural: String!, toNamePlural: String!, toNameSingular: String): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
 
-  addFieldsToEntity(entityName: String!, fields: [FieldInput!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
-  removeFieldsFromEntity(entityName: String!, fields: [String!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
+  addFieldsToEntity(namePlural: String!, fields: [FieldInput!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
+  removeFieldsFromEntity(namePlural: String!, fields: [String!]!): Entity! @auth(includes: { permissions: { type: "modify-entity" } })
 }
 
 input FieldInput @oneOf {
@@ -83,8 +83,7 @@ input ArrayFieldInput {
 
 input EntityRelationFieldInput {
   name: String!
-  #entityName: EntityEnum! // lets make this a string for now, would be nice to tie together with the dynamic schema
-  entityName: String!
+  entityNamePlural: String!
   isRequired: Boolean!
   isRequiredInput: Boolean
 }
@@ -173,7 +172,7 @@ type ArrayField implements Field {
 
 type EntityRelationField implements Field {
   name: String!
-  entityName: String!
+  entityNamePlural: String!
   entity: Entity!
   isRequired: Boolean!
   isRequiredInput: Boolean!
@@ -194,13 +193,9 @@ type EntityPermission {
 }
 
 type Entity {
-  name: String!
+  nameSingular: String!
   fields: [Field!]!
-  pluralizedName: String!
+  namePlural: String!
   permissions: [EntityPermission!]
   isPublishable: Boolean!
-}
-
-input EntityInput {
-  name: String!
 }

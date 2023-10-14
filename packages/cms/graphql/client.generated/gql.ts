@@ -13,11 +13,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation RemoveEntity($name: String!) {\n    removeEntity(name: $name)\n  }\n": types.RemoveEntityDocument,
-    "\n  mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(entityName: $name, fields: $fields) {\n      name\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n": types.RemoveFieldsFromEntityDocument,
-    "\n  mutation RenameEntity($fromName: String!,$toName: String!, $pluralizedName: String!) {\n    renameEntity(fromName: $fromName, toName: $toName, pluralizedName: $pluralizedName) {\n      name\n      pluralizedName\n    }\n  }\n": types.RenameEntityDocument,
-    "\n  mutation CreateEntity($name: String!, $pluralizedName: String!) {\n    createEntity(name: $name, pluralizedName: $pluralizedName) {\n      name\n    }\n  }\n": types.CreateEntityDocument,
-    "\n  mutation AddFieldsToEntity($name: String!, $fields: [FieldInput!]!) {\n    addFieldsToEntity(entityName: $name, fields: $fields) {\n      name\n    }\n  }\n": types.AddFieldsToEntityDocument,
+    "\n  mutation RemoveEntity($namePlural: String!) {\n    removeEntity(namePlural: $namePlural)\n  }\n": types.RemoveEntityDocument,
+    "\n  mutation RemoveFieldsFromEntity($namePlural: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(namePlural: $namePlural, fields: $fields) {\n      nameSingular\n      namePlural\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n": types.RemoveFieldsFromEntityDocument,
+    "\n  mutation RenameEntity($fromName: String!,$toName: String!, $namePlural: String!) {\n    renameEntity(fromNamePlural: $fromName, toNameSingular: $toName, toNamePlural: $namePlural) {\n      nameSingular\n      namePlural\n    }\n  }\n": types.RenameEntityDocument,
+    "\n  mutation CreateEntity($nameSingular: String!, $namePlural: String!) {\n    createEntity(nameSingular: $nameSingular, namePlural: $namePlural) {\n      nameSingular\n      namePlural\n    }\n  }\n": types.CreateEntityDocument,
+    "\n  mutation AddFieldsToEntity($namePlural: String!, $fields: [FieldInput!]!) {\n    addFieldsToEntity(namePlural: $namePlural, fields: $fields) {\n      nameSingular\n      namePlural\n    }\n  }\n": types.AddFieldsToEntityDocument,
 };
 
 /**
@@ -37,23 +37,23 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation RemoveEntity($name: String!) {\n    removeEntity(name: $name)\n  }\n"): (typeof documents)["\n  mutation RemoveEntity($name: String!) {\n    removeEntity(name: $name)\n  }\n"];
+export function graphql(source: "\n  mutation RemoveEntity($namePlural: String!) {\n    removeEntity(namePlural: $namePlural)\n  }\n"): (typeof documents)["\n  mutation RemoveEntity($namePlural: String!) {\n    removeEntity(namePlural: $namePlural)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(entityName: $name, fields: $fields) {\n      name\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation RemoveFieldsFromEntity($name: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(entityName: $name, fields: $fields) {\n      name\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation RemoveFieldsFromEntity($namePlural: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(namePlural: $namePlural, fields: $fields) {\n      nameSingular\n      namePlural\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation RemoveFieldsFromEntity($namePlural: String!, $fields: [String!]!) {\n    removeFieldsFromEntity(namePlural: $namePlural, fields: $fields) {\n      nameSingular\n      namePlural\n      fields {\n        __typename\n        name\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation RenameEntity($fromName: String!,$toName: String!, $pluralizedName: String!) {\n    renameEntity(fromName: $fromName, toName: $toName, pluralizedName: $pluralizedName) {\n      name\n      pluralizedName\n    }\n  }\n"): (typeof documents)["\n  mutation RenameEntity($fromName: String!,$toName: String!, $pluralizedName: String!) {\n    renameEntity(fromName: $fromName, toName: $toName, pluralizedName: $pluralizedName) {\n      name\n      pluralizedName\n    }\n  }\n"];
+export function graphql(source: "\n  mutation RenameEntity($fromName: String!,$toName: String!, $namePlural: String!) {\n    renameEntity(fromNamePlural: $fromName, toNameSingular: $toName, toNamePlural: $namePlural) {\n      nameSingular\n      namePlural\n    }\n  }\n"): (typeof documents)["\n  mutation RenameEntity($fromName: String!,$toName: String!, $namePlural: String!) {\n    renameEntity(fromNamePlural: $fromName, toNameSingular: $toName, toNamePlural: $namePlural) {\n      nameSingular\n      namePlural\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateEntity($name: String!, $pluralizedName: String!) {\n    createEntity(name: $name, pluralizedName: $pluralizedName) {\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation CreateEntity($name: String!, $pluralizedName: String!) {\n    createEntity(name: $name, pluralizedName: $pluralizedName) {\n      name\n    }\n  }\n"];
+export function graphql(source: "\n  mutation CreateEntity($nameSingular: String!, $namePlural: String!) {\n    createEntity(nameSingular: $nameSingular, namePlural: $namePlural) {\n      nameSingular\n      namePlural\n    }\n  }\n"): (typeof documents)["\n  mutation CreateEntity($nameSingular: String!, $namePlural: String!) {\n    createEntity(nameSingular: $nameSingular, namePlural: $namePlural) {\n      nameSingular\n      namePlural\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation AddFieldsToEntity($name: String!, $fields: [FieldInput!]!) {\n    addFieldsToEntity(entityName: $name, fields: $fields) {\n      name\n    }\n  }\n"): (typeof documents)["\n  mutation AddFieldsToEntity($name: String!, $fields: [FieldInput!]!) {\n    addFieldsToEntity(entityName: $name, fields: $fields) {\n      name\n    }\n  }\n"];
+export function graphql(source: "\n  mutation AddFieldsToEntity($namePlural: String!, $fields: [FieldInput!]!) {\n    addFieldsToEntity(namePlural: $namePlural, fields: $fields) {\n      nameSingular\n      namePlural\n    }\n  }\n"): (typeof documents)["\n  mutation AddFieldsToEntity($namePlural: String!, $fields: [FieldInput!]!) {\n    addFieldsToEntity(namePlural: $namePlural, fields: $fields) {\n      nameSingular\n      namePlural\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

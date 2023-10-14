@@ -7,12 +7,12 @@ import type {
   MutationResolvers,
 } from '../schema.generated'
 
-const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = async (_, { entityName, fields }, { pubsub }) => {
+const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = async (_, { namePlural, fields }, { pubsub }) => {
   const entities = await readEntities()
-  const entity = entities.find((entity) => entity.name === entityName)
+  const entity = entities.find((entity) => entity.namePlural === namePlural)
 
   if (!entity) {
-    throw new GraphQLError(`Entity with id ${entityName} not found`)
+    throw new GraphQLError(`Entity with id ${namePlural} not found`)
   }
 
   const updatedEntity: EntitySchemaType = {
@@ -20,7 +20,7 @@ const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = asyn
     fields: entity.fields.filter((field) => !fields.includes(field.name)),
   }
 
-  await writeEntities(entities.map((entity) => (entity.name === entityName ? updatedEntity : entity)))
+  await writeEntities(entities.map((entity) => (entity.namePlural === namePlural ? updatedEntity : entity)))
 
   pubsub.publish('reload-schema', {})
 

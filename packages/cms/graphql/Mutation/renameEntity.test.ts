@@ -13,10 +13,10 @@ import { CreateEntityMutation } from '../../utils/testOperations'
 import { graphql } from '../client.generated'
 
 const RenameEntityMutation = graphql(`
-  mutation RenameEntity($fromName: String!,$toName: String!, $pluralizedName: String!) {
-    renameEntity(fromName: $fromName, toName: $toName, pluralizedName: $pluralizedName) {
-      name
-      pluralizedName
+  mutation RenameEntity($fromName: String!,$toName: String!, $namePlural: String!) {
+    renameEntity(fromNamePlural: $fromName, toNameSingular: $toName, toNamePlural: $namePlural) {
+      nameSingular
+      namePlural
     }
   }
 `)
@@ -42,26 +42,26 @@ beforeEach(async () => {
 
 test('should rename an entity', async () => {
   const res = await app.gqlRequest(CreateEntityMutation, {
-    name: 'book',
-    pluralizedName: 'books',
+    nameSingular: 'book',
+    namePlural: 'books',
   }, opts)
 
-  expect(res.data?.createEntity.name).toEqual('book')
+  expect(res.data?.createEntity.nameSingular).toEqual('book')
 
   const { data } = await app.gqlRequest(RenameEntityMutation, {
     fromName: 'books',
     toName: 'article',
-    pluralizedName: 'articles',
+    namePlural: 'articles',
   }, opts)
 
-  expect(data?.renameEntity.name).toEqual('article')
-  expect(data?.renameEntity.pluralizedName).toEqual('articles')
+  expect(data?.renameEntity.nameSingular).toEqual('article')
+  expect(data?.renameEntity.namePlural).toEqual('articles')
 
   const entitites = await readEntities()
   expect(entitites).toHaveLength(1)
   expect(entitites[0]).toEqual({
-    name: 'article',
-    pluralizedName: 'articles',
+    nameSingular: 'article',
+    namePlural: 'articles',
     isPublishable: false,
     fields: [
       {

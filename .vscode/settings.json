@@ -4,6 +4,11 @@
       "globMatch": "**/*.{graphql,test.ts}",
       "command": "bun run graphql-codegen",
       "runIn": "terminal"
+    },
+    {
+      "globMatch": "packages/cms/types.ts",
+      "command": "bun run generate-cms-json-schema",
+      "runIn": "terminal"
     }
   ]
 }

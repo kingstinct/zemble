@@ -1,0 +1,75 @@
+{
+  "entities": [
+    {
+      "nameSingular": "book",
+      "namePlural": "books",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "title",
+          "isRequired": true,
+          "isRequiredInput": true,
+          "defaultValue": null,
+          "isSearchable": true,
+          "__typename": "StringField"
+        },
+        {
+          "name": "author",
+          "entityNamePlural": "authors",
+          "isRequired": false,
+          "__typename": "EntityRelationField",
+          "isRequiredInput": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "author",
+      "namePlural": "authors",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "firstName",
+          "isRequired": true,
+          "isRequiredInput": true,
+          "defaultValue": null,
+          "isSearchable": true,
+          "__typename": "StringField"
+        },
+        {
+          "name": "lastName",
+          "isRequired": true,
+          "isRequiredInput": true,
+          "defaultValue": null,
+          "isSearchable": true,
+          "__typename": "StringField"
+        }
+      ]
+    },
+    {
+      "nameSingular": "Publisher",
+      "namePlural": "Publishers",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        }
+      ]
+    }
+  ],
+  "$schema": "../entities-json-schema.json"
+}

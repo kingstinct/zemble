@@ -16,13 +16,16 @@ import { useMutation, useQuery } from 'urql'
 import { SearchEntries } from './ListOfEntries'
 import SwitchControl from './SwitchControl'
 import TextControl from './TextControl'
+import { GetEntityByPluralizedNameQuery } from '../app/(tabs)/(content)/[entity]'
 import { graphql } from '../gql'
 import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
 
 import type {
-  Field, GetEntityByPluralizedNameQuery as GetEntityByPluralizedNameQueryType,
+  EntityRelationField,
+  Field,
 } from '../gql/graphql'
+import type { Entity } from '../utils/getSelectionSet'
 import type {
   Control, FieldValues, Path, UseFormProps,
 } from 'react-hook-form'
@@ -36,16 +39,14 @@ const fieldToTypeMap: Record<string, string | ((entityName: string, fieldName: s
   EntityRelationField: (entityName: string, fieldName: string) => `${capitalize(entityName)}${capitalize(fieldName)}Input`,
 }
 
-export type Entity = NonNullable<GetEntityByPluralizedNameQueryType['getEntityByPluralizedName']>
-
 const buildUpsertEntryMutation = (entity: Entity) => {
   const { fields } = entity
 
-  const mutationName = `create${capitalize(entity.name)}`
+  const mutationName = `create${capitalize(entity.nameSingular)}`
 
   const mutationInputVariables = fields.map((f) => {
     const typeMap = fieldToTypeMap[f.__typename]!
-    const mappedType = typeof typeMap === 'string' ? typeMap : typeMap(entity.name, f.name)
+    const mappedType = typeof typeMap === 'string' ? typeMap : typeMap(entity.nameSingular, f.name)
     const strParts = `$${f.name}: ${mappedType}${f.isRequired && f.name !== 'id' ? '!' : ''}`
     return strParts
   }).join(', ')
@@ -190,10 +191,10 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
   )
 }
 
-export const GetEntityByNameQuery = graphql(`
-  query GetEntityByName($name: String!) { getEntityByName(name: $name) { 
-    name
-    pluralizedName
+export const GetEntityByNameSingularQuery = graphql(`
+  query GetEntityByNameSingular($name: String!) { getEntityByNameSingular(name: $name) { 
+    nameSingular
+    namePlural
     fields { 
       name
       __typename 
@@ -201,7 +202,7 @@ export const GetEntityByNameQuery = graphql(`
       isRequiredInput
 
       ... on EntityRelationField {
-        entityName
+        entityNamePlural
       }
 
       ... on StringField {
@@ -225,14 +226,14 @@ export const GetEntityByNameQuery = graphql(`
    } } }
 `)
 
-function SelectEntityRelation<T extends FieldValues>({ control, fieldName, entityName }: { readonly control: Control<T>, readonly fieldName: Path<T>, readonly entityName: string }) {
+function SelectEntityRelation<T extends FieldValues>({ control, fieldName, entityNamePlural }: { readonly control: Control<T>, readonly fieldName: Path<T>, readonly entityNamePlural: string }) {
   const bottomSheet = useRef<BottomSheet>(null)
   const theme = useTheme()
 
   const [{ data }] = useQuery({
-    query: GetEntityByNameQuery,
-    variables: { name: entityName },
-    pause: !entityName,
+    query: GetEntityByPluralizedNameQuery,
+    variables: { namePlural: entityNamePlural },
+    pause: !entityNamePlural,
   })
 
   const [query, setQuery] = useState('')
@@ -245,7 +246,7 @@ function SelectEntityRelation<T extends FieldValues>({ control, fieldName, entit
     }
   }, [fieldName])
 
-  const entity = data?.getEntityByName
+  const entity = data?.getEntityByNamePlural
 
   return (
     <Controller
@@ -264,10 +265,8 @@ function SelectEntityRelation<T extends FieldValues>({ control, fieldName, entit
           <ScrollView>
             {entity ? (
               <SearchEntries
-                entityName={entityName}
+                entity={entity}
                 query={query}
-                pluralizedName={entity.pluralizedName}
-                fields={entity.fields}
                 onSelected={(entry) => {
                   onChange(entry.id)
                 }}
@@ -291,9 +290,9 @@ const UpsertEntry: React.FC<{
 }) => {
   const { fields } = entity
 
-  const selectionSet = useMemo(() => getSelectionSet(entity.name, fields), [entity.name, fields])
+  const selectionSet = useMemo(() => getSelectionSet(entity), [entity])
 
-  const queryName = `get${capitalize(entity.name)}ById`
+  const queryName = `get${capitalize(entity.nameSingular)}ById`
 
   const [{ data, fetching }] = useQuery({
     query: `query GetEntity { ${queryName}(id: "${previousEntryId}") { ${selectionSet.join(' ')} } }`,
@@ -343,7 +342,7 @@ const UpsertEntry: React.FC<{
     onUpdated?.()
   }, [createEntry, fields, onUpdated]))
 
-  const [fieldForEntitySelection, setFieldForEntity] = useState<Field | null>(null)
+  const [fieldForEntitySelection, setFieldForEntity] = useState<EntityRelationField | null>(null)
 
   return fetching && previousEntryId ? <ActivityIndicator style={Styles.margin16} /> : (
     <View>
@@ -392,6 +391,7 @@ const UpsertEntry: React.FC<{
               )
             }
             if (field.__typename === 'EntityRelationField') {
+              // @ts-expect-error fix later
               return <Button onPress={() => { setFieldForEntity(field) }} key={field.name}>Relation input here</Button>
             }
             if (field.__typename === 'NumberField') {
@@ -442,7 +442,7 @@ const UpsertEntry: React.FC<{
           <SelectEntityRelation
             control={control}
             fieldName={fieldForEntitySelection.name}
-            entityName={'entityName' in fieldForEntitySelection ? fieldForEntitySelection.entityName as string : ''}
+            entityNamePlural={fieldForEntitySelection.entityNamePlural}
           />
         ) : null
       }

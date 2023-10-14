@@ -24,7 +24,7 @@ const createSearch = (entity: EntitySchemaType, obj: GraphQLObjectType) => {
     resolve: async (_, {
       query, caseSensitive, diacriticSensitive, language,
     }) => {
-      const collection = await papr.contentCollection(entity.pluralizedName)
+      const collection = await papr.contentCollection(entity.namePlural)
 
       const searchableFields = Object.values(entity.fields ?? []).filter((e) => e.__typename === 'StringField' && e.isSearchable)
 

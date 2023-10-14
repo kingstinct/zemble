@@ -12,8 +12,8 @@ import { capitalize, pluralize } from '../../../utils/text'
 export const GetEntitiesQuery = graphql(`
   query GetEntities {
     getAllEntities {
-      name
-      pluralizedName
+      nameSingular
+      namePlural
       fields {
         name
         isRequired
@@ -23,9 +23,9 @@ export const GetEntitiesQuery = graphql(`
 `)
 
 const CreateEntityMutation = graphql(`
-mutation CreateEntity($name: String!, $pluralizedName: String!) {
-  createEntity(name: $name, pluralizedName: $pluralizedName) {
-    name
+mutation CreateEntity($nameSingular: String, $namePlural: String!) {
+  createEntity(nameSingular: $nameSingular, namePlural: $namePlural) {
+    nameSingular
   }
 }
 `)
@@ -39,11 +39,11 @@ const EntityList = () => {
   const [, createEntityMutation] = useMutation(CreateEntityMutation)
 
   const onAddEntity = useCallback(async () => {
-    const name = prompt('Create new entity, give it a name:', '')
-    if (name) {
-      await createEntityMutation({ name, pluralizedName: `${name}s` })
+    const namePlural = prompt('Create new entity, give it a name (plural):', '')
+    if (namePlural) {
+      await createEntityMutation({ namePlural })
       // @ts-expect-error fix later
-      router.push(`/${name}`)
+      router.push(`/${namePlural}`)
       refetch()
     }
   }, [createEntityMutation, refetch])
@@ -52,15 +52,15 @@ const EntityList = () => {
     <ScrollView refreshControl={<RefreshControl onRefresh={refetch} refreshing={fetching} />}>
       {
         data?.getAllEntities.map((entity) => (
-          <View key={entity.name} style={Styles.margin16}>
+          <View key={entity.nameSingular} style={Styles.margin16}>
             <Button
               onPress={() => {
                 // @ts-expect-error fix later
-                router.push(`/${entity.pluralizedName}`)
+                router.push(`/${entity.namePlural}`)
               }}
               mode='contained'
             >
-              {capitalize(pluralize(entity.name))}
+              {capitalize(pluralize(entity.nameSingular))}
             </Button>
           </View>
         ))

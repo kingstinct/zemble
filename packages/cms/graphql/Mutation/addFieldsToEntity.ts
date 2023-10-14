@@ -36,14 +36,14 @@ const mapInputToField = (input: FieldInput): Field => {
   }
 }
 
-const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
+const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { namePlural, fields: fieldsInput }, { pubsub }) => {
   const fields = fieldsInput.map(mapInputToField)
 
   const entities = await readEntities()
-  const entity = entities.find((entity) => entity.name === entityName)
+  const entityToUpdate = entities.find((entity) => entity.namePlural === namePlural)
 
-  if (!entity) {
-    throw new GraphQLError(`Entity with name ${entityName} not found`)
+  if (!entityToUpdate) {
+    throw new GraphQLError(`Entity with name ${namePlural} not found`)
   }
 
   const validateFields = async (fields: readonly Field[]) => {
@@ -78,7 +78,8 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
     const fieldsRequiringValidation = all.filter(Boolean) as readonly string[]
     if (fieldsRequiringValidation.length > 1) {
-      const failingDocs = await (await papr.contentCollection(entity.pluralizedName)).find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
+      const collection = await papr.contentCollection(entityToUpdate.namePlural)
+      const failingDocs = await collection.find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
         ...acc,
         $or: [
           { [fieldName]: { $exists: false } },
@@ -89,7 +90,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
       const fieldsFailingValidation = fieldsRequiringValidation.filter((fieldName) => failingDocs.some((doc) => !doc[fieldName] && doc[fieldName] !== false))
 
       if (failingDocs.length > 0) {
-        throw new GraphQLError(`Cannot require ${fieldsFailingValidation.join(', ')} on entity ${entityName}. Either provide a default value or add it without requiring these fields.`)
+        throw new GraphQLError(`Cannot require ${fieldsFailingValidation.join(', ')} on entity ${namePlural}. Either provide a default value or add it without requiring these fields.`)
       }
     }
     return null
@@ -97,20 +98,22 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await validateFields(fields)
 
-  const prev = {
-    ...entity,
+  const updatedEntity = {
+    ...entityToUpdate,
     fields: [
-      ...entity.fields.filter((field) => !fields.some((f) => f.name === field.name)),
+      ...entityToUpdate.fields.filter((field) => !fields.some((f) => f.name === field.name)),
       ...fields,
     ],
   }
 
-  await writeEntities(entities.map((entity) => (entity.name === entityName ? prev : entity)))
+  const updatedEntities = entities.map((e) => (e.namePlural === namePlural ? updatedEntity : e))
 
-  const searchableFields = prev.fields.filter((field) => 'isSearchable' in field && field.isSearchable)
+  await writeEntities(updatedEntities)
+
+  const searchableFields = updatedEntity.fields.filter((field) => 'isSearchable' in field && field.isSearchable)
 
   const { db } = papr
-  const collection = db!.collection(prev.pluralizedName)
+  const collection = db!.collection(updatedEntity.namePlural)
   let hasIndex = false
   try {
     hasIndex = await collection.indexExists(`search_index`)
@@ -142,7 +145,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await pubsub.publish('reload-schema', {})
 
-  return { ...prev, fields }
+  return { ...updatedEntity, fields }
 }
 
 export default addFieldsToEntity

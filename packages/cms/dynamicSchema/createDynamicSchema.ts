@@ -46,7 +46,7 @@ export default async () => {
 
   const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((acc, entity) => {
     const getById = new Dataloader(async (ids: readonly string[]) => {
-      const contentCollection = await papr.contentCollection(entity.pluralizedName)
+      const contentCollection = await papr.contentCollection(entity.namePlural)
       const entries = await contentCollection.find({ _id: { $in: ids.map((id) => new ObjectId(id)) } })
 
       return ids.map((id) => entries.find((entry) => entry._id.toHexString() === id))
@@ -54,27 +54,26 @@ export default async () => {
 
     const objRelation = new GraphQLObjectType({
       fields: () => entity.fields.reduce((prev, field) => {
-        const baseType = fieldToOutputType(entity.name, field, acc)
+        const baseType = fieldToOutputType(entity.nameSingular, field, acc)
 
         return ({
           ...prev,
           [field.name]: {
             type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
-            resolve: async (parent: { readonly externalId: string }) => {
-              const id = parent.externalId
-              const resolved = await getById.load(id)
+            resolve: async (externalId: string) => {
+              const resolved = await getById.load(externalId)
               // @ts-expect-error fix sometime
               return resolved[field.name]
             },
           },
         })
       }, {}),
-      name: `${capitalize(entity.name)}Relation`,
+      name: `${capitalize(entity.namePlural)}Relation`,
     })
 
     return {
       ...acc,
-      [entity.name]: objRelation,
+      [entity.namePlural]: objRelation,
     }
   }, initialTypes)
 
@@ -87,7 +86,7 @@ export default async () => {
 
     const outputType = new GraphQLObjectType({
       fields: Object.values(entity.fields).reduce((prev, field) => {
-        const baseType = fieldToOutputType(entity.name, field, relationTypes)
+        const baseType = fieldToOutputType(entity.nameSingular, field, relationTypes)
         return ({
           ...prev,
           [field.name]: {
@@ -111,23 +110,23 @@ export default async () => {
           },
         })
       }, {}),
-      name: capitalize(entity.name).replaceAll(' ', '_'),
+      name: capitalize(entity.namePlural),
     })
 
     const retVal: ReducerType = {
       query: {
         ...prev.query,
-        [`getAll${capitalize(entity.pluralizedName)}`]: createGetAll(entity, outputType),
-        [`search${capitalize(entity.pluralizedName)}`]: createSearch(entity, outputType),
-        [`filter${capitalize(entity.pluralizedName)}`]: createFilterResolver(entity, outputType),
-        [`get${capitalize(entity.name)}ById`]: createGetByIdResolver(entity, outputType),
-        [`get${capitalize(entity.pluralizedName)}ById`]: createGetByIdsResolver(entity, outputType),
+        [`getAll${capitalize(entity.namePlural)}`]: createGetAll(entity, outputType),
+        [`search${capitalize(entity.namePlural)}`]: createSearch(entity, outputType),
+        [`filter${capitalize(entity.namePlural)}`]: createFilterResolver(entity, outputType),
+        [`get${capitalize(entity.nameSingular)}ById`]: createGetByIdResolver(entity, outputType),
+        [`get${capitalize(entity.namePlural)}ById`]: createGetByIdsResolver(entity, outputType),
       },
       types: [...prev.types],
       mutations: {
         ...prev.mutations,
-        [`create${capitalize(entity.name)}`]: createEntryResolver(entity, outputType),
-        [`delete${capitalize(entity.name)}`]: createDeleteEntryResolver(entity),
+        [`create${capitalize(entity.nameSingular)}`]: createEntryResolver(entity, outputType),
+        [`delete${capitalize(entity.nameSingular)}`]: createDeleteEntryResolver(entity),
       },
     }
     return retVal

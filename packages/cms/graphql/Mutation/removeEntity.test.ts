@@ -16,8 +16,8 @@ afterAll(teardownAfterAll)
 afterEach(tearDownAfterEach)
 
 const RemoveEntityMutation = graphql(`
-  mutation RemoveEntity($name: String!) {
-    removeEntity(name: $name)
+  mutation RemoveEntity($namePlural: String!) {
+    removeEntity(namePlural: $namePlural)
   }
 `)
 
@@ -34,8 +34,8 @@ beforeEach(async () => {
   }
 
   await app.gqlRequest(CreateEntityMutation, {
-    name: 'book',
-    pluralizedName: 'books',
+    nameSingular: 'book',
+    namePlural: 'books',
   }, opts)
 })
 
@@ -45,7 +45,7 @@ test('should remove entity', async () => {
   expect(entititesBefore).toHaveLength(1)
 
   const removeEntityRes = await app.gqlRequest(RemoveEntityMutation, {
-    name: 'book',
+    namePlural: 'books',
   }, opts)
 
   expect(removeEntityRes.data?.removeEntity).toEqual(true)
