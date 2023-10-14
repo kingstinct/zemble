@@ -7,7 +7,8 @@ import {
   GraphQLNonNull,
   printSchema,
 } from 'graphql'
-import { MongoClient, ObjectId } from 'mongodb'
+import { ObjectId } from 'mongodb'
+import fs from 'node:fs'
 
 import createEntryResolver from './createEntry'
 import createDeleteEntryResolver from './deleteEntry'
@@ -164,9 +165,9 @@ export default async () => {
     }),
   })
 
-  if (process.env.DEBUG) {
-    console.log(`Schema updated:\n${printSchema(schema)}`)
-  }
+  const schemaStr = printSchema(schema)
+  fs.writeFile(`${process.cwd()}/schema.generated.graphql`, schemaStr, () => {})
+  fs.writeFile(`${process.cwd()}/entities.generated.json`, JSON.stringify(entities, null, 2), () => {})
 
   return schema
 }

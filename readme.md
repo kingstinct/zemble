@@ -25,20 +25,21 @@ PLUGIN_2_GRAPHQL_ENDPOINT=http://localhost:3001/graphql (overrides the above for
 
 
 
+Todos:
 
+- queues (och kanske även graphql) borde nog vara egna plugins baserat på någon typ av “setup”-funktion. Strukturen är bra men vore nice med möjlighet att switcha implementationer
 
+- Autentisering och middleware för graphql? (key)
 
-queues (och kanske även graphql) borde nog vara egna plugins baserat på någon typ av “setup”-funktion. Strukturen är bra men vore nice med möjlighet att switcha implementationer
+- TypeScript-baserat config för alla installerade plugins (och kanske avstå från env-variabel magi). Kanske mer explicit hämtning av plugins här? Minskar "black-box" samtidigt som det nog är lättare att få typerna 100%.
 
-Autentisering och middleware för graphql? (key)
+- Codegen och typsäkerhet (det löser vi, bättre att ta när strukturen sitter)
 
-TypeScript-baserat config för alla installerade plugins (och kanske avstå från env-variabel magi). Kanske mer explicit hämtning av plugins här? Minskar "black-box" samtidigt som det nog är lättare att få typerna 100%.
+- Eslint o testning (det löser vi, bättre att ta när strukturen sitter)
 
-Codegen och typsäkerhet (det löser vi, bättre att ta när strukturen sitter)
+- Orkestrering av contexts (t ex flera URQL-instanser) på klienten?
 
-Eslint o testning (det löser vi, bättre att ta när strukturen sitter)
-
-Orkestrering av contexts (t ex flera URQL-instanser) på klienten?
+- Considering moving entities to JSON entirely. Means we can check it into source control as well as don't have a database dependency there.
 
 
 
