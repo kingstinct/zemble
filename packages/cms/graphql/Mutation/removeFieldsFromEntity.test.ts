@@ -1,12 +1,11 @@
 import {
   beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
-import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import papr from '../../clients/papr'
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
+import { readEntities } from '../../utils/fs'
 import { AddFieldsToEntityMutation, CreateEntityMutation } from '../../utils/testOperations'
 import { graphql } from '../client.generated'
 
@@ -72,13 +71,12 @@ test('should remove a title field', async () => {
     ],
   })
 
-  const entitites = await papr.Entities.find({})
+  const entitites = await readEntities()
 
   expect(entitites).toEqual([
     {
-      _id: expect.any(ObjectId),
-      createdAt: expect.any(Date),
-      updatedAt: expect.any(Date),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
       name: 'book',
       pluralizedName: 'books',
       isPublishable: false,

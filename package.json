@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-recursive": "MONGOMS_DEBUG=1 bunx turbo run test",
+    "test-recursive": "bunx turbo run test",
     "lint-quiet": "bunx turbo run lint -- --quiet",
     "typecheck": "bunx turbo run typecheck",
     "graphql-codegen": "bunx turbo run graphql-codegen",
@@ -44,11 +44,6 @@
     "lint-staged": "^14.0.1",
     "patch-package": "^8.0.0",
     "turbo": "^1.10.14"
-  },
-  "config": {
-    "mongodbMemoryServer": {
-      "debug": "true"
-    }
   },
   "workspaces": [
     "packages/*",

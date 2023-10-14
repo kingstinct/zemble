@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql'
 
 import papr from '../../clients/papr'
+import { readEntities, writeEntities } from '../../utils/fs'
 
 import type { EntitySchema } from '../../clients/papr'
 import type {
@@ -38,7 +39,8 @@ const mapInputToField = (input: FieldInput): Field => {
 const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
   const fields: readonly Field[] = fieldsInput.map(mapInputToField)
 
-  const entity = await papr.Entities.findOne({ name: entityName })
+  const entities = await readEntities()
+  const entity = entities.find((entity) => entity.name === entityName)
 
   if (!entity) {
     throw new GraphQLError(`Entity with name ${entityName} not found`)
@@ -73,6 +75,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
       return field.name
     })
+
     const fieldsRequiringValidation = all.filter(Boolean) as readonly string[]
     if (fieldsRequiringValidation.length > 1) {
       const failingDocs = await (await papr.contentCollection(entity.pluralizedName)).find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
@@ -94,20 +97,15 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await validateFields(fields)
 
-  const $set = fields.reduce((acc, field) => ({
+  const prev = fields.reduce((acc, field) => ({
     ...acc,
-    [`fields.${field.name}`]: field,
-  }), {})
+    fields: {
+      ...acc.fields,
+      [field.name]: field,
+    },
+  }), entity)
 
-  const prev = await papr.Entities.findOneAndUpdate({ name: entityName }, {
-    $set,
-  }, {
-    returnDocument: 'after',
-  })
-
-  if (!prev) {
-    throw new GraphQLError(`Entity with name ${entityName} not found`)
-  }
+  await writeEntities(entities.map((entity) => (entity.name === entityName ? prev : entity)))
 
   const searchableFields = Object.values(prev.fields).filter((field) => 'isSearchable' in field && field.isSearchable)
 
@@ -144,7 +142,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await pubsub.publish('reload-schema', {})
 
-  return { ...prev, fields: Object.values(prev.fields) }
+  return { ...prev, fields }
 }
 
 export default addFieldsToEntity

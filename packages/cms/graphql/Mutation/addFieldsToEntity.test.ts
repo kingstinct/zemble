@@ -4,9 +4,9 @@ import {
 import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import papr from '../../clients/papr'
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
+import { readEntities } from '../../utils/fs'
 import { AddFieldsToEntityMutation, CreateEntityMutation } from '../../utils/testOperations'
 
 beforeAll(setupBeforeAll)
@@ -55,13 +55,12 @@ test('should add a title field', async () => {
     },
   })
 
-  const entitites = await papr.Entities.find({})
+  const entities = await readEntities()
 
-  expect(entitites).toEqual([
+  expect(entities).toEqual([
     {
-      _id: expect.any(ObjectId),
-      createdAt: expect.any(Date),
-      updatedAt: expect.any(Date),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
       name: 'book',
       pluralizedName: 'books',
       isPublishable: false,

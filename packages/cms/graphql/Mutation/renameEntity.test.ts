@@ -1,14 +1,14 @@
 import {
   beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
-import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import papr from '../../clients/papr'
 import plugin from '../../plugin'
 import {
-  setupBeforeAllRepl, tearDownAfterEach, teardownAfterAll,
+  setupBeforeAll,
+  tearDownAfterEach, teardownAfterAll,
 } from '../../test-setup'
+import { readEntities } from '../../utils/fs'
 import { CreateEntityMutation } from '../../utils/testOperations'
 import { graphql } from '../client.generated'
 
@@ -21,7 +21,7 @@ const RenameEntityMutation = graphql(`
   }
 `)
 
-beforeAll(setupBeforeAllRepl)
+beforeAll(setupBeforeAll)
 
 afterAll(teardownAfterAll)
 
@@ -40,8 +40,7 @@ beforeEach(async () => {
   }
 })
 
-// todo [>1]: skipping because can't get replica set to work (clean up) on bun
-test.skip('should rename an entity', async () => {
+test('should rename an entity', async () => {
   const res = await app.gqlRequest(CreateEntityMutation, {
     name: 'book',
     pluralizedName: 'books',
@@ -50,7 +49,7 @@ test.skip('should rename an entity', async () => {
   expect(res.data?.createEntity.name).toEqual('book')
 
   const { data } = await app.gqlRequest(RenameEntityMutation, {
-    fromName: 'book',
+    fromName: 'books',
     toName: 'article',
     pluralizedName: 'articles',
   }, opts)
@@ -58,12 +57,11 @@ test.skip('should rename an entity', async () => {
   expect(data?.renameEntity.name).toEqual('article')
   expect(data?.renameEntity.pluralizedName).toEqual('articles')
 
-  const entitites = await papr.Entities.find({})
+  const entitites = await readEntities()
   expect(entitites).toHaveLength(1)
   expect(entitites[0]).toEqual({
-    _id: expect.any(ObjectId),
-    createdAt: expect.any(Date),
-    updatedAt: expect.any(Date),
+    createdAt: expect.any(String),
+    updatedAt: expect.any(String),
     name: 'article',
     pluralizedName: 'articles',
     isPublishable: false,

@@ -97,11 +97,20 @@ const AllFields = types.oneOf([
   required: true,
 })
 
-const EntitySchemaObject = {
+export const EntitySchemaObject = {
   name: types.string({ required: true }),
   pluralizedName: types.string({ required: true }),
   fields: types.objectGeneric(AllFields, undefined, { required: true }),
   isPublishable: types.boolean({ required: true }),
+}
+
+export type EntitySchemaType = {
+  name: string
+  pluralizedName: string
+  fields: Record<string, typeof AllFields>
+  isPublishable: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export const EntitySchema = schema(EntitySchemaObject, {
@@ -126,22 +135,21 @@ class PaprWrapper {
 
   client: MongoClient | undefined
 
-  #entities: Model<typeof EntitySchema[0], typeof EntitySchema[1]> | undefined
-
-  get Entities() {
-    if (!this.papr || !this.#entities) throw new Error('Papr not initialized')
-    return this.#entities
-  }
-
   async contentCollection(name: string) {
     await this.#initializing
     const model = this.papr?.models.get(name) as Model<typeof EntityEntrySchema[0], typeof EntityEntrySchema[1]>
+
     if (!model) throw new Error(`Content collection "${name}" not found or not initialized`)
     return model
   }
 
-  initializeCollection(collectionName: string) {
+  async initializeCollection(collectionName: string) {
     this.papr?.model(collectionName, EntityEntrySchema)
+    const collections = await this.db?.collections()
+    if (collections?.some((collection) => collection.collectionName === collectionName)) {
+      return
+    }
+    await this.db?.createCollection(collectionName)
   }
 
   #initializing = Promise.resolve()
@@ -165,9 +173,6 @@ class PaprWrapper {
     papr.initialize(db)
 
     await papr.updateSchemas()
-
-    await db.collection('entities').createIndex({ name: -1 }, { unique: true })
-    await db.collection('entities').createIndex({ pluralizedName: -1 }, { unique: true })
     // contentCollections.forEach(async (collection) => {
     //   await db.collection(collection).createIndex({ entityType: -1 })
     // })
@@ -183,7 +188,6 @@ class PaprWrapper {
     this.db = db
     this.client = client
     this.papr = papr
-    this.#entities = entities
   }
 
   async connect(mongoUrl = process.env.MONGO_URL) {

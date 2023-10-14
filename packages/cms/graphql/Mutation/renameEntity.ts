@@ -1,6 +1,7 @@
 import papr from '../../clients/papr'
+import { readEntities, writeEntities } from '../../utils/fs'
 
-import type { EntityType } from '../../clients/papr'
+import type { EntitySchemaType } from '../../clients/papr'
 import type { MutationResolvers } from '../schema.generated'
 
 const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, toName, pluralizedName: pluralIn }, { pubsub }) => {
@@ -8,27 +9,32 @@ const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, to
 
   const pluralizedName = pluralIn.trim()
 
-  const { client, db } = papr
-  const session = client!.startSession()
+  const { db } = papr
 
-  let updated: EntityType | undefined | null
+  let updated: EntitySchemaType | undefined | null
 
-  await session.withTransaction(async () => {
-    updated = await papr.Entities.findOneAndUpdate({ name: fromName }, {
-      $set: {
+  const entities = await readEntities()
+  const entitiesUpdated = entities.map((entity) => {
+    if (entity.pluralizedName === fromName) {
+      updated = {
+        ...entity,
         name,
         pluralizedName,
-      },
-    }, {
-      returnDocument: 'after',
-      session,
-    })
-    await db?.renameCollection(fromName, pluralizedName, { session })
+      }
+      return updated
+    }
+    return entity
   })
+
+  await writeEntities(entitiesUpdated)
+
+  await db?.renameCollection(fromName, pluralizedName)
 
   if (!updated) {
     throw new Error(`Entity "${fromName}" not found`)
   }
+
+  await papr.initializeCollection(pluralizedName)
 
   pubsub.publish('reload-schema', {})
 

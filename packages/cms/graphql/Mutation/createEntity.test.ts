@@ -1,12 +1,11 @@
 import {
   beforeEach, test, expect, describe, afterEach, afterAll, beforeAll,
 } from 'bun:test'
-import { ObjectId } from 'mongodb'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import papr from '../../clients/papr'
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
+import { readEntities } from '../../utils/fs'
 import { CreateEntityMutation } from '../../utils/testOperations'
 
 beforeAll(setupBeforeAll)
@@ -37,13 +36,12 @@ describe('Mutation.createEntity', () => {
 
     expect(res.data?.createEntity.name).toEqual('book')
 
-    const entitites = await papr.Entities.find({})
+    const entities = await readEntities()
 
-    expect(entitites).toHaveLength(1)
-    expect(entitites[0]).toEqual({
-      _id: expect.any(ObjectId),
-      createdAt: expect.any(Date),
-      updatedAt: expect.any(Date),
+    expect(entities).toHaveLength(1)
+    expect(entities[0]).toEqual({
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
       name: 'book',
       pluralizedName: 'books',
       isPublishable: false,
@@ -56,6 +54,8 @@ describe('Mutation.createEntity', () => {
         },
       },
     })
+
+    await new Promise((resolve) => { setTimeout(resolve, 100) })
 
     const { data } = await app.gqlRequestUntyped<{readonly getAllBooks: readonly unknown[]}, unknown>('query { getAllBooks { id } }', {}, opts)
 

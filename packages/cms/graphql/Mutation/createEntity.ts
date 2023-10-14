@@ -1,10 +1,10 @@
 import { GraphQLError } from 'graphql'
 
 import papr from '../../clients/papr'
+import { readEntities, writeEntities } from '../../utils/fs'
 
-import type { EntitySchema } from '../../clients/papr'
+import type { EntitySchemaType } from '../../clients/papr'
 import type { MutationResolvers } from '../schema.generated'
-import type { DocumentForInsert } from 'papr'
 
 const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameInput, pluralizedName: pluralIn, isPublishable }, { pubsub }) => {
   const name = nameInput.trim()
@@ -15,28 +15,31 @@ const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameIn
     throw new GraphQLError('If entity name ends with "s", pluralized name must be explicitely provided')
   }
 
-  const entity: DocumentForInsert<typeof EntitySchema[0], typeof EntitySchema[1]> = {
+  const entity: EntitySchemaType = {
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     name,
     pluralizedName,
     isPublishable: isPublishable ?? false,
-    fields:
-      {
-        id: {
-          __typename: 'IDField',
-          isRequired: true,
-          isRequiredInput: false,
-          name: 'id',
-        },
+    fields: {
+      id: {
+        __typename: 'IDField',
+        isRequired: true,
+        isRequiredInput: false,
+        name: 'id',
       },
+    },
   }
 
-  const prev = await papr.Entities.insertOne(entity)
+  const entities = await readEntities()
+
+  await writeEntities([...entities, entity])
 
   papr.initializeCollection(pluralizedName)
 
   pubsub.publish('reload-schema', {})
 
-  return { ...prev!, fields: Object.values(prev!.fields) }
+  return entity
 }
 
 export default createEntity

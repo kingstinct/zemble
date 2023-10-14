@@ -54,7 +54,7 @@ async function gqlRequestUntyped<TRes, TVars>(
     },
   }))
 
-  const resJson = res.json() as unknown as {
+  const resJson = await res.json() as unknown as {
     readonly data?: TRes,
     readonly errors: readonly GraphQLFormattedError[]
   }
@@ -86,7 +86,7 @@ async function gqlRequest<TQuery, TVars>(
 
   const res = await app.fetch(req)
 
-  const resJson = res.json() as unknown as {
+  const resJson = await res.json() as unknown as {
     readonly data?: ResultOf<TQuery>,
     readonly errors: readonly GraphQLFormattedError[]
   }

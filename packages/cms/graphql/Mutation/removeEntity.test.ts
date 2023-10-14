@@ -3,9 +3,9 @@ import {
 } from 'bun:test'
 import { signJwt } from 'readapt-plugin-auth/utils/signJwt'
 
-import papr from '../../clients/papr'
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
+import { readEntities } from '../../utils/fs'
 import { CreateEntityMutation } from '../../utils/testOperations'
 import { graphql } from '../client.generated'
 
@@ -40,7 +40,7 @@ beforeEach(async () => {
 })
 
 test('should remove entity', async () => {
-  const entititesBefore = await papr.Entities.find({})
+  const entititesBefore = await readEntities()
 
   expect(entititesBefore).toHaveLength(1)
 
@@ -50,7 +50,7 @@ test('should remove entity', async () => {
 
   expect(removeEntityRes.data?.removeEntity).toEqual(true)
 
-  const entititesAfter = await papr.Entities.find({})
+  const entititesAfter = await readEntities()
 
   expect(entititesAfter).toHaveLength(0)
 })

@@ -4,7 +4,7 @@
   "description": "",
   "main": "plugin.ts",
   "scripts": {
-    "test": "MONGOMS_DEBUG=1 bun test",
+    "test": "bun test",
     "dev": "MONGO_URL=mongodb://localhost:27017/test-db PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
@@ -25,6 +25,7 @@
     "graphql-scalars": "^1.22.2",
     "hono": "^3.7.2",
     "jose": "^4.14.4",
+    "memfs": "^4.6.0",
     "mongodb": "5",
     "papr": "^14.1.0",
     "readapt-plugin-auth": "workspace:*"
@@ -32,10 +33,5 @@
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",
     "mongodb-memory-server": "9"
-  },
-  "config": {
-    "mongodbMemoryServer": {
-      "debug": "true"
-    }
   }
 }

@@ -22,6 +22,7 @@ import papr from '../clients/papr'
 import {
   capitalize,
 } from '../utils'
+import { readEntities } from '../utils/fs'
 
 import type {
   GraphQLFieldConfig,
@@ -39,7 +40,7 @@ export default async () => {
     await papr.connect()
   }
 
-  const entities = await papr.Entities.find({})
+  const entities = await readEntities()
 
   resetTypes()
 
@@ -165,9 +166,16 @@ export default async () => {
     }),
   })
 
-  const schemaStr = printSchema(schema)
-  fs.writeFile(`${process.cwd()}/schema.generated.graphql`, schemaStr, () => {})
-  fs.writeFile(`${process.cwd()}/entities.generated.json`, JSON.stringify(entities, null, 2), () => {})
+  if (process.env.DEBUG) {
+    const schemaStr = printSchema(schema)
+    console.log(`\n\n------- ▼ UPDATED SCHEMA ▼ -------\n\n${schemaStr}\n\n------- ⏶ UPDATED SCHEMA ⏶ -------\n\n`)
+  }
+
+  if (process.env.NODE_ENV !== 'test') {
+    const schemaStr = printSchema(schema)
+    await fs.promises.mkdir(`${process.cwd()}/cms`, { recursive: true })
+    await fs.promises.writeFile(`${process.cwd()}/cms/schema.generated.graphql`, schemaStr)
+  }
 
   return schema
 }

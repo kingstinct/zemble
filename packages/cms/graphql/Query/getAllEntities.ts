@@ -1,9 +1,9 @@
-import papr from '../../clients/papr'
+import { readEntities } from '../../utils/fs'
 
 import type { QueryResolvers } from '../schema.generated'
 
 const entities: QueryResolvers['entities'] = async () => {
-  const result = await papr.Entities.find({})
+  const result = await readEntities()
 
   return result.map((entity) => ({
     ...entity,

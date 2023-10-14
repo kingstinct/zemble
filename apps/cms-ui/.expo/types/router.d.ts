@@ -7,11 +7,11 @@ declare module "expo-router" {
   export * from 'expo-router/build';
 
   // prettier-ignore
-  type StaticRoutes = `/` | `/(auth)/login` | `/login` | `/(tabs)/(content)/_layout` | `/_layout` | `/(tabs)/(content)/` | `/(tabs)/(content)` | `/(tabs)/_layout` | `/(tabs)/profile` | `/profile` | `/(tabs)/users` | `/users`;
+  type StaticRoutes = `/` | `/(auth)/login` | `/login` | `/(tabs)/(content)/_layout` | `/_layout` | `/(tabs)/(content)/` | `/(tabs)/(content)` | `/(tabs)/_layout` | `/(tabs)/profile` | `/profile` | `/(tabs)/users` | `/users` | `/.DS_Store`;
   // prettier-ignore
-  type DynamicRoutes<T extends string> = `/(tabs)/(content)/${SingleRoutePart<T>}/create` | `/${SingleRoutePart<T>}/create` | `/(tabs)/(content)/${SingleRoutePart<T>}/edit/${SingleRoutePart<T>}` | `/${SingleRoutePart<T>}/edit/${SingleRoutePart<T>}` | `/(tabs)/(content)/${SingleRoutePart<T>}/` | `/${SingleRoutePart<T>}/` | `/(tabs)/(content)/${SingleRoutePart<T>}` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/` | `/${SingleRoutePart<T>}/schema/` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/fields/create` | `/${SingleRoutePart<T>}/schema/fields/create` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/fields/${SingleRoutePart<T>}` | `/${SingleRoutePart<T>}/schema/fields/${SingleRoutePart<T>}`;
+  type DynamicRoutes<T extends string> = `/(tabs)/(content)/${SingleRoutePart<T>}/create` | `/${SingleRoutePart<T>}/create` | `/(tabs)/(content)/${SingleRoutePart<T>}/edit/${SingleRoutePart<T>}` | `/${SingleRoutePart<T>}/edit/${SingleRoutePart<T>}` | `/(tabs)/(content)/${SingleRoutePart<T>}/` | `/${SingleRoutePart<T>}/` | `/(tabs)/(content)/${SingleRoutePart<T>}` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/fields/${SingleRoutePart<T>}` | `/${SingleRoutePart<T>}/schema/fields/${SingleRoutePart<T>}` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/fields/create` | `/${SingleRoutePart<T>}/schema/fields/create` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/` | `/${SingleRoutePart<T>}/schema/` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema`;
   // prettier-ignore
-  type DynamicRouteTemplate = `/(tabs)/(content)/[entity]/create` | `/(tabs)/(content)/[entity]/edit/[id]` | `/(tabs)/(content)/[entity]/` | `/(tabs)/(content)/[entity]/schema/` | `/(tabs)/(content)/[entity]/schema/fields/create` | `/(tabs)/(content)/[entity]/schema/fields/[fieldName]`;
+  type DynamicRouteTemplate = `/(tabs)/(content)/[entity]/create` | `/(tabs)/(content)/[entity]/edit/[id]` | `/(tabs)/(content)/[entity]/` | `/(tabs)/(content)/[entity]/schema/fields/[fieldName]` | `/(tabs)/(content)/[entity]/schema/fields/create` | `/(tabs)/(content)/[entity]/schema/`;
 
   type RelativePathString = `./${string}` | `../${string}` | '..';
   type AbsoluteRoute = DynamicRouteTemplate | StaticRoutes;

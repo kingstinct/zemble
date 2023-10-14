@@ -95,3 +95,4 @@ export const UserDbType = schema(
 )
 
 export const Users = papr.model('users', UserDbType)
+createdAt

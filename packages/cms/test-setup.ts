@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 import papr from './clients/papr'
+import { mockAndReset } from './utils/fs'
 
 import type { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server'
 
@@ -14,15 +15,8 @@ export const setupBeforeAll = async () => {
   const MONGO_URL = mongodb!.getUri()
 
   await papr.connect(MONGO_URL)
-}
 
-export const setupBeforeAllRepl = async () => {
-  const memoryServer = await import('mongodb-memory-server')
-  mongodb = await memoryServer.MongoMemoryReplSet.create()
-
-  const MONGO_URL = mongodb!.getUri()
-
-  await papr.connect(MONGO_URL)
+  await mockAndReset()
 }
 
 export const teardownAfterAll = async () => {
@@ -42,4 +36,5 @@ export const tearDownAfterEach = async () => {
       await c.deleteMany({})
     }) ?? [])
   }
+  await mockAndReset()
 }

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { EntitySchemaType } from '../papr';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7,6 +8,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -294,7 +296,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  Field: ( ArrayField ) | ( BooleanField ) | ( EntityRelationField ) | ( IdField ) | ( NumberField ) | ( StringField );
+  Field: ( ArrayField ) | ( BooleanField ) | ( Omit<EntityRelationField, 'entity'> & { entity: RefType['Entity'] } ) | ( IdField ) | ( NumberField ) | ( StringField );
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -307,10 +309,10 @@ export type ResolversTypes = ResolversObject<{
   BooleanFieldInput: BooleanFieldInput;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
-  Entity: ResolverTypeWrapper<Entity>;
+  Entity: ResolverTypeWrapper<EntitySchemaType>;
   EntityInput: EntityInput;
   EntityPermission: ResolverTypeWrapper<EntityPermission>;
-  EntityRelationField: ResolverTypeWrapper<EntityRelationField>;
+  EntityRelationField: ResolverTypeWrapper<Omit<EntityRelationField, 'entity'> & { entity: ResolversTypes['Entity'] }>;
   EntityRelationFieldInput: EntityRelationFieldInput;
   Field: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Field']>;
   FieldInput: FieldInput;
@@ -338,10 +340,10 @@ export type ResolversParentTypes = ResolversObject<{
   BooleanFieldInput: BooleanFieldInput;
   Date: Scalars['Date']['output'];
   DateTime: Scalars['DateTime']['output'];
-  Entity: Entity;
+  Entity: EntitySchemaType;
   EntityInput: EntityInput;
   EntityPermission: EntityPermission;
-  EntityRelationField: EntityRelationField;
+  EntityRelationField: Omit<EntityRelationField, 'entity'> & { entity: ResolversParentTypes['Entity'] };
   EntityRelationFieldInput: EntityRelationFieldInput;
   Field: ResolversInterfaceTypes<ResolversParentTypes>['Field'];
   FieldInput: FieldInput;
