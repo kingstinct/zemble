@@ -1,6 +1,6 @@
 import type { QueryResolvers } from '../schema.generated'
 
-export const has: NonNullable<QueryResolvers['has']> = async (
+export const has: NonNullable<QueryResolvers['has']> = (
   _parent,
   { prefix, key },
   { kv },
