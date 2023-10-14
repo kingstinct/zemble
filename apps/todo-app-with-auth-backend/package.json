@@ -2,6 +2,7 @@
   "name": "todo-app-with-auth-backend",
   "version": "0.0.1",
   "description": "",
+  "private": true,
   "main": "app.ts",
   "scripts": {
     "dev": "bun app.ts",
