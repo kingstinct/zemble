@@ -1,8 +1,9 @@
 {
   "name": "zemble-plugin-logger-graphql",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "plugin.ts",
+  "private": true,
   "scripts": {
     "dev": "PLUGIN_DEV=true bun --hot plugin.ts",
     "lint": "eslint .",

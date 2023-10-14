@@ -1,8 +1,9 @@
 {
   "name": "zemble-plugin-cms-users",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "plugin.ts",
+  "private": true,
   "scripts": {
     "test": "MONGOMS_DEBUG=1 bun test",
     "dev": "MONGO_URL=mongodb://localhost:27017/test-db REDIS_URL=redis://localhost:6379 PLUGIN_DEV=true bun --hot plugin.ts",
