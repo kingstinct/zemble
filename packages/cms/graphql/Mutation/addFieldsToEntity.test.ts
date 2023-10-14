@@ -59,26 +59,24 @@ test('should add a title field', async () => {
 
   expect(entities).toEqual([
     {
-      createdAt: expect.any(String),
-      updatedAt: expect.any(String),
       name: 'book',
       pluralizedName: 'books',
       isPublishable: false,
-      fields: {
-        id: {
+      fields: [
+        {
           __typename: 'IDField',
           isRequired: true,
           isRequiredInput: false,
           name: 'id',
         },
-        title: {
+        {
           __typename: 'StringField',
           isRequired: true,
           isRequiredInput: false,
           isSearchable: false,
           name: 'title',
         },
-      },
+      ],
     },
   ])
 })

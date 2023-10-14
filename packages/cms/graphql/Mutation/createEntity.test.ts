@@ -40,19 +40,17 @@ describe('Mutation.createEntity', () => {
 
     expect(entities).toHaveLength(1)
     expect(entities[0]).toEqual({
-      createdAt: expect.any(String),
-      updatedAt: expect.any(String),
       name: 'book',
       pluralizedName: 'books',
       isPublishable: false,
-      fields: {
-        id: {
+      fields: [
+        {
           __typename: 'IDField',
           isRequired: true,
           isRequiredInput: false,
           name: 'id',
         },
-      },
+      ],
     })
 
     await new Promise((resolve) => { setTimeout(resolve, 100) })

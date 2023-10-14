@@ -142,7 +142,6 @@ test('should create a book', async () => {
     {
       _id: expect.any(ObjectId),
       createdAt: expect.any(Date),
-      entityType: 'book',
       title: 'Lord of the rings',
       updatedAt: expect.any(Date),
     },
@@ -248,7 +247,6 @@ test('should create a book with authors', async () => {
       {
         _id: expect.any(ObjectId),
         createdAt: expect.any(Date),
-        entityType: 'book',
         title: 'Silmarillion',
         contributors: [
           {
@@ -274,7 +272,6 @@ test('should create a book with authors', async () => {
       {
         _id: expect.any(ObjectId),
         createdAt: expect.any(Date),
-        entityType: 'author',
         firstName: 'J.R.R.',
         lastName: 'Tolkien',
         updatedAt: expect.any(Date),
@@ -282,7 +279,6 @@ test('should create a book with authors', async () => {
       {
         _id: expect.any(ObjectId),
         createdAt: expect.any(Date),
-        entityType: 'author',
         firstName: 'Christopher',
         lastName: 'Tolkien',
         updatedAt: expect.any(Date),

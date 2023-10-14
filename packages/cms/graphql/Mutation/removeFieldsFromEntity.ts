@@ -2,7 +2,7 @@ import { GraphQLError } from 'graphql'
 
 import { readEntities, writeEntities } from '../../utils/fs'
 
-import type { EntitySchemaType } from '../../clients/papr'
+import type { EntitySchemaType } from '../../types'
 import type {
   MutationResolvers,
 } from '../schema.generated'
@@ -17,14 +17,7 @@ const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = asyn
 
   const updatedEntity: EntitySchemaType = {
     ...entity,
-    updatedAt: new Date().toISOString(),
-    fields: Object.keys(entity.fields).reduce((acc, key) => {
-      if (!fields.includes(key)) {
-        const val = entity.fields[key]
-        return { ...acc, [key]: val }
-      }
-      return acc
-    }, {}),
+    fields: entity.fields.filter((field) => !fields.includes(field.name)),
   }
 
   await writeEntities(entities.map((entity) => (entity.name === entityName ? updatedEntity : entity)))

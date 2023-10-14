@@ -1,0 +1,26 @@
+{
+  "$schema": "../entities-json-schema.json",
+  "entities": [
+    {
+      "name": "book",
+      "pluralizedName": "books",
+      "isPublishable": false,
+      "fields": {
+        "id": {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        "title": {
+          "name": "title",
+          "isRequired": false,
+          "isRequiredInput": false,
+          "defaultValue": null,
+          "isSearchable": true,
+          "__typename": "StringField"
+        }
+      }
+    }
+  ]
+}

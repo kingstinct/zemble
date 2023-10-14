@@ -9,7 +9,8 @@
     "typecheck": "bunx turbo run typecheck",
     "graphql-codegen": "bunx turbo run graphql-codegen",
     "prepare": "husky install",
-    "pre-push": "bunx turbo run lint-quiet test typecheck"
+    "pre-push": "bunx turbo run lint-quiet test typecheck",
+    "generate-cms-json-schema": "typescript-json-schema ./packages/cms/tsconfig.json CmsConfigFile --include ./packages/cms/types.ts --out ./packages/cms/entities-json-schema.json --required --strictNullChecks --rejectDateType"
   },
   "keywords": [],
   "author": "",
@@ -43,7 +44,8 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "patch-package": "^8.0.0",
-    "turbo": "^1.10.14"
+    "turbo": "^1.10.14",
+    "typescript-json-schema": "^0.62.0"
   },
   "workspaces": [
     "packages/*",

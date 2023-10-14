@@ -14,25 +14,15 @@ import {
 } from '../utils'
 
 import type {
-  ArrayFieldType,
-  EntityRelationType,
-  EntityType,
-} from '../clients/papr'
-import type {
-  BooleanField,
-  IdField,
   EntityRelationField,
-  NumberField,
   ArrayField,
-  StringField,
 } from '../graphql/schema.generated'
+import type { AnyField, EntitySchemaType } from '../types'
 import type {
   GraphQLOutputType,
   GraphQLScalarType,
   GraphQLInputObjectTypeConfig,
 } from 'graphql'
-
-type IField = NumberField | StringField | BooleanField | IdField | EntityRelationType | ArrayFieldType
 
 let types: Record<string, GraphQLUnionType | GraphQLObjectType> = {}
 
@@ -53,7 +43,7 @@ const mapRelationField = (entityName: string, data: string) => ({ __typename: `$
 
 export const fieldToOutputType = (
   typePrefix: string,
-  field: IField,
+  field: AnyField,
   relationTypes: Record<string, GraphQLObjectType>,
 ): GraphQLScalarType | GraphQLList<GraphQLOutputType> | GraphQLObjectType => {
   switch (field.__typename) {
@@ -95,7 +85,7 @@ export const fieldToOutputType = (
   }
 }
 
-export const fieldToInputType = (typePrefix: string, field: IField): GraphQLScalarType | GraphQLList<GraphQLInputObjectType> | GraphQLInputObjectType => {
+export const fieldToInputType = (typePrefix: string, field: AnyField): GraphQLScalarType | GraphQLList<GraphQLInputObjectType> | GraphQLInputObjectType => {
   switch (field.__typename) {
     case 'NumberField':
       return GraphQLFloat
@@ -144,8 +134,8 @@ export const fieldToInputType = (typePrefix: string, field: IField): GraphQLScal
 }
 
 // modifies input data so it can be saved to the db
-export const createTraverser = (entity: EntityType) => {
-  const fields = Object.values(entity.fields)
+export const createTraverser = (entity: EntitySchemaType) => {
+  const { fields } = entity
 
   const entityRelationFieldNamesWithEntity = {
     ...fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
@@ -155,7 +145,7 @@ export const createTraverser = (entity: EntityType) => {
 
     // get those deep entity relation fields, could probaby be cleaned up
     ...fields.filter((f) => f.__typename === 'ArrayField').reduce((prev, f) => ({
-      ...(f as unknown as ArrayField).availableFields.filter((f) => (f as IField).__typename === 'EntityRelationField').reduce((prev, f) => ({
+      ...(f as unknown as ArrayField).availableFields.filter((f) => (f as AnyField).__typename === 'EntityRelationField').reduce((prev, f) => ({
         ...prev,
         [f.name.replaceAll(' ', '_')]: (f as EntityRelationField).entityName,
       }), prev),

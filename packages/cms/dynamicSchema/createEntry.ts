@@ -4,10 +4,10 @@ import { ObjectId } from 'mongodb'
 import { createTraverser, fieldToInputType } from './utils'
 import papr from '../clients/papr'
 
-import type { EntityType } from '../clients/papr'
+import type { EntitySchemaType } from '../types'
 import type { GraphQLFieldConfig, GraphQLOutputType } from 'graphql'
 
-const createEntryResolver = (entity: EntityType, type: GraphQLOutputType) => {
+const createEntryResolver = (entity: EntitySchemaType, type: GraphQLOutputType) => {
   const createEntityEntry: GraphQLFieldConfig<unknown, unknown, Record<string, unknown> & { readonly id: string }> = {
     type,
     args: Object.values(entity.fields).reduce((prev, field) => {
@@ -25,14 +25,12 @@ const createEntryResolver = (entity: EntityType, type: GraphQLOutputType) => {
 
       const _id = id ? new ObjectId(id) : new ObjectId()
 
-      const res = await (await papr.contentCollection(entity.pluralizedName)).findOneAndUpdate({
+      const collection = await papr.contentCollection(entity.pluralizedName)
+      const res = await collection.findOneAndUpdate({
         _id,
-        entityType: entity.name,
       }, {
-        $set: {
-          entityType: entity.name,
-          ...mappedData,
-        },
+        // @ts-expect-error asdf
+        $set: mappedData,
         $setOnInsert: { _id },
       }, {
         upsert: true,

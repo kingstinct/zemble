@@ -75,19 +75,17 @@ test('should remove a title field', async () => {
 
   expect(entitites).toEqual([
     {
-      createdAt: expect.any(String),
-      updatedAt: expect.any(String),
       name: 'book',
       pluralizedName: 'books',
       isPublishable: false,
-      fields: {
-        id: {
+      fields: [
+        {
           __typename: 'IDField',
           isRequired: true,
           isRequiredInput: false,
           name: 'id',
         },
-      },
+      ],
     },
   ])
 })

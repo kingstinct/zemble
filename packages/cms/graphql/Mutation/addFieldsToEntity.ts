@@ -3,14 +3,14 @@ import { GraphQLError } from 'graphql'
 import papr from '../../clients/papr'
 import { readEntities, writeEntities } from '../../utils/fs'
 
-import type { EntitySchema } from '../../clients/papr'
+import type { EntitySchemaType } from '../../types'
 import type {
   FieldInput,
   MutationResolvers,
 } from '../schema.generated'
 import type { IndexDescription } from 'mongodb'
 
-type Field = typeof EntitySchema[0]['fields'][0]
+type Field = EntitySchemaType['fields'][0]
 
 const mapInputToField = (input: FieldInput): Field => {
   const fieldConfig = ({
@@ -37,7 +37,7 @@ const mapInputToField = (input: FieldInput): Field => {
 }
 
 const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { entityName, fields: fieldsInput }, { pubsub }) => {
-  const fields: readonly Field[] = fieldsInput.map(mapInputToField)
+  const fields = fieldsInput.map(mapInputToField)
 
   const entities = await readEntities()
   const entity = entities.find((entity) => entity.name === entityName)
@@ -97,17 +97,17 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { en
 
   await validateFields(fields)
 
-  const prev = fields.reduce((acc, field) => ({
-    ...acc,
-    fields: {
-      ...acc.fields,
-      [field.name]: field,
-    },
-  }), entity)
+  const prev = {
+    ...entity,
+    fields: [
+      ...entity.fields.filter((field) => !fields.some((f) => f.name === field.name)),
+      ...fields,
+    ],
+  }
 
   await writeEntities(entities.map((entity) => (entity.name === entityName ? prev : entity)))
 
-  const searchableFields = Object.values(prev.fields).filter((field) => 'isSearchable' in field && field.isSearchable)
+  const searchableFields = prev.fields.filter((field) => 'isSearchable' in field && field.isSearchable)
 
   const { db } = papr
   const collection = db!.collection(prev.pluralizedName)

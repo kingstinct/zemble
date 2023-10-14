@@ -11,7 +11,7 @@ const config: CodegenConfig = {
       config: {
         ...defaultConfig.generates[`./graphql/schema.generated.ts`].config,
         mappers: {
-          Entity: '../papr#EntitySchemaType',
+          Entity: '../types#EntitySchemaType',
         },
       },
     },

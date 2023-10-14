@@ -1,3 +1,25 @@
-type Query
+type Query {
+  getAllBooks: [Book!]!
+  searchBooks(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Book!]!
+  filterBooks(id: BookIdFilter, title: BookTitleFilter): [Book!]!
+  getBookById(id: ID!): Book!
+  getBooksById(ids: [ID!]!): [Book!]!
+}
 
-type Mutation
+type Book {
+  id: ID
+  title: String
+}
+
+input BookIdFilter {
+  eq: ID
+}
+
+input BookTitleFilter {
+  eq: String
+}
+
+type Mutation {
+  createBook(id: ID, title: String): Book
+  deleteBook(id: ID!): Boolean!
+}

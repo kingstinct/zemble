@@ -4,10 +4,10 @@ import {
 
 import papr, { } from '../clients/papr'
 
-import type { EntityType } from '../clients/papr'
+import type { EntitySchemaType } from '../types'
 import type { GraphQLFieldConfig, GraphQLObjectType } from 'graphql'
 
-const createSearch = (entity: EntityType, obj: GraphQLObjectType) => {
+const createSearch = (entity: EntitySchemaType, obj: GraphQLObjectType) => {
   const search: GraphQLFieldConfig<unknown, unknown, {
     readonly query: string,
     readonly caseSensitive?: boolean,

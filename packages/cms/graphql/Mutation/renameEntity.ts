@@ -1,7 +1,7 @@
 import papr from '../../clients/papr'
 import { readEntities, writeEntities } from '../../utils/fs'
 
-import type { EntitySchemaType } from '../../clients/papr'
+import type { EntitySchemaType } from '../../types'
 import type { MutationResolvers } from '../schema.generated'
 
 const renameEntity: MutationResolvers['renameEntity'] = async (_, { fromName, toName, pluralizedName: pluralIn }, { pubsub }) => {

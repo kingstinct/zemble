@@ -3,7 +3,7 @@ import { GraphQLError } from 'graphql'
 import papr from '../../clients/papr'
 import { readEntities, writeEntities } from '../../utils/fs'
 
-import type { EntitySchemaType } from '../../clients/papr'
+import type { EntitySchemaType } from '../../types'
 import type { MutationResolvers } from '../schema.generated'
 
 const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameInput, pluralizedName: pluralIn, isPublishable }, { pubsub }) => {
@@ -16,26 +16,24 @@ const createEntity: MutationResolvers['createEntity'] = async (_, { name: nameIn
   }
 
   const entity: EntitySchemaType = {
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
     name,
     pluralizedName,
     isPublishable: isPublishable ?? false,
-    fields: {
-      id: {
+    fields: [
+      {
         __typename: 'IDField',
         isRequired: true,
         isRequiredInput: false,
         name: 'id',
       },
-    },
+    ],
   }
 
   const entities = await readEntities()
 
   await writeEntities([...entities, entity])
 
-  papr.initializeCollection(pluralizedName)
+  await papr.initializeCollection(pluralizedName)
 
   pubsub.publish('reload-schema', {})
 

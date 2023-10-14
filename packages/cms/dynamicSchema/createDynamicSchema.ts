@@ -47,13 +47,13 @@ export default async () => {
   const resolveRelationTypes = (initialTypes: Record<string, GraphQLObjectType>) => entities.reduce((acc, entity) => {
     const getById = new Dataloader(async (ids: readonly string[]) => {
       const contentCollection = await papr.contentCollection(entity.pluralizedName)
-      const entries = await contentCollection.find({ entityType: entity.name, _id: { $in: ids.map((id) => new ObjectId(id)) } })
+      const entries = await contentCollection.find({ _id: { $in: ids.map((id) => new ObjectId(id)) } })
 
       return ids.map((id) => entries.find((entry) => entry._id.toHexString() === id))
     })
 
     const objRelation = new GraphQLObjectType({
-      fields: () => Object.values(entity.fields).reduce((prev, field) => {
+      fields: () => entity.fields.reduce((prev, field) => {
         const baseType = fieldToOutputType(entity.name, field, acc)
 
         return ({

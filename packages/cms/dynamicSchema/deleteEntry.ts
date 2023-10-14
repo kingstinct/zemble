@@ -5,10 +5,10 @@ import { ObjectId } from 'mongodb'
 
 import papr from '../clients/papr'
 
-import type { EntityType } from '../clients/papr'
+import type { EntitySchemaType } from '../types'
 import type { GraphQLFieldConfig } from 'graphql'
 
-const createDeleteEntryResolver = (entity: EntityType) => {
+const createDeleteEntryResolver = (entity: EntitySchemaType) => {
   const deleteEntityEntry: GraphQLFieldConfig<unknown, unknown, { readonly id: string }> = {
     type: new GraphQLNonNull(GraphQLBoolean),
     args: {
@@ -17,8 +17,8 @@ const createDeleteEntryResolver = (entity: EntityType) => {
       },
     },
     resolve: async (_, { id }) => {
-      await (await papr.contentCollection(entity.pluralizedName)).findOneAndDelete({
-        entityType: entity.name,
+      const collection = await papr.contentCollection(entity.pluralizedName)
+      await collection.findOneAndDelete({
         _id: new ObjectId(id),
       })
       return true

@@ -60,18 +60,16 @@ test('should rename an entity', async () => {
   const entitites = await readEntities()
   expect(entitites).toHaveLength(1)
   expect(entitites[0]).toEqual({
-    createdAt: expect.any(String),
-    updatedAt: expect.any(String),
     name: 'article',
     pluralizedName: 'articles',
     isPublishable: false,
-    fields: {
-      id: {
+    fields: [
+      {
         __typename: 'IDField',
         isRequired: true,
         isRequiredInput: false,
         name: 'id',
       },
-    },
+    ],
   })
 })

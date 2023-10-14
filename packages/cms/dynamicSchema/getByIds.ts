@@ -7,12 +7,12 @@ import papr, {
 
 } from '../clients/papr'
 
-import type { EntityType } from '../clients/papr'
+import type { EntitySchemaType } from '../types'
 import type {
   GraphQLFieldConfig, GraphQLObjectType,
 } from 'graphql'
 
-const createGetByIdsResolver = (entity: EntityType, outputType: GraphQLObjectType) => {
+const createGetByIdsResolver = (entity: EntitySchemaType, outputType: GraphQLObjectType) => {
   const getByIds: GraphQLFieldConfig<unknown, unknown, {readonly ids: readonly string[]}> = { // "book"
     type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(outputType))),
     args: {
@@ -21,7 +21,6 @@ const createGetByIdsResolver = (entity: EntityType, outputType: GraphQLObjectTyp
       },
     },
     resolve: async (_, { ids }) => (await papr.contentCollection(entity.pluralizedName)).find({
-      entityType: entity.name,
       _id: { $in: ids.map((id) => new ObjectId(id)) },
     }),
   } as const

@@ -6,11 +6,11 @@ import { fieldToInputType } from './utils'
 import papr from '../clients/papr'
 import { capitalize } from '../utils'
 
-import type { EntityType } from '../clients/papr'
+import type { EntitySchemaType } from '../types'
 import type { GraphQLFieldConfig, GraphQLObjectType } from 'graphql'
 
-const createFilterResolver = (entity: EntityType, obj: GraphQLObjectType) => {
-  const args = Object.values(entity.fields).reduce((prev, field) => {
+const createFilterResolver = (entity: EntitySchemaType, obj: GraphQLObjectType) => {
+  const args = entity.fields.reduce((prev, field) => {
     const baseType = fieldToInputType(entity.name, field)
 
     // todo [>1]: add support for array fields (need to map EntityRelationField to GraphQLID)
@@ -51,10 +51,7 @@ const createFilterResolver = (entity: EntityType, obj: GraphQLObjectType) => {
         }), {}),
       }), {})
 
-      return (await papr.contentCollection(entity.pluralizedName)).find({
-        entityType: entity.name,
-        ...filter,
-      })
+      return (await papr.contentCollection(entity.pluralizedName)).find(filter)
     },
   }
   return filter

@@ -7,13 +7,13 @@ import papr, {
 
 } from '../clients/papr'
 
-import type { EntityType } from '../clients/papr'
+import type { EntitySchemaType } from '../types'
 import type {
   GraphQLFieldConfig,
   GraphQLOutputType,
 } from 'graphql'
 
-const createGetByIdResolver = (entity: EntityType, outputType: GraphQLOutputType) => {
+const createGetByIdResolver = (entity: EntitySchemaType, outputType: GraphQLOutputType) => {
   const getById: GraphQLFieldConfig<unknown, unknown, {readonly id: string}> = { // "book"
     type: new GraphQLNonNull(outputType),
     args: {
@@ -21,7 +21,7 @@ const createGetByIdResolver = (entity: EntityType, outputType: GraphQLOutputType
         type: new GraphQLNonNull(GraphQLID),
       },
     },
-    resolve: async (_, { id }) => (await papr.contentCollection(entity.pluralizedName)).findOne({ entityType: entity.name, _id: new ObjectId(id) }),
+    resolve: async (_, { id }) => (await papr.contentCollection(entity.pluralizedName)).findOne({ _id: new ObjectId(id) }),
   } as const
 
   return getById
