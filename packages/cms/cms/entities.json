@@ -5,6 +5,7 @@
       "nameSingular": "book",
       "namePlural": "books",
       "isPublishable": false,
+      "displayNameField": "title",
       "fields": [
         {
           "__typename": "IDField",

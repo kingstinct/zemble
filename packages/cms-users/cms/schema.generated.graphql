@@ -17,6 +17,7 @@ type Query {
 }
 
 type Books {
+  displayName: String
   id: ID
   title: String!
   author: AuthorsRelation
@@ -24,6 +25,7 @@ type Books {
 }
 
 type AuthorsRelation {
+  displayName: String
   id: ID!
   firstName: String!
   lastName: String!
@@ -48,6 +50,7 @@ input BookAuthorFilter {
 }
 
 type Authors {
+  displayName: String
   id: ID
   firstName: String!
   lastName: String!
@@ -66,6 +69,7 @@ input AuthorLastNameFilter {
 }
 
 type Publishers {
+  displayName: String
   id: ID
 }
 

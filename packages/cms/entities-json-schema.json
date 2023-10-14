@@ -151,7 +151,7 @@
                             "const": "EntityRelationField",
                             "type": "string"
                         },
-                        "entityName": {
+                        "entityNamePlural": {
                             "type": "string"
                         },
                         "isRequired": {
@@ -166,7 +166,7 @@
                     },
                     "required": [
                         "__typename",
-                        "entityName",
+                        "entityNamePlural",
                         "isRequired",
                         "isRequiredInput",
                         "name"
@@ -344,7 +344,7 @@
                             "const": "EntityRelationField",
                             "type": "string"
                         },
-                        "entityName": {
+                        "entityNamePlural": {
                             "type": "string"
                         },
                         "isRequired": {
@@ -359,7 +359,7 @@
                     },
                     "required": [
                         "__typename",
-                        "entityName",
+                        "entityNamePlural",
                         "isRequired",
                         "isRequiredInput",
                         "name"
@@ -373,6 +373,9 @@
         "entities": {
             "items": {
                 "properties": {
+                    "displayNameField": {
+                        "type": "string"
+                    },
                     "fields": {
                         "items": {
                             "$ref": "#/definitions/AnyField"

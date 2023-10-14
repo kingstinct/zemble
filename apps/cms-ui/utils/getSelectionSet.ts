@@ -23,11 +23,11 @@ export const getSelectionSet = (
           arrayFieldName: field.name,
           entityName: entity.nameSingular,
           subFieldName: f.name,
-        })} { ${f.__typename === 'EntityRelationField' ? `${fieldName} { __typename id }` : fieldName} }`
+        })} { ${f.__typename === 'EntityRelationField' ? `${fieldName} { __typename id displayName }` : fieldName} }`
       }).join(' ')} }`
     }
     if ('entityNamePlural' in field) {
-      return `${field.name} { __typename id }`
+      return `${field.name} { __typename id displayName }`
     }
     return field.name
   })

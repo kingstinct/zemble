@@ -42,9 +42,13 @@ Todos:
 - Considering moving entities to JSON entirely. Means we can check it into source control as well as don't have a database dependency there.
 
 
+- Cover edge cases for required fields (maybe remove some flexibility). 
 
+- PoC of third-party field
 
+- displayName for entity entries
 
+- Publish to npm
 
 
 

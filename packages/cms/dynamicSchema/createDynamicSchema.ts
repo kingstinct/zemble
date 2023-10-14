@@ -6,6 +6,7 @@ import {
   GraphQLSchema,
   GraphQLNonNull,
   printSchema,
+  GraphQLString,
 } from 'graphql'
 import { ObjectId } from 'mongodb'
 import fs from 'node:fs'
@@ -37,9 +38,14 @@ type ReducerType = {
   readonly mutations: Record<string, GraphQLFieldConfig<any, any, any>>,
 }
 
-const fieldResolver = (parent: EntityEntryType, field: AnyField) => {
+const fieldResolver = (parent: EntityEntryType, field: AnyField, displayNameField?: string) => {
   if (field.name === 'id') {
     return parent._id.toHexString()
+  }
+  if (field.name === 'displayName') {
+    return displayNameField && parent[displayNameField]
+      ? parent[displayNameField].toString()
+      : parent._id.toHexString()
   }
   if (parent[field.name] !== undefined && parent[field.name] !== null) {
     return parent[field.name]
@@ -82,11 +88,22 @@ export default async () => {
             resolve: async (externalId: string) => {
               const resolved = await getById.load(externalId)
 
-              return fieldResolver(resolved!, field)
+              return fieldResolver(resolved!, field, entity.displayNameField)
             },
           },
         })
-      }, {}),
+      }, {
+        displayName: {
+          type: GraphQLString,
+          resolve: async (externalId: string) => {
+            const resolved = await getById.load(externalId)
+
+            return entity.displayNameField && resolved?.[entity.displayNameField]
+              ? resolved[entity.displayNameField].toString()
+              : resolved?._id.toHexString()
+          },
+        },
+      }),
       name: `${capitalize(entity.namePlural)}Relation`,
     })
 
@@ -113,7 +130,14 @@ export default async () => {
             resolve: (parent: EntityEntryType) => fieldResolver(parent, field),
           },
         })
-      }, {}),
+      }, {
+        displayName: {
+          type: GraphQLString,
+          resolve: (parent: EntityEntryType) => (entity.displayNameField && parent[entity.displayNameField]
+            ? parent[entity.displayNameField].toString()
+            : parent._id.toHexString()),
+        },
+      }),
       name: capitalize(entity.namePlural),
     })
 

@@ -69,6 +69,7 @@ export type EntitySchemaType = {
   readonly namePlural: string
   readonly fields: readonly AnyField[]
   readonly isPublishable: boolean
+  readonly displayNameField?: string
 }
 
 export type CmsConfigFile = { readonly entities: readonly EntitySchemaType[]}

@@ -4,6 +4,7 @@
       "nameSingular": "book",
       "namePlural": "books",
       "isPublishable": false,
+      "displayNameField": "title",
       "fields": [
         {
           "__typename": "IDField",
@@ -46,6 +47,7 @@
     {
       "nameSingular": "author",
       "namePlural": "authors",
+      "displayNameField": "firstName",
       "isPublishable": false,
       "fields": [
         {

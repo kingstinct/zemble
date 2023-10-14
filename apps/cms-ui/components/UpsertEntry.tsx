@@ -1,33 +1,30 @@
 /* eslint-disable functional/immutable-data */
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { Styles } from '@kingstinct/react'
 import {
-  useCallback, useEffect, useMemo, useRef, useState,
+  useCallback, useEffect, useMemo, useState,
 } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
   View, ScrollView,
 } from 'react-native'
 import {
-  ActivityIndicator, Avatar, Button, Card, Portal, Searchbar, Text, useTheme,
+  ActivityIndicator, Avatar, Button, Card, Portal, Text,
 } from 'react-native-paper'
 import { useMutation, useQuery } from 'urql'
 
-import { SearchEntries } from './ListOfEntries'
+import SelectEntityRelation from './SelectEntityRelationControl'
 import SwitchControl from './SwitchControl'
 import TextControl from './TextControl'
-import { GetEntityByNamePluralQuery } from '../app/(tabs)/(content)/[entity]'
 import { graphql } from '../gql'
 import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
 
 import type {
   EntityRelationField,
-  Field,
 } from '../gql/graphql'
 import type { Entity } from '../utils/getSelectionSet'
 import type {
-  Control, FieldValues, Path, UseFormProps,
+  UseFormProps,
 } from 'react-hook-form'
 
 const fieldToTypeMap: Record<string, string | ((entityName: string, fieldName: string) => string)> = {
@@ -85,7 +82,14 @@ type ArrayField = {
   readonly name: string,
   readonly isRequired: boolean,
   readonly isRequiredInput: boolean,
-  readonly availableFields: ReadonlyArray<{ readonly __typename: 'ArrayField', readonly name: string } | { readonly __typename: 'BooleanField', readonly name: string } | { readonly __typename: 'EntityRelationField', readonly name: string } | { readonly __typename: 'IDField', readonly name: string } | { readonly __typename: 'NumberField', readonly name: string } | { readonly __typename: 'StringField', readonly name: string }>
+  readonly availableFields: ReadonlyArray<
+  { readonly __typename: 'ArrayField', readonly name: string } |
+  { readonly __typename: 'BooleanField', readonly name: string } |
+  { readonly __typename: 'EntityRelationField', readonly name: string } |
+  { readonly __typename: 'IDField', readonly name: string } |
+  { readonly __typename: 'NumberField', readonly name: string } |
+  { readonly __typename: 'StringField', readonly name: string }
+  >
 }
 
 type ArrayFieldComponentProps = {
@@ -94,83 +98,10 @@ type ArrayFieldComponentProps = {
   readonly onChange: (items: readonly unknown[]) => void
 }
 
-type SelectEntityRelationProps<T extends FieldValues> = {
-  readonly control: Control<T>,
-  readonly fieldName: Path<T>,
-  readonly entityNamePlural: string,
-  readonly label?: string,
-  readonly onChange?: (value: unknown) => void,
-  readonly onClose?: () => void
-}
-
-function SelectEntityRelation<T extends FieldValues>({
-  control, fieldName, entityNamePlural, label = fieldName, onChange: onChangeFromProps, onClose,
-}: SelectEntityRelationProps<T>) {
-  const bottomSheet = useRef<BottomSheet>(null)
-  const theme = useTheme()
-
-  const [{ data }] = useQuery({
-    query: GetEntityByNamePluralQuery,
-    variables: { namePlural: entityNamePlural },
-    pause: !entityNamePlural,
-  })
-
-  const [query, setQuery] = useState('')
-
-  useEffect(() => {
-    if (fieldName) {
-      // bottomSheet.current?.expand()
-    } else {
-      bottomSheet.current?.close()
-    }
-  }, [fieldName])
-
-  const entity = data?.getEntityByNamePlural
-
-  return (
-    <Controller
-      control={control}
-      name={fieldName}
-      render={({ field: { onChange, value } }) => (
-        <BottomSheet
-          backgroundStyle={{ backgroundColor: theme.colors.background }}
-          ref={bottomSheet}
-          snapPoints={[80, 400]}
-          keyboardBehavior='interactive'
-          onChange={(index) => {
-            if (index === -1) {
-              onClose?.()
-            }
-          }}
-          keyboardBlurBehavior='restore'
-        >
-          <Text>{label}</Text>
-          <Searchbar value={query} onChangeText={setQuery} placeholder='Search for entity..' />
-          <ScrollView>
-            {entity ? (
-              <SearchEntries
-                entity={entity}
-                query={query}
-                onSelected={(entry) => {
-                  onChangeFromProps?.(entry)
-                  onChange(entry.id)
-                  bottomSheet.current?.close()
-                }}
-              />
-            ) : null}
-          </ScrollView>
-        </BottomSheet>
-      )}
-    />
-  )
-}
-
 const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items, onChange }) => {
   const {
     control, handleSubmit, setValue, watch,
   } = useForm({ })
-
-  console.log({ items })
 
   useEffect(() => {
     items.forEach((item, index) => {
@@ -189,7 +120,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
 
       return { [label as string]: value }
     })
-    console.log({ mappedValues, vals })
+
     onChange(mappedValues)
   }, [onChange]))
 
@@ -240,7 +171,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
             }
             if (type === 'EntityRelationField') {
               const value = watch(name)
-              console.log({ value, name })
+
               return (
                 <View key={name}>
                   <Button
@@ -255,7 +186,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
                     key={name}
                     icon='chevron-down'
                   >
-                    { value || `Select ${subField.name}`}
+                    { value ?? `Select ${subField.name}`}
                   </Button>
                 </View>
 
@@ -488,7 +419,7 @@ const UpsertEntry: React.FC<{
                   key={field.name}
                   icon='chevron-down'
                 >
-                  { watch(field.name) ? watch(field.name) : `Select ${field.name}`}
+                  { data[queryName][field.name] ? data[queryName][field.name].displayName : `Select ${field.name}`}
                 </Button>
               )
             }
