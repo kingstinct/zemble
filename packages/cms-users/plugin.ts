@@ -18,7 +18,7 @@ const defaultConfig = {
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Brix {
+  namespace Zemble {
     interface OtpToken {
       readonly id: string
       readonly type: 'cms-user'

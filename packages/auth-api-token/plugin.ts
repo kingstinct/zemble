@@ -12,7 +12,7 @@ type AuthConfig = {
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Brix {
+  namespace Zemble {
     interface TokenRegistry {
       readonly AuthApiToken: {
         readonly type: 'AuthApiToken'

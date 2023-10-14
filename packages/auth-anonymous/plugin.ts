@@ -4,7 +4,7 @@ import { Plugin } from '@zemble/core'
 import Auth from 'zemble-plugin-auth'
 
 declare global {
-  namespace Brix {
+  namespace Zemble {
     interface TokenRegistry {
       readonly AnonymousAuth: {
         readonly type: 'AnonymousAuth',

@@ -13,7 +13,7 @@ import type { RedisOptions } from 'ioredis'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Brix {
+  namespace Zemble {
     interface Server extends Hono {
       readonly gqlRequest: <TQuery, TVars>(
         query: TypedDocumentNode<TQuery, TVars>,

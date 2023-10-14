@@ -38,7 +38,7 @@ interface DefaultOtpToken {
 }
 
 declare global {
-  namespace Brix {
+  namespace Zemble {
     interface OtpToken extends DefaultOtpToken {
 
     }

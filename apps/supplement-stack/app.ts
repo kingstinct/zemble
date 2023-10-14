@@ -7,7 +7,7 @@ import { Users } from './models'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Brix {
+  namespace Zemble {
     interface OtpToken {
       readonly userId: string,
     }

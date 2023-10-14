@@ -42,7 +42,7 @@ interface IStandardLogger extends Pick<typeof console, 'log' | 'debug' | 'warn' 
 }
 
 declare global {
-  namespace Brix {
+  namespace Zemble {
     interface Server extends Hono {
 
     }
