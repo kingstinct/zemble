@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native'
 import {
-  Searchbar, Text, useTheme,
+  Searchbar, Title, useTheme,
 } from 'react-native-paper'
 import { useQuery } from 'urql'
 
@@ -60,7 +60,7 @@ function SelectEntityRelation<T extends FieldValues>({
         <BottomSheet
           backgroundStyle={{ backgroundColor: theme.colors.background }}
           ref={bottomSheet}
-          snapPoints={[80, 400]}
+          snapPoints={[400, 640]}
           keyboardBehavior='interactive'
           onChange={(index) => {
             if (index === -1) {
@@ -69,8 +69,13 @@ function SelectEntityRelation<T extends FieldValues>({
           }}
           keyboardBlurBehavior='restore'
         >
-          <Text>{label}</Text>
-          <Searchbar value={query} onChangeText={setQuery} placeholder='Search for entity..' />
+          <Title style={{ margin: 8, marginLeft: 32, marginTop: 0 }}>{label}</Title>
+          <Searchbar
+            style={{ margin: 8 }}
+            value={query}
+            onChangeText={setQuery}
+            placeholder='Search for entity..'
+          />
           <ScrollView>
             {entity ? (
               <SearchEntries

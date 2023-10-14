@@ -54,7 +54,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { na
         throw new GraphQLError(`Field name "${field.name}" is invalid. It must not contain spaces or dashes, and cannot start with a number.`)
       }
 
-      if (field.name === 'id' || field.name !== 'displayName') {
+      if (field.name === 'id' || field.name === 'displayName') {
         throw new GraphQLError(`Field name "${field.name}" is invalid. "id" and "displayName" are reserved.`)
       }
 
