@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-recursive": "bunx turbo run test",
+    "test-recursive": "MONGOMS_DEBUG=1 bunx turbo run test",
     "lint-quiet": "bunx turbo run lint -- --quiet",
     "typecheck": "bunx turbo run typecheck",
     "graphql-codegen": "bunx turbo run graphql-codegen",
