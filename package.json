@@ -52,6 +52,7 @@
     "apps/*"
   ],
   "dependencies": {
+    "@changesets/cli": "^2.26.2",
     "uuid": "3"
   }
 }
