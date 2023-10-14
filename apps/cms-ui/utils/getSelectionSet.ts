@@ -1,6 +1,6 @@
 import { capitalize } from './text'
 
-import type { GetEntityByPluralizedNameQuery } from '../gql/graphql'
+import type { GetEntityByNamePluralQuery } from '../gql/graphql'
 
 type ArraySubFieldNameProps = {readonly entityName: string, readonly arrayFieldName: string, readonly subFieldName: string }
 
@@ -10,7 +10,7 @@ const ArraySubFieldName = ({
   subFieldName,
 }: ArraySubFieldNameProps) => `${capitalize(entityName)}${capitalize(arrayFieldName)}${capitalize(subFieldName)}`
 
-export type Entity = NonNullable<GetEntityByPluralizedNameQuery['getEntityByNamePlural']>
+export type Entity = NonNullable<GetEntityByNamePluralQuery['getEntityByNamePlural']>
 
 export const getSelectionSet = (
   entity: Entity,
@@ -19,7 +19,11 @@ export const getSelectionSet = (
     if ('availableFields' in field && field.availableFields.length > 0) {
       return `${field.name} { ${field.availableFields.map((f) => {
         const fieldName = f.name
-        return `... on ${ArraySubFieldName({ arrayFieldName: field.name, entityName: entity.nameSingular, subFieldName: f.name })} { ${fieldName} }`
+        return `... on ${ArraySubFieldName({
+          arrayFieldName: field.name,
+          entityName: entity.nameSingular,
+          subFieldName: f.name,
+        })} { ${f.__typename === 'EntityRelationField' ? `${fieldName} { __typename id }` : fieldName} }`
       }).join(' ')} }`
     }
     if ('entityNamePlural' in field) {

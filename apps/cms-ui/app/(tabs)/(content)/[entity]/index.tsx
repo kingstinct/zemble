@@ -8,8 +8,8 @@ import { useQuery } from 'urql'
 import ListOfEntries from '../../../../components/ListOfEntries'
 import { graphql } from '../../../../gql'
 
-export const GetEntityByPluralizedNameQuery = graphql(`
-  query GetEntityByPluralizedName($namePlural: String!) { 
+export const GetEntityByNamePluralQuery = graphql(`
+  query GetEntityByNamePlural($namePlural: String!) { 
     getEntityByNamePlural(namePlural: $namePlural) { 
       nameSingular
       namePlural
@@ -38,6 +38,9 @@ export const GetEntityByPluralizedNameQuery = graphql(`
         ... on ArrayField {
           availableFields {
             name
+            ... on EntityRelationField {
+              entityNamePlural
+            }
             __typename
           }
         }
@@ -50,7 +53,7 @@ const EntityDetails = () => {
   const { entity } = useLocalSearchParams()
 
   const [{ data }, refetch] = useQuery({
-    query: GetEntityByPluralizedNameQuery,
+    query: GetEntityByNamePluralQuery,
     variables: { namePlural: entity },
     pause: !entity,
   })

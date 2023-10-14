@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { PaperProvider } from 'react-native-paper'
 import { useQuery } from 'urql'
 
-import { GetEntityByPluralizedNameQuery } from '../..'
+import { GetEntityByNamePluralQuery } from '../..'
 import CreateField from '../../../../../../components/UpsertField'
 import { GetEntitiesDocument } from '../../../../../../gql/graphql'
 
@@ -10,7 +10,7 @@ const AddField = () => {
   const { entity, fieldName } = useLocalSearchParams()
 
   const [{ data }, refetch] = useQuery({
-    query: GetEntityByPluralizedNameQuery,
+    query: GetEntityByNamePluralQuery,
     variables: { namePlural: entity },
     pause: !entity,
   })

@@ -20,12 +20,19 @@ type Books {
   id: ID
   title: String!
   author: AuthorsRelation
+  editors: [BookEditorsUnion]!
 }
 
 type AuthorsRelation {
   id: ID!
   firstName: String!
   lastName: String!
+}
+
+union BookEditorsUnion = BookEditorsEditor
+
+type BookEditorsEditor {
+  editor: AuthorsRelation
 }
 
 input BookIdFilter {
@@ -67,10 +74,14 @@ input PublisherIdFilter {
 }
 
 type Mutation {
-  createBook(id: ID, title: String!, author: ID): Books
+  createBook(id: ID, title: String!, author: ID, editors: [BookEditorsInput]!): Books
   deleteBook(id: ID!): Boolean!
   createAuthor(id: ID, firstName: String!, lastName: String!): Authors
   deleteAuthor(id: ID!): Boolean!
   createPublisher(id: ID): Publishers
   deletePublisher(id: ID!): Boolean!
+}
+
+input BookEditorsInput {
+  editor: ID
 }

@@ -24,6 +24,8 @@ import {
 } from '../utils'
 import { readEntities } from '../utils/fs'
 
+import type { EntityEntryType } from '../clients/papr'
+import type { AnyField } from '../types'
 import type {
   GraphQLFieldConfig,
   GraphQLEnumType,
@@ -33,6 +35,23 @@ type ReducerType = {
   readonly query: Record<string, GraphQLFieldConfig<any, any, any>>,
   readonly types: readonly (GraphQLObjectType<any, any> | GraphQLEnumType)[],
   readonly mutations: Record<string, GraphQLFieldConfig<any, any, any>>,
+}
+
+const fieldResolver = (parent: EntityEntryType, field: AnyField) => {
+  if (field.name === 'id') {
+    return parent._id.toHexString()
+  }
+  if (parent[field.name] !== undefined && parent[field.name] !== null) {
+    return parent[field.name]
+  }
+  if (field.__typename === 'ArrayField') {
+    return []
+  }
+  if ('defaultValue' in field) {
+    return field.defaultValue
+  }
+
+  return null
 }
 
 export default async () => {
@@ -54,7 +73,7 @@ export default async () => {
 
     const objRelation = new GraphQLObjectType({
       fields: () => entity.fields.reduce((prev, field) => {
-        const baseType = fieldToOutputType(entity.nameSingular, field, acc)
+        const baseType = fieldToOutputType(entity.namePlural, field, acc)
 
         return ({
           ...prev,
@@ -62,8 +81,8 @@ export default async () => {
             type: field.isRequired ? new GraphQLNonNull(baseType) : baseType,
             resolve: async (externalId: string) => {
               const resolved = await getById.load(externalId)
-              // @ts-expect-error fix sometime
-              return resolved[field.name]
+
+              return fieldResolver(resolved!, field)
             },
           },
         })
@@ -91,22 +110,7 @@ export default async () => {
           ...prev,
           [field.name]: {
             type: field.isRequiredInput ? new GraphQLNonNull(baseType) : baseType,
-            resolve: (props: { readonly _id: ObjectId } & Record<string, unknown>) => {
-              if (field.name === 'id') {
-                return props._id.toHexString()
-              }
-              if (props[field.name] !== undefined && props[field.name] !== null) {
-                return props[field.name]
-              }
-              if (field.__typename === 'ArrayField') {
-                return []
-              }
-              if ('defaultValue' in field) {
-                return field.defaultValue
-              }
-
-              return null
-            },
+            resolve: (parent: EntityEntryType) => fieldResolver(parent, field),
           },
         })
       }, {}),

@@ -39,8 +39,6 @@ export const resetTypes = () => {
   types = {}
 }
 
-const mapRelationField = (entityName: string, data: string) => ({ __typename: `${capitalize(entityName)}Relation`, externalId: data })
-
 export const fieldToOutputType = (
   typePrefix: string,
   field: AnyField,
@@ -59,9 +57,9 @@ export const fieldToOutputType = (
         const resolvedType = fieldToOutputType(typePrefix, f as any, relationTypes)
 
         return typeDeduper(new GraphQLObjectType({
-          name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name)}`.replaceAll(' ', '_'),
+          name: `${capitalize(typePrefix)}${capitalize(field.name)}${capitalize(f.name)}`,
           fields: {
-            [f.name.replaceAll(' ', '_')]: {
+            [f.name]: {
               type: resolvedType,
             },
           },
@@ -70,7 +68,7 @@ export const fieldToOutputType = (
 
       // eslint-disable-next-line no-case-declarations
       const union = typeDeduper(new GraphQLUnionType({
-        name: `${capitalize(typePrefix)}${capitalize(field.name)}Union`.replaceAll(' ', '_'),
+        name: `${capitalize(typePrefix)}${capitalize(field.name)}Union`,
         types: availableFields,
       }))
       return new GraphQLList(union)
@@ -101,7 +99,7 @@ export const fieldToInputType = (typePrefix: string, field: AnyField): GraphQLSc
         ...prev,
         fields: {
           ...prev.fields,
-          [f.name.replaceAll(' ', '_')]: {
+          [f.name]: {
             type: fieldToInputType(typePrefix, f as any),
           },
         },
@@ -140,14 +138,14 @@ export const createTraverser = (entity: EntitySchemaType) => {
   const entityRelationFieldNamesWithEntity = {
     ...fields.filter((f) => f.__typename === 'EntityRelationField').reduce((prev, f) => ({
       ...prev,
-      [f.name]: (f as EntityRelationField).entityName,
+      [f.name]: (f as EntityRelationField).entityNamePlural,
     }), {} as Record<string, string>),
 
     // get those deep entity relation fields, could probaby be cleaned up
     ...fields.filter((f) => f.__typename === 'ArrayField').reduce((prev, f) => ({
       ...(f as unknown as ArrayField).availableFields.filter((f) => (f as AnyField).__typename === 'EntityRelationField').reduce((prev, f) => ({
         ...prev,
-        [f.name.replaceAll(' ', '_')]: (f as EntityRelationField).entityName,
+        [f.name]: (f as EntityRelationField).entityNamePlural,
       }), prev),
     }), {} as Record<string, string>),
   }
@@ -156,7 +154,7 @@ export const createTraverser = (entity: EntitySchemaType) => {
   const fieldValueMapper = (key: string, data: Record<string, unknown>) => {
     return Array.isArray(data[key])
       ? mapArrayFields(key, data[key] as Record<string, unknown> | readonly Record<string, unknown>[]) : (entityRelationFieldNamesWithEntity[key]
-        ? mapRelationField(entityRelationFieldNamesWithEntity[key], data[key] as string)
+        ? data[key]
         : data[key])
   }
 
@@ -169,7 +167,7 @@ export const createTraverser = (entity: EntitySchemaType) => {
     fieldName: string,
     data: Record<string, unknown> | readonly Record<string, unknown>[],
   ) => (Array.isArray(data) ? data : [data]).map((el: Record<string, unknown>): Record<string, unknown> => ({
-    __typename: (capitalize(entity.nameSingular) + capitalize(fieldName) + capitalize(Object.keys(el)[0])).replaceAll(' ', '_'),
+    __typename: (capitalize(entity.nameSingular) + capitalize(fieldName) + capitalize(Object.keys(el)[0])),
     ...traverseData(el),
   }))
 

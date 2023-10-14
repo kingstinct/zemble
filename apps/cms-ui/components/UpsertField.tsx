@@ -52,17 +52,21 @@ type Props = {
 
 type UpsertFieldProps = {
   readonly updateField: (fieldInput: FieldInput) => void
+  readonly availableEntityNames: readonly string[]
 }
 
-const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField }) => {
+const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField, availableEntityNames }) => {
   const {
-    control, handleSubmit, setValue, formState: { errors },
+    control, handleSubmit, setValue, formState: { errors }, watch,
   } = useForm({
     defaultValues: {
       fieldName: '',
       fieldType: 'StringField' as FieldTypeWithoutArray,
+      entityNamePlural: availableEntityNames[0],
     },
   })
+
+  const fieldType = watch('fieldType')
 
   const onSubmit = handleSubmit(useCallback((values) => {
     const { fieldType } = values
@@ -72,6 +76,9 @@ const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField }) => {
         name: values.fieldName,
         isRequired: true,
         isRequiredInput: true,
+        ...fieldType === 'EntityRelationField' ? {
+          entityNamePlural: values.entityNamePlural,
+        } : {},
       } as FieldInput[FieldType],
     } as unknown as FieldInput
 
@@ -103,6 +110,14 @@ const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField }) => {
         rules={{ required: true }}
         buttonStyle={Styles.margin8}
       />
+      { fieldType === 'EntityRelationField' ? (
+        <SelectOneController
+          control={control}
+          name='entityNamePlural'
+          options={availableEntityNames}
+        />
+
+      ) : null }
       { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>) }
 
       <Button
@@ -204,11 +219,13 @@ const UpsertField: React.FC<Props> = ({
       }),
     } as unknown as FieldInput
 
-    await upsertField({
+    const res = await upsertField({
       namePlural,
       fields: [field],
     })
-    onUpdated?.()
+    if (!res.error) {
+      onUpdated?.()
+    }
   })
 
   const bottomSheet = useRef<BottomSheet>(null)
@@ -339,17 +356,19 @@ const UpsertField: React.FC<Props> = ({
                 keyboardBehavior='interactive'
                 keyboardBlurBehavior='restore'
               >
-                <CreateArrayField updateField={(field) => {
-                  bottomSheet.current?.collapse()
-                  onChange([
-                    ...value.filter((a) => {
-                      const f = Object.values(a)[0] as {readonly name: string}
-                      const f2 = Object.values(field)[0] as {readonly name: string}
-                      return f.name !== f2.name
-                    }),
-                    field,
-                  ])
-                }}
+                <CreateArrayField
+                  availableEntityNames={availableEntityNames}
+                  updateField={(field) => {
+                    bottomSheet.current?.collapse()
+                    onChange([
+                      ...value.filter((a) => {
+                        const f = Object.values(a)[0] as {readonly name: string}
+                        const f2 = Object.values(field)[0] as {readonly name: string}
+                        return f.name !== f2.name
+                      }),
+                      field,
+                    ])
+                  }}
                 />
               </BottomSheet>
             )}

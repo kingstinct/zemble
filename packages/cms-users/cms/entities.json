@@ -25,6 +25,21 @@
           "isRequired": false,
           "__typename": "EntityRelationField",
           "isRequiredInput": false
+        },
+        {
+          "name": "editors",
+          "availableFields": [
+            {
+              "name": "editor",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "isRequiredInput": true,
+              "__typename": "EntityRelationField"
+            }
+          ],
+          "isRequired": true,
+          "isRequiredInput": true,
+          "__typename": "ArrayField"
         }
       ]
     },

@@ -1,14 +1,14 @@
 import { router, useLocalSearchParams } from 'expo-router'
 import { useQuery } from 'urql'
 
-import { GetEntityByPluralizedNameQuery } from '..'
+import { GetEntityByNamePluralQuery } from '..'
 import UpsertEntry from '../../../../../components/UpsertEntry'
 
 const EditEntityInstance = () => {
   const { entity, id } = useLocalSearchParams()
 
   const [{ data }] = useQuery({
-    query: GetEntityByPluralizedNameQuery,
+    query: GetEntityByNamePluralQuery,
     variables: { namePlural: entity },
     pause: !entity,
   })

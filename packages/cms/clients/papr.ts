@@ -16,6 +16,8 @@ export const EntityEntrySchema = schema({
   validationLevel: VALIDATION_LEVEL.OFF, // let's skip it for now - how do we handle the unknown fields?
 })
 
+export type EntityEntryType = typeof EntityEntrySchema[0]
+
 class PaprWrapper {
   db: Db | undefined
 

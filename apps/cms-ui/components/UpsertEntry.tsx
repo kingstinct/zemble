@@ -9,14 +9,14 @@ import {
   View, ScrollView,
 } from 'react-native'
 import {
-  ActivityIndicator, Avatar, Button, Card, Searchbar, Text, useTheme,
+  ActivityIndicator, Avatar, Button, Card, Portal, Searchbar, Text, useTheme,
 } from 'react-native-paper'
 import { useMutation, useQuery } from 'urql'
 
 import { SearchEntries } from './ListOfEntries'
 import SwitchControl from './SwitchControl'
 import TextControl from './TextControl'
-import { GetEntityByPluralizedNameQuery } from '../app/(tabs)/(content)/[entity]'
+import { GetEntityByNamePluralQuery } from '../app/(tabs)/(content)/[entity]'
 import { graphql } from '../gql'
 import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
@@ -36,7 +36,7 @@ const fieldToTypeMap: Record<string, string | ((entityName: string, fieldName: s
   BooleanField: 'Boolean',
   IDField: 'ID',
   ArrayField: (entityName: string, fieldName: string) => `[${capitalize(entityName)}${capitalize(fieldName)}Input!]`,
-  EntityRelationField: (entityName: string, fieldName: string) => `${capitalize(entityName)}${capitalize(fieldName)}Input`,
+  EntityRelationField: (entityName: string, fieldName: string) => `ID`,
 }
 
 const buildUpsertEntryMutation = (entity: Entity) => {
@@ -94,10 +94,83 @@ type ArrayFieldComponentProps = {
   readonly onChange: (items: readonly unknown[]) => void
 }
 
+type SelectEntityRelationProps<T extends FieldValues> = {
+  readonly control: Control<T>,
+  readonly fieldName: Path<T>,
+  readonly entityNamePlural: string,
+  readonly label?: string,
+  readonly onChange?: (value: unknown) => void,
+  readonly onClose?: () => void
+}
+
+function SelectEntityRelation<T extends FieldValues>({
+  control, fieldName, entityNamePlural, label = fieldName, onChange: onChangeFromProps, onClose,
+}: SelectEntityRelationProps<T>) {
+  const bottomSheet = useRef<BottomSheet>(null)
+  const theme = useTheme()
+
+  const [{ data }] = useQuery({
+    query: GetEntityByNamePluralQuery,
+    variables: { namePlural: entityNamePlural },
+    pause: !entityNamePlural,
+  })
+
+  const [query, setQuery] = useState('')
+
+  useEffect(() => {
+    if (fieldName) {
+      // bottomSheet.current?.expand()
+    } else {
+      bottomSheet.current?.close()
+    }
+  }, [fieldName])
+
+  const entity = data?.getEntityByNamePlural
+
+  return (
+    <Controller
+      control={control}
+      name={fieldName}
+      render={({ field: { onChange, value } }) => (
+        <BottomSheet
+          backgroundStyle={{ backgroundColor: theme.colors.background }}
+          ref={bottomSheet}
+          snapPoints={[80, 400]}
+          keyboardBehavior='interactive'
+          onChange={(index) => {
+            if (index === -1) {
+              onClose?.()
+            }
+          }}
+          keyboardBlurBehavior='restore'
+        >
+          <Text>{label}</Text>
+          <Searchbar value={query} onChangeText={setQuery} placeholder='Search for entity..' />
+          <ScrollView>
+            {entity ? (
+              <SearchEntries
+                entity={entity}
+                query={query}
+                onSelected={(entry) => {
+                  onChangeFromProps?.(entry)
+                  onChange(entry.id)
+                  bottomSheet.current?.close()
+                }}
+              />
+            ) : null}
+          </ScrollView>
+        </BottomSheet>
+      )}
+    />
+  )
+}
+
 const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items, onChange }) => {
   const {
-    control, handleSubmit, setValue,
+    control, handleSubmit, setValue, watch,
   } = useForm({ })
+
+  console.log({ items })
 
   useEffect(() => {
     items.forEach((item, index) => {
@@ -116,8 +189,11 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
 
       return { [label as string]: value }
     })
+    console.log({ mappedValues, vals })
     onChange(mappedValues)
   }, [onChange]))
+
+  const [fieldForEntitySelection, setFieldForEntity] = useState<{readonly field: EntityRelationField, readonly name: string, readonly index: number} | null>(null)
 
   return (
     <Card key={field.name} style={Styles.margin8}>
@@ -130,7 +206,9 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
         {
           items.map((v, index) => {
             const label = Object.keys(v as object)[0] as string
-            const type = field.availableFields.find((f) => f.name === label)!.__typename
+            const subField = field.availableFields.find((f) => f.name === label)!
+            const type = subField.__typename
+
             // prefix name with index to avoid collisions
             const name = `${index.toString()}-${label}`
             if (type === 'NumberField') {
@@ -160,6 +238,29 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
                 />
               )
             }
+            if (type === 'EntityRelationField') {
+              const value = watch(name)
+              console.log({ value, name })
+              return (
+                <View key={name}>
+                  <Button
+                    onPress={() => {
+                      setFieldForEntity({
+                        // @ts-expect-error fix later
+                        field: subField,
+                        name,
+                        index,
+                      })
+                    }}
+                    key={name}
+                    icon='chevron-down'
+                  >
+                    { value || `Select ${subField.name}`}
+                  </Button>
+                </View>
+
+              )
+            }
             return (
               <TextControl
                 control={control}
@@ -179,14 +280,40 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
             mode='outlined'
             key={f.name}
             style={Styles.margin8}
-            // @ts-expect-error fix later
-            onPress={() => onChange([...items, { [f.name]: 'defaultValue' in f ? f.defaultValue : getDefaultValueFromEntityField(f) }])}
+            onPress={() => onChange([
+              ...items, {
+                [f.name]: 'defaultValue' in f
+                  ? f.defaultValue
+                  // @ts-expect-error fix later
+                  : getDefaultValueFromEntityField(f),
+              },
+            ])}
           >
             {`Add ${f.name}`}
           </Button>
         )) }
 
       </Card.Content>
+      { fieldForEntitySelection ? (
+        <Portal>
+          <SelectEntityRelation
+            control={control}
+            fieldName={fieldForEntitySelection.name}
+            label={`Select ${fieldForEntitySelection.field.name} (${fieldForEntitySelection.index})`}
+            entityNamePlural={fieldForEntitySelection.field.entityNamePlural}
+            onClose={() => {
+              setFieldForEntity(null)
+              void onSubmit()
+            }}
+            onChange={() => {
+              setFieldForEntity(null)
+              setTimeout(() => {
+                void onSubmit()
+              }, 100)
+            }}
+          />
+        </Portal>
+      ) : null }
     </Card>
   )
 }
@@ -226,59 +353,6 @@ export const GetEntityByNameSingularQuery = graphql(`
    } } }
 `)
 
-function SelectEntityRelation<T extends FieldValues>({ control, fieldName, entityNamePlural }: { readonly control: Control<T>, readonly fieldName: Path<T>, readonly entityNamePlural: string }) {
-  const bottomSheet = useRef<BottomSheet>(null)
-  const theme = useTheme()
-
-  const [{ data }] = useQuery({
-    query: GetEntityByPluralizedNameQuery,
-    variables: { namePlural: entityNamePlural },
-    pause: !entityNamePlural,
-  })
-
-  const [query, setQuery] = useState('')
-
-  useEffect(() => {
-    if (fieldName) {
-      // bottomSheet.current?.expand()
-    } else {
-      bottomSheet.current?.close()
-    }
-  }, [fieldName])
-
-  const entity = data?.getEntityByNamePlural
-
-  return (
-    <Controller
-      control={control}
-      name={fieldName}
-      render={({ field: { onChange, value } }) => (
-        <BottomSheet
-          backgroundStyle={{ backgroundColor: theme.colors.background }}
-          ref={bottomSheet}
-          snapPoints={[80, 400]}
-          keyboardBehavior='interactive'
-          keyboardBlurBehavior='restore'
-        >
-          <Text>{fieldName}</Text>
-          <Searchbar value={query} onChangeText={setQuery} placeholder='Search for entity..' />
-          <ScrollView>
-            {entity ? (
-              <SearchEntries
-                entity={entity}
-                query={query}
-                onSelected={(entry) => {
-                  onChange(entry.id)
-                }}
-              />
-            ) : null}
-          </ScrollView>
-        </BottomSheet>
-      )}
-    />
-  )
-}
-
 const UpsertEntry: React.FC<{
   readonly entity: Entity,
   readonly previousEntryId?: string,
@@ -301,16 +375,16 @@ const UpsertEntry: React.FC<{
     requestPolicy: 'cache-first',
   })
 
-  const previousEntry = previousEntryId ? (data?.[queryName]as Record<string, unknown> | undefined) : undefined
+  // const previousEntry = previousEntryId ? (data?.[queryName]as Record<string, unknown> | undefined) : undefined
 
   const [, createEntry] = useMutation(useMemo(() => buildUpsertEntryMutation(entity), [entity]))
 
-  const defaults = useMemo(() => previousEntry ?? fields.reduce((acc, field) => {
+  const defaults = useMemo(() => fields.reduce((acc, field) => {
     // eslint-disable-next-line no-nested-ternary, functional/immutable-data, unicorn/no-nested-ternary
     // @ts-expect-error fix later
-    acc[field.name as unknown as string] = previousEntry ?? getDefaultValueFromEntityField(field)
+    acc[field.name as unknown as string] = getDefaultValueFromEntityField(field)
     return acc
-  }, {} as UseFormProps['defaultValues']), [fields, previousEntry])
+  }, {} as UseFormProps['defaultValues']), [fields])
 
   const {
     control, handleSubmit, setValue, formState: { errors }, watch,
@@ -320,7 +394,23 @@ const UpsertEntry: React.FC<{
     if (data && data[queryName] && data[queryName]) {
       fields.forEach((field) => {
         const value = data[queryName][field.name]
-        setValue(field.name, value)
+
+        if (value && field.__typename === 'EntityRelationField') {
+          setValue(field.name, value.id)
+        } else if (value && field.__typename === 'ArrayField' && Array.isArray(value)) {
+          setValue(field.name, value.map((v) => {
+            const key = `${Object.keys(v)[0]}`
+            const value = v[key]
+
+            // todo [>1]: should probably check this in a better way
+            if ('id' in value) {
+              return { [key]: value.id }
+            }
+            return { [key]: value }
+          }))
+        } else if (value) {
+          setValue(field.name, value)
+        }
       })
     }
   }, [
@@ -334,8 +424,6 @@ const UpsertEntry: React.FC<{
       }
       return acc
     }, values)
-
-    console.log('mappedValues onSubmit', mappedValues)
 
     await createEntry(mappedValues)
 
@@ -391,8 +479,18 @@ const UpsertEntry: React.FC<{
               )
             }
             if (field.__typename === 'EntityRelationField') {
-              // @ts-expect-error fix later
-              return <Button onPress={() => { setFieldForEntity(field) }} key={field.name}>Relation input here</Button>
+              return (
+                <Button
+                  onPress={() => {
+                    // @ts-expect-error fix later
+                    setFieldForEntity(field)
+                  }}
+                  key={field.name}
+                  icon='chevron-down'
+                >
+                  { watch(field.name) ? watch(field.name) : `Select ${field.name}`}
+                </Button>
+              )
             }
             if (field.__typename === 'NumberField') {
               return (
@@ -425,7 +523,14 @@ const UpsertEntry: React.FC<{
         <View style={{ margin: 8 }}>
           <Text>
             {
-              Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>)
+              Object.keys(errors).map((key) => (
+                <Text
+                  key={key}
+                  style={{ color: 'red' }}
+                >
+                  {JSON.stringify(errors[key])}
+                </Text>
+              ))
             }
           </Text>
           <Button

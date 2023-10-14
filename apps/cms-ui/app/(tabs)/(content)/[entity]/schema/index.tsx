@@ -7,13 +7,13 @@ import { RefreshControl } from 'react-native-gesture-handler'
 import { Button, DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
-import { GetEntityByPluralizedNameQuery } from '..'
+import { GetEntityByNamePluralQuery } from '..'
 
 const EntityDetails = () => {
   const { entity } = useLocalSearchParams()
 
   const [{ data, fetching }, refetch] = useQuery({
-    query: GetEntityByPluralizedNameQuery,
+    query: GetEntityByNamePluralQuery,
     variables: { namePlural: entity },
     pause: !entity,
   })

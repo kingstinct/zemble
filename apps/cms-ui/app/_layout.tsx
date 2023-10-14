@@ -76,16 +76,16 @@ export default () => {
 
   return (
     <ThemeProvider value={navigationTheme}>
-      <PaperProvider>
-        <AuthProvider>
-          <UrqlProvider
-            onError={(error) => alert(error.message)}
-            createClient={createClientWithToken}
-          >
+      <AuthProvider>
+        <UrqlProvider
+          onError={(error) => alert(error.message)}
+          createClient={createClientWithToken}
+        >
+          <PaperProvider>
             <App />
-          </UrqlProvider>
-        </AuthProvider>
-      </PaperProvider>
+          </PaperProvider>
+        </UrqlProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }
