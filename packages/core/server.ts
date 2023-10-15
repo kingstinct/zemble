@@ -5,7 +5,6 @@ import { logger } from 'hono/logger'
 
 import initializePlugin from './utils/initializePlugin'
 import { readPackageJson } from './utils/readPackageJson'
-import { uniqBy } from './utils/uniqBy'
 import context from './zembleContext'
 
 import type Plugin from './Plugin'
@@ -37,7 +36,7 @@ export type ZembleApp = {
 
 const logFilter = (log: string) => (log.includes('BEGIN PRIVATE KEY') || log.includes('BEGIN PUBLIC KEY') ? '<<KEY>>' : log)
 
-const filterConfig = (config: Record<string, unknown>) => Object.keys(config).reduce((prev, key) => {
+const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce((prev, key) => {
   const value = config[key as keyof typeof config]
   return {
     ...prev,
@@ -59,17 +58,36 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     pluginsBeforeResolvingDeps.flatMap(async (plugin) => [...await plugin.dependencies, plugin]),
   ).then((plugins) => plugins.flat())
 
-  const plugins = uniqBy(resolved, 'pluginName')
+  const plugins = resolved.reduce((prev, plugin) => {
+    const existingPlugin = prev.find(({ pluginPath }) => pluginPath === plugin.pluginName)
+    if (existingPlugin) {
+      if (existingPlugin.config !== plugin.config) {
+        // in some situation we can end up with two instances of the same plugin (dependeing on package manager and
+        // other factors). In those cases we use the latest version of the plugin, but try to merge the config
+        const pluginToUse = existingPlugin.pluginVersion > plugin.pluginVersion
+          ? existingPlugin.configure(plugin.config)
+          : plugin.configure(existingPlugin.config)
+
+        context.logger.warn(`[@zemble] Found multiple instances of ${plugin.pluginName}, attempting to merge config, using version ${plugin.pluginVersion}`)
+
+        return prev.map((p) => (p.pluginName !== pluginToUse.pluginName ? p : pluginToUse))
+      }
+      return prev
+    }
+    return [...prev, plugin]
+  }, [] as readonly (Plugin | PluginWithMiddleware)[])
 
   const middleware = plugins.filter(
     (plugin): plugin is PluginWithMiddleware => 'initializeMiddleware' in plugin,
   )
 
-  context.logger.log(`Initializing ${packageJson.name} with ${plugins.length} plugins whereof ${middleware.length} contains middleware`)
+  context.logger.log(`[@zemble] Initializing ${packageJson.name} with plugins:\n${plugins.map((p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p ? ' (middleware)' : ''}`).join('\n')}`)
 
-  plugins.forEach((plugin) => {
-    context.logger.log(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
-  })
+  if (process.env.DEBUG) {
+    plugins.forEach((plugin) => {
+      context.logger.log(`[@zemble] Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
+    })
+  }
 
   await middleware?.reduce(async (
     prev,
@@ -102,7 +120,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     app,
     start: () => {
       const bunServer = Bun.serve({ fetch: app.fetch })
-      console.log(`Serving on ${bunServer.hostname}:${bunServer.port}`)
+      console.log(`[@zemble] Serving on ${bunServer.hostname}:${bunServer.port}`)
       return app
     },
   }

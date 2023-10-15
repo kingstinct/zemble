@@ -56,13 +56,33 @@ export class Plugin<
     return !dep.devOnly
   }
 
-  get pluginName(): string {
-    if (!this.#pluginName) {
-      // eslint-disable-next-line functional/immutable-data
-      this.#pluginName = readPackageJson(this.pluginPath).name
+  // eslint-disable-next-line functional/prefer-readonly-type
+  #pluginVersion: string | undefined
+
+  #readPackageJson() {
+    const pkgJson = readPackageJson(this.pluginPath)
+    // eslint-disable-next-line functional/immutable-data
+    this.#pluginVersion = pkgJson.version
+    // eslint-disable-next-line functional/immutable-data
+    this.#pluginName = pkgJson.name
+
+    return pkgJson
+  }
+
+  get pluginVersion(): string {
+    if (!this.#pluginVersion) {
+      return this.#readPackageJson().version
     }
 
-    return this.#pluginName!
+    return this.#pluginVersion
+  }
+
+  get pluginName(): string {
+    if (!this.#pluginName) {
+      return this.#readPackageJson().name
+    }
+
+    return this.#pluginName
   }
 
   configure(config?: TConfig & Zemble.GlobalConfig) {

@@ -29,7 +29,10 @@ const processPluginSchema = async (pluginPath: string, {
   if (hasGraphQL) {
     return [
       await createPluginSchema({
-        graphqlDir, transforms, scalars, skipGraphQLValidation: !!skipGraphQLValidation,
+        graphqlDir,
+        transforms,
+        scalars,
+        skipGraphQLValidation: !!skipGraphQLValidation,
       }),
     ]
   }
