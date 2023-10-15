@@ -7,14 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": [
-    "zemble-plugin-logger-graphql",
-    "zemble-plugin-cms-users",
-    "zemble-plugin-cms",
-    "zemble-plugin-auth-anonymous",
-    "zemble-plugin-apple-app-site-association",
-    "todo-app-with-auth-backend",
-    "zemble-plugin-todo",
-    "supplement-stack"
-  ]
+  "ignore": []
 }
