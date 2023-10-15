@@ -1,9 +1,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
 import { mergeSchemas } from '@graphql-tools/schema'
-import fs from 'fs'
+import { printSchema, type GraphQLFormattedError, type GraphQLScalarType } from 'graphql'
 import { print } from 'graphql/language/printer'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
 import createPubSub from './createPubSub'
 import createPluginSchema from './utils/createPluginSchema'
@@ -14,7 +15,6 @@ import type { Subschema } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
 import type { Plugin } from '@zemble/core'
 import type { Middleware } from '@zemble/core/types'
-import type { GraphQLFormattedError, GraphQLScalarType } from 'graphql'
 import type {
   GraphQLSchemaWithContext,
 } from 'graphql-yoga'
@@ -42,7 +42,7 @@ async function gqlRequestUntyped<TRes, TVars>(
   variables: TVars,
   options?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean},
 ) {
-  const res = await app.fetch(new Request('http://localhost/graphql', {
+  const response = await app.fetch(new Request('http://localhost/graphql', {
     method: 'POST',
     body: JSON.stringify({
       query,
@@ -54,16 +54,16 @@ async function gqlRequestUntyped<TRes, TVars>(
     },
   }))
 
-  const resJson = await res.json() as unknown as {
+  const { data, errors } = await response.json() as unknown as {
     readonly data?: TRes,
     readonly errors: readonly GraphQLFormattedError[]
   }
 
-  if (resJson.errors && !options?.silenceErrors) {
-    console.error(resJson.errors)
+  if (errors && !options?.silenceErrors) {
+    console.error(errors)
   }
 
-  return resJson
+  return { data, errors, response }
 }
 
 async function gqlRequest<TQuery, TVars>(
@@ -72,7 +72,7 @@ async function gqlRequest<TQuery, TVars>(
   variables: TVars,
   options: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean} = {},
 ) {
-  const req = new Request('http://localhost/graphql', {
+  const response = new Request('http://localhost/graphql', {
     method: 'POST',
     body: JSON.stringify({
       query: print(query),
@@ -84,18 +84,18 @@ async function gqlRequest<TQuery, TVars>(
     },
   })
 
-  const res = await app.fetch(req)
+  const res = await app.fetch(response)
 
-  const resJson = await res.json() as unknown as {
+  const { errors, data } = await res.json() as unknown as {
     readonly data?: ResultOf<TQuery>,
     readonly errors: readonly GraphQLFormattedError[]
   }
 
-  if (resJson.errors && !options?.silenceErrors) {
-    console.error(resJson.errors)
+  if (errors && !options?.silenceErrors) {
+    console.error(errors)
   }
 
-  return resJson
+  return { errors, data, response }
 }
 
 const buildMergedSchema = async (
@@ -171,7 +171,19 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
   const globalContext = context
 
   const handlerPromise = handleYoga(
-    async () => buildMergedSchema(plugins, config),
+    async () => {
+      const mergedSchema = await buildMergedSchema(plugins, config)
+
+      if (config.outputMergedSchemaPath) {
+        const resolvedPath = path.isAbsolute(config.outputMergedSchemaPath)
+          ? config.outputMergedSchemaPath
+          : path.join(process.cwd(), config.outputMergedSchemaPath)
+
+        void fs.promises.writeFile(resolvedPath, printSchema(mergedSchema))
+      }
+
+      return mergedSchema
+    },
     pubsub,
     globalContext.logger,
     {

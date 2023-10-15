@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-recursive": "bunx turbo run test",
-    "lint-quiet": "bunx turbo run lint -- --quiet",
-    "typecheck": "bunx turbo run typecheck",
+    "test-recursive": "bunx turbo run test --continue",
+    "lint-quiet": "bunx turbo run lint --continue -- --quiet",
+    "typecheck": "bunx turbo run typecheck --continue",
     "graphql-codegen": "bunx turbo run graphql-codegen",
     "prepare": "husky install",
-    "pre-push": "bunx turbo run lint-quiet test typecheck",
+    "pre-push": "bunx turbo run lint-quiet test typecheck --continue",
     "generate-cms-json-schema": "typescript-json-schema ./packages/cms/tsconfig.json CmsConfigFile --include ./packages/cms/types.ts --out ./packages/cms/entities-json-schema.json --required --strictNullChecks --rejectDateType",
     "fix-workspace-dependencies": "find . -type f -name 'package.json' -not -path './package.json' -not -path '*/node_modules/*' -exec perl -pi -e 's/\"workspace:[^\"]*\"/\"*\"/g' {} \\;",
     "changeset-release": "bun run fix-workspace-dependencies && bunx changeset publish"

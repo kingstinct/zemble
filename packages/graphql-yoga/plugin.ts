@@ -79,6 +79,7 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
 
   readonly extendSchema?: readonly GraphQLSchema[] | (() => Promise<readonly GraphQLSchema[]>)
   readonly scalars?: Record<string, GraphQLScalarType>
+  readonly outputMergedSchemaPath?: string
 }
 
 const defaultConfig = {
