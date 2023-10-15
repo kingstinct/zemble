@@ -1,5 +1,14 @@
 # zemble-plugin-cms
 
+## 0.0.4
+
+### Patch Changes
+
+- d8c9842: Bump graphql
+- Updated dependencies [d8c9842]
+  - @zemble/graphql@0.0.8
+  - zemble-plugin-auth@0.0.6
+
 ## 0.0.3
 
 ### Patch Changes
