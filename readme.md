@@ -1,4 +1,4 @@
-# Brix POC
+# @zemble plugin system
 
 A plugin system to build composable systems. Goal is to do what plugins do for Wordpress, but for the Node ecosystem.
 

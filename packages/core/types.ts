@@ -47,8 +47,12 @@ declare global {
 
     }
 
-    interface GlobalConfig extends Record<string, unknown> {
+    interface MiddlewareConfig {
 
+    }
+
+    interface GlobalConfig {
+      readonly middleware?: MiddlewareConfig
     }
 
     interface KVPrefixes extends Record<string, unknown> {

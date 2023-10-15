@@ -9,6 +9,17 @@ import type {
   RedisOptions,
 } from 'bullmq'
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Zemble {
+    interface MiddlewareConfig {
+      readonly ['zemble-plugin-bull']?: {
+        readonly disable?: boolean
+      }
+    }
+  }
+}
+
 export interface BullPluginConfig extends Zemble.GlobalConfig {
   /**
    * The url of the redis instance to use for pubsub
@@ -22,15 +33,21 @@ export interface BullPluginConfig extends Zemble.GlobalConfig {
 
 const defaults = {
   redisUrl: process.env.REDIS_URL,
+  middleware: {
+    '@zemble/graphql': { disable: true },
+    'zemble-plugin-bull': { disable: true },
+  },
 } satisfies BullPluginConfig
 
 export type { ZembleQueueConfig }
 
 export { ZembleQueue }
 
-export default new PluginWithMiddleware<BullPluginConfig>(__dirname, (config) => ({ plugins, context: { pubsub } }) => {
-  plugins.forEach(({ pluginPath }) => {
-    setupQueues(pluginPath, pubsub, config)
+export default new PluginWithMiddleware<BullPluginConfig>(__dirname, () => ({ plugins, context: { pubsub } }) => {
+  plugins.forEach(({ pluginPath, config }) => {
+    if (!config.middleware?.['zemble-plugin-bull']?.disable) {
+      setupQueues(pluginPath, pubsub, config)
+    }
   })
 }, {
   defaultConfig: defaults,
@@ -40,6 +57,5 @@ export default new PluginWithMiddleware<BullPluginConfig>(__dirname, (config) =>
 
       }),
     },
-
   ],
 })

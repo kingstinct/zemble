@@ -26,7 +26,11 @@ export const mapEmail = (email: string | IEmail): IEmail => (typeof email === 's
 
 const defaultConfig = {
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
-  skipGraphQL: true,
+  middleware: {
+    '@zemble/graphql': {
+      disable: true,
+    },
+  },
 } satisfies Partial<EmailSendgridConfig>
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
@@ -64,7 +68,11 @@ const plugin = new PluginWithMiddleware<EmailSendgridConfig, typeof defaultConfi
   defaultConfig,
   devConfig: {
     SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
-    skipGraphQL: false,
+    middleware: {
+      '@zemble/graphql': {
+        disable: false,
+      },
+    },
   },
 })
 

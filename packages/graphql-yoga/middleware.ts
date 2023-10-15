@@ -114,13 +114,14 @@ const buildMergedSchema = async (
       : []),
   ]
 
-  const pluginsToAdd = plugins.filter(({ config }) => !config.skipGraphQL)
+  const pluginsToAdd = plugins.filter(({ config }) => !config.middleware?.['@zemble/graphql']?.disable)
 
   // eslint-disable-next-line @typescript-eslint/await-thenable
   const graphQLSchemas = await pluginsToAdd.reduce(async (
     prev,
-    { pluginPath, config: { graphqlSchemaTransforms } },
+    { pluginPath, config: traversedPluginConfig },
   ) => {
+    const graphqlSchemaTransforms = traversedPluginConfig.middleware?.['@zemble/graphql']?.graphqlSchemaTransforms
     // eslint-disable-next-line functional/prefer-readonly-type
     const toReturn: GraphQLSchemaWithContext<Zemble.GraphQLContext>[] = [
       ...await prev,

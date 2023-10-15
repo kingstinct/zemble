@@ -11,6 +11,11 @@ import type {
 import type { Context as HonoContext, Hono } from 'hono'
 import type { RedisOptions } from 'ioredis'
 
+interface GraphQLMiddlewareGlobalConfig {
+  readonly graphqlSchemaTransforms?: SubschemaConfig['transforms']
+  readonly disable?: boolean
+}
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
@@ -34,9 +39,8 @@ declare global {
       }>
     }
 
-    interface GlobalConfig {
-      readonly skipGraphQL?: boolean
-      readonly graphqlSchemaTransforms?: SubschemaConfig['transforms']
+    interface MiddlewareConfig {
+      readonly ['@zemble/graphql']?: GraphQLMiddlewareGlobalConfig
     }
 
     interface GlobalContext {
