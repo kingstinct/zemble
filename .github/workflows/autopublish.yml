@@ -1,34 +1,31 @@
-# name: NPM Autopublish
-# run-name: Autopublish
+name: Release
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 
-# jobs:
-#   test:
-#     uses: ./.github/workflows/test.yml
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
-#   publish-to-npm:
-#     needs: [ test ]
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: oven-sh/setup-bun@v1
-#       - run: git config user.name "$(git log -n 1 --pretty=format:%an)"
-#       - run: git config user.email "$(git log -n 1 --pretty=format:%ae)"
-#       - run: bun install
-#       - run: echo "versionTag=`npm version patch -m "%s - autorelease"`" >> $GITHUB_ENV
-#       - run: npm publish
-#         env:
-#           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-#       - run: git push --follow-tags --no-verify
-#         env:
-#           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-#       - name: Release
-#         uses: softprops/action-gh-release@v1
-#         with:
-#           name: ${{ env.versionTag }} - autorelease
-#           tag_name: ${{ env.versionTag }}
-#           generate_release_notes: true
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - uses: oven-sh/setup-bun@v1
+
+      - run: bun install
+
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: bunx changeset-release
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
