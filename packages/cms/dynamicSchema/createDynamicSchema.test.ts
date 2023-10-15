@@ -94,7 +94,7 @@ beforeEach(async () => {
     ],
   }, opts)
 
-  await new Promise((resolve) => { setTimeout(resolve, 1000) })
+  await new Promise((resolve) => { setTimeout(resolve, 100) })
 
   await app.gqlRequest(AddFieldsToEntityMutation, {
     namePlural: 'authors',
@@ -184,7 +184,7 @@ test('should create a book with authors', async () => {
     }
 
     // wait for schema to be updated
-    await new Promise((resolve) => { setTimeout(resolve, 1000) })
+    await new Promise((resolve) => { setTimeout(resolve, 100) })
 
     const { data: jrr } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "J.R.R.", lastName: "Tolkien") { id, firstName, lastName } }`, {}, opts)
     const { data: christopher } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "Christopher", lastName: "Tolkien") { id, firstName, lastName } } `, {}, opts)

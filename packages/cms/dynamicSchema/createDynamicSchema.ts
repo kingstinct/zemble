@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { printSchemaWithDirectives } from '@graphql-tools/utils'
 import Dataloader from 'dataloader'
 import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLNonNull,
-  printSchema,
   GraphQLString,
 } from 'graphql'
 import { ObjectId } from 'mongodb'
@@ -194,12 +194,12 @@ export default async () => {
   })
 
   if (process.env.DEBUG) {
-    const schemaStr = printSchema(schema)
+    const schemaStr = printSchemaWithDirectives(schema)
     console.log(`\n\n------- ▼ UPDATED SCHEMA ▼ -------\n\n${schemaStr}\n\n------- ⏶ UPDATED SCHEMA ⏶ -------\n\n`)
   }
 
   if (process.env.NODE_ENV !== 'test') {
-    const schemaStr = printSchema(schema)
+    const schemaStr = printSchemaWithDirectives(schema)
     await fs.promises.mkdir(`${process.cwd()}/cms`, { recursive: true })
     await fs.promises.writeFile(`${process.cwd()}/cms/schema.generated.graphql`, schemaStr)
   }

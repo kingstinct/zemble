@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
 import { mergeSchemas } from '@graphql-tools/schema'
-import { printSchema, type GraphQLFormattedError, type GraphQLScalarType } from 'graphql'
+import { printSchemaWithDirectives } from '@graphql-tools/utils'
+import { type GraphQLFormattedError, type GraphQLScalarType } from 'graphql'
 import { print } from 'graphql/language/printer'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -186,7 +187,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
           ? config.outputMergedSchemaPath
           : path.join(process.cwd(), config.outputMergedSchemaPath)
 
-        void fs.promises.writeFile(resolvedPath, printSchema(mergedSchema))
+        void fs.promises.writeFile(resolvedPath, printSchemaWithDirectives(mergedSchema))
       }
 
       return mergedSchema
