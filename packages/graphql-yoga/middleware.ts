@@ -108,12 +108,15 @@ const buildMergedSchema = async (
   const isPlugin = plugins.some(({ pluginPath }) => pluginPath === process.cwd())
   const selfSchemas: readonly GraphQLSchemaWithContext<Zemble.GraphQLContext>[] = [
     // don't load if we're already a plugin
-    ...!isPlugin ? await processPluginSchema(process.cwd(), { transforms: [], scalars: config.scalars || {}, skipGraphQLValidation: false }) : [],
+    ...!isPlugin
+      ? await processPluginSchema(process.cwd(), { transforms: [], scalars: config.scalars || {}, skipGraphQLValidation: false })
+      : [],
     // eslint-disable-next-line no-nested-ternary
     ...(config.extendSchema
       ? (typeof config.extendSchema === 'function'
         ? await config.extendSchema()
-        : config.extendSchema)
+        : config.extendSchema
+      )
       : []),
   ]
 

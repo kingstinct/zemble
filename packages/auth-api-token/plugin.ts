@@ -5,7 +5,7 @@ import Auth from 'zemble-plugin-auth'
 const API_KEY_SECRET = process.env.API_KEY_SECRET ?? 'top-secret'
 const INVALIDATE_API_KEYS_IAT_BEFORE = process.env.INVALIDATE_API_KEYS_IAT_BEFORE ? parseInt(process.env.INVALIDATE_API_KEYS_IAT_BEFORE, 10) : 0
 
-type AuthConfig = {
+interface AuthConfig extends Zemble.GlobalConfig {
   readonly API_KEY_SECRET?: string;
   readonly INVALIDATE_API_KEYS_IAT_BEFORE?: number;
 }

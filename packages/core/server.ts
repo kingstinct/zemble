@@ -59,7 +59,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   ).then((plugins) => plugins.flat())
 
   const plugins = resolved.reduce((prev, plugin) => {
-    const existingPlugin = prev.find(({ pluginPath }) => pluginPath === plugin.pluginName)
+    const existingPlugin = prev.find(({ pluginName }) => pluginName === plugin.pluginName)
     if (existingPlugin) {
       if (existingPlugin.config !== plugin.config) {
         // in some situation we can end up with two instances of the same plugin (dependeing on package manager and
