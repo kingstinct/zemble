@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.8
+
+### Patch Changes
+
+- d8c9842: Bump graphql
+
 ## 0.0.7
 
 ### Patch Changes
