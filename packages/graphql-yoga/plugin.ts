@@ -18,7 +18,7 @@ declare global {
       readonly gqlRequest: <TQuery, TVars>(
         query: TypedDocumentNode<TQuery, TVars>,
         vars?: TVars,
-        opts?: {readonly headers?: Record<string, string>}
+        opts?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean}
       ) => Promise<{
         readonly data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
         readonly errors?: readonly GraphQLFormattedError[]
@@ -27,7 +27,7 @@ declare global {
       readonly gqlRequestUntyped: <TRes, TVars = unknown>(
         query: string,
         vars?: TVars,
-        opts?: {readonly headers?: Record<string, string>}
+        opts?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean}
       ) => Promise<{
         readonly data?: TRes,
         readonly errors?: readonly GraphQLFormattedError[]

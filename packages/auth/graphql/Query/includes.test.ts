@@ -14,7 +14,11 @@ describe('Includes', () => {
   it('Should fail authentication', async () => {
     const app = await plugin.testApp()
 
-    const response = await app.gqlRequest(IncludesQuery, { id: '1' })
+    const response = await app.gqlRequest(
+      IncludesQuery,
+      { id: '1' },
+      { silenceErrors: true },
+    )
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.includes' requires authentication.`)
   })
 
@@ -27,6 +31,7 @@ describe('Includes', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      silenceErrors: true,
     })
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.includes' requires token including arrays matching {"roles":{"role":"admin","organisationId":"1"}}.`)
   })
@@ -40,6 +45,7 @@ describe('Includes', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      silenceErrors: true,
     })
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.includes' requires token including arrays matching {"roles":{"role":"admin","organisationId":"1"}}.`)
   })
