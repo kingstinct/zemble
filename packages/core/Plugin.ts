@@ -66,8 +66,10 @@ export class Plugin<
   }
 
   configure(config?: TConfig & Zemble.GlobalConfig) {
-    // eslint-disable-next-line functional/immutable-data
-    this.#config = mergeDeep(this.#config as Record<string, unknown>, (config ?? {}) as Record<string, unknown>) as TResolvedConfig
+    if (config) {
+      // eslint-disable-next-line functional/immutable-data
+      this.#config = mergeDeep(this.#config as Record<string, unknown>, config as Record<string, unknown>) as TResolvedConfig
+    }
 
     return this
   }

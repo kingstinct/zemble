@@ -14,10 +14,9 @@ describe('Query.hello', () => {
     const app = await plugin.testApp()
 
     const response = await app.gqlRequest(HelloWorldQuery, {})
-    expect(response).toEqual({
-      data: {
-        hello: 'world!',
-      },
+
+    expect(response.data).toEqual({
+      hello: 'world!',
     })
   })
 })

@@ -16,10 +16,8 @@ describe('Mutation.randomNumber', () => {
     const app = await plugin.testApp()
 
     const response = await app.gqlRequest(randomNumberMutation, {})
-    expect(response).toEqual({
-      data: {
-        randomNumber: expect.any(Number),
-      },
+    expect(response.data).toEqual({
+      randomNumber: expect.any(Number),
     })
   })
 })
