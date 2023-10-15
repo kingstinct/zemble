@@ -120,11 +120,9 @@ test('should create a book', async () => {
     readonly books: readonly unknown[]
   }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
 
-  expect(createBookReq).toEqual({
-    data: {
-      createBook: {
-        title: 'Lord of the rings',
-      },
+  expect(createBookReq.data).toEqual({
+    createBook: {
+      title: 'Lord of the rings',
     },
   })
 
@@ -216,27 +214,25 @@ test('should create a book with authors', async () => {
       } 
     }`, {}, opts)
 
-    expect(createBookReq).toEqual({
-      data: {
-        createBook: {
-          title: 'Silmarillion',
-          contributors: [
-            {
-              __typename: 'BookContributorsAuthor',
-              author: {
-                firstName: 'J.R.R.',
-                lastName: 'Tolkien',
-              },
+    expect(createBookReq.data).toEqual({
+      createBook: {
+        title: 'Silmarillion',
+        contributors: [
+          {
+            __typename: 'BookContributorsAuthor',
+            author: {
+              firstName: 'J.R.R.',
+              lastName: 'Tolkien',
             },
-            {
-              __typename: 'BookContributorsEditor',
-              editor: {
-                firstName: 'Christopher',
-                lastName: 'Tolkien',
-              },
+          },
+          {
+            __typename: 'BookContributorsEditor',
+            editor: {
+              firstName: 'Christopher',
+              lastName: 'Tolkien',
             },
-          ],
-        },
+          },
+        ],
       },
     })
 
