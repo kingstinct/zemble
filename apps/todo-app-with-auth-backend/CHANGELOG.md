@@ -1,5 +1,17 @@
 # todo-app-with-auth-backend
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/core@0.0.5
+  - @zemble/graphql@0.0.9
+  - zemble-plugin-apple-app-site-association@0.0.3
+  - zemble-plugin-auth-anonymous@0.0.5
+  - zemble-plugin-bull@0.0.7
+  - zemble-plugin-todo@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes
