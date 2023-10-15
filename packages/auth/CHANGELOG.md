@@ -1,5 +1,13 @@
 # zemble-plugin-auth
 
+## 0.0.5
+
+### Patch Changes
+
+- c92781c: Update readme
+- Updated dependencies [c92781c]
+  - @zemble/graphql@0.0.7
+
 ## 0.0.4
 
 ### Patch Changes

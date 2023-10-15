@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.7
+
+### Patch Changes
+
+- c92781c: Update readme
+
 ## 0.0.6
 
 ### Patch Changes
