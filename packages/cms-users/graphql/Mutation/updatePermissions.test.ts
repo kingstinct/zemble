@@ -32,7 +32,11 @@ describe('Mutation.updatePermissions', () => {
   it('Should fail without permission', async () => {
     const app = await plugin.testApp()
 
-    const { errors } = await app.gqlRequest(UpdatePermissionsMutation, { userId: 'abc', permissions: [{ type: PermissionType.MODIFY_ENTITY, scope: '*' }] })
+    const { errors } = await app.gqlRequest(
+      UpdatePermissionsMutation,
+      { userId: 'abc', permissions: [{ type: PermissionType.MODIFY_ENTITY, scope: '*' }] },
+      { silenceErrors: true },
+    )
 
     expect(errors?.[0].message).toEqual(`Accessing 'Mutation.updatePermissions' requires authentication.`)
   })
@@ -84,6 +88,7 @@ describe('Mutation.updatePermissions', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      silenceErrors: true,
     })
 
     expect(errors?.[0].message).toEqual('User not found')
@@ -108,6 +113,7 @@ describe('Mutation.updatePermissions', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      silenceErrors: true,
     })
 
     expect(errors?.[0].message).toEqual('You cannot remove your own user-admin permission')

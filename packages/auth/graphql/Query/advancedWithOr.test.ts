@@ -14,7 +14,12 @@ describe('advancedWithOr', () => {
   it('Should fail authentication', async () => {
     const app = await plugin.testApp()
 
-    const response = await app.gqlRequest(AdvancedWithOrQuery, { organisationId: '123' })
+    const response = await app.gqlRequest(
+      AdvancedWithOrQuery,
+      { organisationId: '123' },
+      { silenceErrors: true },
+    )
+
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.advancedWithOr' requires authentication.`)
   })
 
@@ -27,6 +32,7 @@ describe('advancedWithOr', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      silenceErrors: true,
     })
 
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
@@ -41,6 +47,7 @@ describe('advancedWithOr', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      silenceErrors: true,
     })
 
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
@@ -111,6 +118,7 @@ describe('advancedWithOr', () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      silenceErrors: true,
     })
 
     expect(response.errors?.[0].message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)

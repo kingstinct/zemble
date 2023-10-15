@@ -40,7 +40,7 @@ async function gqlRequestUntyped<TRes, TVars>(
   app: Zemble.Server,
   query: string,
   variables: TVars,
-  options?: {readonly headers?: Record<string, string>},
+  options?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean},
 ) {
   const res = await app.fetch(new Request('http://localhost/graphql', {
     method: 'POST',
@@ -59,7 +59,7 @@ async function gqlRequestUntyped<TRes, TVars>(
     readonly errors: readonly GraphQLFormattedError[]
   }
 
-  if (resJson.errors) {
+  if (resJson.errors && !options?.silenceErrors) {
     console.error(resJson.errors)
   }
 
@@ -70,7 +70,7 @@ async function gqlRequest<TQuery, TVars>(
   app: Zemble.Server,
   query: TypedDocumentNode<TQuery, TVars>,
   variables: TVars,
-  options: {readonly headers?: Record<string, string>} = {},
+  options: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean} = {},
 ) {
   const req = new Request('http://localhost/graphql', {
     method: 'POST',
@@ -91,7 +91,7 @@ async function gqlRequest<TQuery, TVars>(
     readonly errors: readonly GraphQLFormattedError[]
   }
 
-  if (resJson.errors) {
+  if (resJson.errors && !options?.silenceErrors) {
     console.error(resJson.errors)
   }
 
