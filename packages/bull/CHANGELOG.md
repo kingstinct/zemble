@@ -1,5 +1,15 @@
 # zemble-plugin-bull
 
+## 0.0.8
+
+### Patch Changes
+
+- df7fa74: Remove some graphql warnings, add mocking for bull
+- Updated dependencies [df7fa74]
+  - @zemble/core@0.0.6
+  - @zemble/graphql@0.0.10
+  - zemble-plugin-auth@0.0.8
+
 ## 0.0.7
 
 ### Patch Changes

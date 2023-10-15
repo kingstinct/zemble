@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.0.6
+
+### Patch Changes
+
+- df7fa74: Remove some graphql warnings, add mocking for bull
+
 ## 0.0.5
 
 ### Patch Changes
