@@ -2,7 +2,7 @@ import { PluginWithMiddleware } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 
 import setupQueues from './utils/setupQueues'
-import { ZembleQueue } from './ZembleQueue'
+import ZembleQueue from './ZembleQueue'
 
 import type { ZembleQueueConfig } from './ZembleQueue'
 import type {

@@ -6,7 +6,9 @@ import * as path from 'node:path'
 import '@zemble/graphql'
 
 import createClient from '../clients/redis'
-import { ZembleQueue, type BullPluginConfig } from '../plugin'
+import { type BullPluginConfig } from '../plugin'
+import ZembleQueueBull from '../ZembleQueueBull'
+import ZembleQueueMock from '../ZembleQueueMock'
 
 import type {
   Queue,
@@ -51,7 +53,7 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
         const fileNameWithoutExtension = filename.substring(0, filename.length - 3)
         const queueConfig = (await import(path.join(queuePath, filename))).default
 
-        if (queueConfig instanceof ZembleQueue) {
+        if (queueConfig instanceof ZembleQueueBull) {
           const { queue, worker } = await queueConfig._initQueue(fileNameWithoutExtension, createClient(redisUrl, config.redisOptions))
 
           queuePubber('cleaned', queue)
@@ -70,6 +72,8 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
 
           // eslint-disable-next-line functional/immutable-data
           queues.push(queue)
+        } else if (queueConfig instanceof ZembleQueueMock) {
+          await queueConfig._initQueue(fileNameWithoutExtension)
         } else {
           throw new Error(`Failed to load queue ${filename}, make sure it exports a ZembleQueue`)
         }

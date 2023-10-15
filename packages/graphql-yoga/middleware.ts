@@ -146,7 +146,7 @@ const buildMergedSchema = async (
     // eslint-disable-next-line functional/prefer-readonly-type
     schemas: graphQLSchemas as unknown as GraphQLSchemaWithContext<Zemble.GraphQLContext>[],
     resolverValidationOptions: {
-      requireResolversForArgs: 'warn',
+      // requireResolversForArgs: 'warn',
     },
   })
 
