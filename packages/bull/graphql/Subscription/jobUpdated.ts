@@ -3,14 +3,8 @@ import type { Job } from 'bullmq'
 
 const jobUpdated: SubscriptionResolvers['jobUpdated'] = {
   // subscribe to the jobUpdated event
-  subscribe: (_, __, { pubsub }) => {
-    console.log('subscribing to jobUpdated')
-    return pubsub.subscribe('jobUpdated')
-  },
-  resolve: (payload: Job) => {
-    console.log('resolving jobUpdated', payload)
-    return payload
-  },
+  subscribe: (_, __, { pubsub }) => pubsub.subscribe('jobUpdated'),
+  resolve: (payload: Job) => payload,
 }
 
 export default jobUpdated

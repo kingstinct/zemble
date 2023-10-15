@@ -1,9 +1,11 @@
-import type { QueueConfig } from '../utils/setupQueues'
+import { ZembleQueue } from '../ZembleQueue'
 
-const config: QueueConfig = {
-  worker: (job) => {
-    console.log(job.data)
+export default new ZembleQueue((job) => {
+  console.log(job.data)
+}, {
+  repeat: {
+    // every 5 seconds
+    pattern: '*/5 * * * * *',
+    jobId: 'hello-world',
   },
-}
-
-export default config
+})

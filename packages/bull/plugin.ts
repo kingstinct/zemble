@@ -1,8 +1,13 @@
 import { PluginWithMiddleware } from '@zemble/core'
+import GraphQL from '@zemble/graphql'
 
 import setupQueues from './utils/setupQueues'
+import { ZembleQueue } from './ZembleQueue'
 
-import type { RedisOptions } from 'bullmq'
+import type { ZembleQueueConfig } from './ZembleQueue'
+import type {
+  RedisOptions,
+} from 'bullmq'
 
 export interface BullPluginConfig extends Zemble.GlobalConfig {
   /**
@@ -19,10 +24,22 @@ const defaults = {
   redisUrl: process.env.REDIS_URL,
 } satisfies BullPluginConfig
 
+export type { ZembleQueueConfig }
+
+export { ZembleQueue }
+
 export default new PluginWithMiddleware<BullPluginConfig>(__dirname, (config) => ({ plugins, context: { pubsub } }) => {
   plugins.forEach(({ pluginPath }) => {
     setupQueues(pluginPath, pubsub, config)
   })
 }, {
   defaultConfig: defaults,
+  dependencies: [
+    {
+      plugin: GraphQL.configure({
+
+      }),
+    },
+
+  ],
 })

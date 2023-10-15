@@ -3,12 +3,13 @@ scalar DateTime
 
 type BullJob {
   name: String!
-  data: JSON!
-  id: ID
+  data: JSON
+  id: ID!
   progress: Float
   state: JobState!
   timestamp: Int!
   delay: Int
+  repeatJobKey: ID
 }
 
 enum JobState {
@@ -21,6 +22,16 @@ enum JobState {
   waiting_children
 }
 
+type RepeatableJob {
+  key: ID!
+  name: String!
+  id: String!
+  endDate: Float
+  tz: String!
+  pattern: String!
+  next: DateTime!
+}
+
 type BullQueue {
   name: String!
   count: Int!
@@ -31,15 +42,20 @@ type BullQueue {
   failedCount: Int!
   delayedCount: Int!
   isPaused: Boolean!
+  repeatableJobs(
+    start: Int
+    end: Int
+    asc: Boolean
+  ): [RepeatableJob!]!
   jobs(
-    type: [JobType!]
+    type: [JobTypeOrState!]
     start: Int
     end: Int
     asc: Boolean
   ): [BullJob!]!
 }
 
-enum JobType {
+enum JobTypeOrState {
   completed
   failed
   active
@@ -48,7 +64,7 @@ enum JobType {
   waiting
   waiting_children
   paused
-  repeat
+  # repeat (probably doesn't make sense, since we have repeatableJobs for this)
   wait
 }
 
@@ -57,7 +73,22 @@ type Query {
 }
 
 type Mutation {
-  addJob(queue: String!): BullJob!
+  addJob(queue: String!, data: JSON, jobId: ID): BullJob!
+  addRepeatableJob(queue: String!, data: JSON, repeatJobKey: ID, pattern: String!): BullJob!
+  removeRepeatableJob(queue: String!, repeatJobKey: ID!): Boolean!
+  drainQueue(queue: String!, delayed: Boolean): Boolean!
+  cleanQueue(queue: String!, grace: Int!, type: CleanQueueType, limit: Int!): [ID!]!
+  removeJob(queue: String!, jobId: ID!): Boolean!
+}
+
+enum CleanQueueType {
+  completed
+  wait
+  active
+  paused
+  prioritized
+  delayed
+  failed
 }
 
 type Subscription {

@@ -1,18 +1,18 @@
+/* eslint-disable no-underscore-dangle */
 import readDir from '@zemble/core/utils/readDir'
-import { Queue, Worker } from 'bullmq'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
 import '@zemble/graphql'
 
 import createClient from '../clients/redis'
+import { ZembleQueue, type BullPluginConfig } from '../plugin'
 
-import type { BullPluginConfig } from '../plugin'
-import type { Job } from 'bullmq'
-
-export type QueueConfig<DataType = unknown, ReturnType = unknown> = {
-  readonly worker: (job: Job<DataType, ReturnType>) => Promise<void> | void
-}
+import type {
+  Queue,
+  Job,
+  QueueListener,
+} from 'bullmq'
 
 // eslint-disable-next-line functional/prefer-readonly-type
 const queues: Queue[] = []
@@ -26,6 +26,21 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
     pubSub.publish('jobUpdated', job)
   }
 
+  function queuePubber<T extends keyof QueueListener<unknown, unknown, string>>(status: T, queue: Queue) {
+    queue.on(status, (...args) => {
+      const typedArgs = args as Parameters<QueueListener<unknown, unknown, string>[T]>
+
+      pubSub.publish(
+        'queueUpdated',
+        {
+          args: typedArgs,
+          queue,
+          status,
+        },
+      )
+    })
+  }
+
   if (hasQueues) {
     const redisUrl = config?.redisUrl
 
@@ -34,25 +49,30 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
 
       filenames.forEach(async (filename) => {
         const fileNameWithoutExtension = filename.substring(0, filename.length - 3)
-        const queueConfig = (await import(path.join(queuePath, filename))).default as QueueConfig
+        const queueConfig = (await import(path.join(queuePath, filename))).default
 
-        const queue = new Queue(fileNameWithoutExtension, {
-          connection: createClient(redisUrl, config.redisOptions),
-        })
+        if (queueConfig instanceof ZembleQueue) {
+          const { queue, worker } = await queueConfig._initQueue(fileNameWithoutExtension, createClient(redisUrl, config.redisOptions))
 
-        // @ts-expect-error if this cannot be a promise I'm not sure how stuff will work
-        const worker = new Worker(fileNameWithoutExtension, queueConfig.worker, {
-          connection: createClient(redisUrl, config.redisOptions),
-        })
+          queuePubber('cleaned', queue)
+          queuePubber('error', queue)
+          queuePubber('progress', queue)
+          queuePubber('removed', queue)
+          queuePubber('waiting', queue)
+          queuePubber('paused', queue)
+          queuePubber('resumed', queue)
 
-        worker.on('completed', jobUpdated)
-        worker.on('active', jobUpdated)
+          worker.on('completed', jobUpdated)
+          worker.on('active', jobUpdated)
 
-        worker.on('progress', jobUpdated)
-        worker.on('failed', (job) => (job ? jobUpdated(job) : null))
+          worker.on('progress', jobUpdated)
+          worker.on('failed', (job) => (job ? jobUpdated(job) : null))
 
-        // eslint-disable-next-line functional/immutable-data
-        queues.push(queue)
+          // eslint-disable-next-line functional/immutable-data
+          queues.push(queue)
+        } else {
+          throw new Error(`Failed to load queue ${filename}, make sure it exports a ZembleQueue`)
+        }
       })
     } else {
       console.error('[bull-plugin] Failed to initialize. No redisUrl provided for bull plugin, you can specify it directly or with REDIS_URL')

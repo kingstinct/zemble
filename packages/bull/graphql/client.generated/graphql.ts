@@ -20,11 +20,12 @@ export type Scalars = {
 
 export type BullJob = {
   __typename?: 'BullJob';
-  data: Scalars['JSON']['output'];
+  data?: Maybe<Scalars['JSON']['output']>;
   delay?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['ID']['output']>;
+  id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   progress?: Maybe<Scalars['Float']['output']>;
+  repeatJobKey?: Maybe<Scalars['ID']['output']>;
   state: JobState;
   timestamp: Scalars['Int']['output'];
 };
@@ -39,6 +40,7 @@ export type BullQueue = {
   isPaused: Scalars['Boolean']['output'];
   jobs: Array<BullJob>;
   name: Scalars['String']['output'];
+  repeatableJobs: Array<RepeatableJob>;
   waitingChildrenCount: Scalars['Int']['output'];
   waitingCount: Scalars['Int']['output'];
 };
@@ -48,8 +50,25 @@ export type BullQueueJobsArgs = {
   asc?: InputMaybe<Scalars['Boolean']['input']>;
   end?: InputMaybe<Scalars['Int']['input']>;
   start?: InputMaybe<Scalars['Int']['input']>;
-  type?: InputMaybe<Array<JobType>>;
+  type?: InputMaybe<Array<JobTypeOrState>>;
 };
+
+
+export type BullQueueRepeatableJobsArgs = {
+  asc?: InputMaybe<Scalars['Boolean']['input']>;
+  end?: InputMaybe<Scalars['Int']['input']>;
+  start?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export enum CleanQueueType {
+  Active = 'active',
+  Completed = 'completed',
+  Delayed = 'delayed',
+  Failed = 'failed',
+  Paused = 'paused',
+  Prioritized = 'prioritized',
+  Wait = 'wait'
+}
 
 export enum JobState {
   Active = 'active',
@@ -61,14 +80,13 @@ export enum JobState {
   WaitingChildren = 'waiting_children'
 }
 
-export enum JobType {
+export enum JobTypeOrState {
   Active = 'active',
   Completed = 'completed',
   Delayed = 'delayed',
   Failed = 'failed',
   Paused = 'paused',
   Prioritized = 'prioritized',
-  Repeat = 'repeat',
   Wait = 'wait',
   Waiting = 'waiting',
   WaitingChildren = 'waiting_children'
@@ -77,16 +95,68 @@ export enum JobType {
 export type Mutation = {
   __typename?: 'Mutation';
   addJob: BullJob;
+  addRepeatableJob: BullJob;
+  cleanQueue: Array<Scalars['ID']['output']>;
+  drainQueue: Scalars['Boolean']['output'];
+  removeJob: Scalars['Boolean']['output'];
+  removeRepeatableJob: Scalars['Boolean']['output'];
 };
 
 
 export type MutationAddJobArgs = {
+  data?: InputMaybe<Scalars['JSON']['input']>;
+  jobId?: InputMaybe<Scalars['ID']['input']>;
   queue: Scalars['String']['input'];
+};
+
+
+export type MutationAddRepeatableJobArgs = {
+  data?: InputMaybe<Scalars['JSON']['input']>;
+  pattern: Scalars['String']['input'];
+  queue: Scalars['String']['input'];
+  repeatJobKey?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationCleanQueueArgs = {
+  grace: Scalars['Int']['input'];
+  limit: Scalars['Int']['input'];
+  queue: Scalars['String']['input'];
+  type?: InputMaybe<CleanQueueType>;
+};
+
+
+export type MutationDrainQueueArgs = {
+  delayed?: InputMaybe<Scalars['Boolean']['input']>;
+  queue: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveJobArgs = {
+  jobId: Scalars['ID']['input'];
+  queue: Scalars['String']['input'];
+};
+
+
+export type MutationRemoveRepeatableJobArgs = {
+  queue: Scalars['String']['input'];
+  repeatJobKey: Scalars['ID']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
   queues: Array<BullQueue>;
+};
+
+export type RepeatableJob = {
+  __typename?: 'RepeatableJob';
+  endDate?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['String']['output'];
+  key: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  next: Scalars['DateTime']['output'];
+  pattern: Scalars['String']['output'];
+  tz: Scalars['String']['output'];
 };
 
 export type Subscription = {

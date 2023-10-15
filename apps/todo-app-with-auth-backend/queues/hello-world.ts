@@ -1,9 +1,5 @@
-import type { QueueConfig } from 'zemble-plugin-bull/utils/setupQueues'
+import { ZembleQueue } from 'zemble-plugin-bull'
 
-const config: QueueConfig = {
-  worker: (job) => {
-    console.log(job.data)
-  },
-}
-
-export default config
+export default new ZembleQueue((job) => {
+  console.log(job.data)
+})
