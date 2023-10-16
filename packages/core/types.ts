@@ -110,7 +110,7 @@ export type Dependency<TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig
   readonly devOnly?: boolean, // decides if we should warn if this plugin is not used in production
 }
 
-export type DependenciesResolver<TSelf> = readonly Dependency[] | Promise<readonly Dependency[]> | ((self: TSelf) => readonly Dependency[]) | ((self: TSelf) => Promise<readonly Dependency[]>)
+export type DependenciesResolver<TSelf> = readonly Dependency[] | ((self: TSelf) => readonly Dependency[])
 
 export type PluginOpts<TDefaultConfig extends Zemble.GlobalConfig, TSelf, TConfig extends Zemble.GlobalConfig> = {
   /**

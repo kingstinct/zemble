@@ -61,6 +61,10 @@ const plugin = new Plugin<KeyValueConfig, typeof defaultConfig>(__dirname, {
             useExtendContext((ctx: Zemble.GraphQLContext) => {
               // eslint-disable-next-line functional/immutable-data
               ctx.kv = kv
+
+              return {
+                kv,
+              }
             }),
           ],
         },

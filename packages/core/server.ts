@@ -54,17 +54,15 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   app.use('*', cors())
 
-  const resolved = await Promise.all(
-    pluginsBeforeResolvingDeps.flatMap(async (plugin) => [...await plugin.dependencies, plugin]),
-  ).then((plugins) => plugins.flat())
+  const resolved = pluginsBeforeResolvingDeps.flatMap((plugin) => [...plugin.dependencies, plugin])
 
   const plugins = resolved.reduce((prev, plugin) => {
     const existingPlugin = prev.find(({ pluginName }) => pluginName === plugin.pluginName)
     if (existingPlugin) {
-      if (existingPlugin.config !== plugin.config) {
+      if (existingPlugin !== plugin) {
         // in some situation we can end up with two instances of the same plugin (dependeing on package manager and
         // other factors). In those cases we use the latest version of the plugin, but try to merge the config
-        const pluginToUse = existingPlugin.pluginVersion > plugin.pluginVersion
+        const pluginToUse = existingPlugin.pluginVersion >= plugin.pluginVersion
           ? existingPlugin.configure(plugin.config)
           : plugin.configure(existingPlugin.config)
 

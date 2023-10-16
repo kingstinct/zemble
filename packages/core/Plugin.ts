@@ -4,9 +4,8 @@ import { createApp } from './server'
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 
-import type PluginWithMiddleware from './PluginWithMiddleware'
 import type { ZembleApp } from './server'
-import type { DependenciesResolver, Dependency, PluginOpts } from './types'
+import type { Dependency, PluginOpts } from './types'
 
 // initialize dotenv before any plugins are loaded/configured
 configDotenv()
@@ -21,7 +20,7 @@ export class Plugin<
 
   readonly #devConfig?: TConfig
 
-  readonly #dependencies: DependenciesResolver<Plugin<Zemble.GlobalConfig>>
+  readonly dependencies: readonly Plugin<Zemble.GlobalConfig>[]
 
   readonly pluginPath: string
 
@@ -37,8 +36,16 @@ export class Plugin<
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
     this.#devConfig = opts?.devConfig
-    // @ts-expect-error not the most important
-    this.#dependencies = opts?.dependencies ?? []
+    const deps = opts?.dependencies ?? []
+
+    const allDeps = (typeof deps === 'function') ? deps(this) : deps
+
+    const filteredDeps = allDeps.filter(this.#filterDevDependencies.bind(this))
+
+    const resolvedDeps = filteredDeps
+      .map(({ plugin, config }) => plugin.configure(config))
+
+    this.dependencies = resolvedDeps
 
     if (this.#isPluginDevMode) {
       void this.#devApp().then((app) => app.start())
@@ -101,28 +108,13 @@ export class Plugin<
     return this.#config
   }
 
-  get dependencies() {
-    const allDeps = Promise.resolve((typeof this.#dependencies === 'function') ? this.#dependencies(this) : this.#dependencies)
-
-    return allDeps.then(async (allDeps) => {
-      const filteredDeps = allDeps.filter(this.#filterDevDependencies.bind(this))
-
-      const resolvedDeps: Promise<readonly Plugin[]> = Promise.all(filteredDeps
-        .map(({ plugin, config }) => plugin.configure(config))
-        .flatMap(async (dep) => [dep, ...await dep.dependencies]))
-        .then((deps) => deps.flat())
-
-      return resolvedDeps
-    })
-  }
-
   async #devApp(): Promise<ZembleApp> {
     const resolved = this.configure(this.#devConfig)
     return createApp({
       plugins: [
-        ...await this.dependencies,
+        ...this.dependencies,
         resolved,
-      ] as readonly (Plugin<Zemble.GlobalConfig> | PluginWithMiddleware<Zemble.GlobalConfig>)[],
+      ],
     })
   }
 

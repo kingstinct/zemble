@@ -135,7 +135,7 @@ const buildMergedSchema = async (
       ...await processPluginSchema(pluginPath, {
         transforms: graphqlSchemaTransforms ?? [],
         scalars: config.scalars || {},
-        skipGraphQLValidation: true, // skip validation so we don't need to provide root queries for plugins where it doesn't make sense
+        // skipGraphQLValidation: true, // skip validation so we don't need to provide root queries for plugins where it doesn't make sense
       }),
     ]
 
@@ -207,15 +207,15 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
       },
       // eslint-disable-next-line no-nested-ternary
       context: () => {
-        const context = (config.yoga?.context
-          ? (typeof config.yoga.context === 'function'
+        if (config.yoga?.context) {
+          const ctx = typeof config.yoga.context === 'function'
             ? config.yoga.context(globalContext)
-            : { ...globalContext, ...(config.yoga.context as object) })
-          : globalContext)
+            : { ...globalContext, ...(config.yoga.context as object) }
 
-        console.log('CTXXXXXXX', context)
+          return ctx
+        }
 
-        return context
+        return globalContext
       }
       ,
     },
