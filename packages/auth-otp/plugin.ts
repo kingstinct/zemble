@@ -69,7 +69,7 @@ const defaultConfig = {
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
   generateTokenContents,
   handleAuthRequest: async (to, twoFactorCode, { sendEmail, logger }) => {
-    if (sendEmail) {
+    if (sendEmail && process.env.NODE_ENV !== 'test') {
       void sendEmail({
         from: plugin.config.from,
         subject: plugin.config.emailSubject ? simpleTemplating(plugin.config.emailSubject, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : 'Login',

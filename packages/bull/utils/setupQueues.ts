@@ -8,7 +8,6 @@ import '@zemble/graphql'
 import createClient from '../clients/redis'
 import { type BullPluginConfig } from '../plugin'
 import ZembleQueueBull from '../ZembleQueueBull'
-import ZembleQueueMock from '../ZembleQueueMock'
 
 import type {
   Queue,
@@ -72,7 +71,8 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
 
           // eslint-disable-next-line functional/immutable-data
           queues.push(queue)
-        } else if (queueConfig instanceof ZembleQueueMock) {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        } else if (process.env.NODE_ENV === 'test' && queueConfig instanceof require('./ZembleQueueMock').default) {
           await queueConfig._initQueue(fileNameWithoutExtension)
         } else {
           throw new Error(`Failed to load queue ${filename}, make sure it exports a ZembleQueue`)

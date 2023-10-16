@@ -206,11 +206,17 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
         })
       },
       // eslint-disable-next-line no-nested-ternary
-      context: () => (config.yoga?.context
-        ? (typeof config.yoga.context === 'function'
-          ? config.yoga.context(globalContext)
-          : { ...globalContext, ...(config.yoga.context) })
-        : globalContext)
+      context: () => {
+        const context = (config.yoga?.context
+          ? (typeof config.yoga.context === 'function'
+            ? config.yoga.context(globalContext)
+            : { ...globalContext, ...(config.yoga.context as object) })
+          : globalContext)
+
+        console.log('CTXXXXXXX', context)
+
+        return context
+      }
       ,
     },
   )
