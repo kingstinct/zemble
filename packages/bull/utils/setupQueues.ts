@@ -45,14 +45,14 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
   if (hasQueues) {
     const redisUrl = config?.redisUrl
 
-    if (config && redisUrl) {
+    if (redisUrl || process.env.NODE_ENV === 'test') {
       const filenames = readDir(queuePath)
 
       filenames.forEach(async (filename) => {
         const fileNameWithoutExtension = filename.substring(0, filename.length - 3)
         const queueConfig = (await import(path.join(queuePath, filename))).default
 
-        if (queueConfig instanceof ZembleQueueBull) {
+        if (queueConfig instanceof ZembleQueueBull && redisUrl) {
           const { queue, worker } = await queueConfig._initQueue(fileNameWithoutExtension, createClient(redisUrl, config.redisOptions))
 
           queuePubber('cleaned', queue)
@@ -72,7 +72,7 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
           // eslint-disable-next-line functional/immutable-data
           queues.push(queue)
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        } else if (process.env.NODE_ENV === 'test' && queueConfig instanceof require('./ZembleQueueMock').default) {
+        } else if (process.env.NODE_ENV === 'test' && queueConfig instanceof require('../ZembleQueueMock').default) {
           await queueConfig._initQueue(fileNameWithoutExtension)
         } else {
           throw new Error(`Failed to load queue ${filename}, make sure it exports a ZembleQueue`)

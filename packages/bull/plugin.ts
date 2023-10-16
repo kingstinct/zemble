@@ -50,6 +50,8 @@ export default new PluginWithMiddleware<BullPluginConfig>(__dirname, () => ({ pl
       setupQueues(pluginPath, pubsub, config)
     }
   })
+  const appPath = process.cwd()
+  setupQueues(appPath, pubsub, {})
 }, {
   defaultConfig: defaults,
   dependencies: [
