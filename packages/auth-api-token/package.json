@@ -4,7 +4,7 @@
   "description": "",
   "main": "plugin.ts",
   "scripts": {
-    "dev": "PLUGIN_DEV=true bun --hot plugin.ts",
+    "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",

@@ -1,4 +1,4 @@
-import { createApp } from '@zemble/core'
+import bunRunner from '@zemble/bun'
 import YogaGraphQL from '@zemble/graphql'
 import AuthOTP from 'zemble-plugin-auth-otp'
 
@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-const app = createApp({
+void bunRunner({
   plugins: [
     YogaGraphQL.configure({
       yoga: {
@@ -50,7 +50,3 @@ const app = createApp({
 })
 
 void connect()
-
-void app.then(({ start }) => {
-  start()
-})

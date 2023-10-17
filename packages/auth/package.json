@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "bun test",
-    "dev": "PLUGIN_DEV=true bun --hot plugin.ts",
+    "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
@@ -22,6 +22,7 @@
     "@envelop/generic-auth": "^6.0.1",
     "@graphql-tools/wrap": "^10.0.1",
     "@zemble/core": "workspace:*",
+    "@zemble/bun": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.0",
     "graphql-scalars": "^1.22.2",

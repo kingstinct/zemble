@@ -1,19 +1,12 @@
-import { createApp } from '@zemble/core'
-import YogaGraphQL from '@zemble/graphql'
+import bunRunner from '@zemble/bun'
+import Ignite from '@zemble/ignite'
 import AppleAppSiteAssociation from 'zemble-plugin-apple-app-site-association'
 import AnonymousAuth from 'zemble-plugin-auth-anonymous'
-import Bull from 'zemble-plugin-bull'
 import TodoPlugin from 'zemble-plugin-todo'
 
-const app = createApp({
+void bunRunner({
   plugins: [
-    YogaGraphQL.configure({
-      yoga: {
-        graphqlEndpoint: '/graphql',
-        plugins: [],
-      },
-    }),
-    Bull.configure(),
+    Ignite.configure(),
     AnonymousAuth.configure(),
     TodoPlugin.configure(),
     AppleAppSiteAssociation.configure({
@@ -29,5 +22,3 @@ const app = createApp({
     }),
   ],
 })
-
-void app.then(({ start }) => start())

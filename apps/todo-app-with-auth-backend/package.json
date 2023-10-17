@@ -5,7 +5,7 @@
   "private": true,
   "main": "app.ts",
   "scripts": {
-    "dev": "bun app.ts",
+    "dev": "bun --hot app.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
@@ -20,7 +20,9 @@
     "zemble-plugin-auth-anonymous": "workspace:*",
     "zemble-plugin-apple-app-site-association": "workspace:*",
     "zemble-plugin-bull": "workspace:*",
-    "zemble-plugin-todo": "workspace:*"
+    "zemble-plugin-todo": "workspace:*",
+    "@zemble/ignite": "workspace:*",
+    "@zemble/bun": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

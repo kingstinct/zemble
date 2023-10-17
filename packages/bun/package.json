@@ -1,0 +1,24 @@
+{
+  "name": "@zemble/bun",
+  "version": "0.0.1",
+  "description": "",
+  "main": "runner.ts",
+  "bin": {
+    "zemble-bun": "./cli.ts"
+  },
+  "scripts": {
+    "dev": "bunx cli.ts",
+    "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zemble/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.1"
+  }
+}

@@ -3,7 +3,6 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 
-import initializePlugin from './utils/initializePlugin'
 import { readPackageJson } from './utils/readPackageJson'
 import context from './zembleContext'
 
@@ -12,20 +11,7 @@ import type { PluginWithMiddleware } from './PluginWithMiddleware'
 
 const packageJson = readPackageJson()
 
-const initializePlugins = async (plugins: readonly Plugin[], app: Hono) => {
-  await plugins.reduce(async (
-    prev,
-    { pluginPath },
-  ) => {
-    await prev
-    await initializePlugin({ pluginPath, app })
-    return undefined
-  }, Promise.resolve(undefined))
-
-  await initializePlugin({ pluginPath: process.cwd(), app })
-}
-
-type Configure = {
+export type Configure = {
   readonly plugins: readonly (Plugin | PluginWithMiddleware)[],
 }
 
@@ -44,7 +30,7 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
   }
 }, {})
 
-export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure): Promise<ZembleApp> => {
+export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure) => {
   const app = new Hono() as Zemble.Server
 
   // maybe this should be later - how about middleware that overrides logger?
@@ -79,7 +65,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     (plugin): plugin is PluginWithMiddleware => 'initializeMiddleware' in plugin,
   )
 
-  context.logger.log(`[@zemble] Initializing ${packageJson.name} with plugins:\n${plugins.map((p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p ? ' (middleware)' : ''}`).join('\n')}`)
+  context.logger.log(`[@zemble] Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map((p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p ? ' (middleware)' : ''}`).join('\n')}`)
 
   if (process.env.DEBUG) {
     plugins.forEach((plugin) => {
@@ -99,8 +85,6 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     return undefined
   }, Promise.resolve(undefined))
 
-  await initializePlugins(plugins, app)
-
   app.get('/', (c) => c.html(`<html>
     <head>
       <title>${packageJson.name}</title>
@@ -114,14 +98,12 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     </body>
   </html>`))
 
-  return {
-    app,
-    start: () => {
-      const bunServer = Bun.serve({ fetch: app.fetch })
-      console.log(`[@zemble] Serving on ${bunServer.hostname}:${bunServer.port}`)
-      return app
-    },
+  if (process.env.DEBUG) {
+    const routes = app.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
+    console.log(`[@zemble] Routes:\n${routes}`)
   }
+
+  return app
 }
 
 export default createApp

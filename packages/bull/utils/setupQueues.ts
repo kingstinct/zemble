@@ -1,10 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import readDir from '@zemble/core/utils/readDir'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
 import '@zemble/graphql'
-
+import readDir from './readDir'
 import createClient from '../clients/redis'
 import { type BullPluginConfig } from '../plugin'
 import ZembleQueueBull from '../ZembleQueueBull'
@@ -43,6 +42,7 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
   }
 
   if (hasQueues) {
+    console.log('[bull-plugin] Initializing queues from ', queuePath)
     const redisUrl = config?.redisUrl
 
     if (redisUrl || process.env.NODE_ENV === 'test') {

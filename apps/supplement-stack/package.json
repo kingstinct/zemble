@@ -24,7 +24,8 @@
     "zemble-plugin-apple-app-site-association": "workspace:*",
     "zemble-plugin-auth-otp": "workspace:*",
     "zemble-plugin-bull": "workspace:*",
-    "zemble-plugin-todo": "workspace:*"
+    "zemble-plugin-todo": "workspace:*",
+    "@zemble/bun": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",

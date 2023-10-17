@@ -1,0 +1,25 @@
+{
+  "name": "@zemble/ignite",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "main": "plugin.ts",
+  "scripts": {
+    "dev": "zemble-bun plugin.ts",
+    "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zemble/core": "workspace:*",
+    "@zemble/routes": "workspace:*",
+    "@zemble/graphql": "workspace:*",
+    "zemble-plugin-bull": "workspace:*"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.1"
+  }
+}

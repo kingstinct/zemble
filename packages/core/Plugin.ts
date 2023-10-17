@@ -1,10 +1,10 @@
 import { configDotenv } from 'dotenv'
 
-import { createApp } from './server'
+import { createApp } from './createApp'
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 
-import type { ZembleApp } from './server'
+import type { ZembleApp } from './createApp'
 import type { Dependency, PluginOpts } from './types'
 
 // initialize dotenv before any plugins are loaded/configured
@@ -46,10 +46,6 @@ export class Plugin<
       .map(({ plugin, config }) => plugin.configure(config))
 
     this.dependencies = resolvedDeps
-
-    if (this.#isPluginDevMode) {
-      void this.#devApp().then((app) => app.start())
-    }
   }
 
   get #isPluginDevMode() {
@@ -108,7 +104,7 @@ export class Plugin<
     return this.#config
   }
 
-  async #devApp(): Promise<ZembleApp> {
+  async testApp(): Promise<ZembleApp['app']> {
     const resolved = this.configure(this.#devConfig)
     return createApp({
       plugins: [
@@ -116,12 +112,6 @@ export class Plugin<
         resolved,
       ],
     })
-  }
-
-  async testApp(): Promise<ZembleApp['app']> {
-    const gotApp = (await this.#devApp()).app
-
-    return gotApp
   }
 }
 
