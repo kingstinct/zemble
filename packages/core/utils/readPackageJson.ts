@@ -1,9 +1,9 @@
 import fs from 'fs'
-import { join } from 'node:path'
+import path from 'node:path'
 
-export const readPackageJson = (path = process.cwd()) => {
+export const readPackageJson = (p = process.cwd()) => {
   try {
-    const packageJson = JSON.parse(fs.readFileSync(join(path, 'package.json'), 'utf8')) as { readonly name: string, readonly version: string }
+    const packageJson = JSON.parse(fs.readFileSync(path.join(p, 'package.json'), 'utf8')) as { readonly name: string, readonly version: string }
 
     if (!packageJson.name) {
       throw new Error(`[@zemble] Invalid package.json, missing "name", looked in: ${packageJson.name}`)
@@ -15,6 +15,6 @@ export const readPackageJson = (path = process.cwd()) => {
 
     return packageJson
   } catch (e) {
-    throw new Error(`[@zemble] Invalid package.json, expected at path: ${path}`)
+    throw new Error(`[@zemble] Invalid package.json, expected at path: ${p}`)
   }
 }

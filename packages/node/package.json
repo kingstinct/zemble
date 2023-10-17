@@ -1,16 +1,18 @@
 {
   "name": "@zemble/node",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "main": "runner.ts",
+  "main": "runner.js",
   "bin": {
     "zemble-node": "cli.ts"
   },
   "scripts": {
+    "start": "node cli.js",
     "dev": "ts-node-dev cli.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

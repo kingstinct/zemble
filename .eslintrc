@@ -14,7 +14,8 @@
   },
   "ignorePatterns":[
     "**/*.generated/**/*.ts",
-    "**/gql/**/*.ts"
+    "**/gql/**/*.ts",
+    "*.js"
   ],
   "overrides": [
     {
