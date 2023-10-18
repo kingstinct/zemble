@@ -3,8 +3,8 @@ import { createApp } from '@zemble/core'
 
 import type { Configure } from '@zemble/core'
 
-export const nodeRunner = async (config: Configure) => {
-  const app = await createApp(config)
+export const serve = async (config: Configure | Promise<Zemble.Server> | Zemble.Server) => {
+  const app = await ('plugins' in config ? createApp(config) : config)
   const nodeServer = serve({ fetch: app.fetch })
 
   nodeServer.addListener('listening', () => {
@@ -14,4 +14,4 @@ export const nodeRunner = async (config: Configure) => {
   return app
 }
 
-export default nodeRunner
+export default serve

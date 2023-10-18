@@ -2,7 +2,7 @@
   "name": "@zemble/node",
   "version": "0.0.2",
   "description": "",
-  "main": "runner.js",
+  "main": "serve.js",
   "bin": {
     "zemble-node": "cli.ts"
   },

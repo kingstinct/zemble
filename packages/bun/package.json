@@ -2,7 +2,7 @@
   "name": "@zemble/bun",
   "version": "0.0.2",
   "description": "",
-  "main": "runner.ts",
+  "main": "serve.ts",
   "bin": {
     "zemble-bun": "./cli.ts"
   },
