@@ -1,4 +1,3 @@
-import Bun from 'bun'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
@@ -15,12 +14,9 @@ export type Configure = {
   readonly plugins: readonly (Plugin | PluginWithMiddleware)[],
 }
 
-export type ZembleApp = {
-  readonly app: Zemble.Server
-  readonly start: () => Zemble.Server
-}
-
 const logFilter = (log: string) => (log.includes('BEGIN PRIVATE KEY') || log.includes('BEGIN PUBLIC KEY') ? '<<KEY>>' : log)
+
+export type ZembleApp = Zemble.App
 
 const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce((prev, key) => {
   const value = config[key as keyof typeof config]
@@ -31,12 +27,24 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
 }, {})
 
 export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure) => {
-  const app = new Hono() as Zemble.Server
+  const app = new Hono() as Zemble.App
 
   // maybe this should be later - how about middleware that overrides logger?
   if (process.env.NODE_ENV !== 'test') {
     app.use('*', logger(context.logger.log))
   }
+
+  app.use('*', async (ctx, next) => {
+    // eslint-disable-next-line functional/immutable-data
+    ctx.env = {
+      ...ctx.env ?? {},
+      ...{
+        kv: context.kv.bind(context),
+        logger: context.logger,
+      },
+    }
+    await next()
+  })
 
   app.use('*', cors())
 
@@ -79,9 +87,14 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   ) => {
     await prev
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore sometimes context contains more stuff, initiated at other places
-    await middleware.initializeMiddleware({ plugins, app, context })
+    await middleware.initializeMiddleware({
+      plugins,
+      app,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      context,
+      config: middleware.config,
+    })
     return undefined
   }, Promise.resolve(undefined))
 

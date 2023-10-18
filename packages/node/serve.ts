@@ -1,14 +1,14 @@
-import { serve } from '@hono/node-server'
+import { serve as nodeServer } from '@hono/node-server'
 import { createApp } from '@zemble/core'
 
 import type { Configure } from '@zemble/core'
 
-export const serve = async (config: Configure | Promise<Zemble.Server> | Zemble.Server) => {
+export const serve = async (config: Configure | Promise<Zemble.App> | Zemble.App) => {
   const app = await ('plugins' in config ? createApp(config) : config)
-  const nodeServer = serve({ fetch: app.fetch })
+  const server = nodeServer({ fetch: app.fetch })
 
-  nodeServer.addListener('listening', () => {
-    console.log(`[@zemble/node] Serving on ${JSON.stringify(nodeServer.address())}`)
+  server.addListener('listening', () => {
+    console.log(`[@zemble/node] Serving on ${JSON.stringify(server.address())}`)
   })
 
   return app

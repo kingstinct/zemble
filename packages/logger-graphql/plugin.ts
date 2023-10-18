@@ -13,7 +13,7 @@ const defaultConfig = {
 export default new PluginWithMiddleware<GraphQLMiddlewareConfig>(
   __dirname,
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  () => ({ context }) => {
+  ({ context }) => {
     // eslint-disable-next-line functional/immutable-data
     context.logger = {
       time: (...args) => {

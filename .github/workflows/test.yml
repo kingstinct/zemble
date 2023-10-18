@@ -72,7 +72,7 @@ jobs:
       - run: bun install
 
       - name: Lint
-        run: bun run lint-quiet
+        run: bun run lint
 
   codegen:
     # The type of runner that the job will run on

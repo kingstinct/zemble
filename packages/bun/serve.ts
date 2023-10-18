@@ -3,7 +3,7 @@ import Bun from 'bun'
 
 import type { Configure } from '@zemble/core'
 
-export const serve = async (config: Configure | Promise<Zemble.Server> | Zemble.Server) => {
+export const serve = async (config: Configure | Promise<Zemble.App> | Zemble.App) => {
   const app = await ('plugins' in config ? createApp(config) : config)
   const bunServer = Bun.serve({ fetch: app.fetch })
   const linkPrefix = bunServer.hostname === 'localhost' ? 'http://' : ''

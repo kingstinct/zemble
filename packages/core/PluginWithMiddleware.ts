@@ -25,7 +25,7 @@ export class PluginWithMiddleware<
   }
 
   get initializeMiddleware() {
-    return this.#middleware(this.config)
+    return this.#middleware
   }
 }
 

@@ -8,7 +8,6 @@ import type { GraphQLFormattedError, GraphQLScalarType, GraphQLSchema } from 'gr
 import type {
   YogaServerOptions, YogaInitialContext,
 } from 'graphql-yoga'
-import type { Context as HonoContext, Hono } from 'hono'
 import type { RedisOptions } from 'ioredis'
 
 interface GraphQLMiddlewareGlobalConfig {
@@ -19,7 +18,7 @@ interface GraphQLMiddlewareGlobalConfig {
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-    interface Server extends Hono {
+    interface App {
       readonly gqlRequest: <TQuery, TVars>(
         query: TypedDocumentNode<TQuery, TVars>,
         vars?: TVars,
@@ -51,7 +50,7 @@ declare global {
     interface GraphQLContext extends YogaInitialContext, GlobalContext {
       readonly token: string
       readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & DecodedTokenBase
-      readonly honoContext: HonoContext
+      readonly honoContext: RouteContext
     }
 
     type AuthContextWithToken<TContext, DirectiveArgs extends {

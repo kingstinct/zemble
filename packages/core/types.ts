@@ -2,7 +2,9 @@
 
 import type { Plugin, PluginWithMiddleware } from '.'
 import type { PubSub } from 'graphql-yoga'
-import type { Hono, Context as HonoContext } from 'hono'
+import type {
+  Hono, Context as HonoContext,
+} from 'hono'
 
 export interface IEmail {
   readonly email: string
@@ -43,7 +45,27 @@ interface IStandardLogger extends Pick<typeof console, 'log' | 'debug' | 'warn' 
 
 declare global {
   namespace Zemble {
-    interface Server extends Hono {
+    interface HonoVariables extends Record<string, unknown> {
+
+    }
+
+    interface HonoBindings extends Record<string, unknown> {
+      // eslint-disable-next-line functional/prefer-readonly-type
+      logger: IStandardLogger
+      // eslint-disable-next-line functional/prefer-readonly-type
+      kv: <T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
+    }
+
+    interface HonoEnv {
+      readonly Variables: HonoVariables
+      readonly Bindings: HonoBindings
+    }
+
+    interface RouteContext extends HonoContext<HonoEnv> {
+
+    }
+
+    interface App extends Hono<HonoEnv> {
 
     }
 
@@ -127,14 +149,11 @@ export type PluginOpts<TDefaultConfig extends Zemble.GlobalConfig, TSelf, TConfi
   readonly devConfig?: TConfig,
 }
 
-export type ConfiguredMiddleware = (
+export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig> = (
   opts: {
     readonly plugins: readonly Plugin<Zemble.GlobalConfig>[],
-    readonly app: Zemble.Server,
+    readonly app: Zemble.App,
     readonly context: Zemble.GlobalContext
+    readonly config: TMiddlewareConfig
   }
 ) => Promise<void> | void
-
-export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig> = (
-  config: TMiddlewareConfig
-) => ConfiguredMiddleware

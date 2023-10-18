@@ -2,6 +2,6 @@
 
 import cliRunner from '@zemble/core/cli-runner'
 
-import nodeRunner from './runner'
+import nodeRunner from './serve'
 
 void cliRunner(nodeRunner)

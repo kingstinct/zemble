@@ -41,7 +41,7 @@ const processPluginSchema = async (pluginPath: string, {
 }
 
 async function gqlRequestUntyped<TRes, TVars>(
-  app: Zemble.Server,
+  app: Zemble.App,
   query: string,
   variables: TVars,
   options?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean},
@@ -71,7 +71,7 @@ async function gqlRequestUntyped<TRes, TVars>(
 }
 
 async function gqlRequest<TQuery, TVars>(
-  app: Zemble.Server,
+  app: Zemble.App,
   query: TypedDocumentNode<TQuery, TVars>,
   variables: TVars,
   options: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean} = {},
@@ -153,8 +153,10 @@ const buildMergedSchema = async (
   return mergedSchema
 }
 
-export const middleware: Middleware<GraphQLMiddlewareConfig> = (config) => (
-  { app, context, plugins },
+export const middleware: Middleware<GraphQLMiddlewareConfig> = (
+  {
+    config, app, context, plugins,
+  },
 ) => {
   const pubsub = createPubSub(
     config.redisUrl,

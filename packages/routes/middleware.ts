@@ -4,11 +4,9 @@
 import initializePlugin from './utils/initializePlugin'
 
 import type { RoutesConfig } from './plugin'
-import type { Plugin } from '@zemble/core'
 import type { Middleware } from '@zemble/core/types'
-import type { Hono } from 'hono'
 
-const initializePlugins = async (plugins: readonly Plugin[], app: Hono) => {
+const middleware: Middleware<RoutesConfig> = async ({ app, plugins }) => {
   await plugins.reduce(async (
     prev,
     { pluginPath, config },
@@ -27,13 +25,5 @@ const initializePlugins = async (plugins: readonly Plugin[], app: Hono) => {
 
   await initializePlugin({ pluginPath: process.cwd(), app, config: {} })
 }
-
-const setupMiddleware = async (
-  { app, plugins },
-) => {
-  await initializePlugins(plugins, app)
-}
-
-export const middleware: Middleware<RoutesConfig> = () => setupMiddleware
 
 export default middleware

@@ -15,7 +15,7 @@ afterAll(teardownAfterAll)
 
 afterEach(tearDownAfterEach)
 
-let app: Zemble.Server
+let app: Zemble.App
 let opts: Record<string, unknown>
 
 beforeEach(async () => {

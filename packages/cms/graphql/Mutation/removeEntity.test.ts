@@ -21,7 +21,7 @@ const RemoveEntityMutation = graphql(`
   }
 `)
 
-let app: Zemble.Server
+let app: Zemble.App
 let opts: Record<string, unknown>
 
 beforeEach(async () => {

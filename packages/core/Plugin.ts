@@ -104,7 +104,7 @@ export class Plugin<
     return this.#config
   }
 
-  async testApp(): Promise<ZembleApp['app']> {
+  async testApp() {
     const resolved = this.configure(this.#devConfig)
     return createApp({
       plugins: [

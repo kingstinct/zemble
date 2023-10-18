@@ -1,7 +1,7 @@
 import type { IStandardKeyValueService } from '.'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore fix later
+// @ts-ignore
 class ContextInstance implements Zemble.GlobalContext {
   // eslint-disable-next-line functional/prefer-readonly-type
   logger = process.env.NODE_ENV === 'test' ? {

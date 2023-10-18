@@ -4,7 +4,7 @@ import * as path from 'node:path'
 import readRoutes from './readRoutes'
 
 import type { RoutesGlobalConfig } from '../plugin'
-import type { Hono, MiddlewareHandler } from 'hono'
+import type { MiddlewareHandler } from 'hono'
 
 const httpVerbs = [
   'get', 'post', 'put', 'delete', 'patch',
@@ -89,7 +89,7 @@ const fileExtensionToMimeType: Record<string, string> = {
 
 const initializeRoutes = async (
   routePath: string,
-  app: Hono,
+  app: Zemble.App,
   config: Omit<RoutesGlobalConfig, 'disable'>,
 ) => {
   const hasRoutes = fs.existsSync(routePath)
@@ -181,7 +181,7 @@ export async function initializePlugin(
     config,
   }: {
     readonly pluginPath: string;
-    readonly app: Hono
+    readonly app: Zemble.App
     readonly config: Omit<RoutesGlobalConfig, 'disable'>;
   },
 ) {

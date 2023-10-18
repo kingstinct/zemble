@@ -1,10 +1,17 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "lint": {},
-    "lint-quiet": {},
-    "test": {},
+    "lint": {
+      "outputMode": "errors-only"
+    },
+    "lint-quiet": {
+      "outputMode": "errors-only"
+    },
+    "test": {
+      "outputMode": "errors-only"
+    },
     "typecheck": {
+      "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
         "**/*.tsx",
@@ -13,6 +20,7 @@
       ]
     },
     "graphql-codegen": {
+      "outputMode": "errors-only",
       "inputs": [ "**/*.graphql" ]
     }
   }

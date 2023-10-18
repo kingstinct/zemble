@@ -4,7 +4,7 @@ import { useGenericAuth } from '@envelop/generic-auth'
 import {
   FilterRootFields,
 } from '@graphql-tools/wrap'
-import { Plugin } from '@zemble/core'
+import { PluginWithMiddleware } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
 import {
   Kind,
@@ -18,6 +18,7 @@ import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers
 import type {
   ExecutionArgs, FieldNode, GraphQLObjectType, ObjectValueNode,
 } from 'graphql'
+import type { Context } from 'hono'
 import type { CookieOptions } from 'hono/utils/cookie'
 
 const { PUBLIC_KEY, PRIVATE_KEY } = process.env
@@ -114,123 +115,157 @@ const defaultConfig = {
   },
 } satisfies AuthConfig
 
-const plugin = new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
-  dependencies: ({ config }) => {
-    const gql = graphqlYoga.configure({
-      yoga: {
-        plugins: [
-          useExtendContext(async (context: Zemble.GraphQLContext) => {
-            const headerName = config.headerName ?? 'authorization',
-                  headerToken = context.request.headers.get(headerName)?.split(' ')[1],
-                  cookieToken = config.cookies.isEnabled !== false ? getCookie(context.honoContext)[config.cookies.name] : undefined,
-                  token = headerToken ?? cookieToken,
-                  decodedToken = token ? await decodeToken(token) : undefined
+const resolveTokens = async ({ config, context }: {readonly config: AuthConfig & typeof defaultConfig, readonly context: Context}) => {
+  const headerName = config.headerName ?? 'authorization',
+        headerToken = context.req.header(headerName)?.split(' ')[1],
+        cookieToken = config.cookies.isEnabled !== false ? getCookie(context)[config.cookies.name] : undefined,
+        token = headerToken ?? cookieToken,
+        decodedToken = token ? await decodeToken(token) : undefined
 
-            return {
-              token,
-              decodedToken,
-            }
-          }),
-          useGenericAuth<Record<string, unknown>, Zemble.GraphQLContext>({
+  return {
+    token,
+    decodedToken,
+  }
+}
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Zemble {
+    interface HonoVariables {
+      // eslint-disable-next-line functional/prefer-readonly-type
+      token: string | undefined
+      // eslint-disable-next-line functional/prefer-readonly-type
+      decodedToken: { readonly payload: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] } | undefined
+    }
+  }
+}
+
+const plugin = new PluginWithMiddleware<AuthConfig, typeof defaultConfig>(
+  __dirname,
+  ({ config, app }) => {
+    app.use('*', async (context) => {
+      const { token, decodedToken } = await resolveTokens({ config, context })
+      context.set('token', token)
+      context.set('decodedToken', decodedToken)
+    })
+  },
+  {
+    dependencies: ({ config }) => {
+      const gql = graphqlYoga.configure({
+        yoga: {
+          plugins: [
+            useExtendContext(async (context: Zemble.GraphQLContext) => {
+              const { token, decodedToken } = await resolveTokens({
+                config,
+                context: context.honoContext,
+              })
+
+              return {
+                token,
+                decodedToken,
+              }
+            }),
+            useGenericAuth<Record<string, unknown>, Zemble.GraphQLContext>({
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            resolveUserFn: (context) => context.decodedToken,
-            validateUser: ({
-              fieldAuthDirectiveNode, user: decodedToken, fieldNode, objectType, executionArgs,
-            }) => {
-              if (!decodedToken) {
-                let skipValidation = false
-                const skipArg = fieldAuthDirectiveNode?.arguments?.find(
-                  (arg) => arg.name.value === 'skip',
+              resolveUserFn: (context) => context.decodedToken,
+              validateUser: ({
+                fieldAuthDirectiveNode, user: decodedToken, fieldNode, objectType, executionArgs,
+              }) => {
+                if (!decodedToken) {
+                  let skipValidation = false
+                  const skipArg = fieldAuthDirectiveNode?.arguments?.find(
+                    (arg) => arg.name.value === 'skip',
+                  )
+
+                  if (skipArg?.value.kind === Kind.BOOLEAN) {
+                    skipValidation = skipArg.value.value
+                  }
+
+                  if (!skipValidation) {
+                    return new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires authentication.`)
+                  }
+                }
+
+                const matchArg = fieldAuthDirectiveNode?.arguments?.find(
+                  (arg) => arg.name.value === 'match',
                 )
 
-                if (skipArg?.value.kind === Kind.BOOLEAN) {
-                  skipValidation = skipArg.value.value
-                }
+                if (matchArg?.value.kind === Kind.OBJECT) {
+                  const { errors } = validateMatch(matchArg.value, decodedToken, { executionArgs, fieldNode, objectType })
 
-                if (!skipValidation) {
-                  return new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires authentication.`)
-                }
-              }
-
-              const matchArg = fieldAuthDirectiveNode?.arguments?.find(
-                (arg) => arg.name.value === 'match',
-              )
-
-              if (matchArg?.value.kind === Kind.OBJECT) {
-                const { errors } = validateMatch(matchArg.value, decodedToken, { executionArgs, fieldNode, objectType })
-
-                if (errors.length > 0) {
-                  return errors[0]
-                }
-              }
-
-              const includesArg = fieldAuthDirectiveNode?.arguments?.find(
-                (arg) => arg.name.value === 'includes',
-              )
-
-              if (includesArg?.value.kind === Kind.OBJECT) {
-                const { errors } = validateIncludes(includesArg.value, decodedToken, { executionArgs, fieldNode, objectType })
-
-                if (errors.length > 0) {
-                  return errors[0]
-                }
-              }
-
-              const orArg = fieldAuthDirectiveNode?.arguments?.find(
-                (arg) => arg.name.value === 'or',
-              )
-
-              if (orArg?.value.kind === Kind.LIST) {
-                const valid = orArg.value.values.some((value) => {
-                  if (value.kind === Kind.OBJECT) {
-                    const matchArg = value.fields.find(
-                      (arg) => arg.name.value === 'match',
-                    )
-                    if (matchArg?.value.kind === Kind.OBJECT) {
-                      const { isValid } = validateMatch(matchArg.value, decodedToken, { executionArgs, fieldNode, objectType })
-
-                      if (!isValid) {
-                        return false
-                      }
-                    }
-                    const includesArg = value.fields.find(
-                      (arg) => arg.name.value === 'includes',
-                    )
-                    if (includesArg?.value.kind === Kind.OBJECT) {
-                      const { isValid } = validateIncludes(includesArg.value, decodedToken, { executionArgs, fieldNode, objectType })
-
-                      if (!isValid) {
-                        return false
-                      }
-                    }
-                    return true
+                  if (errors.length > 0) {
+                    return errors[0]
                   }
-                  throw new Error(`'${objectType.name}.${fieldNode?.name.value}' auth directive malformed`)
-                })
-
-                if (!valid) {
-                  const val = handleValueNode(orArg.value, { executionArgs, fieldNode, objectType })
-                  return new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including arrays matching one of ${JSON.stringify(val)}.`)
                 }
-              }
 
-              return undefined
-            },
-            mode: 'protect-all',
-            directiveOrExtensionFieldName: 'auth',
-          }),
-        ],
-      },
-    })
+                const includesArg = fieldAuthDirectiveNode?.arguments?.find(
+                  (arg) => arg.name.value === 'includes',
+                )
 
-    return [
-      {
-        plugin: gql,
-      },
-    ]
+                if (includesArg?.value.kind === Kind.OBJECT) {
+                  const { errors } = validateIncludes(includesArg.value, decodedToken, { executionArgs, fieldNode, objectType })
+
+                  if (errors.length > 0) {
+                    return errors[0]
+                  }
+                }
+
+                const orArg = fieldAuthDirectiveNode?.arguments?.find(
+                  (arg) => arg.name.value === 'or',
+                )
+
+                if (orArg?.value.kind === Kind.LIST) {
+                  const valid = orArg.value.values.some((value) => {
+                    if (value.kind === Kind.OBJECT) {
+                      const matchArg = value.fields.find(
+                        (arg) => arg.name.value === 'match',
+                      )
+                      if (matchArg?.value.kind === Kind.OBJECT) {
+                        const { isValid } = validateMatch(matchArg.value, decodedToken, { executionArgs, fieldNode, objectType })
+
+                        if (!isValid) {
+                          return false
+                        }
+                      }
+                      const includesArg = value.fields.find(
+                        (arg) => arg.name.value === 'includes',
+                      )
+                      if (includesArg?.value.kind === Kind.OBJECT) {
+                        const { isValid } = validateIncludes(includesArg.value, decodedToken, { executionArgs, fieldNode, objectType })
+
+                        if (!isValid) {
+                          return false
+                        }
+                      }
+                      return true
+                    }
+                    throw new Error(`'${objectType.name}.${fieldNode?.name.value}' auth directive malformed`)
+                  })
+
+                  if (!valid) {
+                    const val = handleValueNode(orArg.value, { executionArgs, fieldNode, objectType })
+                    return new GraphQLError(`Accessing '${objectType.name}.${fieldNode?.name.value}' requires token including arrays matching one of ${JSON.stringify(val)}.`)
+                  }
+                }
+
+                return undefined
+              },
+              mode: 'protect-all',
+              directiveOrExtensionFieldName: 'auth',
+            }),
+          ],
+        },
+      })
+
+      return [
+        {
+          plugin: gql,
+        },
+      ]
+    },
+    defaultConfig,
   },
-  defaultConfig,
-})
+)
 
 export default plugin
