@@ -178,8 +178,6 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
     return response
   }
 
-  context.pubsub = pubsub
-
   const getGlobalContext = () => {
     if (config.yoga?.context) {
       const ctx = typeof config.yoga.context === 'function'
@@ -235,7 +233,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
 
     app.all(
       path.join('/', urlPath, '/*'),
-      async (context) => {
+      async (ctx) => {
         const mergedSchema = await buildMergedSchema(plugins, config)
         const res = await useSofa({
           basePath: path.join('/', urlPath),
@@ -252,16 +250,20 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
             endpoint: '/docs',
             ...(config.sofa?.swaggerUI ?? {}),
           },
-        })(context.req.raw)
-        return context.body(res.body, res.status, res.headers.toJSON())
+        })(ctx.req.raw)
+        return ctx.body(res.body, res.status, res.headers.toJSON())
       },
     )
   }
 
-  app.use(config!.yoga!.graphqlEndpoint!, async (context) => {
+  app.use('*', async (ctx) => {
+    ctx.env.pubsub = pubsub
+  })
+
+  app.use(config!.yoga!.graphqlEndpoint!, async (ctx) => {
     const handler = await handlerPromise
 
-    return handler(context)
+    return handler(ctx)
   })
 }
 

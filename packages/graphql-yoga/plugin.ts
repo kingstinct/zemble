@@ -56,6 +56,11 @@ declare global {
       readonly honoContext: RouteContext
     }
 
+    interface HonoBindings extends Record<string, unknown> {
+      // eslint-disable-next-line functional/prefer-readonly-type
+      pubsub: PubSubType
+    }
+
     type AuthContextWithToken<TContext, DirectiveArgs extends {
       readonly match?: Record<string, unknown>
       readonly includes?: Record<string, unknown>
