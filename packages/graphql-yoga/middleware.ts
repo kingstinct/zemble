@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
+import { envelop } from '@envelop/core'
 import { mergeSchemas } from '@graphql-tools/schema'
 import { printSchemaWithDirectives } from '@graphql-tools/utils'
 import { type GraphQLFormattedError, type GraphQLScalarType } from 'graphql'
 import { print } from 'graphql/language/printer'
 import fs from 'node:fs'
 import path from 'node:path'
+import { useSofa } from 'sofa-api'
 
 import createPubSub from './createPubSub'
 import createPluginSchema from './utils/createPluginSchema'
@@ -178,7 +180,19 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
 
   context.pubsub = pubsub
 
-  const globalContext = context
+  const getGlobalContext = () => {
+    if (config.yoga?.context) {
+      const ctx = typeof config.yoga.context === 'function'
+        ? config.yoga.context(context)
+        : { ...context, ...(config.yoga.context as object) }
+      ctx.pubsub = pubsub
+      return ctx
+    }
+    // eslint-disable-next-line no-unused-expressions
+    context.pubsub = pubsub
+
+    return context
+  }
 
   const handlerPromise = handleYoga(
     async () => {
@@ -195,7 +209,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
       return mergedSchema
     },
     pubsub,
-    globalContext.logger,
+    context.logger,
     {
       ...config.yoga,
       graphiql: async (req, context) => {
@@ -208,20 +222,41 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
         })
       },
       // eslint-disable-next-line no-nested-ternary
-      context: () => {
-        if (config.yoga?.context) {
-          const ctx = typeof config.yoga.context === 'function'
-            ? config.yoga.context(globalContext)
-            : { ...globalContext, ...(config.yoga.context as object) }
-
-          return ctx
-        }
-
-        return globalContext
-      }
-      ,
+      context: getGlobalContext(),
     },
   )
+
+  if (config.sofa) {
+    const urlPath = config.sofa.basePath ?? '/api'
+
+    const enveloped = envelop({
+      plugins: config.yoga?.plugins ?? [],
+    })
+
+    app.all(
+      path.join('/', urlPath, '/*'),
+      async (context) => {
+        const mergedSchema = await buildMergedSchema(plugins, config)
+        const res = await useSofa({
+          basePath: path.join('/', urlPath),
+          schema: mergedSchema,
+          subscribe: async (args) => enveloped(args.contextValue ?? {}).subscribe(args),
+          execute: async (args) => enveloped(args.contextValue ?? {}).execute(args),
+          context: getGlobalContext(),
+          ...config.sofa,
+          openAPI: {
+            endpoint: '/openapi.json',
+            ...(config.sofa?.openAPI ?? {}),
+          },
+          swaggerUI: {
+            endpoint: '/docs',
+            ...(config.sofa?.swaggerUI ?? {}),
+          },
+        })(context.req.raw)
+        return context.body(res.body, res.status, res.headers.toJSON())
+      },
+    )
+  }
 
   app.use(config!.yoga!.graphqlEndpoint!, async (context) => {
     const handler = await handlerPromise

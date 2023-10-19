@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'bun:test'
+import { it, expect } from 'bun:test'
 
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
@@ -9,14 +9,12 @@ const HelloWorldQuery = graphql(`
   }
 `)
 
-describe('Query.hello', () => {
-  it('Should return world!', async () => {
-    const app = await plugin.testApp()
+it('Should return world!', async () => {
+  const app = await plugin.testApp()
 
-    const response = await app.gqlRequest(HelloWorldQuery, {})
+  const response = await app.gqlRequest(HelloWorldQuery, {})
 
-    expect(response.data).toEqual({
-      hello: 'world!',
-    })
+  expect(response.data).toEqual({
+    hello: 'world!',
   })
 })

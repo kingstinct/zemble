@@ -1,5 +1,5 @@
 import {
-  describe, it, expect,
+  it, expect,
 } from 'bun:test'
 
 import plugin from '../../plugin'
@@ -11,13 +11,11 @@ const randomNumberMutation = graphql(`
   }
 `)
 
-describe('Mutation.randomNumber', () => {
-  it('Should return a number', async () => {
-    const app = await plugin.testApp()
+it('Should return a number', async () => {
+  const app = await plugin.testApp()
 
-    const response = await app.gqlRequest(randomNumberMutation, {})
-    expect(response.data).toEqual({
-      randomNumber: expect.any(Number),
-    })
+  const response = await app.gqlRequest(randomNumberMutation, {})
+  expect(response.data).toEqual({
+    randomNumber: expect.any(Number),
   })
 })

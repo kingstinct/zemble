@@ -1,4 +1,6 @@
+import { useEngine } from '@envelop/core'
 import { PluginWithMiddleware } from '@zemble/core'
+import * as GraphQLJS from 'graphql'
 
 import middleware from './middleware'
 
@@ -9,6 +11,7 @@ import type {
   YogaServerOptions, YogaInitialContext,
 } from 'graphql-yoga'
 import type { RedisOptions } from 'ioredis'
+import type { SofaConfig } from 'sofa-api/sofa'
 
 interface GraphQLMiddlewareGlobalConfig {
   readonly graphqlSchemaTransforms?: SubschemaConfig['transforms']
@@ -71,6 +74,7 @@ declare global {
 
 export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly yoga?: Omit<YogaServerOptions<Zemble.GraphQLContext, unknown>, 'schema'>
+  readonly sofa?: SofaConfig
   /**
    * The url of the redis instance to use for pubsub
    */
@@ -88,6 +92,8 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
 const defaultConfig = {
   yoga: {
     graphqlEndpoint: '/graphql',
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    plugins: [useEngine(GraphQLJS)],
     maskedErrors: {
       isDev: process.env.NODE_ENV === 'development',
     },
