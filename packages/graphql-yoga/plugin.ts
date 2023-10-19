@@ -51,8 +51,8 @@ declare global {
     }
 
     interface GraphQLContext extends YogaInitialContext, GlobalContext {
-      readonly token: string
-      readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & DecodedTokenBase
+      readonly token: string | undefined
+      readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] | undefined
       readonly honoContext: RouteContext
     }
 

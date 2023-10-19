@@ -14,10 +14,7 @@ const countdown: SubscriptionResolvers['countdown'] = {
       yield { countdown: i }
     }
   },
-  resolve: (payload: unknown) => {
-    console.log('resolving countdown', payload)
-    return (payload as { readonly countdown: number}).countdown
-  },
+  resolve: (payload: unknown) => (payload as { readonly countdown: number}).countdown,
 }
 
 export default countdown
