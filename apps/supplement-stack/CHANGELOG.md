@@ -1,5 +1,18 @@
 # supplement-stack
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/core@0.0.10
+  - zemble-plugin-apple-app-site-association@0.0.8
+  - zemble-plugin-auth-otp@0.0.12
+  - zemble-plugin-bull@0.0.12
+  - @zemble/bun@0.0.3
+  - @zemble/graphql@0.0.14
+  - zemble-plugin-todo@0.0.10
+
 ## 0.0.9
 
 ### Patch Changes
