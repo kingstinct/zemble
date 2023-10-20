@@ -2,13 +2,16 @@
   "name": "zemble-plugin-bull",
   "version": "0.0.13",
   "description": "",
-  "main": "plugin.ts",
+  "main": "plugin.js",
+  "module": "plugin.mjs",
+  "types": "plugin.d.ts",
   "scripts": {
     "dev": "REDIS_URL=redis://localhost:6379 zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsup *.ts --format cjs,esm --dts -d=."
   },
   "keywords": [],
   "author": "",
@@ -29,6 +32,8 @@
     "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.1"
+    "@tsconfig/node20": "^20.1.1",
+    "bun": "^1.0.6",
+    "bun-types": "^1.0.6"
   }
 }

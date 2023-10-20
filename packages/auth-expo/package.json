@@ -10,7 +10,8 @@
     "dev": "zemble-bun index.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsup *.ts --format cjs,esm --dts -d=."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.18.2",

@@ -2,13 +2,16 @@
   "name": "zemble-plugin-kv",
   "version": "0.0.13",
   "description": "",
-  "main": "plugin.ts",
+  "main": "plugin.js",
+  "module": "plugin.mjs",
+  "types": "plugin.d.ts",
   "scripts": {
     "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsup *.ts --format cjs,esm --dts -d=."
   },
   "keywords": [],
   "author": "",

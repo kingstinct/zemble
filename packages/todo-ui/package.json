@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsup *.ts --format cjs,esm --dts -d=."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.18.2",

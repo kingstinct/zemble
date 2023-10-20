@@ -1,6 +1,5 @@
 /* eslint-disable functional/immutable-data */
 /* eslint-disable functional/prefer-readonly-type */
-import { mock } from 'bun:test'
 
 import type { ZembleQueueBull, ZembleQueueConfig } from './ZembleQueueBull'
 import type {
@@ -63,7 +62,7 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
       attemptsMade: 0,
       data,
       name,
-      progress: mock(() => ({})),
+      progress: () => ({}),
       ...(opts || {}),
     } as unknown as Job<DataType, ReturnType, string>
 

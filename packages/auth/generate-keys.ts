@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { generateKeyPair } = require('node:crypto')
-const fs = require('node:fs')
-const path = require('node:path')
+import { generateKeyPair } from 'node:crypto'
+import fs from 'node:fs'
+import path from 'node:path'
 
-generateKeyPair('rsa', {
+void generateKeyPair('rsa', {
   modulusLength: 4096,
   publicKeyEncoding: {
     type: 'spki',

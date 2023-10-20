@@ -2,14 +2,17 @@
   "name": "zemble-plugin-todo",
   "version": "0.0.11",
   "description": "",
-  "main": "plugin.ts",
+  "main": "plugin.js",
+  "module": "plugin.mjs",
+  "types": "plugin.d.ts",
   "private": true,
   "scripts": {
     "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsup *.ts --format cjs,esm --dts -d=."
   },
   "keywords": [],
   "author": "",

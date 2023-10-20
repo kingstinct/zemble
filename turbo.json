@@ -10,6 +10,20 @@
     "test": {
       "outputMode": "errors-only"
     },
+    "build": {
+      "outputMode": "errors-only",
+      "outputs": [
+        "*.js",
+        "*.d.ts",
+        "*.mjs",
+        "*.d.mts"
+      ],
+      "cache": false
+    },
+    "clean":{
+      "outputMode": "errors-only",
+      "cache": false
+    },
     "typecheck": {
       "outputMode": "errors-only",
       "inputs": [

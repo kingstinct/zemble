@@ -11,8 +11,7 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=.",
-    "clean": "find . -type f \\( -name \"*.js\" -o -name \"*.mjs\" -o -name \"*.d.mts\" -o -name \"*.d.ts\" \\) -delete"
+    "build": "tsup *.ts --format cjs,esm --dts -d=."
   },
   "keywords": [],
   "author": "",

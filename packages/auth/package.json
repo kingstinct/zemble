@@ -2,17 +2,17 @@
   "name": "zemble-plugin-auth",
   "version": "0.0.13",
   "description": "",
-  "main": "plugin.ts",
-  "bin": {
-    "readapt-auth-generate-keys": "./generate-keys.js"
-  },
+  "main": "plugin.js",
+  "module": "plugin.mjs",
+  "types": "plugin.d.ts",
   "scripts": {
     "test": "bun test",
     "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsup *.ts --format cjs,esm --dts -d=."
   },
   "keywords": [],
   "author": "",
