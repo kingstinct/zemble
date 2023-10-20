@@ -43,11 +43,15 @@ const fieldResolver = (parent: EntityEntryType, field: AnyField, displayNameFiel
     return parent._id.toHexString()
   }
   if (field.name === 'displayName') {
+    // @ts-expect-error sdfgsdfg
     return displayNameField && parent[displayNameField]
+    // @ts-expect-error sdfgsdfg
       ? parent[displayNameField].toString()
       : parent._id.toHexString()
   }
+  // @ts-expect-error sdfgsdfg
   if (parent[field.name] !== undefined && parent[field.name] !== null) {
+    // @ts-expect-error sdfgsdfg
     return parent[field.name]
   }
   if (field.__typename === 'ArrayField') {
@@ -98,7 +102,9 @@ export default async () => {
           resolve: async (externalId: string) => {
             const resolved = await getById.load(externalId)
 
+            // @ts-expect-error sdfgsdfg
             return entity.displayNameField && resolved?.[entity.displayNameField]
+              // @ts-expect-error sdfgsdfg
               ? resolved[entity.displayNameField].toString()
               : resolved?._id.toHexString()
           },
@@ -133,7 +139,9 @@ export default async () => {
       }, {
         displayName: {
           type: GraphQLString,
+          // @ts-expect-error sdfgsdfg
           resolve: (parent: EntityEntryType) => (entity.displayNameField && parent[entity.displayNameField]
+            // @ts-expect-error sdfgsdfg
             ? parent[entity.displayNameField].toString()
             : parent._id.toHexString()),
         },

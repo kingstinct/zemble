@@ -166,10 +166,14 @@ export const createTraverser = (entity: EntitySchemaType) => {
   const mapArrayFields = (
     fieldName: string,
     data: Record<string, unknown> | readonly Record<string, unknown>[],
-  ) => (Array.isArray(data) ? data : [data]).map((el: Record<string, unknown>): Record<string, unknown> => ({
-    __typename: (capitalize(entity.nameSingular) + capitalize(fieldName) + capitalize(Object.keys(el)[0])),
-    ...traverseData(el),
-  }))
+  ) => (Array.isArray(data) ? data : [data]).map((el: Record<string, unknown>): Record<string, unknown> => {
+    const ending = capitalize(Object.keys(el)[0]!)
+
+    return ({
+      __typename: (capitalize(entity.nameSingular) + capitalize(fieldName) + ending),
+      ...traverseData(el),
+    })
+  })
 
   return traverseData
 }

@@ -38,7 +38,7 @@ describe('Mutation.updatePermissions', () => {
       { silenceErrors: true },
     )
 
-    expect(errors?.[0].message).toEqual(`Accessing 'Mutation.updatePermissions' requires authentication.`)
+    expect(errors?.[0]?.message).toEqual(`Accessing 'Mutation.updatePermissions' requires authentication.`)
   })
 
   it('Should succeed', async () => {
@@ -91,7 +91,7 @@ describe('Mutation.updatePermissions', () => {
       silenceErrors: true,
     })
 
-    expect(errors?.[0].message).toEqual('User not found')
+    expect(errors?.[0]?.message).toEqual('User not found')
   })
 
   it('Should fail if removing user-admin permission from self', async () => {
@@ -116,6 +116,6 @@ describe('Mutation.updatePermissions', () => {
       silenceErrors: true,
     })
 
-    expect(errors?.[0].message).toEqual('You cannot remove your own user-admin permission')
+    expect(errors?.[0]?.message).toEqual('You cannot remove your own user-admin permission')
   })
 })

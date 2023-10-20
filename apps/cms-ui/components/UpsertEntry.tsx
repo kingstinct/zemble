@@ -55,6 +55,7 @@ const UpsertEntry: React.FC<{
 
   const [, createEntry] = useMutation(useMemo(() => buildUpsertEntryMutation(entity), [entity]))
 
+  // @ts-expect-error fix later
   const defaults = useMemo(() => fields.reduce((acc, field) => {
     // eslint-disable-next-line no-nested-ternary, functional/immutable-data, unicorn/no-nested-ternary
     // @ts-expect-error fix later

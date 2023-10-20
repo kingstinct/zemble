@@ -98,8 +98,9 @@ const initializeRoutes = async (
     const routesAndFilenames = await readRoutes(routePath)
 
     const routePromises = Object.keys(routesAndFilenames).map(async (route) => {
-      const relativePath = path.join(config.rootUrl ?? '', routesAndFilenames[route].relativePath.toLowerCase())
-      const filename = routesAndFilenames[route].filename.toLowerCase()
+      const val = routesAndFilenames[route]!
+      const relativePath = path.join(config.rootUrl ?? '', val.relativePath.toLowerCase())
+      const filename = val.filename.toLowerCase()
 
       const is404 = filename.startsWith('404')
 
@@ -145,7 +146,7 @@ const initializeRoutes = async (
               })
             }, {
               headers: {
-                'Content-Type': conentType,
+                'Content-Type': conentType!,
                 'X-Content-Type-Options': 'nosniff',
                 'Content-Length': fileStream.readableLength.toString(),
                 'Transfer-Encoding': 'chunked',

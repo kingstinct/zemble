@@ -3,7 +3,7 @@ import type { MutationResolvers, Todo } from '../schema.generated'
 const updateTodoStatus: MutationResolvers['updateTodoStatus'] = async (_, {
   id, completed,
 }, { pubsub, decodedToken, kv }) => {
-  const { userId } = decodedToken
+  const { userId } = decodedToken!
   const todoIdWithUser = `${userId}_${id}`
   const previous = await kv<Todo>(userId).get(todoIdWithUser)
 

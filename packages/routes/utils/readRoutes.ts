@@ -1,7 +1,7 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-type PathsWithMetadata = Record<string, {readonly filename: string, readonly relativePath: string}>
+export type PathsWithMetadata = Record<string, {readonly filename: string, readonly relativePath: string}>
 
 export const readRoutes = async (rootDir: string, prefix = ''): Promise<PathsWithMetadata> => fs.readdirSync(path.join(rootDir, prefix)).reduce(async (prev, filename) => {
   const route = path.join(rootDir, prefix, filename)

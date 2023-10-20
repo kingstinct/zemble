@@ -91,7 +91,10 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { na
         ],
       }), {}))
 
-      const fieldsFailingValidation = fieldsRequiringValidation.filter((fieldName) => failingDocs.some((doc) => !doc[fieldName] && doc[fieldName] !== false))
+      const fieldsFailingValidation = fieldsRequiringValidation.filter((
+        fieldName,
+        // @ts-expect-error fix sometime
+      ) => failingDocs.some((doc) => !doc[fieldName] && doc[fieldName] !== false))
 
       if (failingDocs.length > 0) {
         throw new GraphQLError(`Cannot require ${fieldsFailingValidation.join(', ')} on entity ${namePlural}. Either provide a default value or add it without requiring these fields.`)
