@@ -25,6 +25,11 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
     config.redisOptions,
   )
 
+  app.use('*', async (ctx, done) => {
+    ctx.env.pubsub = pubsub
+    await done()
+  })
+
   if (process.env.NODE_ENV === 'test') {
     // @ts-expect-error sdfgsdfg
     app.gqlRequest = async (query, vars, opts) => {
@@ -39,6 +44,8 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
       return response
     }
   }
+
+  context.pubsub = pubsub
 
   const getGlobalContext = () => {
     if (config.yoga?.context) {
@@ -118,9 +125,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
     )
   }
 
-  app.use('*', async (ctx) => {
-    ctx.env.pubsub = pubsub
-  })
+  //
 
   app.use(config!.yoga!.graphqlEndpoint!, async (ctx) => {
     const handler = await handlerPromise
