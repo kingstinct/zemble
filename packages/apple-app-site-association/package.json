@@ -3,12 +3,16 @@
   "version": "0.0.9",
   "description": "",
   "private": true,
-  "main": "plugin.ts",
+  "main": "plugin.js",
+  "module": "plugin.mjs",
+  "types": "plugin.d.ts",
   "scripts": {
     "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsup *.ts --format cjs,esm --dts -d=.",
+    "clean": "find . -type f \\( -name \"*.js\" -o -name \"*.mjs\" -o -name \"*.d.mts\" -o -name \"*.d.ts\" \\) -delete"
   },
   "keywords": [],
   "author": "",

@@ -4,3 +4,7 @@ node_modules
 
 .turbo
 *.js
+*.mjs
+dist
+*.d.mts
+*.d.ts
