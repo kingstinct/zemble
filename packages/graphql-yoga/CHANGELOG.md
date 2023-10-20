@@ -1,5 +1,12 @@
 # @zemble/graphql
 
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/core@0.0.11
+
 ## 0.0.14
 
 ### Patch Changes

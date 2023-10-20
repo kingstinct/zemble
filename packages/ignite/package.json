@@ -1,6 +1,6 @@
 {
   "name": "@zemble/ignite",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "private": true,
   "main": "plugin.ts",

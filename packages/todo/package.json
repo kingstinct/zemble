@@ -1,6 +1,6 @@
 {
   "name": "zemble-plugin-todo",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "main": "plugin.ts",
   "private": true,
