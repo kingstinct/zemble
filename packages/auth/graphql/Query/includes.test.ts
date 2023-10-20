@@ -19,7 +19,7 @@ describe('Includes', () => {
       { id: '1' },
       { silenceErrors: true },
     )
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.includes' requires authentication.`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.includes' requires authentication.`)
   })
 
   it('Should fail without right id in JWT', async () => {
@@ -33,7 +33,7 @@ describe('Includes', () => {
       },
       silenceErrors: true,
     })
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.includes' requires token including arrays matching {"roles":{"role":"admin","organisationId":"1"}}.`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.includes' requires token including arrays matching {"roles":{"role":"admin","organisationId":"1"}}.`)
   })
 
   it('Should fail when trying to reference the exact variable literal', async () => {
@@ -47,7 +47,7 @@ describe('Includes', () => {
       },
       silenceErrors: true,
     })
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.includes' requires token including arrays matching {"roles":{"role":"admin","organisationId":"1"}}.`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.includes' requires token including arrays matching {"roles":{"role":"admin","organisationId":"1"}}.`)
   })
 
   it('Should succeed with role in JWT', async () => {

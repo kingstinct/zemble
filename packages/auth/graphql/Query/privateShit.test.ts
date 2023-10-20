@@ -15,7 +15,7 @@ describe('privateShit', () => {
     const app = await plugin.testApp()
 
     const response = await app.gqlRequest(PrivateShitQuery, {}, { silenceErrors: true })
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.privateShit' requires authentication.`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.privateShit' requires authentication.`)
   })
 
   it('Should succeed authentication', async () => {

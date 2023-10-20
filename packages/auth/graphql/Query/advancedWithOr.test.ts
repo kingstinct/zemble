@@ -20,7 +20,7 @@ describe('advancedWithOr', () => {
       { silenceErrors: true },
     )
 
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.advancedWithOr' requires authentication.`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.advancedWithOr' requires authentication.`)
   })
 
   it('Should fail without array', async () => {
@@ -35,7 +35,7 @@ describe('advancedWithOr', () => {
       silenceErrors: true,
     })
 
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
   })
 
   it('Should fail when roles array doesnt include the right role', async () => {
@@ -50,7 +50,7 @@ describe('advancedWithOr', () => {
       silenceErrors: true,
     })
 
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
   })
 
   it('Should succeed when the role includes admin role', async () => {
@@ -121,6 +121,6 @@ describe('advancedWithOr', () => {
       silenceErrors: true,
     })
 
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
   })
 })

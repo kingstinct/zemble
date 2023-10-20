@@ -6,7 +6,8 @@
     "module": "CommonJS",
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "types": [ "bun-types" ]
-  }
+  },
+  "exclude": [ "**/*.generated/*.ts" ]
 }

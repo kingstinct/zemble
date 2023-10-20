@@ -32,7 +32,7 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
   readonly generateTokenContents: (email: string) => Promise<Zemble.OtpToken> | Zemble.OtpToken
 }
 
-interface DefaultOtpToken {
+export interface DefaultOtpToken {
   // readonly type: 'AuthOtp',
   readonly email: string,
 }

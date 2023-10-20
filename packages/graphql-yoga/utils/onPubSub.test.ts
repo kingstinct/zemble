@@ -6,10 +6,9 @@ import createPubSub from '../createPubSub'
 test('should subscribe', async () => {
   const pubsub = createPubSub()
 
-  let calls = []
+  let calls: readonly unknown[] = []
 
   onPubSub(pubsub, 'todoUpdated', (hey) => {
-    // @ts-expect-error sdfasdf
     calls = [...calls, hey]
   })
 
@@ -23,10 +22,9 @@ test('should subscribe', async () => {
 test('should unsubscribe', async () => {
   const pubsub = createPubSub()
 
-  let calls = []
+  let calls: readonly unknown[] = []
 
   const unsubscribe = onPubSub(pubsub, 'todoUpdated', (hey) => {
-    // @ts-expect-error sdfasdf
     calls = [...calls, hey]
   })
 
@@ -46,10 +44,9 @@ test('should unsubscribe', async () => {
 test('should unsubscribe in the middle', async () => {
   const pubsub = createPubSub()
 
-  let calls = []
+  let calls: readonly unknown[] = []
 
   const unsubscribe = onPubSub(pubsub, 'todoUpdated', (hey) => {
-    // @ts-expect-error sdfasdf
     calls = [...calls, hey]
   })
 

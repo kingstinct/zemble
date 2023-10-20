@@ -46,8 +46,10 @@ const validateIncludes = (matchValueNode: ObjectValueNode, decodedToken: Record<
     const arrayVal = decodedToken[arrayName]
     if (Array.isArray(arrayVal)) {
       const hasMatch = arrayVal.some((v) => {
-        if (value && typeof value === 'object') {
+        if (value && typeof value === 'object' && typeof v === 'object' && v != null) {
           return Object.entries(value).every(([key, val]) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             const isPropValid = v[key] === val
 
             return isPropValid

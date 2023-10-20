@@ -19,7 +19,7 @@ describe('PrivateShitWithRole', () => {
       {},
       { silenceErrors: true },
     )
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.privateShitWithRole' requires authentication.`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.privateShitWithRole' requires authentication.`)
   })
 
   it('Should fail without role in JWT', async () => {
@@ -33,7 +33,7 @@ describe('PrivateShitWithRole', () => {
       },
       silenceErrors: true,
     })
-    expect(response.errors?.[0].message).toEqual(`Accessing 'Query.privateShitWithRole' requires token matching {"role":"admin"}.`)
+    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.privateShitWithRole' requires token matching {"role":"admin"}.`)
   })
 
   it('Should succeed with role in JWT', async () => {

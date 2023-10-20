@@ -27,8 +27,10 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
   }
 
   function queuePubber<T extends keyof QueueListener<unknown, unknown, string>>(status: T, queue: Queue) {
-    queue.on(status, (...args) => {
-      const typedArgs = args as Parameters<QueueListener<unknown, unknown, string>[T]>
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    queue.on(status, (...args: Parameters<QueueListener<unknown, unknown, string>[T]>) => {
+      const typedArgs = args
 
       pubSub.publish(
         'queueUpdated',
