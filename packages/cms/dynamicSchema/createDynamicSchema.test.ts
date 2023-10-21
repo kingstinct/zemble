@@ -117,7 +117,7 @@ beforeEach(async () => {
 
 test('should create a book', async () => {
   const createBookReq = await app.gqlRequestUntyped<{
-    readonly books: readonly unknown[]
+    readonly createBook: unknown
   }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
 
   expect(createBookReq.data).toEqual({
@@ -140,10 +140,10 @@ test('should create a book', async () => {
 
   expect(entityEntry).toEqual([
     {
-      _id: expect.any(ObjectId),
-      createdAt: expect.any(Date),
+      _id: expect.any(ObjectId) as unknown as ObjectId,
+      createdAt: expect.any(Date) as unknown as Date,
       title: 'Lord of the rings',
-      updatedAt: expect.any(Date),
+      updatedAt: expect.any(Date) as unknown as Date,
     },
   ])
 })
@@ -189,7 +189,7 @@ test('should create a book with authors', async () => {
     const { data: jrr } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "J.R.R.", lastName: "Tolkien") { id, firstName, lastName } }`, {}, opts)
     const { data: christopher } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "Christopher", lastName: "Tolkien") { id, firstName, lastName } } `, {}, opts)
 
-    const createBookReq = await app.gqlRequestUntyped<{readonly books: readonly unknown[]}, unknown>(`mutation { 
+    const createBookReq = await app.gqlRequestUntyped<{readonly createBook: unknown}, unknown>(`mutation { 
       createBook(title: "Silmarillion", contributors: [
         { author: "${jrr?.createAuthor.id}" },
         { editor: "${christopher?.createAuthor.id}" },
@@ -246,23 +246,27 @@ test('should create a book with authors', async () => {
 
     expect(authors).toEqual([
       {
-        _id: expect.any(ObjectId),
-        createdAt: expect.any(Date),
+        _id: expect.any(ObjectId) as unknown as ObjectId,
+        createdAt: expect.any(Date) as unknown as Date,
         firstName: 'J.R.R.',
         lastName: 'Tolkien',
-        updatedAt: expect.any(Date),
+        updatedAt: expect.any(Date) as unknown as Date,
       },
       {
+        // @ts-expect-error bun next release might fix this?
         _id: expect.any(ObjectId),
+        // @ts-expect-error bun next release might fix this?
         createdAt: expect.any(Date),
         firstName: 'Christopher',
         lastName: 'Tolkien',
+        // @ts-expect-error bun next release might fix this?
         updatedAt: expect.any(Date),
       },
     ])
 
     expect(books).toEqual([
       {
+        // @ts-expect-error bun next release might fix this?
         _id: expect.any(ObjectId),
         contributors: [
           {
@@ -274,8 +278,10 @@ test('should create a book with authors', async () => {
             editor: expect.any(String),
           },
         ],
+        // @ts-expect-error bun next release might fix this?
         createdAt: expect.any(Date),
         title: 'Silmarillion',
+        // @ts-expect-error bun next release might fix this?
         updatedAt: expect.any(Date),
       },
     ])

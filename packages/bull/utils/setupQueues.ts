@@ -55,7 +55,13 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
         const queueConfig = (await import(path.join(queuePath, filename))).default
 
         if (queueConfig instanceof ZembleQueueBull && redisUrl) {
-          const { queue, worker } = await queueConfig._initQueue(fileNameWithoutExtension, createClient(redisUrl, config.redisOptions))
+          const { queue, worker } = await queueConfig._initQueue(
+            fileNameWithoutExtension,
+            createClient(
+              redisUrl,
+              config?.redisOptions,
+            ),
+          )
 
           queuePubber('cleaned', queue)
           queuePubber('error', queue)

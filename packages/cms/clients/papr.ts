@@ -16,7 +16,7 @@ export const EntityEntrySchema = schema({
   validationLevel: VALIDATION_LEVEL.OFF, // let's skip it for now - how do we handle the unknown fields?
 })
 
-export type EntityEntryType = typeof EntityEntrySchema[0]
+export type EntityEntryType = typeof EntityEntrySchema[0] & Record<string, unknown>
 
 class PaprWrapper {
   db: Db | undefined
@@ -27,7 +27,7 @@ class PaprWrapper {
 
   async contentCollection(name: string) {
     await this.#initializing
-    const model = this.papr?.models.get(name) as Model<typeof EntityEntrySchema[0], typeof EntityEntrySchema[1]>
+    const model = this.papr?.models.get(name) as Model<EntityEntryType, typeof EntityEntrySchema[1]>
 
     if (!model) throw new Error(`Content collection "${name}" not found or not initialized`)
     return model

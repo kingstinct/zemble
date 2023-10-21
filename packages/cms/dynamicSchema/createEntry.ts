@@ -29,7 +29,6 @@ const createEntryResolver = (entity: EntitySchemaType, type: GraphQLOutputType) 
       const res = await collection.findOneAndUpdate({
         _id,
       }, {
-        // @ts-expect-error asdf
         $set: mappedData,
         $setOnInsert: { _id },
       }, {
