@@ -16,7 +16,8 @@ const config = {
         {
           add: {
             placement: 'prepend',
-            content: `// @ts-nocheck`,
+            content: `// @ts-nocheck
+import '@zemble/core'`,
           },
         },
         'typescript',

@@ -1,0 +1,30 @@
+{
+  "name": "minimal",
+  "version": "0.0.11",
+  "description": "",
+  "private": true,
+  "main": "app.ts",
+  "scripts": {
+    "start-node": "node dist/run-with-node.js",
+    "dev-bun": "bun --hot run-with-bun.ts",
+    "dev-node": "ts-node run-with-node.ts",
+    "lint": "eslint .",
+    "lint-quiet": "eslint . --quiet",
+    "typecheck": "tsc --noEmit",
+    "graphql-codegen": "graphql-codegen"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
+    "@zemble/bun": "workspace:*",
+    "@zemble/node": "workspace:*",
+    "@zemble/routes": "workspace:*"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.1",
+    "typescript": "^5.1.6"
+  }
+}
