@@ -1,5 +1,12 @@
 # zemble-plugin-apple-app-site-association
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/core@0.0.12
+
 ## 0.0.9
 
 ### Patch Changes

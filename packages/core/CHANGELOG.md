@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.0.12
+
+### Patch Changes
+
+- Lots of fixes, revert to typescript-only
+
 ## 0.0.11
 
 ### Patch Changes
