@@ -35,8 +35,8 @@ export default async (
       honoContext: c,
     })
 
-    const headers = Array.from(c.req.headers.keys()).reduce((acc, key) => {
-      const value = c.req.headers.get(key)
+    const headers = Array.from(res.headers.keys()).reduce((acc, key) => {
+      const value = res.headers.get(key)
       // eslint-disable-next-line unicorn/prefer-ternary
       if (key === 'content-type') {
         // only copy content-type - for whatever reason, copying all headers breaks the response
