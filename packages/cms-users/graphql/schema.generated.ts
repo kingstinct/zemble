@@ -1,4 +1,5 @@
 // @ts-nocheck
+import '@zemble/core'
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { UserType, Permission } from '../clients/papr';
 export type Maybe<T> = T | null;

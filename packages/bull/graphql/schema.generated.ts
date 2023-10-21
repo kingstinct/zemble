@@ -1,4 +1,5 @@
 // @ts-nocheck
+import '@zemble/core'
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { Job, Queue } from 'bullmq';
 export type Maybe<T> = T | null;
