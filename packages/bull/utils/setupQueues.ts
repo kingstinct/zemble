@@ -45,7 +45,7 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
 
   if (hasQueues) {
     console.log('[bull-plugin] Initializing queues from ', queuePath)
-    const redisUrl = config?.redisUrl
+    const redisUrl = config?.redisUrl ?? process.env.REDIS_URL
 
     if (redisUrl || process.env.NODE_ENV === 'test') {
       const filenames = readDir(queuePath)
