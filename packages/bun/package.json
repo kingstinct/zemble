@@ -13,14 +13,13 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "build": "bun run ../../build.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@zemble/core": "workspace:*",
-    "bun": "^1.0.6"
+    "@zemble/core": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1"

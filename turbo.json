@@ -2,23 +2,30 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "lint": {
-      "outputMode": "errors-only"
+      "outputMode": "errors-only",
+      "inputs": [ "**/*" ]
     },
     "lint-quiet": {
-      "outputMode": "errors-only"
+      "outputMode": "errors-only",
+      "inputs": [ "**/*" ]
     },
     "test": {
-      "outputMode": "errors-only"
+      "outputMode": "errors-only",
+      "inputs": [
+        "**/*.ts",
+        "**/tsconfig.json"
+      ]
     },
     "build": {
       "outputMode": "errors-only",
+      "inputs": [
+        "**/*.ts",
+        "**/tsconfig.json"
+      ],
       "outputs": [
         "*.js",
-        "*.d.ts",
-        "*.mjs",
-        "*.d.mts"
-      ],
-      "cache": false
+        "*.d.ts"
+      ]
     },
     "clean":{
       "outputMode": "errors-only",

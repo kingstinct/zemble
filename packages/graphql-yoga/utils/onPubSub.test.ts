@@ -38,6 +38,8 @@ test('should unsubscribe', async () => {
   await new Promise((resolve) => { setTimeout(resolve, 1) })
 
   expect(calls).toEqual([])
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   expect(res).toEqual({ done: true })
 })
 
@@ -66,5 +68,7 @@ test('should unsubscribe in the middle', async () => {
     { titile: 'call 1' },
     { titile: 'call 2' },
   ])
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   expect(res).toEqual({ done: true })
 })

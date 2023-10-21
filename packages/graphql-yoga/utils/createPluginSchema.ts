@@ -1,8 +1,8 @@
 import { createDefaultExecutor } from '@graphql-tools/delegate'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
-import { readFileSync } from 'fs'
-import { join } from 'path'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 import readResolvers from './readResolvers'
 

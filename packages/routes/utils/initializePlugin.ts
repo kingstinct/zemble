@@ -160,8 +160,9 @@ const initializeRoutes = async (
           registerFileRoute(relativePath)
         } else if (relativePath.endsWith('.html')) {
           const pathWithoutExt = relativePath.replace('.html', '')
-          if (pathWithoutExt.endsWith('/index')) {
-            registerFileRoute(pathWithoutExt.replace(/\/index$/, ''))
+
+          if (pathWithoutExt.endsWith('index')) {
+            registerFileRoute(pathWithoutExt.replace(/index$/, ''))
           } else {
             registerFileRoute(pathWithoutExt)
           }

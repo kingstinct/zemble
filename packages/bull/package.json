@@ -11,7 +11,7 @@
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "build": "bun run ../../build.ts"
   },
   "keywords": [],
   "author": "",
@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.1",
-    "bun": "^1.0.6",
     "bun-types": "^1.0.6"
   }
 }
