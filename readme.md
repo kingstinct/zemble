@@ -2,11 +2,22 @@
 
 A plugin system to build composable systems. Goal is to do what plugins do for Wordpress, but for the Node ecosystem.
 
+Check out [apps/minimal](apps/minimal) for a simple example with routes and graphql, and a few tests. For a simple plugin example check out [packages/apple-app-site-association](packages/apple-app-site-association) which simply adds a route. An app consists of a set of plugins which can be configured, and can also contain routes and/or graphql functionality of it's own.
+
 Design goals:
 - DX-optimized plugin development
 - Reuse 80% when building a new app/system
 - Loose coupling
 - Infrastructure agnostic (default behaviour should be that plugins work on edge/node/wherever)
+
+Everything is a plugin. Here are some of the core plugins:
+| Package | Description  |
+|----------|----------|----------|
+| @zemble/core | Core functionality, wiring up configuration between plugins and apps |
+| @zemble/graphql | Magically wires up GraphQL from the /graphql folder of every plugin, and if you have it in your app |
+| @zemble/routes | Magically wires up REST endpoints and files in your /routes folder |
+| @zemble/auth | Magically handles JWT authentication, use @auth directive for public GraphQL queries (or granular permissions) |
+| @zemble/auth-otp | Adds mutations to authorize through OTP with an email, works seamlessly with @zemble/auth |
 
 Core functionality:
 - REST Routes
