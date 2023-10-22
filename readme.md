@@ -1,18 +1,202 @@
 # @zemble plugin system
 
-A plugin system to build composable systems. Goal is to do what plugins do for Wordpress, but for the Node ecosystem.
+A plugin system to build composable systems.
+
+## Getting started
+
+### Give it a spin
+Let's start simple
+
+1. If you haven't already, [install bun](https://bun.sh): `curl -fsSL https://bun.sh/install | bash`. It's fast and TypeScript-native. We want to support more runtimes moving forward.
+2. Install some zemble packages: `bun install @zemble/bun @zemble/graphql @zemble/routes`
+3. Add a file, call it `app.ts` for example:
+```TypeScript
+import serve from '@zemble/bun'
+
+import GraphQL from '@zemble/graphql'
+import Routes from '@zemble/routes'
+
+export default serve({
+  plugins: [
+    Routes,
+    GraphQL,
+  ],
+})
+```
+4. Run it with bun: `bun --hot app.ts`
+5. You now have a server running on port `http://localhost:3000`. Try it out, you have a GraphQL playground with some stuff to try out - even subscriptions just work :)
+
+### Use routes
+1. Add a folder called `/routes` (configurable through `Routes.configure(/* your config here */)`).
+2. In this folder add a `hello/world.ts` with something like this:
+```TypeScript
+export const get = (ctx: Zemble.RouteContext) => ctx.json({
+  hello: 'world',
+})
+```
+3. Now try navigating to `http://localhost:3000/hello/world`
+4. Also add a file - maybe your app icon(?) - in the /routes folder and navigate to it :)
+
+We use [hono](https://hono.dev/) as web server, it's fast and supports a wide range of runtimes. Check out their docs on more details. 
+
+Picking up what you put in your `/routes` folder is custom to @zemble though, some patterns we support:
+- my-route.get.ts <- will expose the default export when GETting /my-route
+- my-route.ts <- will expose the default export for any HTTP verb, use named exports like get and post for specific verbs.
+
+### Use GraphQL
+We love GraphQL so a lot of focus has been on the DX of it.
+
+1. Create a folder called `/graphql`.
+2. Add a `schema.graphql` with a simple query:
+```
+type Query {
+  hello: String!
+}
+```
+3. Add `/graphql/Query/hello.ts`:
+```
+const hello = () => 'world!'
+
+export default hello
+```
+4. Try it out in the playground.
+
+Some cool stuff you can try out is exposing your GraphQL as a REST API with [Sofa](https://the-guild.dev/graphql/sofa-api), full with Swagger at `/api/docs`: `GraphQL.configure({ sofa: { basePath: '/api' } })`
+
+### Ok, so what about composability?
+Until now we've built a monolith,. Now - let's talk effortless composability. Microservices are great - but it often adds complexity both in development and maintenance workflows. @zemble brings a plugin system that keeps your logic in separate easily composable parts. Let's try it out.
+
+1. Add a `plugins/my-app-routes/plugin.ts` with something like this:
+```
+import Plugin from '@zemble/core/Plugin'
+import Routes from '@zemble/routes'
+
+export default new Plugin(
+  __dirname,
+  {
+    name: 'files',
+    version: '0.0.1',
+    dependencies: [
+      {
+        plugin: Routes,
+      },
+    ],
+  },
+)
+```
+2. Move your routes folder to `/plugins/my-app-routes`
+3. Update your `app.ts` and add the plugin we just created:
+```TypeScript
+import serve from '@zemble/bun'
+
+import GraphQL from '@zemble/graphql'
+import MyAppRoutes from './plugins/my-app-routes'
+
+export default serve({
+  plugins: [
+    GraphQL,
+    MyAppRoutes,
+  ],
+})
+```
+4. Try it out :)
+
+To make it easy to reuse plugins it's recommended to publish them to NPM as separate packages. If you don't explicitely add name and version to the plugin it will automatically try to pick it up from a package.json in the same directory.
+
+### What about tests?
+Testing your GraphQL is super-easy. We recommend using graphql-codegen with client-preset
+
+1. Install `@graphql-codegen/cli`
+2. Add `graphql-codegen` to your scripts section of your package.json:
+```
+"scripts": {
+  // other stuff
+  "graphql-codegen": "graphql-codegen"
+}
+```
+3. Add a `codegen.ts` to your app:
+```
+import defaultConfig from '@zemble/graphql/codegen'
+
+export default defaultConfig
+
+```
+4. Add a hello.test.ts to your app:
+```
+import { it, expect } from 'bun:test'
+import { createApp } from '@zemble/core'
+import GraphQL from '@zemble/graphql'
+import MyAppRoutes from './plugins/my-app-routes'
+
+import { graphql } from '../client.generated'
+
+const HelloWorldQuery = graphql(`
+  query Hello {
+    hello
+  }
+`)
+
+it('Should return world!', async () => {
+  // the config here is identical to what you use when calling serve in your app.ts, so you probably want to break it out to it's file, maybe config.ts or something :)
+  const app = await createApp({
+    plugins: [
+      Routes,
+      MyAppRoutes,
+    ],
+  })
+
+  const response = await app.gqlRequest(HelloWorldQuery, {})
+
+  expect(response.data).toEqual({
+    hello: 'world!',
+  })
+})
+
+```
+
+### What about auth?
+Ok, let's take it one step further. You usually want to authenticate users in an app, both to provide an individualized experience as well as protect your users privacy. How can we make this composable? Let's try it out.
+
+1. Install `zemble-plugin-auth-anonymous`
+2. Add it to your app config:
+```TypeScript
+import serve from '@zemble/bun'
+
+import GraphQL from '@zemble/graphql'
+import Routes from '@zemble/routes'
+import AnonymousAuth from 'zemble-plugin-anonymous-auth'
+
+export default serve({
+  plugins: [
+    Routes,
+    GraphQL,
+    AnonymousAuth
+  ],
+})
+```
+3. We need a public/private keypair, run `bunx zemble-generate-keys` to generate a .env file with a PUBLIC_KEY and PRIVATE_KEY
+4. Run your app and try to call your hello query again :)
+
+`zemble-plugin-auth-anonymous` depends on the `zemble-plugin-auth` which does the following:
+- Protectes all GraphQL queries by default. You can opt-out or configure this with the auth directive, for example: `@auth(skip: true)`
+- Allows an authentication token to be sent either as a header (by default a bearer token, `authorization: "Bearer {token}"`) or a cookie.
+- It uses public/private key encryption which makes it possible to verify the authenticity of an authentication token without knowing the private key. It exposes a standard `/.well-known/jwks.json` REST endpoint as well as GraphQL queries for the public key, validating and parsing a token.
+
+`zemble-plugin-auth-anonymous` in turn adds a simple login mutation to GraphQL, which returns an authentication token. Check out `zemble-plugin-auth-otp` for another approach, where it adds a flow for authenticating a user by sending a one-time-password to their email address.
+
+## Full examples
 
 Check out [apps/minimal](apps/minimal) for a simple example with routes and graphql, and a few tests. For a simple plugin example check out [packages/apple-app-site-association](packages/apple-app-site-association) which simply adds a route. An app consists of a set of plugins which can be configured, and can also contain routes and/or graphql functionality of it's own.
 
-Design goals:
+## Design goals of @zemble
 - DX-optimized plugin development
-- Reuse 80% when building a new app/system
+- Enabling reusing 80% when building a new app/system
 - Loose coupling
 - Infrastructure agnostic (default behaviour should be that plugins work on edge/node/wherever)
 
 Everything is a plugin. Here are some of the core plugins:
 | Package | Description  |
-|----------|----------|----------|
+|----------|----------|
 | @zemble/core | Core functionality, wiring up configuration between plugins and apps |
 | @zemble/graphql | Magically wires up GraphQL from the /graphql folder of every plugin, and if you have it in your app |
 | @zemble/routes | Magically wires up REST endpoints and files in your /routes folder |
@@ -26,17 +210,28 @@ Core functionality:
 - (Key-Value Store (would be nice, but maybe more of a plugin, not needed for every system))
 - (Pub/Sub (would be nice, but maybe more of a plugin, not needed for every system))
 
+## Plugins
 
-Environment variables (probably better with a granular config here):
-Using dotenv by default. Let's consider providing overrides that are prefixed, to allow for flexbility, i.e.:
-GRAPHQL_ENDPOINT=http://localhost:3000/graphql
-PLUGIN_2_GRAPHQL_ENDPOINT=http://localhost:3001/graphql (overrides the above for plugin 2)
+Plugins are reusable pieces of functionality that can be added to a system. Plugins can depend on other plugins, and can be depended on by other plugins. Plugins should preferably contain one piece of functionality, and should be as loosely coupled as possible.
+
+Some plugins act as middleware, which means they can traverse other plugins without any direct dependency on them. Examples of this is: 
+- the core GraphQL plugin, which adds schema and resolvers from other plugins.
+- the core Queue plugin, which adds queues from other plugins.
+
+Every plugin exposes a config. The config is fully typed and can be configured in detail when composing the app. Environment variables (including .env-files) are also fully supported it is suggested that plugins listens to environment variables wherever possible, for example the core KV, Queue and PubSub plugins accepts the REDIS_URL environment variable to configure the Redis connection, while still allowing overriding this for every plugin individually.
+
+An app can be just a set of plugins without any custom code. It can also contain custom code, any middleware will traverse this custom code in the same way as it traverses plugins.
+
+Concepts:
+- An app is a set of configured plugins with or without custom code.
+- A plugin is a reusable piece of functionality that can be added to an app. It can provide middleware that traverses other plugins.
+- Every plugin has a config that can be configured in detail when composing an app.
 
 
 
 
 
-Todos:
+## Kladd :)
 
 - queues (och kanske även graphql) borde nog vara egna plugins baserat på någon typ av “setup”-funktion. Strukturen är bra men vore nice med möjlighet att switcha implementationer
 
@@ -88,32 +283,3 @@ Försöka köra ett plugin per implementation (alltså en KV som har separata de
 
 CMS-plugin:
 Gör så att det är lätt att extenda åt "båda hållen". Har vi en entitet (Recipe) så vore det coolt att kunna hantera det dynamiskt på CMS-nivå - men lägga till resolvers som extendar funktionaliteten.
-
-
-Support parallel authentication flows?
-Use directives to separate expected authentication mechanisms. So we can have a token that contains { integrationId: ObjectId }, { userId: ObjectId } as well as { apiKey: ObjectId } and type them safely for each resolver, for example:
-resolver1 @AuthContextWithToken (no auth required)
-resolver2 (user auth, default)
-resolver3 @integrationAuth (integration auth)
-resolver4 @integrationAuth @userAuth (either goes)
-resolver5 @apiAuth (api auth)
-
-
-
-
-## Plugins
-
-Plugins are reusable pieces of functionality that can be added to a system. Plugins can depend on other plugins, and can be depended on by other plugins. Plugins should preferably contain one piece of functionality, and should be as loosely coupled as possible.
-
-Some plugins act as middleware, which means they can traverse other plugins without any direct dependency on them. Examples of this is: 
-- the core GraphQL plugin, which adds schema and resolvers from other plugins.
-- the core Queue plugin, which adds queues from other plugins.
-
-Every plugin exposes a config. The config is fully typed and can be configured in detail when composing the app. Environment variables (including .env-files) are also fully supported it is suggested that plugins listens to environment variables wherever possible, for example the core KV, Queue and PubSub plugins accepts the REDIS_URL environment variable to configure the Redis connection, while still allowing overriding this for every plugin individually.
-
-An app can be just a set of plugins without any custom code. It can also contain custom code, any middleware will traverse this custom code in the same way as it traverses plugins.
-
-Concepts:
-- An app is a set of configured plugins with or without custom code.
-- A plugin is a reusable piece of functionality that can be added to an app. It can provide middleware that traverses other plugins.
-- Every plugin has a config that can be configured in detail when composing an app. 
