@@ -4,7 +4,15 @@ A plugin system to build composable systems.
 
 ## Getting started
 
-### Give it a spin
+Here we go through all the basics of @zemble:
+- [Take it for a spin](#take-it-for-a-spin)
+- [Using routes](#using-routes)
+- [Using GraphQL](#using-graphql)
+- [Ok, so what about composability?](#ok-so-what-about-composability)
+- [What about testing?](#what-about-testing)
+- [What about auth?](#what-about-auth)
+
+### Take it for a spin
 Let's start simple
 
 1. If you haven't already, install [bun](https://bun.sh). It's fast and TypeScript-native. We'll support more runtimes moving forward.
@@ -35,7 +43,7 @@ bun --hot app.ts
 ```
 6. You now have a server running on port `http://localhost:3000`. Try it out, you have a GraphQL playground with some stuff to try out - even subscriptions just work :)
 
-### Use routes
+### Using routes
 1. Add a folder called `/routes` (configurable through `Routes.configure(/* your config here */)`).
 2. In this folder add a `hello/world.ts` with something like this:
 ```TypeScript
@@ -52,7 +60,7 @@ Picking up what you put in your `/routes` folder is custom to @zemble though, so
 - my-route.get.ts <- will expose the default export when GETting /my-route
 - my-route.ts <- will expose the default export for any HTTP verb, use named exports like get and post for specific verbs.
 
-### Use GraphQL
+### Using GraphQL
 We love GraphQL so a lot of focus has been on providing the best possible DX for it.
 
 1. Create a folder called `/graphql`.
@@ -112,7 +120,7 @@ export default serve({
 
 To make it easy to reuse plugins it's recommended to publish them to NPM as separate packages. If you don't explicitely add name and version to the plugin it will automatically try to pick it up from a package.json in the same directory.
 
-### What about tests?
+### What about testing?
 Testing your GraphQL is super-easy. We recommend using graphql-codegen with client-preset
 
 1. Install @graphql-codegen/cli: 
@@ -197,6 +205,10 @@ bunx zemble-generate-keys
 - It uses public/private key encryption which makes it possible to verify the authenticity of an authentication token without knowing the private key. It exposes a standard `/.well-known/jwks.json` REST endpoint as well as GraphQL queries for the public key, validating and parsing a token.
 
 `zemble-plugin-auth-anonymous` in turn adds a simple `login` mutation to GraphQL, which returns an authentication token. Check out `zemble-plugin-auth-otp` for another approach, where it adds a flow for authenticating a user by sending a one-time-password to their email address.
+
+### Ecosystem
+
+We're also providing `zemble-plugin-bull` out of the box, which contains middleware to set up queue jobs. We hope we can build a thriving ecosystem around this together.
 
 ## Full examples
 
