@@ -48,13 +48,13 @@ We love GraphQL so a lot of focus has been on the DX of it.
 
 1. Create a folder called `/graphql`.
 2. Add a `schema.graphql` with a simple query:
-```
+```GraphQL
 type Query {
   hello: String!
 }
 ```
 3. Add `/graphql/Query/hello.ts`:
-```
+```TypeScript
 const hello = () => 'world!'
 
 export default hello
@@ -67,7 +67,7 @@ Some cool stuff you can try out is exposing your GraphQL as a REST API with [Sof
 Until now we've built a monolith,. Now - let's talk effortless composability. Microservices are great - but it often adds complexity both in development and maintenance workflows. @zemble brings a plugin system that keeps your logic in separate easily composable parts. Let's try it out.
 
 1. Add a `plugins/my-app-routes/plugin.ts` with something like this:
-```
+```TypeScript
 import Plugin from '@zemble/core/Plugin'
 import Routes from '@zemble/routes'
 
@@ -108,21 +108,21 @@ Testing your GraphQL is super-easy. We recommend using graphql-codegen with clie
 
 1. Install `@graphql-codegen/cli`
 2. Add `graphql-codegen` to your scripts section of your package.json:
-```
+```JSON
 "scripts": {
   // other stuff
   "graphql-codegen": "graphql-codegen"
 }
 ```
 3. Add a `codegen.ts` to your app:
-```
+```TypeScript
 import defaultConfig from '@zemble/graphql/codegen'
 
 export default defaultConfig
 
 ```
 4. Add a hello.test.ts to your app:
-```
+```TypeScript
 import { it, expect } from 'bun:test'
 import { createApp } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
