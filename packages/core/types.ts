@@ -147,6 +147,9 @@ export type PluginOpts<TDefaultConfig extends Zemble.GlobalConfig, TSelf, TConfi
   readonly dependencies?: DependenciesResolver<TSelf>
 
   readonly devConfig?: TConfig,
+
+  readonly name?: string,
+  readonly version?: string,
 }
 
 export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig> = (

@@ -2,9 +2,7 @@
   "name": "zemble-plugin-cms",
   "version": "0.0.12",
   "description": "",
-  "main": "plugin.js",
-  "module": "plugin.mjs",
-  "types": "plugin.d.ts",
+  "main": "plugin.ts",
   "private": true,
   "scripts": {
     "test": "bun test",

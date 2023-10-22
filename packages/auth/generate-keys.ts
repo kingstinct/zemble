@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { generateKeyPair } from 'node:crypto'
 import fs from 'node:fs'
@@ -17,7 +18,7 @@ void generateKeyPair('rsa', {
   console.log(publicKey)
   console.log(privateKey)
 
-  const envPath = path.join(__dirname, '.env')
+  const envPath = path.join(process.cwd(), '.env')
   if (!fs.existsSync(envPath)) {
     fs.writeFileSync(envPath, '')
   }
@@ -26,7 +27,7 @@ void generateKeyPair('rsa', {
     if (err) throw err
 
     if (!data.includes('PUBLIC_KEY') && !data.includes('PRIVATE_KEY')) {
-      fs.appendFile(envPath, `\nPUBLIC_KEY='${publicKey}'\nPRIVATE_KEY='${privateKey}'`, (err) => {
+      fs.appendFile(envPath, `\nPUBLIC_KEY='${publicKey.trim()}'\nPRIVATE_KEY='${privateKey.trim()}'`, (err) => {
         if (err) throw err
         console.log('PUBLIC_KEY and PRIVATE_KEY was appended to your local .env file!')
       })

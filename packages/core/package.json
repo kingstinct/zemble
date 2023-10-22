@@ -2,9 +2,7 @@
   "name": "@zemble/core",
   "version": "0.0.12",
   "description": "",
-  "main": "index.js",
-  "module": "index.mjs",
-  "types": "index.d.ts",
+  "main": "index.ts",
   "scripts": {
     "test": "bun test",
     "lint": "eslint .",

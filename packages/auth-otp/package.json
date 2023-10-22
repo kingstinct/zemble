@@ -2,9 +2,7 @@
   "name": "zemble-plugin-auth-otp",
   "version": "0.0.14",
   "description": "",
-  "main": "plugin.js",
-  "module": "plugin.mjs",
-  "types": "plugin.d.ts",
+  "main": "plugin.ts",
   "scripts": {
     "test": "bun test",
     "dev": "zemble-bun plugin.ts",

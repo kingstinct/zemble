@@ -121,8 +121,9 @@ const resolveTokens = async ({ config, context }: {readonly config: AuthConfig &
   const headerName = config.headerName ?? 'authorization',
         headerToken = context.req.header(headerName)?.split(' ')[1],
         cookieToken = config.cookies.isEnabled !== false ? getCookie(context)[config.cookies.name] : undefined,
-        token = headerToken ?? cookieToken,
-        decodedToken = token ? await decodeToken(token) : undefined
+        token = headerToken ?? cookieToken
+
+  const decodedToken = token ? await decodeToken(token) : undefined
 
   return {
     token,
@@ -175,6 +176,8 @@ const plugin = new PluginWithMiddleware<AuthConfig, typeof defaultConfig>(
               validateUser: ({
                 fieldAuthDirectiveNode, user: decodedToken, fieldNode, objectType, executionArgs,
               }) => {
+                console.log('executionArgs.operationName', executionArgs.operationName)
+
                 if (!decodedToken) {
                   let skipValidation = false
                   const skipArg = fieldAuthDirectiveNode?.arguments?.find(

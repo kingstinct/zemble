@@ -2,9 +2,7 @@
   "name": "zemble-plugin-todo",
   "version": "0.0.12",
   "description": "",
-  "main": "plugin.js",
-  "module": "plugin.mjs",
-  "types": "plugin.d.ts",
+  "main": "plugin.ts",
   "private": true,
   "scripts": {
     "dev": "zemble-bun plugin.ts",

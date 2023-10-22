@@ -79,7 +79,7 @@ declare global {
 
 export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly yoga?: Omit<YogaServerOptions<Zemble.GraphQLContext, unknown>, 'schema'>
-  readonly sofa?: SofaConfig
+  readonly sofa?: Omit<SofaConfig, 'schema'>
   /**
    * The url of the redis instance to use for pubsub
    */
@@ -101,6 +101,11 @@ const defaultConfig = {
     plugins: [useEngine(GraphQLJS)],
     maskedErrors: {
       isDev: process.env.NODE_ENV === 'development',
+    },
+  },
+  middleware: {
+    '@zemble/graphql': {
+      disable: process.env.NODE_ENV !== 'development',
     },
   },
   redisUrl: process.env.REDIS_URL,

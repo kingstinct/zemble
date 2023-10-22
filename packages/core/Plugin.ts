@@ -36,6 +36,8 @@ export class Plugin<
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
     this.#devConfig = opts?.devConfig
+    this.#pluginName = opts?.name ?? this.pluginName
+    this.#pluginVersion = opts?.version ?? this.pluginVersion
     const deps = opts?.dependencies ?? []
 
     const allDeps = (typeof deps === 'function') ? deps(this) : deps
