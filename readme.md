@@ -7,8 +7,14 @@ A plugin system to build composable systems.
 ### Give it a spin
 Let's start simple
 
-1. If you haven't already, [install bun](https://bun.sh): `curl -fsSL https://bun.sh/install | bash`. It's fast and TypeScript-native. We want to support more runtimes moving forward.
-2. Install some zemble packages: `bun install @zemble/bun @zemble/graphql @zemble/routes`
+1. If you haven't already, install [bun](https://bun.sh). It's fast and TypeScript-native. We'll support more runtimes moving forward.
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+2. Install some packages:
+```bash
+bun install @zemble/bun @zemble/graphql @zemble/routes
+```
 3. Add a file, call it `app.ts` for example:
 ```TypeScript
 import serve from '@zemble/bun'
@@ -23,8 +29,11 @@ export default serve({
   ],
 })
 ```
-4. Run it with bun: `bun --hot app.ts`
-5. You now have a server running on port `http://localhost:3000`. Try it out, you have a GraphQL playground with some stuff to try out - even subscriptions just work :)
+4. Run it: 
+```bash
+bun --hot app.ts
+```
+6. You now have a server running on port `http://localhost:3000`. Try it out, you have a GraphQL playground with some stuff to try out - even subscriptions just work :)
 
 ### Use routes
 1. Add a folder called `/routes` (configurable through `Routes.configure(/* your config here */)`).
@@ -34,7 +43,7 @@ export const get = (ctx: Zemble.RouteContext) => ctx.json({
   hello: 'world',
 })
 ```
-3. Now try navigating to `http://localhost:3000/hello/world`
+3. Now try navigating to [http://localhost:3000/hello/world](http://localhost:3000/hello/world)
 4. Also add a file - maybe your app icon(?) - in the /routes folder and navigate to it :)
 
 We use [hono](https://hono.dev/) as web server, it's fast and supports a wide range of runtimes. Check out their docs on more details. 
@@ -44,7 +53,7 @@ Picking up what you put in your `/routes` folder is custom to @zemble though, so
 - my-route.ts <- will expose the default export for any HTTP verb, use named exports like get and post for specific verbs.
 
 ### Use GraphQL
-We love GraphQL so a lot of focus has been on the DX of it.
+We love GraphQL so a lot of focus has been on providing the best possible DX for it.
 
 1. Create a folder called `/graphql`.
 2. Add a `schema.graphql` with a simple query:
@@ -106,22 +115,24 @@ To make it easy to reuse plugins it's recommended to publish them to NPM as sepa
 ### What about tests?
 Testing your GraphQL is super-easy. We recommend using graphql-codegen with client-preset
 
-1. Install `@graphql-codegen/cli`
-2. Add `graphql-codegen` to your scripts section of your package.json:
+1. Install @graphql-codegen/cli: 
+```bash
+bun install @graphql-codegen/cli
+```
+3. Add `graphql-codegen` to your scripts section of your package.json:
 ```JSON
 "scripts": {
   // other stuff
   "graphql-codegen": "graphql-codegen"
 }
 ```
-3. Add a `codegen.ts` to your app:
+3. Add a `codegen.ts` to your app (you can easily extend it to suit your needs):
 ```TypeScript
 import defaultConfig from '@zemble/graphql/codegen'
 
 export default defaultConfig
-
 ```
-4. Add a hello.test.ts to your app:
+4. Add a `hello.test.ts` to your app (we suggest putting it next to your resolver, but anything goes):
 ```TypeScript
 import { it, expect } from 'bun:test'
 import { createApp } from '@zemble/core'
@@ -139,10 +150,7 @@ const HelloWorldQuery = graphql(`
 it('Should return world!', async () => {
   // the config here is identical to what you use when calling serve in your app.ts, so you probably want to break it out to it's file, maybe config.ts or something :)
   const app = await createApp({
-    plugins: [
-      Routes,
-      MyAppRoutes,
-    ],
+    plugins: [Routes, MyAppRoutes]
   })
 
   const response = await app.gqlRequest(HelloWorldQuery, {})
@@ -155,10 +163,13 @@ it('Should return world!', async () => {
 ```
 
 ### What about auth?
-Ok, let's take it one step further. You usually want to authenticate users in an app, both to provide an individualized experience as well as protect your users privacy. How can we make this composable? Let's try it out.
+Ok, let's take it one step further. You usually need to authenticate users in an app, both to provide an individualized experience as well as protect your users privacy. How can we make this composable? Let's try it out.
 
-1. Install `zemble-plugin-auth-anonymous`
-2. Add it to your app config:
+1. Install zemble-plugin-auth-anonymous:
+```bash
+bun install zemble-plugin-auth-anonymous
+```
+3. Add it to your app config:
 ```TypeScript
 import serve from '@zemble/bun'
 
@@ -174,7 +185,10 @@ export default serve({
   ],
 })
 ```
-3. We need a public/private keypair, run `bunx zemble-generate-keys` to generate a .env file with a PUBLIC_KEY and PRIVATE_KEY
+3. We need a public/private keypair, run `bunx zemble-generate-keys` to generate a .env file with a PUBLIC_KEY and PRIVATE_KEY:
+```bash
+bunx zemble-generate-keys
+```
 4. Run your app and try to call your hello query again :)
 
 `zemble-plugin-auth-anonymous` depends on the `zemble-plugin-auth` which does the following:
@@ -182,7 +196,7 @@ export default serve({
 - Allows an authentication token to be sent either as a header (by default a bearer token, `authorization: "Bearer {token}"`) or a cookie.
 - It uses public/private key encryption which makes it possible to verify the authenticity of an authentication token without knowing the private key. It exposes a standard `/.well-known/jwks.json` REST endpoint as well as GraphQL queries for the public key, validating and parsing a token.
 
-`zemble-plugin-auth-anonymous` in turn adds a simple login mutation to GraphQL, which returns an authentication token. Check out `zemble-plugin-auth-otp` for another approach, where it adds a flow for authenticating a user by sending a one-time-password to their email address.
+`zemble-plugin-auth-anonymous` in turn adds a simple `login` mutation to GraphQL, which returns an authentication token. Check out `zemble-plugin-auth-otp` for another approach, where it adds a flow for authenticating a user by sending a one-time-password to their email address.
 
 ## Full examples
 
