@@ -1,6 +1,6 @@
 {
   "name": "zemble-plugin-apple-app-site-association",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "private": true,
   "main": "plugin.ts",

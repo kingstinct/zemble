@@ -1,6 +1,6 @@
 {
   "name": "@zemble/core",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
   "main": "index.ts",
   "scripts": {
