@@ -1,10 +1,8 @@
 {
   "name": "zemble-plugin-auth-anonymous",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
-  "main": "plugin.js",
-  "module": "plugin.mjs",
-  "types": "plugin.d.ts",
+  "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",

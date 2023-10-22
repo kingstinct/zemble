@@ -1,11 +1,9 @@
 {
   "name": "@zemble/ignite",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "private": true,
-  "main": "plugin.js",
-  "module": "plugin.mjs",
-  "types": "plugin.d.ts",
+  "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",

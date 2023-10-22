@@ -1,12 +1,13 @@
 {
   "name": "minimal",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
   "private": true,
-  "main": "run-with-bun.ts",
+  "main": "serve.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun --hot run-with-bun.ts",
+    "start": "bun serve.ts",
+    "dev": "bun --hot serve.ts",
     "lint": "eslint .",
     "test": "bun test",
     "lint-quiet": "eslint . --quiet",

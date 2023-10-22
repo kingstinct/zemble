@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.0.13
+
+### Patch Changes
+
+- Simplify some stuff
+
 ## 0.0.12
 
 ### Patch Changes
