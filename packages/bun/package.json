@@ -2,9 +2,7 @@
   "name": "@zemble/bun",
   "version": "0.0.6",
   "description": "",
-  "main": "serve.js",
-  "module": "serve.mjs",
-  "types": "serve.d.ts",
+  "main": "serve.ts",
   "bin": {
     "zemble-bun": "./cli.ts"
   },
@@ -12,16 +10,12 @@
     "dev": "bunx cli.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
-    "typecheck": "tsc --noEmit",
-    "build": "bun run ../../build.ts"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*"
-  },
-  "devDependencies": {
-    "@tsconfig/node20": "^20.1.1"
   }
 }

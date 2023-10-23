@@ -10,8 +10,7 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -34,7 +33,6 @@
     "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.1",
     "mongodb-memory-server": "9"
   }
 }

@@ -44,7 +44,9 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
   }
 
   if (hasQueues) {
-    console.log('[bull-plugin] Initializing queues from ', queuePath)
+    if (process.env.NODE_ENV !== 'test' || process.env.DEBUG) {
+      console.log('[bull-plugin] Initializing queues from ', queuePath)
+    }
     const redisUrl = config?.redisUrl ?? process.env.REDIS_URL
 
     if (redisUrl || process.env.NODE_ENV === 'test') {

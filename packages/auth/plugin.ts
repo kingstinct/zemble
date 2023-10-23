@@ -176,8 +176,6 @@ const plugin = new PluginWithMiddleware<AuthConfig, typeof defaultConfig>(
               validateUser: ({
                 fieldAuthDirectiveNode, user: decodedToken, fieldNode, objectType, executionArgs,
               }) => {
-                console.log('executionArgs.operationName', executionArgs.operationName)
-
                 if (!decodedToken) {
                   let skipValidation = false
                   const skipArg = fieldAuthDirectiveNode?.arguments?.find(

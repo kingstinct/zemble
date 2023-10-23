@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +25,6 @@
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
-    "@tsconfig/node20": "^20.1.1",
     "@urql/core": "^4.1.1"
   }
 }

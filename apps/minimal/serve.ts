@@ -1,4 +1,4 @@
-import bunRunner from '@zemble/bun/serve'
+import bunRunner from '@zemble/bun'
 
 import app from './app'
 

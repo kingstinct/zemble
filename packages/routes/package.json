@@ -7,8 +7,7 @@
     "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
-    "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -16,8 +15,5 @@
   "dependencies": {
     "@zemble/core": "workspace:*",
     "hono": "^3.7.2"
-  },
-  "devDependencies": {
-    "@tsconfig/node20": "^20.1.1"
   }
 }

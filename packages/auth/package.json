@@ -12,8 +12,7 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -29,8 +28,5 @@
     "graphql-scalars": "^1.22.2",
     "hono": "^3.7.2",
     "jose": "^4.14.4"
-  },
-  "devDependencies": {
-    "@tsconfig/node20": "^20.1.1"
   }
 }

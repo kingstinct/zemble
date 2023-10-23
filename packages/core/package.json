@@ -8,8 +8,7 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "dev": "bun server.ts",
-    "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -17,8 +16,5 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "hono": "^3.7.2"
-  },
-  "devDependencies": {
-    "@tsconfig/node20": "^20.1.1"
   }
 }

@@ -35,7 +35,6 @@
     "zemble-plugin-kv": "workspace:*"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.1",
     "mongodb-memory-server": "9"
   }
 }

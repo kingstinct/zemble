@@ -8,8 +8,7 @@
     "dev": "zemble-bun plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
-    "typecheck": "tsc --noEmit",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -19,8 +18,5 @@
     "@zemble/routes": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "zemble-plugin-bull": "workspace:*"
-  },
-  "devDependencies": {
-    "@tsconfig/node20": "^20.1.1"
   }
 }

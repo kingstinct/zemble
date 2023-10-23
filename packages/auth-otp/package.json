@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",
-    "graphql-codegen": "graphql-codegen",
-    "build": "tsup *.ts --format cjs,esm --dts -d=."
+    "graphql-codegen": "graphql-codegen"
   },
   "keywords": [],
   "author": "",
@@ -24,8 +23,5 @@
     "graphql": "^16.8.0",
     "zemble-plugin-auth": "workspace:*",
     "zemble-plugin-kv": "workspace:*"
-  },
-  "devDependencies": {
-    "@tsconfig/node20": "^20.1.1"
   }
 }

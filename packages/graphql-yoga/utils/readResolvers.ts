@@ -5,6 +5,7 @@ export const readResolvers = async (path: string) => {
   try {
     const resolvedPaths = new Set<string>()
     const erroredPaths: Record<string, unknown> = {}
+
     const resolvers = await readdirSync(path).reduce(async (prev, filename) => {
       if (filename.includes('.test.')) {
         return prev
