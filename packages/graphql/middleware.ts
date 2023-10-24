@@ -19,7 +19,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
     config, app, context, plugins,
   },
 ) => {
-  const pubsub = createPubSub(
+  const pubsub = await createPubSub(
     config.redisUrl,
     config.redisOptions,
   )

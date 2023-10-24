@@ -4,7 +4,7 @@ import { onPubSub } from './onPubSub'
 import createPubSub from '../createPubSub'
 
 test('should subscribe', async () => {
-  const pubsub = createPubSub()
+  const pubsub = await createPubSub()
 
   let calls: readonly unknown[] = []
 
@@ -20,7 +20,7 @@ test('should subscribe', async () => {
 })
 
 test('should unsubscribe', async () => {
-  const pubsub = createPubSub()
+  const pubsub = await createPubSub()
 
   let calls: readonly unknown[] = []
 
@@ -44,7 +44,7 @@ test('should unsubscribe', async () => {
 })
 
 test('should unsubscribe in the middle', async () => {
-  const pubsub = createPubSub()
+  const pubsub = await createPubSub()
 
   let calls: readonly unknown[] = []
 

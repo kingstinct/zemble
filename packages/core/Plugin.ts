@@ -4,7 +4,6 @@ import { createApp } from './createApp'
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 
-import type { ZembleApp } from './createApp'
 import type { Dependency, PluginOpts } from './types'
 
 // initialize dotenv before any plugins are loaded/configured

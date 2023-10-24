@@ -105,7 +105,8 @@ const defaultConfig = {
   },
   middleware: {
     '@zemble/graphql': {
-      disable: process.env.NODE_ENV !== 'development',
+      // by default we disable our own GraphQL queries when not in development or test
+      disable: process.env.NODE_ENV ? !['development', 'test'].includes(process.env.NODE_ENV) : true,
     },
   },
   redisUrl: process.env.REDIS_URL,
