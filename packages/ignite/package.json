@@ -5,7 +5,7 @@
   "private": true,
   "main": "plugin.ts",
   "scripts": {
-    "dev": "zemble-bun plugin.ts",
+    "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"

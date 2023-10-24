@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "bun run codegen && bun test",
-    "dev": "zemble-bun plugin.ts",
+    "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen"
   },

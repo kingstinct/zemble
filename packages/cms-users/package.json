@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "bun test",
-    "dev": "MONGO_URL=mongodb://localhost:27017/test-db REDIS_URL=redis://localhost:6379 zemble-bun plugin.ts",
+    "dev": "MONGO_URL=mongodb://localhost:27017/test-db REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",

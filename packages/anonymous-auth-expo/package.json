@@ -8,7 +8,6 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "codegen": "graphql-code-generator",
-    "dev": "zemble-bun index.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"

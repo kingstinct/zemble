@@ -5,7 +5,7 @@
   "main": "plugin.ts",
   "scripts": {
     "test": "bun test",
-    "dev": "zemble-bun plugin.ts",
+    "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",

@@ -4,7 +4,7 @@
   "description": "",
   "main": "serve.ts",
   "bin": {
-    "zemble-bun": "./cli.ts"
+    "zemble-dev": "./cli.ts"
   },
   "scripts": {
     "dev": "bunx cli.ts",
