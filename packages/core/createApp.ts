@@ -7,6 +7,7 @@ import context from './zembleContext'
 
 import type Plugin from './Plugin'
 import type { PluginWithMiddleware } from './PluginWithMiddleware'
+import type { RunBeforeServeFn } from './types'
 
 const packageJson = readPackageJson()
 
@@ -27,14 +28,14 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
 }, {})
 
 export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure) => {
-  const app = new Hono() as Zemble.App
+  const hono = new Hono<Zemble.HonoEnv>()
 
   // maybe this should be later - how about middleware that overrides logger?
   if (process.env.NODE_ENV !== 'test') {
-    app.use('*', logger(context.logger.log))
+    hono.use('*', logger(context.logger.log))
   }
 
-  app.use('*', async (ctx, next) => {
+  hono.use('*', async (ctx, next) => {
     // eslint-disable-next-line functional/immutable-data
     ctx.env = {
       ...ctx.env ?? {},
@@ -46,7 +47,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     await next()
   })
 
-  app.use('*', cors())
+  hono.use('*', cors())
 
   const resolved = pluginsBeforeResolvingDeps.flatMap((plugin) => [...plugin.dependencies, plugin])
 
@@ -81,24 +82,44 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     })
   }
 
-  await middleware?.reduce(async (
+  const appDir = process.cwd()
+
+  const preInitApp = {
+    hono,
+    appDir,
+  }
+
+  const runBeforeServe = await middleware?.reduce(async (
     prev,
     middleware,
   ) => {
-    await prev
+    const p = await prev
 
-    await middleware.initializeMiddleware({
+    const ret = await middleware.initializeMiddleware({
       plugins,
-      app,
+      app: preInitApp,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       context,
       config: middleware.config,
     })
-    return undefined
-  }, Promise.resolve(undefined))
 
-  app.get('/', (c) => c.html(`<html>
+    if (typeof ret === 'function') {
+      return [...p, ret]
+    }
+    return p
+  }, Promise.resolve([] as readonly RunBeforeServeFn[]))
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const zembleApp: Zemble.App = {
+    ...preInitApp,
+    hono,
+    appDir,
+    runBeforeServe,
+  }
+
+  hono.get('/', (c) => c.html(`<html>
     <head>
       <title>${packageJson.name}</title>
       <meta name="color-scheme" content="light dark">
@@ -112,11 +133,11 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   </html>`))
 
   if (process.env.DEBUG) {
-    const routes = app.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
+    const routes = hono.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
     console.log(`[@zemble] Routes:\n${routes}`)
   }
 
-  return app
+  return zembleApp
 }
 
 export default createApp

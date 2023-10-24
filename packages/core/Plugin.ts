@@ -50,7 +50,7 @@ export class Plugin<
   }
 
   get #isPluginDevMode() {
-    return (process.env.PLUGIN_DEV && process.cwd() === this.pluginPath)
+    return (process.env.NODE_ENV === 'development' && process.cwd() === this.pluginPath)
   }
 
   #filterDevDependencies(dep: Dependency) {

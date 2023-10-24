@@ -3,12 +3,12 @@
 import { type GraphQLFormattedError } from 'graphql'
 
 export async function gqlRequestUntyped<TRes, TVars>(
-  app: Zemble.App,
+  app: Pick<Zemble.App, 'hono'>,
   query: string,
   variables: TVars,
   options?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean},
 ) {
-  const response = await app.fetch(new Request('http://localhost/graphql', {
+  const response = await app.hono.fetch(new Request('http://localhost/graphql', {
     method: 'POST',
     body: JSON.stringify({
       query,

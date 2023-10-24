@@ -6,7 +6,7 @@ import { print } from 'graphql/language/printer'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
 
 export async function gqlRequest<TQuery, TVars>(
-  app: Zemble.App,
+  app: Pick<Zemble.App, 'hono'>,
   query: TypedDocumentNode<TQuery, TVars>,
   variables: TVars,
   options: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean} = {},
@@ -23,7 +23,7 @@ export async function gqlRequest<TQuery, TVars>(
     },
   })
 
-  const res = await app.fetch(response)
+  const res = await app.hono.fetch(response)
 
   const { errors, data } = await res.json() as unknown as {
     readonly data?: ResultOf<TQuery>,

@@ -89,10 +89,11 @@ const fileExtensionToMimeType: Record<string, string> = {
 
 const initializeRoutes = async (
   routePath: string,
-  app: Zemble.App,
+  app: Pick<Zemble.App, 'hono'>,
   config: Omit<RoutesGlobalConfig, 'disable'>,
 ) => {
   const hasRoutes = fs.existsSync(routePath)
+  const { hono } = app
 
   if (hasRoutes) {
     const routesAndFilenames = await readRoutes(routePath)
@@ -111,7 +112,7 @@ const initializeRoutes = async (
         if (code.default) {
           const foundVerb = httpVerbs.some((verb) => {
             if (relativePathNoExt.endsWith(`.${verb}`)) {
-              app[verb](relativePathNoExt.replace(new RegExp(`\\.${verb}$`), ''), code.default)
+              hono[verb](relativePathNoExt.replace(new RegExp(`\\.${verb}$`), ''), code.default)
               return true
             }
 
@@ -119,20 +120,20 @@ const initializeRoutes = async (
           })
 
           if (is404) {
-            app.notFound(code.default)
+            hono.notFound(code.default)
           } else if (!foundVerb) {
-            app.all(relativePathNoExt, code.default as MiddlewareHandler)
+            hono.all(relativePathNoExt, code.default as MiddlewareHandler)
           }
         }
 
         httpVerbs.forEach((verb) => {
           if (code[verb]) {
-            app[verb](relativePathNoExt, code[verb])
+            hono[verb](relativePathNoExt, code[verb])
           }
         })
       } else {
         const registerFileRoute = (url: string) => {
-          app.get(url, async (context) => {
+          hono.get(url, async (context) => {
             const fileStream = fs.createReadStream(route)
 
             const conentType = fileExtensionToMimeType[path.extname(route)]
@@ -183,7 +184,7 @@ export async function initializePlugin(
     config,
   }: {
     readonly pluginPath: string;
-    readonly app: Zemble.App
+    readonly app: Pick<Zemble.App, 'hono'>
     readonly config: Omit<RoutesGlobalConfig, 'disable'>;
   },
 ) {

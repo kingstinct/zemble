@@ -6,8 +6,7 @@
     "@zemble/core": "latest",
     "@zemble/bun": "latest",
     "@zemble/routes": "latest",
-    "@zemble/graphql": "latest",
-    "bun": "latest"
+    "@zemble/graphql": "latest"
   },
   "scripts": {
     "test": "bun run codegen && bun test",

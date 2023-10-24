@@ -24,7 +24,7 @@ export const cliRunner = async (runner: Runner) => {
 
     const plugin = (await (await import(relativePath)).default) as Plugin | ZembleApp
 
-    if ('request' in plugin) {
+    if ('hono' in plugin) {
       app = plugin
     }
 

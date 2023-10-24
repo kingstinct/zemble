@@ -240,6 +240,8 @@ Core functionality:
 
 Plugins are reusable pieces of functionality that can be added to a system. Plugins can depend on other plugins, and can be depended on by other plugins. Plugins should preferably contain one piece of functionality, and should be as loosely coupled as possible.
 
+Every plugin is a singleton and can expose a configuration for an app (or other plugins depending on it) to customize it's functionality. Another pattern is for middleware to extend MiddlewareConfig with configuration so it's behaviour in dealing with all other plugins can be customized.
+
 Some plugins act as middleware, which means they can traverse other plugins without any direct dependency on them. Examples of this is: 
 - the core GraphQL plugin, which adds schema and resolvers from other plugins.
 - the core Queue plugin, which adds queues from other plugins.

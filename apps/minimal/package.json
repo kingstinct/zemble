@@ -3,7 +3,7 @@
   "version": "0.0.13",
   "description": "",
   "private": true,
-  "main": "serve.ts",
+  "main": "app.ts",
   "type": "module",
   "scripts": {
     "start": "bun serve.ts",
@@ -20,6 +20,7 @@
   "dependencies": {
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
+    "@zemble/migrations": "workspace:*",
     "@zemble/bun": "workspace:*",
     "@zemble/routes": "workspace:*"
   },

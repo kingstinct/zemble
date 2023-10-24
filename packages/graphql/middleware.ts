@@ -24,7 +24,9 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
     config.redisOptions,
   )
 
-  app.use('*', async (ctx, done) => {
+  const { hono } = app
+
+  hono.use('*', async (ctx, done) => {
     ctx.env.pubsub = pubsub
     await done()
   })
@@ -93,6 +95,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
   )
 
   if (config.sofa) {
+    // eslint-disable-next-line import/no-extraneous-dependencies
     const { useSofa } = await import('sofa-api')
 
     const urlPath = config.sofa.basePath ?? '/api'
@@ -101,7 +104,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
       plugins: config.yoga?.plugins ?? [],
     })
 
-    app.all(
+    hono.all(
       path.join('/', urlPath, '/*'),
       async (ctx) => {
         const mergedSchema = await buildMergedSchema(plugins, config)
@@ -126,9 +129,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
     )
   }
 
-  //
-
-  app.use(config!.yoga!.graphqlEndpoint!, async (ctx) => {
+  hono.use(config!.yoga!.graphqlEndpoint!, async (ctx) => {
     const handler = await handlerPromise
 
     return handler(ctx)

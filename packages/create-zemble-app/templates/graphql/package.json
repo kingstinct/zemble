@@ -6,8 +6,7 @@
     "@zemble/core": "latest",
     "@zemble/bun": "latest",
     "@zemble/routes": "latest",
-    "@zemble/graphql": "latest",
-    "bun": "latest"
+    "@zemble/graphql": "latest"
   },
   "scripts": {
     "start": "bun serve.ts",
@@ -26,5 +25,5 @@
   "peerDependencies": {
     "typescript": "^5.2.2"
   },
-  "module": "plugin.ts"
+  "module": "app.ts"
 }

@@ -65,8 +65,11 @@ declare global {
 
     }
 
-    interface App extends Hono<HonoEnv> {
+    interface App {
+      readonly hono: Hono<HonoEnv>
+      readonly appDir: string
 
+      readonly runBeforeServe: readonly RunBeforeServeFn[]
     }
 
     interface MiddlewareConfig {
@@ -152,11 +155,16 @@ export type PluginOpts<TDefaultConfig extends Zemble.GlobalConfig, TSelf, TConfi
   readonly version?: string,
 }
 
+export type RunBeforeServeFn = (() => Promise<void>) | (() => void)
+
+// a middleware can return a function that will be called when the server is started
+export type MiddlewareReturn = Promise<void> | void | RunBeforeServeFn | Promise<RunBeforeServeFn>
+
 export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig> = (
   opts: {
     readonly plugins: readonly Plugin<Zemble.GlobalConfig>[],
-    readonly app: Zemble.App,
+    readonly app: Pick<Zemble.App, 'hono' |'appDir'>,
     readonly context: Zemble.GlobalContext
     readonly config: TMiddlewareConfig
   }
-) => Promise<void> | void
+) => MiddlewareReturn

@@ -4,11 +4,10 @@
   "type": "module",
   "dependencies": {
     "@zemble/core": "latest",
-    "@zemble/bun": "latest",
-    "bun": "latest"
+    "@zemble/bun": "latest"
   },
   "scripts": {
-    "test": "bun run codegen && bun test",
+    "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit"
   },

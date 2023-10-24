@@ -1,0 +1,29 @@
+{
+  "name": "@zemble/migrations",
+  "description": "",
+  "version": "0.0.1",
+  "bin": {
+    "create-migration": "bin/create-migration.ts",
+    "migrate-up": "bin/migrate-up.ts",
+    "migrate-down": "bin/migrate-down.ts"
+  },
+  "dependencies": {
+    "@zemble/core": "workspace:*",
+    "@zemble/bun": "workspace:*"
+  },
+  "scripts": {
+    "test": "bun test",
+    "dev": "zemble-dev plugin.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "type-fest": "^4.5.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "optionalDependencies": {
+    "mongodb": "^6.2.0"
+  },
+  "main": "plugin.ts"
+}
