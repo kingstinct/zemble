@@ -8,6 +8,7 @@
     "bun": "latest"
   },
   "scripts": {
+    "start": "bun serve.ts",
     "test": "bun run codegen && bun test",
     "dev": "bun --hot serve.ts",
     "typecheck": "tsc --noEmit"
