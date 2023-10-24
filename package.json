@@ -27,7 +27,6 @@
     "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@tsconfig/bun": "^1.0.1",
-    "@types/uuid": "3",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "bun-types": "^1.0.6",
@@ -63,7 +62,6 @@
   ],
   "dependencies": {
     "@changesets/cli": "^2.26.2",
-    "bun": "^1.0.7",
-    "uuid": "3"
+    "bun": "^1.0.7"
   }
 }

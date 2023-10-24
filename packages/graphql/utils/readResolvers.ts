@@ -7,7 +7,7 @@ export const readResolvers = async (path: string) => {
     const erroredPaths: Record<string, unknown> = {}
 
     const resolvers = await readdirSync(path).reduce(async (prev, filename) => {
-      if (filename.includes('.test.')) {
+      if (filename.includes('.test.') || filename.endsWith('.graphql')) {
         return prev
       }
 

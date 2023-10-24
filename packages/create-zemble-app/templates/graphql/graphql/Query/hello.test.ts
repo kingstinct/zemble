@@ -1,6 +1,6 @@
 import { it, expect } from 'bun:test'
 
-import plugin from '../../plugin'
+import createApp from '../../app'
 import { graphql } from '../client.generated'
 
 const HelloWorldQuery = graphql(`
@@ -10,7 +10,7 @@ const HelloWorldQuery = graphql(`
 `)
 
 it('Should return world!', async () => {
-  const app = await plugin.testApp()
+  const app = await createApp
 
   const response = await app.gqlRequest(HelloWorldQuery, {})
 

@@ -1,7 +1,8 @@
 import { createDefaultExecutor } from '@graphql-tools/delegate'
-import { makeExecutableSchema } from '@graphql-tools/schema'
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
+import { loadSchema } from '@graphql-tools/load'
+import { addResolversToSchema } from '@graphql-tools/schema'
 import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
-import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 import readResolvers from './readResolvers'
@@ -17,8 +18,6 @@ export const createPluginSchema = async ({
   readonly scalars: Record<string, GraphQLScalarType>,
   readonly skipGraphQLValidation: boolean,
 }) => {
-  const typeDefs = readFileSync(join(graphqlDir, '/schema.graphql'), 'utf8')
-
   const Query = await readResolvers(join(graphqlDir, '/Query'))
 
   const Mutation = await readResolvers(join(graphqlDir, '/Mutation'))
@@ -28,9 +27,15 @@ export const createPluginSchema = async ({
 
   const Scalars = await readResolvers(join(graphqlDir, '/Scalar'))
 
-  const internalSchema = makeExecutableSchema<Zemble.GraphQLContext>({
-    typeDefs,
+  const graphqlGlob = join(graphqlDir, './**/*.graphql')
+
+  const schemaWithoutResolvers = await loadSchema(graphqlGlob, {
+    loaders: [new GraphQLFileLoader()],
     assumeValid: !!skipGraphQLValidation,
+  })
+
+  const internalSchema = addResolversToSchema({
+    schema: schemaWithoutResolvers,
     resolvers: {
       ...(Object.keys(Query).length > 0 ? { Query } : {}),
       ...(Object.keys(Mutation).length > 0 ? { Mutation } : {}),

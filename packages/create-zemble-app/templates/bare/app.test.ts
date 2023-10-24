@@ -6,5 +6,5 @@ test('Should return world!', async () => {
   const app = await appInit
   const res = await app.request('/')
 
-  expect(await res.text()).toEqual('Hello world!')
+  expect(await res.text()).toContain('Hello Zemble! Serving ')
 })
