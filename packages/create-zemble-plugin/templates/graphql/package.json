@@ -1,0 +1,29 @@
+{
+  "name": "pkgname",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "@zemble/core": "latest",
+    "@zemble/bun": "latest",
+    "@zemble/routes": "latest",
+    "@zemble/graphql": "latest",
+    "bun": "latest"
+  },
+  "scripts": {
+    "test": "bun run codegen && bun test",
+    "dev": "zemble-bun plugin.ts",
+    "typecheck": "tsc --noEmit",
+    "codegen": "graphql-codegen"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "@graphql-codegen/add": "^5.0.0",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "module": "plugin.ts"
+}

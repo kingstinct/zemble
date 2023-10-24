@@ -3,8 +3,7 @@ node_modules
 .DS_Store
 
 .turbo
-*.js
-*.mjs
 dist
-*.d.mts
-*.d.ts
+
+*.generated.ts
+*.generated

@@ -4,7 +4,6 @@ import { envelop } from '@envelop/core'
 import { printSchemaWithDirectives } from '@graphql-tools/utils'
 import fs from 'node:fs'
 import path from 'node:path'
-import { useSofa } from 'sofa-api'
 
 import createPubSub from './createPubSub'
 import buildMergedSchema from './utils/buildMergedSchema'
@@ -15,7 +14,7 @@ import handleYoga from './utils/handleYoga'
 import type { GraphQLMiddlewareConfig } from './plugin'
 import type { Middleware } from '@zemble/core/types'
 
-export const middleware: Middleware<GraphQLMiddlewareConfig> = (
+export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
   {
     config, app, context, plugins,
   },
@@ -94,6 +93,8 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = (
   )
 
   if (config.sofa) {
+    const { useSofa } = await import('sofa-api')
+
     const urlPath = config.sofa.basePath ?? '/api'
 
     const enveloped = envelop({

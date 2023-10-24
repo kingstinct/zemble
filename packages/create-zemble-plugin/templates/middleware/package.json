@@ -1,0 +1,22 @@
+{
+  "name": "pkgname",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "@zemble/core": "latest",
+    "@zemble/bun": "latest",
+    "bun": "latest"
+  },
+  "scripts": {
+    "test": "bun run codegen && bun test",
+    "dev": "zemble-bun plugin.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "module": "plugin.ts"
+}
