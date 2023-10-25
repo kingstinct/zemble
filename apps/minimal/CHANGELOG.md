@@ -1,5 +1,17 @@
 # minimal
 
+## 0.0.14
+
+### Patch Changes
+
+- Add @zemble/migrations, fixes across the board
+- Updated dependencies
+  - @zemble/bun@0.0.7
+  - @zemble/core@0.0.14
+  - @zemble/graphql@0.0.18
+  - @zemble/migrations@0.0.2
+  - @zemble/routes@0.0.7
+
 ## 0.0.13
 
 ### Patch Changes

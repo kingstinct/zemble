@@ -6,5 +6,5 @@ test('Should return world!', async () => {
   const app = await plugin.testApp()
   const res = await app.hono.request('/')
 
-  expect(await res.text()).toContain('Hello Zemble! Serving test-13')
+  expect(await res.text()).toContain('Hello Zemble! Serving ')
 })

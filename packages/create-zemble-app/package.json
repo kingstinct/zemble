@@ -1,6 +1,6 @@
 {
   "name": "create-zemble-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bin": "./bin/create-zemble-app.js",
   "type": "module",
   "dependencies": {

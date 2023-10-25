@@ -1,6 +1,6 @@
 {
   "name": "create-zemble-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bin": "./bin/create-zemble-plugin.js",
   "type": "module",
   "dependencies": {

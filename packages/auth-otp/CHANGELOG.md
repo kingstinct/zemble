@@ -1,5 +1,16 @@
 # zemble-plugin-auth-otp
 
+## 0.0.16
+
+### Patch Changes
+
+- Add @zemble/migrations, fixes across the board
+- Updated dependencies
+  - zemble-plugin-auth@0.0.16
+  - @zemble/core@0.0.14
+  - @zemble/graphql@0.0.18
+  - zemble-plugin-kv@0.0.16
+
 ## 0.0.15
 
 ### Patch Changes
