@@ -2,8 +2,8 @@
 /* eslint-disable functional/immutable-data */
 import { envelop } from '@envelop/core'
 import { printSchemaWithDirectives } from '@graphql-tools/utils'
-import fs from 'node:fs'
-import path from 'node:path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 
 import createPubSub from './createPubSub'
 import buildMergedSchema from './utils/buildMergedSchema'

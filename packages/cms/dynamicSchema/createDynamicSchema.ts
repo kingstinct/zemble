@@ -9,7 +9,7 @@ import {
   GraphQLString,
 } from 'graphql'
 import { ObjectId } from 'mongodb'
-import fs from 'node:fs'
+import * as fs from 'node:fs'
 
 import createEntryResolver from './createEntry'
 import createDeleteEntryResolver from './deleteEntry'

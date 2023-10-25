@@ -26,7 +26,7 @@ export type Migration = {
 }
 
 interface MigrationConfig {
-  readonly adapter: MigrationAdapter
+  readonly createAdapter: () => Promise<MigrationAdapter> | MigrationAdapter
   readonly migrationsDir?: string
 }
 
@@ -133,7 +133,7 @@ interface MigrationPluginConfig extends Zemble.GlobalConfig, MigrationConfig {
 const defaultConfig = {
   runMigrationsOnStart: true,
   waitForMigrationsToComplete: true,
-} satisfies Omit<MigrationPluginConfig, 'adapter'>
+} satisfies Omit<MigrationPluginConfig, 'createAdapter'>
 
 export default new PluginWithMiddleware<MigrationPluginConfig, typeof defaultConfig>(
   __dirname,
@@ -142,13 +142,13 @@ export default new PluginWithMiddleware<MigrationPluginConfig, typeof defaultCon
   }) => {
     const migrationsPathOfApp = join(app.appDir, config.migrationsDir ?? 'migrations')
 
-    const appMigrations = await getMigrations(migrationsPathOfApp, config.adapter)
+    const appMigrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter())
 
     const pluginMigrations = await Promise.all(plugins.map(async (plugin) => {
       const migrationConfig = plugin.config.middleware?.['@zemble/migrations'] as MigrationConfig | undefined
 
       const pluginMigrationsPath = join(plugin.pluginPath, migrationConfig?.migrationsDir ?? 'migrations')
-      return getMigrations(pluginMigrationsPath, migrationConfig?.adapter)
+      return getMigrations(pluginMigrationsPath, await migrationConfig?.createAdapter())
     }))
 
     const allMigrations = appMigrations.concat(...pluginMigrations.flat())
