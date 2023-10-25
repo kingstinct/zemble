@@ -12,6 +12,20 @@ Here we go through all the basics of @zemble:
 - [What about testing?](#what-about-testing)
 - [What about auth?](#what-about-auth)
 
+### tldr
+
+Use create-zemble-app to bootstrap an app (choose between `bare` and `graphql` templates):
+```bash
+bunx create create-zemble-app <name-of-app> [template]
+```
+
+There is also create-zemble-plugin to similarly bootstrap a plugin (here you can choose between `bare`, `graphql` and `middleware` templates):
+```bash
+bunx create create-zemble-plugin <name-of-app> [template]
+```
+
+Both comes with all you need to start building the next build thing, including tests! :)
+
 ### Take it for a spin
 Let's start simple
 
