@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "graphql-codegen && tsc --noEmit"
   },
   "keywords": [],
   "author": "",
