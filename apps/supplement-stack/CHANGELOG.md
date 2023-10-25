@@ -1,5 +1,12 @@
 # supplement-stack
 
+## 0.0.16
+
+### Patch Changes
+
+- Updated dependencies
+  - zemble-plugin-bull@0.0.18
+
 ## 0.0.15
 
 ### Patch Changes

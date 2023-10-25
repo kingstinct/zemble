@@ -44,14 +44,14 @@ export type { ZembleQueueConfig }
 export { ZembleQueue }
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
-export default new PluginWithMiddleware<BullPluginConfig>(__dirname, ({ plugins, context: { pubsub } }) => {
+export default new PluginWithMiddleware<BullPluginConfig>(__dirname, ({ plugins, context: { pubsub }, config }) => {
   plugins.forEach(({ pluginPath, config }) => {
     if (!config.middleware?.['zemble-plugin-bull']?.disable) {
       setupQueues(pluginPath, pubsub, config)
     }
   })
   const appPath = process.cwd()
-  setupQueues(appPath, pubsub, {})
+  setupQueues(appPath, pubsub, config)
 }, {
   defaultConfig: defaults,
   dependencies: [

@@ -1,5 +1,11 @@
 # zemble-plugin-bull
 
+## 0.0.18
+
+### Patch Changes
+
+- fix: Expose config to setupQueues
+
 ## 0.0.17
 
 ### Patch Changes
