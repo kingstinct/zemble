@@ -142,13 +142,13 @@ export default new PluginWithMiddleware<MigrationPluginConfig, typeof defaultCon
   }) => {
     const migrationsPathOfApp = join(app.appDir, config.migrationsDir ?? 'migrations')
 
-    const appMigrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter())
+    const appMigrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.())
 
     const pluginMigrations = await Promise.all(plugins.map(async (plugin) => {
       const migrationConfig = plugin.config.middleware?.['@zemble/migrations'] as MigrationConfig | undefined
 
       const pluginMigrationsPath = join(plugin.pluginPath, migrationConfig?.migrationsDir ?? 'migrations')
-      return getMigrations(pluginMigrationsPath, await migrationConfig?.createAdapter())
+      return getMigrations(pluginMigrationsPath, await migrationConfig?.createAdapter?.())
     }))
 
     const allMigrations = appMigrations.concat(...pluginMigrations.flat())

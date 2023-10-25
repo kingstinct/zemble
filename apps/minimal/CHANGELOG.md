@@ -1,5 +1,13 @@
 # minimal
 
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/graphql@0.0.19
+  - @zemble/migrations@0.0.3
+
 ## 0.0.14
 
 ### Patch Changes

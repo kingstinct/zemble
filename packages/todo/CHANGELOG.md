@@ -1,5 +1,15 @@
 # zemble-plugin-todo
 
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/graphql@0.0.19
+  - zemble-plugin-auth@0.0.17
+  - zemble-plugin-auth-anonymous@0.0.15
+  - zemble-plugin-kv@0.0.17
+
 ## 0.0.14
 
 ### Patch Changes

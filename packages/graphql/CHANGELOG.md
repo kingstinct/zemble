@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.19
+
+### Patch Changes
+
+- Expose a createAdapter instead of adapter to make it easier to use migration adapter in tests
+
 ## 0.0.18
 
 ### Patch Changes

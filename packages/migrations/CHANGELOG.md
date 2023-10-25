@@ -1,5 +1,11 @@
 # @zemble/migrations
 
+## 0.0.3
+
+### Patch Changes
+
+- Expose a createAdapter instead of adapter to make it easier to use migration adapter in tests
+
 ## 0.0.2
 
 ### Patch Changes
