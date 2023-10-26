@@ -10,8 +10,24 @@
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "apps/todo-app-with-auth-backend"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "@envelop/generic-auth": "^6.0.1",

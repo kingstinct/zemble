@@ -1,7 +1,7 @@
 {
   "name": "zemble-plugin-kv",
   "version": "0.0.17",
-  "description": "",
+  "description": "@zemble Plugin that provides a single KV interface for in-memory, Redis, and Cloudflare KV",
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
@@ -10,8 +10,24 @@
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^4.0.0",

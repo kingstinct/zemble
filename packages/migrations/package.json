@@ -1,7 +1,8 @@
 {
   "name": "@zemble/migrations",
-  "description": "",
+  "description": "@zemble Plugin providing generic migration functionality",
   "version": "0.0.3",
+  "keywords": [ "zemble" ],
   "bin": {
     "create-migration": "bin/create-migration.ts",
     "migrate-up": "bin/migrate-up.ts",
@@ -10,6 +11,18 @@
   "dependencies": {
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
   },
   "scripts": {
     "test": "bun test",

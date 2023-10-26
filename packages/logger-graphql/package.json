@@ -1,7 +1,7 @@
 {
   "name": "zemble-plugin-logger-graphql",
   "version": "0.0.15",
-  "description": "",
+  "description": "@zemble Plugin for providing a GraphQL Stream of your apps logs",
   "main": "plugin.ts",
   "private": true,
   "scripts": {
@@ -11,8 +11,24 @@
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "@graphql-yoga/plugin-defer-stream": "^2.0.4",

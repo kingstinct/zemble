@@ -1,7 +1,7 @@
 {
   "name": "@zemble/core",
   "version": "0.0.14",
-  "description": "",
+  "description": "Zemble Core Package for the Zemble Plugin System",
   "main": "index.ts",
   "scripts": {
     "test": "bun test",
@@ -10,8 +10,24 @@
     "dev": "bun server.ts",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/core"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",

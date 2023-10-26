@@ -1,7 +1,7 @@
 {
   "name": "zemble",
   "version": "0.0.1",
-  "description": "",
+  "description": "Zemble Monorepo",
   "main": "index.js",
   "scripts": {
     "test-recursive": "bunx turbo run test --continue",
@@ -19,8 +19,23 @@
     "git-nuke": "git clean -Xdf",
     "clean": "find . -type f \\( -name \"*.mjs\" -o -name \"*.d.mts\" -o -name \"*.d.ts\" \\) -not -path \"./node_modules/*\" -delete"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "private": true,
   "devDependencies": {

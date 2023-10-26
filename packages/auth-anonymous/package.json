@@ -1,7 +1,7 @@
 {
   "name": "zemble-plugin-auth-anonymous",
   "version": "0.0.15",
-  "description": "",
+  "description": "Zemble Plugin providing Anonymous Auth support",
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
@@ -10,8 +10,12 @@
     "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^4.0.0",

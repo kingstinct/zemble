@@ -1,6 +1,7 @@
 {
   "name": "pkgname",
   "version": "0.0.1",
+  "description": "",
   "type": "module",
   "dependencies": {
     "@zemble/core": "latest",

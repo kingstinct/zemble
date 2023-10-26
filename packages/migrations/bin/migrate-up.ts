@@ -17,6 +17,3 @@ if (appOrServe && 'runBeforeServe' in appOrServe) {
   console.warn(`Usage: migrate-up [app-file]
 Will default to "." i.e. the main file in package.json.`)
 }
-
-// let's keep it lazy for now, it's running the migrations just by importing the app
-// process.exit(0)

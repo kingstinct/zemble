@@ -1,6 +1,7 @@
 {
   "name": "create-zemble-plugin",
   "version": "0.0.2",
+  "description": "CLI for creating a zemble plugin in a zap",
   "bin": "./bin/create-zemble-plugin.js",
   "type": "module",
   "dependencies": {
@@ -12,5 +13,18 @@
   },
   "peerDependencies": {
     "typescript": "^5.2.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
+  "keywords": [ "zemble" ]
 }

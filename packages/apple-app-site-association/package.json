@@ -1,7 +1,7 @@
 {
   "name": "zemble-plugin-apple-app-site-association",
   "version": "0.0.12",
-  "description": "",
+  "description": "A package to easily expose a Apple App Site Association file for your iOS App",
   "private": true,
   "main": "plugin.ts",
   "scripts": {
@@ -10,8 +10,24 @@
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*"

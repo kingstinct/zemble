@@ -1,7 +1,7 @@
 {
   "name": "zemble-plugin-auth",
   "version": "0.0.17",
-  "description": "",
+  "description": "Zemble Plugin providing generic Auth Support",
   "main": "plugin.ts",
   "bin": {
     "zemble-generate-keys": "./generate-keys.ts"
@@ -14,8 +14,24 @@
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/auth"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^4.0.0",

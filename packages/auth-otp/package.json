@@ -1,7 +1,7 @@
 {
   "name": "zemble-plugin-auth-otp",
   "version": "0.0.17",
-  "description": "",
+  "description": "Zemble Plugin providing OTP authentication through email",
   "main": "plugin.ts",
   "scripts": {
     "test": "bun test",
@@ -11,8 +11,24 @@
     "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^4.0.0",

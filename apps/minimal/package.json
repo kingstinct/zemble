@@ -1,7 +1,7 @@
 {
   "name": "minimal",
   "version": "0.0.15",
-  "description": "",
+  "description": "A minimal example app",
   "private": true,
   "main": "app.ts",
   "type": "module",
@@ -14,8 +14,24 @@
     "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "apps/minimal"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*",

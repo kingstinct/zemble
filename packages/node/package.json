@@ -1,7 +1,7 @@
 {
   "name": "@zemble/node",
   "version": "0.0.7",
-  "description": "",
+  "description": "@zemble Plugin for Node.js runtime",
   "main": "serve.js",
   "module": "serve.mjs",
   "types": "serve.d.ts",
@@ -16,8 +16,24 @@
     "typecheck": "tsc --noEmit",
     "build": "tsup *.ts --format cjs,esm --dts -d=."
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
+  "keywords": [ "zemble" ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*",

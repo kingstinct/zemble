@@ -1,7 +1,7 @@
 {
   "name": "@zemble/bun",
   "version": "0.0.7",
-  "description": "",
+  "description": "@zemble Plugin for running bun",
   "main": "serve.ts",
   "bin": {
     "zemble-dev": "./cli.ts"
@@ -12,8 +12,24 @@
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/bun"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*"

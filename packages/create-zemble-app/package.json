@@ -1,5 +1,6 @@
 {
   "name": "create-zemble-app",
+  "description": "CLI for creating a new Zemble app in a zap",
   "version": "0.0.2",
   "bin": "./bin/create-zemble-app.js",
   "type": "module",
@@ -12,5 +13,18 @@
   },
   "peerDependencies": {
     "typescript": "^5.2.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
+  "keywords": [ "zemble" ]
 }

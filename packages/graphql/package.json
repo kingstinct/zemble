@@ -1,7 +1,7 @@
 {
   "name": "@zemble/graphql",
   "version": "0.0.19",
-  "description": "",
+  "description": "Zemble Plugin providing GraphQL support for your app",
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
@@ -10,8 +10,24 @@
     "graphql-codegen": "graphql-codegen",
     "typecheck": "graphql-codegen && tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [ "zemble" ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/graphql"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^5.0.0",
