@@ -91,7 +91,7 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
 
   readonly extendSchema?: readonly GraphQLSchema[] | (() => Promise<readonly GraphQLSchema[]>)
   readonly scalars?: Record<string, GraphQLScalarType>
-  readonly outputMergedSchemaPath?: string
+  readonly outputMergedSchemaPath?: string | false
 }
 
 const defaultConfig = {
@@ -110,6 +110,7 @@ const defaultConfig = {
     },
   },
   redisUrl: process.env.REDIS_URL,
+  outputMergedSchemaPath: './app.generated.graphql',
 } satisfies GraphQLMiddlewareConfig
 
 export default new PluginWithMiddleware<GraphQLMiddlewareConfig>(

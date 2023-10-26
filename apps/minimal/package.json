@@ -22,6 +22,7 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/migrations": "workspace:*",
     "@zemble/bun": "workspace:*",
+    "zemble-plugin-auth": "workspace:*",
     "@zemble/routes": "workspace:*"
   },
   "devDependencies": {

@@ -71,7 +71,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
           ? config.outputMergedSchemaPath
           : path.join(process.cwd(), config.outputMergedSchemaPath)
 
-        void fs.promises.writeFile(resolvedPath, printSchemaWithDirectives(mergedSchema))
+        void fs.promises.writeFile(resolvedPath, `${printSchemaWithDirectives(mergedSchema)}\n`)
       }
 
       return mergedSchema
