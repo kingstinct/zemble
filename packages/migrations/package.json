@@ -2,7 +2,11 @@
   "name": "@zemble/migrations",
   "description": "@zemble Plugin providing generic migration functionality",
   "version": "0.0.3",
-  "keywords": [ "zemble" ],
+  "keywords": [
+    "zemble",
+    "zemble-plugin",
+    "@zemble"
+  ],
   "bin": {
     "create-migration": "bin/create-migration.ts",
     "migrate-up": "bin/migrate-up.ts",

@@ -12,7 +12,11 @@
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [ "zemble" ],
+  "keywords": [
+    "zemble",
+    "zemble-plugin",
+    "@zemble"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/kingstinct/zemble",

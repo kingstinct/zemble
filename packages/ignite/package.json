@@ -10,7 +10,11 @@
     "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [ "zemble" ],
+  "keywords": [
+    "zemble",
+    "zemble-plugin",
+    "@zemble"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/kingstinct/zemble",

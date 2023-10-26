@@ -28,7 +28,10 @@
   "bugs": {
     "url": "https://github.com/kingstinct/zemble/issues"
   },
-  "keywords": [ "zemble" ],
+  "keywords": [
+    "zemble",
+    "@zemble"
+  ],
   "author": {
     "name": "Robert Herber",
     "email": "robert@kingstinct.com",

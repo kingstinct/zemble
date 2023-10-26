@@ -19,7 +19,10 @@
     "git-nuke": "git clean -Xdf",
     "clean": "find . -type f \\( -name \"*.mjs\" -o -name \"*.d.mts\" -o -name \"*.d.ts\" \\) -not -path \"./node_modules/*\" -delete"
   },
-  "keywords": [ "zemble" ],
+  "keywords": [
+    "zemble",
+    "@zemble"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/kingstinct/zemble"

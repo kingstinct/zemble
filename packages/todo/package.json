@@ -11,7 +11,11 @@
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [ "zemble" ],
+  "keywords": [
+    "zemble",
+    "zemble-plugin",
+    "@zemble"
+  ],
   "author": {
     "name": "Robert Herber",
     "email": "robert@kingstinct.com",
