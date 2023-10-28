@@ -105,7 +105,7 @@ const initializeRoutes = async (
 
       const is404 = filename.startsWith('404')
 
-      if (relativePath.endsWith('.js') || relativePath.endsWith('.ts')) {
+      if (relativePath.endsWith('.js') || relativePath.endsWith('.ts') || relativePath.endsWith('.jsx') || relativePath.endsWith('.tsx')) {
         const code = await import(route)
         const relativePathNoExt = relativePath.substring(0, relativePath.length - 3)
 
