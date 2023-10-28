@@ -1,5 +1,13 @@
 # @zemble/mongodb
 
+## 0.0.4
+
+### Patch Changes
+
+- Move migration adapter to mongo package, add transaction support
+- Updated dependencies
+  - @zemble/migrations@0.0.5
+
 ## 0.0.3
 
 ### Patch Changes

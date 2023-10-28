@@ -1,5 +1,11 @@
 # create-zemble-app
 
+## 0.0.4
+
+### Patch Changes
+
+- 42fdb3b: Update templates
+
 ## 0.0.3
 
 ### Patch Changes
