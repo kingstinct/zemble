@@ -1,5 +1,11 @@
 # todo-app-with-auth-backend
 
+## 0.0.19
+
+### Patch Changes
+
+- @zemble/ignite@0.0.12
+
 ## 0.0.18
 
 ### Patch Changes

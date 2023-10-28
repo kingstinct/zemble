@@ -1,5 +1,12 @@
 # @zemble/ignite
 
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies [fe1b206]
+  - @zemble/routes@0.0.9
+
 ## 0.0.11
 
 ### Patch Changes

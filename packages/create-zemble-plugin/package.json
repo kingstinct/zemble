@@ -1,6 +1,6 @@
 {
   "name": "create-zemble-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "CLI for creating a zemble plugin in a zap",
   "bin": "./bin/create-zemble-plugin.js",
   "type": "module",
@@ -26,5 +26,7 @@
   "bugs": {
     "url": "https://github.com/kingstinct/zemble/issues"
   },
-  "keywords": [ "zemble" ]
+  "keywords": [
+    "zemble"
+  ]
 }

@@ -1,5 +1,11 @@
 # @zemble/routes
 
+## 0.0.9
+
+### Patch Changes
+
+- fe1b206: Handle jsx/tsx correctly
+
 ## 0.0.8
 
 ### Patch Changes

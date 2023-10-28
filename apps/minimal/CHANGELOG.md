@@ -1,5 +1,12 @@
 # minimal
 
+## 0.0.18
+
+### Patch Changes
+
+- Updated dependencies [fe1b206]
+  - @zemble/routes@0.0.9
+
 ## 0.0.17
 
 ### Patch Changes
