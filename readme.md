@@ -1,4 +1,7 @@
 # @zemble plugin system
+[![Test Status](https://github.com/kingstinct/zemble/actions/workflows/test.yml/badge.svg)](https://github.com/kingstinct/zemble/actions/workflows/test.yml)
+[![Downloads on NPM](https://img.shields.io/npm/dt/@zemble/core)](https://www.npmjs.com/package/@zemble/core)
+[![Discord](https://dcbadge.vercel.app/api/server/eSHBxENbPF?style=flat)](https://discord.gg/eSHBxENbPF)
 
 A plugin system to build composable systems.
 
