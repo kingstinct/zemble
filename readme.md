@@ -13,12 +13,12 @@ The quickest way to give it a spin is to use our generators!
 
 Use create-zemble-app to bootstrap an app (choose between `bare` and `graphql` templates):
 ```bash
-bunx create-zemble-app <name-of-app> [template]
+bun create zemble-app <name-of-app> [template]
 ```
 
 There is also create-zemble-plugin to similarly bootstrap a plugin (here you can choose between `bare`, `graphql` and `middleware` templates):
 ```bash
-bunx create-zemble-plugin <name-of-app> [template]
+bun create zemble-plugin <name-of-app> [template]
 ```
 
 Both comes with all you need to start building the next build thing, including tests! :)

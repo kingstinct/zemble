@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { startInMemoryInstanceAndConfigurePlugin, closeAndStopInMemoryInstance, emptyAllCollections } from '@zemble/mongodb/helpers/test-helper'
+import { startInMemoryInstanceAndConfigurePlugin, closeAndStopInMemoryInstance, emptyAllCollections } from '@zemble/mongodb/test-in-memory-utils'
 import cmsPapr from 'zemble-plugin-cms/clients/papr'
 
 import { connect, disconnect } from './clients/papr'

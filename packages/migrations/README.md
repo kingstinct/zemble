@@ -19,7 +19,7 @@ The migration should export an up and optionally a down function
 ```ts
 import { createApp } from '@zemble/app';
 import Migrations from '@zemble/migrations';
-import MongoAdapter from '@zemble/migrations/adapters/mongodb';
+import MongoAdapter from '@zemble/mongodb/helpers/migration-adapter';
 
 const app = createApp({
   plugins: [
