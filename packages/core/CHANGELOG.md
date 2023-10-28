@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.0.15
+
+### Patch Changes
+
+- Initial release of @zemble/mongodb
+
 ## 0.0.14
 
 ### Patch Changes
