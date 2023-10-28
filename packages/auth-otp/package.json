@@ -35,7 +35,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^4.0.0",
+    "@envelop/core": "^5.0.0",
     "@envelop/generic-auth": "^6.0.1",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",

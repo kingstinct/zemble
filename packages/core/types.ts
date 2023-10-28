@@ -61,6 +61,10 @@ declare global {
       readonly Bindings: HonoBindings
     }
 
+    interface Providers {
+
+    }
+
     interface RouteContext extends HonoContext<HonoEnv> {
 
     }
@@ -68,6 +72,9 @@ declare global {
     interface App {
       readonly hono: Hono<HonoEnv>
       readonly appDir: string
+
+      // eslint-disable-next-line functional/prefer-readonly-type
+      providers: Providers
 
       readonly runBeforeServe: readonly RunBeforeServeFn[]
     }
@@ -163,7 +170,7 @@ export type MiddlewareReturn = Promise<void> | void | RunBeforeServeFn | Promise
 export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig> = (
   opts: {
     readonly plugins: readonly Plugin<Zemble.GlobalConfig>[],
-    readonly app: Pick<Zemble.App, 'hono' |'appDir'>,
+    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers'>,
     readonly context: Zemble.GlobalContext
     readonly config: TMiddlewareConfig
   }

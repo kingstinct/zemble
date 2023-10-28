@@ -1,11 +1,11 @@
 /* eslint-disable functional/immutable-data, functional/prefer-readonly-type, no-multi-assign */
 import zembleContext from '@zemble/core/zembleContext'
-import { MongoClient } from 'mongodb'
 import Papr, { VALIDATION_LEVEL, schema, types } from 'papr'
 
+import plugin from '../plugin'
 import { readEntities } from '../utils/fs'
 
-import type { Db } from 'mongodb'
+import type { MongoClient, Db } from 'mongodb'
 import type { Model } from 'papr'
 
 export const EntityEntrySchema = schema({
@@ -44,13 +44,12 @@ class PaprWrapper {
 
   #initializing = Promise.resolve()
 
-  async initialize(mongoUrl: string) {
+  async initialize() {
     const papr = new Papr()
 
-    zembleContext.logger.log('Connecting to MongoDB...', mongoUrl)
+    zembleContext.logger.log('Connecting to MongoDB...')
 
-    const clientInternalPromise = MongoClient.connect(mongoUrl)
-    const client = await clientInternalPromise
+    const client = plugin.providers.mongodb
 
     zembleContext.logger.log('Connected to MongoDB!')
 
@@ -73,9 +72,8 @@ class PaprWrapper {
     this.papr = papr
   }
 
-  async connect(mongoUrl = process.env.MONGO_URL) {
-    if (!mongoUrl) throw new Error('MONGO_URL not set')
-    this.#initializing = this.initialize(mongoUrl)
+  async connect() {
+    this.#initializing = this.initialize()
     return this.#initializing
   }
 

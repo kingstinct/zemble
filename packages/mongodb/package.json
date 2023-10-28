@@ -1,0 +1,34 @@
+{
+  "name": "@zemble/mongodb",
+  "version": "0.0.1",
+  "description": "Handles connections to MongoDB",
+  "keywords": [
+    "zemble",
+    "zemble-plugin",
+    "@zemble"
+  ],
+  "dependencies": {
+    "@zemble/core": "workspace:*",
+    "@zemble/bun": "workspace:*",
+    "@zemble/routes": "workspace:*",
+    "mongodb": "^6.2.0"
+  },
+  "scripts": {
+    "test": "bun test",
+    "dev": "zemble-dev plugin.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "module": "plugin.ts",
+  "exports": {
+    ".": {
+      "import": "./plugin.ts",
+      "require": "./plugin.js"
+    }
+  }
+}

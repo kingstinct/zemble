@@ -1,0 +1,204 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+directive @auth(match: JSONObject, skip: Boolean, includes: JSONObject, or: [AuthOr!]) on FIELD_DEFINITION
+
+directive @oneOf on INPUT_OBJECT | FIELD_DEFINITION
+
+type Query {
+  getAllBooks: [Books!]!
+  searchBooks(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Books!]!
+  filterBooks(id: BookIdFilter): [Books!]!
+  getBookById(id: ID!): Books!
+  getBooksById(ids: [ID!]!): [Books!]!
+  hello: String!
+  validateJWT(token: String!): Boolean! @auth(skip: true)
+  readJWT(token: String!): JSONObject! @auth(skip: true)
+  publicKey: String! @auth(skip: true)
+  privateShitWithRole: String! @auth(match: {role: "admin"})
+  variableReference(organisationId: String!): String! @auth(match: {role: "admin", organisationId: "$organisationId"})
+  includes(organisationId: String!): String! @auth(includes: {roles: {role: "admin", organisationId: "$organisationId"}})
+  advancedWithOr(organisationId: String!): String! @auth(match: {type: "user-token"}, or: [{includes: {roles: {role: "admin", organisationId: "$organisationId"}}}, {includes: {roles: {role: "superadmin", organisationId: "$organisationId"}}}])
+  privateShit: String!
+  publicShit: String! @auth(skip: true)
+  getEntityByNameSingular(name: String!): Entity
+  getEntityByNamePlural(namePlural: String!): Entity
+  getAllEntities: [Entity!]!
+}
+
+type Books {
+  displayName: String
+  id: ID
+}
+
+input BookIdFilter {
+  eq: ID
+}
+
+type Mutation {
+  createBook(id: ID): Books
+  deleteBook(id: ID!): Boolean!
+  randomNumber: Int!
+  createEntity(nameSingular: String, namePlural: String!, isPublishable: Boolean): Entity! @auth(includes: {permissions: {type: "modify-entity"}})
+  removeEntity(namePlural: String!): Boolean! @auth(includes: {permissions: {type: "modify-entity"}})
+  renameEntity(fromNamePlural: String!, toNamePlural: String!, toNameSingular: String): Entity! @auth(includes: {permissions: {type: "modify-entity"}})
+  addFieldsToEntity(namePlural: String!, fields: [FieldInput!]!): Entity! @auth(includes: {permissions: {type: "modify-entity"}})
+  removeFieldsFromEntity(namePlural: String!, fields: [String!]!): Entity! @auth(includes: {permissions: {type: "modify-entity"}})
+}
+
+type Subscription {
+  countdown(from: Int!): Int!
+  tick: Float!
+  randomNumber: Int!
+}
+
+scalar JSONObject
+
+input AuthOr {
+  includes: JSONObject
+  match: JSONObject
+}
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+input FieldInput @oneOf {
+  StringField: StringFieldInput
+  NumberField: NumberFieldInput
+  BooleanField: BooleanFieldInput
+  ArrayField: ArrayFieldInput
+  EntityRelationField: EntityRelationFieldInput
+}
+
+input FieldInputWithoutArray @oneOf {
+  StringField: StringFieldInput
+  NumberField: NumberFieldInput
+  BooleanField: BooleanFieldInput
+  EntityRelationField: EntityRelationFieldInput
+}
+
+input StringFieldInput {
+  name: String!
+  isRequired: Boolean
+  isRequiredInput: Boolean
+  maxLength: Int
+  minLength: Int
+  defaultValue: String
+  isSearchable: Boolean
+}
+
+input NumberFieldInput {
+  name: String!
+  isRequired: Boolean
+  isRequiredInput: Boolean
+  max: Float
+  min: Float
+  defaultValue: Float
+}
+
+input BooleanFieldInput {
+  name: String!
+  isRequired: Boolean
+  isRequiredInput: Boolean
+  defaultValue: Boolean
+}
+
+input ArrayFieldInput {
+  name: String!
+  availableFields: [FieldInputWithoutArray!]!
+  isRequired: Boolean
+  isRequiredInput: Boolean
+  maxItems: Int
+  minItems: Int
+}
+
+input EntityRelationFieldInput {
+  name: String!
+  entityNamePlural: String!
+  isRequired: Boolean!
+  isRequiredInput: Boolean
+}
+
+interface Field {
+  name: String!
+  isRequired: Boolean!
+  isRequiredInput: Boolean!
+}
+
+type StringField implements Field {
+  name: String!
+  isRequired: Boolean!
+  isRequiredInput: Boolean!
+  maxLength: Int
+  minLength: Int
+  defaultValue: String
+  isSearchable: Boolean!
+}
+
+type IDField implements Field {
+  name: String!
+  isRequired: Boolean!
+  isRequiredInput: Boolean!
+}
+
+type NumberField implements Field {
+  name: String!
+  isRequired: Boolean!
+  isRequiredInput: Boolean!
+  max: Float
+  min: Float
+  defaultValue: Float
+}
+
+type BooleanField implements Field {
+  name: String!
+  isRequired: Boolean!
+  isRequiredInput: Boolean!
+  defaultValue: Boolean
+}
+
+type ArrayField implements Field {
+  name: String!
+  availableFields: [Field!]!
+  isRequired: Boolean!
+  isRequiredInput: Boolean!
+  maxItems: Int
+  minItems: Int
+}
+
+type EntityRelationField implements Field {
+  name: String!
+  entityNamePlural: String!
+  entity: Entity!
+  isRequired: Boolean!
+  isRequiredInput: Boolean!
+}
+
+type EntityPermission {
+  type: String
+  read: Boolean!
+  create: Boolean!
+  modify: Boolean!
+  delete: Boolean!
+  publish: Boolean!
+  unpublish: Boolean!
+  granular: Boolean!
+}
+
+type Entity {
+  nameSingular: String!
+  fields: [Field!]!
+  namePlural: String!
+  permissions: [EntityPermission!]
+  isPublishable: Boolean!
+}

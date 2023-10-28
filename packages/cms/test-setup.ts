@@ -1,6 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
+import MongoDBPlugin from '@zemble/mongodb'
+
 import papr from './clients/papr'
+import plugin from './plugin'
 import { mockAndReset } from './utils/fs'
 
 import type { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server'
@@ -14,7 +17,13 @@ export const setupBeforeAll = async () => {
 
   const MONGO_URL = mongodb!.getUri()
 
-  await papr.connect(MONGO_URL)
+  MongoDBPlugin.configure({
+    url: MONGO_URL,
+  })
+
+  await plugin.testApp()
+
+  await papr.connect()
 
   await mockAndReset()
 }

@@ -2,6 +2,7 @@
 import { OneOfInputObjectsRule, useExtendedValidation } from '@envelop/extended-validation'
 import { Plugin } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
+import MongoDB from '@zemble/mongodb'
 import auth from 'zemble-plugin-auth'
 
 import papr from './clients/papr'
@@ -34,6 +35,9 @@ const plugin = new Plugin(__dirname, {
       },
       {
         plugin: auth,
+      },
+      {
+        plugin: MongoDB,
       },
     ]
 

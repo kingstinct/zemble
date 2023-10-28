@@ -87,6 +87,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   const preInitApp = {
     hono,
     appDir,
+    providers: {},
   }
 
   const runBeforeServe = await middleware?.reduce(async (

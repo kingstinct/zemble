@@ -24,6 +24,9 @@ export class Plugin<
   readonly pluginPath: string
 
   // eslint-disable-next-line functional/prefer-readonly-type
+  providers: Zemble.Providers = {}
+
+  // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined
 
   /**
@@ -92,7 +95,9 @@ export class Plugin<
   configure(config?: TConfig & Zemble.GlobalConfig) {
     if (config) {
       // eslint-disable-next-line functional/immutable-data
-      this.#config = mergeDeep(this.#config as Record<string, unknown>, config as Record<string, unknown>) as TResolvedConfig
+      this.#config = mergeDeep(
+        this.#config as Record<string, unknown>, config as Record<string, unknown>,
+      ) as TResolvedConfig
     }
 
     return this
