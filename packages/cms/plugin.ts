@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { OneOfInputObjectsRule, useExtendedValidation } from '@envelop/extended-validation'
-import { Plugin } from '@zemble/core'
+import { Plugin, PluginWithMiddleware } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
 import MongoDB from '@zemble/mongodb'
 import auth from 'zemble-plugin-auth'
@@ -18,36 +18,37 @@ const defaultConfig = {
 
 } satisfies CmsConfig
 
-const plugin = new Plugin(__dirname, {
-  dependencies: () => {
-    const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
-      {
-        plugin: graphqlYoga.configure({
-          extendSchema: async () => Promise.all([createDynamicSchema()]),
-          yoga: {
-            plugins: [
-              useExtendedValidation({
-                rules: [OneOfInputObjectsRule],
-              }),
-            ],
-          },
-        }),
-      },
-      {
-        plugin: auth,
-      },
-      {
-        plugin: MongoDB,
-      },
-    ]
-
-    return deps
+const plugin = new PluginWithMiddleware(__dirname,
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  () => async () => {
+    await papr.connect()
   },
-  defaultConfig,
-})
+  {
+    dependencies: () => {
+      const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
+        {
+          plugin: MongoDB,
+        },
+        {
+          plugin: graphqlYoga.configure({
+            extendSchema: async () => Promise.all([createDynamicSchema()]),
+            yoga: {
+              plugins: [
+                useExtendedValidation({
+                  rules: [OneOfInputObjectsRule],
+                }),
+              ],
+            },
+          }),
+        },
+        {
+          plugin: auth,
+        },
+      ]
 
-if (process.env.PLUGIN_DEV) {
-  void papr.connect()
-}
+      return deps
+    },
+    defaultConfig,
+  })
 
 export default plugin

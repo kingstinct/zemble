@@ -25,10 +25,5 @@
     "typescript": "^5.2.2"
   },
   "module": "plugin.ts",
-  "exports": {
-    ".": {
-      "import": "./plugin.ts",
-      "require": "./plugin.js"
-    }
-  }
+  "main": "plugin.ts"
 }

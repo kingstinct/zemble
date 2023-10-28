@@ -23,8 +23,6 @@ class PaprWrapper {
 
   papr: Papr | undefined
 
-  client: MongoClient | undefined
-
   async contentCollection(name: string) {
     await this.#initializing
     const model = this.papr?.models.get(name) as Model<EntityEntryType, typeof EntityEntrySchema[1]>
@@ -47,13 +45,11 @@ class PaprWrapper {
   async initialize() {
     const papr = new Papr()
 
-    zembleContext.logger.log('Connecting to MongoDB...')
+    await plugin.providers.mongodb?.connect()
 
-    const client = plugin.providers.mongodb
+    const db = plugin.providers.mongodb?.db()
 
-    zembleContext.logger.log('Connected to MongoDB!')
-
-    const db = client.db()
+    if (db === undefined) throw new Error('MongoDB client not provided or initialized')
 
     zembleContext.logger.log(`Registering ${papr.models.size} models...`)
 
@@ -68,7 +64,6 @@ class PaprWrapper {
     await papr.updateSchemas()
 
     this.db = db
-    this.client = client
     this.papr = papr
   }
 
@@ -78,7 +73,7 @@ class PaprWrapper {
   }
 
   async disconnect() {
-    await this.client?.close()
+    await plugin.providers.mongodb?.close()
     this.papr = undefined
     this.db = undefined
   }

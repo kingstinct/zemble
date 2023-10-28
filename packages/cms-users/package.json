@@ -52,7 +52,8 @@
     "zemble-plugin-auth": "workspace:*",
     "zemble-plugin-auth-otp": "workspace:*",
     "zemble-plugin-cms": "workspace:*",
-    "zemble-plugin-kv": "workspace:*"
+    "zemble-plugin-kv": "workspace:*",
+    "@zemble/mongodb": "workspace:*"
   },
   "devDependencies": {
     "mongodb-memory-server": "9"

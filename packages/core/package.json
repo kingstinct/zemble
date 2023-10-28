@@ -35,5 +35,8 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "hono": "^3.7.2"
+  },
+  "devDependencies": {
+    "type-fest": "^4.6.0"
   }
 }

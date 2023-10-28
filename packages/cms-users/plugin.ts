@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Plugin } from '@zemble/core'
+import { PluginWithMiddleware } from '@zemble/core'
+import mongodb from '@zemble/mongodb'
 import authOtp from 'zemble-plugin-auth-otp'
 import cms from 'zemble-plugin-cms'
 import papr from 'zemble-plugin-cms/clients/papr'
@@ -43,57 +44,60 @@ const isFirstUser = async (): Promise<boolean> => {
   return isFirstUserInternal
 }
 
-const plugin = new Plugin(__dirname, {
-  dependencies: () => {
-    const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
-      {
-        plugin: cms,
-      },
-      {
-        plugin: authOtp.configure({
-          from: {
-            email: 'noreply@cmsexample.com',
-          },
-          generateTokenContents: async (emailIn) => {
-            const email = emailIn.trim().toLowerCase()
-
-            const user = await User.findOneAndUpdate({
-              email,
-            }, {
-              $setOnInsert: {
-                email,
-                permissions: await isFirstUser() ? [
-                  { type: PermissionType.MODIFY_ENTITY, scope: '*' },
-                  { type: PermissionType.USER_ADMIN, scope: '*' },
-                ] : [],
-              },
-              $set: {
-                lastLoginAt: new Date(),
-              },
-            }, {
-              returnDocument: 'after',
-              upsert: true,
-            })
-
-            return {
-              email: user!.email,
-              id: user!._id.toHexString(),
-              type: 'cms-user',
-              permissions: user!.permissions,
-            }
-          },
-        }),
-      },
-    ]
-
-    return deps
+const plugin = new PluginWithMiddleware(__dirname,
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  () => async () => {
+    await Promise.all([connect(), papr.connect()])
   },
-  defaultConfig,
-})
+  {
+    dependencies: () => {
+      const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
+        {
+          plugin: mongodb,
+        },
+        {
+          plugin: cms,
+        },
+        {
+          plugin: authOtp.configure({
+            from: {
+              email: 'noreply@cmsexample.com',
+            },
+            generateTokenContents: async (emailIn) => {
+              const email = emailIn.trim().toLowerCase()
 
-if (process.env.PLUGIN_DEV) {
-  void connect()
-  void papr.connect()
-}
+              const user = await User.findOneAndUpdate({
+                email,
+              }, {
+                $setOnInsert: {
+                  email,
+                  permissions: await isFirstUser() ? [
+                    { type: PermissionType.MODIFY_ENTITY, scope: '*' },
+                    { type: PermissionType.USER_ADMIN, scope: '*' },
+                  ] : [],
+                },
+                $set: {
+                  lastLoginAt: new Date(),
+                },
+              }, {
+                returnDocument: 'after',
+                upsert: true,
+              })
+
+              return {
+                email: user!.email,
+                id: user!._id.toHexString(),
+                type: 'cms-user',
+                permissions: user!.permissions,
+              }
+            },
+          }),
+        },
+      ]
+
+      return deps
+    },
+    defaultConfig,
+  })
 
 export default plugin

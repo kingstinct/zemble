@@ -33,26 +33,27 @@ declare global {
 }
 
 const defaultConfig = {
-  url: process.env.MONGODB_URL ?? 'mongodb://localhost:27017',
+  url: process.env.MONGO_URL ?? 'mongodb://localhost:27017',
 } satisfies MongodbClientConfig
 
-export default new PluginWithMiddleware<MongodbClientConfig>(
+export default new PluginWithMiddleware<MongodbClientConfig, typeof defaultConfig>(
   __dirname,
-  ({
+  async ({
     app, config, plugins,
   }) => {
     // we create a global mongodb client for the app, which is also used for all plugins that don't have a custom config
-    const db = new MongoClient(config.url, config.options)
+    const db = await MongoClient.connect(config.url, config.options)
 
-    plugins.forEach((plugin) => {
+    await Promise.all(plugins.map(async (plugin) => {
       if (!plugin.config.middleware?.['@zemble/mongodb']?.disable) {
         const pluginConfig = plugin.config.middleware?.['@zemble/mongodb']?.config
+
         // eslint-disable-next-line functional/immutable-data, no-param-reassign
         plugin.providers.mongodb = pluginConfig
-          ? new MongoClient(pluginConfig.url, pluginConfig.options)
+          ? await MongoClient.connect(pluginConfig.url, pluginConfig.options)
           : db
       }
-    })
+    }))
 
     // eslint-disable-next-line functional/immutable-data, no-param-reassign
     app.providers.mongodb = db

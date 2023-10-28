@@ -23,5 +23,6 @@
   "peerDependencies": {
     "typescript": "^5.2.2"
   },
-  "module": "plugin.ts"
+  "module": "plugin.ts",
+  "main": "plugin.ts"
 }

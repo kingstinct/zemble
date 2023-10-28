@@ -54,6 +54,7 @@
     "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
-    "mongodb-memory-server": "9"
+    "mongodb-memory-server": "9",
+    "type-fest": "^4.6.0"
   }
 }

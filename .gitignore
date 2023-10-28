@@ -7,3 +7,4 @@ dist
 
 *.generated.ts
 *.generated
+*.generated.graphql

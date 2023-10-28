@@ -87,7 +87,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   const preInitApp = {
     hono,
     appDir,
-    providers: {},
+    providers: {} as Zemble.Providers,
   }
 
   const runBeforeServe = await middleware?.reduce(async (

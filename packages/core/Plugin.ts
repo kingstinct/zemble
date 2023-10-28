@@ -24,7 +24,7 @@ export class Plugin<
   readonly pluginPath: string
 
   // eslint-disable-next-line functional/prefer-readonly-type
-  providers: Zemble.Providers = {}
+  providers = {} as Zemble.Providers
 
   // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined

@@ -5,8 +5,8 @@ const defaultSchema: Types.InstanceOrArray<Types.Schema> = [
   `./graphql/**/*.graphql`,
   '!./graphql/client.generated/**/*',
 ]
-const defaultClientOutputPath = `./graphql/client.generated/`
-const defaultServerOutputPath = `./graphql/schema.generated.ts`
+export const defaultClientOutputPath = `./graphql/client.generated/` as const
+export const defaultServerOutputPath = `./graphql/schema.generated.ts` as const
 
 export const createClientConfig = ({
   schema = defaultSchema,
@@ -37,35 +37,38 @@ export const createClientConfig = ({
   },
 }) satisfies CodegenConfig
 
-const createServerConfig = ({
+export function createServerConfig<TOutput extends string = typeof defaultServerOutputPath>({
   schema = defaultSchema,
-  outputPath = defaultServerOutputPath,
-}: { readonly schema?: Types.InstanceOrArray<Types.Schema>, readonly outputPath?: string }) => ({
-  schema,
-  ignoreNoDocuments: true,
-  generates: {
-    [outputPath]: {
-      config: {
-        useIndexSignature: true,
-        contextType: 'Zemble.GraphQLContext',
-        immutableTypes: true,
-        directiveContextTypes: ['auth#Zemble.AuthContextWithToken'],
-        showUnusedMappers: true,
-      },
-      plugins: [
-        {
-          add: {
-            placement: 'prepend',
-            content: `// @ts-nocheck
-import '@zemble/core'`,
-          },
+  outputPath,
+}: { readonly schema?: Types.InstanceOrArray<Types.Schema>, readonly outputPath?: TOutput }) {
+  const output = outputPath ?? defaultServerOutputPath
+  return {
+    schema,
+    ignoreNoDocuments: true,
+    generates: {
+      [output]: {
+        config: {
+          useIndexSignature: true,
+          contextType: 'Zemble.GraphQLContext',
+          immutableTypes: true,
+          directiveContextTypes: ['auth#Zemble.AuthContextWithToken'],
+          showUnusedMappers: true,
         },
-        'typescript',
-        'typescript-resolvers',
-      ],
+        plugins: [
+          {
+            add: {
+              placement: 'prepend',
+              content: `// @ts-nocheck
+import '@zemble/core'`,
+            },
+          },
+          'typescript',
+          'typescript-resolvers',
+        ],
+      },
     },
-  },
-} satisfies CodegenConfig)
+  } satisfies CodegenConfig
+}
 
 const serverConfig = createServerConfig({})
 const clientConfig = createClientConfig({})

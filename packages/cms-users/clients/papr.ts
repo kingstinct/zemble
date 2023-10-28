@@ -1,22 +1,21 @@
 import zembleContext from '@zemble/core/zembleContext'
-import { MongoClient } from 'mongodb'
 import Papr, { schema, types } from 'papr'
+
+import plugin from '../plugin'
+
+import type { MongoClient } from 'mongodb'
 
 // eslint-disable-next-line import/no-mutable-exports
 export let client: MongoClient | undefined
 
 const papr = new Papr()
 
-export async function connect(mongoUrl = process.env.MONGO_URL) {
-  if (!mongoUrl) throw new Error('MONGO_URL not set')
+export async function connect() {
+  const client = plugin.providers.mongodb
 
-  zembleContext.logger.log('Connecting to MongoDB...', mongoUrl)
+  const db = client?.db()
 
-  client = await MongoClient.connect(mongoUrl)
-
-  zembleContext.logger.log('Connected to MongoDB!')
-
-  const db = client.db()
+  if (db === undefined) throw new Error('MongoDB client not provided or initialized')
 
   papr.initialize(db)
 

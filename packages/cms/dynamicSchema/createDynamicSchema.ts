@@ -142,7 +142,7 @@ export default async () => {
             : parent._id.toHexString()),
         },
       }),
-      name: capitalize(entity.namePlural),
+      name: capitalize(entity.nameSingular),
     })
 
     const retVal: ReducerType = {

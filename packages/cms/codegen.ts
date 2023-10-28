@@ -1,21 +1,21 @@
-import defaultConfig from '@zemble/graphql/codegen'
+import mergeDeep from '@zemble/core/utils/mergeDeep'
+import defaultConfig, { defaultServerOutputPath } from '@zemble/graphql/codegen'
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
+import type { PartialDeep } from 'type-fest'
 
-const config: CodegenConfig = {
-  ...defaultConfig,
+const override = {
   generates: {
-    ...defaultConfig.generates,
-    [`./graphql/schema.generated.ts`]: {
-      ...defaultConfig.generates[`./graphql/schema.generated.ts`],
+    [defaultServerOutputPath]: {
       config: {
-        ...defaultConfig.generates[`./graphql/schema.generated.ts`].config,
         mappers: {
           Entity: '../types#EntitySchemaType',
         },
       },
     },
   },
-}
+} satisfies PartialDeep<CodegenConfig>
+
+const config = mergeDeep<CodegenConfig>(defaultConfig, override)
 
 export default config

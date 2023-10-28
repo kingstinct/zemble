@@ -9,11 +9,11 @@ directive @auth(match: JSONObject, skip: Boolean, includes: JSONObject, or: [Aut
 directive @oneOf on INPUT_OBJECT | FIELD_DEFINITION
 
 type Query {
-  getAllBooks: [Books!]!
-  searchBooks(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Books!]!
-  filterBooks(id: BookIdFilter): [Books!]!
-  getBookById(id: ID!): Books!
-  getBooksById(ids: [ID!]!): [Books!]!
+  getAllBooks: [Book!]!
+  searchBooks(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Book!]!
+  filterBooks(id: BookIdFilter): [Book!]!
+  getBookById(id: ID!): Book!
+  getBooksById(ids: [ID!]!): [Book!]!
   hello: String!
   validateJWT(token: String!): Boolean! @auth(skip: true)
   readJWT(token: String!): JSONObject! @auth(skip: true)
@@ -29,7 +29,7 @@ type Query {
   getAllEntities: [Entity!]!
 }
 
-type Books {
+type Book {
   displayName: String
   id: ID
 }
@@ -39,7 +39,7 @@ input BookIdFilter {
 }
 
 type Mutation {
-  createBook(id: ID): Books
+  createBook(id: ID): Book
   deleteBook(id: ID!): Boolean!
   randomNumber: Int!
   createEntity(nameSingular: String, namePlural: String!, isPublishable: Boolean): Entity! @auth(includes: {permissions: {type: "modify-entity"}})

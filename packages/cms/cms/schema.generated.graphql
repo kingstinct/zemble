@@ -1,3 +1,8 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
 type Query {
   getAllBooks: [Book!]!
   searchBooks(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Book!]!
@@ -7,6 +12,7 @@ type Query {
 }
 
 type Book {
+  displayName: String
   id: ID
   title: String
 }
