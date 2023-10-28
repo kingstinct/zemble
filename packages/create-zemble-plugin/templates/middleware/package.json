@@ -18,7 +18,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "@tsconfig/bun": "^1.0.1"
   },
   "peerDependencies": {
     "typescript": "^5.2.2"

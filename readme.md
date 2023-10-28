@@ -207,7 +207,7 @@ import serve from '@zemble/bun'
 
 import GraphQL from '@zemble/graphql'
 import Routes from '@zemble/routes'
-import AnonymousAuth from 'zemble-plugin-anonymous-auth'
+import AnonymousAuth from 'zemble-plugin-auth-anonymous'
 
 export default serve({
   plugins: [

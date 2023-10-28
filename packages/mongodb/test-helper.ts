@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import MongoDBPlugin from '../plugin'
+import MongoDBPlugin from './plugin'
 
 import type { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server'
 
