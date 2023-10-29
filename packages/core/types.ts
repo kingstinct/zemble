@@ -111,7 +111,7 @@ declare global {
 
     interface GlobalContext extends BaseStandardContext {
       // eslint-disable-next-line functional/prefer-readonly-type
-      readonly logger: IStandardLogger
+      logger: IStandardLogger
     }
 
     interface RequestContext extends GlobalContext, HonoContext {

@@ -1,5 +1,15 @@
 # zemble-plugin-email-sendgrid
 
+## 0.0.20
+
+### Patch Changes
+
+- 627e87d: Use setupProviders
+- Updated dependencies [627e87d]
+  - @zemble/core@0.0.16
+  - zemble-plugin-kv@0.0.20
+  - @zemble/graphql@0.0.22
+
 ## 0.0.19
 
 ### Patch Changes

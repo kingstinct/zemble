@@ -1,6 +1,6 @@
 {
   "name": "zemble-plugin-bull",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "@zemble Plugin providing Bull Queue Support",
   "main": "plugin.ts",
   "scripts": {

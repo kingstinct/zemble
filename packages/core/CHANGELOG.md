@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.0.16
+
+### Patch Changes
+
+- 627e87d: Use setupProviders
+
 ## 0.0.15
 
 ### Patch Changes

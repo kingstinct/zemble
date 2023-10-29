@@ -1,16 +1,18 @@
+import plugin from '../../plugin'
+
 import type { MutationResolvers, Todo } from '../schema.generated'
 
 const updateTodoStatus: MutationResolvers['updateTodoStatus'] = async (_, {
   id, completed,
-}, { pubsub, decodedToken, kv }) => {
+}, { pubsub, decodedToken }) => {
   const { userId } = decodedToken!
   const todoIdWithUser = `${userId}_${id}`
-  const previous = await kv<Todo>(userId).get(todoIdWithUser)
+  const previous = await plugin.providers.kv<Todo>(userId).get(todoIdWithUser)
 
   if (previous) {
     const todo = { ...previous, completed }
     pubsub.publish('todoUpdated', todo)
-    await kv(userId).set(todoIdWithUser, todo)
+    await plugin.providers.kv(userId).set(todoIdWithUser, todo)
     return todo
   }
   return null
