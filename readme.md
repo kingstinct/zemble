@@ -18,7 +18,7 @@ bun create zemble-app <name-of-app> [template]
 
 There is also create-zemble-plugin to similarly bootstrap a plugin (here you can choose between `bare`, `graphql` and `middleware` templates):
 ```bash
-bun create zemble-plugin <name-of-app> [template]
+bun create zemble-plugin <name-of-plugin> [template]
 ```
 
 Both comes with all you need to start building the next build thing, including tests! :)
