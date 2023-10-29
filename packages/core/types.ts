@@ -61,7 +61,14 @@ declare global {
       readonly Bindings: HonoBindings
     }
 
-    interface Providers {
+    interface DefaultProviders {
+      // eslint-disable-next-line functional/prefer-readonly-type
+      sendEmail?: IStandardSendEmailService
+      // eslint-disable-next-line functional/prefer-readonly-type
+      kv: <T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
+    }
+
+    interface Providers extends DefaultProviders {
 
     }
 
@@ -79,6 +86,10 @@ declare global {
       readonly runBeforeServe: readonly RunBeforeServeFn[]
     }
 
+    interface DefaultMiddlewareConfig {
+      readonly disable?: boolean
+    }
+
     interface MiddlewareConfig {
 
     }
@@ -88,25 +99,19 @@ declare global {
     }
 
     interface KVPrefixes extends Record<string, unknown> {
-      // allow typing and extending prefixes
-      // readonly 'test': {
-      //   readonly 'yo': string
-      // }
 
     }
 
     // optional standard services here, so we can override them
     interface BaseStandardContext {
       // eslint-disable-next-line functional/prefer-readonly-type
-      sendEmail?: IStandardSendEmailService
+
       // eslint-disable-next-line functional/prefer-readonly-type
     }
 
     interface GlobalContext extends BaseStandardContext {
       // eslint-disable-next-line functional/prefer-readonly-type
-      logger: IStandardLogger
-      // eslint-disable-next-line functional/prefer-readonly-type
-      kv: <T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
+      readonly logger: IStandardLogger
     }
 
     interface RequestContext extends GlobalContext, HonoContext {

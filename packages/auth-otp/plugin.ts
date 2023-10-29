@@ -68,7 +68,8 @@ const defaultConfig = {
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
   generateTokenContents,
-  handleAuthRequest: async (to, twoFactorCode, { sendEmail, logger }) => {
+  handleAuthRequest: async (to, twoFactorCode, { logger }) => {
+    const { sendEmail } = plugin.providers
     if (sendEmail && process.env.NODE_ENV !== 'test') {
       void sendEmail({
         from: plugin.config.from,

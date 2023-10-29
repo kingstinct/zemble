@@ -1,4 +1,5 @@
 import { PluginWithMiddleware } from '@zemble/core'
+import { setupProvider } from '@zemble/core/utils/setupProvider'
 import Routes from '@zemble/routes'
 import { MongoClient } from 'mongodb'
 
@@ -42,21 +43,20 @@ export default new PluginWithMiddleware<MongodbClientConfig, typeof defaultConfi
     app, config, plugins,
   }) => {
     // we create a global mongodb client for the app, which is also used for all plugins that don't have a custom config
-    const db = await MongoClient.connect(config.url, config.options)
+    const dbPromise = await MongoClient.connect(config.url, config.options)
 
-    await Promise.all(plugins.map(async (plugin) => {
-      if (!plugin.config.middleware?.['@zemble/mongodb']?.disable) {
-        const pluginConfig = plugin.config.middleware?.['@zemble/mongodb']?.config
-
-        // eslint-disable-next-line functional/immutable-data, no-param-reassign
-        plugin.providers.mongodb = pluginConfig
-          ? await MongoClient.connect(pluginConfig.url, pluginConfig.options)
-          : db
-      }
-    }))
-
-    // eslint-disable-next-line functional/immutable-data, no-param-reassign
-    app.providers.mongodb = db
+    await setupProvider({
+      app,
+      initializeProvider: async (customConfig) => {
+        const pluginCustomConfig = customConfig?.config
+        return pluginCustomConfig
+          ? MongoClient.connect(pluginCustomConfig.url, pluginCustomConfig.options)
+          : dbPromise
+      },
+      providerKey: 'mongodb',
+      plugins,
+      middlewareKey: '@zemble/mongodb',
+    })
   },
   {
     defaultConfig,

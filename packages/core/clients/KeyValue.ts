@@ -63,4 +63,6 @@ class KeyValue<T> extends IStandardKeyValueService<T> {
   }
 }
 
+export { KeyValue }
+
 export default KeyValue

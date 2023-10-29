@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable react-hooks/rules-of-hooks */
-
 import sendgrid from '@sendgrid/mail'
 import { PluginWithMiddleware } from '@zemble/core'
+import setupProvider from '@zemble/core/utils/setupProvider'
 import yoga from '@zemble/graphql'
 
 import type { IEmail, IStandardSendEmailService } from '@zemble/core'
@@ -13,17 +10,25 @@ interface EmailSendgridConfig extends Zemble.GlobalConfig {
   readonly disable?: boolean
 }
 
+export const mapEmail = (email: string | IEmail): IEmail => (
+  typeof email === 'string'
+    ? { email }
+    : email
+)
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-    interface GlobalContext {
+    interface MiddlewareConfig {
+      readonly ['zemble-plugin-email-sendgrid']?: Zemble.DefaultMiddlewareConfig
+    }
+
+    interface Providers {
       // eslint-disable-next-line functional/prefer-readonly-type
       sendEmail: IStandardSendEmailService
     }
   }
 }
-
-export const mapEmail = (email: string | IEmail): IEmail => (typeof email === 'string' ? { email } : email)
 
 const defaultConfig = {
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
@@ -36,17 +41,19 @@ const defaultConfig = {
 } satisfies Partial<EmailSendgridConfig>
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
-const plugin = new PluginWithMiddleware<EmailSendgridConfig, typeof defaultConfig>(__dirname, ({ context, config }) => {
+const plugin = new PluginWithMiddleware<EmailSendgridConfig, typeof defaultConfig>(__dirname, async ({ plugins, config, app }) => {
   if (!config.disable) {
-    // eslint-disable-next-line functional/immutable-data
-    context.sendEmail = async ({
+    const initializeProvider = (): IStandardSendEmailService => async ({
       from, to, html, text, subject,
+    // eslint-disable-next-line unicorn/consistent-function-scoping
     }) => {
       if (!plugin.config.SENDGRID_API_KEY) {
         console.warn('SENDGRID_API_KEY must be set to send email, skipping')
         return false
       }
+
       sendgrid.setApiKey(plugin.config.SENDGRID_API_KEY)
+
       const [response] = await sendgrid.send({
         // eslint-disable-next-line no-nested-ternary
         to: typeof to === 'string' ? to
@@ -62,6 +69,14 @@ const plugin = new PluginWithMiddleware<EmailSendgridConfig, typeof defaultConfi
 
       return ok
     }
+    // eslint-disable-next-line functional/immutable-data, no-param-reassign
+    await setupProvider({
+      app,
+      initializeProvider,
+      providerKey: 'sendEmail',
+      plugins,
+      middlewareKey: 'zemble-plugin-email-sendgrid',
+    })
   }
 }, {
   dependencies: [

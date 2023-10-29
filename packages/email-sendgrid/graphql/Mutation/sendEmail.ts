@@ -1,8 +1,10 @@
+import plugin from '../../plugin'
+
 import type { MutationResolvers } from '../schema.generated'
 
 const sendEmailResolver: MutationResolvers['sendEmail'] = async (_, {
   from, to, html, text, subject,
-}, { sendEmail }) => sendEmail({
+}) => plugin.providers.sendEmail({
   to: to.map(({ email, name }) => ({ email, name: name ?? undefined })),
   from: {
     email: from.email,

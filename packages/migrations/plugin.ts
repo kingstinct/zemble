@@ -33,7 +33,7 @@ export type Migration = {
   readonly down?: Down
 }
 
-interface MigrationConfig {
+interface MigrationConfig extends Zemble.DefaultMiddlewareConfig {
   readonly createAdapter: (config: { readonly providers: Zemble.Providers}) => Promise<MigrationAdapter> | MigrationAdapter
   readonly migrationsDir?: string
 }

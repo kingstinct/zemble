@@ -1,3 +1,3 @@
-import { kv } from 'zemble-plugin-kv'
+import plugin from '../plugin'
 
-export const loginRequestKeyValue = kv<{ readonly loginRequestedAt: string, readonly twoFactorCode: string }>('loginRequests')
+export const loginRequestKeyValue = plugin.providers.kv<{ readonly loginRequestedAt: string, readonly twoFactorCode: string }>('loginRequests')
