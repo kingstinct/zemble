@@ -8,3 +8,5 @@ dist
 *.generated.ts
 *.generated
 *.generated.graphql
+
+test-output
