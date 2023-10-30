@@ -53,7 +53,9 @@ export const buildMergedSchema = async (
       : []),
   ]
 
-  const pluginsToAdd = plugins.filter(({ config }) => !config.middleware?.['@zemble/graphql']?.disable)
+  const pluginsToAdd = plugins.filter(({
+    config,
+  }) => !config.middleware?.['@zemble/graphql']?.disable)
 
   // eslint-disable-next-line @typescript-eslint/await-thenable
   const graphQLSchemas = await pluginsToAdd.reduce(async (

@@ -19,14 +19,10 @@ export const createPluginSchema = async ({
   readonly skipGraphQLValidation: boolean,
 }) => {
   const Query = await readResolvers(join(graphqlDir, '/Query'))
-
   const Mutation = await readResolvers(join(graphqlDir, '/Mutation'))
   const Subscription = await readResolvers(join(graphqlDir, '/Subscription'))
-
   const Type = await readResolvers(join(graphqlDir, '/Type'))
-
   const Scalars = await readResolvers(join(graphqlDir, '/Scalar'))
-
   const graphqlGlob = join(graphqlDir, './**/*.graphql')
 
   const schemaWithoutResolvers = await loadSchema(graphqlGlob, {
