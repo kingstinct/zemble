@@ -9,7 +9,7 @@ A plugin system to build composable systems.
 
 ## tldr
 
-The quickest way to give it a spin is to use our generators!
+The quickest way to give it a spin is to use the create CLI.
 
 Use create-zemble-app to bootstrap an app (choose between `bare` and `graphql` templates):
 ```bash
