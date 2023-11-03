@@ -12,7 +12,7 @@ import {
 } from 'graphql'
 import { getCookie } from 'hono/cookie'
 
-import { decodeToken } from './utils/decodeToken'
+import { decodeToken as defaultDecodeToken } from './utils/decodeToken'
 import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers'
 
 import type {
@@ -29,6 +29,7 @@ interface AuthConfig extends Zemble.GlobalConfig {
   readonly PRIVATE_KEY?: string;
   readonly ISSUER?: string;
   readonly headerName?: string
+  readonly decodeToken?: typeof defaultDecodeToken
   readonly cookies?: {
     readonly name?: string
     readonly isEnabled?: boolean
@@ -117,7 +118,13 @@ const defaultConfig = {
   },
 } satisfies AuthConfig
 
-const resolveTokens = async ({ config, context }: {readonly config: AuthConfig & typeof defaultConfig, readonly context: Context}) => {
+type ResolveTokensArgs = {
+  readonly config: AuthConfig & typeof defaultConfig,
+  readonly context: Context,
+  readonly decodeToken?: typeof defaultDecodeToken
+}
+
+const resolveTokens = async ({ config, context, decodeToken = defaultDecodeToken }: ResolveTokensArgs) => {
   const headerName = config.headerName ?? 'authorization',
         headerToken = context.req.header(headerName)?.split(' ')[1],
         cookieToken = config.cookies.isEnabled !== false ? getCookie(context)[config.cookies.name] : undefined,
@@ -147,9 +154,15 @@ const plugin = new PluginWithMiddleware<AuthConfig, typeof defaultConfig>(
   __dirname,
   ({ config, app: { hono } }) => {
     hono.use('*', async (context, next) => {
-      const { token, decodedToken } = await resolveTokens({ config, context })
+      const { token, decodedToken } = await resolveTokens({
+        config,
+        context,
+        decodeToken: plugin.config.decodeToken,
+      })
+
       context.set('token', token)
       context.set('decodedToken', decodedToken)
+
       await next()
     })
   },
@@ -162,6 +175,7 @@ const plugin = new PluginWithMiddleware<AuthConfig, typeof defaultConfig>(
               const { token, decodedToken } = await resolveTokens({
                 config,
                 context: context.honoContext,
+                decodeToken: plugin.config.decodeToken,
               })
 
               return {
