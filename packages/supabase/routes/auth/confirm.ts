@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import { createSupabaseServerClient } from '../../clients/supabase'
+import { createSupabaseServerClient } from '../../clients/createSupabaseServerClient'
 
 // this flow has not been tested:
 // https://supabase.com/docs/guides/auth/server-side/email-based-auth-with-pkce-flow-for-ssr

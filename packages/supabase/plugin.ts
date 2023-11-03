@@ -6,7 +6,7 @@ import Routes from '@zemble/routes'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Auth from 'zemble-plugin-auth'
 
-import { createSupabaseServerClient } from './clients/supabase'
+import { createSupabaseServerClient } from './clients/createSupabaseServerClient'
 import { decodeToken } from './decodeToken'
 
 import type { SupabaseClient, User } from '@supabase/supabase-js'
