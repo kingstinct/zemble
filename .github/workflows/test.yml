@@ -61,10 +61,10 @@ jobs:
       
       - run: supabase start
         working-directory: ./packages/supabase/supabase-app
-
+        
       - name: Test
         run: bun run codegen && bun test
-        working-directory: ./packages/supabase/supabase-app
+        working-directory: ./packages/supabase
         env:
           PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
           PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}
