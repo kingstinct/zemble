@@ -20,7 +20,6 @@
     "@supabase/supabase-js": "^2.38.4"
   },
   "scripts": {
-    "test": "bun run codegen && bun test",
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
     "typecheck": "bun run codegen && tsc --noEmit",

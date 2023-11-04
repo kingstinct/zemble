@@ -4,6 +4,15 @@ import { createClient } from '@supabase/supabase-js'
 
 import plugin from './plugin'
 
+const testSupabaseUrl = 'http://127.0.0.1:54321'
+const testSupabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wdHFtbWF4bXluYWhzZ2Z1dmhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTkwMzc3MzEsImV4cCI6MjAxNDYxMzczMX0.TEyzdP13ogqp6NGhSQYwtzOkwmuJDMkXUjU3gUVmN1c'
+const testConfig = {
+  supabaseUrl: testSupabaseUrl,
+  supabaseAnonKey: testSupabaseAnonKey,
+}
+
+const storage: Record<string, string> = {}
+
 export const createSupabaseClient = () => {
   const { supabaseUrl, supabaseAnonKey } = process.env.NODE_ENV === 'test' ? testConfig : plugin.config
 
@@ -14,7 +23,7 @@ export const createSupabaseClient = () => {
       auth: {
         storage: {
           getItem(name: string) {
-            return storage[name]
+            return storage[name] ?? null
           },
           setItem(name: string, value: string) {
             storage[name] = value
@@ -42,15 +51,6 @@ export async function signUpNewUser(
   })
 
   return res
-}
-
-const storage: Record<string, string> = {}
-
-const testSupabaseUrl = 'http://127.0.0.1:54321'
-const testSupabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wdHFtbWF4bXluYWhzZ2Z1dmhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTkwMzc3MzEsImV4cCI6MjAxNDYxMzczMX0.TEyzdP13ogqp6NGhSQYwtzOkwmuJDMkXUjU3gUVmN1c'
-const testConfig = {
-  supabaseUrl: testSupabaseUrl,
-  supabaseAnonKey: testSupabaseAnonKey,
 }
 
 export async function deleteAllUsers() {

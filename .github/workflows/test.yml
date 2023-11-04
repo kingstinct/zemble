@@ -19,7 +19,7 @@ jobs:
   # This workflow contains a single job called "build"
   test:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 10
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -34,16 +34,40 @@ jobs:
 
       - run: bun install
 
-      - uses: supabase/setup-cli@v1
-      
-      - run: supabase start --debug
-        working-directory: ./packages/supabase/supabase-app
-
       - name: Test
         run: bun run test-recursive
         env:
           PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
           PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}
+
+      test-supabase:
+        # The type of runner that the job will run on
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+      
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+          # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+          - uses: actions/checkout@v3
+    
+          - uses: oven-sh/setup-bun@v1
+    
+          - run: bun install
+    
+          - uses: supabase/setup-cli@v1
+          
+          - run: supabase start --debug
+            working-directory: ./packages/supabase/supabase-app
+    
+          - name: Test
+            run: bun run codegen && bun test
+            working-directory: ./packages/supabase/supabase-app
+            env:
+              PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
+              PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}
 
   typecheck:
     # The type of runner that the job will run on
