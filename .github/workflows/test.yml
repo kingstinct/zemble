@@ -30,6 +30,8 @@ jobs:
       - uses: oven-sh/setup-bun@v1
 
       - run: bun install
+
+      - uses: supabase/setup-cli@v1
       
       - run: bunx supabase start --debug
         working-directory: ./packages/supabase/supabase-app
