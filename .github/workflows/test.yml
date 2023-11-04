@@ -31,7 +31,7 @@ jobs:
 
       - run: bun install
       
-      - run: bunx supabase start
+      - run: bunx supabase start --debug
         working-directory: ./packages/supabase/supabase-app
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
