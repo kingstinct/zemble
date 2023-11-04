@@ -23,7 +23,7 @@
     "test": "bun run codegen && bun test",
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "bun run codegen && tsc --noEmit",
     "codegen": "graphql-codegen",
     "supabase-codegen": "supabase gen types typescript --project-id \"nptqmmaxmynahsgfuvhn\" --schema public > types/supabase.generated.ts"
   },

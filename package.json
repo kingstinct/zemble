@@ -20,6 +20,7 @@
     "git-nuke": "git clean -Xdf",
     "clean": "find . -type f \\( -name \"*.mjs\" -o -name \"*.d.mts\" -o -name \"*.d.ts\" \\) -not -path \"./node_modules/*\" -delete"
   },
+  "trustedDependencies": [ "supabase" ],
   "keywords": [
     "zemble",
     "@zemble"
