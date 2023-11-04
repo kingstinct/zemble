@@ -33,6 +33,9 @@ jobs:
       
       - run: bunx supabase start
         working-directory: ./packages/supabase/supabase-app
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
       
       - name: Test
         run: bun run test-recursive
