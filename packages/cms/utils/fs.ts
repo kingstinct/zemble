@@ -1,3 +1,4 @@
+import memfs from 'memfs'
 import * as fs from 'node:fs'
 
 import type { EntitySchemaType } from '../types'
@@ -33,9 +34,9 @@ export const writeEntities = async (entities: readonly (EntitySchemaType)[]) => 
 }
 
 export const mockAndReset = async () => {
-  const memfs = await import('memfs')
+  const { Volume } = await import('memfs/lib/volume')
 
-  const vol = memfs.Volume.fromJSON({
+  const vol = Volume.fromJSON({
     [entityFilePath]: JSON.stringify([]),
   })
 
