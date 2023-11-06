@@ -44,9 +44,6 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -61,19 +58,15 @@ jobs:
       
       - run: supabase start
         working-directory: ./packages/supabase/supabase-app
-        
+
       - name: Test
         run: bun run codegen && bun test
         working-directory: ./packages/supabase
-        env:
-          PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
-          PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}
 
   typecheck:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
