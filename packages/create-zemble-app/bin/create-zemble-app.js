@@ -4,6 +4,24 @@ import { copy } from 'fs-extra'
 import { spawn } from 'node:child_process'
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
+import {readdir,rename} from 'node:fs/promises'
+
+/**
+ * Recursively walks through a directory and returns all file paths.
+ *
+ * @param {string} dirPath - The path of the directory to walk through.
+ * @returns {Promise<string[]>} A promise that resolves to an array of file paths.
+ */
+const walk = async (dirPath) => {
+  const retVal = await Promise.all(
+    await readdir(dirPath, { withFileTypes: true }).then((entries) => entries.map((entry) => {
+      const childPath = join(dirPath, entry.name)
+      return entry.isDirectory() ? walk(childPath) : childPath
+    })),
+  )
+
+  return retVal.flat()
+}
 
 const args = process.argv.slice(2)
 
@@ -35,7 +53,7 @@ console.log('Creating app', name)
 
 const templatePath = join(dirName, '../../templates', template)
 
-copy(templatePath, targetDir).then(() => {
+copy(templatePath, targetDir).then(async () => {
   const packageJsonPath = join(targetDir, 'package.json')
   const packageJson = JSON.parse(readFileSync(packageJsonPath))
   packageJson.name = name
@@ -44,6 +62,18 @@ copy(templatePath, targetDir).then(() => {
   const readmePath = join(targetDir, 'README.md')
   const readme = readFileSync(readmePath, 'utf-8')
   writeFileSync(readmePath, readme.replace(/pkgname/g, name))
+
+  const allFiles = await walk(targetDir)
+  const testFiles = allFiles.filter((file) => file.endsWith('.test-template.js') || file.endsWith('.test-template.ts'))
+
+  if(testFiles.length > 0) {
+    console.log('renaming ' + testFiles.length + ' test files from *.test-template.* to *.test.*')
+    // rename files
+    await Promise.all(testFiles.map((file) => {
+      const newFile = file.replace('.test-template', '.test')
+      return rename(file, newFile)
+    }))
+  }
 
   try {
     spawn('bun', ['install'], { cwd: targetDir, stdio: 'inherit' })

@@ -609,6 +609,552 @@
           "isSearchable": false
         }
       ]
+    },
+    {
+      "nameSingular": "book",
+      "namePlural": "books",
+      "isPublishable": false,
+      "displayNameField": "title",
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "title",
+          "isRequired": true,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "description",
+          "isRequired": false,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "hasKindleVersion",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "defaultValue": true,
+          "__typename": "BooleanField"
+        },
+        {
+          "name": "yo",
+          "entityNamePlural": "test",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "__typename": "EntityRelationField"
+        },
+        {
+          "name": "contributors",
+          "availableFields": [
+            {
+              "name": "author",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            },
+            {
+              "name": "editor",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            }
+          ],
+          "__typename": "ArrayField",
+          "isRequired": false,
+          "isRequiredInput": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "author",
+      "namePlural": "authors",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "firstName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        },
+        {
+          "name": "lastName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "book",
+      "namePlural": "books",
+      "isPublishable": false,
+      "displayNameField": "title",
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "title",
+          "isRequired": true,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "description",
+          "isRequired": false,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "hasKindleVersion",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "defaultValue": true,
+          "__typename": "BooleanField"
+        },
+        {
+          "name": "yo",
+          "entityNamePlural": "test",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "__typename": "EntityRelationField"
+        },
+        {
+          "name": "contributors",
+          "availableFields": [
+            {
+              "name": "author",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            },
+            {
+              "name": "editor",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            }
+          ],
+          "__typename": "ArrayField",
+          "isRequired": false,
+          "isRequiredInput": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "author",
+      "namePlural": "authors",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "firstName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        },
+        {
+          "name": "lastName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "book",
+      "namePlural": "books",
+      "isPublishable": false,
+      "displayNameField": "title",
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "title",
+          "isRequired": true,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "description",
+          "isRequired": false,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "hasKindleVersion",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "defaultValue": true,
+          "__typename": "BooleanField"
+        },
+        {
+          "name": "yo",
+          "entityNamePlural": "test",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "__typename": "EntityRelationField"
+        },
+        {
+          "name": "contributors",
+          "availableFields": [
+            {
+              "name": "author",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            },
+            {
+              "name": "editor",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            }
+          ],
+          "__typename": "ArrayField",
+          "isRequired": false,
+          "isRequiredInput": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "author",
+      "namePlural": "authors",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "firstName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        },
+        {
+          "name": "lastName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "book",
+      "namePlural": "books",
+      "isPublishable": false,
+      "displayNameField": "title",
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "title",
+          "isRequired": true,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "description",
+          "isRequired": false,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "hasKindleVersion",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "defaultValue": true,
+          "__typename": "BooleanField"
+        },
+        {
+          "name": "yo",
+          "entityNamePlural": "test",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "__typename": "EntityRelationField"
+        },
+        {
+          "name": "contributors",
+          "availableFields": [
+            {
+              "name": "author",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            },
+            {
+              "name": "editor",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            }
+          ],
+          "__typename": "ArrayField",
+          "isRequired": false,
+          "isRequiredInput": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "author",
+      "namePlural": "authors",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "firstName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        },
+        {
+          "name": "lastName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "book",
+      "namePlural": "books",
+      "isPublishable": false,
+      "displayNameField": "title",
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "title",
+          "isRequired": true,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "description",
+          "isRequired": false,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "hasKindleVersion",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "defaultValue": true,
+          "__typename": "BooleanField"
+        },
+        {
+          "name": "yo",
+          "entityNamePlural": "test",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "__typename": "EntityRelationField"
+        },
+        {
+          "name": "contributors",
+          "availableFields": [
+            {
+              "name": "author",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            },
+            {
+              "name": "editor",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            }
+          ],
+          "__typename": "ArrayField",
+          "isRequired": false,
+          "isRequiredInput": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "author",
+      "namePlural": "authors",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "firstName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        },
+        {
+          "name": "lastName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "book",
+      "namePlural": "books",
+      "isPublishable": false,
+      "displayNameField": "title",
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "title",
+          "isRequired": true,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "description",
+          "isRequired": false,
+          "isSearchable": true,
+          "__typename": "StringField",
+          "isRequiredInput": false
+        },
+        {
+          "name": "hasKindleVersion",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "defaultValue": true,
+          "__typename": "BooleanField"
+        },
+        {
+          "name": "yo",
+          "entityNamePlural": "test",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "__typename": "EntityRelationField"
+        },
+        {
+          "name": "contributors",
+          "availableFields": [
+            {
+              "name": "author",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            },
+            {
+              "name": "editor",
+              "entityNamePlural": "authors",
+              "isRequired": true,
+              "__typename": "EntityRelationField",
+              "isRequiredInput": false
+            }
+          ],
+          "__typename": "ArrayField",
+          "isRequired": false,
+          "isRequiredInput": false
+        }
+      ]
+    },
+    {
+      "nameSingular": "author",
+      "namePlural": "authors",
+      "isPublishable": false,
+      "fields": [
+        {
+          "__typename": "IDField",
+          "isRequired": true,
+          "isRequiredInput": false,
+          "name": "id"
+        },
+        {
+          "name": "firstName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        },
+        {
+          "name": "lastName",
+          "isRequired": true,
+          "__typename": "StringField",
+          "isRequiredInput": false,
+          "isSearchable": false
+        }
+      ]
     }
   ],
   "$schema": "../entities-json-schema.json"
