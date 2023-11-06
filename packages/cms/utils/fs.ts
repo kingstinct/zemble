@@ -29,7 +29,7 @@ export const writeEntities = async (entities: readonly (EntitySchemaType)[]) => 
     fileInMemory = { ...fileInMemory, entities }
   }
   await fsPromised.mkdir(entityFileDir, { recursive: true })
-  await fsPromised.writeFile(entityFilePath, JSON.stringify({ entities, $schema: '../entities-json-schema.json' }, null, 2), { encoding: 'utf-8', flag: 'w' })
+  await fsPromised.writeFile(entityFilePath, `${JSON.stringify({ entities, $schema: '../entities-json-schema.json' }, null, 2)}\n`, { encoding: 'utf-8', flag: 'w' })
 }
 
 export const mockAndReset = async () => {

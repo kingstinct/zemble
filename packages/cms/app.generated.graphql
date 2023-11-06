@@ -11,9 +11,14 @@ directive @oneOf on INPUT_OBJECT | FIELD_DEFINITION
 type Query {
   getAllBooks: [Book!]!
   searchBooks(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Book!]!
-  filterBooks(id: BookIdFilter): [Book!]!
+  filterBooks(id: BookIdFilter, title: BookTitleFilter, description: BookDescriptionFilter, hasKindleVersion: BookHasKindleVersionFilter, yo: BookYoFilter): [Book!]!
   getBookById(id: ID!): Book!
   getBooksById(ids: [ID!]!): [Book!]!
+  getAllAuthors: [Author!]!
+  searchAuthors(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Author!]!
+  filterAuthors(id: AuthorIdFilter, firstName: AuthorFirstNameFilter, lastName: AuthorLastNameFilter): [Author!]!
+  getAuthorById(id: ID!): Author!
+  getAuthorsById(ids: [ID!]!): [Author!]!
   hello: String!
   validateJWT(token: String!): Boolean! @auth(skip: true)
   readJWT(token: String!): JSONObject! @auth(skip: true)
@@ -32,21 +37,85 @@ type Query {
 type Book {
   displayName: String
   id: ID
+  title: String
+  description: String
+  hasKindleVersion: Boolean
+  yo: String
+  contributors: [BookContributorsUnion]
+}
+
+union BookContributorsUnion = BookContributorsAuthor | BookContributorsEditor
+
+type BookContributorsAuthor {
+  author: AuthorsRelation
+}
+
+type AuthorsRelation {
+  displayName: String
+  id: ID!
+  firstName: String!
+  lastName: String!
+}
+
+type BookContributorsEditor {
+  editor: AuthorsRelation
 }
 
 input BookIdFilter {
   eq: ID
 }
 
+input BookTitleFilter {
+  eq: String
+}
+
+input BookDescriptionFilter {
+  eq: String
+}
+
+input BookHasKindleVersionFilter {
+  eq: Boolean
+}
+
+input BookYoFilter {
+  eq: ID
+}
+
+type Author {
+  displayName: String
+  id: ID
+  firstName: String
+  lastName: String
+}
+
+input AuthorIdFilter {
+  eq: ID
+}
+
+input AuthorFirstNameFilter {
+  eq: String
+}
+
+input AuthorLastNameFilter {
+  eq: String
+}
+
 type Mutation {
-  createBook(id: ID): Book
+  createBook(id: ID, title: String, description: String, hasKindleVersion: Boolean, yo: ID, contributors: [BookContributorsInput]): Book
   deleteBook(id: ID!): Boolean!
+  createAuthor(id: ID, firstName: String, lastName: String): Author
+  deleteAuthor(id: ID!): Boolean!
   randomNumber: Int!
   createEntity(nameSingular: String, namePlural: String!, isPublishable: Boolean): Entity! @auth(includes: {permissions: {type: "modify-entity"}})
   removeEntity(namePlural: String!): Boolean! @auth(includes: {permissions: {type: "modify-entity"}})
   renameEntity(fromNamePlural: String!, toNamePlural: String!, toNameSingular: String): Entity! @auth(includes: {permissions: {type: "modify-entity"}})
   addFieldsToEntity(namePlural: String!, fields: [FieldInput!]!): Entity! @auth(includes: {permissions: {type: "modify-entity"}})
   removeFieldsFromEntity(namePlural: String!, fields: [String!]!): Entity! @auth(includes: {permissions: {type: "modify-entity"}})
+}
+
+input BookContributorsInput @oneOf {
+  author: ID
+  editor: ID
 }
 
 type Subscription {
