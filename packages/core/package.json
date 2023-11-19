@@ -1,6 +1,6 @@
 {
   "name": "@zemble/core",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Zemble Core Package for the Zemble Plugin System",
   "main": "index.ts",
   "scripts": {

@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.0.17
+
+### Patch Changes
+
+- Post-supabase
+
 ## 0.0.16
 
 ### Patch Changes
