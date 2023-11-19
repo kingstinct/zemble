@@ -15,7 +15,10 @@ class ContextInstance implements Zemble.GlobalContext {
   } : console
 
   // eslint-disable-next-line class-methods-use-this
-  kv<T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K): IStandardKeyValueService<T> {
+  kv<
+    T extends Zemble.KVPrefixes[K],
+    K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes
+  >(prefix: K): IStandardKeyValueService<T> {
     // @ts-expect-error fix sometime maybe :)
     return new KeyValue<T>(prefix) as unknown as IStandardKeyValueService<T>
   }
