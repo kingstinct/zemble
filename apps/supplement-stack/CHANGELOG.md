@@ -1,5 +1,15 @@
 # supplement-stack
 
+## 0.0.21
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/graphql@0.0.24
+  - zemble-plugin-bull@0.0.23
+  - zemble-plugin-auth-otp@0.0.22
+  - zemble-plugin-todo@0.0.20
+
 ## 0.0.20
 
 ### Patch Changes

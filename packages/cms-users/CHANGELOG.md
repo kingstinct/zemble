@@ -1,5 +1,17 @@
 # zemble-plugin-cms-users
 
+## 0.0.22
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/graphql@0.0.24
+  - @zemble/mongodb@0.0.7
+  - zemble-plugin-auth@0.0.22
+  - zemble-plugin-auth-otp@0.0.22
+  - zemble-plugin-cms@0.0.22
+  - zemble-plugin-kv@0.0.22
+
 ## 0.0.21
 
 ### Patch Changes
