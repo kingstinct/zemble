@@ -1,5 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
+import { MongoClient } from 'mongodb'
+
 import MongoDBPlugin from './plugin'
 
 import type { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server'
@@ -20,9 +22,16 @@ export const startInMemoryInstance = async () => {
 }
 
 export const startInMemoryInstanceAndConfigurePlugin = async () => {
+  const url = await startInMemoryInstance()
+
   MongoDBPlugin.configure({
-    url: await startInMemoryInstance(),
+    url,
   })
+
+  const client = await MongoClient.connect(url)
+
+  // eslint-disable-next-line functional/immutable-data
+  MongoDBPlugin.providers.mongodb = client
 }
 
 export const closeAndStopInMemoryInstance = async () => {

@@ -45,6 +45,7 @@
     "hono": "^3.7.2",
     "@graphql-tools/graphql-file-loader": "^8.0.0",
     "@graphql-tools/load": "^8.0.0",
+    "@graphql-tools/merge": "^9.0.0",
     "sofa-api": "^0.18.0"
   },
   "optionalDependencies": {

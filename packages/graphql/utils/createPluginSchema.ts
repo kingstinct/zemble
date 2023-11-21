@@ -1,6 +1,7 @@
 import { createDefaultExecutor } from '@graphql-tools/delegate'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 import { loadSchema } from '@graphql-tools/load'
+import { mergeResolvers } from '@graphql-tools/merge'
 import { addResolversToSchema } from '@graphql-tools/schema'
 import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
 import { join } from 'node:path'
@@ -41,14 +42,14 @@ export const createPluginSchema = async ({
 
   const internalSchema = addResolversToSchema({
     schema: schemaWithoutResolvers,
-    resolvers: {
-      ...(Object.keys(Query).length > 0 ? { Query } : {}),
-      ...(Object.keys(Mutation).length > 0 ? { Mutation } : {}),
-      ...(Object.keys(Subscription).length > 0 ? { Subscription } : {}),
-      ...Type,
-      ...Scalars,
-      ...scalars,
-    },
+    resolvers: mergeResolvers([
+      Object.keys(Query).length > 0 ? { Query } : {},
+      Object.keys(Mutation).length > 0 ? { Mutation } : {},
+      Object.keys(Subscription).length > 0 ? { Subscription } : {},
+      Type,
+      Scalars,
+      scalars,
+    ]),
   })
 
   // todo [>1]: fix wrapping to work with aliases, something is missing here
