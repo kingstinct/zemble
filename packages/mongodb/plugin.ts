@@ -42,8 +42,21 @@ export default new PluginWithMiddleware<MongodbClientConfig, typeof defaultConfi
   async ({
     app, config, plugins,
   }) => {
+    if (process.env.DEBUG) {
+      const regex = /(?<=mongodb\+srv:\/\/[^:]+:)[^@]+/
+      console.log('Connecting to MongoDB', config.url.replace(regex, '***'))
+    }
+
     // we create a global mongodb client for the app, which is also used for all plugins that don't have a custom config
-    const dbPromise = await MongoClient.connect(config.url, config.options)
+    const client = await MongoClient.connect(config.url, config.options)
+
+    client.on('error', (error) => {
+      console.error(error, 'MongoDB error')
+    })
+
+    if (process.env.DEBUG) {
+      console.log('Connected to MongoDB!')
+    }
 
     await setupProvider({
       app,
@@ -51,7 +64,7 @@ export default new PluginWithMiddleware<MongodbClientConfig, typeof defaultConfi
         const pluginCustomConfig = customConfig?.config
         return pluginCustomConfig
           ? MongoClient.connect(pluginCustomConfig.url, pluginCustomConfig.options)
-          : dbPromise
+          : client
       },
       providerKey: 'mongodb',
       plugins,
