@@ -55,6 +55,10 @@
     "zemble-plugin-kv": "workspace:*",
     "@zemble/mongodb": "workspace:*"
   },
+  "trustedDependencies": [
+    "mongodb-memory-server",
+    "mongodb-memory-server-core"
+  ],
   "devDependencies": {
     "mongodb-memory-server": "9"
   }
