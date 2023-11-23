@@ -1,5 +1,11 @@
 # @zemble/mongodb
 
+## 0.0.8
+
+### Patch Changes
+
+- Getting rid of migration test flakiness
+
 ## 0.0.7
 
 ### Patch Changes

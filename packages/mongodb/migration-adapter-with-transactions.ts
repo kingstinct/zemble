@@ -12,19 +12,29 @@ declare global {
   }
 }
 
-function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = JsonValue>(config: { readonly providers: Zemble.Providers, readonly collectionName?: string }): MigrationAdapter<TProgress> {
+type Config = { readonly providers: Zemble.Providers, readonly collectionName?: string }
+
+const getClient = (config: Config) => {
   const client = config.providers.mongodb
   if (!client) throw new Error('MongoDB client not provided or initialized')
+  return client
+}
+
+function getCollection<TProgress extends JsonValue = JsonValue>(config: Config) {
+  const client = getClient(config)
 
   const collectionName = config.collectionName ?? 'migrations'
 
   const collection = client.db().collection<MigrationStatus<TProgress>>(collectionName)
+  return collection
+}
 
+function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = JsonValue>(config: Config): MigrationAdapter<TProgress> {
   return {
     up: async (name, runMigration) => {
-      const session = client.startSession()
+      const session = getClient(config).startSession()
       try {
-        await collection.findOneAndUpdate({
+        await getCollection(config).findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -35,7 +45,7 @@ function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = Json
 
         await session.withTransaction(async () => {
           await runMigration({ mongoSession: session })
-          await collection.findOneAndUpdate({
+          await getCollection(config).findOneAndUpdate({
             name,
           }, {
             $set: {
@@ -46,7 +56,7 @@ function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = Json
           }, { upsert: true, session })
         })
       } catch (e) {
-        await collection.findOneAndUpdate({
+        await getCollection(config).findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -60,7 +70,7 @@ function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = Json
       }
     },
     down: async (name, runMigration) => {
-      await collection.findOneAndUpdate({
+      await getCollection(config).findOneAndUpdate({
         name,
       }, {
         $set: {
@@ -69,14 +79,14 @@ function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = Json
         },
       }, { upsert: true })
 
-      const session = client.startSession()
+      const session = getClient(config).startSession()
       try {
         await session.withTransaction(async () => {
           await runMigration({ mongoSession: session })
-          await collection.deleteOne({ name }, { session })
+          await getCollection(config).deleteOne({ name }, { session })
         })
       } catch (e) {
-        await collection.findOneAndUpdate({
+        await getCollection(config).findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -90,12 +100,12 @@ function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = Json
       }
     },
     status: async () => {
-      const res = collection.find().toArray()
+      const res = getCollection<TProgress>(config).find().toArray()
 
       return res
     },
     progress: async (migrationStatus) => {
-      await collection.findOneAndUpdate({
+      await getCollection(config).findOneAndUpdate({
         name: migrationStatus.name,
       }, {
         $set: {

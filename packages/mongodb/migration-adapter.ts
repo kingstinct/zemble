@@ -2,18 +2,23 @@
 import type { MigrationAdapter, MigrationStatus } from '@zemble/migrations'
 import type { JsonValue } from 'type-fest'
 
-function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: { readonly providers: Zemble.Providers, readonly collectionName?: string }): MigrationAdapter<TProgress> {
+type Config = { readonly providers: Zemble.Providers, readonly collectionName?: string }
+
+function getCollection<TProgress extends JsonValue = JsonValue>(config: Config) {
   const client = config.providers.mongodb
   if (!client) throw new Error('MongoDB client not provided or initialized')
 
   const collectionName = config.collectionName ?? 'migrations'
 
   const collection = client.db().collection<MigrationStatus<TProgress>>(collectionName)
+  return collection
+}
 
+function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: Config): MigrationAdapter<TProgress> {
   return {
     up: async (name, runMigration) => {
       try {
-        await collection.findOneAndUpdate({
+        await getCollection(config).findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -23,7 +28,7 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
         }, { upsert: true })
 
         await runMigration()
-        await collection.findOneAndUpdate({
+        await getCollection(config).findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -33,7 +38,7 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
           },
         }, { upsert: true })
       } catch (e) {
-        await collection.findOneAndUpdate({
+        await getCollection(config).findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -45,7 +50,7 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
       }
     },
     down: async (name, runMigration) => {
-      await collection.findOneAndUpdate({
+      await getCollection(config).findOneAndUpdate({
         name,
       }, {
         $set: {
@@ -56,9 +61,9 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
 
       try {
         await runMigration()
-        await collection.deleteOne({ name })
+        await getCollection(config).deleteOne({ name })
       } catch (e) {
-        await collection.findOneAndUpdate({
+        await getCollection(config).findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -70,12 +75,12 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
       }
     },
     status: async () => {
-      const res = collection.find().toArray()
+      const res = getCollection<TProgress>(config).find().toArray()
 
       return res
     },
     progress: async (migrationStatus) => {
-      await collection.findOneAndUpdate({
+      await getCollection(config).findOneAndUpdate({
         name: migrationStatus.name,
       }, {
         $set: {
