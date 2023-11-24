@@ -5,12 +5,12 @@ import type { JsonValue } from 'type-fest'
 type Config = { readonly providers: Zemble.Providers, readonly collectionName?: string }
 
 function getCollection<TProgress extends JsonValue = JsonValue>(config: Config) {
-  const client = config.providers.mongodb
-  if (!client) throw new Error('MongoDB client not provided or initialized')
+  const db = config.providers.mongodb?.db
+  if (!db) throw new Error('MongoDB client not provided or initialized')
 
   const collectionName = config.collectionName ?? 'migrations'
 
-  const collection = client.db().collection<MigrationStatus<TProgress>>(collectionName)
+  const collection = db.collection<MigrationStatus<TProgress>>(collectionName)
   return collection
 }
 

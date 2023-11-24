@@ -11,9 +11,7 @@ export let client: MongoClient | undefined
 const papr = new Papr()
 
 export async function connect() {
-  const client = plugin.providers.mongodb
-
-  const db = client?.db()
+  const db = plugin.providers.mongodb?.db
 
   if (db === undefined) throw new Error('MongoDB client not provided or initialized')
 

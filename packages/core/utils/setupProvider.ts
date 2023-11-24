@@ -18,7 +18,7 @@ export async function setupProvider<T extends Zemble.Providers[Key], Key extends
   // eslint-disable-next-line functional/immutable-data, no-param-reassign
   app.providers[providerKey] = await initializeProvider(undefined)
 
-  plugins.map(async (p) => {
+  await Promise.all(plugins.map(async (p) => {
     const middlewareConfig = p.config.middleware?.[middlewareKey]
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -31,7 +31,7 @@ export async function setupProvider<T extends Zemble.Providers[Key], Key extends
         ? await initializeProvider(middlewareConfig)
         : app.providers[providerKey]
     }
-  })
+  }))
 }
 
 export default setupProvider

@@ -31,13 +31,13 @@ export const startInMemoryInstanceAndConfigurePlugin = async () => {
   const client = await MongoClient.connect(url)
 
   // eslint-disable-next-line functional/immutable-data
-  MongoDBPlugin.providers.mongodb = client
+  MongoDBPlugin.providers.mongodb = { client, db: client.db() }
 }
 
 export const closeAndStopInMemoryInstance = async () => {
-  const db = MongoDBPlugin.providers.mongodb
-  if (db) {
-    await db.close()
+  const client = MongoDBPlugin.providers.mongodb?.client
+  if (client) {
+    await client.close()
   }
   if (mongodb) {
     await mongodb.stop({ doCleanup: true, force: true })
@@ -46,7 +46,7 @@ export const closeAndStopInMemoryInstance = async () => {
 }
 
 export const emptyAllCollections = async () => {
-  const db = MongoDBPlugin.providers.mongodb?.db()
+  const db = MongoDBPlugin.providers.mongodb?.db
   if (db) {
     const allCollections = await db.collections()
 

@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+import safeStableStringify from 'safe-stable-stringify'
 
 import '@zemble/graphql'
 import readDir from './readDir'
@@ -23,7 +24,7 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
   const hasQueues = fs.existsSync(queuePath)
 
   const jobUpdated = (job: Job) => {
-    pubSub.publish('jobUpdated', job)
+    pubSub.publish('jobUpdated', safeStableStringify(job))
   }
 
   function queuePubber<T extends keyof QueueListener<unknown, unknown, string>>(status: T, queue: Queue) {
@@ -36,7 +37,7 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
         'queueUpdated',
         {
           args: typedArgs,
-          queue,
+          queue: safeStableStringify(queue),
           status,
         },
       )

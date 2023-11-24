@@ -15,17 +15,23 @@ declare global {
 type Config = { readonly providers: Zemble.Providers, readonly collectionName?: string }
 
 const getClient = (config: Config) => {
-  const client = config.providers.mongodb
+  const client = config.providers.mongodb?.client
   if (!client) throw new Error('MongoDB client not provided or initialized')
   return client
 }
 
+const getDb = (config: Config) => {
+  const db = config.providers.mongodb?.db
+  if (!db) throw new Error('MongoDB client not provided or initialized')
+  return db
+}
+
 function getCollection<TProgress extends JsonValue = JsonValue>(config: Config) {
-  const client = getClient(config)
+  const db = getDb(config)
 
   const collectionName = config.collectionName ?? 'migrations'
 
-  const collection = client.db().collection<MigrationStatus<TProgress>>(collectionName)
+  const collection = db.collection<MigrationStatus<TProgress>>(collectionName)
   return collection
 }
 

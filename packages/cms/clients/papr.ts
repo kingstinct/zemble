@@ -45,9 +45,9 @@ class PaprWrapper {
   async initialize() {
     const papr = new Papr()
 
-    await plugin.providers.mongodb?.connect()
+    await plugin.providers.mongodb?.client.connect()
 
-    const db = plugin.providers.mongodb?.db()
+    const db = plugin.providers.mongodb?.db
 
     if (db === undefined) throw new Error('MongoDB client not provided or initialized')
 
@@ -73,7 +73,7 @@ class PaprWrapper {
   }
 
   async disconnect() {
-    await plugin.providers.mongodb?.close()
+    await plugin.providers.mongodb?.client.close()
     this.papr = undefined
     this.db = undefined
   }

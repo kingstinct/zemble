@@ -1,5 +1,11 @@
 # @zemble/mongodb
 
+## 0.0.9
+
+### Patch Changes
+
+- 6479619: Fix serialization for bull, use global db instance for mongodb
+
 ## 0.0.8
 
 ### Patch Changes
