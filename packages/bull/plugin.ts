@@ -1,6 +1,9 @@
+import { createBullBoard } from '@bull-board/api'
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter'
 import { PluginWithMiddleware } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 
+import HonoAdapter from './bullboard-hono-adapter'
 import setupQueues from './utils/setupQueues'
 import ZembleQueue from './ZembleQueue'
 
@@ -44,14 +47,35 @@ export type { ZembleQueueConfig }
 export { ZembleQueue }
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
-export default new PluginWithMiddleware<BullPluginConfig>(__dirname, ({ plugins, context: { pubsub }, config }) => {
-  plugins.forEach(({ pluginPath, config }) => {
-    if (!config.middleware?.['zemble-plugin-bull']?.disable) {
-      setupQueues(pluginPath, pubsub, config)
-    }
-  })
+export default new PluginWithMiddleware<BullPluginConfig>(__dirname, ({
+  plugins, context: { pubsub }, config, app,
+}) => {
   const appPath = process.cwd()
-  setupQueues(appPath, pubsub, config)
+
+  const allQueues = [
+    ...plugins.flatMap(({ pluginPath, config }) => {
+      if (!config.middleware?.['zemble-plugin-bull']?.disable) {
+        return setupQueues(pluginPath, pubsub, config)
+      }
+      return []
+    }),
+    ...setupQueues(appPath, pubsub, config),
+  ]
+
+  // @ts-expect-error fix later
+  const serverAdapter = new HonoAdapter(app.hono)
+  createBullBoard({
+    queues: allQueues.map((q) => new BullMQAdapter(q)),
+    serverAdapter,
+    options: {
+      uiConfig: {
+        boardTitle: 'Zemble Queues',
+      },
+    },
+  })
+
+  serverAdapter.setBasePath('/admin/queues')
+  serverAdapter.registerPlugin()
 }, {
   defaultConfig: defaults,
   dependencies: [

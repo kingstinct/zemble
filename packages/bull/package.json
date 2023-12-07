@@ -35,11 +35,6 @@
   "license": "ISC",
   "dependencies": {
     "@bull-board/api": "^5.8.0",
-    "@bull-board/express": "^5.8.0",
-    "@bull-board/fastify": "^5.8.0",
-    "@bull-board/hapi": "^5.8.0",
-    "@bull-board/koa": "^5.8.0",
-    "@bull-board/nestjs": "^5.8.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "bullmq": "^4.8.0",

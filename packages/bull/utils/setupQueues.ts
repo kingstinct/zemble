@@ -18,7 +18,11 @@ import type {
 // eslint-disable-next-line functional/prefer-readonly-type
 const queues: Queue[] = []
 
-const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: BullPluginConfig | undefined) => {
+const setupQueues = (
+  pluginPath: string,
+  pubSub: Zemble.PubSubType,
+  config: BullPluginConfig | undefined,
+): readonly Queue[] => {
   const queuePath = path.join(pluginPath, '/queues')
 
   const hasQueues = fs.existsSync(queuePath)
@@ -93,6 +97,7 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
       console.error('[bull-plugin] Failed to initialize. No redisUrl provided for bull plugin, you can specify it directly or with REDIS_URL')
     }
   }
+  return queues
 }
 
 export const getQueues = () => queues
