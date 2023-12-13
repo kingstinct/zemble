@@ -45,6 +45,7 @@
     "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
+    "@types/ejs": "^3.1.5",
     "bun-types": "latest"
   }
 }

@@ -1,7 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-param-reassign */
-/* eslint-disable functional/prefer-readonly-type */
-/* eslint-disable functional/immutable-data */
+/* eslint-disable import/no-extraneous-dependencies, no-param-reassign, functional/prefer-readonly-type, functional/immutable-data */
 import ejs from 'ejs'
 import { Hono } from 'hono'
 import { serveStatic } from 'hono/bun'
