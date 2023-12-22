@@ -16,7 +16,7 @@ it('Should return a number', async () => {
 
   const response = await app.gqlRequest(randomNumberMutation, {})
   expect(response.data).toEqual({
-    // @ts-expect-error next release of bun might fix this?
+
     randomNumber: expect.any(Number),
   })
 })

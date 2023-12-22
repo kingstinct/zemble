@@ -253,20 +253,16 @@ test('should create a book with authors', async () => {
         updatedAt: expect.any(Date) as unknown as Date,
       },
       {
-        // @ts-expect-error bun next release might fix this?
         _id: expect.any(ObjectId),
-        // @ts-expect-error bun next release might fix this?
         createdAt: expect.any(Date),
         firstName: 'Christopher',
         lastName: 'Tolkien',
-        // @ts-expect-error bun next release might fix this?
         updatedAt: expect.any(Date),
       },
     ])
 
     expect(books).toEqual([
       {
-        // @ts-expect-error bun next release might fix this?
         _id: expect.any(ObjectId),
         contributors: [
           {
@@ -278,10 +274,8 @@ test('should create a book with authors', async () => {
             editor: expect.any(String),
           },
         ],
-        // @ts-expect-error bun next release might fix this?
         createdAt: expect.any(Date),
         title: 'Silmarillion',
-        // @ts-expect-error bun next release might fix this?
         updatedAt: expect.any(Date),
       },
     ])

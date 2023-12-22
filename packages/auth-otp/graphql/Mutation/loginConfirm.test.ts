@@ -37,7 +37,6 @@ describe('Mutation.loginConfirm', () => {
     expect(response.data).toEqual({
       loginConfirm: {
         __typename: 'LoginConfirmSuccessfulResponse',
-        // @ts-expect-error bun next release might fix this?
         accessToken: expect.any(String),
       },
     })

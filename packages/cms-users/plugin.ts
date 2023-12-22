@@ -50,9 +50,11 @@ const plugin = new PluginWithMiddleware(__dirname,
     await Promise.all([connect(), papr.connect()])
   },
   {
+    // @ts-expect-error fix later
     dependencies: () => {
       const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
         {
+          // @ts-expect-error fix later
           plugin: mongodb,
         },
         {
