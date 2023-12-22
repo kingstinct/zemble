@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-
+import { createTestApp } from '@zemble/core'
 import { startInMemoryInstanceAndConfigurePlugin, closeAndStopInMemoryInstance, emptyAllCollections } from '@zemble/mongodb/test-in-memory-utils'
 
 import papr from './clients/papr'
@@ -9,7 +9,7 @@ import { mockAndReset } from './utils/fs'
 export const setupBeforeAll = async () => {
   await startInMemoryInstanceAndConfigurePlugin()
 
-  await plugin.testApp()
+  await createTestApp(plugin)
 
   await papr.connect()
 

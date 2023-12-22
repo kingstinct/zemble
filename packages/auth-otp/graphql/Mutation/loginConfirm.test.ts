@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import {
   describe, beforeEach, it, expect,
 } from 'bun:test'
@@ -27,7 +28,7 @@ describe('Mutation.loginConfirm', () => {
   })
 
   it('Should return a token', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const email = 'test@example.com'
 
@@ -43,7 +44,7 @@ describe('Mutation.loginConfirm', () => {
   })
 
   it('Should fail if not requested before', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const email = 'test@example.com'
 

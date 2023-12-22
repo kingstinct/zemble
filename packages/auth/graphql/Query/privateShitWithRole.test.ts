@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import { expect, describe, it } from 'bun:test'
 
 import plugin from '../../plugin'
@@ -12,7 +13,7 @@ const PrivateShitWithRoleQuery = graphql(`
 
 describe('PrivateShitWithRole', () => {
   it('Should fail authentication', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const response = await app.gqlRequest(
       PrivateShitWithRoleQuery,
@@ -23,7 +24,7 @@ describe('PrivateShitWithRole', () => {
   })
 
   it('Should fail without role in JWT', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const token = await signJwt({ data: { } })
 
@@ -37,7 +38,7 @@ describe('PrivateShitWithRole', () => {
   })
 
   it('Should succeed with role in JWT', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const token = await signJwt({ data: { role: 'admin' } })
 

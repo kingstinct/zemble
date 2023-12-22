@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import {
   beforeEach, test, expect, describe, afterEach, afterAll, beforeAll,
 } from 'bun:test'
@@ -19,7 +20,7 @@ describe('Mutation.createEntity', () => {
   let opts: Record<string, unknown>
 
   beforeEach(async () => {
-    app = await plugin.testApp()
+    app = await createTestApp(plugin)
     const token = await signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
     opts = {
       headers: {

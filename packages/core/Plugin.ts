@@ -17,7 +17,7 @@ export class Plugin<
   // eslint-disable-next-line functional/prefer-readonly-type
   #config: TResolvedConfig
 
-  readonly #devConfig?: TConfig
+  readonly devConfig?: TConfig
 
   readonly dependencies: readonly Plugin<Zemble.GlobalConfig>[]
 
@@ -37,7 +37,7 @@ export class Plugin<
   constructor(__dirname: string, opts?: PluginOpts<TDefaultConfig, Plugin<TConfig, TConfig, TResolvedConfig>, TConfig>) {
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
-    this.#devConfig = opts?.devConfig
+    this.devConfig = opts?.devConfig
     this.#pluginName = opts?.name ?? this.pluginName
     this.#pluginVersion = opts?.version ?? this.pluginVersion
     const deps = opts?.dependencies ?? []
@@ -113,7 +113,7 @@ export class Plugin<
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   async testApp() {
-    const resolved = this.configure(this.#devConfig)
+    const resolved = this.configure(this.devConfig)
     return createApp({
       plugins: [
         ...this.dependencies,

@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import { expect, describe, it } from 'bun:test'
 
 import plugin from '../../plugin'
@@ -12,7 +13,7 @@ const VariableReferenceQuery = graphql(`
 
 describe('variableReference', () => {
   it('Should fail authentication', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const response = await app.gqlRequest(
       VariableReferenceQuery,
@@ -23,7 +24,7 @@ describe('variableReference', () => {
   })
 
   it('Should fail without right id in JWT', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const token = await signJwt({ data: { role: 'admin', organisationId: '2' } })
 
@@ -37,7 +38,7 @@ describe('variableReference', () => {
   })
 
   it('Should fail when trying to reference the exact variable literal', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const token = await signJwt({ data: { role: 'admin', organisationId: '$organisationId' } })
 
@@ -51,7 +52,7 @@ describe('variableReference', () => {
   })
 
   it('Should succeed with role in JWT', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const token = await signJwt({ data: { role: 'admin', organisationId: '1' } })
 

@@ -27,6 +27,18 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
   }
 }, {})
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const createTestApp = async (plugin: Plugin) => {
+  const resolved = plugin.configure(plugin.devConfig)
+  return createApp({
+    plugins: [
+      ...plugin.dependencies,
+      resolved,
+    ],
+  })
+}
+
 export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure) => {
   const hono = new Hono<Zemble.HonoEnv>()
 
@@ -120,7 +132,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     runBeforeServe,
   }
 
-  hono.get('/', (c) => c.html(`<html>
+  hono.get('/', async (c) => c.html(`<html>
     <head>
       <title>${packageJson.name}</title>
       <meta name="color-scheme" content="light dark">
