@@ -12,7 +12,7 @@
   },
   "module": "index.ts",
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.2.2"

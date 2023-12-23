@@ -50,6 +50,6 @@
     "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/bun": "latest"
   }
 }

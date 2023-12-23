@@ -1,7 +1,7 @@
 import { PluginWithMiddleware } from '@zemble/core'
 
 export default new PluginWithMiddleware(
-  __dirname,
+  import.meta.dir,
   ({
     app, config, context, plugins,
   }) => {

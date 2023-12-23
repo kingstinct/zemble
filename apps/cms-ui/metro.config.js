@@ -3,16 +3,16 @@ const { getDefaultConfig } = require('expo/metro-config')
 const os = require('os')
 const path = require('path')
 
-const config = getDefaultConfig(__dirname)
+const config = getDefaultConfig(import.meta.dir)
 
 // Remove all console logs in production...
 config.transformer.minifierConfig.compress.drop_console = true
 
 config.watchFolders = [
-  // `${__dirname}/node_modules`,
-  `${__dirname}/../..`,
-  // `${__dirname}/../../packages`,
-  // `${__dirname}/../../plugins`,
+  // `${import.meta.dir}/node_modules`,
+  `${import.meta.dir}/../..`,
+  // `${import.meta.dir}/../../packages`,
+  // `${import.meta.dir}/../../plugins`,
 ]
 
 // #2 - Try resolving with project modules first, then workspace modules

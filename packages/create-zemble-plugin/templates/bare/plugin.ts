@@ -1,7 +1,7 @@
 import { Plugin } from '@zemble/core'
 
 export default new Plugin(
-  __dirname,
+  import.meta.dir,
   {
     dependencies: [],
   },

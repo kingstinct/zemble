@@ -31,7 +31,7 @@ declare global {
   }
 }
 
-const plugin = new PluginWithMiddleware<KeyValueConfig & Zemble.GlobalConfig, typeof defaultConfig>(__dirname,
+const plugin = new PluginWithMiddleware<KeyValueConfig & Zemble.GlobalConfig, typeof defaultConfig>(import.meta.dir,
   async ({
     app, config, plugins, context,
   }) => {

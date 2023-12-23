@@ -2,8 +2,7 @@
   "compilerOptions": {
     "jsx": "react-native",
     "noUncheckedIndexedAccess": true,
-    "strictNullChecks": true,
-    "types": [ "bun-types" ]
+    "strictNullChecks": true
   },
   "extends": "expo/tsconfig.base",
   "include": [

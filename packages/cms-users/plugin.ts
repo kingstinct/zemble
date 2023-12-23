@@ -44,7 +44,7 @@ const isFirstUser = async (): Promise<boolean> => {
   return isFirstUserInternal
 }
 
-const plugin = new PluginWithMiddleware(__dirname,
+const plugin = new PluginWithMiddleware(import.meta.dir,
   // eslint-disable-next-line unicorn/consistent-function-scoping
   () => async () => {
     await Promise.all([connect(), papr.connect()])

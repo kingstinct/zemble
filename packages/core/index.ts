@@ -1,5 +1,5 @@
 export * from './types'
-export * from './Plugin'
+export * from './PluginInternal'
 export * from './PluginWithMiddleware'
 export * from './createApp'
 export * from './runBeforeServe'

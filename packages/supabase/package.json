@@ -27,7 +27,7 @@
     "supabase-codegen": "supabase gen types typescript --project-id \"nptqmmaxmynahsgfuvhn\" --schema public > types/supabase.generated.ts"
   },
   "devDependencies": {
-    "bun-types": "latest",
+    "@types/bun": "latest",
     "supabase": "^1.110.1",
     "@graphql-codegen/add": "^5.0.0",
     "@graphql-codegen/cli": "^5.0.0",

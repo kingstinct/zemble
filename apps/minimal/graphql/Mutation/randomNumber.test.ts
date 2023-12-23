@@ -2,7 +2,6 @@ import {
   it, expect,
 } from 'bun:test'
 
-import appPromise from '../../app'
 import { graphql } from '../client.generated'
 
 const randomNumberMutation = graphql(`
@@ -12,6 +11,7 @@ const randomNumberMutation = graphql(`
 `)
 
 it('Should return a number', async () => {
+  const appPromise = (await import('../../app')).default
   const app = await appPromise
 
   const response = await app.gqlRequest(randomNumberMutation, {})

@@ -43,7 +43,7 @@ const defaultConfig = {
 const regexToHidePassword = /(?<=mongodb\+srv:\/\/[^:]+:)[^@]+/
 
 export default new PluginWithMiddleware<MongodbClientConfig, typeof defaultConfig>(
-  __dirname,
+  import.meta.dir,
   async ({
     app, config, plugins, context,
   }) => {

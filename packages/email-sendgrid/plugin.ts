@@ -41,7 +41,7 @@ const defaultConfig = {
 } satisfies Partial<EmailSendgridConfig>
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
-const plugin = new PluginWithMiddleware<EmailSendgridConfig, typeof defaultConfig>(__dirname, async ({ plugins, config, app }) => {
+const plugin = new PluginWithMiddleware<EmailSendgridConfig, typeof defaultConfig>(import.meta.dir, async ({ plugins, config, app }) => {
   if (!config.disable) {
     const initializeProvider = (): IStandardSendEmailService => async ({
       from, to, html, text, subject,

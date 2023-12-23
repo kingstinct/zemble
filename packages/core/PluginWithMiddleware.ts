@@ -1,6 +1,6 @@
 import { configDotenv } from 'dotenv'
 
-import Plugin from './Plugin'
+import Plugin from './PluginInternal'
 
 import type { Middleware, PluginOpts } from './types'
 

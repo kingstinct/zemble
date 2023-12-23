@@ -1,12 +1,12 @@
 {
   "extends": "@tsconfig/bun/tsconfig.json",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "moduleResolution": "node",
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "types": [ "bun-types" ]
+    "verbatimModuleSyntax": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "exclude": [ "**/*.generated/*.ts" ]
 }
