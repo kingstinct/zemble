@@ -82,6 +82,7 @@
     "apps/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.26.2"
+    "@changesets/cli": "^2.26.2",
+    "madge": "^6.1.0"
   }
 }

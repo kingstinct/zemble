@@ -3,7 +3,6 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "module": "CommonJS",
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
