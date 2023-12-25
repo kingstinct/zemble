@@ -35,17 +35,17 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^5.0.0",
-    "@envelop/generic-auth": "^6.0.1",
+    "@envelop/generic-auth": "^7.0.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "graphql-scalars": "^1.22.2",
-    "hono": "^3.7.2",
-    "jose": "^4.14.4",
+    "graphql-scalars": "^1.22.4",
+    "hono": "^3.11.10",
+    "jose": "^5.2.0",
     "ioredis": "^5.3.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230821.0",
-    "@eddeee888/gcg-typescript-resolver-files": "^0.6.0",
+    "@cloudflare/workers-types": "^4.20231218.0",
+    "@eddeee888/gcg-typescript-resolver-files": "^0.7.2",
     "zemble-plugin-auth-api-token": "workspace:*"
   }
 }

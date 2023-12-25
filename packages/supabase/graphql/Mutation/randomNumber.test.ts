@@ -36,7 +36,6 @@ it('Should return a number', async () => {
     },
   })
   expect(response.data).toEqual({
-    // @ts-expect-error next release of bun might fix this?
     randomNumber: expect.any(Number),
   })
 })

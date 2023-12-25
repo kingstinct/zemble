@@ -97,4 +97,6 @@ const setupQueues = (pluginPath: string, pubSub: Zemble.PubSubType, config: Bull
 
 export const getQueues = () => queues
 
+export const getQueueByName = (name: string) => queues.find((queue) => queue.name === name)
+
 export default setupQueues

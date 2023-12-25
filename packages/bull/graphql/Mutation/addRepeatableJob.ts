@@ -1,13 +1,17 @@
-import { Queue } from 'bullmq'
+import { GraphQLError } from 'graphql'
+
+import { getQueueByName } from '../../utils/setupQueues'
 
 import type { MutationResolvers } from '../schema.generated'
 
 const addJob: MutationResolvers['addRepeatableJob'] = async (_, {
   queue, data, repeatJobKey, pattern,
 }) => {
-  const q = new Queue(queue, {
+  const q = getQueueByName(queue)
 
-  })
+  if (!q) {
+    throw new GraphQLError(`Queue ${queue} not found`)
+  }
 
   const job = await q.add(queue, data, {
     repeatJobKey: repeatJobKey ?? undefined,

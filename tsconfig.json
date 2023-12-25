@@ -5,8 +5,7 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "verbatimModuleSyntax": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [ "**/*.generated/*.ts" ]
 }

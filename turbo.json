@@ -42,6 +42,10 @@
     },
     "graphql-codegen": {
       "outputMode": "errors-only",
+      "outputs": [
+        "**/*.generated/**/*",
+        "**/*.generated.*"
+      ],
       "inputs": [
         "**/*.graphql",
         "**/codegen.ts"

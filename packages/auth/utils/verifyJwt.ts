@@ -1,9 +1,11 @@
 import { GraphQLError } from 'graphql'
 import * as jose from 'jose'
 
-export async function verifyJwt(token: string, publicKey: string) {
+import plugin from '../plugin'
+
+export async function verifyJwt(token: string, publicKey?: string) {
   try {
-    const actualPublicKey = await jose.importSPKI(publicKey, 'RS256')
+    const actualPublicKey = await jose.importSPKI(publicKey ?? plugin.config.PUBLIC_KEY as string, 'RS256')
 
     const decodedToken = await jose.jwtVerify(token, actualPublicKey)
     return decodedToken.payload

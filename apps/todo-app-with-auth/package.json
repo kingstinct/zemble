@@ -12,11 +12,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@expo/webpack-config": "^18.1.2",
+    "@expo/webpack-config": "^18.1.3",
     "@urql/storage-rn": "^1.0.3",
-    "expo": "~49.0.7",
-    "expo-status-bar": "~1.6.0",
-    "graphql": "^16.8.0",
+    "expo": "~49.0.21",
+    "expo-status-bar": "~1.7.1",
+    "graphql": "^16.8.1",
     "react": "18.2.0",
     "react-native": "0.72.3",
     "react-native-web": "~0.19.6",
@@ -25,9 +25,9 @@
     "zemble-plugin-todo-ui": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "@types/react": "~18.2.14",
-    "typescript": "^5.1.3"
+    "@babel/core": "^7.23.6",
+    "@types/react": "~18.2.45",
+    "typescript": "^5.3.3"
   },
   "private": true
 }
