@@ -6,30 +6,16 @@
       "inputs": [ "**/*" ]
     },
     "test": {
+      "dependsOn": [ "graphql-codegen" ],
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
         "**/tsconfig.json",
         "**/package.json"
       ]
-    },
-    "build": {
-      "outputMode": "errors-only",
-      "inputs": [
-        "**/*.ts",
-        "**/tsconfig.json",
-        "**/package.json"
-      ],
-      "outputs": [
-        "*.js",
-        "*.d.ts"
-      ]
-    },
-    "clean":{
-      "outputMode": "errors-only",
-      "cache": false
     },
     "typecheck": {
+      "dependsOn": [ "graphql-codegen" ],
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
