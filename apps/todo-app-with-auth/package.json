@@ -8,7 +8,6 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

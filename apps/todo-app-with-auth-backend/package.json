@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "bun --hot app.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

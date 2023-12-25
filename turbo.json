@@ -5,10 +5,6 @@
       "outputMode": "errors-only",
       "inputs": [ "**/*" ]
     },
-    "lint-quiet": {
-      "outputMode": "errors-only",
-      "inputs": [ "**/*" ]
-    },
     "test": {
       "outputMode": "errors-only",
       "inputs": [

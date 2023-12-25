@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },

@@ -10,7 +10,6 @@
     "dev": "bun --hot serve.ts",
     "lint": "eslint .",
     "test": "bun test",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },

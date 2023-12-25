@@ -6,7 +6,6 @@
   "scripts": {
     "test": "bun test",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "dev": "bun server.ts",
     "typecheck": "tsc --noEmit"
   },

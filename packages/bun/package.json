@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "bunx cli.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

@@ -9,7 +9,6 @@
     "web": "expo start --web",
     "codegen": "graphql-code-generator",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

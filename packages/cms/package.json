@@ -8,7 +8,6 @@
     "test": "bun test",
     "dev": "MONGO_URL=mongodb://localhost:27017/test-db zemble-dev plugin.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },

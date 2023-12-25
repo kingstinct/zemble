@@ -12,7 +12,6 @@
     "start": "node cli.js",
     "dev": "ts-node-dev cli.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "repository": {
