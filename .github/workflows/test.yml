@@ -32,7 +32,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.14
+          bun-version: 1.0.20
 
       - run: bun install
 
@@ -56,7 +56,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.14
+          bun-version: 1.0.20
 
       - run: bun install
 
@@ -82,7 +82,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.14
+          bun-version: 1.0.20
 
       - run: bun install
 
@@ -102,7 +102,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.14
+          bun-version: 1.0.20
 
       - run: bun install
 
@@ -121,7 +121,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.14
+          bun-version: 1.0.20
 
       - run: bun install
 
