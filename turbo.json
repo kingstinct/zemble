@@ -13,14 +13,16 @@
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
-        "**/tsconfig.json"
+        "**/tsconfig.json",
+        "**/package.json"
       ]
     },
     "build": {
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
-        "**/tsconfig.json"
+        "**/tsconfig.json",
+        "**/package.json"
       ],
       "outputs": [
         "*.js",
@@ -37,7 +39,9 @@
         "**/*.ts",
         "**/*.tsx",
         "**/*.js",
-        "**/*.jsx"
+        "**/*.jsx",
+        "**/tsconfig.json",
+        "**/package.json"
       ]
     },
     "graphql-codegen": {
@@ -48,7 +52,8 @@
       ],
       "inputs": [
         "**/*.graphql",
-        "**/codegen.ts"
+        "**/codegen.ts",
+        "**/package.json"
       ]
     }
   }
