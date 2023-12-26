@@ -10,7 +10,7 @@ export const createClient = (redisUrl: string, options?: RedisOptions): Redis =>
     // throw new Error('Redis client is not available in test environment');
   }
 
-  console.info(`Connecting to Redis at ${redisUrl}`)
+  console.info(`[@zemble/bull] Connecting to Redis at ${redisUrl}`)
 
   const redis = new Redis(redisUrl, {
     maxRetriesPerRequest: null,
@@ -24,7 +24,7 @@ export const createClient = (redisUrl: string, options?: RedisOptions): Redis =>
   })
 
   redis.on('connect', () => {
-    console.info('Connected to Redis')
+    console.info('[@zemble/bull] Connected to Redis')
   })
 
   return redis

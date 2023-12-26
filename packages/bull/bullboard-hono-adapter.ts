@@ -27,7 +27,7 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
 
   protected apiRoutes?: Hono<HonoEnv>
 
-  protected rootPath: string = '.'
+  protected nodeModulesRootPath: string = '.'
 
   constructor(app: Hono<HonoEnv>) {
     this.app = app
@@ -41,8 +41,8 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
     return this
   }
 
-  setRootPath(path: string): HonoAdapter<HonoEnv> {
-    this.rootPath = path
+  setNodeModulesRootPath(path: string): HonoAdapter<HonoEnv> {
+    this.nodeModulesRootPath = path
     return this
   }
 
@@ -135,12 +135,11 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
     this.app.basePath(this.basePath).get(
       `${this.statics.route}/*`,
       serveStatic({
-        root: this.rootPath, // needs to be adjusted for monorepos with node_modules at another level
+        root: this.nodeModulesRootPath, // needs to be adjusted for monorepos with node_modules at another level
         rewriteRequestPath: (path) => {
           const newPath = path.replace([this.basePath, this.statics.route].join(''), this.statics.path as string)
           return newPath
         },
-        // path: path,
       }),
     )
 
