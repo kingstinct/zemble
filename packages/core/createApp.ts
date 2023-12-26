@@ -5,14 +5,13 @@ import { logger } from 'hono/logger'
 import { readPackageJson } from './utils/readPackageJson'
 import context from './zembleContext'
 
-import type Plugin from './Plugin'
-import type { PluginWithMiddleware } from './PluginWithMiddleware'
+import type { Plugin } from './Plugin'
 import type { RunBeforeServeFn } from './types'
 
 const packageJson = readPackageJson()
 
 export type Configure = {
-  readonly plugins: readonly (Plugin | PluginWithMiddleware)[],
+  readonly plugins: readonly (Plugin)[],
 }
 
 const logFilter = (log: string) => (log.includes('BEGIN PRIVATE KEY') || log.includes('BEGIN PUBLIC KEY') ? '<<KEY>>' : log)
@@ -27,15 +26,15 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
   }
 }, {})
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const createTestApp = async (plugin: Plugin) => {
+export async function createTestApp<
+  TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
+  TDefaultConfig extends Partial<TConfig> = TConfig,
+  TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig
+>(plugin: Plugin<TConfig, TDefaultConfig, TResolvedConfig>) {
   const resolved = plugin.configure(plugin.devConfig)
   return createApp({
-    plugins: [
-      ...plugin.dependencies,
-      resolved,
-    ],
+    // @ts-expect-error test
+    plugins: [...plugin.dependencies, resolved],
   })
 }
 
@@ -80,10 +79,10 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
       return prev
     }
     return [...prev, plugin]
-  }, [] as readonly (Plugin | PluginWithMiddleware)[])
+  }, [] as readonly Plugin[])
 
   const middleware = plugins.filter(
-    (plugin): plugin is PluginWithMiddleware => 'initializeMiddleware' in plugin,
+    (plugin) => 'initializeMiddleware' in plugin,
   )
 
   context.logger.log(`[@zemble] Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map((p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p ? ' (middleware)' : ''}`).join('\n')}`)
@@ -108,7 +107,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   ) => {
     const p = await prev
 
-    const ret = await middleware.initializeMiddleware({
+    const ret = await middleware.initializeMiddleware?.({
       plugins,
       app: preInitApp,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

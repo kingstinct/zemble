@@ -1,12 +1,7 @@
-import { PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 
-export default new PluginWithMiddleware(
+export default new Plugin(
   import.meta.dir,
-  ({
-    app, config, context, plugins,
-  }) => {
-    // Middleware
-  },
   {
     dependencies: [],
   },

@@ -12,9 +12,10 @@ import gqlRequestUntyped from './utils/gqlRequestUntyped'
 import handleYoga from './utils/handleYoga'
 
 import type { GraphQLMiddlewareConfig } from './plugin'
+import type { Plugin } from '@zemble/core'
 import type { Middleware } from '@zemble/core/types'
 
-export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
+export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
   {
     config, app, context, plugins,
   },

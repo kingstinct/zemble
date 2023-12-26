@@ -11,6 +11,7 @@ export default createApp({
     Routes.configure(),
     GraphQL.configure({ }),
     MyRoutes.configure(),
+    // @ts-expect-error fix later
     Migrations.configure({
       createAdapter: () => dryrunAdapter,
     }),

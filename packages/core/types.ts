@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import type { Plugin, PluginWithMiddleware } from '.'
+import type { Plugin } from '.'
 import type { PubSub } from 'graphql-yoga'
 import type {
   Hono, Context as HonoContext,
@@ -141,15 +141,21 @@ declare global {
 
 export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & Zemble.DecodedTokenBase
 
-export type Dependency<TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig> = {
-  readonly plugin: Plugin<TConfig> | PluginWithMiddleware<TConfig>,
-  readonly config?: TConfig,
+export type Dependency = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly plugin: Plugin<any, any, any>
+  readonly config?: unknown,
   readonly devOnly?: boolean, // decides if we should warn if this plugin is not used in production
 }
 
 export type DependenciesResolver<TSelf> = readonly Dependency[] | ((self: TSelf) => readonly Dependency[])
 
-export type PluginOpts<TDefaultConfig extends Zemble.GlobalConfig, TSelf, TConfig extends Zemble.GlobalConfig> = {
+export type PluginOpts<
+  TSelf,
+  TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
+  TDefaultConfig extends Partial<TConfig> = TConfig,
+  TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
+> = {
   /**
    * Default config for the plugin, will be merged (last write wins) with any configs passed to configure()
    */
@@ -165,6 +171,8 @@ export type PluginOpts<TDefaultConfig extends Zemble.GlobalConfig, TSelf, TConfi
 
   readonly name?: string,
   readonly version?: string,
+
+  readonly middleware?: Middleware<TResolvedConfig, Plugin>
 }
 
 export type RunBeforeServeFn = (() => Promise<void>) | (() => void)
@@ -172,9 +180,9 @@ export type RunBeforeServeFn = (() => Promise<void>) | (() => void)
 // a middleware can return a function that will be called when the server is started
 export type MiddlewareReturn = Promise<void> | void | RunBeforeServeFn | Promise<RunBeforeServeFn>
 
-export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig> = (
+export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig, PluginType extends Plugin = Plugin> = (
   opts: {
-    readonly plugins: readonly Plugin<Zemble.GlobalConfig>[],
+    readonly plugins: readonly PluginType[],
     readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers'>,
     readonly context: Zemble.GlobalContext
     readonly config: TMiddlewareConfig

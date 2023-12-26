@@ -1,4 +1,4 @@
-import { PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 
 import middleware from './middleware'
 
@@ -25,8 +25,7 @@ const defaultConfig = {
 
 } satisfies RoutesConfig
 
-export default new PluginWithMiddleware<RoutesConfig>(
+export default new Plugin<RoutesConfig>(
   import.meta.dir,
-  middleware,
-  { defaultConfig },
+  { defaultConfig, middleware },
 )
