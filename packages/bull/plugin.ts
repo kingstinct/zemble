@@ -62,7 +62,6 @@ export default new PluginWithMiddleware<BullPluginConfig>(__dirname, ({
     ...setupQueues(appPath, pubsub, config),
   ]
 
-  // @ts-expect-error fix later
   const serverAdapter = new HonoAdapter(app.hono)
   createBullBoard({
     queues: allQueues.map((q) => new BullMQAdapter(q)),
@@ -74,7 +73,7 @@ export default new PluginWithMiddleware<BullPluginConfig>(__dirname, ({
     },
   })
 
-  serverAdapter.setBasePath('/admin/queues')
+  serverAdapter.setBasePath('/queues').setRootPath('../..')
   serverAdapter.registerPlugin()
 }, {
   defaultConfig: defaults,

@@ -27,6 +27,8 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
 
   protected apiRoutes?: Hono<HonoEnv>
 
+  protected rootPath: string = '.'
+
   constructor(app: Hono<HonoEnv>) {
     this.app = app
     this.basePath = ''
@@ -36,6 +38,11 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
   setBasePath(path: string): HonoAdapter<HonoEnv> {
     this.basePath = path
     this.app.basePath(path)
+    return this
+  }
+
+  setRootPath(path: string): HonoAdapter<HonoEnv> {
+    this.rootPath = path
     return this
   }
 
@@ -128,7 +135,7 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
     this.app.basePath(this.basePath).get(
       `${this.statics.route}/*`,
       serveStatic({
-        // root: './',
+        root: this.rootPath, // needs to be adjusted for monorepos with node_modules at another level
         rewriteRequestPath: (path) => {
           const newPath = path.replace([this.basePath, this.statics.route].join(''), this.statics.path as string)
           return newPath
@@ -147,7 +154,7 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
         // eslint-disable-next-line @typescript-eslint/await-thenable
         const { name: fileName, params } = await handler({ basePath: this.basePath, uiConfig: this.uiConfig || {} })
         const template = await ejs.renderFile(`${this.viewPath}/${fileName}`, params)
-        return c.html(template, params)
+        return c.html(template)
       })
     })
 
