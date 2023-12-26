@@ -11,8 +11,13 @@ jobs:
   test:
     name: Test
     uses: ./.github/workflows/test.yml
+    strategy:
+      matrix:
+        bun-version: [1.0.20]
+        os: [ubuntu-latest, macos-latest]
     with:
-      run-matrix: true
+      bun-version: ${{ matrix.bun-version }}
+      os: ${{ matrix.os }}
   release:
     needs: test
     name: Release

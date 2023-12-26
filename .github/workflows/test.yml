@@ -5,18 +5,42 @@ name: Test
 on:
   workflow_call:
     inputs:
-      run-matrix:
-        description: 'Run matrix tests'
+      bun-version:
+        description: 'Bun Version'
         required: false
-        default: false
-        type: boolean
+        default: 'latest'
+        type: string
+      os:
+        description: 'Operating System'
+        required: false
+        default: 'ubuntu-latest'
+        type: string
+      mongo-version:
+        description: 'MongoDB Version'
+        required: false
+        default: '7.0.4'
+        type: string
   workflow_dispatch:
     inputs:
-      run-matrix:
-        description: 'Run matrix tests'
+      bun-version:
+        description: 'Bun Version'
         required: false
-        default: false
-        type: boolean
+        default: 'latest'
+        type: string
+      os:
+        description: 'Operating System'
+        required: false
+        options:
+          - 'ubuntu-latest'
+          - 'macos-latest'
+          - 'windows-latest'
+        default: 'ubuntu-latest'
+        type: choice
+      mongo-version:
+        description: 'MongoDB Version'
+        required: false
+        default: '7.0.4'
+        type: string
   push:
     branches:
       - "*" # matches every branch that doesn't contain a '/'
@@ -26,19 +50,13 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
-    strategy:
-      fail-fast: false
-      max-parallel: 10
-      matrix:
-        mongo-version: [7.0.4]
-        bun-version: ${{ inputs.run-matrix == true && ['1.0.20', '1.0.19'] || ['1.0.20'] }}
-        os: ${{ inputs.run-matrix == true && ['ubuntu-latest', 'macos-latest'] || ['ubuntu-latest'] }}  # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ inputs.os || 'ubuntu-latest' }}
     timeout-minutes: 10
     env:
       MONGOMS_PREFER_GLOBAL_PATH: true
-      MONGOMS_VERSION: ${{ matrix.mongo-version }}
+      MONGOMS_VERSION: ${{ inputs.mongo-version || '7.0.4' }}
+      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -49,12 +67,12 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ env.MONGOMS_VERSION }}
+          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: ${{ matrix.bun-version }}
+          bun-version: ${{ env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1
 
@@ -65,20 +83,14 @@ jobs:
           PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}
 
   test-supabase:
-    strategy:
-      fail-fast: false
-      max-parallel: 10
-      matrix:
-        mongo-version: [7.0.4]
-        bun-version: ${{ inputs.run-matrix == true && ['1.0.20', '1.0.19'] || ['1.0.20'] }}
-        os: ${{ inputs.run-matrix == true && ['ubuntu-latest', 'macos-latest'] || ['ubuntu-latest'] }}  # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ inputs.os || 'ubuntu-latest' }}
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
       MONGOMS_PREFER_GLOBAL_PATH: true
-      MONGOMS_VERSION: ${{ matrix.mongo-version }}
+      MONGOMS_VERSION: ${{ inputs.mongo-version || '7.0.4' }}
+      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
     timeout-minutes: 10
     # disable for now - since it for some reason fails on CI
     if: false 
@@ -92,12 +104,12 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ env.MONGOMS_VERSION }}
+          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: ${{ matrix.bun-version }}
+          bun-version: ${{ env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1
 
@@ -111,16 +123,11 @@ jobs:
         working-directory: ./packages/supabase
 
   typecheck:
-    strategy:
-      fail-fast: false
-      max-parallel: 10
-      matrix:
-        bun-version: ${{ inputs.run-matrix == true && ['1.0.20', '1.0.19'] || ['1.0.20'] }}
-        os: ${{ inputs.run-matrix == true && ['ubuntu-latest', 'macos-latest'] || ['ubuntu-latest'] }}  # os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ inputs.os || 'ubuntu-latest' }}
     timeout-minutes: 10
     env:
       MONGOMS_DISABLE_POSTINSTALL: true
+      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -130,7 +137,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: ${{ matrix.bun-version }}
+          bun-version: ${{ env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1 --ignore-scripts
 
@@ -138,17 +145,12 @@ jobs:
         run: bun run typecheck
 
   lint:
-    strategy:
-      fail-fast: false
-      max-parallel: 10
-      matrix:
-        bun-version: ${{ inputs.run-matrix == true && ['1.0.20', '1.0.19'] || ['1.0.20'] }}
-        os: ${{ inputs.run-matrix == true && ['ubuntu-latest', 'macos-latest'] || ['ubuntu-latest'] }}  # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ inputs.os || 'ubuntu-latest' }}
     timeout-minutes: 10
     env:
       MONGOMS_DISABLE_POSTINSTALL: true
+      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -158,7 +160,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: ${{ matrix.bun-version }}
+          bun-version: ${{ env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1 --ignore-scripts
 
@@ -166,17 +168,12 @@ jobs:
         run: bun run lint
 
   codegen:
-    strategy:
-      fail-fast: false
-      max-parallel: 10
-      matrix:
-        bun-version: ${{ inputs.run-matrix == true && ['1.0.20', '1.0.19'] || ['1.0.20'] }}
-        os: ${{ inputs.run-matrix == true && ['ubuntu-latest', 'macos-latest'] || ['ubuntu-latest'] }}  # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ inputs.os || 'ubuntu-latest' }}
     timeout-minutes: 10
     env:
       MONGOMS_DISABLE_POSTINSTALL: true
+      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -185,7 +182,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: ${{ matrix.bun-version }}
+          bun-version: ${{ env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1 --ignore-scripts
 
