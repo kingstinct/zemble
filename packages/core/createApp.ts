@@ -11,7 +11,8 @@ import type { RunBeforeServeFn } from './types'
 const packageJson = readPackageJson()
 
 export type Configure = {
-  readonly plugins: readonly (Plugin)[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly plugins: readonly (Plugin<any, any, any>)[],
 }
 
 const logFilter = (log: string) => (log.includes('BEGIN PRIVATE KEY') || log.includes('BEGIN PUBLIC KEY') ? '<<KEY>>' : log)
@@ -33,7 +34,6 @@ export async function createTestApp<
 >(plugin: Plugin<TConfig, TDefaultConfig, TResolvedConfig>) {
   const resolved = plugin.configure(plugin.devConfig)
   return createApp({
-    // @ts-expect-error test
     plugins: [...plugin.dependencies, resolved],
   })
 }
