@@ -16,25 +16,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  cache-warmer:
-    strategy:
-      fail-fast: false
-      max-parallel: 10
-      matrix:
-        bun-version: [1.0.20, 1.0.19]
-        os: [ubuntu-latest, macos-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: ${{ matrix.bun-version }}
-
-      - run: bun install
-  # This workflow contains a single job called "build"
   test:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -45,19 +27,26 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     env:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+      MONGOMS_PREFER_GLOBAL_PATH: true
+      MONGOMS_VERSION: 7.0.2
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - uses: actions/cache@v3
+        id: cache-mongodb-binaries
+        name: Cache MongoDB binaries
+        with:
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ env.MONGOMS_VERSION }}
+          path: ~/.cache/mongodb-binaries
+
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install
+      - run: bun install --concurrent-scripts 1
 
       - name: Test
         run: bun run test-recursive
@@ -66,7 +55,6 @@ jobs:
           PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}
 
   test-supabase:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -75,6 +63,11 @@ jobs:
         os: [ubuntu-latest, macos-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+      MONGOMS_PREFER_GLOBAL_PATH: true
+      MONGOMS_VERSION: 7.0.2
     timeout-minutes: 10
     # disable for now - since it for some reason fails on CI
     if: false 
@@ -84,11 +77,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - uses: actions/cache@v3
+        id: cache-mongodb-binaries
+        name: Cache MongoDB binaries
+        with:
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ env.MONGOMS_VERSION }}
+          path: ~/.cache/mongodb-binaries
+
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install
+      - run: bun install --concurrent-scripts 1
 
       - uses: supabase/setup-cli@v1
       
@@ -100,7 +100,6 @@ jobs:
         working-directory: ./packages/supabase
 
   typecheck:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -110,6 +109,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
+    env:
+      MONGOMS_DISABLE_POSTINSTALL: true
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -121,13 +122,12 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install
+      - run: bun install --concurrent-scripts 1 
 
       - name: Typecheck
         run: bun run typecheck
 
   lint:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -137,6 +137,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
+    env:
+      MONGOMS_DISABLE_POSTINSTALL: true
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -148,13 +150,12 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install
+      - run: bun install --concurrent-scripts 1 
 
       - name: Lint
         run: bun run lint
 
   codegen:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -164,6 +165,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
+    env:
+      MONGOMS_DISABLE_POSTINSTALL: true
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -174,6 +177,6 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install
+      - run: bun install --concurrent-scripts 1 
 
       - run: bun run graphql-codegen
