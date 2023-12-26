@@ -8,7 +8,6 @@
     "zemble-plugin",
     "@zemble"
   ],
-  "trustedDependencies": [ "supabase" ],
   "dependencies": {
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*",

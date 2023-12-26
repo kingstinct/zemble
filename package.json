@@ -20,12 +20,12 @@
     "reinstall-with-nuked-lockfile": "rm -rf node_modules/ && rm bun.lockb && find . -name 'node_modules' -type d -prune -exec rm -rf '{}' + && bun install --force",
     "git-nuke": "git clean -Xdf",
     "clean": "find . -type f \\( -name \"*.mjs\" -o -name \"*.d.mts\" -o -name \"*.d.ts\" \\) -not -path \"./node_modules/*\" -delete",
-    "upgrade-interactive": "bunx npm-check-updates -ws --root --format group -i"
+    "upgrade-interactive": "bunx npm-check-updates -ws --root --format group -i",
+    "fix-dependencies": "bunx check-dependency-version-consistency --fix"
   },
   "trustedDependencies": [
     "supabase",
-    "mongodb-memory-server",
-    "mongodb-memory-server-core"
+    "mongodb-memory-server"
   ],
   "keywords": [
     "zemble",
@@ -53,9 +53,10 @@
     "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@tsconfig/bun": "^1.0.1",
+    "@types/bun": "latest",
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
-    "@types/bun": "latest",
+    "check-dependency-version-consistency": "^4.1.0",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",

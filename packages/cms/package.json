@@ -52,10 +52,6 @@
     "papr": "^15.0.0",
     "zemble-plugin-auth": "workspace:*"
   },
-  "trustedDependencies": [
-    "mongodb-memory-server",
-    "mongodb-memory-server-core"
-  ],
   "devDependencies": {
     "mongodb-memory-server": "9",
     "type-fest": "^4.8.3"
