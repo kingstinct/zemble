@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import mongodb from '@zemble/mongodb'
 import authOtp from 'zemble-plugin-auth-otp'
 import cms from 'zemble-plugin-cms'
@@ -44,14 +44,15 @@ const isFirstUser = async (): Promise<boolean> => {
   return isFirstUserInternal
 }
 
-const plugin = new PluginWithMiddleware(import.meta.dir,
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  () => async () => {
-    await Promise.all([connect(), papr.connect()])
-  },
+const middleware = async () => {
+  await Promise.all([connect(), papr.connect()])
+}
+
+const plugin = new Plugin(import.meta.dir,
   {
+    middleware: () => middleware,
     dependencies: () => {
-      const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
+      const deps: DependenciesResolver<Plugin> = [
         {
           plugin: mongodb,
         },

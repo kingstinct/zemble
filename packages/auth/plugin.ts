@@ -4,7 +4,7 @@ import { useGenericAuth } from '@envelop/generic-auth'
 import {
   FilterRootFields,
 } from '@graphql-tools/wrap'
-import { PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
 import {
   Kind,
@@ -150,23 +150,23 @@ declare global {
   }
 }
 
-const plugin = new PluginWithMiddleware<AuthConfig, typeof defaultConfig>(
+const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
   import.meta.dir,
-  ({ config, app: { hono } }) => {
-    hono.use('*', async (context, next) => {
-      const { token, decodedToken } = await resolveTokens({
-        config,
-        context,
-        decodeToken: plugin.config.decodeToken,
-      })
-
-      context.set('token', token)
-      context.set('decodedToken', decodedToken)
-
-      await next()
-    })
-  },
   {
+    middleware: ({ config, app: { hono } }) => {
+      hono.use('*', async (context, next) => {
+        const { token, decodedToken } = await resolveTokens({
+          config,
+          context,
+          decodeToken: plugin.config.decodeToken,
+        })
+
+        context.set('token', token)
+        context.set('decodedToken', decodedToken)
+
+        await next()
+      })
+    },
     dependencies: ({ config }) => {
       const gql = graphqlYoga.configure({
         yoga: {

@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.0
+
+### Minor Changes
+
+- Remove PluginWithMiddleware, now part of Plugin
+
 ## 0.0.17
 
 ### Patch Changes

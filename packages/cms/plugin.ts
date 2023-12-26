@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { OneOfInputObjectsRule, useExtendedValidation } from '@envelop/extended-validation'
-import { Plugin, PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
 import MongoDB from '@zemble/mongodb'
 import auth from 'zemble-plugin-auth'
@@ -18,12 +18,13 @@ const defaultConfig = {
 
 } satisfies CmsConfig
 
-const plugin = new PluginWithMiddleware(import.meta.dir,
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  () => async () => {
-    await papr.connect()
-  },
+const middleware = async () => {
+  await papr.connect()
+}
+
+const plugin = new Plugin(import.meta.dir,
   {
+    middleware: () => middleware,
     dependencies: () => {
       const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
         {

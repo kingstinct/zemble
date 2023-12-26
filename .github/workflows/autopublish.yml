@@ -8,7 +8,18 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yml
+    strategy:
+      matrix:
+        bun-version: [1.0.20]
+        os: [ubuntu-latest, macos-latest]
+    with:
+      bun-version: ${{ matrix.bun-version }}
+      os: ${{ matrix.os }}
   release:
+    needs: test
     name: Release
     runs-on: ubuntu-latest
     env:
@@ -21,7 +32,7 @@ jobs:
         with:
           bun-version: 1.0.20
 
-      - run: HUSKY=0 bun install --concurrent-scripts 1
+      - run: HUSKY=0 bun install --concurrent-scripts 1 --ignore-scripts
         env:
           HUSKY: 0
           

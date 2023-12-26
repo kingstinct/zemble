@@ -1,5 +1,5 @@
 import { useEngine } from '@envelop/core'
-import { PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import * as GraphQLJS from 'graphql'
 
 import middleware from './middleware'
@@ -111,8 +111,7 @@ const defaultConfig = {
   outputMergedSchemaPath: './app.generated.graphql',
 } satisfies GraphQLMiddlewareConfig
 
-export default new PluginWithMiddleware<GraphQLMiddlewareConfig>(
+export default new Plugin<GraphQLMiddlewareConfig>(
   import.meta.dir,
-  middleware,
-  { defaultConfig },
+  { defaultConfig, middleware },
 )

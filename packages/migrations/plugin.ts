@@ -1,4 +1,4 @@
-import { PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import { readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
@@ -150,38 +150,38 @@ const defaultConfig = {
   waitForMigrationsToComplete: true,
 } satisfies Omit<MigrationPluginConfig, 'createAdapter'>
 
-export default new PluginWithMiddleware<MigrationPluginConfig, typeof defaultConfig>(
+export default new Plugin<MigrationPluginConfig, typeof defaultConfig>(
   import.meta.dir,
-  (async ({
-    plugins, app, config,
-  }) => {
-    const migrationsPathOfApp = join(app.appDir, config.migrationsDir ?? 'migrations')
+  {
+    middleware: (async ({
+      plugins, app, config,
+    }) => {
+      const migrationsPathOfApp = join(app.appDir, config.migrationsDir ?? 'migrations')
 
-    const appMigrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.(app))
+      const appMigrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.(app))
 
-    const pluginMigrations = await Promise.all(plugins.map(async (plugin) => {
-      const migrationConfig = plugin.config.middleware?.['@zemble/migrations'] as MigrationConfig | undefined
+      const pluginMigrations = await Promise.all(plugins.map(async (plugin) => {
+        const migrationConfig = plugin.config.middleware?.['@zemble/migrations'] as MigrationConfig | undefined
 
-      const pluginMigrationsPath = join(plugin.pluginPath, migrationConfig?.migrationsDir ?? 'migrations')
-      return getMigrations(pluginMigrationsPath, await migrationConfig?.createAdapter?.(plugin))
-    }))
+        const pluginMigrationsPath = join(plugin.pluginPath, migrationConfig?.migrationsDir ?? 'migrations')
+        return getMigrations(pluginMigrationsPath, await migrationConfig?.createAdapter?.(plugin))
+      }))
 
-    const allMigrations = appMigrations.concat(...pluginMigrations.flat())
+      const allMigrations = appMigrations.concat(...pluginMigrations.flat())
 
-    upMigrationsRemaining = allMigrations.filter((migration) => !migration.isMigrated).sort((a, b) => a.migrationName.localeCompare(b.migrationName))
-    downMigrationsRemaining = allMigrations.filter((migration) => migration.isMigrated).sort((a, b) => b.migrationName.localeCompare(a.migrationName))
+      upMigrationsRemaining = allMigrations.filter((migration) => !migration.isMigrated).sort((a, b) => a.migrationName.localeCompare(b.migrationName))
+      downMigrationsRemaining = allMigrations.filter((migration) => migration.isMigrated).sort((a, b) => b.migrationName.localeCompare(a.migrationName))
 
-    return async () => {
-      if (config.runMigrationsOnStart) {
-        const completer = migrateUp()
+      return async () => {
+        if (config.runMigrationsOnStart) {
+          const completer = migrateUp()
 
-        if (config.waitForMigrationsToComplete) {
-          await completer
+          if (config.waitForMigrationsToComplete) {
+            await completer
+          }
         }
       }
-    }
-  }),
-  {
+    }),
     dependencies: [],
     defaultConfig,
   },

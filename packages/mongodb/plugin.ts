@@ -1,4 +1,4 @@
-import { PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import { setupProvider } from '@zemble/core/utils/setupProvider'
 import Routes from '@zemble/routes'
 import { MongoClient } from 'mongodb'
@@ -42,57 +42,58 @@ const defaultConfig = {
 
 const regexToHidePassword = /(?<=mongodb\+srv:\/\/[^:]+:)[^@]+/
 
-export default new PluginWithMiddleware<MongodbClientConfig, typeof defaultConfig>(
+export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
   import.meta.dir,
-  async ({
-    app, config, plugins, context,
-  }) => {
-    if (process.env.DEBUG) {
-      context.logger.log('Connecting to MongoDB', config.url.replace(regexToHidePassword, '***'))
-    }
+  {
+    middleware: async ({
+      app, config, plugins, context,
+    }) => {
+      if (process.env.DEBUG) {
+        context.logger.log('Connecting to MongoDB', config.url.replace(regexToHidePassword, '***'))
+      }
 
-    // we create a global mongodb client for the app, which is also used for all plugins that don't have a custom config
-    const defaultClient = new MongoClient(config.url, config.options)
+      // we create a global mongodb client for the app, which is also used for all plugins that don't have a custom
+      // config
+      const defaultClient = new MongoClient(config.url, config.options)
 
-    defaultClient.on('error', (error) => {
-      context.logger.error('MongoDB error', error)
-    })
+      defaultClient.on('error', (error) => {
+        context.logger.error('MongoDB error', error)
+      })
 
-    context.logger.log('Connected to MongoDB')
+      context.logger.log('Connected to MongoDB')
 
-    await defaultClient.connect()
+      await defaultClient.connect()
 
-    await setupProvider({
-      app,
-      initializeProvider: async (customConfig) => {
-        const pluginCustomConfig = customConfig?.config
+      await setupProvider({
+        app,
+        initializeProvider: async (customConfig) => {
+          const pluginCustomConfig = customConfig?.config
 
-        if (pluginCustomConfig) {
-          const customClient = new MongoClient(config.url, config.options)
+          if (pluginCustomConfig) {
+            const customClient = new MongoClient(config.url, config.options)
 
-          customClient.on('error', (error) => {
-            context.logger.error('MongoDB error', error)
-          })
+            customClient.on('error', (error) => {
+              context.logger.error('MongoDB error', error)
+            })
 
-          await customClient.connect()
+            await customClient.connect()
+
+            return {
+              client: customClient,
+              db: customClient.db(),
+            }
+          }
 
           return {
-            client: customClient,
-            db: customClient.db(),
+            client: defaultClient,
+            db: defaultClient.db(),
           }
-        }
-
-        return {
-          client: defaultClient,
-          db: defaultClient.db(),
-        }
-      },
-      providerKey: 'mongodb',
-      plugins,
-      middlewareKey: '@zemble/mongodb',
-    })
-  },
-  {
+        },
+        providerKey: 'mongodb',
+        plugins,
+        middlewareKey: '@zemble/mongodb',
+      })
+    },
     defaultConfig,
     dependencies: [
       {

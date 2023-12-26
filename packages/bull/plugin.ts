@@ -1,6 +1,6 @@
 import { createBullBoard } from '@bull-board/api'
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter'
-import { PluginWithMiddleware } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 
 import HonoAdapter from './bullboard-hono-adapter'
@@ -57,42 +57,43 @@ export type { ZembleQueueConfig }
 export { ZembleQueue }
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
-export default new PluginWithMiddleware<BullPluginConfig>(import.meta.dir, async ({
-  plugins, context: { pubsub }, config, app,
-}) => {
-  const appPath = process.cwd()
-
-  const allQueues = [
-    ...(await Promise.all(plugins.map(async ({ pluginPath, config }) => {
-      if (!config.middleware?.['zemble-plugin-bull']?.disable) {
-        return setupQueues(pluginPath, pubsub, config)
-      }
-      return []
-    }))).flat(),
-    ...await setupQueues(appPath, pubsub, config),
-  ]
-
-  if (config.bullboard !== false && process.env.NODE_ENV !== 'test') {
-    const serverAdapter = new HonoAdapter(app.hono)
-    createBullBoard({
-      queues: allQueues.map((q) => new BullMQAdapter(q)),
-      serverAdapter,
-      options: {
-        uiConfig: {
-          boardTitle: 'Zemble Queues',
-          ...config.bullboard?.ui,
-        },
-      },
-    })
-
-    serverAdapter.setBasePath(config.bullboard?.basePath ?? '/queues')
-    if (config.bullboard?.nodeModulesRootPath) {
-      serverAdapter.setNodeModulesRootPath(config.bullboard?.nodeModulesRootPath)
-    }
-    serverAdapter.registerPlugin()
-  }
-}, {
+export default new Plugin<BullPluginConfig>(import.meta.dir, {
   defaultConfig: defaults,
+  middleware: async ({
+    plugins, context: { pubsub }, config, app,
+  }) => {
+    const appPath = process.cwd()
+
+    const allQueues = [
+      ...(await Promise.all(plugins.map(async ({ pluginPath, config }) => {
+        if (!config.middleware?.['zemble-plugin-bull']?.disable) {
+          return setupQueues(pluginPath, pubsub, config)
+        }
+        return []
+      }))).flat(),
+      ...await setupQueues(appPath, pubsub, config),
+    ]
+
+    if (config.bullboard !== false && process.env.NODE_ENV !== 'test') {
+      const serverAdapter = new HonoAdapter(app.hono)
+      createBullBoard({
+        queues: allQueues.map((q) => new BullMQAdapter(q)),
+        serverAdapter,
+        options: {
+          uiConfig: {
+            boardTitle: 'Zemble Queues',
+            ...config.bullboard?.ui,
+          },
+        },
+      })
+
+      serverAdapter.setBasePath(config.bullboard?.basePath ?? '/queues')
+      if (config.bullboard?.nodeModulesRootPath) {
+        serverAdapter.setNodeModulesRootPath(config.bullboard?.nodeModulesRootPath)
+      }
+      serverAdapter.registerPlugin()
+    }
+  },
   devConfig: {
     bullboard: {
       nodeModulesRootPath: '../..',

@@ -1,9 +1,7 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable functional/immutable-data */
-import { PluginWithMiddleware } from '@zemble/core'
+/* eslint-disable no-param-reassign, functional/immutable-data */
+import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import Routes from '@zemble/routes'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Auth from 'zemble-plugin-auth'
 
 import { createSupabaseServerClient } from './clients/createSupabaseServerClient'
@@ -35,12 +33,12 @@ declare global {
   }
 }
 
-const plugin = new PluginWithMiddleware<SupabaseConfig, typeof defaultConfig>(
+const plugin = new Plugin<SupabaseConfig, typeof defaultConfig>(
   import.meta.dir,
-  ({ app }) => {
-    app.providers.supabaseServerClient = createSupabaseServerClient()
-  },
   {
+    middleware: ({ app }) => {
+      app.providers.supabaseServerClient = createSupabaseServerClient()
+    },
     dependencies: [
       { plugin: GraphQL },
       { plugin: Routes },
