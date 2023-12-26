@@ -33,21 +33,21 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.cache/mongodb-binaries
 
       - uses: actions/cache@v3
         id: cache-bun
         name: Bun Cache
         with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --frozen-lockfile --concurrent-scripts 1 --verbose 
+      - run: bun install --concurrent-scripts 1 --verbose 
   # This workflow contains a single job called "build"
   test:
     needs: cache-warmer
@@ -72,21 +72,21 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.cache/mongodb-binaries
 
       - uses: actions/cache@v3
         id: cache-bun
         name: Bun Cache
         with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --frozen-lockfile --concurrent-scripts 1 --verbose
+      - run: bun install --concurrent-scripts 1 --verbose
 
       - name: Test
         run: bun run test-recursive
@@ -121,21 +121,21 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.cache/mongodb-binaries
 
       - uses: actions/cache@v3
         id: cache-bun
         name: Bun Cache
         with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --frozen-lockfile --concurrent-scripts 1 --verbose
+      - run: bun install --concurrent-scripts 1 --verbose
 
       - uses: supabase/setup-cli@v1
       
@@ -169,21 +169,21 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.cache/mongodb-binaries
 
       - uses: actions/cache@v3
         id: cache-bun
         name: Bun Cache
         with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --frozen-lockfile --concurrent-scripts 1 --verbose 
+      - run: bun install --concurrent-scripts 1 --verbose 
 
       - name: Typecheck
         run: bun run typecheck
@@ -211,21 +211,21 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.cache/mongodb-binaries
 
       - uses: actions/cache@v3
         id: cache-bun
         name: Bun Cache
         with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --frozen-lockfile --concurrent-scripts 1 --verbose 
+      - run: bun install --concurrent-scripts 1 --verbose 
 
       - name: Lint
         run: bun run lint
@@ -251,20 +251,20 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.cache/mongodb-binaries
 
       - uses: actions/cache@v3
         id: cache-bun
         name: Bun Cache
         with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('**/bun.lock') }}
+          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
           path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --frozen-lockfile --concurrent-scripts 1 --verbose 
+      - run: bun install --concurrent-scripts 1 --verbose 
 
       - run: bun run graphql-codegen

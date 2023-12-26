@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "docker-compose up -d && MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },

@@ -19,7 +19,7 @@ jobs:
         with:
           bun-version: 1.0.20
 
-      - run: HUSKY=0 bun install --frozen-lockfile --concurrent-scripts 1 --verbose
+      - run: HUSKY=0 bun install --concurrent-scripts 1 --verbose
         env:
           HUSKY: 0
           
