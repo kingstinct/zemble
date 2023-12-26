@@ -16,10 +16,33 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  cache-warmer:
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        bun-version: [1.0.20, 1.0.19]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ matrix.bun-version }}
+
+      - run: bun install
   # This workflow contains a single job called "build"
   test:
+    needs: cache-warmer
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        bun-version: [1.0.20, 1.0.19]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -32,7 +55,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.20
+          bun-version: ${{ matrix.bun-version }}
 
       - run: bun install
 
@@ -43,8 +66,15 @@ jobs:
           PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}
 
   test-supabase:
+    needs: cache-warmer
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        bun-version: [1.0.20, 1.0.19]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     # disable for now - since it for some reason fails on CI
     if: false 
@@ -56,7 +86,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.20
+          bun-version: ${{ matrix.bun-version }}
 
       - run: bun install
 
@@ -70,8 +100,15 @@ jobs:
         working-directory: ./packages/supabase
 
   typecheck:
+    needs: cache-warmer
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        bun-version: [1.0.20, 1.0.19]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -82,7 +119,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.20
+          bun-version: ${{ matrix.bun-version }}
 
       - run: bun install
 
@@ -90,8 +127,15 @@ jobs:
         run: bun run typecheck
 
   lint:
+    needs: cache-warmer
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        bun-version: [1.0.20, 1.0.19]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -102,7 +146,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.20
+          bun-version: ${{ matrix.bun-version }}
 
       - run: bun install
 
@@ -110,8 +154,15 @@ jobs:
         run: bun run lint
 
   codegen:
+    needs: cache-warmer
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        bun-version: [1.0.20, 1.0.19]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -121,7 +172,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.20
+          bun-version: ${{ matrix.bun-version }}
 
       - run: bun install
 
