@@ -43,6 +43,10 @@ export class Plugin<
     const resolvedDeps = filteredDeps
       .map(({ plugin, config }) => plugin.configure(config))
 
+    if (this.#isPluginDevMode) {
+      this.configure(this.devConfig)
+    }
+
     this.dependencies = resolvedDeps
   }
 

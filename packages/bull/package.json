@@ -34,14 +34,10 @@
   "license": "ISC",
   "dependencies": {
     "@bull-board/api": "^5.10.2",
-    "@bull-board/express": "^5.10.2",
-    "@bull-board/fastify": "^5.10.2",
-    "@bull-board/hapi": "^5.10.2",
-    "@bull-board/koa": "^5.10.2",
-    "@bull-board/nestjs": "^5.10.2",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "bullmq": "^5.0.0",
+    "ejs": "^3.1.9",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.4",
     "hono": "^3.11.10",
@@ -50,6 +46,7 @@
     "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
+    "@types/ejs": "^3.1.5",
     "@types/bun": "latest"
   }
 }
