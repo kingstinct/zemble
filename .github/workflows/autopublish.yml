@@ -12,6 +12,8 @@ jobs:
     name: Test
     uses: ./.github/workflows/test.yml
     strategy:
+      fail-fast: false
+      max-parallel: 10
       matrix:
         bun-version: [1.0.20]
         os: [ubuntu-latest, macos-latest]
