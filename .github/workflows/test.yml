@@ -46,7 +46,7 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --concurrent-scripts 1 --verbose
+      - run: bun install --concurrent-scripts 1
 
       - name: Test
         run: bun run test-recursive
@@ -88,7 +88,7 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --concurrent-scripts 1 --verbose
+      - run: bun install --concurrent-scripts 1
 
       - uses: supabase/setup-cli@v1
       
@@ -122,7 +122,7 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --concurrent-scripts 1 --verbose 
+      - run: bun install --concurrent-scripts 1 
 
       - name: Typecheck
         run: bun run typecheck
@@ -150,7 +150,7 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --concurrent-scripts 1 --verbose 
+      - run: bun install --concurrent-scripts 1 
 
       - name: Lint
         run: bun run lint
@@ -177,6 +177,6 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --concurrent-scripts 1 --verbose 
+      - run: bun install --concurrent-scripts 1 
 
       - run: bun run graphql-codegen
