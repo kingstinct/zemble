@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -34,6 +33,6 @@
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*",
-    "hono": "^3.7.2"
+    "hono": "^3.11.10"
   }
 }

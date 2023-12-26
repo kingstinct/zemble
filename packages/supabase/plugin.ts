@@ -36,7 +36,7 @@ declare global {
 }
 
 const plugin = new PluginWithMiddleware<SupabaseConfig, typeof defaultConfig>(
-  __dirname,
+  import.meta.dir,
   ({ app }) => {
     app.providers.supabaseServerClient = createSupabaseServerClient()
   },

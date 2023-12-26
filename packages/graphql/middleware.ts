@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
-import { envelop } from '@envelop/core'
+
 import { printSchemaWithDirectives } from '@graphql-tools/utils'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
@@ -94,40 +94,40 @@ export const middleware: Middleware<GraphQLMiddlewareConfig> = async (
     },
   )
 
-  if (config.sofa) {
-    // eslint-disable-next-line import/no-extraneous-dependencies
-    const { useSofa } = await import('sofa-api')
+  // if (config.sofa) {
+  //   // eslint-disable-next-line import/no-extraneous-dependencies
+  //   const { useSofa } = await import('sofa-api')
 
-    const urlPath = config.sofa.basePath ?? '/api'
+  //   const urlPath = config.sofa.basePath ?? '/api'
 
-    const enveloped = envelop({
-      plugins: config.yoga?.plugins ?? [],
-    })
+  //   const enveloped = envelop({
+  //     plugins: config.yoga?.plugins ?? [],
+  //   })
 
-    hono.all(
-      path.join('/', urlPath, '/*'),
-      async (ctx) => {
-        const mergedSchema = await buildMergedSchema(plugins, config)
-        const res = await useSofa({
-          basePath: path.join('/', urlPath),
-          schema: mergedSchema,
-          subscribe: async (args) => enveloped(args.contextValue ?? {}).subscribe(args),
-          execute: async (args) => enveloped(args.contextValue ?? {}).execute(args),
-          context: getGlobalContext(),
-          ...config.sofa,
-          openAPI: {
-            endpoint: '/openapi.json',
-            ...(config.sofa?.openAPI ?? {}),
-          },
-          swaggerUI: {
-            endpoint: '/docs',
-            ...(config.sofa?.swaggerUI ?? {}),
-          },
-        })(ctx.req.raw)
-        return ctx.body(res.body, res.status, res.headers.toJSON())
-      },
-    )
-  }
+  //   hono.all(
+  //     path.join('/', urlPath, '/*'),
+  //     async (ctx) => {
+  //       const mergedSchema = await buildMergedSchema(plugins, config)
+  //       const res = await useSofa({
+  //         basePath: path.join('/', urlPath),
+  //         schema: mergedSchema,
+  //         subscribe: async (args) => enveloped(args.contextValue ?? {}).subscribe(args),
+  //         execute: async (args) => enveloped(args.contextValue ?? {}).execute(args),
+  //         context: getGlobalContext(),
+  //         ...config.sofa,
+  //         openAPI: {
+  //           endpoint: '/openapi.json',
+  //           ...(config.sofa?.openAPI ?? {}),
+  //         },
+  //         swaggerUI: {
+  //           endpoint: '/docs',
+  //           ...(config.sofa?.swaggerUI ?? {}),
+  //         },
+  //       })(ctx.req.raw)
+  //       return ctx.body(res.body, res.status, res.headers.toJSON())
+  //     },
+  //   )
+  // }
 
   hono.use(config!.yoga!.graphqlEndpoint!, async (ctx) => {
     const handler = await handlerPromise

@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-const plugin = new Plugin(__dirname, {
+const plugin = new Plugin(import.meta.dir, {
   dependencies: () => [
     {
       plugin: Auth,

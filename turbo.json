@@ -5,46 +5,37 @@
       "outputMode": "errors-only",
       "inputs": [ "**/*" ]
     },
-    "lint-quiet": {
-      "outputMode": "errors-only",
-      "inputs": [ "**/*" ]
-    },
     "test": {
+      "dependsOn": [ "graphql-codegen" ],
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
-        "**/tsconfig.json"
+        "**/tsconfig.json",
+        "**/package.json"
       ]
-    },
-    "build": {
-      "outputMode": "errors-only",
-      "inputs": [
-        "**/*.ts",
-        "**/tsconfig.json"
-      ],
-      "outputs": [
-        "*.js",
-        "*.d.ts"
-      ]
-    },
-    "clean":{
-      "outputMode": "errors-only",
-      "cache": false
     },
     "typecheck": {
+      "dependsOn": [ "graphql-codegen" ],
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
         "**/*.tsx",
         "**/*.js",
-        "**/*.jsx"
+        "**/*.jsx",
+        "**/tsconfig.json",
+        "**/package.json"
       ]
     },
     "graphql-codegen": {
       "outputMode": "errors-only",
+      "outputs": [
+        "**/*.generated/**/*",
+        "**/*.generated.*"
+      ],
       "inputs": [
         "**/*.graphql",
-        "**/codegen.ts"
+        "**/codegen.ts",
+        "**/package.json"
       ]
     }
   }

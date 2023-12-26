@@ -9,7 +9,7 @@ import MyRoutes from './plugins/files/plugin'
 export default createApp({
   plugins: [
     Routes.configure(),
-    GraphQL.configure({ sofa: { basePath: '/api' } }),
+    GraphQL.configure({ }),
     MyRoutes.configure(),
     Migrations.configure({
       createAdapter: () => dryrunAdapter,

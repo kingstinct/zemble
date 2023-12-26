@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import {
   it, expect, beforeAll, afterAll,
 } from 'bun:test'
@@ -25,7 +26,7 @@ afterAll(async () => {
 })
 
 it('Should return a number', async () => {
-  const app = await plugin.testApp()
+  const app = await createTestApp(plugin)
 
   const { data: { session } } = await createSupabaseClient().auth.getSession()
 
@@ -35,13 +36,12 @@ it('Should return a number', async () => {
     },
   })
   expect(response.data).toEqual({
-    // @ts-expect-error next release of bun might fix this?
     randomNumber: expect.any(Number),
   })
 })
 
 it('Should not accept a mumbo jumbo token', async () => {
-  const app = await plugin.testApp()
+  const app = await createTestApp(plugin)
 
   const response = await app.gqlRequest(randomNumberMutation, {}, {
     headers: {
@@ -58,7 +58,7 @@ it('Should not accept a mumbo jumbo token', async () => {
 })
 
 it('Should require token', async () => {
-  const app = await plugin.testApp()
+  const app = await createTestApp(plugin)
 
   const response = await app.gqlRequest(randomNumberMutation, {})
 

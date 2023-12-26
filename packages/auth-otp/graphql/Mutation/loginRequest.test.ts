@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import { describe, expect, it } from 'bun:test'
 
 import plugin from '../../plugin'
@@ -16,7 +17,7 @@ export const LoginRequestMutation = graphql(`
 
 describe('Mutation.loginRequest', () => {
   it('Should succeed', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const email = 'test@example.com'
 
@@ -30,7 +31,7 @@ describe('Mutation.loginRequest', () => {
   })
 
   it('Should fail if not email', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const email = 'test@.com'
 

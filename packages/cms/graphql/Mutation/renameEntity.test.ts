@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import {
   beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
@@ -31,7 +32,7 @@ let app: Zemble.App
 let opts: Record<string, unknown>
 
 beforeEach(async () => {
-  app = await plugin.testApp()
+  app = await createTestApp(plugin)
   const token = await signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
   opts = {
     headers: {

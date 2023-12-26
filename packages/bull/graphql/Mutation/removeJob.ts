@@ -1,11 +1,15 @@
-import { Queue } from 'bullmq'
+import { GraphQLError } from 'graphql'
+
+import { getQueueByName } from '../../utils/setupQueues'
 
 import type { MutationResolvers } from '../schema.generated'
 
 const removeJob: MutationResolvers['removeJob'] = async (_, { queue, jobId }) => {
-  const q = new Queue(queue, {
+  const q = getQueueByName(queue)
 
-  })
+  if (!q) {
+    throw new GraphQLError(`Queue ${queue} not found`)
+  }
 
   const success = await q.remove(jobId)
 

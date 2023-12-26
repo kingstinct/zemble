@@ -27,7 +27,7 @@ const defaultConfig = {
   INVALIDATE_API_KEYS_IAT_BEFORE,
 } satisfies AuthConfig
 
-export default new Plugin<AuthConfig, typeof defaultConfig>(__dirname, {
+export default new Plugin<AuthConfig, typeof defaultConfig>(import.meta.dir, {
   defaultConfig,
   dependencies: [
     {

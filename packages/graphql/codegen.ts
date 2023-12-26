@@ -24,14 +24,9 @@ export const createClientConfig = ({
         `!./**/*.generated.ts`,
         `!./node_modules/**/*`,
       ],
-      plugins: [
-        {
-          add: {
-            placement: 'prepend',
-            content: `// @ts-nocheck`,
-          },
-        },
-      ],
+      config: {
+        useTypeImports: true,
+      },
       preset: 'client',
     },
   },
@@ -53,6 +48,7 @@ export function createServerConfig<TOutput extends string = typeof defaultServer
           immutableTypes: true,
           directiveContextTypes: ['auth#Zemble.AuthContextWithToken'],
           showUnusedMappers: true,
+          useTypeImports: true,
         },
         plugins: [
           {

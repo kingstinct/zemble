@@ -1,5 +1,6 @@
 /* eslint-disable functional/immutable-data */
 
+import { createTestApp } from '@zemble/core'
 import {
   it, expect, beforeAll, afterAll,
 } from 'bun:test'
@@ -29,7 +30,7 @@ const HelloWorldQuery = graphql(`
 it('Should return world!', async () => {
   const { data: { session } } = await createSupabaseClient().auth.getSession()
 
-  const app = await plugin.testApp()
+  const app = await createTestApp(plugin)
 
   const response = await app.gqlRequest(HelloWorldQuery, { }, {
     headers: {

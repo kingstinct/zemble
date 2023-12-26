@@ -11,7 +11,6 @@ import type {
   YogaServerOptions, YogaInitialContext,
 } from 'graphql-yoga'
 import type { RedisOptions } from 'ioredis'
-import type { SofaConfig } from 'sofa-api/sofa'
 
 interface GraphQLMiddlewareGlobalConfig {
   readonly graphqlSchemaTransforms?: SubschemaConfig['transforms']
@@ -79,7 +78,6 @@ declare global {
 
 export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly yoga?: Omit<YogaServerOptions<Zemble.GraphQLContext, unknown>, 'schema'>
-  readonly sofa?: Omit<SofaConfig, 'schema'>
   /**
    * The url of the redis instance to use for pubsub
    */
@@ -114,7 +112,7 @@ const defaultConfig = {
 } satisfies GraphQLMiddlewareConfig
 
 export default new PluginWithMiddleware<GraphQLMiddlewareConfig>(
-  __dirname,
+  import.meta.dir,
   middleware,
   { defaultConfig },
 )

@@ -22,6 +22,6 @@ const defaultConfig = {
   },
 } satisfies AASAFile
 
-export default new Plugin<AASAFile>(__dirname, {
+export default new Plugin<AASAFile>(import.meta.dir, {
   defaultConfig,
 })

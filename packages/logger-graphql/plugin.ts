@@ -11,7 +11,7 @@ const defaultConfig = {
 } satisfies GraphQLMiddlewareConfig
 
 export default new PluginWithMiddleware<GraphQLMiddlewareConfig>(
-  __dirname,
+  import.meta.dir,
   // eslint-disable-next-line unicorn/consistent-function-scoping
   ({ context }) => {
     // eslint-disable-next-line functional/immutable-data

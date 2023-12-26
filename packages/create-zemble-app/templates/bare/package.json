@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "bun-types": "latest",
+    "@types/bun": "latest",
     "@tsconfig/bun": "^1.0.1"
   },
   "peerDependencies": {

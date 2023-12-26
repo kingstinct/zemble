@@ -1,13 +1,11 @@
 {
   "extends": "@tsconfig/bun/tsconfig.json",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "module": "CommonJS",
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "types": [ "bun-types" ]
+    "verbatimModuleSyntax": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [ "**/*.generated/*.ts" ]
 }

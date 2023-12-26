@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import {
   describe, it, expect,
   beforeAll, afterAll, afterEach,
@@ -30,7 +31,7 @@ afterAll(teardownAfterAll)
 
 describe('Mutation.updatePermissions', () => {
   it('Should fail without permission', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const { errors } = await app.gqlRequest(
       UpdatePermissionsMutation,
@@ -42,7 +43,7 @@ describe('Mutation.updatePermissions', () => {
   })
 
   it('Should succeed', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const userId = new ObjectId()
 
@@ -75,7 +76,7 @@ describe('Mutation.updatePermissions', () => {
   })
 
   it('Should fail if user doesnt exist', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const userId = '650302fb3593982221caf2e4'
 
@@ -95,7 +96,7 @@ describe('Mutation.updatePermissions', () => {
   })
 
   it('Should fail if removing user-admin permission from self', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const userId = '650302fb3593982221caf2e4'
 

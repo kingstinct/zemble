@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import { describe, it, expect } from 'bun:test'
 
 import plugin from '../../plugin'
@@ -12,14 +13,14 @@ const PublicShitQuery = graphql(`
 
 describe('publicShit', () => {
   it('Should succeed authentication without token', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const response = await app.gqlRequest(PublicShitQuery, {})
     expect(response.data?.publicShit).toEqual(`public shit`)
   })
 
   it('Should succeed authentication with token', async () => {
-    const app = await plugin.testApp()
+    const app = await createTestApp(plugin)
 
     const token = await signJwt({ data: { } })
 

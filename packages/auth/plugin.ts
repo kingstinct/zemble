@@ -151,7 +151,7 @@ declare global {
 }
 
 const plugin = new PluginWithMiddleware<AuthConfig, typeof defaultConfig>(
-  __dirname,
+  import.meta.dir,
   ({ config, app: { hono } }) => {
     hono.use('*', async (context, next) => {
       const { token, decodedToken } = await resolveTokens({

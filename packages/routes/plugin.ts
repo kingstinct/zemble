@@ -26,7 +26,7 @@ const defaultConfig = {
 } satisfies RoutesConfig
 
 export default new PluginWithMiddleware<RoutesConfig>(
-  __dirname,
+  import.meta.dir,
   middleware,
   { defaultConfig },
 )

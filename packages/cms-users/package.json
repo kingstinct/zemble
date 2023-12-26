@@ -8,7 +8,6 @@
     "test": "bun test",
     "dev": "MONGO_URL=mongodb://localhost:27017/test-db REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
@@ -37,17 +36,17 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^5.0.0",
-    "@envelop/extended-validation": "^3.0.1",
-    "@envelop/generic-auth": "^6.0.1",
+    "@envelop/extended-validation": "^4.0.0",
+    "@envelop/generic-auth": "^7.0.0",
     "@graphql-tools/executor": "^1.2.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "dataloader": "^2.2.2",
-    "graphql": "^16.8.0",
-    "graphql-scalars": "^1.22.2",
-    "hono": "^3.7.2",
-    "jose": "^4.14.4",
-    "mongodb": "^6.2.0",
+    "graphql": "^16.8.1",
+    "graphql-scalars": "^1.22.4",
+    "hono": "^3.11.10",
+    "jose": "^5.2.0",
+    "mongodb": "^6.3.0",
     "papr": "^15.0.0",
     "zemble-plugin-auth": "workspace:*",
     "zemble-plugin-auth-otp": "workspace:*",
@@ -55,10 +54,6 @@
     "zemble-plugin-kv": "workspace:*",
     "@zemble/mongodb": "workspace:*"
   },
-  "trustedDependencies": [
-    "mongodb-memory-server",
-    "mongodb-memory-server-core"
-  ],
   "devDependencies": {
     "mongodb-memory-server": "9"
   }

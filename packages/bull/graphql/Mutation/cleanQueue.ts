@@ -1,13 +1,17 @@
-import { Queue } from 'bullmq'
+import { GraphQLError } from 'graphql'
+
+import { getQueueByName } from '../../utils/setupQueues'
 
 import type { MutationResolvers } from '../schema.generated'
 
 const cleanQueue: MutationResolvers['cleanQueue'] = async (_, {
   queue, limit, grace, type,
 }) => {
-  const q = new Queue(queue, {
+  const q = getQueueByName(queue)
 
-  })
+  if (!q) {
+    throw new GraphQLError(`Queue ${queue} not found`)
+  }
 
   const res = await q.clean(grace, limit, type ?? undefined)
 

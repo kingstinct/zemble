@@ -25,9 +25,9 @@ enum JobState {
 type RepeatableJob {
   key: ID!
   name: String!
-  id: String!
+  id: String
   endDate: Float
-  tz: String!
+  tz: String
   pattern: String!
   next: DateTime!
 }

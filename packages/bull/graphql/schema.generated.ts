@@ -1,7 +1,7 @@
 // @ts-nocheck
 import '@zemble/core'
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Job, Queue } from 'bullmq';
+import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import type { Job, Queue } from 'bullmq';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -154,12 +154,12 @@ export type Query = {
 export type RepeatableJob = {
   readonly __typename?: 'RepeatableJob';
   readonly endDate?: Maybe<Scalars['Float']['output']>;
-  readonly id: Scalars['String']['output'];
+  readonly id?: Maybe<Scalars['String']['output']>;
   readonly key: Scalars['ID']['output'];
   readonly name: Scalars['String']['output'];
   readonly next: Scalars['DateTime']['output'];
   readonly pattern: Scalars['String']['output'];
-  readonly tz: Scalars['String']['output'];
+  readonly tz?: Maybe<Scalars['String']['output']>;
 };
 
 export type Subscription = {
@@ -324,12 +324,12 @@ export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
 
 export type RepeatableJobResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RepeatableJob'] = ResolversParentTypes['RepeatableJob']> = ResolversObject<{
   endDate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   key?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   next?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   pattern?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  tz?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tz?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

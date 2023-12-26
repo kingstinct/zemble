@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "docker-compose up -d && MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
     "lint": "eslint .",
-    "lint-quiet": "eslint . --quiet",
     "typecheck": "tsc --noEmit",
     "graphql-codegen": "graphql-codegen"
   },
@@ -34,11 +33,11 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/generic-auth": "^6.0.1",
+    "@envelop/generic-auth": "^7.0.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "graphql-scalars": "^1.22.2",
-    "mongodb": "^6.2.0",
+    "graphql-scalars": "^1.22.4",
+    "mongodb": "^6.3.0",
     "papr": "^15.0.0",
     "zemble-plugin-apple-app-site-association": "workspace:*",
     "zemble-plugin-auth-otp": "workspace:*",
@@ -47,6 +46,6 @@
     "@zemble/bun": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.1.6"
+    "typescript": "^5.3.3"
   }
 }

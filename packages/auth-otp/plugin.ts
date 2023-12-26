@@ -84,7 +84,7 @@ const defaultConfig = {
   },
 } satisfies Partial<OtpAuthConfig>
 
-const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(__dirname, {
+const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(import.meta.dir, {
   dependencies: [
     {
       plugin: Auth,

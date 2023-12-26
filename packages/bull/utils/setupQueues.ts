@@ -102,4 +102,6 @@ const setupQueues = (
 
 export const getQueues = () => queues
 
+export const getQueueByName = (name: string) => queues.find((queue) => queue.name === name)
+
 export default setupQueues

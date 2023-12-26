@@ -11,7 +11,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*",
     "@zemble/routes": "workspace:*",
-    "mongodb": "^6.2.0"
+    "mongodb": "^6.3.0"
   },
   "scripts": {
     "test": "bun test",
@@ -19,7 +19,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "bun-types": "latest",
+    "@types/bun": "latest",
     "@zemble/migrations": "workspace:*"
   },
   "peerDependencies": {

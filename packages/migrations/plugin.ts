@@ -151,7 +151,7 @@ const defaultConfig = {
 } satisfies Omit<MigrationPluginConfig, 'createAdapter'>
 
 export default new PluginWithMiddleware<MigrationPluginConfig, typeof defaultConfig>(
-  __dirname,
+  import.meta.dir,
   (async ({
     plugins, app, config,
   }) => {

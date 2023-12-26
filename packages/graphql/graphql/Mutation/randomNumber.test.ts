@@ -1,3 +1,4 @@
+import { createTestApp } from '@zemble/core'
 import {
   it, expect,
 } from 'bun:test'
@@ -12,11 +13,10 @@ const randomNumberMutation = graphql(`
 `)
 
 it('Should return a number', async () => {
-  const app = await plugin.testApp()
+  const app = await createTestApp(plugin)
 
   const response = await app.gqlRequest(randomNumberMutation, {})
   expect(response.data).toEqual({
-    // @ts-expect-error next release of bun might fix this?
     randomNumber: expect.any(Number),
   })
 })
