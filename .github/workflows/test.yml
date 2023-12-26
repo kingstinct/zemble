@@ -4,6 +4,11 @@ name: Test
 
 on:
   workflow_call:
+    secrets:
+      TEST_PRIVATE_KEY:
+        required: true
+      TEST_PUBLIC_KEY:
+        required: true
     inputs:
       bun-version:
         description: 'Bun Version'
