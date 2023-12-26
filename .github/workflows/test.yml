@@ -16,41 +16,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  cache-warmer:
-    strategy:
-      fail-fast: false
-      max-parallel: 10
-      matrix:
-        bun-version: [1.0.20, 1.0.19]
-        os: [ubuntu-latest, macos-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    env:
-      MONGOMS_PREFER_GLOBAL_PATH: true
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/cache@v3
-        id: cache-mongodb-binaries
-        name: Cache MongoDB binaries
-        with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.cache/mongodb-binaries
-
-      - uses: actions/cache@v3
-        id: cache-bun
-        name: Bun Cache
-        with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.bun/install/cache
-
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: ${{ matrix.bun-version }}
-
-      - run: bun install --concurrent-scripts 1 --verbose 
-  # This workflow contains a single job called "build"
   test:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -62,6 +28,7 @@ jobs:
     timeout-minutes: 10
     env:
       MONGOMS_PREFER_GLOBAL_PATH: true
+      MONGOMS_VERSION: 7.0.2
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -72,15 +39,8 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
-
-      - uses: actions/cache@v3
-        id: cache-bun
-        name: Bun Cache
-        with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
@@ -95,7 +55,6 @@ jobs:
           PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}
 
   test-supabase:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -108,6 +67,7 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
       MONGOMS_PREFER_GLOBAL_PATH: true
+      MONGOMS_VERSION: 7.0.2
     timeout-minutes: 10
     # disable for now - since it for some reason fails on CI
     if: false 
@@ -121,15 +81,8 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
+          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
-
-      - uses: actions/cache@v3
-        id: cache-bun
-        name: Bun Cache
-        with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
@@ -147,7 +100,6 @@ jobs:
         working-directory: ./packages/supabase
 
   typecheck:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -157,27 +109,14 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
+    env:
+      MONGOMS_DISABLE_POSTINSTALL: true
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         id: checkout
-
-
-      - uses: actions/cache@v3
-        id: cache-mongodb-binaries
-        name: Cache MongoDB binaries
-        with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.cache/mongodb-binaries
-
-      - uses: actions/cache@v3
-        id: cache-bun
-        name: Bun Cache
-        with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
@@ -189,7 +128,6 @@ jobs:
         run: bun run typecheck
 
   lint:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -199,27 +137,14 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
+    env:
+      MONGOMS_DISABLE_POSTINSTALL: true
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         id: checkout
-
-
-      - uses: actions/cache@v3
-        id: cache-mongodb-binaries
-        name: Cache MongoDB binaries
-        with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.cache/mongodb-binaries
-
-      - uses: actions/cache@v3
-        id: cache-bun
-        name: Bun Cache
-        with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:
@@ -231,7 +156,6 @@ jobs:
         run: bun run lint
 
   codegen:
-    needs: cache-warmer
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -241,25 +165,13 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
+    env:
+      MONGOMS_DISABLE_POSTINSTALL: true
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      - uses: actions/cache@v3
-        id: cache-mongodb-binaries
-        name: Cache MongoDB binaries
-        with:
-          key: ${{ matrix.os }}-mongodb-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.cache/mongodb-binaries
-
-      - uses: actions/cache@v3
-        id: cache-bun
-        name: Bun Cache
-        with:
-          key: ${{ matrix.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
-          path: ~/.bun/install/cache
 
       - uses: oven-sh/setup-bun@v1
         with:

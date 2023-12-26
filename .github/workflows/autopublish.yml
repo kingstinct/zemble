@@ -11,6 +11,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    env:
+      MONGOMS_DISABLE_POSTINSTALL: true
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
