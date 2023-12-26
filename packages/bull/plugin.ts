@@ -47,19 +47,19 @@ export type { ZembleQueueConfig }
 export { ZembleQueue }
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
-export default new PluginWithMiddleware<BullPluginConfig>(__dirname, ({
+export default new PluginWithMiddleware<BullPluginConfig>(import.meta.dir, async ({
   plugins, context: { pubsub }, config, app,
 }) => {
   const appPath = process.cwd()
 
   const allQueues = [
-    ...plugins.flatMap(({ pluginPath, config }) => {
+    ...(await Promise.all(plugins.map(async ({ pluginPath, config }) => {
       if (!config.middleware?.['zemble-plugin-bull']?.disable) {
         return setupQueues(pluginPath, pubsub, config)
       }
       return []
-    }),
-    ...setupQueues(appPath, pubsub, config),
+    }))).flat(),
+    ...await setupQueues(appPath, pubsub, config),
   ]
 
   const serverAdapter = new HonoAdapter(app.hono)
