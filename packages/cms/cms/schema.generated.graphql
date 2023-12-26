@@ -6,15 +6,41 @@ schema {
 type Query {
   getAllBooks: [Book!]!
   searchBooks(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Book!]!
-  filterBooks(id: BookIdFilter, title: BookTitleFilter): [Book!]!
+  filterBooks(id: BookIdFilter, title: BookTitleFilter, description: BookDescriptionFilter, hasKindleVersion: BookHasKindleVersionFilter, yo: BookYoFilter): [Book!]!
   getBookById(id: ID!): Book!
   getBooksById(ids: [ID!]!): [Book!]!
+  getAllAuthors: [Author!]!
+  searchAuthors(query: String!, caseSensitive: Boolean, diacriticSensitive: Boolean, language: String): [Author!]!
+  filterAuthors(id: AuthorIdFilter, firstName: AuthorFirstNameFilter, lastName: AuthorLastNameFilter): [Author!]!
+  getAuthorById(id: ID!): Author!
+  getAuthorsById(ids: [ID!]!): [Author!]!
 }
 
 type Book {
   displayName: String
   id: ID
   title: String
+  description: String
+  hasKindleVersion: Boolean
+  yo: String
+  contributors: [BookContributorsUnion]
+}
+
+union BookContributorsUnion = BookContributorsAuthor | BookContributorsEditor
+
+type BookContributorsAuthor {
+  author: AuthorsRelation
+}
+
+type AuthorsRelation {
+  displayName: String
+  id: ID!
+  firstName: String!
+  lastName: String!
+}
+
+type BookContributorsEditor {
+  editor: AuthorsRelation
 }
 
 input BookIdFilter {
@@ -25,7 +51,45 @@ input BookTitleFilter {
   eq: String
 }
 
+input BookDescriptionFilter {
+  eq: String
+}
+
+input BookHasKindleVersionFilter {
+  eq: Boolean
+}
+
+input BookYoFilter {
+  eq: ID
+}
+
+type Author {
+  displayName: String
+  id: ID
+  firstName: String
+  lastName: String
+}
+
+input AuthorIdFilter {
+  eq: ID
+}
+
+input AuthorFirstNameFilter {
+  eq: String
+}
+
+input AuthorLastNameFilter {
+  eq: String
+}
+
 type Mutation {
-  createBook(id: ID, title: String): Book
+  createBook(id: ID, title: String, description: String, hasKindleVersion: Boolean, yo: ID, contributors: [BookContributorsInput]): Book
   deleteBook(id: ID!): Boolean!
+  createAuthor(id: ID, firstName: String, lastName: String): Author
+  deleteAuthor(id: ID!): Boolean!
+}
+
+input BookContributorsInput @oneOf {
+  author: ID
+  editor: ID
 }

@@ -4,9 +4,10 @@
   "description": "@zemble Plugin for CMS functionality",
   "main": "plugin.ts",
   "private": true,
+  "type": "module",
   "scripts": {
     "test": "bun test",
-    "dev": "MONGO_URL=mongodb://localhost:27017/test-db zemble-dev plugin.ts",
+    "dev": "docker-compose up -d && bunx zemble-generate-keys && MONGO_URL=mongodb://localhost:27017/test-db zemble-dev plugin.ts",
     "lint": "eslint .",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"

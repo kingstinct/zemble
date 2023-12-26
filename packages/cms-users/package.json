@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "bun test",
-    "dev": "MONGO_URL=mongodb://localhost:27017/test-db REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
+    "dev": "docker-compose up -d && bunx zemble-generate-keys && MONGO_URL=mongodb://localhost:27017/test-db REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
     "lint": "eslint .",
     "graphql-codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"

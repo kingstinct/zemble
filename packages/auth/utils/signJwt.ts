@@ -5,11 +5,13 @@ import plugin from '../plugin'
 const { PRIVATE_KEY, ISSUER } = plugin.config
 
 export async function signJwt<T extends object>({ data, expiresInSeconds }: { readonly data: T, readonly expiresInSeconds?: number }) {
-  const ecPrivateKey = await jose.importPKCS8(PRIVATE_KEY as string, 'RS256')
+  const actualPrivateKey = PRIVATE_KEY ?? process.env.PRIVATE_KEY
 
-  if (!PRIVATE_KEY) {
-    throw new Error('PRIVATE_KEY is not set')
+  if (!actualPrivateKey) {
+    throw new Error('[zemble-plugin-auth] PRIVATE_KEY is not set, please set it as an environment variable or in the plugin config')
   }
+
+  const ecPrivateKey = await jose.importPKCS8(actualPrivateKey, 'RS256')
 
   const jwt = new jose.SignJWT({
     ...data,

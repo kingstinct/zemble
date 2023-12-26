@@ -1,4 +1,4 @@
-import { createTestApp } from '@zemble/core'
+import { createTestApp } from '@zemble/core/test-utils'
 import { expect, describe, it } from 'bun:test'
 
 import plugin from '../../plugin'

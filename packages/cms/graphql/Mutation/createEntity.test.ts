@@ -1,4 +1,4 @@
-import { createTestApp } from '@zemble/core'
+import { createTestApp } from '@zemble/core/test-utils'
 import {
   beforeEach, test, expect, describe, afterEach, afterAll, beforeAll,
 } from 'bun:test'

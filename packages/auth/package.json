@@ -4,7 +4,7 @@
   "description": "Zemble Plugin providing generic Auth Support",
   "main": "plugin.ts",
   "bin": {
-    "zemble-generate-keys": "./generate-keys.ts"
+    "zemble-generate-keys": "./bin/generate-keys.ts"
   },
   "scripts": {
     "test": "bun test",

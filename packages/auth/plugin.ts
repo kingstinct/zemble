@@ -21,7 +21,6 @@ import type {
 import type { Context } from 'hono'
 import type { CookieOptions } from 'hono/utils/cookie'
 
-const { PUBLIC_KEY, PRIVATE_KEY } = process.env
 const ISSUER = process.env.ISSUER ?? 'zemble-plugin-auth'
 
 interface AuthConfig extends Zemble.GlobalConfig {
@@ -86,8 +85,6 @@ const validateMatch = (matchValueNode: ObjectValueNode, decodedToken: Record<str
 }
 
 const defaultConfig = {
-  PUBLIC_KEY,
-  PRIVATE_KEY,
   ISSUER,
   headerName: 'authorization',
   middleware: {

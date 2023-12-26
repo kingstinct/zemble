@@ -1,12 +1,18 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { createTestApp } from '@zemble/core'
-import { startInMemoryInstanceAndConfigurePlugin, closeAndStopInMemoryInstance, emptyAllCollections } from '@zemble/mongodb/test-in-memory-utils'
+/* eslint-disable functional/immutable-data, import/no-extraneous-dependencies */
+
+import { setupEnvOverride, resetEnv, createTestApp } from '@zemble/core/test-utils'
+import { startInMemoryInstanceAndConfigurePlugin, closeAndStopInMemoryInstance, emptyAllCollections } from '@zemble/mongodb/test-utils'
+import generateKeys from 'zemble-plugin-auth/generate-keys'
 
 import papr from './clients/papr'
 import plugin from './plugin'
 import { mockAndReset } from './utils/fs'
 
 export const setupBeforeAll = async () => {
+  const { privateKey, publicKey } = await generateKeys()
+
+  setupEnvOverride({ PUBLIC_KEY: publicKey, PRIVATE_KEY: privateKey })
+
   await startInMemoryInstanceAndConfigurePlugin()
 
   await createTestApp(plugin)
@@ -17,6 +23,7 @@ export const setupBeforeAll = async () => {
 }
 
 export const teardownAfterAll = async () => {
+  resetEnv()
   await Promise.all([papr.disconnect()])
 
   await closeAndStopInMemoryInstance()

@@ -27,17 +27,6 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
   }
 }, {})
 
-export async function createTestApp<
-  TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
-  TDefaultConfig extends Partial<TConfig> = TConfig,
-  TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig
->(plugin: Plugin<TConfig, TDefaultConfig, TResolvedConfig>) {
-  const resolved = plugin.configure(plugin.devConfig)
-  return createApp({
-    plugins: [...plugin.dependencies, resolved],
-  })
-}
-
 export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure) => {
   const hono = new Hono<Zemble.HonoEnv>()
 

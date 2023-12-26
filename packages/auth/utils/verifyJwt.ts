@@ -5,9 +5,15 @@ import plugin from '../plugin'
 
 export async function verifyJwt(token: string, publicKey?: string) {
   try {
-    const actualPublicKey = await jose.importSPKI(publicKey ?? plugin.config.PUBLIC_KEY as string, 'RS256')
+    const actualKey = publicKey ?? plugin.config.PUBLIC_KEY ?? process.env.PUBLIC_KEY
 
-    const decodedToken = await jose.jwtVerify(token, actualPublicKey)
+    if (!actualKey) {
+      throw new GraphQLError('[zemble-plugin-auth] Missing public key, specify it as an environment variable PUBLIC_KEY or in the plugin config to zemble-plugin-auth')
+    }
+
+    const spkiKey = await jose.importSPKI(actualKey, 'RS256')
+
+    const decodedToken = await jose.jwtVerify(token, spkiKey)
     return decodedToken.payload
   } catch (e) {
     if (e instanceof jose.errors.JOSEError) {
