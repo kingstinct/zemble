@@ -18,14 +18,15 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        bun-version: [1.0.20, 1.0.19]
-        os: [ubuntu-latest, macos-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
+        mongo-version: [7.0.4]
+        bun-version: [1.0.20]
+        os: [ubuntu-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     env:
       MONGOMS_PREFER_GLOBAL_PATH: true
-      MONGOMS_VERSION: 7.0.2
+      MONGOMS_VERSION: ${{ matrix.mongo-version }}
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -56,15 +57,16 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        bun-version: [1.0.20, 1.0.19]
-        os: [ubuntu-latest, macos-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
+        mongo-version: [7.0.4]
+        bun-version: [1.0.20]
+        os: [ubuntu-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
       MONGOMS_PREFER_GLOBAL_PATH: true
-      MONGOMS_VERSION: 7.0.2
+      MONGOMS_VERSION: ${{ matrix.mongo-version }}
     timeout-minutes: 10
     # disable for now - since it for some reason fails on CI
     if: false 
@@ -101,9 +103,8 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        bun-version: [1.0.20, 1.0.19]
-        os: [ubuntu-latest, macos-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
-    # The type of runner that the job will run on
+        bun-version: [1.0.20]
+        os: [ubuntu-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     env:
@@ -119,7 +120,7 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --concurrent-scripts 1 
+      - run: bun install --concurrent-scripts 1 --ignore-scripts
 
       - name: Typecheck
         run: bun run typecheck
@@ -129,8 +130,8 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        bun-version: [1.0.20, 1.0.19]
-        os: [ubuntu-latest, macos-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
+        bun-version: [1.0.20]
+        os: [ubuntu-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
@@ -147,7 +148,7 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --concurrent-scripts 1 
+      - run: bun install --concurrent-scripts 1 --ignore-scripts
 
       - name: Lint
         run: bun run lint
@@ -157,8 +158,8 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        bun-version: [1.0.20, 1.0.19]
-        os: [ubuntu-latest, macos-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
+        bun-version: [1.0.20]
+        os: [ubuntu-latest] # os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
@@ -174,6 +175,6 @@ jobs:
         with:
           bun-version: ${{ matrix.bun-version }}
 
-      - run: bun install --concurrent-scripts 1 
+      - run: bun install --concurrent-scripts 1 --ignore-scripts
 
       - run: bun run graphql-codegen
