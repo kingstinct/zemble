@@ -13,17 +13,14 @@ on:
       bun-version:
         description: 'Bun Version'
         required: false
-        default: 'latest'
         type: string
       os:
         description: 'Operating System'
         required: false
-        default: 'ubuntu-latest'
         type: string
       mongo-version:
         description: 'MongoDB Version'
         required: false
-        default: '7.0.4'
         type: string
   workflow_dispatch:
     inputs:
@@ -53,16 +50,18 @@ on:
       - "**" # matches every branch
       - "!main" # excludes the master branch
 
+env:
+  BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
+  MONGOMS_PREFER_GLOBAL_PATH: true
+  MONGOMS_VERSION: ${{ inputs.mongo-version || '7.0.4' }}
+  RUNS_ON: ${{ inputs.os || 'ubuntu-latest' }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   test:
     # The type of runner that the job will run on
     runs-on: ${{ inputs.os || 'ubuntu-latest' }}
     timeout-minutes: 10
-    env:
-      MONGOMS_PREFER_GLOBAL_PATH: true
-      MONGOMS_VERSION: ${{ inputs.mongo-version || '7.0.4' }}
-      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
   
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -73,7 +72,7 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version }}-${{ env.MONGOMS_VERSION }}
+          key: ${{ runner.os }}-mongodb-${{ env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
       - uses: oven-sh/setup-bun@v1
@@ -94,9 +93,6 @@ jobs:
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
-      MONGOMS_PREFER_GLOBAL_PATH: true
-      MONGOMS_VERSION: ${{ inputs.mongo-version || '7.0.4' }}
-      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
     timeout-minutes: 10
     # disable for now - since it for some reason fails on CI
     if: false 
@@ -110,7 +106,7 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version }}-${{ env.MONGOMS_VERSION }}
+          key: ${{ runner.os }}-mongodb-${{ env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
       - uses: oven-sh/setup-bun@v1
@@ -133,7 +129,6 @@ jobs:
     timeout-minutes: 10
     env:
       MONGOMS_DISABLE_POSTINSTALL: true
-      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -156,7 +151,6 @@ jobs:
     timeout-minutes: 10
     env:
       MONGOMS_DISABLE_POSTINSTALL: true
-      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -179,7 +173,6 @@ jobs:
     timeout-minutes: 10
     env:
       MONGOMS_DISABLE_POSTINSTALL: true
-      BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
