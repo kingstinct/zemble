@@ -10,5 +10,8 @@
       "command": "bun run generate-cms-json-schema",
       "runIn": "terminal"
     }
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.enable": false,
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
