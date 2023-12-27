@@ -7,7 +7,7 @@
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
     "graphql-codegen": "graphql-codegen",
-    "typecheck": "graphql-codegen && tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "zemble",
