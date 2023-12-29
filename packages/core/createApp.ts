@@ -32,7 +32,9 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   // maybe this should be later - how about middleware that overrides logger?
   if (process.env.NODE_ENV !== 'test') {
-    hono.use('*', logger(context.logger.log))
+    hono.use('*', logger((...args) => {
+      context.logger.info(...args)
+    }))
   }
 
   hono.use('*', async (ctx, next) => {
@@ -61,7 +63,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
           ? existingPlugin.configure(plugin.config)
           : plugin.configure(existingPlugin.config)
 
-        context.logger.warn(`[@zemble] Found multiple instances of ${plugin.pluginName}, attempting to merge config, using version ${plugin.pluginVersion}`)
+        context.logger.warn(`[@zemble/core] Found multiple instances of ${plugin.pluginName}, attempting to merge config, using version ${plugin.pluginVersion}`)
 
         return prev.map((p) => (p.pluginName !== pluginToUse.pluginName ? p : pluginToUse))
       }
@@ -70,39 +72,47 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     return [...prev, plugin]
   }, [] as readonly Plugin[])
 
-  const middleware = plugins.filter(
+  const pluginsWithMiddleware = plugins.filter(
     (plugin) => 'initializeMiddleware' in plugin,
   )
 
-  context.logger.log(`[@zemble] Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map((p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p ? ' (middleware)' : ''}`).join('\n')}`)
+  context.logger.info(`[@zemble/core] Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map((p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p ? ' (middleware)' : ''}`).join('\n')}`)
 
-  if (process.env.DEBUG) {
-    plugins.forEach((plugin) => {
-      context.logger.log(`[@zemble] Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
-    })
-  }
+  const defaultProviders = {
+    logger: context.logger,
+  } as Zemble.Providers
+
+  plugins.forEach((plugin) => {
+    // eslint-disable-next-line functional/immutable-data, no-param-reassign
+    plugin.providers = defaultProviders
+    if (process.env.DEBUG) {
+      context.logger.info(`[@zemble/core] Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
+    }
+  })
 
   const appDir = process.cwd()
 
   const preInitApp = {
     hono,
     appDir,
-    providers: {} as Zemble.Providers,
+    providers: defaultProviders,
   }
 
-  const runBeforeServe = await middleware?.reduce(async (
+  const runBeforeServe = await pluginsWithMiddleware?.reduce(async (
     prev,
-    middleware,
+    pluginWithMiddleware,
   ) => {
     const p = await prev
 
-    const ret = await middleware.initializeMiddleware?.({
+    const ret = await pluginWithMiddleware.initializeMiddleware?.({
       plugins,
       app: preInitApp,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       context,
-      config: middleware.config,
+      config: pluginWithMiddleware.config,
+      self: pluginWithMiddleware,
+      logger: pluginWithMiddleware.providers.logger,
     })
 
     if (typeof ret === 'function') {
@@ -135,7 +145,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   if (process.env.DEBUG) {
     const routes = hono.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
-    console.log(`[@zemble] Routes:\n${routes}`)
+    console.log(`[@zemble/core] Routes:\n${routes}`)
   }
 
   return zembleApp

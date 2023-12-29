@@ -121,7 +121,7 @@ jobs:
         working-directory: ./packages/supabase/supabase-app
 
       - name: Test
-        run: bun run codegen && bun test
+        run: bun test
         working-directory: ./packages/supabase
 
   typecheck:

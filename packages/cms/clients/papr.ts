@@ -1,11 +1,11 @@
 /* eslint-disable functional/immutable-data, functional/prefer-readonly-type, no-multi-assign */
-import zembleContext from '@zemble/core/zembleContext'
 import Papr, { VALIDATION_LEVEL, schema, types } from 'papr'
 
 import plugin from '../plugin'
 import { readEntities } from '../utils/fs'
 
-import type { MongoClient, Db } from 'mongodb'
+import type { IStandardLogger } from '@zemble/core'
+import type { Db } from 'mongodb'
 import type { Model } from 'papr'
 
 export const EntityEntrySchema = schema({
@@ -42,7 +42,7 @@ class PaprWrapper {
 
   #initializing = Promise.resolve()
 
-  async initialize() {
+  async initialize({ logger }: {readonly logger: IStandardLogger}) {
     const papr = new Papr()
 
     await plugin.providers.mongodb?.client.connect()
@@ -51,7 +51,7 @@ class PaprWrapper {
 
     if (db === undefined) throw new Error('MongoDB client not provided or initialized')
 
-    zembleContext.logger.log(`Registering ${papr.models.size} models...`)
+    logger.info(`Registering ${papr.models.size} models...`)
 
     papr.initialize(db)
 
@@ -67,8 +67,8 @@ class PaprWrapper {
     this.papr = papr
   }
 
-  async connect() {
-    this.#initializing = this.initialize()
+  async connect({ logger }: {readonly logger: IStandardLogger}) {
+    this.#initializing = this.initialize({ logger })
     return this.#initializing
   }
 

@@ -1,5 +1,6 @@
-import { useEngine } from '@envelop/core'
+import { useEngine, useLogger } from '@envelop/core'
 import { Plugin } from '@zemble/core'
+import zembleContext from '@zemble/core/zembleContext'
 import * as GraphQLJS from 'graphql'
 
 import middleware from './middleware'
@@ -95,8 +96,16 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
 const defaultConfig = {
   yoga: {
     graphqlEndpoint: '/graphql',
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    plugins: [useEngine(GraphQLJS)],
+    plugins: [
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useEngine(GraphQLJS),
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useLogger({
+        logFn: (eventName, ...args) => {
+          zembleContext.logger.debug({ pluginName: '@zemble/graphql' }, eventName, ...args)
+        },
+      }),
+    ],
     maskedErrors: {
       isDev: process.env.NODE_ENV === 'development',
     },

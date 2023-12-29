@@ -1,4 +1,5 @@
 import bunRunner from '@zemble/bun'
+import zembleContext from '@zemble/core/zembleContext'
 import YogaGraphQL from '@zemble/graphql'
 import AuthOTP from 'zemble-plugin-auth-otp'
 
@@ -49,4 +50,4 @@ void bunRunner({
   ],
 })
 
-void connect()
+void connect({ logger: zembleContext.logger })

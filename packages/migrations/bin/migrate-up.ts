@@ -12,7 +12,7 @@ const appModule = await import(join(process.cwd(), appFile))
 const appOrServe = await appModule.default as Zemble.App | undefined
 
 if (appOrServe && 'runBeforeServe' in appOrServe) {
-  await migrateUp()
+  await migrateUp({ logger: appOrServe.providers.logger })
 } else {
   console.warn(`Usage: migrate-up [app-file]
 Will default to "." i.e. the main file in package.json.`)

@@ -18,21 +18,19 @@ const defaultConfig = {
 
 } satisfies CmsConfig
 
-const middleware = async () => {
-  await papr.connect()
-}
-
 const plugin = new Plugin(import.meta.dir,
   {
-    middleware: () => middleware,
-    dependencies: () => {
+    middleware: async ({ logger }) => {
+      await papr.connect({ logger })
+    },
+    dependencies: ({ providers }) => {
       const deps: DependenciesResolver<readonly Zemble.GlobalConfig[]> = [
         {
           plugin: MongoDB,
         },
         {
           plugin: graphqlYoga.configure({
-            extendSchema: async () => Promise.all([createDynamicSchema()]),
+            extendSchema: async () => Promise.all([createDynamicSchema({ logger: providers.logger })]),
             yoga: {
               plugins: [
                 useExtendedValidation({

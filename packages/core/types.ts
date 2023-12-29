@@ -5,6 +5,7 @@ import type { PubSub } from 'graphql-yoga'
 import type {
   Hono, Context as HonoContext,
 } from 'hono'
+import type pino from 'pino'
 
 export interface IEmail {
   readonly email: string
@@ -39,7 +40,7 @@ export abstract class IStandardKeyValueService<T = unknown> {
   abstract entries(): Promise<readonly (readonly [string, T])[]> | readonly (readonly [string, T])[]
 }
 
-interface IStandardLogger extends Pick<typeof console, 'log' | 'debug' | 'warn' | 'error' | 'info' |'time' |'timeEnd'> {
+export interface IStandardLogger extends pino.BaseLogger {
 
 }
 
@@ -66,6 +67,9 @@ declare global {
       sendEmail?: IStandardSendEmailService
       // eslint-disable-next-line functional/prefer-readonly-type
       kv: <T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
+
+      // eslint-disable-next-line functional/prefer-readonly-type
+      logger: IStandardLogger
     }
 
     interface Providers extends DefaultProviders {
@@ -185,6 +189,8 @@ export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig, PluginType
     readonly plugins: readonly PluginType[],
     readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers'>,
     readonly context: Zemble.GlobalContext
-    readonly config: TMiddlewareConfig
+    readonly config: TMiddlewareConfig,
+    readonly self: PluginType,
+    readonly logger: IStandardLogger,
   }
 ) => MiddlewareReturn

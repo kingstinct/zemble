@@ -46,10 +46,10 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
   import.meta.dir,
   {
     middleware: async ({
-      app, config, plugins, context,
+      app, config, plugins, logger,
     }) => {
       if (process.env.DEBUG) {
-        context.logger.log('Connecting to MongoDB', config.url.replace(regexToHidePassword, '***'))
+        logger.info('Connecting to MongoDB', config.url.replace(regexToHidePassword, '***'))
       }
 
       // we create a global mongodb client for the app, which is also used for all plugins that don't have a custom
@@ -57,10 +57,10 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
       const defaultClient = new MongoClient(config.url, config.options)
 
       defaultClient.on('error', (error) => {
-        context.logger.error('MongoDB error', error)
+        logger.error('MongoDB error', error)
       })
 
-      context.logger.log('Connected to MongoDB')
+      logger.info('Connected to MongoDB')
 
       await defaultClient.connect()
 
@@ -73,7 +73,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
             const customClient = new MongoClient(config.url, config.options)
 
             customClient.on('error', (error) => {
-              context.logger.error('MongoDB error', error)
+              logger.error('MongoDB error', error)
             })
 
             await customClient.connect()

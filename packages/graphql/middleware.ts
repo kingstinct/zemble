@@ -17,7 +17,7 @@ import type { Middleware } from '@zemble/core/types'
 
 export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
   {
-    config, app, context, plugins,
+    config, app, context, plugins, logger,
   },
 ) => {
   const pubsub = await createPubSub(
@@ -78,7 +78,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
       return mergedSchema
     },
     pubsub,
-    context.logger,
+    logger,
     {
       ...config.yoga,
       graphiql: async (req, context) => {

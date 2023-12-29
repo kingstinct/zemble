@@ -44,13 +44,11 @@ const isFirstUser = async (): Promise<boolean> => {
   return isFirstUserInternal
 }
 
-const middleware = async () => {
-  await Promise.all([connect(), papr.connect()])
-}
-
 const plugin = new Plugin(import.meta.dir,
   {
-    middleware: () => middleware,
+    middleware: async ({ logger }) => {
+      await Promise.all([connect({ logger }), papr.connect({ logger })])
+    },
     dependencies: () => {
       const deps: DependenciesResolver<Plugin> = [
         {

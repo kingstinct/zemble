@@ -15,7 +15,7 @@
     "@zemble/graphql": "latest"
   },
   "scripts": {
-    "test": "bun run codegen && bun test",
+    "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen"

@@ -79,7 +79,7 @@ const defaultConfig = {
         to,
       })
     } else {
-      logger.log(`handleAuthRequest for ${to.email}`, twoFactorCode)
+      logger.info(`handleAuthRequest for ${to.email}`, twoFactorCode)
     }
   },
 } satisfies Partial<OtpAuthConfig>
@@ -95,7 +95,7 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(import.meta.dir, 
   ],
   defaultConfig,
   devConfig: {
-    handleAuthRequest: ({ email }, code, { logger }) => { logger.log(`handleAuthRequest for ${email}`, code) },
+    handleAuthRequest: ({ email }, code, { logger }) => { logger.info(`handleAuthRequest for ${email}`, code) },
     generateTokenContents,
     from: { email: 'noreply@zemble.com' },
   },

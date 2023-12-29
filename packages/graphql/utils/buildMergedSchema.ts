@@ -20,6 +20,7 @@ const processPluginSchema = async (pluginPath: string, {
   skipGraphQLValidation,
 }: { readonly transforms: Subschema['transforms'], readonly scalars: Record<string, GraphQLScalarType>, readonly skipGraphQLValidation?: boolean }) => {
   const graphqlDir = path.join(pluginPath, '/graphql')
+
   const hasGraphQL = fs.existsSync(graphqlDir)
   if (hasGraphQL) {
     return [
