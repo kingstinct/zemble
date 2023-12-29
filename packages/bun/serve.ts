@@ -12,7 +12,7 @@ export const serve = async (config: Configure | Promise<Zemble.App> | Zemble.App
   // mostly for clickability in the terminal :)
   const linkPrefix = bunServer.hostname === 'localhost' ? 'http://' : ''
 
-  console.log(`[@zemble/bun] Serving on ${linkPrefix}${bunServer.hostname}:${bunServer.port}`)
+  app.providers.logger.info(`[@zemble/bun] Serving on ${linkPrefix}${bunServer.hostname}:${bunServer.port}`)
   return app
 }
 

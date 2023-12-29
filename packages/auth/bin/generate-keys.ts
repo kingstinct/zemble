@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import zembleContext from '@zemble/core/zembleContext'
 import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
 
@@ -15,8 +16,8 @@ await generateKeys().then(async ({ publicKey, privateKey }) => {
 
   if (!data.includes('PUBLIC_KEY') && !data.includes('PRIVATE_KEY')) {
     await fs.appendFile(envPath, `\nPUBLIC_KEY='${publicKey.trim()}'\nPRIVATE_KEY='${privateKey.trim()}'`)
-    console.log('PUBLIC_KEY and PRIVATE_KEY was appended to your local .env file!')
+    zembleContext.logger.info('PUBLIC_KEY and PRIVATE_KEY was appended to your local .env file!')
   } else {
-    console.log('The "PUBLIC_KEY" and/or "PRIVATE_KEY" already exists in .env file, will not overwrite!')
+    zembleContext.logger.info('The "PUBLIC_KEY" and/or "PRIVATE_KEY" already exists in .env file, will not overwrite!')
   }
 })

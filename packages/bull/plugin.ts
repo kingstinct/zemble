@@ -60,18 +60,18 @@ export { ZembleQueue }
 export default new Plugin<BullPluginConfig>(import.meta.dir, {
   defaultConfig: defaults,
   middleware: async ({
-    plugins, context: { pubsub }, config, app,
+    plugins, context: { pubsub }, config, app, logger,
   }) => {
     const appPath = process.cwd()
 
     const allQueues = [
       ...(await Promise.all(plugins.map(async ({ pluginPath, config }) => {
         if (!config.middleware?.['zemble-plugin-bull']?.disable) {
-          return setupQueues(pluginPath, pubsub, config)
+          return setupQueues(pluginPath, pubsub, config, logger)
         }
         return []
       }))).flat(),
-      ...await setupQueues(appPath, pubsub, config),
+      ...await setupQueues(appPath, pubsub, config, logger),
     ]
 
     if (config.bullboard !== false && process.env.NODE_ENV !== 'test') {

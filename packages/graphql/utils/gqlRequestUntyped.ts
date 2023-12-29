@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
+import zembleContext from '@zemble/core/zembleContext'
 import { type GraphQLFormattedError } from 'graphql'
 
 export async function gqlRequestUntyped<TRes, TVars>(
@@ -26,7 +27,7 @@ export async function gqlRequestUntyped<TRes, TVars>(
   }
 
   if (errors && !options?.silenceErrors) {
-    console.error(errors)
+    zembleContext.logger.error(errors)
   }
 
   return { data, errors, response }

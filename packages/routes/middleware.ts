@@ -6,7 +6,7 @@ import initializePlugin from './utils/initializePlugin'
 import type { RoutesConfig } from './plugin'
 import type { Middleware } from '@zemble/core/types'
 
-const middleware: Middleware<RoutesConfig> = async ({ app, plugins }) => {
+const middleware: Middleware<RoutesConfig> = async ({ app, plugins, logger }) => {
   await plugins.reduce(async (
     prev,
     { pluginPath, config },
@@ -17,13 +17,16 @@ const middleware: Middleware<RoutesConfig> = async ({ app, plugins }) => {
         pluginPath,
         app,
         config: config.middleware?.['@zemble/routes'] ?? {},
+        logger,
       })
     }
 
     return undefined
   }, Promise.resolve(undefined))
 
-  await initializePlugin({ pluginPath: process.cwd(), app, config: {} })
+  await initializePlugin({
+    pluginPath: process.cwd(), app, config: {}, logger,
+  })
 }
 
 export default middleware

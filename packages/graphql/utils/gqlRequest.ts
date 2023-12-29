@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
+import zembleContext from '@zemble/core/zembleContext'
 import { type GraphQLFormattedError } from 'graphql'
 import { print } from 'graphql/language/printer'
 
@@ -31,7 +32,7 @@ export async function gqlRequest<TQuery, TVars>(
   }
 
   if (errors && !options?.silenceErrors) {
-    console.error(errors)
+    zembleContext.logger.error(errors)
   }
 
   return { errors, data, response }

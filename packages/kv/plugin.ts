@@ -57,6 +57,7 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
                 return new RedisKeyValue<T>(
                   prefix as string,
                   initWithConfig.redisUrl!,
+                  logger,
                   initWithConfig.redisOptions,
                 )
               }

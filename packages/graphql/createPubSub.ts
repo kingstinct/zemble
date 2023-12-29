@@ -1,15 +1,18 @@
+import zembleContext from '@zemble/core/zembleContext'
 import { createPubSub as createYogaPubSub } from 'graphql-yoga'
 
+import type { IStandardLogger } from '@zemble/core'
 import type { RedisOptions } from 'ioredis'
 
-const createPubSub = async (redisUrl?: string, redisConfig?: RedisOptions) => {
+const createPubSub = async (redisUrl?: string, options?: { readonly redis?: RedisOptions, readonly logger?: IStandardLogger }) => {
   if (redisUrl) {
+    const optionsWithDefaults = { logger: zembleContext.logger, ...options }
     try {
       // eslint-disable-next-line import/no-extraneous-dependencies
       const { createRedisEventTarget } = await import('@graphql-yoga/redis-event-target')
       const { createClient } = await import('./clients/redis')
-      const publishClient = createClient(redisUrl, redisConfig)
-      const subscribeClient = createClient(redisUrl, redisConfig)
+      const publishClient = createClient(redisUrl, optionsWithDefaults)
+      const subscribeClient = createClient(redisUrl, optionsWithDefaults)
 
       const eventTarget = createRedisEventTarget({
         publishClient,
@@ -18,7 +21,7 @@ const createPubSub = async (redisUrl?: string, redisConfig?: RedisOptions) => {
 
       return createYogaPubSub({ eventTarget })
     } catch (error) {
-      console.error('Error initializing pubsub, maybe you need to install ioredis or @graphql-yoga/redis-event-target?', error)
+      optionsWithDefaults.logger.error('Error initializing pubsub, maybe you need to install ioredis or @graphql-yoga/redis-event-target?', error)
     }
   }
 

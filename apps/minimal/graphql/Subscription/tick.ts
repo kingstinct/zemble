@@ -11,9 +11,9 @@ const initializeOnce = (pubsub: Zemble.PubSubType) => {
 
 const tick: SubscriptionResolvers['tick'] = {
   // subscribe to the tick event
-  subscribe: (_, __, { pubsub }) => {
+  subscribe: (_, __, { pubsub, logger }) => {
     initializeOnce(pubsub)
-    console.log('subscribing to tick')
+    logger.info('subscribing to tick')
     return pubsub.subscribe('tick')
   },
   resolve: (payload: number) => payload,

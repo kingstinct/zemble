@@ -1,7 +1,9 @@
 import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
-export const readResolvers = async (path: string) => {
+import type { IStandardLogger } from '@zemble/core'
+
+export const readResolvers = async (path: string, logger: IStandardLogger) => {
   try {
     const resolvedPaths = new Set<string>()
     const erroredPaths: Record<string, unknown> = {}
@@ -33,7 +35,7 @@ export const readResolvers = async (path: string) => {
     Object.keys(erroredPaths).forEach((route) => {
       if (!resolvedPaths.has(route)) {
         const error = erroredPaths[route]
-        console.error(error)
+        logger.error(error)
       }
     })
 

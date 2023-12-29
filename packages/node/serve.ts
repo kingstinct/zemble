@@ -9,7 +9,7 @@ export const serve = async (config: Configure | Promise<Zemble.App> | Zemble.App
   const server = nodeServer({ fetch: app.hono.fetch })
 
   server.addListener('listening', () => {
-    console.log(`[@zemble/node] Serving on ${JSON.stringify(server.address())}`)
+    app.providers.logger.info(`[@zemble/node] Serving on ${JSON.stringify(server.address())}`)
   })
 
   return app

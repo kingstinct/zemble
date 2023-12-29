@@ -9,6 +9,7 @@ import createClient from '../clients/redis'
 import { type BullPluginConfig } from '../plugin'
 import ZembleQueueBull from '../ZembleQueueBull'
 
+import type { IStandardLogger } from '@zemble/core'
 import type {
   Queue,
   Job,
@@ -22,6 +23,7 @@ const setupQueues = async (
   pluginPath: string,
   pubSub: Zemble.PubSubType,
   config: BullPluginConfig | undefined,
+  logger: IStandardLogger,
 ): Promise<readonly Queue[]> => {
   const queuePath = path.join(pluginPath, '/queues')
 
@@ -50,7 +52,7 @@ const setupQueues = async (
 
   if (hasQueues) {
     if (process.env.NODE_ENV !== 'test' || process.env.DEBUG) {
-      console.log('[bull-plugin] Initializing queues from ', queuePath)
+      logger.info('[bull-plugin] Initializing queues from ', queuePath)
     }
     const redisUrl = config?.redisUrl ?? process.env.REDIS_URL
 
@@ -66,7 +68,7 @@ const setupQueues = async (
             fileNameWithoutExtension,
             createClient(
               redisUrl,
-              config?.redisOptions,
+              { redis: config?.redisOptions, logger },
             ),
           )
 
@@ -94,7 +96,7 @@ const setupQueues = async (
         }
       }))
     } else {
-      console.error('[bull-plugin] Failed to initialize. No redisUrl provided for bull plugin, you can specify it directly or with REDIS_URL')
+      logger.error('[bull-plugin] Failed to initialize. No redisUrl provided for bull plugin, you can specify it directly or with REDIS_URL')
     }
   }
   return queues

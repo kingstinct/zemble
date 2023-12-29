@@ -84,7 +84,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   plugins.forEach((plugin) => {
     // eslint-disable-next-line functional/immutable-data, no-param-reassign
-    plugin.providers = defaultProviders
+    plugin.providers = { ...defaultProviders }
     if (process.env.DEBUG) {
       context.logger.info(`[@zemble/core] Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
     }
@@ -145,7 +145,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   if (process.env.DEBUG) {
     const routes = hono.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
-    console.log(`[@zemble/core] Routes:\n${routes}`)
+    context.logger.info(`[@zemble/core] Routes:\n${routes}`)
   }
 
   return zembleApp

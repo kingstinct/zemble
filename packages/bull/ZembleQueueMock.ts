@@ -1,7 +1,9 @@
 /* eslint-disable functional/immutable-data */
 /* eslint-disable functional/prefer-readonly-type */
 
-import type { ZembleQueueBull, ZembleQueueConfig } from './ZembleQueueBull'
+import zembleContext from '@zemble/core/zembleContext'
+
+import type { ZembleQueueBull, ZembleQueueConfig, ZembleWorker } from './ZembleQueueBull'
 import type {
   Job, JobsOptions, Queue,
 } from 'bullmq'
@@ -13,14 +15,14 @@ interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
 
 class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZembleQueue<DataType, ReturnType> {
   constructor(
-    readonly worker: (job: Job<DataType, ReturnType>) => Promise<void> | void,
+    readonly worker: ZembleWorker,
     config?: ZembleQueueConfig,
   ) {
     this.#worker = worker
     this.#config = config
   }
 
-  readonly #worker: (job: Job<DataType, ReturnType>) => Promise<void> | void
+  readonly #worker: ZembleWorker
 
   readonly #config?: ZembleQueueConfig
 
@@ -39,7 +41,7 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
       await prev
       await new Promise((resolve) => {
         setTimeout(() => {
-          void this.#worker(job)
+          void this.#worker(job, { logger: zembleContext.logger })
           resolve(undefined)
         }, 0)
       })
@@ -71,7 +73,7 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
 
   async add(name: string, data: DataType, opts?: JobsOptions | undefined): Promise<Job<DataType, ReturnType, string>> {
     const job = this.#createMockJob(name, data, opts)
-    setTimeout(async () => this.#worker(job), 0)
+    setTimeout(async () => this.#worker(job, { logger: zembleContext.logger }), 0)
     return job
   }
 }

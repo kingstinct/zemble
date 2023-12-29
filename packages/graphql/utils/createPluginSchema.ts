@@ -9,15 +9,17 @@ import { join } from 'node:path'
 import readResolvers from './readResolvers'
 
 import type { Subschema } from '@graphql-tools/delegate'
+import type { IStandardLogger } from '@zemble/core'
 import type { GraphQLScalarType } from 'graphql'
 
 export const createPluginSchema = async ({
-  graphqlDir, transforms, scalars, skipGraphQLValidation,
+  graphqlDir, transforms, scalars, skipGraphQLValidation, logger,
 }: {
   readonly graphqlDir: string;
   readonly transforms: Subschema['transforms'],
   readonly scalars: Record<string, GraphQLScalarType>,
   readonly skipGraphQLValidation: boolean,
+  readonly logger: IStandardLogger,
 }) => {
   const [
     Query,
@@ -26,11 +28,11 @@ export const createPluginSchema = async ({
     Type,
     Scalars,
   ] = await Promise.all([
-    readResolvers(join(graphqlDir, '/Query')),
-    readResolvers(join(graphqlDir, '/Mutation')),
-    readResolvers(join(graphqlDir, '/Subscription')),
-    readResolvers(join(graphqlDir, '/Type')),
-    readResolvers(join(graphqlDir, '/Scalar')),
+    readResolvers(join(graphqlDir, '/Query'), logger),
+    readResolvers(join(graphqlDir, '/Mutation'), logger),
+    readResolvers(join(graphqlDir, '/Subscription'), logger),
+    readResolvers(join(graphqlDir, '/Type'), logger),
+    readResolvers(join(graphqlDir, '/Scalar'), logger),
   ])
 
   const graphqlGlob = join(graphqlDir, './**/*.graphql')

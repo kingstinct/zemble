@@ -22,7 +22,10 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
 ) => {
   const pubsub = await createPubSub(
     config.redisUrl,
-    config.redisOptions,
+    {
+      logger,
+      redis: config.redisOptions,
+    },
   )
 
   const { hono } = app

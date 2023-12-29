@@ -22,6 +22,7 @@ const logFn = (levelToLog: LevelWithSilentOrString, minLevelToLog: LevelWithSile
   if (shouldLog) {
     const callFn = (Object.keys(console).includes(levelToLog) ? levelToLog : (levelToLog === 'fatal' ? 'error' : 'log'))
     // @ts-expect-error fix later
+    // eslint-disable-next-line no-console
     console[callFn](...args)
   }
 }
