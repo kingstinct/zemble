@@ -37,8 +37,10 @@
     "@graphql-yoga/plugin-defer-stream": "^3.1.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
+    "@zemble/pino": "workspace:*",
     "graphql-yoga": "^5.1.0",
-    "hono": "^3.11.10"
+    "hono": "^3.11.10",
+    "pino": "^8.17.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",

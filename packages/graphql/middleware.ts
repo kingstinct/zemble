@@ -36,14 +36,14 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
   })
 
   if (process.env.NODE_ENV === 'test') {
-    // @ts-expect-error sdfgsdfg
+    // @ts-expect-error fix later
     app.gqlRequest = async (query, vars, opts) => {
       const response = await gqlRequest(app, query, vars, opts)
 
       return response
     }
 
-    // @ts-expect-error sdfgsdfg
+    // @ts-expect-error fix later
     app.gqlRequestUntyped = async (untypedQuery: string, vars, opts) => {
       const response = await gqlRequestUntyped(app, untypedQuery, vars, opts)
       return response

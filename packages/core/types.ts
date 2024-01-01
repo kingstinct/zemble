@@ -41,7 +41,7 @@ export abstract class IStandardKeyValueService<T = unknown> {
 }
 
 export interface IStandardLogger extends pino.BaseLogger {
-
+  readonly child: (bindings: Record<string, unknown>) => IStandardLogger
 }
 
 declare global {
@@ -108,9 +108,7 @@ declare global {
 
     // optional standard services here, so we can override them
     interface BaseStandardContext {
-      // eslint-disable-next-line functional/prefer-readonly-type
 
-      // eslint-disable-next-line functional/prefer-readonly-type
     }
 
     interface GlobalContext extends BaseStandardContext {
@@ -155,7 +153,8 @@ export type Dependency = {
 export type DependenciesResolver<TSelf> = readonly Dependency[] | ((self: TSelf) => readonly Dependency[])
 
 export type PluginOpts<
-  TSelf,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TSelf extends Plugin<any, any, any>,
   TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
   TDefaultConfig extends Partial<TConfig> = TConfig,
   TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
@@ -177,6 +176,8 @@ export type PluginOpts<
   readonly version?: string,
 
   readonly middleware?: Middleware<TResolvedConfig, Plugin>
+
+  // readonly provides: TSelf['providers']
 }
 
 export type RunBeforeServeFn = (() => Promise<void>) | (() => void)

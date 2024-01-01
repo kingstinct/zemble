@@ -13,7 +13,7 @@ const severitiesInOrder: readonly LevelWithSilentOrString[] = [
 
 const defaultDebugLevel = 'info'
 
-const logFn = (levelToLog: LevelWithSilentOrString, minLevelToLog: LevelWithSilentOrString): LogFn => (...args) => {
+const logFn = (levelToLog: LevelWithSilentOrString, minLevelToLog: LevelWithSilentOrString, extraData?: object): LogFn => (...args) => {
   if (minLevelToLog === 'silent') {
     return
   }
@@ -21,21 +21,41 @@ const logFn = (levelToLog: LevelWithSilentOrString, minLevelToLog: LevelWithSile
   const shouldLog = severitiesInOrder.indexOf(levelToLog) <= severitiesInOrder.indexOf(minLevelToLog)
   if (shouldLog) {
     const callFn = (Object.keys(console).includes(levelToLog) ? levelToLog : (levelToLog === 'fatal' ? 'error' : 'log'))
-    // @ts-expect-error fix later
+
+    if (extraData) {
+      if (typeof args[0] === 'string') {
+        // @ts-expect-error fix later
+        // eslint-disable-next-line no-console
+        console[callFn](`${args[0]} ${JSON.stringify(extraData)}`, ...args.slice(1))
+      } else if (typeof args[0] === 'object') {
+        // @ts-expect-error fix later
+        // eslint-disable-next-line no-console
+        console[callFn]({ ...extraData, ...args[0] }, ...args.slice(1))
+      } else {
+        // @ts-expect-error fix later
+        // eslint-disable-next-line no-console
+        console[callFn](JSON.stringify(extraData), ...args)
+      }
+    } else {
+      // @ts-expect-error fix later
     // eslint-disable-next-line no-console
-    console[callFn](...args)
+      console[callFn](...args)
+    }
   }
 }
 
-const createLogger = () => {
+const createLogger = (extraData?: object) => {
   let obj = {
     level: defaultDebugLevel,
+    child: (moreData?: object) => createLogger(moreData
+      ? { ...extraData, ...moreData }
+      : extraData),
   }
 
   severitiesInOrder.forEach((level) => {
     obj = {
       ...obj,
-      [level]: logFn(level, obj.level),
+      [level]: logFn(level, obj.level, extraData),
     }
   })
 

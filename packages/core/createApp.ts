@@ -76,7 +76,11 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     (plugin) => 'initializeMiddleware' in plugin,
   )
 
-  context.logger.info(`[@zemble/core] Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map((p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p ? ' (middleware)' : ''}`).join('\n')}`)
+  context.logger.info(`[@zemble/core] Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
+    (p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p
+      ? ' (middleware)'
+      : ''}`,
+  ).join('\n')}`)
 
   const defaultProviders = {
     logger: context.logger,
@@ -112,7 +116,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
       context,
       config: pluginWithMiddleware.config,
       self: pluginWithMiddleware,
-      logger: pluginWithMiddleware.providers.logger,
+      logger: pluginWithMiddleware.providers.logger.child({ middlewarePluginName: pluginWithMiddleware.pluginName, middlewarePluginVersion: pluginWithMiddleware.pluginVersion }),
     })
 
     if (typeof ret === 'function') {

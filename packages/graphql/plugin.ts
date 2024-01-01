@@ -1,5 +1,5 @@
 import { useEngine, useLogger } from '@envelop/core'
-import { Plugin } from '@zemble/core'
+import { Plugin, type IStandardLogger } from '@zemble/core'
 import zembleContext from '@zemble/core/zembleContext'
 import * as GraphQLJS from 'graphql'
 
@@ -54,6 +54,7 @@ declare global {
       readonly token: string | undefined
       readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] | undefined
       readonly honoContext: RouteContext
+      readonly logger: IStandardLogger
     }
 
     interface HonoBindings extends Record<string, unknown> {
@@ -93,6 +94,10 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly outputMergedSchemaPath?: string | false
 }
 
+const logFn = (eventName: string, ...args: readonly unknown[]) => {
+  plugin.providers.logger.debug(eventName, ...args)
+}
+
 const defaultConfig = {
   yoga: {
     graphqlEndpoint: '/graphql',
@@ -101,9 +106,7 @@ const defaultConfig = {
       useEngine(GraphQLJS),
       // eslint-disable-next-line react-hooks/rules-of-hooks
       useLogger({
-        logFn: (eventName, ...args) => {
-          zembleContext.logger.debug({ pluginName: '@zemble/graphql' }, eventName, ...args)
-        },
+        logFn,
       }),
     ],
     maskedErrors: {
@@ -120,7 +123,9 @@ const defaultConfig = {
   outputMergedSchemaPath: './app.generated.graphql',
 } satisfies GraphQLMiddlewareConfig
 
-export default new Plugin<GraphQLMiddlewareConfig>(
+const plugin = new Plugin<GraphQLMiddlewareConfig>(
   import.meta.dir,
   { defaultConfig, middleware },
 )
+
+export default plugin

@@ -1,7 +1,41 @@
+scalar JSONObject
+
 directive @stream on FIELD_DEFINITION | FIELD
 
+input AuthOr {
+  includes: JSONObject
+  match: JSONObject
+}
+
+directive @auth(
+  match: JSONObject,
+  skip: Boolean
+  includes: JSONObject
+  or: [AuthOr!]
+) on FIELD_DEFINITION
+
+enum LogLevel {
+  fatal
+  error
+  warn
+  info
+  debug
+  trace
+  silent
+}
+
 type Query {
-  logger: [LogOutput!]! @stream
+  # not getting the log streaming to work currently, not quite sure why
+  logs: [LogOutput!]! @auth(match: { isSuperAdmin: true }) @stream
+  logLevel: LogLevel! @auth(match: { isSuperAdmin: true })
+}
+
+type Subscription {
+  logs(minLevel: LogLevel): LogOutput! @auth(match: { isSuperAdmin: true })
+}
+
+type Mutation {
+  setLogLevel(level: LogLevel!): LogLevel! @auth(match: { isSuperAdmin: true })
 }
 
 type LogOutput {
