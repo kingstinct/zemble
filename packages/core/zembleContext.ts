@@ -1,18 +1,12 @@
+import createLogger from './createLogger'
+
 import type { IStandardKeyValueService } from '.'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 class ContextInstance implements Zemble.GlobalContext {
   // eslint-disable-next-line functional/prefer-readonly-type
-  logger = process.env.NODE_ENV === 'test' ? {
-    debug: () => {},
-    info: () => {},
-    time: () => {},
-    timeEnd: () => {},
-    warn: () => {},
-    error: console.error,
-    log: () => {},
-  } : console
+  logger = createLogger()
 
   // eslint-disable-next-line class-methods-use-this
   kv<

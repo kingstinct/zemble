@@ -2,6 +2,7 @@ import { Plugin } from '@zemble/core'
 import { readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
+import type { IStandardLogger } from '@zemble/core'
 import type { JsonValue } from 'type-fest'
 
 export type MigrationStatus<TProgress extends JsonValue = JsonValue> = {
@@ -93,8 +94,9 @@ const getMigrations = async (migrationsDir: string, adapter: MigrationAdapter | 
 let upMigrationsRemaining = [] as readonly MigrationToProcess[]
 let downMigrationsRemaining = [] as readonly MigrationToProcess[]
 
-export const migrateDown = async (migrateDownCount = 1) => {
-  console.log(`[@zemble/migrations] migrateDown: ${upMigrationsRemaining.length} migrations to process`)
+export const migrateDown = async ({ migrateDownCount = 1, logger }: { readonly migrateDownCount?: number, readonly logger: IStandardLogger }) => {
+  logger.info(`migrateDown: ${upMigrationsRemaining.length} migrations to process`)
+
   await downMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, adapter,
   }, index) => {
@@ -103,20 +105,20 @@ export const migrateDown = async (migrateDownCount = 1) => {
       return
     }
 
-    console.log(`[@zemble/migrations] Migrate down: ${migrationName}`)
+    logger.info(`Migrate down: ${migrationName}`)
     const { down } = await import(fullPath) as Migration
     if (down) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       await adapter?.down(migrationName, async (context) => down(context ?? {}))
     } else {
-      console.warn(`[@zemble/migrations] Migration ${migrationName} did not have a down function.`)
+      logger.warn(`Migration ${migrationName} did not have a down function.`)
     }
   }, Promise.resolve())
 }
 
-export const migrateUp = async (migrateUpCount = Infinity) => {
-  console.log(`[@zemble/migrations] migrateUp: ${upMigrationsRemaining.length} migrations to process`)
+export const migrateUp = async ({ logger, migrateUpCount = Infinity }: { readonly logger: IStandardLogger, readonly migrateUpCount?: number }) => {
+  logger.info(`migrateUp: ${upMigrationsRemaining.length} migrations to process`)
   await upMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, progress, adapter,
   }, index) => {
@@ -126,7 +128,7 @@ export const migrateUp = async (migrateUpCount = Infinity) => {
       return
     }
 
-    console.log(`[@zemble/migrations] Migrate up: ${migrationName}`)
+    logger.info(`Migrate up: ${migrationName}`)
     const { up } = await import(fullPath) as unknown as { readonly up: Up, readonly down?: Down }
     if (up) {
       await adapter?.up(migrationName, async (context) => up({
@@ -150,11 +152,11 @@ const defaultConfig = {
   waitForMigrationsToComplete: true,
 } satisfies Omit<MigrationPluginConfig, 'createAdapter'>
 
-export default new Plugin<MigrationPluginConfig, typeof defaultConfig>(
+const plugin = new Plugin<MigrationPluginConfig, typeof defaultConfig>(
   import.meta.dir,
   {
     middleware: (async ({
-      plugins, app, config,
+      plugins, app, config, logger,
     }) => {
       const migrationsPathOfApp = join(app.appDir, config.migrationsDir ?? 'migrations')
 
@@ -174,7 +176,7 @@ export default new Plugin<MigrationPluginConfig, typeof defaultConfig>(
 
       return async () => {
         if (config.runMigrationsOnStart) {
-          const completer = migrateUp()
+          const completer = migrateUp({ logger })
 
           if (config.waitForMigrationsToComplete) {
             await completer
@@ -186,3 +188,5 @@ export default new Plugin<MigrationPluginConfig, typeof defaultConfig>(
     defaultConfig,
   },
 )
+
+export default plugin

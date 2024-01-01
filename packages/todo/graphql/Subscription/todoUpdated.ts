@@ -12,7 +12,7 @@ declare global {
 const todoUpdated: SubscriptionResolvers['todoUpdated'] = {
   // subscribe to the todoUpdated event
   subscribe: (_, __, { pubsub, logger }) => {
-    logger.log('subscribing to todoUpdated')
+    logger.info('subscribing to todoUpdated')
     return pubsub.subscribe('todoUpdated')
   },
   resolve: (payload: Todo) => payload,

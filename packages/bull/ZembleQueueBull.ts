@@ -1,5 +1,6 @@
 import { Queue, Worker } from 'bullmq'
 
+import type { IStandardLogger } from '@zemble/core'
 import type {
   Job, JobsOptions, QueueOptions, RedisOptions, RepeatOptions,
 } from 'bullmq'
@@ -20,13 +21,19 @@ export type ZembleQueueConfig = {
   readonly defaultJobOptions?: JobsOptions
 }
 
+export type ZembleJobOpts = {
+  readonly logger: IStandardLogger
+}
+
+export type ZembleWorker<DataType = unknown, ReturnType = unknown> = (job: Job<DataType, ReturnType>, opts: ZembleJobOpts) => Promise<void> | void
+
 export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
-  readonly #worker: (job: Job<DataType, ReturnType>) => Promise<void> | void
+  readonly #worker: ZembleWorker<DataType, ReturnType>
 
   readonly #config?: ZembleQueueConfig
 
   constructor(
-    readonly worker: (job: Job<DataType, ReturnType>) => Promise<void> | void,
+    readonly worker: ZembleWorker<DataType, ReturnType>,
     config?: ZembleQueueConfig,
   ) {
     this.#worker = worker

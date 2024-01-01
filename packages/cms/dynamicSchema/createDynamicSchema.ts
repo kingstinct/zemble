@@ -27,6 +27,7 @@ import { readEntities } from '../utils/fs'
 
 import type { EntityEntryType } from '../clients/papr'
 import type { AnyField } from '../types'
+import type { IStandardLogger } from '@zemble/core'
 import type {
   GraphQLFieldConfig,
   GraphQLEnumType,
@@ -62,9 +63,9 @@ const fieldResolver = (parent: EntityEntryType, field: AnyField, displayNameFiel
   return null
 }
 
-export default async () => {
+export default async ({ logger }: {readonly logger: IStandardLogger}) => {
   if (process.env.NODE_ENV !== 'test') {
-    await papr.connect()
+    await papr.connect({ logger })
   }
 
   const entities = await readEntities()
@@ -199,7 +200,7 @@ export default async () => {
 
   if (process.env.DEBUG) {
     const schemaStr = printSchemaWithDirectives(schema)
-    console.log(`\n\n------- ▼ UPDATED SCHEMA ▼ -------\n\n${schemaStr}\n\n------- ⏶ UPDATED SCHEMA ⏶ -------\n\n`)
+    logger.debug(`\n\n------- ▼ UPDATED SCHEMA ▼ -------\n\n${schemaStr}\n\n------- ⏶ UPDATED SCHEMA ⏶ -------\n\n`)
   }
 
   if (process.env.NODE_ENV !== 'test') {

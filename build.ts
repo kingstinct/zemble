@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { copy } from 'fs-extra'
 import { spawn } from 'node:child_process'

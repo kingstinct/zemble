@@ -41,7 +41,9 @@
     "@zemble/migrations": "workspace:*",
     "@zemble/bun": "workspace:*",
     "zemble-plugin-auth": "workspace:*",
-    "@zemble/routes": "workspace:*"
+    "@zemble/routes": "workspace:*",
+    "@zemble/pino": "workspace:*",
+    "zemble-plugin-logger-graphql": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.2",

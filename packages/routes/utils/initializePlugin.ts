@@ -4,6 +4,7 @@ import * as path from 'node:path'
 import readRoutes from './readRoutes'
 
 import type { RoutesGlobalConfig } from '../plugin'
+import type { IStandardLogger } from '@zemble/core'
 import type { MiddlewareHandler } from 'hono'
 
 const httpVerbs = [
@@ -91,12 +92,13 @@ const initializeRoutes = async (
   routePath: string,
   app: Pick<Zemble.App, 'hono'>,
   config: Omit<RoutesGlobalConfig, 'disable'>,
+  logger: IStandardLogger,
 ) => {
   const hasRoutes = fs.existsSync(routePath)
   const { hono } = app
 
   if (hasRoutes) {
-    const routesAndFilenames = await readRoutes(routePath)
+    const routesAndFilenames = await readRoutes({ rootDir: routePath, logger })
 
     const routePromises = Object.keys(routesAndFilenames).map(async (route) => {
       const val = routesAndFilenames[route]!
@@ -182,14 +184,16 @@ export async function initializePlugin(
     pluginPath,
     app,
     config,
+    logger,
   }: {
     readonly pluginPath: string;
     readonly app: Pick<Zemble.App, 'hono'>
     readonly config: Omit<RoutesGlobalConfig, 'disable'>;
+    readonly logger: IStandardLogger;
   },
 ) {
   const routePath = path.join(pluginPath, config.rootPath ?? 'routes')
-  await initializeRoutes(routePath, app, config)
+  await initializeRoutes(routePath, app, config, logger)
 }
 
 export default initializePlugin

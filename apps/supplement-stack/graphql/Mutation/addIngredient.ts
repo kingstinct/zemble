@@ -10,7 +10,7 @@ import type { WithoutId } from 'mongodb'
 
 const addIngredient: MutationResolvers['addIngredient'] = async (parent, {
   title, imageUrls, nutrientsPer100g, servingSizes, ingredientId,
-}) => {
+}, { logger }) => {
   const _id = ingredientId ? new ObjectId(ingredientId) : new ObjectId()
   const ingredient: WithoutId<typeof Ingredient> = {
     __typename: 'Ingredient',
@@ -23,7 +23,7 @@ const addIngredient: MutationResolvers['addIngredient'] = async (parent, {
     })) ?? [],
   }
 
-  console.log(ingredient)
+  logger.info(ingredient)
 
   const eatable = await Eatables.findOneAndUpdate({ _id }, {
     $set: ingredient,

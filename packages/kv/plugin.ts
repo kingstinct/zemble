@@ -35,7 +35,7 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
   {
     defaultConfig,
     middleware: async ({
-      app, config, plugins, context,
+      app, config, plugins, logger,
     }) => {
       await setupProvider({
         app,
@@ -51,20 +51,21 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
               if (initWithConfig.cloudflareNamespace) {
                 return new CloudflareKeyValue<T>(initWithConfig.cloudflareNamespace!, prefix as string)
               }
-              context.logger.warn('cloudflareNamespace is required for cloudflare implementation')
+              logger.warn('cloudflareNamespace is required for cloudflare implementation')
             } else if (initWithConfig.implementation === 'redis') {
               if (initWithConfig.redisUrl) {
                 return new RedisKeyValue<T>(
                   prefix as string,
                   initWithConfig.redisUrl!,
+                  logger,
                   initWithConfig.redisOptions,
                 )
               }
-              context.logger.warn('redisUrl is required for redis implementation')
+              logger.warn('redisUrl is required for redis implementation')
             }
 
             if (process.env.NODE_ENV === 'production') {
-              context.logger.warn('Using in-memory key-value store in production is not recommended, since you can\'t share data between multiple instances of your app')
+              logger.warn('Using in-memory key-value store in production is not recommended, since you can\'t share data between multiple instances of your app')
             }
 
             return new KeyValue<T>(prefix as string) as IStandardKeyValueService<T>

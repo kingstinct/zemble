@@ -1,6 +1,9 @@
 import { useDeferStream } from '@graphql-yoga/plugin-defer-stream'
 import { Plugin } from '@zemble/core'
+import zembleContext from '@zemble/core/zembleContext'
 import YogaPlugin from '@zemble/graphql'
+import Logger from '@zemble/pino'
+import pino from 'pino'
 
 export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
 
@@ -13,48 +16,29 @@ const defaultConfig = {
 export default new Plugin<GraphQLMiddlewareConfig>(
   import.meta.dir,
   {
-    middleware: ({ context }) => {
-      // eslint-disable-next-line functional/immutable-data
-      context.logger = {
-        time: (...args) => {
-          context.pubsub.publish('logger', { severity: 'time', args })
-          // eslint-disable-next-line no-console
-          console.time(...args)
-        },
-        timeEnd: (...args) => {
-          context.pubsub.publish('logger', { severity: 'timeEnd', args })
-          // eslint-disable-next-line no-console
-          console.timeEnd(...args)
-        },
-        debug: (...args) => {
-          context.pubsub.publish('logger', { severity: 'debug', args })
-          // eslint-disable-next-line no-console
-          console.debug(...args)
-        },
-        error: (...args) => {
-          context.pubsub.publish('logger', { severity: 'error', args })
-          // eslint-disable-next-line no-console
-          console.error(...args)
-        },
-        info: (...args) => {
-          context.pubsub.publish('logger', { severity: 'info', args })
-          // eslint-disable-next-line no-console
-          console.info(...args)
-        },
-        log: (...args) => {
-          context.pubsub.publish('logger', { severity: 'log', args })
-          // eslint-disable-next-line no-console
-          console.log(...args)
-        },
-        warn: (...args) => {
-          context.pubsub.publish('logger', { severity: 'warn', args })
-          // eslint-disable-next-line no-console
-          console.warn(...args)
-        },
-      }
+    middleware: ({ logger, context }) => {
+      // @ts-expect-error sdf
+      logger.on('level-change', (level) => {
+        context.pubsub.publish('logger', { severity: 'info', args: ['log level change', level] })
+      })
     },
     defaultConfig,
-    dependencies: [
+    dependencies: () => [
+      {
+        plugin: Logger.configure({
+          logger: {
+            hooks: {
+              logMethod(inputArgs, method, level) {
+                const levelLabel = pino.levels.labels[level]
+                // todo [>1]: fix so that zembleContext type is consistent
+                const context = zembleContext as unknown as Zemble.GlobalContext
+                context.pubsub.publish('logger', { severity: levelLabel, args: inputArgs })
+                method.apply(this, inputArgs)
+              },
+            },
+          },
+        }),
+      },
       {
         plugin: YogaPlugin.configure({
           yoga: {

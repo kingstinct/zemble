@@ -1,6 +1,7 @@
 /* eslint-disable functional/immutable-data, import/no-extraneous-dependencies */
 
 import { setupEnvOverride, resetEnv, createTestApp } from '@zemble/core/test-utils'
+import zembleContext from '@zemble/core/zembleContext'
 import { startInMemoryInstanceAndConfigurePlugin, closeAndStopInMemoryInstance, emptyAllCollections } from '@zemble/mongodb/test-utils'
 import generateKeys from 'zemble-plugin-auth/generate-keys'
 
@@ -17,7 +18,7 @@ export const setupBeforeAll = async () => {
 
   await createTestApp(plugin)
 
-  await papr.connect()
+  await papr.connect({ logger: zembleContext.logger })
 
   await mockAndReset()
 }

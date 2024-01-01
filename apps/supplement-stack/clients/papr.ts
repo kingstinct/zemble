@@ -1,30 +1,31 @@
-import zembleContext from '@zemble/core/zembleContext'
 import { MongoClient } from 'mongodb'
 import Papr from 'papr'
+
+import type { IStandardLogger } from '@zemble/core'
 
 // eslint-disable-next-line import/no-mutable-exports
 export let client: MongoClient | undefined
 
 const papr = new Papr()
 
-export async function connect() {
+export async function connect({ logger }: {readonly logger: IStandardLogger}) {
   const mongoUrl = process.env.MONGO_URL
 
   if (!mongoUrl) throw new Error('MONGO_URL not set')
 
-  zembleContext.logger.log('Connecting to MongoDB...', mongoUrl)
+  logger.info('Connecting to MongoDB...', mongoUrl)
 
   client = await MongoClient.connect(mongoUrl)
 
-  zembleContext.logger.log('Connected to MongoDB!')
+  logger.info('Connected to MongoDB!')
 
   const db = client.db()
 
   papr.initialize(db)
 
-  zembleContext.logger.log(`Registering ${papr.models.size} models...`)
+  logger.info(`Registering ${papr.models.size} models...`)
   papr.models.forEach((model) => {
-    zembleContext.logger.log(`Registering model: ${model.collection.collectionName}`)
+    logger.info(`Registering model: ${model.collection.collectionName}`)
   })
 
   await papr.updateSchemas()

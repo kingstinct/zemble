@@ -1,4 +1,4 @@
-import { IStandardKeyValueService } from '@zemble/core'
+import { IStandardKeyValueService, type IStandardLogger } from '@zemble/core'
 
 import createClient from './redis'
 
@@ -28,12 +28,12 @@ class RedisKeyValue<T> extends IStandardKeyValueService<T> {
 
   private readonly prefix: string
 
-  constructor(prefix: string, redisUrl: string, redisOptions?: RedisOptions) {
+  constructor(prefix: string, redisUrl: string, logger: IStandardLogger, redisOptions?: RedisOptions) {
     super()
 
     this.client = createClient(
       redisUrl,
-      redisOptions,
+      { redis: redisOptions, logger },
     )
 
     this.prefix = `zemble-plugin-kv:${prefix}`

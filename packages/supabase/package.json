@@ -21,8 +21,8 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "typecheck": "bun run codegen && tsc --noEmit",
-    "codegen": "graphql-codegen",
+    "typecheck": "tsc --noEmit",
+    "graphql-codegen": "graphql-codegen",
     "supabase-codegen": "supabase gen types typescript --project-id \"nptqmmaxmynahsgfuvhn\" --schema public > types/supabase.generated.ts"
   },
   "devDependencies": {

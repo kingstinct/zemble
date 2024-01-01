@@ -17,12 +17,15 @@ import type { Middleware } from '@zemble/core/types'
 
 export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
   {
-    config, app, context, plugins,
+    config, app, context, plugins, logger,
   },
 ) => {
   const pubsub = await createPubSub(
     config.redisUrl,
-    config.redisOptions,
+    {
+      logger,
+      redis: config.redisOptions,
+    },
   )
 
   const { hono } = app
@@ -33,14 +36,14 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
   })
 
   if (process.env.NODE_ENV === 'test') {
-    // @ts-expect-error sdfgsdfg
+    // @ts-expect-error fix later
     app.gqlRequest = async (query, vars, opts) => {
       const response = await gqlRequest(app, query, vars, opts)
 
       return response
     }
 
-    // @ts-expect-error sdfgsdfg
+    // @ts-expect-error fix later
     app.gqlRequestUntyped = async (untypedQuery: string, vars, opts) => {
       const response = await gqlRequestUntyped(app, untypedQuery, vars, opts)
       return response
@@ -78,7 +81,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
       return mergedSchema
     },
     pubsub,
-    context.logger,
+    logger,
     {
       ...config.yoga,
       graphiql: async (req, context) => {
