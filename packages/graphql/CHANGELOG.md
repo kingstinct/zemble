@@ -1,5 +1,13 @@
 # @zemble/graphql
 
+## 0.0.26
+
+### Patch Changes
+
+- 1263fb6: Streamline logging
+- Updated dependencies [1263fb6]
+  - @zemble/core@0.1.1
+
 ## 0.0.25
 
 ### Patch Changes

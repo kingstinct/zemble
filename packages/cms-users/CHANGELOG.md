@@ -1,5 +1,19 @@
 # zemble-plugin-cms-users
 
+## 0.0.26
+
+### Patch Changes
+
+- 1263fb6: Streamline logging
+- Updated dependencies [1263fb6]
+  - zemble-plugin-auth-otp@0.0.24
+  - zemble-plugin-auth@0.0.24
+  - zemble-plugin-cms@0.0.26
+  - @zemble/core@0.1.1
+  - @zemble/graphql@0.0.26
+  - zemble-plugin-kv@0.0.24
+  - @zemble/mongodb@0.0.11
+
 ## 0.0.25
 
 ### Patch Changes

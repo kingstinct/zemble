@@ -1,5 +1,20 @@
 # minimal
 
+## 0.0.24
+
+### Patch Changes
+
+- 1263fb6: Streamline logging
+- Updated dependencies [1263fb6]
+  - zemble-plugin-auth@0.0.24
+  - @zemble/core@0.1.1
+  - @zemble/graphql@0.0.26
+  - zemble-plugin-logger-graphql@0.0.22
+  - @zemble/bun@0.0.12
+  - @zemble/migrations@0.0.9
+  - @zemble/pino@0.0.2
+  - @zemble/routes@0.0.13
+
 ## 0.0.23
 
 ### Patch Changes

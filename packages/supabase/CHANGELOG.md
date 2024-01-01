@@ -1,5 +1,16 @@
 # zemble-plugin-supabase
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [1263fb6]
+  - zemble-plugin-auth@0.0.24
+  - @zemble/core@0.1.1
+  - @zemble/graphql@0.0.26
+  - @zemble/bun@0.0.12
+  - @zemble/routes@0.0.13
+
 ## 0.0.4
 
 ### Patch Changes

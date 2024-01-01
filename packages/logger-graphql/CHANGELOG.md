@@ -1,5 +1,15 @@
 # zemble-plugin-logger-graphql
 
+## 0.0.22
+
+### Patch Changes
+
+- 1263fb6: Streamline logging
+- Updated dependencies [1263fb6]
+  - @zemble/core@0.1.1
+  - @zemble/graphql@0.0.26
+  - @zemble/pino@0.0.2
+
 ## 0.0.21
 
 ### Patch Changes

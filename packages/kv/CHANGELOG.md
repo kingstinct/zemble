@@ -1,5 +1,14 @@
 # zemble-plugin-kv
 
+## 0.0.24
+
+### Patch Changes
+
+- 1263fb6: Streamline logging
+- Updated dependencies [1263fb6]
+  - @zemble/core@0.1.1
+  - @zemble/graphql@0.0.26
+
 ## 0.0.23
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.1
+
+### Patch Changes
+
+- 1263fb6: Streamline logging
+
 ## 0.1.0
 
 ### Minor Changes
