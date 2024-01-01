@@ -1,5 +1,11 @@
 # create-zemble-plugin
 
+## 0.0.5
+
+### Patch Changes
+
+- 1263fb6: Streamline logging
+
 ## 0.0.4
 
 ### Patch Changes
