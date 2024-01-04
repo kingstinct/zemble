@@ -1,5 +1,20 @@
 # minimal
 
+## 0.0.25
+
+### Patch Changes
+
+- Add script zemble-app-codegen
+- Updated dependencies
+  - @zemble/migrations@0.0.10
+  - @zemble/graphql@0.0.27
+  - @zemble/core@0.1.2
+  - zemble-plugin-auth@0.0.25
+  - zemble-plugin-logger-graphql@0.0.23
+  - @zemble/bun@0.0.13
+  - @zemble/pino@0.0.3
+  - @zemble/routes@0.0.14
+
 ## 0.0.24
 
 ### Patch Changes

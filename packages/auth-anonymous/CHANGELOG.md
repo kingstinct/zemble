@@ -1,5 +1,14 @@
 # zemble-plugin-auth-anonymous
 
+## 0.0.23
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/graphql@0.0.27
+  - @zemble/core@0.1.2
+  - zemble-plugin-auth@0.0.25
+
 ## 0.0.22
 
 ### Patch Changes

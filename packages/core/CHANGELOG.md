@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.2
+
+### Patch Changes
+
+- Add script zemble-app-codegen
+
 ## 0.1.1
 
 ### Patch Changes
