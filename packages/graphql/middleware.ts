@@ -14,6 +14,26 @@ import handleYoga from './utils/handleYoga'
 import type { GraphQLMiddlewareConfig } from './plugin'
 import type { Plugin } from '@zemble/core'
 import type { Middleware } from '@zemble/core/types'
+import type { GraphQLSchema } from 'graphql'
+
+export const absoluteOrRelativeToCwd = (pathTo: string) => {
+  if (path.isAbsolute(pathTo)) {
+    return pathTo
+  }
+
+  return path.join(process.cwd(), pathTo)
+}
+
+export const printMergedSchema = async (
+  mergedSchema: GraphQLSchema,
+  outputMergedSchemaPath: string,
+) => {
+  if (outputMergedSchemaPath) {
+    const resolvedPath = absoluteOrRelativeToCwd(outputMergedSchemaPath)
+
+    await fs.promises.writeFile(resolvedPath, `${printSchemaWithDirectives(mergedSchema)}\n`)
+  }
+}
 
 export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
   {
@@ -71,11 +91,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
       const mergedSchema = await buildMergedSchema(plugins, config)
 
       if (config.outputMergedSchemaPath) {
-        const resolvedPath = path.isAbsolute(config.outputMergedSchemaPath)
-          ? config.outputMergedSchemaPath
-          : path.join(process.cwd(), config.outputMergedSchemaPath)
-
-        void fs.promises.writeFile(resolvedPath, `${printSchemaWithDirectives(mergedSchema)}\n`)
+        void printMergedSchema(mergedSchema, config.outputMergedSchemaPath)
       }
 
       return mergedSchema

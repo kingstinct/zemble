@@ -130,6 +130,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   const zembleApp: Zemble.App = {
     ...preInitApp,
     hono,
+    plugins,
     appDir,
     runBeforeServe,
   }
