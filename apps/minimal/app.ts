@@ -13,7 +13,9 @@ export default createApp({
     Routes.configure(),
     Logger.configure(),
     GraphQLLogger,
-    GraphQL.configure({ }),
+    GraphQL.configure({
+      outputMergedSchemaPath: './app.generated.graphql',
+    }),
     MyRoutes.configure(),
     Migrations.configure({
       createAdapter: () => dryrunAdapter,

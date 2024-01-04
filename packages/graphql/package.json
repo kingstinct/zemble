@@ -1,8 +1,9 @@
 {
   "name": "@zemble/graphql",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Zemble Plugin providing GraphQL support for your app",
   "main": "plugin.ts",
+  "bin": "./bin/zemble-app-codegen.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",

@@ -1,5 +1,13 @@
 # @zemble/graphql
 
+## 0.0.27
+
+### Patch Changes
+
+- Add script zemble-app-codegen
+- Updated dependencies
+  - @zemble/core@0.1.2
+
 ## 0.0.26
 
 ### Patch Changes

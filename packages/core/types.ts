@@ -88,6 +88,8 @@ declare global {
       providers: Providers
 
       readonly runBeforeServe: readonly RunBeforeServeFn[]
+
+      readonly plugins: readonly Plugin[]
     }
 
     interface DefaultMiddlewareConfig {

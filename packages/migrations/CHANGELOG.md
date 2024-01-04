@@ -1,5 +1,14 @@
 # @zemble/migrations
 
+## 0.0.10
+
+### Patch Changes
+
+- Add script zemble-app-codegen
+- Updated dependencies
+  - @zemble/core@0.1.2
+  - @zemble/bun@0.0.13
+
 ## 0.0.9
 
 ### Patch Changes

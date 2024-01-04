@@ -1,6 +1,6 @@
 {
   "name": "zemble-plugin-cms",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "@zemble Plugin for CMS functionality",
   "main": "plugin.ts",
   "private": true,
