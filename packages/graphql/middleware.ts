@@ -24,6 +24,14 @@ export const absoluteOrRelativeToCwd = (pathTo: string) => {
   return path.join(process.cwd(), pathTo)
 }
 
+export const absoluteOrRelativeTo = (pathTo: string, relativeTo: string) => {
+  if (path.isAbsolute(pathTo)) {
+    return pathTo
+  }
+
+  return path.join(relativeTo, pathTo)
+}
+
 export const printMergedSchema = async (
   mergedSchema: GraphQLSchema,
   outputMergedSchemaPath: string,
