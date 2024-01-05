@@ -1,5 +1,12 @@
 # zemble-plugin-auth
 
+## 0.0.27
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/graphql@0.0.29
+
 ## 0.0.26
 
 ### Patch Changes
