@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.30
+
+### Patch Changes
+
+- Use app path
+
 ## 0.0.29
 
 ### Patch Changes

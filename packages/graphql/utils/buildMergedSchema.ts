@@ -41,12 +41,13 @@ const processPluginSchema = async (pluginPath: string, {
 export const buildMergedSchema = async (
   plugins: readonly Plugin[],
   config: GraphQLMiddlewareConfig,
+  appPath: string,
 ) => {
-  const isPlugin = plugins.some(({ pluginPath }) => pluginPath === process.cwd())
+  const isPlugin = plugins.some(({ pluginPath }) => pluginPath === appPath)
   const selfSchemas: readonly GraphQLSchemaWithContext<Zemble.GraphQLContext>[] = [
     // don't load if we're already a plugin
     ...!isPlugin
-      ? await processPluginSchema(process.cwd(), {
+      ? await processPluginSchema(appPath, {
         transforms: [], scalars: config.scalars || {}, skipGraphQLValidation: false, logger: zembleContext.logger,
       })
       : [],

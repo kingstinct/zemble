@@ -8,7 +8,7 @@ import plugin from '../plugin'
 import buildMergedSchema from '../utils/buildMergedSchema'
 
 import type { GraphQLMiddlewareConfig } from '../plugin'
-import type { Plugin, ZembleApp } from '@zemble/core'
+import type { ZembleApp } from '@zemble/core'
 
 const args = process.argv.slice(2)
 
@@ -23,10 +23,10 @@ if (!pathToApp || pathToApp === '--help' || pathToApp === '-h' || pathToApp === 
 const absolutePathToApp = absoluteOrRelativeToCwd(pathToApp)
 
 const codegenMergedSchema = async (
-  plugins: readonly Plugin<Zemble.GlobalConfig, Zemble.GlobalConfig, Zemble.GlobalConfig>[],
+  app: ZembleApp,
   config: GraphQLMiddlewareConfig,
 ) => {
-  const mergedSchema = await buildMergedSchema(plugins, config)
+  const mergedSchema = await buildMergedSchema(app.plugins, config, app.appDir)
 
   if (config.outputMergedSchemaPath) {
     const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, path.dirname(absolutePathToApp))
@@ -51,6 +51,6 @@ const app = await loadApp()
 
 zembleContext.logger.info('Loaded app, proceeding with codegen..')
 
-await codegenMergedSchema(app.plugins, plugin.config)
+await codegenMergedSchema(app, plugin.config)
 
 zembleContext.logger.info(`Successfully generated merged schema at ${plugin.config.outputMergedSchemaPath}`)
