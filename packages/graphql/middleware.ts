@@ -96,7 +96,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
 
   const handlerPromise = handleYoga(
     async () => {
-      const mergedSchema = await buildMergedSchema(plugins, config)
+      const mergedSchema = await buildMergedSchema(plugins, config, app.appDir)
 
       if (config.outputMergedSchemaPath) {
         void printMergedSchema(mergedSchema, config.outputMergedSchemaPath)
