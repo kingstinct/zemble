@@ -127,7 +127,7 @@ const defaultLogger = () => {
   return defaultLoggerInternal
 }
 
-export const migrateUp = async (opts: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
+export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
   const { logger = defaultLogger(), migrateUpCount = Infinity } = opts ?? {}
 
   logger.info(`migrateUp: ${upMigrationsRemaining.length} migrations to process`)
