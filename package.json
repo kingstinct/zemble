@@ -54,8 +54,8 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@tsconfig/bun": "^1.0.1",
     "@types/bun": "latest",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
     "check-dependency-version-consistency": "^4.1.0",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -65,7 +65,7 @@
     "eslint-plugin-comment-length": "^1.7.2",
     "eslint-plugin-functional": "^6.0.0",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jest": "^27.6.0",
+    "eslint-plugin-jest": "^27.6.1",
     "eslint-plugin-jsonc": "^2.11.2",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.33.2",
@@ -77,7 +77,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "pino-pretty": "^10.3.1",
-    "turbo": "^1.11.2",
+    "turbo": "^1.11.3",
     "typescript-json-schema": "^0.62.0"
   },
   "workspaces": [

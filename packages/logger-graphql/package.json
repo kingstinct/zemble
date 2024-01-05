@@ -34,12 +34,12 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@graphql-yoga/plugin-defer-stream": "^3.1.0",
+    "@graphql-yoga/plugin-defer-stream": "^3.1.1",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/pino": "workspace:*",
-    "graphql-yoga": "^5.1.0",
-    "hono": "^3.11.10",
+    "graphql-yoga": "^5.1.1",
+    "hono": "^3.12.0",
     "pino": "^8.17.2"
   },
   "devDependencies": {

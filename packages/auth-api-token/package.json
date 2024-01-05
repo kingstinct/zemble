@@ -37,7 +37,7 @@
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.4",
-    "hono": "^3.11.10",
+    "hono": "^3.12.0",
     "jose": "^5.2.0",
     "zemble-plugin-auth": "workspace:*"
   }
