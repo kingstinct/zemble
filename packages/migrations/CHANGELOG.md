@@ -1,5 +1,11 @@
 # @zemble/migrations
 
+## 0.0.12
+
+### Patch Changes
+
+- 98c0a48: Add optional
+
 ## 0.0.11
 
 ### Patch Changes
