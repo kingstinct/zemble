@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 
 import zembleContext from '@zemble/core/zembleContext'
+import path from 'node:path'
 
 import { absoluteOrRelativeTo, absoluteOrRelativeToCwd, printMergedSchema } from '../middleware'
 import plugin from '../plugin'
@@ -28,7 +29,7 @@ const codegenMergedSchema = async (
   const mergedSchema = await buildMergedSchema(plugins, config)
 
   if (config.outputMergedSchemaPath) {
-    const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, absolutePathToApp)
+    const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, path.dirname(absolutePathToApp))
     await printMergedSchema(mergedSchema, pathRelativeToApp)
   }
 }
