@@ -1,6 +1,6 @@
 {
   "name": "minimal",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "A minimal example app",
   "private": true,
   "main": "app.ts",

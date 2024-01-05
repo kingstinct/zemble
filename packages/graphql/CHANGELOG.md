@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.31
+
+### Patch Changes
+
+- Fix appPath in script
+
 ## 0.0.30
 
 ### Patch Changes

@@ -26,10 +26,12 @@ const codegenMergedSchema = async (
   app: ZembleApp,
   config: GraphQLMiddlewareConfig,
 ) => {
-  const mergedSchema = await buildMergedSchema(app.plugins, config, app.appDir)
+  const appDir = path.dirname(absolutePathToApp)
+
+  const mergedSchema = await buildMergedSchema(app.plugins, config, appDir)
 
   if (config.outputMergedSchemaPath) {
-    const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, path.dirname(absolutePathToApp))
+    const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, appDir)
     await printMergedSchema(mergedSchema, pathRelativeToApp)
   }
 }
