@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.28
+
+### Patch Changes
+
+- 7bb5510: Adjust name of zemble-app-graphql-codegen, make it relative to app
+
 ## 0.0.27
 
 ### Patch Changes
