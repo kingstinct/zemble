@@ -1,5 +1,11 @@
 # @zemble/migrations
 
+## 0.0.11
+
+### Patch Changes
+
+- Make migrateUp/down options optional
+
 ## 0.0.10
 
 ### Patch Changes

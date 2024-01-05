@@ -1,5 +1,12 @@
 # zemble-plugin-cms-users
 
+## 0.0.28
+
+### Patch Changes
+
+- @zemble/mongodb@0.0.13
+- zemble-plugin-cms@0.0.28
+
 ## 0.0.27
 
 ### Patch Changes
