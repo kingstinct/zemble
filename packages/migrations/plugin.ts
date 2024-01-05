@@ -95,9 +95,11 @@ const getMigrations = async (migrationsDir: string, adapter: MigrationAdapter | 
 let upMigrationsRemaining = [] as readonly MigrationToProcess[]
 let downMigrationsRemaining = [] as readonly MigrationToProcess[]
 
-export const migrateDown = async ({ migrateDownCount = 1, logger }: { readonly migrateDownCount?: number, readonly logger?: IStandardLogger }) => {
-  const l = logger ?? defaultLogger()
-  l.info(`migrateDown: ${upMigrationsRemaining.length} migrations to process`)
+export const migrateDown = async (
+  opts?: { readonly migrateDownCount?: number, readonly logger?: IStandardLogger },
+) => {
+  const { migrateDownCount = 1, logger = defaultLogger() } = opts ?? {}
+  logger.info(`migrateDown: ${upMigrationsRemaining.length} migrations to process`)
 
   await downMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, adapter,
@@ -107,14 +109,14 @@ export const migrateDown = async ({ migrateDownCount = 1, logger }: { readonly m
       return
     }
 
-    l.info(`Migrate down: ${migrationName}`)
+    logger.info(`Migrate down: ${migrationName}`)
     const { down } = await import(fullPath) as Migration
     if (down) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       await adapter?.down(migrationName, async (context) => down(context ?? {}))
     } else {
-      l.warn(`Migration ${migrationName} did not have a down function.`)
+      logger.warn(`Migration ${migrationName} did not have a down function.`)
     }
   }, Promise.resolve())
 }
@@ -125,9 +127,10 @@ const defaultLogger = () => {
   return defaultLoggerInternal
 }
 
-export const migrateUp = async ({ logger, migrateUpCount = Infinity }: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
-  const l = logger ?? defaultLogger()
-  l.info(`migrateUp: ${upMigrationsRemaining.length} migrations to process`)
+export const migrateUp = async (opts: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
+  const { logger = defaultLogger(), migrateUpCount = Infinity } = opts ?? {}
+
+  logger.info(`migrateUp: ${upMigrationsRemaining.length} migrations to process`)
   await upMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, progress, adapter,
   }, index) => {
@@ -137,7 +140,7 @@ export const migrateUp = async ({ logger, migrateUpCount = Infinity }: { readonl
       return
     }
 
-    l.info(`Migrate up: ${migrationName}`)
+    logger.info(`Migrate up: ${migrationName}`)
     const { up } = await import(fullPath) as unknown as { readonly up: Up, readonly down?: Down }
     if (up) {
       await adapter?.up(migrationName, async (context) => up({
