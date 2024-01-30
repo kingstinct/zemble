@@ -21,7 +21,7 @@ const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
     return { __typename: 'CodeNotValidError', message: 'Code should be 6 characters' }
   }
 
-  const entry = await loginRequestKeyValue.get(email.toLowerCase())
+  const entry = await loginRequestKeyValue().get(email.toLowerCase())
 
   if (!entry) {
     return { __typename: 'CodeNotValidError', message: 'Must loginRequest code first, it might have expired' }

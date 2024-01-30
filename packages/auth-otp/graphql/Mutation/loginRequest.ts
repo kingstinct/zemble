@@ -20,7 +20,7 @@ const loginRequest: MutationResolvers['loginRequest'] = async (_, {
     return { message: 'Not a valid email', __typename: 'EmailNotValidError' }
   }
 
-  const existing = await loginRequestKeyValue.get(email.toLowerCase())
+  const existing = await loginRequestKeyValue().get(email.toLowerCase())
 
   if (existing?.loginRequestedAt) {
     const { loginRequestedAt } = existing,
@@ -36,7 +36,7 @@ const loginRequest: MutationResolvers['loginRequest'] = async (_, {
 
   const twoFactorCode = getTwoFactorCode()
 
-  await loginRequestKeyValue.set(email.toLowerCase(), {
+  await loginRequestKeyValue().set(email.toLowerCase(), {
     loginRequestedAt: new Date().toISOString(),
     twoFactorCode,
   }, plugin.config.twoFactorCodeExpiryInSeconds)

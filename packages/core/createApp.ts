@@ -43,7 +43,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
       ...ctx.env ?? {},
       ...{
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        kv: context.kv,
+        kv: context.kv.bind(context.kv),
         logger: context.logger,
       },
     }
@@ -86,7 +86,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   const defaultProviders = {
     logger: context.logger,
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    kv: context.kv,
+    kv: context.kv.bind(context.kv),
   } as Zemble.Providers
 
   plugins.forEach((plugin) => {

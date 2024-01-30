@@ -24,7 +24,7 @@ const LoginConfirmMutation = graphql(`
 
 describe('Mutation.loginConfirm', () => {
   beforeEach(async () => {
-    await loginRequestKeyValue.clear()
+    await loginRequestKeyValue().clear()
   })
 
   it('Should return a token', async () => {
