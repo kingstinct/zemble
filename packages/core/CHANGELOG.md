@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.3
+
+### Patch Changes
+
+- 3358b3f: Add websocket support for bun
+
 ## 0.1.2
 
 ### Patch Changes
