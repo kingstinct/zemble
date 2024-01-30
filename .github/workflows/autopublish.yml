@@ -15,10 +15,8 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        bun-version: [1.0.20]
         os: [ubuntu-latest, macos-latest]
     with:
-      bun-version: ${{ matrix.bun-version }}
       os: ${{ matrix.os }}
     secrets: 
       TEST_PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
@@ -33,9 +31,13 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
+      - uses: cardinalby/export-env-action@2.2.0
+        with:
+          envFile: .env.github
+
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.20
+          bun-version: ${{ env.BUN_VERSION }}
 
       - run: HUSKY=0 bun install --concurrent-scripts 1 --ignore-scripts
         env:

@@ -1,19 +1,23 @@
 /* eslint-disable no-nested-ternary */
 import { createYoga } from 'graphql-yoga'
 
+import createWebsocketHandler from './createWebSocketHandler'
+
 import type { GraphQLSchemaWithContext, YogaServerOptions } from 'graphql-yoga'
 import type { Context } from 'hono'
 
 export default async (
   getSchema: () => Promise<GraphQLSchemaWithContext<Zemble.GraphQLContext>>,
   pubsub: Zemble.GraphQLContext['pubsub'],
-  logger: Zemble.GraphQLContext['logger'],
+  app: Pick<Zemble.App, 'websocketHandler'>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   opts?: Omit<YogaServerOptions<Zemble.GraphQLContext, Record<string, any>>, 'schema'>,
+
 ) => {
+  let schema = await getSchema()
   let yoga = createYoga({
     ...opts,
-    schema: await getSchema(),
+    schema,
   })
 
   async function subscribe() {
@@ -21,12 +25,19 @@ export default async (
 
     // eslint-disable-next-line no-restricted-syntax
     for await (const _ of eventSource) {
+      schema = await getSchema()
       yoga = createYoga({
         ...opts,
-        schema: await getSchema(),
+        schema,
       })
+
+      // eslint-disable-next-line functional/immutable-data, no-param-reassign
+      app.websocketHandler = createWebsocketHandler(schema, yoga)
     }
   }
+
+  // eslint-disable-next-line functional/immutable-data, no-param-reassign
+  app.websocketHandler = createWebsocketHandler(schema, yoga)
 
   void subscribe()
 

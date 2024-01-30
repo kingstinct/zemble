@@ -105,7 +105,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
       return mergedSchema
     },
     pubsub,
-    logger,
+    app,
     {
       ...config.yoga,
       graphiql: async (req, context) => {
@@ -114,6 +114,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
           : (config.yoga?.graphiql ?? {}))
         return ({
           credentials: 'include',
+          subscriptionsProtocol: config.subscriptionTransport === 'ws' ? 'WS' : 'SSE',
           ...typeof resolved === 'boolean' ? {} : resolved,
         })
       },
@@ -162,6 +163,8 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
 
     return handler(ctx)
   })
+
+  await handlerPromise
 }
 
 export default middleware

@@ -51,8 +51,6 @@ on:
       - "!main" # excludes the master branch
 
 env:
-  BUN_VERSION: ${{ inputs.bun-version || 'latest' }}
-  MONGOMS_PREFER_GLOBAL_PATH: true
   MONGOMS_VERSION: ${{ inputs.mongo-version || '7.0.4' }}
   RUNS_ON: ${{ inputs.os || 'ubuntu-latest' }}
 
@@ -68,16 +66,20 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - uses: cardinalby/export-env-action@2.2.0
+        with:
+          envFile: .env.github
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
+
       - uses: actions/cache@v3
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ runner.os }}-mongodb-${{ env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
+          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
-
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: ${{ env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1
 
@@ -101,17 +103,20 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - uses: cardinalby/export-env-action@2.2.0
+        with:
+          envFile: .env.github
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
       - uses: actions/cache@v3
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ runner.os }}-mongodb-${{ env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
+          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
-
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: ${{ env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1
 
@@ -136,9 +141,13 @@ jobs:
       - uses: actions/checkout@v3
         id: checkout
 
+      - uses: cardinalby/export-env-action@2.2.0
+        with:
+          envFile: .env.github
+
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1 --ignore-scripts
 
@@ -158,9 +167,13 @@ jobs:
       - uses: actions/checkout@v3
         id: checkout
 
+      - uses: cardinalby/export-env-action@2.2.0
+        with:
+          envFile: .env.github
+
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1 --ignore-scripts
 
@@ -179,9 +192,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - uses: cardinalby/export-env-action@2.2.0
+        with:
+          envFile: .env.github
+
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
       - run: bun install --concurrent-scripts 1 --ignore-scripts
 

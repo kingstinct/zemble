@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import type { Plugin } from '.'
+import type { WebSocketHandler } from 'bun'
 import type { PubSub } from 'graphql-yoga'
 import type {
   Hono, Context as HonoContext,
@@ -90,6 +91,8 @@ declare global {
       readonly runBeforeServe: readonly RunBeforeServeFn[]
 
       readonly plugins: readonly Plugin[]
+      // eslint-disable-next-line functional/prefer-readonly-type
+      websocketHandler?: WebSocketHandler
     }
 
     interface DefaultMiddlewareConfig {
@@ -190,7 +193,7 @@ export type MiddlewareReturn = Promise<void> | void | RunBeforeServeFn | Promise
 export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig, PluginType extends Plugin = Plugin> = (
   opts: {
     readonly plugins: readonly PluginType[],
-    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers'>,
+    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers' | 'websocketHandler'>,
     readonly context: Zemble.GlobalContext
     readonly config: TMiddlewareConfig,
     readonly self: PluginType,

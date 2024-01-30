@@ -1,6 +1,5 @@
 import { useEngine, useLogger } from '@envelop/core'
 import { Plugin, type IStandardLogger } from '@zemble/core'
-import zembleContext from '@zemble/core/zembleContext'
 import * as GraphQLJS from 'graphql'
 
 import middleware from './middleware'
@@ -92,6 +91,8 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly extendSchema?: readonly GraphQLSchema[] | (() => Promise<readonly GraphQLSchema[]>)
   readonly scalars?: Record<string, GraphQLScalarType>
   readonly outputMergedSchemaPath?: string | false
+
+  readonly subscriptionTransport?: 'sse' | 'ws'
 }
 
 const logFn = (eventName: string, ...args: readonly unknown[]) => {
@@ -121,6 +122,7 @@ const defaultConfig = {
   },
   redisUrl: process.env.REDIS_URL,
   outputMergedSchemaPath: './app.generated.graphql',
+  subscriptionTransport: 'sse',
 } satisfies GraphQLMiddlewareConfig
 
 const plugin = new Plugin<GraphQLMiddlewareConfig>(
