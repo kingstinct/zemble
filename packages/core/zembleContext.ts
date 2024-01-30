@@ -1,6 +1,5 @@
+import { KeyValue, type IStandardKeyValueService } from '.'
 import createLogger from './createLogger'
-
-import type { IStandardKeyValueService } from '.'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -13,8 +12,7 @@ class ContextInstance implements Zemble.GlobalContext {
     T extends Zemble.KVPrefixes[K],
     K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes
   >(prefix: K): IStandardKeyValueService<T> {
-    // @ts-expect-error fix sometime maybe :)
-    return new KeyValue<T>(prefix) as unknown as IStandardKeyValueService<T>
+    return new KeyValue<T>(prefix as string) as unknown as IStandardKeyValueService<T>
   }
 }
 
