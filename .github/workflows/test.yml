@@ -78,7 +78,7 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ runner.os }}-mongodb-${{ env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
+          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
       - run: bun install --concurrent-scripts 1
@@ -115,7 +115,7 @@ jobs:
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
-          key: ${{ runner.os }}-mongodb-${{ env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
+          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
       - run: bun install --concurrent-scripts 1
