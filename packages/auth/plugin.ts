@@ -36,6 +36,10 @@ interface AuthConfig extends Zemble.GlobalConfig {
   }
 }
 
+function isGraphQlWsContext(context: Context | Zemble.GraphQlWsContext): context is Zemble.GraphQlWsContext {
+  return 'connectionParams' in context
+}
+
 const validateIncludes = (matchValueNode: ObjectValueNode, decodedToken: Record<string, unknown>,
   { executionArgs, fieldNode, objectType }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs }) => {
   const matcher = transformObjectNode(matchValueNode, { executionArgs, fieldNode, objectType })
@@ -117,14 +121,16 @@ const defaultConfig = {
 
 type ResolveTokensArgs = {
   readonly config: AuthConfig & typeof defaultConfig,
-  readonly context: Context,
+  readonly context: Context | Zemble.GraphQlWsContext,
   readonly decodeToken?: typeof defaultDecodeToken
 }
 
 const resolveTokens = async ({ config, context, decodeToken = defaultDecodeToken }: ResolveTokensArgs) => {
-  const headerName = config.headerName ?? 'authorization',
-        headerToken = context.req.header(headerName)?.split(' ')[1],
-        cookieToken = config.cookies.isEnabled !== false ? getCookie(context)[config.cookies.name] : undefined,
+  const isWs = isGraphQlWsContext(context),
+
+        headerName = config.headerName ?? 'authorization',
+        headerToken = isWs ? context.connectionParams?.authorization.split(' ')[1] : context.req.header(headerName)?.split(' ')[1],
+        cookieToken = config.cookies.isEnabled && !isWs !== false ? getCookie(context)[config.cookies.name] : undefined,
         token = headerToken ?? cookieToken
 
   const decodedToken = token ? await decodeToken(token) : undefined
@@ -168,10 +174,12 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
       const gql = graphqlYoga.configure({
         yoga: {
           plugins: [
-            useExtendContext(async (context: Zemble.GraphQLContext) => {
+            useExtendContext(async (context: Zemble.GraphQLContext | Zemble.GraphQlWsContext) => {
+              const isGraphQLContext = 'honoContext' in context
+
               const { token, decodedToken } = await resolveTokens({
                 config,
-                context: context.honoContext,
+                context: isGraphQLContext ? context.honoContext : context,
                 decodeToken: plugin.config.decodeToken,
               })
 

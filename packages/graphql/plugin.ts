@@ -7,8 +7,9 @@ import middleware from './middleware'
 import type { SubschemaConfig } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
 import type { GraphQLFormattedError, GraphQLScalarType, GraphQLSchema } from 'graphql'
+import type { Context } from 'graphql-ws'
 import type {
-  YogaServerOptions, YogaInitialContext,
+  YogaServerOptions, YogaInitialContext, GraphQLParams,
 } from 'graphql-yoga'
 import type { RedisOptions } from 'ioredis'
 
@@ -54,6 +55,11 @@ declare global {
       readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] | undefined
       readonly honoContext: RouteContext
       readonly logger: IStandardLogger
+    }
+
+    interface GraphQlWsContext extends Context<{readonly authorization: string}>, GlobalContext {
+      readonly logger: IStandardLogger
+      readonly params: GraphQLParams
     }
 
     interface HonoBindings extends Record<string, unknown> {
