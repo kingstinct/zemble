@@ -70,7 +70,7 @@ export default new Plugin<LoggerConfig>(
   import.meta.dir,
   {
     middleware: ({
-      app, plugins, config, context,
+      app, config, context,
     }) => {
       const defaultConfig = process.env.NODE_ENV === 'production' ? defaultProdConfig
         : (process.env.NODE_ENV === 'test' ? defaultTestConfig
@@ -84,7 +84,7 @@ export default new Plugin<LoggerConfig>(
 
       pinoDebug(logger)
 
-      plugins.forEach((plugin) => {
+      app.plugins.forEach((plugin) => {
         plugin.providers.logger = logger.child({
           pluginName: plugin.pluginName,
           pluginVersion: plugin.pluginVersion,
