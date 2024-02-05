@@ -1,0 +1,14 @@
+input Email {
+  email: String!
+  name: String
+}
+
+type Mutation {
+  sendEmail(
+    from: Email!,
+    to: [Email!]!,
+    subject: String!,
+    text: String!,
+    html: String
+  ): Boolean!
+}
