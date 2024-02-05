@@ -80,7 +80,6 @@ const plugin = new Plugin<EmailResendConfig, typeof defaultConfig>(import.meta.d
         app,
         initializeProvider,
         providerKey: 'sendEmail',
-        plugins: app.plugins,
         middlewareKey: '@zemble/email-resend',
       })
     }
