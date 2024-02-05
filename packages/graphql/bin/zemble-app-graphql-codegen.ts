@@ -28,7 +28,7 @@ const codegenMergedSchema = async (
 ) => {
   const appDir = path.dirname(absolutePathToApp)
 
-  const mergedSchema = await buildMergedSchema(app.plugins, config, appDir)
+  const mergedSchema = await buildMergedSchema(app, config)
 
   if (config.outputMergedSchemaPath) {
     const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, appDir)

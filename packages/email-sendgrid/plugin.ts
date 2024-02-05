@@ -80,7 +80,6 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
         app,
         initializeProvider,
         providerKey: 'sendEmail',
-        plugins,
         middlewareKey: 'zemble-plugin-email-sendgrid',
       })
     }

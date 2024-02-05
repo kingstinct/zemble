@@ -45,7 +45,7 @@ export const printMergedSchema = async (
 
 export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
   {
-    config, app, context, plugins, logger,
+    config, app, context, logger,
   },
 ) => {
   const pubsub = await createPubSub(
@@ -96,7 +96,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
 
   const handlerPromise = handleYoga(
     async () => {
-      const mergedSchema = await buildMergedSchema(plugins, config, app.appDir)
+      const mergedSchema = await buildMergedSchema(app, config)
 
       if (config.outputMergedSchemaPath) {
         void printMergedSchema(mergedSchema, config.outputMergedSchemaPath)

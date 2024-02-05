@@ -5,15 +5,13 @@ import { mergeSchemas } from '@graphql-tools/schema'
 import createPluginSchema from './createPluginSchema'
 
 import type { GraphQLMiddlewareConfig } from '../plugin'
-import type { Plugin } from '@zemble/core'
 import type {
   GraphQLSchemaWithContext,
 } from 'graphql-yoga'
 
 export const buildMergedSchema = async (
-  plugins: readonly Plugin[],
+  { plugins, appPlugin }: Pick<Zemble.App, 'plugins' | 'appPlugin'>,
   config: GraphQLMiddlewareConfig,
-  appPlugin: Plugin | null,
 ) => {
   const selfSchemas: readonly GraphQLSchemaWithContext<Zemble.GraphQLContext>[] = [
     // don't load if we're already a plugin

@@ -29,11 +29,11 @@ export const createPluginSchema = async (plugin: Plugin) => {
     Type,
     Scalars,
   ] = await Promise.all([
-    readResolvers(join(graphqlDir, '/Query'), plugin.providers.logger),
-    readResolvers(join(graphqlDir, '/Mutation'), plugin.providers.logger),
-    readResolvers(join(graphqlDir, '/Subscription'), plugin.providers.logger),
-    readResolvers(join(graphqlDir, '/Type'), plugin.providers.logger),
-    readResolvers(join(graphqlDir, '/Scalar'), plugin.providers.logger),
+    readResolvers(join(graphqlDir, '/Query'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir, '/Mutation'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir, '/Subscription'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir, '/Type'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir, '/Scalar'), plugin.providers.logger, plugin.isPluginRunLocally),
   ])
 
   const graphqlGlob = plugin.isPluginRunLocally

@@ -90,7 +90,6 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
           }
         },
         providerKey: 'mongodb',
-        plugins,
         middlewareKey: '@zemble/mongodb',
       })
     },

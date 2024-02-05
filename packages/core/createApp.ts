@@ -2,10 +2,10 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 
+import { Plugin } from './Plugin'
 import { readPackageJson } from './utils/readPackageJson'
 import context from './zembleContext'
 
-import type { Plugin } from './Plugin'
 import type { RunBeforeServeFn } from './types'
 
 const packageJson = readPackageJson()
@@ -103,6 +103,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     hono,
     appDir,
     providers: defaultProviders,
+    plugins,
   }
 
   const runBeforeServe = await pluginsWithMiddleware?.reduce(async (
@@ -112,7 +113,6 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     const p = await prev
 
     const ret = await pluginWithMiddleware.initializeMiddleware?.({
-      plugins,
       app: preInitApp,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -136,6 +136,10 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     plugins,
     appDir,
     runBeforeServe,
+    appPlugin: plugins.some((p) => p.isPluginRunLocally) ? undefined : new Plugin(import.meta.url, {
+      name: packageJson.name,
+      version: packageJson.version,
+    }),
   }
 
   hono.get('/', async (c) => c.html(`<html>

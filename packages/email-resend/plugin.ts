@@ -46,7 +46,7 @@ const defaultConfig = {
 // eslint-disable-next-line unicorn/consistent-function-scoping
 const plugin = new Plugin<EmailResendConfig, typeof defaultConfig>(import.meta.dir, {
   middleware: async ({
-    plugins, config, app, logger,
+    config, app, logger,
   }) => {
     if (!config.disable) {
       const initializeProvider = (): IStandardSendEmailService => async ({
@@ -80,7 +80,6 @@ const plugin = new Plugin<EmailResendConfig, typeof defaultConfig>(import.meta.d
         app,
         initializeProvider,
         providerKey: 'sendEmail',
-        plugins,
         middlewareKey: '@zemble/email-resend',
       })
     }

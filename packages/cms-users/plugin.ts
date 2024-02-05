@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Plugin } from '@zemble/core'
+import GraphQL from '@zemble/graphql'
 import mongodb from '@zemble/mongodb'
 import authOtp from 'zemble-plugin-auth-otp'
 import cms from 'zemble-plugin-cms'
@@ -56,6 +57,9 @@ const plugin = new Plugin(import.meta.dir,
         },
         {
           plugin: cms,
+        },
+        {
+          plugin: GraphQL,
         },
         {
           plugin: authOtp.configure({

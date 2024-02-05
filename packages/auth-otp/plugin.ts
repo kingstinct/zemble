@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { Plugin } from '@zemble/core'
+import GraphQL from '@zemble/graphql'
 import Auth from 'zemble-plugin-auth'
 import kv from 'zemble-plugin-kv'
 
@@ -88,6 +89,9 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(import.meta.dir, 
   dependencies: [
     {
       plugin: Auth,
+    },
+    {
+      plugin: GraphQL,
     },
     {
       plugin: kv,
