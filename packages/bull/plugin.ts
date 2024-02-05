@@ -94,7 +94,7 @@ export default new Plugin<BullPluginConfig>(import.meta.dir, {
       serverAdapter.registerPlugin()
     }
   },
-  devConfig: {
+  additionalConfigWhenRunningLocally: {
     bullboard: {
       nodeModulesRootPath: '../..',
     },

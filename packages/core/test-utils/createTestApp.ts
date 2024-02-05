@@ -9,7 +9,7 @@ export async function createTestApp<
   TDefaultConfig extends Partial<TConfig> = TConfig,
   TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig
 >(plugin: Plugin<TConfig, TDefaultConfig, TResolvedConfig>) {
-  const resolved = plugin.configure(plugin.devConfig)
+  const resolved = plugin.configure(plugin.additionalConfigWhenRunningLocally)
   return createApp({
     plugins: [...plugin.dependencies, resolved],
   })

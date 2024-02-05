@@ -64,7 +64,7 @@ export const defaultTestConfig = {
       },
     })),
   },
-}satisfies pino.LoggerOptions
+} satisfies pino.LoggerOptions
 
 export default new Plugin<LoggerConfig>(
   import.meta.dir,

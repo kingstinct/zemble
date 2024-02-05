@@ -36,8 +36,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@sendgrid/mail": "^8.1.0",
-    "graphql": "^16.8.1",
-    "zemble-plugin-kv": "workspace:*"
+    "graphql": "^16.8.1"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.0",

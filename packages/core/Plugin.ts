@@ -11,7 +11,7 @@ export class Plugin<
   // eslint-disable-next-line functional/prefer-readonly-type
   #config: TResolvedConfig
 
-  readonly devConfig?: TConfig
+  readonly additionalConfigWhenRunningLocally?: TConfig
 
   readonly dependencies: readonly Plugin<Zemble.GlobalConfig>[]
 
@@ -33,7 +33,7 @@ export class Plugin<
   constructor(__dirname: string, opts?: PluginOpts<Plugin<TConfig, TDefaultConfig, TResolvedConfig>, TConfig, TDefaultConfig, TResolvedConfig>) {
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
-    this.devConfig = opts?.devConfig
+    this.additionalConfigWhenRunningLocally = opts?.additionalConfigWhenRunningLocally
     this.#pluginName = opts?.name ?? this.pluginName
     this.#pluginVersion = opts?.version ?? this.pluginVersion
     const deps = opts?.dependencies ?? []
@@ -41,27 +41,22 @@ export class Plugin<
 
     const allDeps = (typeof deps === 'function') ? deps(this) : deps
 
-    const filteredDeps = allDeps.filter(this.#filterDevDependencies.bind(this))
+    const filteredDeps = allDeps.filter((d) => (this.isPluginRunLocally ? true : d.onlyWhenRunningLocally))
 
     const resolvedDeps = filteredDeps
       .map(({ plugin, config }) => plugin.configure(config))
 
-    if (this.#isPluginDevMode) {
-      this.configure(this.devConfig)
+    if (this.isPluginRunLocally) {
+      this.configure(this.additionalConfigWhenRunningLocally)
     }
 
     this.dependencies = resolvedDeps
   }
 
-  get #isPluginDevMode() {
-    return (process.env.NODE_ENV === 'development' && process.cwd() === this.pluginPath)
-  }
-
-  #filterDevDependencies(dep: Dependency) {
-    if (this.#isPluginDevMode) {
-      return true
-    }
-    return !dep.devOnly
+  get isPluginRunLocally() {
+    return (
+      process.cwd() === this.pluginPath
+    )
   }
 
   get initializeMiddleware() {

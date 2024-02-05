@@ -47,7 +47,7 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
   }) => {
     if (!config.disable) {
       const initializeProvider = (): IStandardSendEmailService => async ({
-        from, to, html, text, subject,
+        from, to, html, text, subject, bcc, cc, replyTo,
       // eslint-disable-next-line unicorn/consistent-function-scoping
       }) => {
         if (!plugin.config.SENDGRID_API_KEY) {
@@ -66,6 +66,9 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
           html: html ?? undefined,
           text,
           subject,
+          ...cc ? { cc: cc instanceof Array ? cc.map(mapEmail) : mapEmail(cc) } : {},
+          ...bcc ? { bcc: bcc instanceof Array ? bcc.map(mapEmail) : mapEmail(bcc) } : {},
+          ...replyTo ? { replyTo: replyTo instanceof Array ? replyTo.map(mapEmail)[0] : mapEmail(replyTo) } : {},
         })
 
         const ok = response.statusCode >= 200 && response.statusCode < 300
@@ -88,7 +91,7 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
     },
   ],
   defaultConfig,
-  devConfig: {
+  additionalConfigWhenRunningLocally: {
     SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
     middleware: {
       '@zemble/graphql': {

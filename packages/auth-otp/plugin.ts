@@ -94,7 +94,7 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(import.meta.dir, 
     },
   ],
   defaultConfig,
-  devConfig: {
+  additionalConfigWhenRunningLocally: {
     handleAuthRequest: ({ email }, code, { logger }) => { logger.info(`handleAuthRequest for ${email}`, code) },
     generateTokenContents,
     from: { email: 'noreply@zemble.com' },

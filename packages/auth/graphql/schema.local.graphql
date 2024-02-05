@@ -1,0 +1,60 @@
+scalar JSONObject
+
+input AuthOr {
+  includes: JSONObject
+  match: JSONObject
+}
+
+directive @auth(
+  match: JSONObject,
+  skip: Boolean
+  includes: JSONObject
+  or: [AuthOr!]
+) on FIELD_DEFINITION
+
+type Query {
+  # resolver for testing if the organisationId matches the variable
+  privateShitWithRole: String! @auth(match: { role: "admin" })
+
+  # resolver for testing if the organisationId matches the variable
+  variableReference(organisationId: String!): String! @auth(
+    match: {
+      role: "admin",
+      organisationId: "$organisationId"
+    }
+  )
+
+  # resolver for testing if the roles array in the token includes a matching object
+  includes(organisationId: String!): String! @auth(
+    includes: {
+      roles: {
+        role: "admin",
+        organisationId: "$organisationId"
+      }
+    }
+  )
+
+  advancedWithOr(organisationId: String!): String! @auth(
+    match: { type: "user-token" }
+    or: [
+      {
+        includes: {
+          roles: {
+            role: "admin",
+            organisationId: "$organisationId"
+          }
+        }
+      },
+      {
+        includes: {
+          roles: {
+            role: "superadmin",
+            organisationId: "$organisationId"
+          }
+        }
+      }
+    ]
+  )
+  privateShit: String!
+  publicShit: String! @auth(skip: true)
+}
