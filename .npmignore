@@ -1,0 +1,7 @@
+.*
+.**/*
+**/*.tgz
+**/*.test.*
+**/*.generated.*
+**/*.local.*
+**/*.generated/**

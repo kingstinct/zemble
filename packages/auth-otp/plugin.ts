@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { Plugin } from '@zemble/core'
+import GraphQL from '@zemble/graphql'
 import Auth from 'zemble-plugin-auth'
 import kv from 'zemble-plugin-kv'
 
@@ -90,11 +91,14 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(import.meta.dir, 
       plugin: Auth,
     },
     {
+      plugin: GraphQL,
+    },
+    {
       plugin: kv,
     },
   ],
   defaultConfig,
-  devConfig: {
+  additionalConfigWhenRunningLocally: {
     handleAuthRequest: ({ email }, code, { logger }) => { logger.info(`handleAuthRequest for ${email}`, code) },
     generateTokenContents,
     from: { email: 'noreply@zemble.com' },

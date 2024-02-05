@@ -1,4 +1,4 @@
-import { AuthContext, useDecodedToken } from '@kingstinct/react'
+import { AuthContext, useDecodedToken } from '@zemble/react'
 import { router } from 'expo-router'
 import { useCallback, useContext } from 'react'
 import { View } from 'react-native'

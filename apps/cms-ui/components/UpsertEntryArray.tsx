@@ -1,5 +1,5 @@
 /* eslint-disable functional/immutable-data */
-import { Styles } from '@kingstinct/react'
+import { Styles } from '@zemble/react'
 import {
   useCallback, useEffect, useState,
 } from 'react'

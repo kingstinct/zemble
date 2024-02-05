@@ -1,0 +1,165 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Create Caprover App
+
+on:
+  workflow_call:
+    secrets:
+      caproverPassword:
+        required: true
+    inputs:
+      discordWebhook:
+        required: false
+        type: string
+      envFile:
+        required: false
+        type: string
+        default: .env.github
+      caproverAppName:
+        required: true
+        type: string
+      caproverDomain:
+        required: true
+        type: string
+      deployTargetUrl:
+        required: false
+        type: string
+      deploymentEnvFile:
+        required: false
+        type: string
+      deploymentEnvVars:
+        required: false
+        type: string
+        description: Overrides deploymentEnvFile if specified
+        default: "[]"
+      hasPersistentData:
+        type: boolean
+        required: false
+        default: false
+      websocketSupport:
+        type: boolean
+        required: false
+        default: true
+      containerHttpPort:
+        type: number
+        default: 80
+      instanceCount:
+        type: number
+        default: 1
+  workflow_dispatch:
+    inputs:
+      discordWebhook:
+        required: false
+        type: string
+      envFile:
+        required: false
+        type: string
+        default: .env.github
+      deploymentEnvFile:
+        required: false
+        type: string
+      deploymentEnvVars:
+        required: false
+        type: string
+        description: Overrides deploymentEnvFile if specified
+        default: "[]"
+      caproverAppName:
+        required: true
+        type: string
+      caproverDomain:
+        required: true
+        type: string
+      deployTargetUrl:
+        required: false
+        type: string
+      hasPersistentData:
+        type: boolean
+        required: false
+        default: false
+      websocketSupport:
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency: deploy-to-kingstinct-dev
+    env:
+      CAPROVER_URL: https://captain.${{ inputs.caproverDomain }}
+      defaultDeployTargetUrl: "https://${{ inputs.caproverAppName }}.${{ inputs.caproverDomain }}"
+      CAPROVER_PASSWORD: ${{ secrets.caproverPassword }}
+      envVars: ${{ inputs.deploymentEnvVars }}
+      CAPROVER_APP: ${{ inputs.caproverAppName }}
+    environment:
+      name: ${{ inputs.caproverAppName }}
+      url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: cardinalby/export-env-action@2.2.0
+        with:
+          envFile: ${{ inputs.envFile }}
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Create Caprover App 👨‍✈️
+        run: bunx caprover api --path=/user/apps/appDefinitions/register --method=POST --data='{"appName":"${{ inputs.caproverAppName }}","hasPersistentData":${{ inputs.hasPersistentData }}}' || true
+
+        # # should optimally combine manual env vars (that could contain secrets) with .env file, problem with .ts here is the dependency on the code from the workflow..
+      - name: Read env file
+        if: ${{ !inputs.deploymentEnvVars && inputs.deploymentEnvFile }}
+        run: |
+          | file_path="${ENV_PATH:-.env.github}"
+          |
+          | index=0
+          | multiline_start_index=-1
+          |
+          | json="["
+
+          | while IFS= read -r line || [[ -n "$line" ]]; do
+          |   has_multiline_character=$(echo "$line" | grep -F "'")
+
+          |   if [[ -n "$has_multiline_character" && $multiline_start_index -eq -1 ]]; then
+          |     # found a multiline value
+          |     multiline_start_index=$index
+          |   elif [[ -n "$has_multiline_character" && $multiline_start_index -ne -1 ]]; then
+          |     # found end of a multiline value
+          |     rows_with_value=$(sed -n "$((multiline_start_index+1)),$((index+1))p" "$file_path" | tr '\n' '\n')
+          |     key=$(echo "$rows_with_value" | cut -d '=' -f 1)
+          |     value=$(echo "$rows_with_value" | cut -d '=' -f 2- | sed "s/'//g")
+          |     json+="{\"key\":\"$key\",\"value\":\"$value\"},"
+          |     multiline_start_index=-1
+          |   elif [[ -z "$has_multiline_character" && $multiline_start_index -ne -1 ]]; then
+          |     # keep looking for end of multiline value
+          |     :
+          |   else
+          |     # Single-line value
+          |     key=$(echo "$line" | cut -d '=' -f 1)
+          |     value=$(echo "$line" | cut -d '=' -f 2-)
+          |     json+="{\"key\":\"$key\",\"value\":\"$value\"},"
+          |   fi
+          |
+          |   ((index++))
+          | done < "$file_path"
+          |
+          | # Remove trailing comma and close the JSON array
+          | json="${json%?}]"
+          |
+          | echo "$json"
+          | echo "envVars=$json" >> $GITHUB_ENV
+
+      - name: Update App Settings ⚙️
+        run: bunx caprover api --path=/user/apps/appDefinitions/update --method=POST --data='{ "appName":"${{ inputs.caproverAppName }}", "websocketSupport":${{ inputs.websocketSupport }}, "containerHttpPort":${{ inputs.containerHttpPort || 80 }}, "instanceCount":${{ inputs.instanceCount || 1 }}, "envVars":${{ env.envVars }} }'
+
+      - name: Enable SSL 🔒
+        run: bunx caprover api --path=/user/apps/appDefinitions/enablebasedomainssl --method=POST --data='{"appName":"${{ inputs.caproverAppName }}"}'
+
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{ inputs.discordWebhook }}
+        with:
+          webhook: ${{ inputs.discordWebhook }}
+          url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}

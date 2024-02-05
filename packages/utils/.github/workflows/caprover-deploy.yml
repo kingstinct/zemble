@@ -1,0 +1,66 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Caprover Deploy
+
+on:
+  workflow_call:
+    secrets:
+      caproverPassword:
+        required: true
+        description: Caprover password
+    inputs:
+      discordWebhook:
+        required: false
+        description: Discord webhook
+        type: string
+      envFile:
+        required: false
+        type: string
+        default: .env.github
+      caproverAppName:
+        required: true
+        type: string
+      caproverDomain:
+        required: true
+        type: string
+      deployTargetUrl:
+        required: false
+        type: string
+      caproverImageName:
+        required: false
+        type: string
+        default: "ghcr.io/${{ github.repository }}:${{ github.sha }}"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      defaultDeployTargetUrl: "https://${{ inputs.caproverAppName }}.${{ inputs.caproverDomain }}"
+    environment:
+      name: ${{ inputs.caproverAppName }}
+      url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cardinalby/export-env-action@2.2.0
+        with:
+          envFile: ${{ inputs.envFile }}
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - run: bun install --concurrent-scripts 1 --frozen-lockfile
+
+      - run: bunx caprover deploy
+        env:
+          CAPROVER_URL: https://captain.${{ inputs.caproverDomain }}
+          CAPROVER_PASSWORD: ${{ secrets.caproverPassword }}
+          CAPROVER_IMAGE_NAME: ${{ inputs.caproverImageName }}
+          CAPROVER_APP: ${{ inputs.caproverAppName }}
+
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{ inputs.discordWebhook }}
+        with:
+          webhook: ${{ inputs.discordWebhook }}
+          url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}

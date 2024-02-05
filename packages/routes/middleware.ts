@@ -6,8 +6,8 @@ import initializePlugin from './utils/initializePlugin'
 import type { RoutesConfig } from './plugin'
 import type { Middleware } from '@zemble/core/types'
 
-const middleware: Middleware<RoutesConfig> = async ({ app, plugins, logger }) => {
-  await plugins.reduce(async (
+const middleware: Middleware<RoutesConfig> = async ({ app, logger }) => {
+  await app.plugins.reduce(async (
     prev,
     { pluginPath, config },
   ) => {

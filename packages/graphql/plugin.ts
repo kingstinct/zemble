@@ -6,7 +6,7 @@ import middleware from './middleware'
 
 import type { SubschemaConfig } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
-import type { GraphQLFormattedError, GraphQLScalarType, GraphQLSchema } from 'graphql'
+import type { GraphQLFormattedError, GraphQLSchema } from 'graphql'
 import type { Context } from 'graphql-ws'
 import type {
   YogaServerOptions, YogaInitialContext, GraphQLParams,
@@ -95,7 +95,7 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly redisOptions?: RedisOptions
 
   readonly extendSchema?: readonly GraphQLSchema[] | (() => Promise<readonly GraphQLSchema[]>)
-  readonly scalars?: Record<string, GraphQLScalarType>
+  // readonly scalars?: Record<string, GraphQLScalarType>
   readonly outputMergedSchemaPath?: string | false
 
   readonly subscriptionTransport?: 'sse' | 'ws'

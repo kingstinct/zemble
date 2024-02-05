@@ -1,0 +1,6 @@
+{
+  "packagerOpts": {
+    "config": "./metro.config.js",
+    "projectRoots": ""
+  }
+}

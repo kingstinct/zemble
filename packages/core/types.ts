@@ -19,6 +19,9 @@ export type IStandardSendEmailService = (options: {
   readonly text: string,
   readonly subject: string,
   readonly from: IEmail | string,
+  readonly replyTo?: readonly IEmail[] | IEmail | string | readonly string[],
+  readonly cc?: readonly IEmail[] | IEmail | string | readonly string[],
+  readonly bcc?: readonly IEmail[] | IEmail | string | readonly string[],
 }) => Promise<boolean>
 
 export abstract class IStandardKeyValueService<T = unknown> {
@@ -91,6 +94,7 @@ declare global {
       readonly runBeforeServe: readonly RunBeforeServeFn[]
 
       readonly plugins: readonly Plugin[]
+      readonly appPlugin?: Plugin
       // eslint-disable-next-line functional/prefer-readonly-type
       websocketHandler?: WebSocketHandler
     }
@@ -152,7 +156,11 @@ export type Dependency = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly plugin: Plugin<any, any, any>
   readonly config?: unknown,
-  readonly devOnly?: boolean, // decides if we should warn if this plugin is not used in production
+  /**
+   * To make it easy to write tests and develop a plugin towards an explicit implementation
+   * of an interface, but leave it up to the developer using the plugin which implementation to use
+   */
+  readonly onlyWhenRunningLocally?: boolean,
 }
 
 export type DependenciesResolver<TSelf> = readonly Dependency[] | ((self: TSelf) => readonly Dependency[])
@@ -169,13 +177,14 @@ export type PluginOpts<
    */
   readonly defaultConfig?: TDefaultConfig,
   /**
-   * Dependencies required for the plugin to work, specify devOnly: true if the plugin is only used in development (for
-   * example a specific implementation of authentication when you don't have a strict dependency on which auth module
+   * Dependencies required for the plugin to work, specify onlyWhenRunningLocally: true if the plugin is only used in
+   * development (for example a specific implementation of authentication when you don't have a strict dependency on
+   * which auth module
    * is used)
    */
   readonly dependencies?: DependenciesResolver<TSelf>
 
-  readonly devConfig?: TConfig,
+  readonly additionalConfigWhenRunningLocally?: TConfig,
 
   readonly name?: string,
   readonly version?: string,
@@ -192,8 +201,7 @@ export type MiddlewareReturn = Promise<void> | void | RunBeforeServeFn | Promise
 
 export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig, PluginType extends Plugin = Plugin> = (
   opts: {
-    readonly plugins: readonly PluginType[],
-    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers' | 'websocketHandler'>,
+    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers' | 'websocketHandler' | 'appPlugin' | 'plugins'>,
     readonly context: Zemble.GlobalContext
     readonly config: TMiddlewareConfig,
     readonly self: PluginType,

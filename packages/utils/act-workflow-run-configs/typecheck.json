@@ -1,0 +1,6 @@
+{
+  "inputs": {
+    "lint_command": "tsc --noEmit",
+    "package_manager": "pnpm"
+  }
+}

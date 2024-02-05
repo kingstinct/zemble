@@ -46,7 +46,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
   import.meta.dir,
   {
     middleware: async ({
-      app, config, plugins, logger,
+      app, config, logger,
     }) => {
       if (process.env.DEBUG) {
         logger.info('Connecting to MongoDB', config.url.replace(regexToHidePassword, '***'))
@@ -90,7 +90,6 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
           }
         },
         providerKey: 'mongodb',
-        plugins,
         middlewareKey: '@zemble/mongodb',
       })
     },

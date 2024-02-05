@@ -1,0 +1,78 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Typecheck
+
+on:
+  workflow_dispatch:
+    inputs:
+      typecheck_command:
+        required: false
+        description: The command for running typechecks
+        type: string
+        default: npx tsc --noEmit
+      package_manager:
+        required: false
+        description: The package manager to use
+        type: string
+        default: pnpm
+      pnpm_version:
+        required: false
+        type: string
+        default: "8"
+        description: If using pnpm - which version to use
+  workflow_call:
+    inputs:
+      typecheck_command:
+        required: false
+        type: string
+        default: npx tsc --noEmit
+      package_manager:
+        required: false
+        type: string
+        default: pnpm
+      pnpm_version:
+        required: false
+        type: string
+        default: "8"
+        description: If using pnpm - which version to use
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        id: checkout
+
+      - uses: pnpm/action-setup@v2
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        with:
+          version: ${{ inputs.pnpm_version }}
+
+      - uses: actions/setup-node@v3
+        if: ${{ env.ACT }}
+        with:
+          node-version-file: .nvmrc
+
+      - uses: actions/setup-node@v3
+        if: ${{ !env.ACT }}
+        with:
+          node-version-file: .nvmrc
+          cache: ${{ inputs.package_manager }}
+
+      - name: Install dependencies (bun)
+        run: ${{ inputs.package_manager }} install --frozen-lockfile --concurrent-scripts 1
+        if: ${{ inputs.package_manager == 'bun' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Install dependencies (npm)
+        run: npm ci
+        if: ${{ inputs.package_manager == 'npm' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Install dependencies (others)
+        run: ${{ inputs.package_manager }} install --frozen-lockfile
+        if: ${{ inputs.package_manager != 'npm' && inputs.package_manager != 'bun' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Typecheck
+        run: ${{ inputs.typecheck_command }}

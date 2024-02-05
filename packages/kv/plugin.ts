@@ -35,7 +35,7 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
   {
     defaultConfig,
     middleware: async ({
-      app, config, plugins, logger,
+      app, config, logger,
     }) => {
       await setupProvider({
         app,
@@ -71,7 +71,6 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
             return new KeyValue<T>(prefix as string) as IStandardKeyValueService<T>
           }
         },
-        plugins,
         providerKey: 'kv',
       })
     },

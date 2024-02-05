@@ -1,24 +1,21 @@
-import type { Plugin } from '@zemble/core'
-
 export type SetupProviderArgs<
   T extends Zemble.Providers[Key],
   Key extends keyof Zemble.Providers,
   TMiddlewareKey extends keyof Zemble.MiddlewareConfig
 > = {
-  readonly app: Pick<Zemble.App, 'providers'>,
-  readonly plugins: readonly Plugin[],
+  readonly app: Pick<Zemble.App, 'providers' | 'plugins'>,
   readonly initializeProvider: (forSpecificPlugin: Zemble.MiddlewareConfig[TMiddlewareKey] | undefined) => Promise<T> | T,
   readonly providerKey: Key,
   readonly middlewareKey: TMiddlewareKey
 }
 
 export async function setupProvider<T extends Zemble.Providers[Key], Key extends keyof Zemble.Providers, TMiddlewareKey extends keyof Zemble.MiddlewareConfig>({
-  app, initializeProvider, providerKey, plugins, middlewareKey,
+  app, initializeProvider, providerKey, middlewareKey,
 }: SetupProviderArgs<T, Key, TMiddlewareKey>) {
   // eslint-disable-next-line functional/immutable-data, no-param-reassign
   app.providers[providerKey] = await initializeProvider(undefined)
 
-  await Promise.all(plugins.map(async (p) => {
+  await Promise.all(app.plugins.map(async (p) => {
     const middlewareConfig = p.config.middleware?.[middlewareKey]
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

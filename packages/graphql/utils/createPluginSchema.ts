@@ -4,23 +4,24 @@ import { loadSchema } from '@graphql-tools/load'
 import { mergeResolvers } from '@graphql-tools/merge'
 import { addResolversToSchema } from '@graphql-tools/schema'
 import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
-import { join } from 'node:path'
+import fs from 'node:fs'
+import path, { join } from 'node:path'
 
 import readResolvers from './readResolvers'
 
-import type { Subschema } from '@graphql-tools/delegate'
-import type { IStandardLogger } from '@zemble/core'
-import type { GraphQLScalarType } from 'graphql'
+import type { Plugin } from '@zemble/core'
 
-export const createPluginSchema = async ({
-  graphqlDir, transforms, scalars, skipGraphQLValidation, logger,
-}: {
-  readonly graphqlDir: string;
-  readonly transforms: Subschema['transforms'],
-  readonly scalars: Record<string, GraphQLScalarType>,
-  readonly skipGraphQLValidation: boolean,
-  readonly logger: IStandardLogger,
-}) => {
+export const createPluginSchema = async (plugin: Plugin) => {
+  const graphqlDir = path.join(plugin.pluginPath, '/graphql')
+
+  const hasGraphQL = fs.existsSync(graphqlDir)
+  if (!hasGraphQL) {
+    return []
+  }
+
+  const middlewareConfig = plugin.config.middleware?.['@zemble/graphql']
+  const transforms = middlewareConfig?.graphqlSchemaTransforms || []
+
   const [
     Query,
     Mutation,
@@ -28,18 +29,20 @@ export const createPluginSchema = async ({
     Type,
     Scalars,
   ] = await Promise.all([
-    readResolvers(join(graphqlDir, '/Query'), logger),
-    readResolvers(join(graphqlDir, '/Mutation'), logger),
-    readResolvers(join(graphqlDir, '/Subscription'), logger),
-    readResolvers(join(graphqlDir, '/Type'), logger),
-    readResolvers(join(graphqlDir, '/Scalar'), logger),
+    readResolvers(join(graphqlDir, '/Query'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir, '/Mutation'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir, '/Subscription'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir, '/Type'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir, '/Scalar'), plugin.providers.logger, plugin.isPluginRunLocally),
   ])
 
-  const graphqlGlob = join(graphqlDir, './**/*.graphql')
+  const graphqlGlob = plugin.isPluginRunLocally
+    ? join(graphqlDir, './**/*.graphql')
+    : join(graphqlDir, './**/!(*.local).graphql')
 
   const schemaWithoutResolvers = await loadSchema(graphqlGlob, {
     loaders: [new GraphQLFileLoader()],
-    assumeValid: !!skipGraphQLValidation,
+    // assumeValid: !!skipGraphQLValidation,
   })
 
   const internalSchema = addResolversToSchema({
@@ -50,7 +53,7 @@ export const createPluginSchema = async ({
       Object.keys(Subscription).length > 0 ? { Subscription } : {},
       Type,
       Scalars,
-      scalars,
+      // scalars,
     ]),
   })
 
@@ -62,7 +65,7 @@ export const createPluginSchema = async ({
     transforms,
   }) : internalSchema
 
-  return schema
+  return [schema]
 }
 
 export default createPluginSchema

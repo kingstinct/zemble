@@ -28,7 +28,7 @@ export const createWebsocketHandler = (
         operationName: msg.payload.operationName,
         document: parse(msg.payload.query),
         variableValues: msg.payload.variables,
-        contextValue: await contextFactory(),
+        contextValue: await contextFactory({ wsContext: ctx }),
         rootValue: {
           execute,
           subscribe,

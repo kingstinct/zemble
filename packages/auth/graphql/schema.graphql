@@ -16,49 +16,4 @@ type Query {
   validateJWT(token: String!): Boolean! @auth(skip: true)
   readJWT(token: String!): JSONObject! @auth(skip: true)
   publicKey: String! @auth(skip: true)
-
-  # resolver for testing if the organisationId matches the variable
-  privateShitWithRole: String! @auth(match: { role: "admin" })
-
-  # resolver for testing if the organisationId matches the variable
-  variableReference(organisationId: String!): String! @auth(
-    match: {
-      role: "admin",
-      organisationId: "$organisationId"
-    }
-  )
-
-  # resolver for testing if the roles array in the token includes a matching object
-  includes(organisationId: String!): String! @auth(
-    includes: {
-      roles: {
-        role: "admin",
-        organisationId: "$organisationId"
-      }
-    }
-  )
-
-  advancedWithOr(organisationId: String!): String! @auth(
-    match: { type: "user-token" }
-    or: [
-      {
-        includes: {
-          roles: {
-            role: "admin",
-            organisationId: "$organisationId"
-          }
-        }
-      },
-      {
-        includes: {
-          roles: {
-            role: "superadmin",
-            organisationId: "$organisationId"
-          }
-        }
-      }
-    ]
-  )
-  privateShit: String!
-  publicShit: String! @auth(skip: true)
 }

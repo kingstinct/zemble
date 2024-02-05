@@ -1,9 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useExtendContext } from '@envelop/core'
 import { useGenericAuth } from '@envelop/generic-auth'
-import {
-  FilterRootFields,
-} from '@graphql-tools/wrap'
 import { Plugin } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
 import {
@@ -91,21 +88,6 @@ const validateMatch = (matchValueNode: ObjectValueNode, decodedToken: Record<str
 const defaultConfig = {
   ISSUER,
   headerName: 'authorization',
-  middleware: {
-    '@zemble/graphql': {
-      graphqlSchemaTransforms: process.env.PLUGIN_DEV || process.env.NODE_ENV === 'test'
-        ? []
-        : [
-          new FilterRootFields((
-            op, opName,
-          ) => op === 'Query' && [
-            'validateJWT',
-            'readJWT',
-            'publicKey',
-          ].includes(opName)),
-        ],
-    },
-  },
   cookies: {
     name: 'authorization',
     isEnabled: true as boolean,

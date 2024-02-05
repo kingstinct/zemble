@@ -1,0 +1,6 @@
+{
+  "inputs": {
+    "lint_command": "pnpm lint-only",
+    "package_manager": "pnpm"
+  }
+}
