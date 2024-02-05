@@ -1,5 +1,17 @@
 # zemble-plugin-auth
 
+## 0.0.31
+
+### Patch Changes
+
+- c1de438: adding token to ws-req
+- 86d9288: Add resend, utils and react
+- Updated dependencies [7adcfe4]
+- Updated dependencies [c1de438]
+  - @zemble/core@0.1.4
+  - @zemble/graphql@0.0.33
+  - @zemble/bun@0.0.15
+
 ## 0.0.30
 
 ### Patch Changes

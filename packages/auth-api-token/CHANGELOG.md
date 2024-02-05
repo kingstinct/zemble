@@ -1,5 +1,17 @@
 # zemble-plugin-auth-api-token
 
+## 0.0.31
+
+### Patch Changes
+
+- 86d9288: Add resend, utils and react
+- Updated dependencies [7adcfe4]
+- Updated dependencies [c1de438]
+- Updated dependencies [86d9288]
+  - @zemble/core@0.1.4
+  - zemble-plugin-auth@0.0.31
+  - @zemble/graphql@0.0.33
+
 ## 0.0.30
 
 ### Patch Changes
