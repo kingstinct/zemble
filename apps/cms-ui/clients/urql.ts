@@ -5,7 +5,7 @@ import {
 import { createClient as createWSClient } from 'graphql-ws'
 import { Platform } from 'react-native'
 
-import type { CombinedErrorWithExtensions, CreateUrqlClient } from '@kingstinct/react/contexts/Urql'
+import type { CombinedErrorWithExtensions, CreateUrqlClient } from '@zemble/react/contexts/Urql'
 
 const BACKEND_ROOT_URL = Platform.OS === 'web' ? 'http://localhost:3000' : 'http://robmax.local:3000'
 

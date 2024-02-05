@@ -1,0 +1,96 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: NPM Publish
+run-name: ${{ inputs.description }} (${{ inputs.release_type }}) release by @${{ github.actor }}
+
+on:
+  workflow_call:
+    inputs:
+      description:
+        description: Description
+        required: false
+        type: string
+      release_type:
+        description: Release Type
+        required: false
+        default: patch
+        type: string
+      package_manager:
+        description: Package Manager
+        required: false
+        default: pnpm
+        type: string
+      commit_prefix:
+        description: Commit Prefix
+        required: false
+        default: "chore: "
+        type: string
+    secrets:
+      npm_token:
+        required: true
+      github-token:
+        required: true
+  workflow_dispatch:
+    inputs:
+      package_manager:
+        description: Package Manager
+        required: true
+        default: pnpm
+        type: choice
+        options:
+          - pnpm
+          - npm
+          - yarn
+      description:
+        description: Description
+        required: false
+        type: string
+      commit_prefix:
+        description: Commit Prefix
+        required: false
+        default: "chore: "
+        type: string
+      release_type:
+        description: Release Type
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  publish-to-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        if: ${{ inputs.package_manager == 'pnpm' }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: ${{ inputs.package_manager }}
+          registry-url: https://registry.npmjs.org/
+          scope: "@kingstinct"
+
+      - run: git config user.name "$(git log -n 1 --pretty=format:%an)"
+      - run: git config user.email "$(git log -n 1 --pretty=format:%ae)"
+      - run: ${{ inputs.package_manager }} install --frozen-lockfile
+        if: ${{ inputs.package_manager != 'npm' }}
+      - run: npm ci
+        if: ${{ inputs.package_manager == 'npm' }}
+      - run: echo "versionTag=`npm version ${{ inputs.release_type }} -m "${{ inputs.commit_prefix }}%s ${{ inputs.description }}"`" >> $GITHUB_ENV
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+      - run: git push --follow-tags --no-verify
+        env:
+          GITHUB_TOKEN: ${{secrets.github-token}}
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.versionTag }} ${{ inputs.description }}
+          tag_name: ${{ env.versionTag }}
+          generate_release_notes: true

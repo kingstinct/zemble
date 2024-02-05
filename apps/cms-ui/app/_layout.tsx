@@ -1,10 +1,10 @@
-import AuthProvider, { AuthContext, Status } from '@kingstinct/react/contexts/Auth'
-import UrqlProvider from '@kingstinct/react/contexts/Urql'
 import {
   ThemeProvider,
   DarkTheme,
   DefaultTheme,
 } from '@react-navigation/native'
+import AuthProvider, { AuthContext, Status } from '@zemble/react/contexts/Auth'
+import UrqlProvider from '@zemble/react/contexts/Urql'
 import { Stack, router, useSegments } from 'expo-router'
 import { useContext, useEffect, useMemo } from 'react'
 import { useColorScheme } from 'react-native'

@@ -1,0 +1,191 @@
+# This is a basic workflow to help you get started with Actions
+
+name: EAS Build Local
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  workflow_call:
+    inputs:
+      working_directory:
+        type: string
+        default: .
+        description: The working directory to run the workflow in.
+        required: false
+      env_inline:
+        type: string
+        description: Pass any environment variables to the publish command here, for passing to app.config.js. Could be "APP_ENV=staging MY_OTHER_VAR=hey" for example
+        required: false
+      java_version:
+        type: string
+        description: The java version to use
+        required: false
+        default: "17"
+      platform:
+        type: string
+        description: ios or android
+        required: true
+      expo_app_slug:
+        type: string
+        description: The expo app slug
+        required: false
+      expo_organisation_or_user_slug:
+        type: string
+        description: The organisation/user slug you're publishing to
+        required: false
+        default: kingstinct
+      build_profile:
+        type: string
+        description: The build profile to use, staging or production for example
+        required: true
+      always_run:
+        type: boolean
+        description: Run even if there's a build with the same hash (finished or in progress)
+        required: false
+        default: false
+      package_manager:
+        required: false
+        type: string
+        default: yarn
+        description: The package manager to use
+      autosubmit:
+        required: false
+        type: boolean
+        default: false
+        description: Autosubmit to AppStore/PlayStore
+      checkout_ref:
+        required: false
+        type: string
+        description: The ref to checkout
+      pnpm_version:
+        required: false
+        type: string
+        default: "8"
+        description: If using pnpm - which version to use
+      google_service_account_key_path:
+        required: false
+        type: string
+        default: ./google-service-account-key.json
+        description: The path to the google-service-account-key.json file
+      bun_version:
+        required: false
+        type: string
+        default: latest
+        description: Set bun version
+    secrets:
+      EXPO_TOKEN:
+        description: The Expo token to use for publishing
+        required: true
+      EXPO_APPLE_APP_SPECIFIC_PASSWORD:
+        description: The Apple App Specific Password to use for publishing to AppStore (required for autosubmit)
+        required: false
+      GOOGLE_SERVICE_ACCOUNT_KEY_JSON:
+        description: The Google Services JSON to use for publishing to PlayStore (required for autosubmit)
+        required: false
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  eas-build:
+    timeout-minutes: 60
+    runs-on: ${{ inputs.platform == 'android' && 'ubuntu-latest-8cores' || 'macos-latest-xl' }}
+    env:
+      EXPO_DEBUG: 1
+      DEBUG: 1
+      EAS_BUILD_AUTOCOMMIT: ${{ inputs.autosubmit }}
+      GOOGLE_SERVICE_ACCOUNT_KEY_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY_JSON }}
+      EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        if: ${{ !inputs.checkout_ref }}
+
+      - uses: actions/checkout@v3
+        if: ${{ inputs.checkout_ref }}
+        with:
+          ref: ${{ inputs.checkout_ref }}
+
+      # as required by expo 50
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: ${{ inputs.java_version }}
+
+      - uses: pnpm/action-setup@v2
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        with:
+          version: ${{ inputs.pnpm_version }}
+
+      - uses: oven-sh/setup-bun@v1
+        if: ${{ inputs.package_manager == 'bun' }}
+        with:
+          bun-version: ${{ inputs.bun_version }}
+
+      - uses: actions/setup-node@v3
+        if: ${{ inputs.package_manager != 'bun' }}
+        with:
+          node-version-file: .nvmrc
+          cache: ${{ inputs.package_manager }}
+
+      - name: Install dependencies (bun)
+        run: ${{ inputs.package_manager }} install --frozen-lockfile --concurrent-scripts 1
+        if: ${{ inputs.package_manager == 'bun' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Install dependencies (npm)
+        run: npm ci
+        if: ${{ inputs.package_manager == 'npm' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Install dependencies (others)
+        run: ${{ inputs.package_manager }} install --frozen-lockfile
+        if: ${{ inputs.package_manager != 'npm' && inputs.package_manager != 'bun' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Expo GitHub Action
+        uses: expo/expo-github-action@v8
+        id: expo-init
+        with:
+          # Your Expo username, for authentication.
+          token: ${{ secrets.EXPO_TOKEN }}
+          # If Expo should be stored in the GitHub Actions cache (can be true or false)
+          expo-version: latest
+          eas-version: latest
+          expo-cache: true # optional
+
+      - name: Get Hash
+        if: ${{ !inputs.always_run }}
+        run: echo "HASH=`npx expo-native-dependency-hash hash --platform=${{ inputs.platform }}`" >> $GITHUB_ENV
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: create google-services.json
+        id: init-google-services-json
+        if: ${{ inputs.platform == 'android' && inputs.autosubmit && env.GOOGLE_SERVICE_ACCOUNT_KEY_JSON  }}
+        run: echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY_JSON }}" > ${{ inputs.google_service_account_key_path }}
+
+      - name: EAS Build
+        if: ${{ inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
+        run: |
+          BUILD_ID=`set -e; npx eas-cli@latest build --no-wait --non-interactive --profile=${{ inputs.build_profile }} --auto-submit --platform ${{ inputs.platform }} --local --json | jq ".[].id"`
+          echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: EAS Build
+        if: ${{ !inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
+        run: |
+          BUILD_ID=`set -e; npx eas-cli@latest build --no-wait --non-interactive --profile=${{ inputs.build_profile }} --platform ${{ inputs.platform }} --local --json | jq ".[].id"`
+          echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+        working-directory: ${{ inputs.working_directory }}
+
+      - run: echo "::set-output name=BUILD_URL::https://expo.dev/accounts/${{ inputs.expo_organisation_or_user_slug }}/projects/${{ inputs.expo_app_slug }}/builds/${{ env.BUILD_ID }}"
+        id: build-url-with-app-slug
+        if: ${{ env.BUILD_ID && inputs.expo_app_slug }}
+
+      - run: echo "::set-output name=BUILD_URL::https://expo.dev/accounts/${{ inputs.expo_organisation_or_user_slug }}"
+        id: build-url
+        if: ${{ env.BUILD_ID && !inputs.expo_app_slug }}
+
+      - name: Fail if no build was created when expected
+        run: exit 1
+        if: ${{ !env.BUILD_ID && ((env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0) || inputs.always_run) }}

@@ -1,4 +1,4 @@
-import { Styles } from '@kingstinct/react'
+import { Styles } from '@zemble/react'
 import { router } from 'expo-router'
 import { useCallback } from 'react'
 import { RefreshControl, View } from 'react-native'

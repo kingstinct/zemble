@@ -1,4 +1,4 @@
-import { AuthContext } from '@kingstinct/react'
+import { AuthContext } from '@zemble/react'
 import {
   useCallback, useContext, useRef, useState,
 } from 'react'

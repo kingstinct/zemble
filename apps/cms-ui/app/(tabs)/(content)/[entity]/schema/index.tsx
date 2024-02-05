@@ -1,4 +1,4 @@
-import { Styles } from '@kingstinct/react'
+import { Styles } from '@zemble/react'
 import { router, useLocalSearchParams } from 'expo-router'
 import {
   View, Text, ScrollView,

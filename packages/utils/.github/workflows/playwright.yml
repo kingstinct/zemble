@@ -1,0 +1,111 @@
+name: Playwright Tests
+on:
+  workflow_call:
+    inputs:
+      repository:
+        default: Kingstinct/schedulist-app
+        description: The repository where the tests are
+        required: false
+        type: string
+      PLAYWRIGHT_TEST_URL:
+        default: https://master.schedulist-app.pages.dev/
+        type: string
+        required: false
+      package_manager:
+        required: false
+        type: string
+        default: yarn
+        description: The package manager to use
+      pnpm_version:
+        required: false
+        type: string
+        default: "8"
+        description: If using pnpm - which version to use
+      shard_count:
+        required: false
+        type: number
+        default: 1
+        description: Number of shards to split the tests into
+      shard_index:
+        required: false
+        type: number
+        description: Which shard is this, starting from 1
+    secrets:
+      GITHUB_PAT:
+        required: false
+        description: Personal access token to access the repo with tests
+  workflow_dispatch:
+    inputs:
+      PLAYWRIGHT_TEST_URL:
+        description: URL to run playwright tests towards
+        default: https://master.schedulist-app.pages.dev/
+        type: string
+        required: false
+      repository:
+        default: Kingstinct/schedulist-app
+        description: The repository where the tests are
+        required: false
+        type: string
+      package_manager:
+        required: false
+        type: string
+        default: yarn
+        description: The package manager to use
+      pnpm_version:
+        required: false
+        type: string
+        default: "8"
+        description: If using pnpm - which version to use
+
+jobs:
+  e2e:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.repository }}
+          token: ${{ secrets.GITHUB_PAT }}
+
+      - uses: pnpm/action-setup@v2
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        with:
+          version: ${{ inputs.pnpm_version }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: ${{ inputs.package_manager }}
+
+      - name: Install dependencies (bun)
+        run: ${{ inputs.package_manager }} install --frozen-lockfile --concurrent-scripts 1
+        if: ${{ inputs.package_manager == 'bun' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Install dependencies (npm)
+        run: npm ci
+        if: ${{ inputs.package_manager == 'npm' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Install dependencies (others)
+        run: ${{ inputs.package_manager }} install --frozen-lockfile
+        if: ${{ inputs.package_manager != 'npm' && inputs.package_manager != 'bun' }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        if: ${{ inputs.shard_count == 1 }}
+        run: PLAYWRIGHT_TEST_URL=${{ inputs.PLAYWRIGHT_TEST_URL }} npx playwright test
+
+      - name: Run Playwright tests sharded
+        if: ${{ inputs.shard_count > 1 }}
+        run: PLAYWRIGHT_TEST_URL=${{ inputs.PLAYWRIGHT_TEST_URL }} npx playwright test --shard=${{ inputs.shard_index }}/${{ inputs.shard_count }}
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

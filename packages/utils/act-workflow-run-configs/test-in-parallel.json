@@ -1,0 +1,7 @@
+{
+  "inputs": {
+    "parellelism_count": 3,
+    "test_command": "npx jest",
+    "package_manager": "pnpm"
+  }
+}

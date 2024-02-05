@@ -1,0 +1,12 @@
+act-workflow-run-configs
+.husky
+.secrets
+jest.config.js
+src
+.github
+Dockerfile.web
+tsconfig.json
+tsconfig.build.json
+.eslintrc
+.eslintignore
+.nvmrc
