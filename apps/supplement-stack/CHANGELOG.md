@@ -1,5 +1,21 @@
 # supplement-stack
 
+## 0.0.31
+
+### Patch Changes
+
+- 86d9288: Add resend, utils and react
+- Updated dependencies [7adcfe4]
+- Updated dependencies [c1de438]
+- Updated dependencies [86d9288]
+  - @zemble/core@0.1.4
+  - @zemble/graphql@0.0.33
+  - zemble-plugin-auth-otp@0.0.31
+  - zemble-plugin-bull@0.0.33
+  - zemble-plugin-apple-app-site-association@0.0.20
+  - @zemble/bun@0.0.15
+  - zemble-plugin-todo@0.0.29
+
 ## 0.0.30
 
 ### Patch Changes

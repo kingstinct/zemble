@@ -1,5 +1,13 @@
 # @zemble/graphql
 
+## 0.0.33
+
+### Patch Changes
+
+- c1de438: adding token to ws-req
+- Updated dependencies [7adcfe4]
+  - @zemble/core@0.1.4
+
 ## 0.0.32
 
 ### Patch Changes

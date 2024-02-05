@@ -1,6 +1,6 @@
 {
   "name": "@zemble/mongodb",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Handles connections to MongoDB",
   "keywords": [
     "zemble",
