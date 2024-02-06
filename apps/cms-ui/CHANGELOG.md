@@ -1,5 +1,15 @@
 # cms-ui
 
+## 0.0.6
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+- Updated dependencies [fa6d720]
+- Updated dependencies
+  - @zemble/react@1.0.12
+
 ## 0.0.5
 
 ### Patch Changes

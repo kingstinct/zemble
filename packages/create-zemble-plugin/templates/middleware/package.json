@@ -22,7 +22,7 @@
     "@tsconfig/bun": "^1.0.1"
   },
   "peerDependencies": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "module": "plugin.ts",
   "main": "plugin.ts"

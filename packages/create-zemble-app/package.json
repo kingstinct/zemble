@@ -1,7 +1,7 @@
 {
   "name": "create-zemble-app",
   "description": "CLI for creating a new Zemble app in a zap",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "bin": "./bin/create-zemble-app.js",
   "type": "module",
   "scripts": {
@@ -15,7 +15,7 @@
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "repository": {
     "type": "git",

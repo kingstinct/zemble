@@ -1,5 +1,13 @@
 # zemble-plugin-email-sendgrid
 
+## 0.0.33
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/core@0.1.6
+  - @zemble/graphql@0.0.35
+
 ## 0.0.32
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "zemble-plugin-logger-graphql",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "@zemble Plugin for providing a GraphQL Stream of your apps logs",
   "main": "plugin.ts",
   "private": true,
@@ -46,6 +46,6 @@
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
-    "@urql/core": "^4.2.3"
+    "@urql/core": "4"
   }
 }

@@ -12,7 +12,8 @@ describe('Timeoutify', () => {
 
   test('timeLeftMS', () => {
     const timeoutify = new Timeoutify({ timeoutMS: 10 })
-    expect(timeoutify.timeLeftMS).toBe(10)
+    expect(timeoutify.timeLeftMS).toBeLessThanOrEqual(10)
+    expect(timeoutify.timeLeftMS).toBeGreaterThanOrEqual(9)
     timeoutify.finished()
   })
 

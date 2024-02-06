@@ -1,5 +1,18 @@
 # zemble-plugin-supabase
 
+## 0.0.14
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+- Updated dependencies
+  - @zemble/core@0.1.6
+  - zemble-plugin-auth@0.0.33
+  - @zemble/bun@0.0.17
+  - @zemble/graphql@0.0.35
+  - @zemble/routes@0.0.18
+
 ## 0.0.13
 
 ### Patch Changes

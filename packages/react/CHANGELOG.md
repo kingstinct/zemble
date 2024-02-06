@@ -1,5 +1,12 @@
 ## 1.0.10
 
+## 1.0.12
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+
 ## 1.0.11
 
 ### Patch Changes

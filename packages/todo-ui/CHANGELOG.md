@@ -1,5 +1,16 @@
 # zemble-plugin-todo-ui
 
+## 0.0.5
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+- Updated dependencies [fa6d720]
+- Updated dependencies
+  - zemble-plugin-auth-anonymous-expo@0.0.5
+  - zemble-plugin-auth-expo@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @zemble/pino
 
+## 0.0.7
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+- Updated dependencies
+  - @zemble/core@0.1.6
+  - @zemble/bun@0.0.17
+
 ## 0.0.6
 
 ### Patch Changes

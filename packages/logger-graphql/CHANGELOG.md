@@ -1,5 +1,17 @@
 # zemble-plugin-logger-graphql
 
+## 0.0.31
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+- Updated dependencies [fa6d720]
+- Updated dependencies
+  - @zemble/pino@0.0.7
+  - @zemble/core@0.1.6
+  - @zemble/graphql@0.0.35
+
 ## 0.0.30
 
 ### Patch Changes

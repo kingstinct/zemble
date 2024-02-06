@@ -1,5 +1,20 @@
 # minimal
 
+## 0.0.35
+
+### Patch Changes
+
+- Updated dependencies [fa6d720]
+- Updated dependencies
+  - zemble-plugin-logger-graphql@0.0.31
+  - @zemble/migrations@0.0.16
+  - @zemble/pino@0.0.7
+  - @zemble/core@0.1.6
+  - zemble-plugin-auth@0.0.33
+  - @zemble/bun@0.0.17
+  - @zemble/graphql@0.0.35
+  - @zemble/routes@0.0.18
+
 ## 0.0.34
 
 ### Patch Changes
