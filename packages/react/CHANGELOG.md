@@ -1,5 +1,11 @@
 ## 1.0.10
 
+## 1.0.11
+
+### Patch Changes
+
+- 15881bb: Publishing fixes
+
 ### Patch Changes
 
 - 7adcfe4: add @zemble/resend, @zemble/utils, @zemble/react and some refactoring

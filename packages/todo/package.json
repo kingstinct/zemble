@@ -37,9 +37,9 @@
     "@bull-board/api": "^5.14.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "bullmq": "^5.1.8",
+    "bullmq": "^5.1.9",
     "graphql": "^16.8.1",
-    "hono": "^3.12.10",
+    "hono": "^3.12.11",
     "zemble-plugin-auth": "workspace:*",
     "zemble-plugin-auth-anonymous": "workspace:*",
     "zemble-plugin-kv": "workspace:*"

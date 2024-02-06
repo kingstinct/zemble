@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import { useMemo } from 'react'
 
 export function useDecodedToken<T>(token: string | null | undefined) {

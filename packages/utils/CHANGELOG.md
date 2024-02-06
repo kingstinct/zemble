@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.28
+
+### Patch Changes
+
+- 15881bb: Publishing fixes
+
 ## 0.7.27
 
 ### Patch Changes
