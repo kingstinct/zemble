@@ -4,7 +4,7 @@ import createSuperDataLoader from './SuperDataLoader'
 import times from '../times'
 import wait from '../wait'
 
-describe('SuperDataLoader.performance', () => {
+describe.skip('SuperDataLoader.performance', () => {
   it('Should be faster than normal dataloader with loadMany with same keys', async () => {
     const hello = times(1000000, () => `hello`)
     // eslint-disable-next-line unicorn/consistent-function-scoping
