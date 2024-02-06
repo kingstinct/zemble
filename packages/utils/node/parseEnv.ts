@@ -23,7 +23,7 @@ export function parseEnvNumber<
   }
 }
 
-// todo [2024-02-01]: allow to only specify first type argument
+// todo [2024-03-01]: allow to only specify first type argument
 export function parseEnvJSON<
   T,
   TDefault extends T | undefined
@@ -42,7 +42,7 @@ export function parseEnvJSON<
     return undefined as TDefault
   }
   try {
-    return JSON.parse(rawValue)
+    return JSON.parse(rawValue) as T
   } catch (e) {
     console.error(`Failed to parse environment variable "${prop}", expected JSON got "${rawValue}"`)
     return undefined as TDefault

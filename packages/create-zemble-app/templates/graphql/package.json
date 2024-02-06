@@ -26,7 +26,7 @@
     "@tsconfig/bun": "^1.0.1"
   },
   "peerDependencies": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "module": "app.ts",
   "main": "app.ts"

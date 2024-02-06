@@ -14,18 +14,18 @@
     "@expo/webpack-config": "^18.1.3",
     "@urql/storage-rn": "^1.1.0",
     "expo": "^49.0.21",
-    "expo-status-bar": "~1.7.1",
+    "expo-status-bar": "^1.7.1",
     "graphql": "^16.8.1",
-    "react": "18.2.0",
-    "react-native": "0.72.4",
-    "react-native-web": "~0.19.8",
+    "react": "^18.2.0",
+    "react-native": "~0.72.4",
+    "react-native-web": "^0.19.8",
     "zemble-plugin-auth-anonymous-expo": "workspace:*",
     "zemble-plugin-auth-expo": "workspace:*",
     "zemble-plugin-todo-ui": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
-    "@types/react": "~18.2.54",
+    "@types/react": "^18.2.54",
     "typescript": "^5.3.3"
   },
   "private": true

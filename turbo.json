@@ -10,6 +10,9 @@
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
+        "**/*.tsx",
+        "**/*.js",
+        "**/*.jsx",
         "**/tsconfig.json",
         "**/package.json"
       ]

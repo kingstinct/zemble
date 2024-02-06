@@ -46,6 +46,6 @@
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
-    "@urql/core": "^4.2.3"
+    "@urql/core": "4"
   }
 }
