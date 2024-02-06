@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { createApp, type ZembleApp } from '@zemble/core'
+import { Plugin, type ZembleApp } from '@zemble/core'
 import zembleContext from '@zemble/core/zembleContext'
 import path from 'node:path'
 
@@ -28,7 +28,10 @@ const codegenMergedSchema = async (
 ) => {
   const appDir = path.dirname(absolutePathToApp)
 
-  const mergedSchema = await buildMergedSchema(app, config)
+  const mergedSchema = await buildMergedSchema({
+    ...app,
+    appPlugin: new Plugin(appDir),
+  }, config)
 
   if (config.outputMergedSchemaPath) {
     const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, appDir)
@@ -46,7 +49,7 @@ const loadApp = async () => {
 
   const appOrConfig = await module.default
 
-  return 'runBeforeServe' in appOrConfig ? appOrConfig : createApp(appOrConfig)
+  return appOrConfig
 }
 
 const app = await loadApp()
