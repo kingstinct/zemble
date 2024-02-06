@@ -1,6 +1,6 @@
 {
   "name": "@zemble/ignite",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "@zemble Plugin that provides a basic boilerplate",
   "private": true,
   "main": "plugin.ts",
