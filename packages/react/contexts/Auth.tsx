@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import jwtDecode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import React, {
   useEffect, useMemo, useState, createContext, useContext,
 } from 'react'
