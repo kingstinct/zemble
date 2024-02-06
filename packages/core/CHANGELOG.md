@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.5
+
+### Patch Changes
+
+- 2fc60c4: Add SendEmailParams type
+
 ## 0.1.4
 
 ### Patch Changes
