@@ -13,7 +13,7 @@ export interface IEmail {
   readonly name?: string
 }
 
-export type IStandardSendEmailService = (options: {
+export type SendEmailParams = {
   readonly to: readonly IEmail[] | IEmail | string | readonly string[],
   readonly html?: string,
   readonly text: string,
@@ -22,7 +22,9 @@ export type IStandardSendEmailService = (options: {
   readonly replyTo?: readonly IEmail[] | IEmail | string | readonly string[],
   readonly cc?: readonly IEmail[] | IEmail | string | readonly string[],
   readonly bcc?: readonly IEmail[] | IEmail | string | readonly string[],
-}) => Promise<boolean>
+}
+
+export type IStandardSendEmailService = (options: SendEmailParams) => Promise<boolean>
 
 export abstract class IStandardKeyValueService<T = unknown> {
   abstract set(key: string, value: T, expireAfterSeconds?: number): Promise<void> | void
