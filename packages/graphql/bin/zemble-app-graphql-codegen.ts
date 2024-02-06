@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
 
+import { createApp, type ZembleApp } from '@zemble/core'
 import zembleContext from '@zemble/core/zembleContext'
 import path from 'node:path'
 
@@ -8,7 +9,6 @@ import plugin from '../plugin'
 import buildMergedSchema from '../utils/buildMergedSchema'
 
 import type { GraphQLMiddlewareConfig } from '../plugin'
-import type { ZembleApp } from '@zemble/core'
 
 const args = process.argv.slice(2)
 
@@ -44,9 +44,9 @@ const loadApp = async () => {
     process.exit(1)
   }
 
-  const app = await module.default
+  const appOrConfig = await module.default
 
-  return app
+  return 'runBeforeServe' in appOrConfig ? appOrConfig : createApp(appOrConfig)
 }
 
 const app = await loadApp()
