@@ -1,5 +1,11 @@
 # zemble-plugin-auth-otp
 
+## 0.0.37
+
+### Patch Changes
+
+- Some logging cleanup
+
 ## 0.0.36
 
 ### Patch Changes

@@ -99,7 +99,9 @@ export const migrateDown = async (
   opts?: { readonly migrateDownCount?: number, readonly logger?: IStandardLogger },
 ) => {
   const { migrateDownCount = 1, logger = defaultLogger() } = opts ?? {}
-  logger.info(`migrateDown: ${upMigrationsRemaining.length} migrations to process`)
+  if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
+    logger.info(`migrateDown: ${upMigrationsRemaining.length} migrations to process`)
+  }
 
   await downMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, adapter,
@@ -109,7 +111,9 @@ export const migrateDown = async (
       return
     }
 
-    logger.info(`Migrate down: ${migrationName}`)
+    if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
+      logger.info(`Migrate down: ${migrationName}`)
+    }
     const { down } = await import(fullPath) as Migration
     if (down) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -130,7 +134,9 @@ const defaultLogger = () => {
 export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
   const { logger = defaultLogger(), migrateUpCount = Infinity } = opts ?? {}
 
-  logger.info(`migrateUp: ${upMigrationsRemaining.length} migrations to process`)
+  if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
+    logger.info(`migrateUp: ${upMigrationsRemaining.length} migrations to process`)
+  }
   await upMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, progress, adapter,
   }, index) => {
@@ -140,7 +146,10 @@ export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, read
       return
     }
 
-    logger.info(`Migrate up: ${migrationName}`)
+    if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
+      logger.info(`Migrate up: ${migrationName}`)
+    }
+
     const { up } = await import(fullPath) as unknown as { readonly up: Up, readonly down?: Down }
     if (up) {
       await adapter?.up(migrationName, async (context) => up({

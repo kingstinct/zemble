@@ -1,5 +1,12 @@
 # minimal
 
+## 0.0.39
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/migrations@0.0.18
+
 ## 0.0.38
 
 ### Patch Changes

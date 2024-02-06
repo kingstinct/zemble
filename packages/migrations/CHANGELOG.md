@@ -1,5 +1,11 @@
 # @zemble/migrations
 
+## 0.0.18
+
+### Patch Changes
+
+- Some logging cleanup
+
 ## 0.0.17
 
 ### Patch Changes

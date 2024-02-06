@@ -79,7 +79,7 @@ const defaultConfig = {
         html: plugin.config.emailHtml ? simpleTemplating(plugin.config.emailHtml, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : `Your two factor code is <b>${twoFactorCode}</b>`,
         to,
       })
-    } else {
+    } else if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
       logger.info(`handleAuthRequest for ${to.email}`, twoFactorCode)
     }
   },

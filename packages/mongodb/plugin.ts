@@ -60,7 +60,9 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
         logger.error('MongoDB error', error)
       })
 
-      logger.info('Connected to MongoDB')
+      if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
+        logger.info('Connected to MongoDB')
+      }
 
       await defaultClient.connect()
 
