@@ -5,3 +5,4 @@
 **/*.generated.*
 **/*.local.*
 **/*.generated/**
+tsconfig.json

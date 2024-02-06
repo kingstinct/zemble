@@ -104,6 +104,11 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     appDir,
     providers: defaultProviders,
     plugins,
+    appPlugin: plugins.some((p) => p.isPluginRunLocally) ? undefined : new Plugin(appDir, {
+      name: packageJson.name,
+      version: packageJson.version,
+      dependencies: pluginsBeforeResolvingDeps.flatMap(({ pluginName }) => plugins.filter((p) => p.pluginName === pluginName).map((plugin) => ({ plugin }))),
+    }),
   }
 
   const runBeforeServe = await pluginsWithMiddleware?.reduce(async (
@@ -132,14 +137,8 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   // @ts-ignore
   const zembleApp: Zemble.App = {
     ...preInitApp,
-    hono,
     plugins,
-    appDir,
     runBeforeServe,
-    appPlugin: plugins.some((p) => p.isPluginRunLocally) ? undefined : new Plugin(import.meta.url, {
-      name: packageJson.name,
-      version: packageJson.version,
-    }),
   }
 
   hono.get('/', async (c) => c.html(`<html>
