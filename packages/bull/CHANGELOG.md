@@ -1,5 +1,13 @@
 # zemble-plugin-bull
 
+## 0.0.36
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/graphql@0.0.36
+  - zemble-plugin-auth@0.0.34
+
 ## 0.0.35
 
 ### Patch Changes

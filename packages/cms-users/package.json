@@ -1,6 +1,6 @@
 {
   "name": "zemble-plugin-cms-users",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "description": "@zemble Plugin for managing users in the CMS",
   "main": "plugin.ts",
   "private": true,
