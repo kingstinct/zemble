@@ -1,5 +1,18 @@
 # @zemble/mongodb
 
+## 0.0.18
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+- Updated dependencies [fa6d720]
+- Updated dependencies
+  - @zemble/migrations@0.0.16
+  - @zemble/core@0.1.6
+  - @zemble/bun@0.0.17
+  - @zemble/routes@0.0.18
+
 ## 0.0.17
 
 ### Patch Changes

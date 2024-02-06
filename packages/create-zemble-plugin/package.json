@@ -1,6 +1,6 @@
 {
   "name": "create-zemble-plugin",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "CLI for creating a zemble plugin in a zap",
   "bin": "./bin/create-zemble-plugin.js",
   "type": "module",

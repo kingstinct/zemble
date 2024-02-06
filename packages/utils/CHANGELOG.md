@@ -1,5 +1,12 @@
 # @zemble/utils
 
+## 0.7.29
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+
 ## 0.7.28
 
 ### Patch Changes

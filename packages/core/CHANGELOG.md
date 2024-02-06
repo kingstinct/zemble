@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.6
+
+### Patch Changes
+
+- Fix appPlugin, remove tsconfigs from published packages
+
 ## 0.1.5
 
 ### Patch Changes

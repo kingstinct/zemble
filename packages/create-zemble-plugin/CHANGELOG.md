@@ -1,5 +1,12 @@
 # create-zemble-plugin
 
+## 0.0.6
+
+### Patch Changes
+
+- fa6d720: Fix type issue
+- Fix appPlugin, remove tsconfigs from published packages
+
 ## 0.0.5
 
 ### Patch Changes
