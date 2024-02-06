@@ -42,8 +42,11 @@ export const createPluginSchema = async (plugin: Plugin) => {
 
   const schemaWithoutResolvers = await loadSchema(graphqlGlob, {
     loaders: [new GraphQLFileLoader()],
-    // assumeValid: !!skipGraphQLValidation,
-  })
+  }).catch(() => null)
+
+  if (!schemaWithoutResolvers) {
+    return []
+  }
 
   const internalSchema = addResolversToSchema({
     schema: schemaWithoutResolvers,

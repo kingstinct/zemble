@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.37
+
+### Patch Changes
+
+- Codegen improvs
+
 ## 0.0.36
 
 ### Patch Changes
