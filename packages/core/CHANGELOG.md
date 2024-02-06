@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.7
+
+### Patch Changes
+
+- Do not clog the log during tests
+
 ## 0.1.6
 
 ### Patch Changes
