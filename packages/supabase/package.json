@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "supabase": "^1.136.3",
+    "supabase": "^1.142.1",
     "@graphql-codegen/add": "^5.0.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",

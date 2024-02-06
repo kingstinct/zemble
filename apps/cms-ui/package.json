@@ -18,7 +18,7 @@
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/netinfo": "^9.4.1",
     "@react-navigation/native": "^6.1.9",
-    "@types/react": "~18.2.53",
+    "@types/react": "~18.2.54",
     "@urql/core": "4",
     "expo": "^49.0.21",
     "expo-constants": "~14.4.2",
