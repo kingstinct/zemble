@@ -61,7 +61,6 @@ on:
       deploymentEnvVars:
         required: false
         type: string
-        description: Overrides deploymentEnvFile if specified
         default: "[]"
       caproverAppName:
         required: true
@@ -111,7 +110,7 @@ jobs:
 
         # # should optimally combine manual env vars (that could contain secrets) with .env file, problem with .ts here is the dependency on the code from the workflow..
       - name: Read env file
-        if: ${{ !inputs.deploymentEnvVars && inputs.deploymentEnvFile }}
+        if: ${{ inputs.deploymentEnvFile }}
         run: |
           | file_path="${ENV_PATH:-.env.github}"
           |
