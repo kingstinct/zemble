@@ -107,6 +107,12 @@ jobs:
       - name: Create Caprover App 👨‍✈️
         run: bunx caprover api --path=/user/apps/appDefinitions/register --method=POST --data='{"appName":"${{ inputs.caproverAppName }}","hasPersistentData":${{ inputs.hasPersistentData }}}' || true
 
+      - name: Print stuff
+        run: |
+          echo "a"
+          echo "b"
+          echo "c"
+
         # # should optimally combine manual env vars (that could contain secrets) with .env file, problem with .ts here is the dependency on the code from the workflow..
       - name: Read env file
         if: ${{ inputs.deploymentEnvFile }}
