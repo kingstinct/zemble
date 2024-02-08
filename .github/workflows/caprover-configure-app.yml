@@ -107,12 +107,6 @@ jobs:
       - name: Create Caprover App 👨‍✈️
         run: bunx caprover api --path=/user/apps/appDefinitions/register --method=POST --data='{"appName":"${{ inputs.caproverAppName }}","hasPersistentData":${{ inputs.hasPersistentData }}}' || true
 
-      - name: Print stuff
-        run: |
-          echo "a"
-          echo "b"
-          echo "c"
-
         # # should optimally combine manual env vars (that could contain secrets) with .env file, problem with .ts here is the dependency on the code from the workflow..
       - name: Read env file
         if: ${{ inputs.deploymentEnvFile }}
@@ -120,11 +114,17 @@ jobs:
           ENV_PATH: ${{ inputs.deploymentEnvFile }}
           DEBUG: true
         run: |
+          echo "a"
           file_path="${ENV_PATH:-.env.github}"
+          echo "b"
           index=0
+          echo "c"
           multiline_start_index=-1
+          echo "d"
           json="["
+          echo "e"
           while IFS= read -r line || [[ -n "$line" ]]; do
+            echo line
             has_multiline_character=$(echo "$line" | grep -F "'")
             if [[ -n "$has_multiline_character" && $multiline_start_index -eq -1 ]]; then
               # found a multiline value
@@ -147,9 +147,12 @@ jobs:
             fi
             ((index++))
           done < "$file_path"
+          echo "done"
           # Remove trailing comma and close the JSON array
           json="${json%?}]"
+          echo "json"
           echo "$json"
+          echo "json2"
           echo "envVars=$json" >> $GITHUB_ENV
 
       - name: Update App Settings ⚙️
