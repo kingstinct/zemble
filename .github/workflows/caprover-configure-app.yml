@@ -7,6 +7,8 @@ on:
     secrets:
       caproverPassword:
         required: true
+      SLACK_WEBHOOK:
+        required: false
     inputs:
       discordWebhook:
         required: false
@@ -90,6 +92,7 @@ jobs:
       CAPROVER_PASSWORD: ${{ secrets.caproverPassword }}
       envVars: ${{ inputs.deploymentEnvVars }}
       CAPROVER_APP: ${{ inputs.caproverAppName }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     environment:
       name: ${{ inputs.caproverAppName }}
       url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
@@ -113,6 +116,7 @@ jobs:
         env:
           ENV_PATH: ${{ inputs.deploymentEnvFile }}
           DEBUG: true
+        # for some reason this isn't quite working yet (it works when run locally both in zsh and bash), would be nice to get it working
         run: |
           echo "a"
           file_path="${ENV_PATH:-.env.github}"
@@ -163,7 +167,11 @@ jobs:
         run: bunx caprover api --path=/user/apps/appDefinitions/enablebasedomainssl --method=POST --data='{"appName":"${{ inputs.caproverAppName }}"}'
 
       - uses: sarisia/actions-status-discord@v1
-        if: ${{ inputs.discordWebhook }}
+        if: ${{ failure() && inputs.discordWebhook }}
         with:
           webhook: ${{ inputs.discordWebhook }}
           url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
+
+      - uses: rtCamp/action-slack-notify@v2
+        if: ${{ failure() && env.SLACK_WEBHOOK }}
+        

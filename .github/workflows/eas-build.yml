@@ -87,6 +87,12 @@ on:
       GOOGLE_SERVICE_ACCOUNT_KEY_JSON:
         description: The Google Services JSON to use for publishing to PlayStore (required for autosubmit)
         required: false
+      SLACK_WEBHOOK:
+        description: The Slack Webhook to use for notifications
+        required: false
+      DISCORD_WEBHOOK:
+        description: The Discord Webhook to use for notifications
+        required: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -102,6 +108,8 @@ jobs:
       EAS_BUILD_AUTOCOMMIT: ${{ inputs.autosubmit }}
       GOOGLE_SERVICE_ACCOUNT_KEY_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY_JSON }}
       EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -230,3 +238,12 @@ jobs:
       - name: Fail if no build was created when expected
         run: exit 1
         if: ${{ !env.BUILD_ID && ((env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0) || inputs.always_run) }}
+
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{ failure() && env.DISCORD_WEBHOOK }}
+        with:
+          webhook: ${{ env.DISCORD_WEBHOOK }}
+          url: ${{ env.BUILD_URL }}
+
+      - uses: rtCamp/action-slack-notify@v2
+        if: ${{ failure() && env.SLACK_WEBHOOK }}

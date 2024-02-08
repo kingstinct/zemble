@@ -8,6 +8,9 @@ on:
       caproverPassword:
         required: true
         description: Caprover password
+      SLACK_WEBHOOK:
+        required: false
+        description: Slack webhook
     inputs:
       discordWebhook:
         required: false
@@ -37,6 +40,7 @@ jobs:
     timeout-minutes: 5
     env:
       defaultDeployTargetUrl: "https://${{ inputs.caproverAppName }}.${{ inputs.caproverDomain }}"
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     environment:
       name: ${{ inputs.caproverAppName }}
       url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
@@ -64,3 +68,6 @@ jobs:
         with:
           webhook: ${{ inputs.discordWebhook }}
           url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
+
+      - uses: rtCamp/action-slack-notify@v2
+        if: ${{ env.SLACK_WEBHOOK }}

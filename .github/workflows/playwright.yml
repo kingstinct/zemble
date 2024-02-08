@@ -30,10 +30,21 @@ on:
         required: false
         type: number
         description: Which shard is this, starting from 1
+      working_directory:
+        required: false
+        type: string
+        default: .
+        description: The working directory to run the tests in
     secrets:
       GITHUB_PAT:
         required: false
         description: Personal access token to access the repo with tests
+      SLACK_WEBHOOK:
+        description: The Slack Webhook to use for notifications
+        required: false
+      DISCORD_WEBHOOK:
+        description: The Discord Webhook to use for notifications
+        required: false
   workflow_dispatch:
     inputs:
       PLAYWRIGHT_TEST_URL:
@@ -56,11 +67,19 @@ on:
         type: string
         default: "8"
         description: If using pnpm - which version to use
+      working_directory:
+        required: false
+        type: string
+        default: .
+        description: The working directory to run the tests in
 
 jobs:
   e2e:
     timeout-minutes: 20
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -109,3 +128,11 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+
+      - uses: sarisia/actions-status-discord@v1
+        if: ${{ failure() && env.DISCORD_WEBHOOK }}
+        with:
+          webhook: ${{ env.DISCORD_WEBHOOK }}
+
+      - uses: rtCamp/action-slack-notify@v2
+        if: ${{ failure() && env.SLACK_WEBHOOK }}
