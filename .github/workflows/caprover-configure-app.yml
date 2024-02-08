@@ -124,30 +124,31 @@ jobs:
           json="["
           echo "e"
           while IFS= read -r line || [[ -n "$line" ]]; do
-            echo line
+            echo "$line"
             has_multiline_character=$(echo "$line" | grep -F "'")
             if [[ -n "$has_multiline_character" && $multiline_start_index -eq -1 ]]; then
-              # found a multiline value
+              echo "found a multiline value"
               multiline_start_index=$index
             elif [[ -n "$has_multiline_character" && $multiline_start_index -ne -1 ]]; then
-              # found end of a multiline value
+              echo "found end of a multiline value"
               rows_with_value=$(sed -n "$((multiline_start_index+1)),$((index+1))p" "$file_path" | tr '\n' '\n')
               key=$(echo "$rows_with_value" | cut -d '=' -f 1)
               value=$(echo "$rows_with_value" | cut -d '=' -f 2- | sed "s/'//g")
               json+="{\"key\":\"$key\",\"value\":\"$value\"},"
               multiline_start_index=-1
             elif [[ -z "$has_multiline_character" && $multiline_start_index -ne -1 ]]; then
-              # keep looking for end of multiline value
+              echo "keep looking for end of multiline value"
               :
             else
-              # Single-line value
+              echo "Single-line value"
               key=$(echo "$line" | cut -d '=' -f 1)
               value=$(echo "$line" | cut -d '=' -f 2-)
               json+="{\"key\":\"$key\",\"value\":\"$value\"},"
             fi
             ((index++))
-          done < "$file_path"
           echo "done"
+          done < "$file_path"
+          
           # Remove trailing comma and close the JSON array
           json="${json%?}]"
           echo "json"
