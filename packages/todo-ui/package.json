@@ -25,9 +25,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.9",
-    "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/client-preset": "^4.1.0",
-    "@types/react": "^18.2.54",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.2.2",
+    "@types/react": "^18.2.55",
     "typescript": "^5.3.3"
   },
   "private": true

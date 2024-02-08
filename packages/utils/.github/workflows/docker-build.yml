@@ -16,7 +16,7 @@ on:
         required: false
         type: string
       baseImageSuffix:
-        default: '-slim'
+        default: -slim
         type: string
       dockerBuildArgs:
         required: false

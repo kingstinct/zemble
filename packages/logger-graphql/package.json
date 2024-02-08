@@ -39,13 +39,13 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/pino": "workspace:*",
     "graphql-yoga": "^5.1.1",
-    "hono": "^3.12.11",
+    "hono": "^3.12.12",
     "pino": "^8.18.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/typescript": "^4.0.1",
-    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.4",
+    "@graphql-codegen/typescript-resolvers": "^4.0.4",
     "@urql/core": "4"
   }
 }
