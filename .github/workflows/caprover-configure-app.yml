@@ -112,17 +112,14 @@ jobs:
         if: ${{ inputs.deploymentEnvFile }}
         env:
           ENV_PATH: ${{ inputs.deploymentEnvFile }}
+          DEBUG: true
         run: |
           file_path="${ENV_PATH:-.env.github}"
-                 
           index=0
           multiline_start_index=-1
-                 
           json="["
-
           while IFS= read -r line || [[ -n "$line" ]]; do
             has_multiline_character=$(echo "$line" | grep -F "'")
-
             if [[ -n "$has_multiline_character" && $multiline_start_index -eq -1 ]]; then
               # found a multiline value
               multiline_start_index=$index
@@ -142,13 +139,10 @@ jobs:
               value=$(echo "$line" | cut -d '=' -f 2-)
               json+="{\"key\":\"$key\",\"value\":\"$value\"},"
             fi
-             
             ((index++))
           done < "$file_path"
-             
           # Remove trailing comma and close the JSON array
           json="${json%?}]"
-             
           echo "$json"
           echo "envVars=$json" >> $GITHUB_ENV
 
