@@ -29,7 +29,7 @@ jobs:
       MONGOMS_DISABLE_POSTINSTALL: true
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - uses: cardinalby/export-env-action@2.2.0
         with:

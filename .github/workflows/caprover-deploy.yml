@@ -41,7 +41,7 @@ jobs:
       name: ${{ inputs.caproverAppName }}
       url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: cardinalby/export-env-action@2.2.0
         with:
           envFile: ${{ inputs.envFile }}
