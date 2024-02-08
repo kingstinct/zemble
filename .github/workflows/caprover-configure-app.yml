@@ -30,7 +30,6 @@ on:
       deploymentEnvVars:
         required: false
         type: string
-        description: Overrides deploymentEnvFile if specified
         default: "[]"
       hasPersistentData:
         type: boolean
@@ -111,45 +110,47 @@ jobs:
         # # should optimally combine manual env vars (that could contain secrets) with .env file, problem with .ts here is the dependency on the code from the workflow..
       - name: Read env file
         if: ${{ inputs.deploymentEnvFile }}
+        env:
+          ENV_PATH: ${{ inputs.deploymentEnvFile }}
         run: |
-          | file_path="${ENV_PATH:-.env.github}"
-          |
-          | index=0
-          | multiline_start_index=-1
-          |
-          | json="["
+          file_path="${ENV_PATH:-.env.github}"
+                 
+          index=0
+          multiline_start_index=-1
+                 
+          json="["
 
-          | while IFS= read -r line || [[ -n "$line" ]]; do
-          |   has_multiline_character=$(echo "$line" | grep -F "'")
+          while IFS= read -r line || [[ -n "$line" ]]; do
+            has_multiline_character=$(echo "$line" | grep -F "'")
 
-          |   if [[ -n "$has_multiline_character" && $multiline_start_index -eq -1 ]]; then
-          |     # found a multiline value
-          |     multiline_start_index=$index
-          |   elif [[ -n "$has_multiline_character" && $multiline_start_index -ne -1 ]]; then
-          |     # found end of a multiline value
-          |     rows_with_value=$(sed -n "$((multiline_start_index+1)),$((index+1))p" "$file_path" | tr '\n' '\n')
-          |     key=$(echo "$rows_with_value" | cut -d '=' -f 1)
-          |     value=$(echo "$rows_with_value" | cut -d '=' -f 2- | sed "s/'//g")
-          |     json+="{\"key\":\"$key\",\"value\":\"$value\"},"
-          |     multiline_start_index=-1
-          |   elif [[ -z "$has_multiline_character" && $multiline_start_index -ne -1 ]]; then
-          |     # keep looking for end of multiline value
-          |     :
-          |   else
-          |     # Single-line value
-          |     key=$(echo "$line" | cut -d '=' -f 1)
-          |     value=$(echo "$line" | cut -d '=' -f 2-)
-          |     json+="{\"key\":\"$key\",\"value\":\"$value\"},"
-          |   fi
-          |
-          |   ((index++))
-          | done < "$file_path"
-          |
-          | # Remove trailing comma and close the JSON array
-          | json="${json%?}]"
-          |
-          | echo "$json"
-          | echo "envVars=$json" >> $GITHUB_ENV
+            if [[ -n "$has_multiline_character" && $multiline_start_index -eq -1 ]]; then
+              # found a multiline value
+              multiline_start_index=$index
+            elif [[ -n "$has_multiline_character" && $multiline_start_index -ne -1 ]]; then
+              # found end of a multiline value
+              rows_with_value=$(sed -n "$((multiline_start_index+1)),$((index+1))p" "$file_path" | tr '\n' '\n')
+              key=$(echo "$rows_with_value" | cut -d '=' -f 1)
+              value=$(echo "$rows_with_value" | cut -d '=' -f 2- | sed "s/'//g")
+              json+="{\"key\":\"$key\",\"value\":\"$value\"},"
+              multiline_start_index=-1
+            elif [[ -z "$has_multiline_character" && $multiline_start_index -ne -1 ]]; then
+              # keep looking for end of multiline value
+              :
+            else
+              # Single-line value
+              key=$(echo "$line" | cut -d '=' -f 1)
+              value=$(echo "$line" | cut -d '=' -f 2-)
+              json+="{\"key\":\"$key\",\"value\":\"$value\"},"
+            fi
+             
+            ((index++))
+          done < "$file_path"
+             
+          # Remove trailing comma and close the JSON array
+          json="${json%?}]"
+             
+          echo "$json"
+          echo "envVars=$json" >> $GITHUB_ENV
 
       - name: Update App Settings ⚙️
         run: bunx caprover api --path=/user/apps/appDefinitions/update --method=POST --data='{ "appName":"${{ inputs.caproverAppName }}", "websocketSupport":${{ inputs.websocketSupport }}, "containerHttpPort":${{ inputs.containerHttpPort || 80 }}, "instanceCount":${{ inputs.instanceCount || 1 }}, "envVars":${{ env.envVars }} }'
