@@ -15,6 +15,9 @@ on:
       discordWebhook:
         required: false
         type: string
+      baseImageSuffix:
+        default: '-slim'
+        type: string
       dockerBuildArgs:
         required: false
         type: string
@@ -44,7 +47,7 @@ jobs:
 
       - uses: docker/build-push-action@v4
         env:
-          baseImage: BASE_IMAGE=oven/bun:${{ env.BUN_VERSION || 'latest' }}-slim
+          baseImage: BASE_IMAGE=oven/bun:${{ env.BUN_VERSION || 'latest' }}${{ inputs.baseImageSuffix }}
         with:
           push: true
           context: .
