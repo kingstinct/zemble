@@ -4,7 +4,7 @@ type Opts = {
 }
 
 function debouncedAggregate<T>(ms: number, fn: (items: readonly T[]) => void, opts?: Opts) {
-  let timeout: NodeJS.Timeout | undefined
+  let timeout: ReturnType<typeof setTimeout> | undefined
   let lastInit: number | undefined
   // eslint-disable-next-line functional/prefer-readonly-type
   let items: T[] = []
