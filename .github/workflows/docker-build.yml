@@ -7,6 +7,8 @@ on:
     secrets:
       github-token:
         required: true
+      SLACK_WEBHOOK:
+        required: false
     inputs:
       envFile:
         required: false
