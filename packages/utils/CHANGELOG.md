@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.30
+
+### Patch Changes
+
+- Add ensure-all-dependencies and add-safe scripts to utils
+
 ## 0.7.29
 
 ### Patch Changes

@@ -12,7 +12,7 @@ There are two main imports, one generic and one for some node-specific stuff:
 You can also import utilities directly:
 `import wait from '@zemble/utils/wait'`
 
-The goal of this library (and the related [@zemble/react](https://github.com/Kingstinct/react)) is to:
+The goal of this library (and the related [@zemble/react](https://github.com/Kingstinct/utils)) is to:
 - Keep the number of dependencies in projects down
 - Have a common place to put useful utilities, so they're easier to maintain and find
 - Quickly get up and running with new projects

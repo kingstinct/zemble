@@ -10,7 +10,7 @@ To import a utility the best is to import it directly:
 You can also use named imports, but if you're not having all dependencies installed you'll probably run into errors:
 `import { useEvent } from '@zemble/react'`
 
-The goal of this library (and the related [@zemble/utils](https://github.com/Kingstinct/utils)) is to:
+The goal of this library (and the related [@zemble/utils](https://github.com/Kingstinct/zemble)) is to:
 - Keep the number of dependencies in projects down
 - Have a common place to put useful utilities, so they're easier to maintain and find
 - Quickly get up and running with new projects
