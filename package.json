@@ -2,7 +2,7 @@
   "name": "zemble",
   "version": "0.0.1",
   "description": "Zemble Monorepo",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test-recursive": "bunx turbo run test --continue",
     "lint": "bunx turbo run lint --continue -- --quiet",
