@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.32
+
+### Patch Changes
+
+- Fix main path in @zemble/utils
+
 ## 0.7.31
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 {
   "name": "@zemble/utils",
-  "version": "0.7.31",
-  "main": "index.js",
+  "version": "0.7.32",
+  "main": "index.ts",
   "author": "Robert Herber",
   "license": "MIT",
   "scripts": {
