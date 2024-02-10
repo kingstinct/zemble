@@ -14,7 +14,7 @@ import { graphql } from '../../gql'
 
 import type { TextInput as TextInputNative } from 'react-native'
 
-type TextInputHandles = Pick<TextInputNative, 'focus' | 'clear' | 'blur' | 'isFocused' | 'setNativeProps'>;
+type TextInputHandles = Pick<TextInputNative, 'focus' | 'clear' | 'blur' | 'isFocused'>;
 
 export const LoginConfirmMutation = graphql(`
   mutation LoginConfirm($email: String!, $code: String!) {
