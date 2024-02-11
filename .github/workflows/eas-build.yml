@@ -163,15 +163,10 @@ jobs:
           expo-version: latest
           eas-version: latest
           expo-cache: true # optional
-
+          
       - name: Get Hash
-        if: ${{ !inputs.always_run && inputs.package_manager != 'bun' }}
-        run: echo "HASH=`npx expo-native-dependency-hash hash --force --platform=${{ inputs.platform }}` --nodeModulePaths=${{ inputs.nodeModulePaths }}" >> $GITHUB_ENV
-        working-directory: ${{ inputs.working_directory }}
-
-      - name: Get Hash (bun)
-        if: ${{ !inputs.always_run && inputs.package_manager == 'bun' }}
-        run: echo "HASH=`bunx expo-native-dependency-hash hash --force --platform=${{ inputs.platform }} --nodeModulePaths=${{ inputs.nodeModulePaths }}`" >> $GITHUB_ENV
+        if: ${{ !inputs.always_run }}
+        run: echo "HASH=`jq -r '.expo.${{ inputs.platform }}.runtimeVersion' app.json`" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
       - name: Matching Native Builds
