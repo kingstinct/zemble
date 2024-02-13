@@ -1,32 +1,21 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Caprover Deploy
+name: Caprover Delete App
 
 on:
-  workflow_call:
+  workflow_call: 
     secrets:
       caproverPassword:
         required: true
         description: Caprover password
-      SLACK_WEBHOOK:
-        required: false
-        description: Slack webhook
     inputs:
-      discordWebhook:
-        required: false
-        description: Discord webhook
-        type: string
-      envFile:
-        required: false
-        type: string
-        default: .env.github
       caproverAppName:
         required: true
         type: string
       caproverDomain:
         required: true
         type: string
-      deployTargetUrl:
+      envFile:
         required: false
         type: string
       caproverImageName:
@@ -35,17 +24,11 @@ on:
         default: "ghcr.io/${{ github.repository }}:${{ github.sha }}"
 
 jobs:
-  deploy:
+  cleanup:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    env:
-      defaultDeployTargetUrl: "https://${{ inputs.caproverAppName }}.${{ inputs.caproverDomain }}"
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    environment:
-      name: ${{ inputs.caproverAppName }}
-      url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - uses: cardinalby/export-env-action@2.2.0
         if: ${{ inputs.envFile }}
@@ -56,18 +39,10 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
-      - run: bunx caprover deploy
+      - name: Delete Caprover App 🗑️
+        run: bunx caprover api --path=/user/apps/appDefinitions/delete --method=POST --data='{"appName":"${{ inputs.caproverAppName }}"}' || true
         env:
           CAPROVER_URL: https://captain.${{ inputs.caproverDomain }}
           CAPROVER_PASSWORD: ${{ secrets.caproverPassword }}
           CAPROVER_IMAGE_NAME: ${{ inputs.caproverImageName }}
           CAPROVER_APP: ${{ inputs.caproverAppName }}
-
-      - uses: sarisia/actions-status-discord@v1
-        if: ${{ inputs.discordWebhook }}
-        with:
-          webhook: ${{ inputs.discordWebhook }}
-          url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
-
-      - uses: rtCamp/action-slack-notify@v2
-        if: ${{ env.SLACK_WEBHOOK }}
