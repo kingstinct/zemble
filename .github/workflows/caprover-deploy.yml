@@ -54,8 +54,6 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
-      - run: bun install --concurrent-scripts 1 --frozen-lockfile
-
       - run: bunx caprover deploy
         env:
           CAPROVER_URL: https://captain.${{ inputs.caproverDomain }}
