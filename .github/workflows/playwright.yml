@@ -107,6 +107,7 @@ jobs:
           version: ${{ inputs.pnpm_version }}
 
       - uses: actions/setup-node@v4
+        if: ${{ inputs.package_manager == 'node' }}
         with:
           node-version-file: .nvmrc
           cache: ${{ inputs.package_manager }}
