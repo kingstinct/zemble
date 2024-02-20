@@ -47,8 +47,8 @@
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.4",
     "hono": "^3.12.12",
-    "jose": "^5.2.1",
-    "memfs": "^4.6.0",
+    "jose": "^5.2.2",
+    "memfs": "^4.7.6",
     "mongodb": "^6.3.0",
     "papr": "^15.2.0",
     "zemble-plugin-auth": "workspace:*"

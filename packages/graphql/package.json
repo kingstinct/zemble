@@ -46,7 +46,7 @@
     "@graphql-tools/wrap": "^10.0.1",
     "@zemble/core": "workspace:*",
     "graphql": "^16.8.1",
-    "graphql-ws": "^5.14.3",
+    "graphql-ws": "^5.15.0",
     "graphql-yoga": "^5.1.1",
     "hono": "^3.12.12",
     "sofa-api": "^0.18.2"

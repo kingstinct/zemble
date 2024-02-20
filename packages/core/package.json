@@ -32,9 +32,9 @@
   },
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.1",
+    "dotenv": "^16.4.5",
     "hono": "^3.12.12",
-    "pino": "^8.18.0",
+    "pino": "^8.19.0",
     "pino-debug": "^2.0.0"
   },
   "devDependencies": {
