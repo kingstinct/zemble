@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: cardinalby/export-env-action@2.2.0
+      - uses: cardinalby/export-env-action@2
         if: ${{ inputs.envFile }}
         with:
           envFile: ${{ inputs.envFile }}

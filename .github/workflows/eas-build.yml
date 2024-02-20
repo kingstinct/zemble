@@ -122,7 +122,7 @@ jobs:
         with:
           ref: ${{ inputs.checkout_ref }}
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         if: ${{ inputs.package_manager == 'pnpm' }}
         with:
           version: ${{ inputs.pnpm_version }}
@@ -132,7 +132,7 @@ jobs:
         with:
           bun-version: ${{ inputs.bun_version }}
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         if: ${{ inputs.package_manager != 'bun' }}
         with:
           node-version-file: .nvmrc

@@ -68,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         if: ${{ inputs.package_manager == 'pnpm' }}
         with:
           version: ${{ inputs.pnpm_version }}
@@ -76,12 +76,12 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         if: ${{ inputs.package_manager == 'bun' }}
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         if: ${{ env.ACT && inputs.package_manager != 'bun' }}
         with:
           node-version-file: .nvmrc
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         if: ${{ !env.ACT && inputs.package_manager != 'bun' }}
         with:
           node-version-file: .nvmrc
@@ -126,19 +126,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
         if: ${{ inputs.package_manager == 'pnpm' }}
         with:
           version: ${{ inputs.pnpm_version }}
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         if: ${{ env.ACT }}
         with:
           node-version-file: .nvmrc
 
       - name: Setup Node and Cache
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         if: ${{ !env.ACT }}
         with:
           node-version-file: .nvmrc
