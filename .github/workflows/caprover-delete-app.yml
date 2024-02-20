@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: cardinalby/export-env-action@2
+      - uses: cardinalby/export-env-action@v2
         if: ${{ inputs.envFile }}
         with:
           envFile: ${{ inputs.envFile }}

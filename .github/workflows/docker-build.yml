@@ -36,7 +36,7 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     steps:
       - uses: actions/checkout@v4
-      - uses: cardinalby/export-env-action@2
+      - uses: cardinalby/export-env-action@v2
         with:
           envFile: ${{ inputs.envFile }}
 

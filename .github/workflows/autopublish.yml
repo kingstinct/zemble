@@ -31,7 +31,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - uses: cardinalby/export-env-action@2
+      - uses: cardinalby/export-env-action@v2
         with:
           envFile: .env.github
 
