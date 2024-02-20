@@ -30,6 +30,10 @@ on:
         required: false
         type: number
         description: Which shard is this, starting from 1
+      env_file:
+        required: false
+        type: string
+        description: The .env file to use
       working_directory:
         required: false
         type: string
@@ -80,26 +84,32 @@ jobs:
     env:
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      npx: ${{ inputs.package_manager == 'bun' && 'bunx' || 'npx' }}
     steps:
       - uses: actions/checkout@v4
         with:
           repository: ${{ inputs.repository }}
           token: ${{ secrets.GITHUB_PAT }}
 
-      - uses: pnpm/action-setup@v2
+      - uses: cardinalby/export-env-action@v2
+        if: ${{ inputs.env_file }}
+        with:
+          envFile: ${{ inputs.env_file }}
+
+      - uses: oven-sh/setup-bun@v1
+        if: ${{ inputs.package_manager == 'bun' }}
+        with:
+          bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
+
+      - uses: pnpm/action-setup@v3
         if: ${{ inputs.package_manager == 'pnpm' }}
         with:
           version: ${{ inputs.pnpm_version }}
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: ${{ inputs.package_manager }}
-
-      - name: Install dependencies (bun)
-        run: ${{ inputs.package_manager }} install --frozen-lockfile --concurrent-scripts 1
-        if: ${{ inputs.package_manager == 'bun' }}
-        working-directory: ${{ inputs.working_directory }}
 
       - name: Install dependencies (npm)
         run: npm ci
@@ -108,21 +118,21 @@ jobs:
 
       - name: Install dependencies (others)
         run: ${{ inputs.package_manager }} install --frozen-lockfile
-        if: ${{ inputs.package_manager != 'npm' && inputs.package_manager != 'bun' }}
+        if: ${{ inputs.package_manager != 'npm' }}
         working-directory: ${{ inputs.working_directory }}
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: ${{ env.npx }} playwright install --with-deps
 
       - name: Run Playwright tests
         if: ${{ inputs.shard_count == 1 }}
-        run: PLAYWRIGHT_TEST_URL=${{ inputs.PLAYWRIGHT_TEST_URL }} npx playwright test
+        run: PLAYWRIGHT_TEST_URL=${{ inputs.PLAYWRIGHT_TEST_URL }} ${{ env.npx }} playwright test
 
       - name: Run Playwright tests sharded
         if: ${{ inputs.shard_count > 1 }}
-        run: PLAYWRIGHT_TEST_URL=${{ inputs.PLAYWRIGHT_TEST_URL }} npx playwright test --shard=${{ inputs.shard_index }}/${{ inputs.shard_count }}
+        run: PLAYWRIGHT_TEST_URL=${{ inputs.PLAYWRIGHT_TEST_URL }} ${{ env.npx }} playwright test --shard=${{ inputs.shard_index }}/${{ inputs.shard_count }}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
