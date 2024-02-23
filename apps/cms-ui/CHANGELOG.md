@@ -1,5 +1,12 @@
 # cms-ui
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @zemble/react@1.0.13
+
 ## 0.0.6
 
 ### Patch Changes

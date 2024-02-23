@@ -1,5 +1,11 @@
 ## 1.0.10
 
+## 1.0.13
+
+### Patch Changes
+
+- Move pointerEvents and style to View instead of directly on FullWindowOverlay
+
 ## 1.0.12
 
 ### Patch Changes
