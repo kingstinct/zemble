@@ -1,6 +1,6 @@
 import { Portal } from '@gorhom/portal'
 import React, { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { FullWindowOverlay } from 'react-native-screens'
 
 import randomHexColorAlpha from '../utils/randomHexColor'
@@ -20,12 +20,13 @@ export const NativePortal: React.FC<Props> = ({
 
   return (
     <Portal>
-      <FullWindowOverlay
-        // @ts-expect-error not sure why this is happening
-        pointerEvents={pointerEvents as unknown}
-        style={style}
-      >
-        { children }
+      <FullWindowOverlay>
+        <View
+          pointerEvents={pointerEvents}
+          style={style}
+        >
+          { children }
+        </View>
       </FullWindowOverlay>
     </Portal>
   )
