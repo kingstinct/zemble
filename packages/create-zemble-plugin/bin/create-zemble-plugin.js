@@ -30,7 +30,6 @@ const defaultTemplate = 'graphql'
 const name = args[0]
 const template = args[1] ?? defaultTemplate
 
-
 const dirName = import.meta.dir.replace('file://', '')
 
 const templatePath = join(dirName, '../templates', template)
@@ -55,14 +54,24 @@ console.log('Creating plugin', name)
 
 copy(templatePath, targetDir).then(async () => {
   const packageJsonPath = join(targetDir, 'package.json')
-  const packageJson = JSON.parse(readFileSync(packageJsonPath))
-  packageJson.name = name
-  writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
-
+  if(existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(readFileSync(packageJsonPath))
+    packageJson.name = name
+    writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
+  }
+  
   const readmePath = join(targetDir, 'README.md')
-  const readme = readFileSync(readmePath, 'utf-8')
-  writeFileSync(readmePath, readme.replace(/pkgname/g, name))
+  if(existsSync(packageJsonPath)) {
+    const readme = readFileSync(readmePath, 'utf-8')
+    writeFileSync(readmePath, readme.replace(/pkgname/g, name))
+  }
 
+  const pluginPath = join(targetDir, 'plugin.ts')
+  if(existsSync(packageJsonPath)) {
+    const readme = readFileSync(pluginPath, 'utf-8')
+    writeFileSync(pluginPath, readme.replace(/pkgname/g, name))
+  }
+  
   const allFiles = await walk(targetDir)
   const testFiles = allFiles.filter((file) => file.endsWith('.test-template.js') || file.endsWith('.test-template.ts'))
 

@@ -1,0 +1,13 @@
+type Query {
+  hello: String!
+}
+
+type Mutation {
+  randomNumber: Int!
+}
+
+type Subscription {
+  countdown(from: Int!): Int!
+  tick: Float!
+  randomNumber: Int!
+}
