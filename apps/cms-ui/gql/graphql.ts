@@ -165,6 +165,7 @@ export type Mutation = {
   createEntity: Entity;
   loginConfirm: LoginConfirmResponse;
   loginRequest: LoginRequestResponse;
+  logout: LoginRequestSuccessResponse;
   removeEntity: Scalars['Boolean']['output'];
   removeFieldsFromEntity: Entity;
   renameEntity: Entity;

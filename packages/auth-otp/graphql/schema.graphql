@@ -15,6 +15,7 @@ directive @auth(
 type Mutation {
   loginRequest(email: String!): LoginRequestResponse! @auth(skip: true)
   loginConfirm(email: String!, code: String!): LoginConfirmResponse! @auth(skip: true)
+  logout: LoginRequestSuccessResponse!
 }
 
 type LoginResponse {

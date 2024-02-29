@@ -22,7 +22,7 @@ export async function signJwt<T extends object>({ data, expiresInSeconds }: { re
     .setProtectedHeader({ alg: 'RS256' })
 
   if (expiresInSeconds) {
-    jwt.setExpirationTime(expiresInSeconds)
+    jwt.setExpirationTime(`${expiresInSeconds} sec`)
   }
 
   return jwt.sign(ecPrivateKey)
