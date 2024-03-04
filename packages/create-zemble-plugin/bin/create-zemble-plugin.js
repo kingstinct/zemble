@@ -2,7 +2,7 @@
 
 import { copy } from 'fs-extra'
 import { spawn } from 'node:child_process'
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import { readFileSync, readdirSync, writeFileSync,existsSync } from 'node:fs'
 import { join } from 'node:path'
 import {readdir,rename} from 'node:fs/promises'
 

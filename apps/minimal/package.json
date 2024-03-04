@@ -43,6 +43,7 @@
     "zemble-plugin-auth": "workspace:*",
     "@zemble/routes": "workspace:*",
     "@zemble/pino": "workspace:*",
+    "zemble-plugin-bull": "workspace:*",
     "zemble-plugin-logger-graphql": "workspace:*"
   },
   "devDependencies": {
