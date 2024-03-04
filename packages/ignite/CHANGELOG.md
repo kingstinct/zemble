@@ -1,5 +1,11 @@
 # @zemble/ignite
 
+## 0.0.31
+
+### Patch Changes
+
+- zemble-plugin-bull@0.0.39
+
 ## 0.0.30
 
 ### Patch Changes

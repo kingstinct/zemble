@@ -1,5 +1,11 @@
 # cms-ui
 
+## 0.0.8
+
+### Patch Changes
+
+- 9d84a4d: Logout mutation
+
 ## 0.0.7
 
 ### Patch Changes

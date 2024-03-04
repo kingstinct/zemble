@@ -1,5 +1,11 @@
 # create-zemble-plugin
 
+## 0.0.7
+
+### Patch Changes
+
+- 2393e62: Add support for local plugins
+
 ## 0.0.6
 
 ### Patch Changes
