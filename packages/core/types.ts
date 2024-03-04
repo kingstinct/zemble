@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
+// eslint-disable-next-line max-classes-per-file
+import zembleContext from './zembleContext'
+
 import type { Plugin } from '.'
 import type { WebSocketHandler } from 'bun'
 import type { PubSub } from 'graphql-yoga'
@@ -11,6 +14,139 @@ import type pino from 'pino'
 export interface IEmail {
   readonly email: string
   readonly name?: string
+}
+
+export class ZembleCron<DataType = unknown, ReturnType = unknown> implements IZembleCron<DataType, ReturnType> {
+  readonly worker: ZembleWorker<DataType, ReturnType>
+
+  readonly options: CronOptions
+
+  constructor(worker: ZembleWorker<DataType, ReturnType>, options: CronOptions) {
+    this.worker = worker
+    this.options = options
+  }
+
+  removeByIds(jobIds: readonly string[]): number {
+    return this.options.plugin.providers.cronProvider.removeByIds(jobIds)
+  }
+
+  getById<TDataType extends DataType, TReturnType extends ReturnType>(jobId: string): ZembleJob<TDataType, TReturnType> | undefined {
+    return this.options.plugin.providers.cronProvider.getById(
+      jobId,
+    )
+  }
+
+  getAllJobs<TDataType extends DataType, TReturnType extends ReturnType>(skip?: number | undefined, limit?: number | undefined): readonly ZembleJob<TDataType, TReturnType>[] {
+    return this.options.plugin.providers.cronProvider.getAllJobs(skip, limit)
+  }
+
+  obliterate(): number {
+    return this.options.plugin.providers.cronProvider.obliterate()
+  }
+}
+
+export class ZembleQueue<DataType, ReturnType> implements IZembleQueue<DataType, ReturnType> {
+  readonly worker: ZembleWorker<DataType, ReturnType>
+
+  constructor(worker: ZembleWorker<DataType, ReturnType>) {
+    this.worker = worker
+  }
+
+  add(data: DataType, opts?: JobOptions | undefined): Job<DataType, ReturnType> {
+    throw new Error('Method not implemented.')
+  }
+
+  addBulk(data: readonly DataType[], opts?: JobOptions | undefined): readonly ZembleJob<DataType, ReturnType>[] {
+    throw new Error('Method not implemented.')
+  }
+
+  removeByIds(jobId: readonly string[]): number {
+    throw new Error('Method not implemented.')
+  }
+
+  getById<TDataType extends DataType, TReturnType extends ReturnType>(jobId: string): ZembleJob<TDataType, TReturnType> {
+    throw new Error('Method not implemented.')
+  }
+
+  getAllJobs<TDataType extends DataType, TReturnType extends ReturnType>(skip?: number | undefined, limit?: number | undefined): readonly ZembleJob<TDataType, TReturnType>[] {
+    throw new Error('Method not implemented.')
+  }
+
+  obliterate(): number {
+    throw new Error('Method not implemented.')
+  }
+}
+
+export type ZembleJobOpts = {
+  readonly logger: IStandardLogger
+}
+
+export type ZembleWorker<DataType = unknown, ReturnType = unknown> = (job: ZembleJob<DataType, ReturnType>) => Promise<void> | void
+
+type JobStatus = 'completed' | 'wait' | 'active' | 'delayed' | 'failed'
+
+// queue with one recurring config - cron job?
+// queue that is just a queue - queue?
+// cron queue? - with possibility to add multiple cron jobs
+
+export interface ZembleJob<DataType = unknown, ReturnType = unknown> {
+  // maybe force serialization handling of this type?
+  readonly data: DataType
+  readonly jobId: string
+  readonly repeatableId?: string
+  readonly runAtEarliest: Date
+  readonly createdAt: Date
+  readonly startedRunningAt: Date
+  readonly finishedRunningAt?: Date
+  readonly status: JobStatus
+  readonly returnValue?: ReturnType
+  readonly error?: Error
+}
+
+interface RepeatableJob<DataType = unknown> {
+  // maybe force serialization handling of this type?
+  readonly data: DataType
+  readonly repeatableId: string
+  readonly createdAt: Date
+}
+
+interface JobOptions {
+  readonly jobId?: string
+  readonly runAtEarliest?: Date
+}
+
+interface CronOptions {
+  readonly repeatPattern: string
+  readonly timezone?: string
+}
+
+interface RepeatableJobOptions {
+  readonly repeatPattern: string;
+  readonly repeatableId?: string
+}
+
+export interface IZembleCron<DataType, ReturnType> {
+  removeByIds(jobId: readonly string[]): number
+  getById<TDataType extends DataType, TReturnType extends ReturnType>(jobId: string): ZembleJob<TDataType, TReturnType> | undefined
+  getAllJobs<TDataType extends DataType, TReturnType extends ReturnType>(skip?: number, limit?: number): readonly ZembleJob<TDataType, TReturnType>[]
+  obliterate(): number
+}
+
+interface IZembleCronProvider extends IZembleCron<unknown, unknown> {
+  initialize(): void
+}
+
+export interface IZembleQueue<DataType, ReturnType> extends IZembleCron<DataType, ReturnType> {
+  add(data: DataType, opts?: JobOptions): ZembleJob<DataType, ReturnType>
+  addBulk(data: readonly DataType[], opts?: JobOptions): readonly ZembleJob<DataType, ReturnType>[]
+}
+
+export interface ZembleRepeatableQueue<DataType, ReturnType> extends IZembleCron<DataType, ReturnType> {
+  addRepeatable(data: DataType, opts: RepeatableJobOptions): RepeatableJob<DataType>
+  addRepeatableBulk(data: readonly DataType[], opts?: RepeatableJobOptions): readonly RepeatableJob<DataType>[]
+  removeRepeatableByIds(repeatableJobId: readonly string[]): number
+  getRepeatableById(repeatableJobId: string): RepeatableJob<DataType>
+  getAllRepeatableJobs(skip?: number, limit?: number): readonly RepeatableJob<DataType>[]
 }
 
 export type SendEmailParams = {
@@ -76,6 +212,9 @@ declare global {
 
       // eslint-disable-next-line functional/prefer-readonly-type
       logger: IStandardLogger
+
+      // eslint-disable-next-line functional/prefer-readonly-type
+      cronProvider: IZembleCronProvider
     }
 
     interface Providers extends DefaultProviders {
