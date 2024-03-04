@@ -1,5 +1,14 @@
 # zemble-plugin-auth-otp
 
+## 0.0.38
+
+### Patch Changes
+
+- 9d84a4d: Logout mutation
+- Updated dependencies [9d84a4d]
+  - zemble-plugin-auth@0.0.37
+  - zemble-plugin-kv@0.0.36
+
 ## 0.0.37
 
 ### Patch Changes

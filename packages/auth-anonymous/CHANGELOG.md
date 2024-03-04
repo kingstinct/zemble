@@ -1,5 +1,12 @@
 # zemble-plugin-auth-anonymous
 
+## 0.0.35
+
+### Patch Changes
+
+- Updated dependencies [9d84a4d]
+  - zemble-plugin-auth@0.0.37
+
 ## 0.0.34
 
 ### Patch Changes

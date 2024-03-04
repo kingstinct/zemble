@@ -1,5 +1,12 @@
 # zemble-plugin-cms
 
+## 0.0.42
+
+### Patch Changes
+
+- Updated dependencies [9d84a4d]
+  - zemble-plugin-auth@0.0.37
+
 ## 0.0.41
 
 ### Patch Changes

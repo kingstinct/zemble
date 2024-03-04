@@ -1,5 +1,11 @@
 # zemble-plugin-auth
 
+## 0.0.37
+
+### Patch Changes
+
+- 9d84a4d: Logout mutation
+
 ## 0.0.36
 
 ### Patch Changes

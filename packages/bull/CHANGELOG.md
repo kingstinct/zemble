@@ -1,5 +1,12 @@
 # zemble-plugin-bull
 
+## 0.0.39
+
+### Patch Changes
+
+- Updated dependencies [9d84a4d]
+  - zemble-plugin-auth@0.0.37
+
 ## 0.0.38
 
 ### Patch Changes

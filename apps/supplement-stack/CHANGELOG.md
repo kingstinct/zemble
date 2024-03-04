@@ -1,5 +1,14 @@
 # supplement-stack
 
+## 0.0.38
+
+### Patch Changes
+
+- Updated dependencies [9d84a4d]
+  - zemble-plugin-auth-otp@0.0.38
+  - zemble-plugin-bull@0.0.39
+  - zemble-plugin-todo@0.0.35
+
 ## 0.0.37
 
 ### Patch Changes
