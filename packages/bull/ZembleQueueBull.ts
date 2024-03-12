@@ -81,6 +81,13 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   async addBulk(...args: Parameters<Queue<DataType, ReturnType>['addBulk']>) {
     return this.#queue.addBulk(...args)
   }
+  async remove(...args: Parameters<Queue<DataType, ReturnType>['remove']>) {
+    return this.#queue.remove(...args)
+  }
+  async getJob(...args: Parameters<Queue<DataType, ReturnType>['getJob']>) {
+    return this.#queue.getJob(...args)
+  }
+  
 }
 
 export default ZembleQueueBull
