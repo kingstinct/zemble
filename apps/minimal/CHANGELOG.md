@@ -1,5 +1,12 @@
 # minimal
 
+## 0.0.41
+
+### Patch Changes
+
+- Updated dependencies
+  - zemble-plugin-bull@0.1.0
+
 ## 0.0.40
 
 ### Patch Changes
