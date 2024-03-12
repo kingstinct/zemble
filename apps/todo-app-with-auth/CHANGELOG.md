@@ -1,5 +1,11 @@
 # todoappwithauth
 
+## 0.0.6
+
+### Patch Changes
+
+- b6ef55d: added new job functions
+
 ## 0.0.5
 
 ### Patch Changes

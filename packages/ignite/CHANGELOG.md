@@ -1,5 +1,13 @@
 # @zemble/ignite
 
+## 0.0.33
+
+### Patch Changes
+
+- b6ef55d: added new job functions
+- Updated dependencies [b6ef55d]
+  - zemble-plugin-bull@0.1.1
+
 ## 0.0.32
 
 ### Patch Changes

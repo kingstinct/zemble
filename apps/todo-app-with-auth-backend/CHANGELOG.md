@@ -1,5 +1,14 @@
 # todo-app-with-auth-backend
 
+## 0.0.40
+
+### Patch Changes
+
+- b6ef55d: added new job functions
+- Updated dependencies [b6ef55d]
+  - zemble-plugin-bull@0.1.1
+  - @zemble/ignite@0.0.33
+
 ## 0.0.39
 
 ### Patch Changes
