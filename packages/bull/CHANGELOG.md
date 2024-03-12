@@ -1,5 +1,11 @@
 # zemble-plugin-bull
 
+## 0.1.0
+
+### Minor Changes
+
+- Added two new jobs, remove and getJob
+
 ## 0.0.39
 
 ### Patch Changes
