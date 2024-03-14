@@ -6,3 +6,4 @@
 **/*.local.*
 **/*.generated/**
 tsconfig.json
+**/tsconfig.json

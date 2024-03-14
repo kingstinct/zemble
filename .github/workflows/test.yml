@@ -43,6 +43,9 @@ on:
         required: false
         default: '7.0.4'
         type: string
+  pull_request: 
+    branches: 
+      - main
   push:
     branches:
       - "*" # matches every branch that doesn't contain a '/'
