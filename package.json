@@ -7,7 +7,7 @@
     "test-recursive": "bunx turbo run test --continue",
     "lint": "bunx turbo run lint --continue -- --quiet",
     "typecheck": "bunx turbo run typecheck --continue",
-    "graphql-codegen": "bunx turbo run graphql-codegen",
+    "graphql-codegen": "bunx turbo run graphql-codegen && bunx turbo run lint --continue -- --quiet --fix",
     "align-dependencies": "bunx check-dependency-version-consistency --fix",
     "build": "bunx turbo run build",
     "prepare": "husky install",

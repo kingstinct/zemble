@@ -34,16 +34,17 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/generic-auth": "^7.0.0",
+    "@zemble/bun": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
+    "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.5",
     "mongodb": "^6.5.0",
     "papr": "^15.2.1",
     "zemble-plugin-apple-app-site-association": "workspace:*",
     "zemble-plugin-auth-otp": "workspace:*",
     "zemble-plugin-bull": "workspace:*",
-    "zemble-plugin-todo": "workspace:*",
-    "@zemble/bun": "workspace:*"
+    "zemble-plugin-todo": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.4.2"

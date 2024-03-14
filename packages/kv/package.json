@@ -44,7 +44,6 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240314.0",
-    "@eddeee888/gcg-typescript-resolver-files": "^0.7.3",
     "zemble-plugin-auth-api-token": "workspace:*"
   }
 }

@@ -41,12 +41,12 @@ export function createServerConfig<TOutputPath extends string = typeof defaultSe
   schema = defaultSchema,
   outputPath,
   generatedFileName,
-  resolverGenerationConfig,
+  resolverGeneration = false,
 }: {
   readonly schema?: Types.InstanceOrArray<Types.Schema>,
   readonly outputPath?: TOutputPath,
   readonly generatedFileName?: TOutputFilename,
-  readonly resolverGenerationConfig?: TypedPresetConfig | false
+  readonly resolverGeneration?: TypedPresetConfig | boolean
 }) {
   const output = outputPath ?? defaultServerOutputPath
   const filename = generatedFileName ?? defaultServerGeneratedFileName
@@ -55,10 +55,10 @@ export function createServerConfig<TOutputPath extends string = typeof defaultSe
     schema,
     ignoreNoDocuments: true,
     generates: {
-      ...(resolverGenerationConfig === false ? {} : {
+      ...(resolverGeneration === false ? {} : {
         [output]: defineConfig({
           resolverRelativeTargetDir: '.',
-          ...resolverGenerationConfig,
+          ...resolverGeneration === true ? {} : resolverGeneration,
         }),
       }),
       [path.join(output + filename)]: {

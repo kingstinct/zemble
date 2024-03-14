@@ -36,6 +36,7 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@eddeee888/gcg-typescript-resolver-files": "^0.7.3",
     "@envelop/core": "^5.0.0",
     "@graphql-tools/delegate": "^10.0.4",
     "@graphql-tools/graphql-file-loader": "^8.0.1",
