@@ -24,7 +24,7 @@ export const readResolvers = async (path: string, logger: IStandardLogger, isRun
       try {
         const item = await import(route)
         resolvedPaths.add(routeWithoutExtension)
-        return { ...await prev, [fileNameWithoutExtension]: item.default }
+        return { ...await prev, [fileNameWithoutExtension]: item[fileNameWithoutExtension] || item.default }
       } catch (error) {
         // eslint-disable-next-line functional/immutable-data
         erroredPaths[route] = error

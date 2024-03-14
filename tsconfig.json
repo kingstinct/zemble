@@ -10,5 +10,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "exclude": [ "**/*.generated/*.ts" ]
+  "exclude": [
+    "**/*.generated/*.ts",
+    "**/*.generated.ts"
+  ]
 }
