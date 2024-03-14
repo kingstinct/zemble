@@ -177,7 +177,7 @@ jobs:
       - run: bun install --concurrent-scripts 1 --ignore-scripts
 
       - name: Lint
-        run: bun run lint
+        run: bun run lint --quiet
 
   codegen:
     # The type of runner that the job will run on
