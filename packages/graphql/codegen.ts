@@ -1,3 +1,7 @@
+import { defineConfig } from '@eddeee888/gcg-typescript-resolver-files'
+import path from 'node:path'
+
+import type { TypedPresetConfig } from '@eddeee888/gcg-typescript-resolver-files/src/validatePresetConfig'
 import type { CodegenConfig } from '@graphql-codegen/cli'
 import type { Types } from '@graphql-codegen/plugin-helpers'
 
@@ -6,7 +10,8 @@ const defaultSchema: Types.InstanceOrArray<Types.Schema> = [
   '!./graphql/client.generated/**/*',
 ]
 export const defaultClientOutputPath = `./graphql/client.generated/` as const
-export const defaultServerOutputPath = `./graphql/schema.generated.ts` as const
+export const defaultServerOutputPath = `.` as const
+export const defaultServerGeneratedFileName = `schema.generated.ts` as const
 
 export const createClientConfig = ({
   schema = defaultSchema,
@@ -32,16 +37,31 @@ export const createClientConfig = ({
   },
 }) satisfies CodegenConfig
 
-export function createServerConfig<TOutput extends string = typeof defaultServerOutputPath>({
+export function createServerConfig<TOutputPath extends string = typeof defaultServerOutputPath, TOutputFilename extends string = typeof defaultServerGeneratedFileName>({
   schema = defaultSchema,
   outputPath,
-}: { readonly schema?: Types.InstanceOrArray<Types.Schema>, readonly outputPath?: TOutput }) {
+  generatedFileName,
+  resolverGenerationConfig,
+}: {
+  readonly schema?: Types.InstanceOrArray<Types.Schema>,
+  readonly outputPath?: TOutputPath,
+  readonly generatedFileName?: TOutputFilename,
+  readonly resolverGenerationConfig?: TypedPresetConfig | false
+}) {
   const output = outputPath ?? defaultServerOutputPath
+  const filename = generatedFileName ?? defaultServerGeneratedFileName
+
   return {
     schema,
     ignoreNoDocuments: true,
     generates: {
-      [output]: {
+      ...(resolverGenerationConfig === false ? {} : {
+        [output]: defineConfig({
+          resolverRelativeTargetDir: '.',
+          ...resolverGenerationConfig,
+        }),
+      }),
+      [path.join(output + filename)]: {
         config: {
           useIndexSignature: true,
           contextType: 'Zemble.GraphQLContext',
