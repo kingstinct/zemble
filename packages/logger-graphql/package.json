@@ -39,7 +39,7 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/pino": "workspace:*",
     "graphql-yoga": "^5.2.0",
-    "hono": "^3.12.12",
+    "hono": "^4.1.0",
     "pino": "^8.19.0"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@ import createWebsocketHandler from './createWebSocketHandler'
 
 import type { GraphQLSchemaWithContext, YogaServerOptions } from 'graphql-yoga'
 import type { Context } from 'hono'
+import type { StatusCode } from 'hono/utils/http-status'
 
 export default async (
   getSchema: () => Promise<GraphQLSchemaWithContext<Zemble.GraphQLContext>>,
@@ -60,6 +61,6 @@ export default async (
       'content-type': 'text/html', // default to html, for playground to load
     } as Record<string, string>)
 
-    return c.newResponse(res.body, res.status, headers)
+    return c.newResponse(res.body, res.status as StatusCode, headers)
   }
 }
