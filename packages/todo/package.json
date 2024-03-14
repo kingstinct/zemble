@@ -34,10 +34,10 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@bull-board/api": "^5.14.1",
+    "@bull-board/api": "^5.15.1",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "bullmq": "^5.2.1",
+    "bullmq": "^5.4.2",
     "graphql": "^16.8.1",
     "hono": "^3.12.12",
     "zemble-plugin-auth": "workspace:*",

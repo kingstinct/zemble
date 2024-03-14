@@ -21,11 +21,11 @@
     "urql": "4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
+    "@babel/core": "^7.24.0",
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.2.2",
-    "@types/react": "^18.2.57",
-    "typescript": "^5.3.3"
+    "@graphql-codegen/client-preset": "^4.2.4",
+    "@types/react": "^18.2.66",
+    "typescript": "^5.4.2"
   },
   "private": true
 }

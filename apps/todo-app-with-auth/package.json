@@ -24,9 +24,9 @@
     "zemble-plugin-todo-ui": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "@types/react": "^18.2.57",
-    "typescript": "^5.3.3"
+    "@babel/core": "^7.24.0",
+    "@types/react": "^18.2.66",
+    "typescript": "^5.4.2"
   },
   "private": true
 }
