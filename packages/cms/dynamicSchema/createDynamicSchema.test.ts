@@ -316,6 +316,8 @@ test('should filter on title field', async () => {
     readonly filterBooks: readonly unknown[]
   }, unknown>('query { filterBooks(title: { eq: "Lord of the rings" }) { title } }', {}, opts)
 
+  await wait(50)
+
   expect(results.data).toEqual({
     filterBooks: [
       {

@@ -19,7 +19,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "*",
     "@zemble/migrations": "workspace:*"
   },
   "peerDependencies": {

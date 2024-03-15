@@ -52,10 +52,40 @@ if(!validNpmPackageNameRegex.test(name)) {
 
 console.log('Creating plugin', name)
 
+const findNextPackageJsonAboveRecursive = (dir, traversalsLeft = 2) => {
+  const packageJsonPath = join(dir, 'package.json')
+
+  if(traversalsLeft === 0) {
+    return null
+  }
+
+  if(readdirSync(dir).includes('package.json')) {
+    return packageJsonPath
+  }
+
+  const parentDir = join(dir, '..')
+  if(parentDir === dir) {
+    return null
+  }
+
+  return findNextPackageJsonAboveRecursive(parentDir, traversalsLeft - 1)
+}
+
+const isInZembleMonorepo = () => {
+  const rootPackageJsonPath = findNextPackageJsonAboveRecursive(process.cwd())
+  
+  if(rootPackageJsonPath){
+    const packageJsonStr = readFileSync(rootPackageJsonPath)
+    const packageJson = JSON.parse(packageJsonStr)
+    return packageJson.name === 'zemble'
+  }
+}
+
 copy(templatePath, targetDir).then(async () => {
   const packageJsonPath = join(targetDir, 'package.json')
   if(existsSync(packageJsonPath)) {
-    const packageJson = JSON.parse(readFileSync(packageJsonPath))
+    const packageJsonStr = readFileSync(packageJsonPath)
+    const packageJson = JSON.parse(isInZembleMonorepo ? packageJsonStr : packageJsonStr.replace('"workspace:*"', '"*"'))
     packageJson.name = name
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
   }
