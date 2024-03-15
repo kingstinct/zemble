@@ -1,8 +1,9 @@
 {
   "name": "@zemble/utils",
   "version": "0.7.33",
-  "main": "index.ts",
+  "module": "index.ts",
   "author": "Robert Herber",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "test": "bun test",
@@ -19,6 +20,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
+    "@types/bun": "latest",
     "@types/graphql-fields": "^1.3.9",
     "dataloader": "^2.2.2",
     "dayjs": "^1.11.10",
