@@ -1,20 +1,15 @@
-import defaultConfig from '@zemble/graphql/codegen'
+import { createServerConfig } from '@zemble/graphql/codegen'
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
+
+const defaultConfig = createServerConfig({
+  resolverGeneration: false,
+})
 
 const config: CodegenConfig = {
   ...defaultConfig,
   generates: {
     ...defaultConfig.generates,
-    /* seemed like a nice idea, but format is a bit fugly, and it seems to destroy stuff
-
-    graphql: defineConfig({
-      resolverRelativeTargetDir: '.',
-      resolverGeneration: 'disabled',
-      typeDefsFilePath: false,
-      resolverTypesPath: 'schema.generated.ts',
-      resolverMainFileMode: 'merged',
-    }), */
   },
 }
 

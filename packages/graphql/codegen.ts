@@ -1,3 +1,7 @@
+import { defineConfig } from '@eddeee888/gcg-typescript-resolver-files'
+import path from 'node:path'
+
+import type { TypedPresetConfig } from '@eddeee888/gcg-typescript-resolver-files/src/validatePresetConfig'
 import type { CodegenConfig } from '@graphql-codegen/cli'
 import type { Types } from '@graphql-codegen/plugin-helpers'
 
@@ -6,7 +10,10 @@ const defaultSchema: Types.InstanceOrArray<Types.Schema> = [
   '!./graphql/client.generated/**/*',
 ]
 export const defaultClientOutputPath = `./graphql/client.generated/` as const
-export const defaultServerOutputPath = `./graphql/schema.generated.ts` as const
+export const defaultServerOutputRootPath = `./graphql/` as const
+
+export const defaultServerGeneratedResolverTypesFilename = `schema.generated.ts` as const
+export const defaultServerOutputPath = path.join(defaultServerOutputRootPath, defaultServerGeneratedResolverTypesFilename)
 
 export const createClientConfig = ({
   schema = defaultSchema,
@@ -32,36 +39,65 @@ export const createClientConfig = ({
   },
 }) satisfies CodegenConfig
 
-export function createServerConfig<TOutput extends string = typeof defaultServerOutputPath>({
+const defaultConfig = {
+  useIndexSignature: true,
+  contextType: 'Zemble.GraphQLContext',
+  immutableTypes: true,
+  directiveContextTypes: ['auth#Zemble.AuthContextWithToken'],
+  showUnusedMappers: true,
+  useTypeImports: true,
+}
+
+export function createServerConfig<TOutputPath extends string = typeof defaultServerOutputRootPath, TOutputFilename extends string = typeof defaultServerGeneratedResolverTypesFilename>({
   schema = defaultSchema,
   outputPath,
-}: { readonly schema?: Types.InstanceOrArray<Types.Schema>, readonly outputPath?: TOutput }) {
-  const output = outputPath ?? defaultServerOutputPath
+  generatedFileName,
+  resolverGeneration = false,
+}: {
+  readonly schema?: Types.InstanceOrArray<Types.Schema>,
+  readonly outputPath?: TOutputPath,
+  readonly generatedFileName?: TOutputFilename,
+  readonly resolverGeneration?: TypedPresetConfig | boolean
+}) {
+  const output = outputPath ?? defaultServerOutputRootPath
+  const resolversTypeFilename = generatedFileName ?? defaultServerGeneratedResolverTypesFilename
+
   return {
     schema,
     ignoreNoDocuments: true,
     generates: {
-      [output]: {
-        config: {
-          useIndexSignature: true,
-          contextType: 'Zemble.GraphQLContext',
-          immutableTypes: true,
-          directiveContextTypes: ['auth#Zemble.AuthContextWithToken'],
-          showUnusedMappers: true,
-          useTypeImports: true,
-        },
-        plugins: [
-          {
-            add: {
-              placement: 'prepend',
-              content: `// @ts-nocheck
-import '@zemble/core'`,
+      ...(resolverGeneration === false ? {
+        [path.join(output, resolversTypeFilename)]: {
+          config: defaultConfig,
+          plugins: [
+            {
+              add: {
+                placement: 'prepend',
+                content: `// @ts-nocheck
+  import '@zemble/core'`,
+              },
             },
+            'typescript',
+            'typescript-resolvers',
+          ],
+        },
+      } : {
+        [output]: {
+          ...defineConfig({
+            resolverRelativeTargetDir: '.',
+            typeDefsFilePath: false,
+            mode: 'merged',
+            typesPluginsConfig: defaultConfig,
+            resolverTypesPath: resolversTypeFilename,
+            ...resolverGeneration === true ? {} : resolverGeneration,
+          }, {
+
+          }),
+          hooks: {
+            afterOneFileWrite: ['eslint --fix'],
           },
-          'typescript',
-          'typescript-resolvers',
-        ],
-      },
+        },
+      }),
     },
   } satisfies CodegenConfig
 }

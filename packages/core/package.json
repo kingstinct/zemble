@@ -33,11 +33,11 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
-    "hono": "^3.12.12",
+    "hono": "^4.1.0",
     "pino": "^8.19.0",
     "pino-debug": "^2.0.0"
   },
   "devDependencies": {
-    "type-fest": "^4.10.2"
+    "type-fest": "^4.12.0"
   }
 }

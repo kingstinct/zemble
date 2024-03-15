@@ -1,4 +1,5 @@
 import { createTestApp } from '@zemble/core/test-utils'
+import wait from '@zemble/utils/wait'
 import {
   expect, test, beforeEach, beforeAll, afterAll, afterEach,
 } from 'bun:test'
@@ -95,7 +96,7 @@ beforeEach(async () => {
     ],
   }, opts)
 
-  await new Promise((resolve) => { setTimeout(resolve, 100) })
+  await wait(100)
 
   await app.gqlRequest(AddFieldsToEntityMutation, {
     namePlural: 'authors',
@@ -185,10 +186,12 @@ test('should create a book with authors', async () => {
     }
 
     // wait for schema to be updated
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await wait(100)
 
     const { data: jrr } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "J.R.R.", lastName: "Tolkien") { id, firstName, lastName } }`, {}, opts)
     const { data: christopher } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "Christopher", lastName: "Tolkien") { id, firstName, lastName } } `, {}, opts)
+
+    await wait(50)
 
     const createBookReq = await app.gqlRequestUntyped<{readonly createBook: unknown}, unknown>(`mutation { 
       createBook(title: "Silmarillion", contributors: [
@@ -237,6 +240,8 @@ test('should create a book with authors', async () => {
       },
     })
 
+    await wait(50)
+
     const booksCollection = await papr.contentCollection('books')
 
     const books = await booksCollection.find({})
@@ -244,6 +249,8 @@ test('should create a book with authors', async () => {
     const authorsCollection = await papr.contentCollection('authors')
 
     const authors = await authorsCollection.find({})
+
+    await wait(50)
 
     expect(authors).toEqual([
       {

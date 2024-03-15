@@ -5,7 +5,13 @@
     "strictNullChecks": true,
     "noImplicitAny": true,
     "verbatimModuleSyntax": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
-  "exclude": [ "**/*.generated/*.ts" ]
+  "exclude": [
+    "**/*.generated/*.ts",
+    "**/*.generated.ts"
+  ]
 }

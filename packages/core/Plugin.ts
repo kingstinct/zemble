@@ -1,7 +1,7 @@
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 
-import type { Dependency, Middleware, PluginOpts } from './types'
+import type { Middleware, PluginOpts } from './types'
 
 export class Plugin<
   TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,

@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@tsconfig/bun": "^1.0.3",
+    "@tsconfig/bun": "^1.0.4",
     "@types/bun": "latest",
     "pino-pretty": "^10.3.1"
   },
