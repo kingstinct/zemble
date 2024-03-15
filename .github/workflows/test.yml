@@ -43,7 +43,9 @@ on:
         required: false
         default: '7.0.4'
         type: string
+  
   pull_request: 
+
     branches: 
       - main
   push:
@@ -83,7 +85,7 @@ jobs:
           key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
-      - run: bun install --concurrent-scripts 1
+      - run: bun install
 
       - name: Test
         run: bun run test-recursive
@@ -120,7 +122,7 @@ jobs:
           key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
-      - run: bun install --concurrent-scripts 1
+      - run: bun install
 
       - uses: supabase/setup-cli@v1
       
@@ -151,7 +153,7 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --concurrent-scripts 1 --ignore-scripts
+      - run: bun install --ignore-scripts
 
       - name: Typecheck
         run: bun run typecheck
@@ -177,7 +179,7 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --concurrent-scripts 1 --ignore-scripts
+      - run: bun install --ignore-scripts
 
       - name: Lint
         run: bun run lint
@@ -202,6 +204,6 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --concurrent-scripts 1 --ignore-scripts
+      - run: bun install --ignore-scripts
 
       - run: bun run graphql-codegen

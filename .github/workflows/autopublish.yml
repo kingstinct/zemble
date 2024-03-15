@@ -39,7 +39,7 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
-      - run: HUSKY=0 bun install --concurrent-scripts 1 --ignore-scripts
+      - run: HUSKY=0 bun install --ignore-scripts
         env:
           HUSKY: 0
           
