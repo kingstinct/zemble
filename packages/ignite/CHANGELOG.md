@@ -1,5 +1,16 @@
 # @zemble/ignite
 
+## 0.0.34
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/graphql@0.0.39
+  - @zemble/routes@0.0.20
+  - zemble-plugin-bull@0.1.2
+  - @zemble/core@0.1.8
+
 ## 0.0.33
 
 ### Patch Changes

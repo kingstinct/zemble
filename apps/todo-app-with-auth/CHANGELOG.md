@@ -1,5 +1,15 @@
 # todoappwithauth
 
+## 0.0.7
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - zemble-plugin-auth-anonymous-expo@0.0.6
+  - zemble-plugin-auth-expo@0.0.6
+  - zemble-plugin-todo-ui@0.0.6
+
 ## 0.0.6
 
 ### Patch Changes

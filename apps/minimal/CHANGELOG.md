@@ -1,5 +1,21 @@
 # minimal
 
+## 0.0.43
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - zemble-plugin-logger-graphql@0.0.35
+  - @zemble/migrations@0.0.19
+  - @zemble/graphql@0.0.39
+  - @zemble/routes@0.0.20
+  - zemble-plugin-auth@0.0.38
+  - zemble-plugin-bull@0.1.2
+  - @zemble/core@0.1.8
+  - @zemble/pino@0.0.9
+  - @zemble/bun@0.0.19
+
 ## 0.0.42
 
 ### Patch Changes

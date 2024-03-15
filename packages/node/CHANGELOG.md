@@ -1,5 +1,13 @@
 # @zemble/node
 
+## 0.0.19
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/core@0.1.8
+
 ## 0.0.18
 
 ### Patch Changes

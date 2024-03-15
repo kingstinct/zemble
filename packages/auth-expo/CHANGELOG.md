@@ -1,5 +1,11 @@
 # zemble-plugin-auth-expo
 
+## 0.0.6
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+
 ## 0.0.5
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # zemble-plugin-supabase
 
+## 0.0.19
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/graphql@0.0.39
+  - @zemble/routes@0.0.20
+  - zemble-plugin-auth@0.0.38
+  - @zemble/core@0.1.8
+  - @zemble/bun@0.0.19
+
 ## 0.0.18
 
 ### Patch Changes

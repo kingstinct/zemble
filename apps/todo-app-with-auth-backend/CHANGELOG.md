@@ -1,5 +1,20 @@
 # todo-app-with-auth-backend
 
+## 0.0.41
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - zemble-plugin-auth-anonymous@0.0.36
+  - @zemble/graphql@0.0.39
+  - @zemble/ignite@0.0.34
+  - zemble-plugin-bull@0.1.2
+  - @zemble/core@0.1.8
+  - zemble-plugin-todo@0.0.36
+  - zemble-plugin-apple-app-site-association@0.0.24
+  - @zemble/bun@0.0.19
+
 ## 0.0.40
 
 ### Patch Changes

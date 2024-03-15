@@ -1,5 +1,13 @@
 # cms-ui
 
+## 0.0.9
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/react@1.0.14
+
 ## 0.0.8
 
 ### Patch Changes

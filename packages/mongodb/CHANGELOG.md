@@ -1,5 +1,16 @@
 # @zemble/mongodb
 
+## 0.0.21
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/migrations@0.0.19
+  - @zemble/routes@0.0.20
+  - @zemble/core@0.1.8
+  - @zemble/bun@0.0.19
+
 ## 0.0.20
 
 ### Patch Changes

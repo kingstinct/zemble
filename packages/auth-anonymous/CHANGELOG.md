@@ -1,5 +1,15 @@
 # zemble-plugin-auth-anonymous
 
+## 0.0.36
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/graphql@0.0.39
+  - zemble-plugin-auth@0.0.38
+  - @zemble/core@0.1.8
+
 ## 0.0.35
 
 ### Patch Changes
