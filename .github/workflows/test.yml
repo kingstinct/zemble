@@ -44,8 +44,9 @@ on:
         default: '7.0.4'
         type: string
   
-  pull_request: 
-
+  pull_request_target:
+    paths: 
+      - '**/CHANGELOG.md'
     branches: 
       - main
   push:
