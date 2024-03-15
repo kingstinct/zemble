@@ -1,5 +1,6 @@
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
+import { defaultProviders } from './zembleContext'
 
 import type { Middleware, PluginOpts } from './types'
 
@@ -20,7 +21,7 @@ export class Plugin<
   readonly #middleware?: Middleware<TResolvedConfig, Plugin>
 
   // eslint-disable-next-line functional/prefer-readonly-type
-  providers = {} as Zemble.Providers
+  providers = defaultProviders as Zemble.Providers
 
   // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined

@@ -4,7 +4,7 @@ import { logger } from 'hono/logger'
 
 import { Plugin } from './Plugin'
 import { readPackageJson } from './utils/readPackageJson'
-import context from './zembleContext'
+import context, { defaultProviders } from './zembleContext'
 
 import type { RunBeforeServeFn } from './types'
 
@@ -84,12 +84,6 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
         : ''}`,
     ).join('\n')}`)
   }
-
-  const defaultProviders = {
-    logger: context.logger,
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    kv: context.kv.bind(context.kv),
-  } as Zemble.Providers
 
   plugins.forEach((plugin) => {
     // eslint-disable-next-line functional/immutable-data, no-param-reassign
