@@ -82,16 +82,21 @@ export function createServerConfig<TOutputPath extends string = typeof defaultSe
           ],
         },
       } : {
-        [output]: defineConfig({
-          resolverRelativeTargetDir: '.',
-          typeDefsFilePath: false,
-          mode: 'merged',
-          typesPluginsConfig: defaultConfig,
-          resolverTypesPath: resolversTypeFilename,
-          ...resolverGeneration === true ? {} : resolverGeneration,
-        }, {
-          // baseOutputDir: '.',
-        }),
+        [output]: {
+          ...defineConfig({
+            resolverRelativeTargetDir: '.',
+            typeDefsFilePath: false,
+            mode: 'merged',
+            typesPluginsConfig: defaultConfig,
+            resolverTypesPath: resolversTypeFilename,
+            ...resolverGeneration === true ? {} : resolverGeneration,
+          }, {
+
+          }),
+          hooks: {
+            afterOneFileWrite: ['eslint --fix'],
+          },
+        },
       }),
     },
   } satisfies CodegenConfig
