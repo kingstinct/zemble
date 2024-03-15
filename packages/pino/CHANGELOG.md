@@ -1,5 +1,14 @@
 # @zemble/pino
 
+## 0.0.9
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/core@0.1.8
+  - @zemble/bun@0.0.19
+
 ## 0.0.8
 
 ### Patch Changes

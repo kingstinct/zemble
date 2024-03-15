@@ -1,5 +1,11 @@
 # create-zemble-plugin
 
+## 0.0.8
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+
 ## 0.0.7
 
 ### Patch Changes

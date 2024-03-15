@@ -1,6 +1,6 @@
 {
   "name": "@zemble/utils",
-  "version": "0.7.32",
+  "version": "0.7.33",
   "main": "index.ts",
   "author": "Robert Herber",
   "license": "MIT",

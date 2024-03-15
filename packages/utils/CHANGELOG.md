@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.33
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+
 ## 0.7.32
 
 ### Patch Changes
