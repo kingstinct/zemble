@@ -48,6 +48,10 @@ on:
         type: string
         default: yarn
         description: The package manager to use
+      env_file:
+        required: false
+        type: string
+        description: .env file to automatically add to Github context
       autosubmit:
         required: false
         type: boolean
@@ -75,7 +79,6 @@ on:
       bun_version:
         required: false
         type: string
-        default: latest
         description: Set bun version
     secrets:
       EXPO_TOKEN:
@@ -127,10 +130,15 @@ jobs:
         with:
           version: ${{ inputs.pnpm_version }}
 
+      - uses: cardinalby/export-env-action@v2
+        if: ${{ inputs.env_file }}
+        with:
+          envFile: ${{ inputs.env_file }}
+
       - uses: oven-sh/setup-bun@v1
         if: ${{ inputs.package_manager == 'bun' }}
         with:
-          bun-version: ${{ inputs.bun_version }}
+          bun-version: ${{ inputs.bun_version || env.BUN_VERSION || 'latest' }}
 
       - uses: actions/setup-node@v4
         if: ${{ inputs.package_manager != 'bun' }}
