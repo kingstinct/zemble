@@ -1,4 +1,5 @@
 import { createTestApp } from '@zemble/core/test-utils'
+import wait from '@zemble/utils/wait'
 import {
   beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
@@ -57,6 +58,8 @@ test('should remove a title field', async () => {
       },
     ],
   }, opts)
+
+  await wait(50)
 
   const { data } = await app.gqlRequest(RemoveFieldsFromEntityMutation, {
     namePlural: 'books',
