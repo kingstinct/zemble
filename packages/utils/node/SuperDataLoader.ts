@@ -1,55 +1,123 @@
-type DataLoaderWithStringKey<T> = {
-  readonly batchLoadFn: (keys: readonly string[]) => Promise<readonly T[]> | readonly T[],
-  readonly cacheKeyFn?: undefined
-}
-
 type DataLoaderWithKeyFunction<T, TKey> = {
   readonly batchLoadFn: (keys: readonly TKey[]) => Promise<readonly T[]> | readonly T[],
-  readonly cacheKeyFn: (key: TKey) => string
+  readonly cacheKeyFn?: (key: TKey) => string,
+  readonly chunkSize?: number
+}
+
+async function dealWithKeys<T, TKey = string>(
+  keys: readonly ((readonly [TKey, string]))[],
+  batchLoadFn: (keys: readonly TKey[]) => Promise<readonly T[]> | readonly T[],
+  // eslint-disable-next-line functional/prefer-readonly-type
+  dataCache: Map<string, unknown>,
+) {
+  const originalKeys = keys.map(([key]) => key!)
+  const results = await batchLoadFn(
+    originalKeys,
+  )
+
+  if (results.length !== keys.length) {
+    throw new Error('batchLoadFn error: returned array length has to be the same length as the keys length')
+  }
+
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < results.length; index++) {
+    const value = results[index]!
+    const [, keyStr] = keys[index]!
+    dataCache.set(
+      keyStr!,
+      value,
+    )
+  }
 }
 
 export function createSuperDataLoader<T, TKey = string>({
   batchLoadFn,
   cacheKeyFn,
-}: DataLoaderWithKeyFunction<T, TKey> | DataLoaderWithStringKey<T>) {
+  chunkSize,
+}: DataLoaderWithKeyFunction<T, TKey>) {
   const dataCache = new Map<string, T>()
-  const keysToResolveOnNextTickSet = new Map<string, { readonly key: TKey }>()
+  const resolvedKeys = new Map<TKey, string>()
+  const resolvedKeysReverse = new Map<string, TKey>()
+  const keysToResolveOnNextTick = new Map<string, TKey>()
   let onNextTick: Promise<void> | undefined
 
-  const prepareNextTick = async () => new Promise<void>((resolve) => {
+  // eslint-disable-next-line @typescript-eslint/promise-function-async
+  const prepareNextTick = () => new Promise<void>((resolve) => {
     process.nextTick(async () => {
-      const keys = Array.from(keysToResolveOnNextTickSet.values())
+      const shouldChunk = chunkSize && keysToResolveOnNextTick.size > chunkSize
+      const keys = Array.from(keysToResolveOnNextTick.entries())
 
-      const results = await batchLoadFn(
-        // @ts-expect-error this is already safe
-        keys.map((key) => key.key),
-      )
-
-      if (results.length !== keysToResolveOnNextTickSet.size) {
-        throw new Error('batchLoadFn error: returned array length has to be the same length as the keys length')
-      }
-
-      const iter = keysToResolveOnNextTickSet.keys()
-      // eslint-disable-next-line no-plusplus
-      for (let index = 0; index < results.length; index++) {
-        const value = results[index]!
-        dataCache.set(
-          iter.next().value!,
-          value,
+      if (shouldChunk) {
+        // eslint-disable-next-line no-plusplus
+        while (keys.length > 0) {
+        // eslint-disable-next-line functional/immutable-data
+          const nextKeys = keys.splice(0, chunkSize)
+          // eslint-disable-next-line no-await-in-loop
+          await dealWithKeys(
+            // @ts-expect-error sdf sdf
+            nextKeys,
+            batchLoadFn,
+            dataCache,
+          )
+        }
+      } else {
+        await dealWithKeys(
+          // @ts-expect-error sdf sdf
+          keys,
+          batchLoadFn,
+          dataCache,
         )
       }
 
-      keysToResolveOnNextTickSet.clear()
+      keysToResolveOnNextTick.clear()
 
       resolve()
     })
   })
 
-  const getKey = cacheKeyFn || ((key: TKey) => key as string)
+  const defaultCacheKeyFn = (key: TKey) => key as string
 
-  const loadMany = async (keys: readonly TKey[]) => Promise.all(keys.map(load))
+  const getKey = (key: TKey) => {
+    const cachedKey = resolvedKeys.get(key)
+    if (cachedKey) {
+      return cachedKey
+    }
+    const fn = cacheKeyFn ?? defaultCacheKeyFn
+    const val = fn(key)
+    resolvedKeys.set(key, val)
+    resolvedKeysReverse.set(val, key)
+    return val
+  }
 
-  const load = async (key: TKey) => {
+  const doesNotHaveKey = (key: string) => !dataCache.has(key)
+  const dataFromCache = (key: string) => dataCache.get(key)
+
+  // eslint-disable-next-line @typescript-eslint/promise-function-async
+  const loadMany = (keys: readonly TKey[]) => {
+    const serializedKeys = keys.map(getKey)
+    const keysWithoutCache = serializedKeys.filter(doesNotHaveKey)
+
+    if (keysWithoutCache.length === 0) {
+      return serializedKeys.map(dataFromCache)
+    }
+
+    if (keysToResolveOnNextTick.size === 0) {
+      onNextTick = prepareNextTick()
+    }
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < keysWithoutCache.length; i++) {
+      const keysStr = keysWithoutCache[i]!
+      const originalKey = resolvedKeysReverse.get(keysStr)!
+
+      keysToResolveOnNextTick.set(keysStr, originalKey)
+    }
+
+    return onNextTick!.then(() => serializedKeys.map(dataFromCache))
+  }
+
+  // eslint-disable-next-line @typescript-eslint/promise-function-async
+  const load = (key: TKey) => {
     const keyStr = getKey(key)
 
     const valueInCache = dataCache.get(keyStr)
@@ -58,15 +126,13 @@ export function createSuperDataLoader<T, TKey = string>({
       return valueInCache
     }
 
-    if (keysToResolveOnNextTickSet.size === 0) {
+    if (keysToResolveOnNextTick.size === 0) {
       onNextTick = prepareNextTick()
     }
 
-    keysToResolveOnNextTickSet.set(keyStr, { key })
+    keysToResolveOnNextTick.set(keyStr, key)
 
-    await onNextTick
-
-    return dataCache.get(keyStr)
+    return onNextTick!.then(() => dataCache.get(keyStr))
   }
 
   const clear = (key: TKey) => {
