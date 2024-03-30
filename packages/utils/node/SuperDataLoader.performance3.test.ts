@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import DataLoader from 'dataloader'
 
 import createSuperDataLoader from './SuperDataLoader'
