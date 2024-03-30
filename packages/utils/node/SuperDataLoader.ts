@@ -36,8 +36,6 @@ export function createSuperDataLoader<T, TKey = string>({
   chunkSize,
 }: DataLoaderWithKeyFunction<T, TKey>) {
   const dataCache = new Map<string, T>()
-  const resolvedKeys = new Map<TKey, string>()
-  const resolvedKeysReverse = new Map<string, TKey>()
   const keysToResolveOnNextTick = new Map<string, TKey>()
   let onNextTick: Promise<void> | undefined
 
@@ -78,27 +76,32 @@ export function createSuperDataLoader<T, TKey = string>({
   const defaultCacheKeyFn = (key: TKey) => key as string
 
   const getKey = (key: TKey) => {
-    const cachedKey = resolvedKeys.get(key)
-    if (cachedKey) {
-      return cachedKey
-    }
     const fn = cacheKeyFn ?? defaultCacheKeyFn
     const val = fn(key)
-    resolvedKeys.set(key, val)
-    resolvedKeysReverse.set(val, key)
     return val
   }
 
-  const doesNotHaveKey = (key: string) => !dataCache.has(key)
-  const dataFromCache = (key: string) => dataCache.get(key)
+  type KeyWithOriginal = {
+    readonly cacheKey: string,
+    readonly originalKey: TKey
+  }
+
+  const getKeyWithOriginal = (key: TKey): KeyWithOriginal => {
+    const fn = cacheKeyFn ?? defaultCacheKeyFn
+    const cacheKey = fn(key)
+    return { cacheKey, originalKey: key }
+  }
+
+  const doesNotHaveKeyWithOriginal = (keyWithOriginal: KeyWithOriginal) => !dataCache.has(keyWithOriginal.cacheKey)
+  const dataFromCacheWithOriginal = (keyWithOriginal: KeyWithOriginal) => dataCache.get(keyWithOriginal.cacheKey)
 
   // eslint-disable-next-line @typescript-eslint/promise-function-async
   const loadMany = (keys: readonly TKey[]) => {
-    const serializedKeys = keys.map(getKey)
-    const keysWithoutCache = serializedKeys.filter(doesNotHaveKey)
+    const cacheKeys = keys.map(getKeyWithOriginal)
+    const keysWithoutCache = cacheKeys.filter(doesNotHaveKeyWithOriginal)
 
     if (keysWithoutCache.length === 0) {
-      return serializedKeys.map(dataFromCache)
+      return cacheKeys.map(dataFromCacheWithOriginal)
     }
 
     if (keysToResolveOnNextTick.size === 0) {
@@ -107,13 +110,12 @@ export function createSuperDataLoader<T, TKey = string>({
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < keysWithoutCache.length; i++) {
-      const keysStr = keysWithoutCache[i]!
-      const originalKey = resolvedKeysReverse.get(keysStr)!
+      const { cacheKey: keyStr, originalKey } = keysWithoutCache[i]!
 
-      keysToResolveOnNextTick.set(keysStr, originalKey)
+      keysToResolveOnNextTick.set(keyStr, originalKey)
     }
 
-    return onNextTick!.then(() => serializedKeys.map(dataFromCache))
+    return onNextTick!.then(() => cacheKeys.map(dataFromCacheWithOriginal))
   }
 
   // eslint-disable-next-line @typescript-eslint/promise-function-async
