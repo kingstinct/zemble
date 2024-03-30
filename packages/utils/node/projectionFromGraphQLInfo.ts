@@ -22,7 +22,8 @@ export type Paths<T, D extends number = 5> = readonly [D] extends readonly [neve
     : never
   }[keyof T] : ''
 
-// export type Projection<DBType extends Record<string, unknown>, DBPath extends Paths<DBType> = Paths<DBType>> = Record<DBPath, number>
+// export type Projection<DBType extends Record<string, unknown>, DBPath extends Paths<DBType> = Paths<DBType>> =
+// Record<DBPath, number>
 
 export type DbType = Document & { readonly _id: ObjectId };
 
