@@ -13,5 +13,6 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.enable": false,
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "eslint.workingDirectories": [{ "mode": "auto" }]
 }

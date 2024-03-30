@@ -4,6 +4,19 @@ type DataLoaderWithKeyFunction<T, TKey> = {
   readonly chunkSize?: number
 }
 
+function optimizedMapWithForLoop<TData, TReturn>(data: readonly TData[], mapFn: (data: TData) => TReturn) {
+  // eslint-disable-next-line functional/prefer-readonly-type
+  const result: TReturn[] = new Array<TReturn>(data.length)
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < data.length; i++) {
+    // eslint-disable-next-line functional/immutable-data
+    result[i] = mapFn(data[i]!)
+  }
+
+  return result
+}
+
 async function dealWithKeys<T, TKey = string>(
   keys: readonly ((readonly [TKey, string]))[],
   batchLoadFn: (keys: readonly TKey[]) => Promise<readonly T[]> | readonly T[],
@@ -28,19 +41,6 @@ async function dealWithKeys<T, TKey = string>(
       value,
     )
   }
-}
-
-function optimizedMapWithForLoop<TData, TReturn>(data: readonly TData[], mapFn: (data: TData) => TReturn) {
-  // eslint-disable-next-line functional/prefer-readonly-type
-  const result: TReturn[] = new Array<TReturn>(data.length)
-
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < data.length; i++) {
-    // eslint-disable-next-line functional/immutable-data
-    result[i] = mapFn(data[i]!)
-  }
-
-  return result
 }
 
 function optimizedFilterWithForLoop<TData>(data: readonly TData[], filterFn: (data: TData) => boolean) {
