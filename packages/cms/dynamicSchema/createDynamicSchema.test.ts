@@ -312,6 +312,8 @@ test('should filter on title field', async () => {
     readonly books: readonly unknown[]
   }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
 
+  await wait(50)
+
   const results = await app.gqlRequestUntyped<{
     readonly filterBooks: readonly unknown[]
   }, unknown>('query { filterBooks(title: { eq: "Lord of the rings" }) { title } }', {}, opts)
@@ -331,6 +333,8 @@ test('should get default hasKindleVersion', async () => {
   await app.gqlRequestUntyped<{
     readonly books: readonly unknown[]
   }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+
+  await wait(50)
 
   const results = await app.gqlRequestUntyped<{
     readonly searchBooks: readonly unknown[]
