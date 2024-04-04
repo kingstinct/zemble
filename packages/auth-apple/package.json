@@ -39,10 +39,8 @@
     "@whatwg-node/server-plugin-cookies": "^1.0.2",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "@zemble/routes": "workspace:*",
     "graphql": "^16.8.1",
     "jose": "^5.2.3",
-    "zemble-plugin-auth": "workspace:*",
-    "zemble-plugin-kv": "workspace:*"
+    "zemble-plugin-auth": "workspace:*"
   }
 }
