@@ -1,5 +1,12 @@
 # @zemble/bun
 
+## 0.0.20
+
+### Patch Changes
+
+- Updated dependencies [9b7e7de]
+  - @zemble/core@0.1.9
+
 ## 0.0.19
 
 ### Patch Changes
