@@ -1,5 +1,13 @@
 # @zemble/pino
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [9b7e7de]
+  - @zemble/core@0.1.9
+  - @zemble/bun@0.0.20
+
 ## 0.0.9
 
 ### Patch Changes

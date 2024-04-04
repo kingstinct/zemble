@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.34
+
+### Patch Changes
+
+- 0374755: Avoid promise creation and add batching
+
 ## 0.7.33
 
 ### Patch Changes
