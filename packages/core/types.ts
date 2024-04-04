@@ -186,7 +186,7 @@ export type PluginOpts<
    */
   readonly dependencies?: DependenciesResolver<TSelf>
 
-  readonly additionalConfigWhenRunningLocally?: TConfig,
+  readonly additionalConfigWhenRunningLocally?: Partial<TConfig>,
 
   readonly name?: string,
   readonly version?: string,

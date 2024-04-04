@@ -12,7 +12,7 @@ export class Plugin<
   // eslint-disable-next-line functional/prefer-readonly-type
   #config: TResolvedConfig
 
-  readonly additionalConfigWhenRunningLocally?: TConfig
+  readonly additionalConfigWhenRunningLocally?: Partial<TConfig>
 
   readonly dependencies: readonly Plugin<Zemble.GlobalConfig>[]
 
@@ -45,7 +45,7 @@ export class Plugin<
     const filteredDeps = allDeps.filter((d) => (this.isPluginRunLocally ? true : d.onlyWhenRunningLocally))
 
     const resolvedDeps = filteredDeps
-      .map(({ plugin, config }) => plugin.configure(config))
+      .map(({ plugin, config }) => plugin.configure(config as Partial<unknown>))
 
     if (this.isPluginRunLocally) {
       this.configure(this.additionalConfigWhenRunningLocally)
@@ -93,7 +93,7 @@ export class Plugin<
     return this.#pluginName
   }
 
-  configure(config?: TConfig & Zemble.GlobalConfig) {
+  configure(config?: Partial<TConfig & Zemble.GlobalConfig>) {
     if (config) {
       // eslint-disable-next-line functional/immutable-data
       this.#config = mergeDeep(
