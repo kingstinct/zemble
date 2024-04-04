@@ -18,7 +18,7 @@ interface AppleAuthConfig extends Zemble.GlobalConfig {
   readonly generateTokenContents: (jwtContents: AppleJwtContents, signUpUserData: AppleUserSignupData | undefined) => Promise<Zemble.AppleToken> | Zemble.AppleToken
   readonly UNAUTHENTICATED_REDIRECT_URL?: string
   readonly AUTHENTICATED_REDIRECT_URL?: string
-  readonly INTERNAL_URL: string
+  readonly INTERNAL_URL?: string
   readonly APPLE_CLIENT_ID?: string
   readonly PUBLIC_KEY?: string
   readonly skipEmailVerificationRequired?: boolean
@@ -47,6 +47,7 @@ declare global {
 
 function generateTokenContents(jwtContents: AppleJwtContents): Zemble.AppleToken {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore - this is a default implementation
   return {
     type: '@zemble/auth-apple',
     appleUserId: jwtContents.sub,
