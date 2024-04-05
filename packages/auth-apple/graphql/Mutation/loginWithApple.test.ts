@@ -77,6 +77,6 @@ describe('Mutation.loginWithAple', () => {
       userUUID: '000000',
     })
 
-    expect(res.data?.loginWithApple).toHaveProperty('accessToken')
+    expect(res.errors?.[0]).toHaveProperty('message', '[@zemble/auth-apple] Error validating Apple ID token, the token has expired')
   })
 })

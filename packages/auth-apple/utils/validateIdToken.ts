@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 import * as jose from 'jose'
-import { JOSEError } from 'jose/errors'
+import { JOSEError, JWTExpired } from 'jose/errors'
 
 import plugin from '../plugin'
 
@@ -32,6 +32,9 @@ export const validateIdToken = async (idToken: string) => {
 
     return payload
   } catch (error) {
+    if (error instanceof JWTExpired) {
+      throw new GraphQLError('[@zemble/auth-apple] Error validating Apple ID token, the token has expired')
+    }
     if (error instanceof JOSEError) {
       throw new GraphQLError('[@zemble/auth-apple] Error validating Apple ID token, the token is probably not valid')
     }

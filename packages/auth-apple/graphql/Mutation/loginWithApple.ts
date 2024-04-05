@@ -14,8 +14,6 @@ import type {
 const loginConfirm: MutationResolvers['loginWithApple'] = async (_, {
   authorizationCode, identityToken, realUserStatus, userUUID, email, fullName, state,
 }, { honoContext }) => {
-  const idToken = await validateIdToken(identityToken)
-
   if (state) {
     const isValid = await validateOAuthStateJWT(state)
     if (!isValid) {
@@ -24,6 +22,8 @@ const loginConfirm: MutationResolvers['loginWithApple'] = async (_, {
   } else if (plugin.config.enforceStateValidation) {
     throw new GraphQLError('state is required when enforceStateValidation is enabled')
   }
+
+  const idToken = await validateIdToken(identityToken)
 
   const accessToken = await generateAccessTokenFromAppleToken(idToken, {
     email: email ?? undefined,
