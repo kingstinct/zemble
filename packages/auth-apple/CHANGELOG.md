@@ -1,5 +1,11 @@
 # @zemble/auth-apple
 
+## 0.0.42
+
+### Patch Changes
+
+- 9fb401d: Another small type fix
+
 ## 0.0.41
 
 ### Patch Changes
