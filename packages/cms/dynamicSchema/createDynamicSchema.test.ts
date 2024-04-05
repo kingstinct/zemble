@@ -120,7 +120,7 @@ beforeEach(async () => {
     ],
   }, opts)
 
-  await wait(50)
+  await wait(100)
 })
 
 test('should create a book', async () => {

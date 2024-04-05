@@ -35,6 +35,8 @@ export interface DefaultAppleToken {
 
 declare global {
   namespace Zemble {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore could maybe be improved
     interface AppleToken extends DefaultAppleToken {
 
     }
