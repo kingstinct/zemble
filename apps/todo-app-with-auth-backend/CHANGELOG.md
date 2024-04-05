@@ -1,5 +1,11 @@
 # todo-app-with-auth-backend
 
+## 0.0.43
+
+### Patch Changes
+
+- 9fb401d: Another small type fix
+
 ## 0.0.42
 
 ### Patch Changes
