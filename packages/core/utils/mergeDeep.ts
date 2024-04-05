@@ -13,6 +13,8 @@ export function mergeDeep<TType extends object>(...objects: readonly PartialDeep
   }
 
   return objects.reduce((prev, obj) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore could be improved
     Object.keys(obj).forEach((key) => {
       // @ts-expect-error could be improved
       const pVal = prev[key]
