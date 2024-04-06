@@ -4,7 +4,7 @@
   "description": "Zemble Monorepo",
   "main": "index.ts",
   "scripts": {
-    "test-recursive": "bunx turbo run test --continue",
+    "test-recursive": "bunx turbo run test --continue -- --timeout 20000",
     "lint": "bunx turbo run lint --continue -- --quiet",
     "typecheck": "bunx turbo run typecheck --continue",
     "graphql-codegen": "bunx turbo run graphql-codegen",

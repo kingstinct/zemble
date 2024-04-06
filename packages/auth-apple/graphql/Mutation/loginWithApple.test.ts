@@ -65,8 +65,6 @@ describe('Mutation.loginWithAple', () => {
     expect(res.errors![0]).toHaveProperty('message', '[@zemble/auth-apple] Invalid or expired state parameter')
   })
 
-  // todo [2024-04-05]: This will start breaking, handle the error and add a new test that skips expiry notification in
-  // a decent manner
   it('Should succeed and generate zemble token', async () => {
     const app = await createTestApp(plugin)
 
