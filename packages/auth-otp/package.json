@@ -1,6 +1,6 @@
 {
   "name": "zemble-plugin-auth-otp",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "Zemble Plugin providing OTP authentication through email",
   "main": "plugin.ts",
   "scripts": {

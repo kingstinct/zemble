@@ -1,5 +1,20 @@
 # minimal
 
+## 0.0.45
+
+### Patch Changes
+
+- Updated dependencies [80c3df0]
+  - @zemble/core@0.1.10
+  - zemble-plugin-auth@0.0.40
+  - zemble-plugin-bull@0.1.4
+  - @zemble/bun@0.0.21
+  - @zemble/graphql@0.0.41
+  - zemble-plugin-logger-graphql@0.0.37
+  - @zemble/migrations@0.0.21
+  - @zemble/pino@0.0.11
+  - @zemble/routes@0.0.22
+
 ## 0.0.44
 
 ### Patch Changes

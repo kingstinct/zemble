@@ -1,5 +1,15 @@
 # @zemble/mongodb
 
+## 0.0.23
+
+### Patch Changes
+
+- Updated dependencies [80c3df0]
+  - @zemble/core@0.1.10
+  - @zemble/bun@0.0.21
+  - @zemble/migrations@0.0.21
+  - @zemble/routes@0.0.22
+
 ## 0.0.22
 
 ### Patch Changes
