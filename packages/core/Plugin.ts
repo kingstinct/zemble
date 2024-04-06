@@ -1,3 +1,5 @@
+import debug from 'debug'
+
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 import { defaultProviders } from './zembleContext'
@@ -26,6 +28,8 @@ export class Plugin<
   // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined
 
+  readonly debug: debug.Debugger
+
   /**
    *
    * @param __dirname This should be the directory of the plugin (usually import.meta.dir), usually containing subdirectories like /routes and /graphql for automatic bootstrapping
@@ -39,6 +43,7 @@ export class Plugin<
     this.#pluginVersion = opts?.version ?? this.pluginVersion
     const deps = opts?.dependencies ?? []
     this.#middleware = opts?.middleware
+    this.debug = debug(this.#pluginName)
 
     const allDeps = (typeof deps === 'function') ? deps(this) : deps
 

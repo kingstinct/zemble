@@ -12,7 +12,7 @@
     "build": "bunx turbo run build",
     "prepare": "husky install",
     "postinstall": "cp manual-patches/sofa-api/package.json node_modules/sofa-api/",
-    "pre-push": "bunx turbo run lint test typecheck --continue",
+    "prepush": "bunx turbo run lint test typecheck --continue",
     "generate-cms-json-schema": "typescript-json-schema ./packages/cms/tsconfig.json CmsConfigFile --include ./packages/cms/types.ts --out ./packages/cms/entities-json-schema.json --required --strictNullChecks --rejectDateType",
     "fix-workspace-dependencies": "find . -type f -name 'package.json' -not -path './package.json' -not -path '*/node_modules/*' -exec perl -pi -e 's/\"workspace:.*\"/\"*\"/g' {} \\;",
     "changeset-release": "bun run fix-workspace-dependencies && bunx changeset publish",
@@ -56,6 +56,7 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@tsconfig/bun": "^1.0.5",
     "@types/bun": "*",
+    "@types/debug": "^4.1.12",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
     "check-dependency-version-consistency": "^4.1.0",
@@ -91,6 +92,7 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.27.1",
+    "debug": "^4.3.4",
     "graphql": "^16.8.1",
     "madge": "^6.1.0"
   }

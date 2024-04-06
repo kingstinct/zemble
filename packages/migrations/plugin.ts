@@ -99,9 +99,8 @@ export const migrateDown = async (
   opts?: { readonly migrateDownCount?: number, readonly logger?: IStandardLogger },
 ) => {
   const { migrateDownCount = 1, logger = defaultLogger() } = opts ?? {}
-  if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
-    logger.info(`migrateDown: ${upMigrationsRemaining.length} migrations to process`)
-  }
+
+  plugin.debug('migrateDown: %d migrations to process', upMigrationsRemaining.length)
 
   await downMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, adapter,
@@ -111,16 +110,14 @@ export const migrateDown = async (
       return
     }
 
-    if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
-      logger.info(`Migrate down: ${migrationName}`)
-    }
+    plugin.debug('Migrate down: %s', migrationName)
     const { down } = await import(fullPath) as Migration
     if (down) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       await adapter?.down(migrationName, async (context) => down(context ?? {}))
     } else {
-      logger.warn(`Migration ${migrationName} did not have a down function.`)
+      plugin.debug('Migration %s did not have a down function.', migrationName)
     }
   }, Promise.resolve())
 }
@@ -132,11 +129,10 @@ const defaultLogger = () => {
 }
 
 export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
-  const { logger = defaultLogger(), migrateUpCount = Infinity } = opts ?? {}
+  const { migrateUpCount = Infinity } = opts ?? {}
 
-  if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
-    logger.info(`migrateUp: ${upMigrationsRemaining.length} migrations to process`)
-  }
+  plugin.debug('migrateUp: %d migrations to process', upMigrationsRemaining.length)
+
   await upMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, progress, adapter,
   }, index) => {
@@ -146,9 +142,7 @@ export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, read
       return
     }
 
-    if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
-      logger.info(`Migrate up: ${migrationName}`)
-    }
+    plugin.debug('Migrate up: %s', migrationName)
 
     const { up } = await import(fullPath) as unknown as { readonly up: Up, readonly down?: Down }
     if (up) {

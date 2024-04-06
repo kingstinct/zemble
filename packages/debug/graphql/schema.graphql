@@ -1,0 +1,39 @@
+scalar JSONObject
+
+input AuthOr {
+  includes: JSONObject
+  match: JSONObject
+}
+
+directive @auth(
+  match: JSONObject,
+  skip: Boolean
+  includes: JSONObject
+  or: [AuthOr!]
+) on FIELD_DEFINITION
+
+type Mutation {
+  setEnv(key: String!, value: String!): JSONObject! @auth(or: [
+    { includes: { permissions: "@zemble/debug:write" } },
+    { match: { isSuperAdmin: true } }
+  ])
+  removeEnv(key: String!): JSONObject! @auth(or: [
+    { includes: { permissions: "@zemble/debug:write" } },
+    { match: { isSuperAdmin: true } }
+  ])
+  enableDebug(namespaces: String): String! @auth(or: [
+    { includes: { permissions: "@zemble/debug:write" } },
+    { match: { isSuperAdmin: true } }
+  ])
+  disableDebug: Boolean! @auth(or: [
+    { includes: { permissions: "@zemble/debug:write" } },
+    { match: { isSuperAdmin: true } }
+  ])
+}
+
+type Query {
+  env: JSONObject! @auth(or: [
+    { includes: { permissions: "@zemble/debug:read" } },
+    { match: { isSuperAdmin: true } }
+  ])
+}

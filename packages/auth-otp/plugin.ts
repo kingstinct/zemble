@@ -69,7 +69,7 @@ const defaultConfig = {
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
   generateTokenContents,
-  handleAuthRequest: async (to, twoFactorCode, { logger }) => {
+  handleAuthRequest: async (to, twoFactorCode) => {
     const { sendEmail } = plugin.providers
     if (sendEmail && process.env.NODE_ENV !== 'test') {
       void sendEmail({
@@ -79,9 +79,8 @@ const defaultConfig = {
         html: plugin.config.emailHtml ? simpleTemplating(plugin.config.emailHtml, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : `Your two factor code is <b>${twoFactorCode}</b>`,
         to,
       })
-    } else if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
-      logger.info(`handleAuthRequest for ${to.email}`, twoFactorCode)
     }
+    plugin.debug(`handleAuthRequest for ${to.email}: ${twoFactorCode}`)
   },
 } satisfies Partial<OtpAuthConfig>
 
