@@ -1,3 +1,4 @@
+import debug from 'debug'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
@@ -14,6 +15,8 @@ export type Configure = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly plugins: readonly (Plugin<any, any, any>)[],
 }
+
+const debuggah = debug('@zemble/core')
 
 const logFilter = (log: string) => (log.includes('BEGIN PRIVATE KEY') || log.includes('BEGIN PUBLIC KEY') ? '<<KEY>>' : log)
 
@@ -34,10 +37,12 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   if (process.env.NODE_ENV !== 'test') {
     hono.use('*', logger((...args) => {
       context.logger.info(...args)
+      debuggah('hey maddafakka')
     }))
   }
 
   hono.use('*', async (ctx, next) => {
+    debuggah('hey maddafakka 2')
     // eslint-disable-next-line functional/immutable-data
     ctx.env = {
       ...ctx.env ?? {},
@@ -77,20 +82,17 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     (plugin) => 'initializeMiddleware' in plugin,
   )
 
-  if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
-    context.logger.info(`[@zemble/core] Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
-      (p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p
-        ? ' (middleware)'
-        : ''}`,
-    ).join('\n')}`)
-  }
+  debuggah(`Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
+    (p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p
+      ? ' (middleware)'
+      : ''}`,
+  ).join('\n')}`)
 
   plugins.forEach((plugin) => {
     // eslint-disable-next-line functional/immutable-data, no-param-reassign
     plugin.providers = { ...defaultProviders }
-    if (process.env.DEBUG) {
-      context.logger.info(`[@zemble/core] Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
-    }
+
+    debuggah(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
   })
 
   const appDir = process.cwd()
@@ -150,10 +152,8 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     </body>
   </html>`))
 
-  if (process.env.DEBUG) {
-    const routes = hono.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
-    context.logger.info(`[@zemble/core] Routes:\n${routes}`)
-  }
+  const routes = hono.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
+  debuggah(`Routes:\n${routes}`)
 
   return zembleApp
 }
