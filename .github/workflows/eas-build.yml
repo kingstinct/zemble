@@ -207,41 +207,39 @@ jobs:
         if: ${{ inputs.no_wait && inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
         run: |
           BUILD_ID=`set -e; npx eas-cli@latest build --no-wait --non-interactive --profile=${{ inputs.build_profile }} --auto-submit --platform ${{ inputs.platform }} --json | jq ".[].id"`
+          BUILD_ID=`echo $BUILD_JSON | jq ".[].id"`
           echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+          BUILD_STATUS=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_STATUS=${BUILD_STATUS}" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
       - name: EAS Build
         if: ${{ inputs.no_wait && !inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
         run: |
           BUILD_JSON=`set -e; npx eas-cli@latest build --no-wait --non-interactive --profile=${{ inputs.build_profile }} --platform ${{ inputs.platform }} --json`
-          echo "BUILD_JSON=${BUILD_JSON}" >> $GITHUB_ENV
+          BUILD_ID=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+          BUILD_STATUS=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_STATUS=${BUILD_STATUS}" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
       - name: EAS Build
         if: ${{ !inputs.no_wait && inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
         run: |
           BUILD_JSON=`set -e; npx eas-cli@latest build --non-interactive --profile=${{ inputs.build_profile }} --auto-submit --platform ${{ inputs.platform }} --json`
-          echo "BUILD_JSON=${BUILD_JSON}" >> $GITHUB_ENV
+          BUILD_ID=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+          BUILD_STATUS=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_STATUS=${BUILD_STATUS}" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
       - name: EAS Build
         if: ${{ !inputs.no_wait && !inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
         run: |
           BUILD_JSON=`set -e; npx eas-cli@latest build --non-interactive --profile=${{ inputs.build_profile }} --platform ${{ inputs.platform }} --json`
-          echo "BUILD_JSON=${BUILD_JSON}" >> $GITHUB_ENV
-        working-directory: ${{ inputs.working_directory }}
-
-      - name: Set BUILD_ID
-        if: ${{ !inputs.no_wait && inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
-        run: |
-          BUILD_ID=`echo BUILD_JSON | jq ".[].id"`
+          BUILD_ID=`echo $BUILD_JSON | jq ".[].id"`
           echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
-        working-directory: ${{ inputs.working_directory }}
-
-      - name: Set BUILD_STATUS
-        if: ${{ !inputs.no_wait && inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
-        run: |
-          BUILD_STATUS=`echo BUILD_JSON | jq ".[].id"`
+          BUILD_STATUS=`echo $BUILD_JSON | jq ".[].id"`
           echo "BUILD_STATUS=${BUILD_STATUS}" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
