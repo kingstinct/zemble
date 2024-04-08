@@ -149,7 +149,7 @@ const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { na
     })
   }
 
-  await pubsub.publish('reload-schema', {})
+  pubsub.publish('reload-schema', {})
 
   return { ...updatedEntity, fields }
 }

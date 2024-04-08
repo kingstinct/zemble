@@ -73,7 +73,7 @@ declare global {
       readonly match?: Record<string, unknown>
       readonly includes?: Record<string, unknown>
       readonly skip?: boolean
-    }> = DirectiveArgs['skip'] extends true
+    } = {readonly match: undefined}> = DirectiveArgs['skip'] extends true
       ? Omit<TContext, 'decodedToken' | 'token'>
       : Omit<TContext, 'decodedToken'> & {
         readonly decodedToken: DirectiveArgs['match']

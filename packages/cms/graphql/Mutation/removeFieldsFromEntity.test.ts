@@ -44,6 +44,8 @@ beforeEach(async () => {
     nameSingular: 'book',
     namePlural: 'books',
   }, opts)
+
+  await wait(50)
 })
 
 test('should remove a title field', async () => {
@@ -76,6 +78,8 @@ test('should remove a title field', async () => {
       },
     ],
   })
+
+  await wait(50)
 
   const entitites = await readEntities()
 
