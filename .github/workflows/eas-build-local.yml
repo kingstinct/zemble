@@ -164,6 +164,7 @@ jobs:
           # If Expo should be stored in the GitHub Actions cache (can be true or false)
           expo-version: latest
           eas-version: latest
+          packager: ${{ inputs.package_manager }}
           expo-cache: true # optional
 
       - name: Get Hash
