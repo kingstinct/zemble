@@ -1,4 +1,5 @@
 import { createTestApp } from '@zemble/core/test-utils'
+import wait from '@zemble/utils/wait'
 import {
   beforeEach, test, expect, describe, afterEach, afterAll, beforeAll,
 } from 'bun:test'
@@ -37,6 +38,8 @@ describe('Mutation.createEntity', () => {
 
     expect(res.data?.createEntity.nameSingular).toEqual('book')
 
+    await wait(50)
+
     const entities = await readEntities()
 
     expect(entities).toHaveLength(1)
@@ -73,6 +76,8 @@ describe('Mutation.createEntity', () => {
     }, opts)
 
     expect(res.data?.createEntity.nameSingular).toEqual('article')
+
+    await wait(50)
 
     const entities = await readEntities()
 
