@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.10
+
+### Patch Changes
+
+- 80c3df0: Type fix
+
 ## 0.1.9
 
 ### Patch Changes

@@ -170,6 +170,7 @@ jobs:
           # If Expo should be stored in the GitHub Actions cache (can be true or false)
           expo-version: latest
           eas-version: latest
+          packager: ${{ inputs.package_manager }}
           expo-cache: true # optional
           
       - name: Get Hash
@@ -206,29 +207,45 @@ jobs:
         if: ${{ inputs.no_wait && inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
         run: |
           BUILD_ID=`set -e; npx eas-cli@latest build --no-wait --non-interactive --profile=${{ inputs.build_profile }} --auto-submit --platform ${{ inputs.platform }} --json | jq ".[].id"`
+          BUILD_ID=`echo $BUILD_JSON | jq ".[].id"`
           echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+          BUILD_STATUS=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_STATUS=${BUILD_STATUS}" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
       - name: EAS Build
         if: ${{ inputs.no_wait && !inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
         run: |
-          BUILD_ID=`set -e; npx eas-cli@latest build --no-wait --non-interactive --profile=${{ inputs.build_profile }} --platform ${{ inputs.platform }} --json | jq ".[].id"`
+          BUILD_JSON=`set -e; npx eas-cli@latest build --no-wait --non-interactive --profile=${{ inputs.build_profile }} --platform ${{ inputs.platform }} --json`
+          BUILD_ID=`echo $BUILD_JSON | jq ".[].id"`
           echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+          BUILD_STATUS=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_STATUS=${BUILD_STATUS}" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
       - name: EAS Build
         if: ${{ !inputs.no_wait && inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
         run: |
-          BUILD_ID=`set -e; npx eas-cli@latest build --non-interactive --profile=${{ inputs.build_profile }} --auto-submit --platform ${{ inputs.platform }} --json | jq ".[].id"`
+          BUILD_JSON=`set -e; npx eas-cli@latest build --non-interactive --profile=${{ inputs.build_profile }} --auto-submit --platform ${{ inputs.platform }} --json`
+          BUILD_ID=`echo $BUILD_JSON | jq ".[].id"`
           echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+          BUILD_STATUS=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_STATUS=${BUILD_STATUS}" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
       - name: EAS Build
         if: ${{ !inputs.no_wait && !inputs.autosubmit && (inputs.always_run || (env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0)) }}
         run: |
-          BUILD_ID=`set -e; npx eas-cli@latest build --non-interactive --profile=${{ inputs.build_profile }} --platform ${{ inputs.platform }} --json | jq ".[].id"`
+          BUILD_JSON=`set -e; npx eas-cli@latest build --non-interactive --profile=${{ inputs.build_profile }} --platform ${{ inputs.platform }} --json`
+          BUILD_ID=`echo $BUILD_JSON | jq ".[].id"`
           echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_ENV
+          BUILD_STATUS=`echo $BUILD_JSON | jq ".[].id"`
+          echo "BUILD_STATUS=${BUILD_STATUS}" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
+
+      - name: Fail if no build was created when expected
+        run: exit 1
+        if: ${{ (!env.BUILD_ID || env.BUILD_STATUS == 'ERRORED') && ((env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0) || inputs.always_run) }}
 
       - run: echo "buildUrl=https://expo.dev/accounts/${{ inputs.expo_organisation_or_user_slug }}/projects/${{ inputs.expo_app_slug }}/builds/${{ env.BUILD_ID }}" > "$GITHUB_OUTPUT"
         id: buildUrl
@@ -237,10 +254,6 @@ jobs:
       - run: echo "buildId=${{ env.BUILD_ID }}" > "$GITHUB_OUTPUT"
         id: buildId
         if: ${{ env.BUILD_ID }}
-
-      - name: Fail if no build was created when expected
-        run: exit 1
-        if: ${{ !env.BUILD_ID && ((env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0) || inputs.always_run) }}
 
       - uses: sarisia/actions-status-discord@v1
         if: ${{ failure() && env.DISCORD_WEBHOOK }}
