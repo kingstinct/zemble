@@ -1,5 +1,14 @@
 # @zemble/migrations
 
+## 0.0.22
+
+### Patch Changes
+
+- 67e139d: Add @zemble/debug package
+- Updated dependencies [67e139d]
+  - @zemble/core@0.1.11
+  - @zemble/bun@0.0.22
+
 ## 0.0.21
 
 ### Patch Changes
