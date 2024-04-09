@@ -19,7 +19,7 @@
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen"
+    "graphql-codegen": "graphql-codegen"
   },
   "devDependencies": {
     "@types/bun": "*",
