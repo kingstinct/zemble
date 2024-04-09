@@ -1,5 +1,13 @@
 # @zemble/graphql
 
+## 0.0.42
+
+### Patch Changes
+
+- 67e139d: Add @zemble/debug package
+- Updated dependencies [67e139d]
+  - @zemble/core@0.1.11
+
 ## 0.0.41
 
 ### Patch Changes

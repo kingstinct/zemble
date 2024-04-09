@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.11
+
+### Patch Changes
+
+- 67e139d: Add @zemble/debug package
+
 ## 0.1.10
 
 ### Patch Changes

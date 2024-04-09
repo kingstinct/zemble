@@ -1,5 +1,15 @@
 # @zemble/ignite
 
+## 0.0.37
+
+### Patch Changes
+
+- Updated dependencies [67e139d]
+  - zemble-plugin-bull@0.1.5
+  - @zemble/core@0.1.11
+  - @zemble/graphql@0.0.42
+  - @zemble/routes@0.0.23
+
 ## 0.0.36
 
 ### Patch Changes

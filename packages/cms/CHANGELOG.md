@@ -1,5 +1,16 @@
 # zemble-plugin-cms
 
+## 0.0.46
+
+### Patch Changes
+
+- 67e139d: Add @zemble/debug package
+- Updated dependencies [67e139d]
+  - zemble-plugin-auth@0.0.41
+  - @zemble/core@0.1.11
+  - @zemble/graphql@0.0.42
+  - @zemble/mongodb@0.0.24
+
 ## 0.0.45
 
 ### Patch Changes

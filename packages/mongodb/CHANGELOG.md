@@ -1,5 +1,16 @@
 # @zemble/mongodb
 
+## 0.0.24
+
+### Patch Changes
+
+- 67e139d: Add @zemble/debug package
+- Updated dependencies [67e139d]
+  - @zemble/core@0.1.11
+  - @zemble/migrations@0.0.22
+  - @zemble/bun@0.0.22
+  - @zemble/routes@0.0.23
+
 ## 0.0.23
 
 ### Patch Changes
