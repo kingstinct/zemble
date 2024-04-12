@@ -45,10 +45,6 @@ on:
         type: string
   
   pull_request_target:
-    paths: 
-      - '**/CHANGELOG.md'
-    branches: 
-      - main
   push:
     branches:
       - "*" # matches every branch that doesn't contain a '/'
