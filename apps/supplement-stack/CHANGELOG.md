@@ -1,5 +1,44 @@
 # supplement-stack
 
+## 0.0.44
+
+### Patch Changes
+
+- Updated dependencies [67e139d]
+  - zemble-plugin-auth-otp@0.0.42
+  - zemble-plugin-bull@0.1.5
+  - @zemble/core@0.1.11
+  - @zemble/graphql@0.0.42
+  - zemble-plugin-todo@0.0.39
+  - zemble-plugin-apple-app-site-association@0.0.27
+  - @zemble/bun@0.0.22
+
+## 0.0.43
+
+### Patch Changes
+
+- Updated dependencies [80c3df0]
+  - @zemble/core@0.1.10
+  - zemble-plugin-apple-app-site-association@0.0.26
+  - zemble-plugin-auth-otp@0.0.41
+  - zemble-plugin-bull@0.1.4
+  - @zemble/bun@0.0.21
+  - @zemble/graphql@0.0.41
+  - zemble-plugin-todo@0.0.38
+
+## 0.0.42
+
+### Patch Changes
+
+- Updated dependencies [9b7e7de]
+  - @zemble/core@0.1.9
+  - zemble-plugin-auth-otp@0.0.40
+  - zemble-plugin-bull@0.1.3
+  - zemble-plugin-todo@0.0.37
+  - zemble-plugin-apple-app-site-association@0.0.25
+  - @zemble/bun@0.0.20
+  - @zemble/graphql@0.0.40
+
 ## 0.0.41
 
 ### Patch Changes

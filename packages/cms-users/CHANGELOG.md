@@ -1,5 +1,44 @@
 # zemble-plugin-cms-users
 
+## 0.0.46
+
+### Patch Changes
+
+- Updated dependencies [67e139d]
+  - zemble-plugin-auth-otp@0.0.42
+  - zemble-plugin-auth@0.0.41
+  - zemble-plugin-cms@0.0.46
+  - @zemble/core@0.1.11
+  - @zemble/graphql@0.0.42
+  - @zemble/mongodb@0.0.24
+  - zemble-plugin-kv@0.0.40
+
+## 0.0.45
+
+### Patch Changes
+
+- Updated dependencies [80c3df0]
+  - @zemble/core@0.1.10
+  - zemble-plugin-auth@0.0.40
+  - zemble-plugin-auth-otp@0.0.41
+  - zemble-plugin-cms@0.0.45
+  - @zemble/graphql@0.0.41
+  - zemble-plugin-kv@0.0.39
+  - @zemble/mongodb@0.0.23
+
+## 0.0.44
+
+### Patch Changes
+
+- Updated dependencies [9b7e7de]
+  - zemble-plugin-auth@0.0.39
+  - @zemble/core@0.1.9
+  - zemble-plugin-auth-otp@0.0.40
+  - zemble-plugin-cms@0.0.44
+  - @zemble/graphql@0.0.40
+  - zemble-plugin-kv@0.0.38
+  - @zemble/mongodb@0.0.22
+
 ## 0.0.43
 
 ### Patch Changes

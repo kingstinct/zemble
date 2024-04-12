@@ -12,10 +12,6 @@ on:
         default: .
         description: The working directory to run the workflow in.
         required: false
-      env_inline:
-        type: string
-        description: Pass any environment variables to the publish command here, for passing to app.config.js. Could be "APP_ENV=staging MY_OTHER_VAR=hey" for example
-        required: false
       java_version:
         type: string
         description: The java version to use
@@ -70,8 +66,11 @@ on:
       bun_version:
         required: false
         type: string
-        default: latest
         description: Set bun version
+      env_file:
+        required: false
+        type: string
+        description: The path to the env file
     secrets:
       EXPO_TOKEN:
         description: The Expo token to use for publishing
@@ -114,6 +113,11 @@ jobs:
         with:
           ref: ${{ inputs.checkout_ref }}
 
+      - uses: cardinalby/export-env-action@v2
+        if: ${{ inputs.env_file }}
+        with:
+          envFile: ${{ inputs.env_file }}
+
       # as required by expo 50
       - uses: actions/setup-java@v4
         with:
@@ -128,7 +132,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         if: ${{ inputs.package_manager == 'bun' }}
         with:
-          bun-version: ${{ inputs.bun_version }}
+          bun-version: ${{ inputs.bun_version || env.BUN_VERSION || 'latest'}}
 
       - uses: actions/setup-node@v4
         if: ${{ inputs.package_manager != 'bun' }}
@@ -160,6 +164,7 @@ jobs:
           # If Expo should be stored in the GitHub Actions cache (can be true or false)
           expo-version: latest
           eas-version: latest
+          packager: ${{ inputs.package_manager }}
           expo-cache: true # optional
 
       - name: Get Hash

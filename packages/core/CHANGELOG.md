@@ -1,5 +1,23 @@
 # @zemble/core
 
+## 0.1.11
+
+### Patch Changes
+
+- 67e139d: Add @zemble/debug package
+
+## 0.1.10
+
+### Patch Changes
+
+- 80c3df0: Type fix
+
+## 0.1.9
+
+### Patch Changes
+
+- 9b7e7de: Add @zemble/auth-apple plugin
+
 ## 0.1.8
 
 ### Patch Changes

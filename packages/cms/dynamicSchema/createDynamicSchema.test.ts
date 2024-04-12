@@ -34,10 +34,14 @@ beforeEach(async () => {
     namePlural: 'books',
   }, opts)
 
+  await wait(20)
+
   await app.gqlRequest(CreateEntityMutation, {
     nameSingular: 'author',
     namePlural: 'authors',
   }, opts)
+
+  await wait(20)
 
   await app.gqlRequest(AddFieldsToEntityMutation, {
     namePlural: 'books',
@@ -96,7 +100,7 @@ beforeEach(async () => {
     ],
   }, opts)
 
-  await wait(100)
+  await wait(20)
 
   await app.gqlRequest(AddFieldsToEntityMutation, {
     namePlural: 'authors',
@@ -115,6 +119,8 @@ beforeEach(async () => {
       },
     ],
   }, opts)
+
+  await wait(100)
 })
 
 test('should create a book', async () => {
@@ -186,12 +192,12 @@ test('should create a book with authors', async () => {
     }
 
     // wait for schema to be updated
-    await wait(100)
+    await wait(20)
 
     const { data: jrr } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "J.R.R.", lastName: "Tolkien") { id, firstName, lastName } }`, {}, opts)
     const { data: christopher } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "Christopher", lastName: "Tolkien") { id, firstName, lastName } } `, {}, opts)
 
-    await wait(50)
+    await wait(20)
 
     const createBookReq = await app.gqlRequestUntyped<{readonly createBook: unknown}, unknown>(`mutation { 
       createBook(title: "Silmarillion", contributors: [
@@ -240,7 +246,7 @@ test('should create a book with authors', async () => {
       },
     })
 
-    await wait(50)
+    await wait(20)
 
     const booksCollection = await papr.contentCollection('books')
 
@@ -250,7 +256,7 @@ test('should create a book with authors', async () => {
 
     const authors = await authorsCollection.find({})
 
-    await wait(50)
+    await wait(20)
 
     expect(authors).toEqual([
       {
@@ -312,13 +318,13 @@ test('should filter on title field', async () => {
     readonly books: readonly unknown[]
   }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
 
-  await wait(50)
+  await wait(20)
 
   const results = await app.gqlRequestUntyped<{
     readonly filterBooks: readonly unknown[]
   }, unknown>('query { filterBooks(title: { eq: "Lord of the rings" }) { title } }', {}, opts)
 
-  await wait(50)
+  await wait(20)
 
   expect(results.data).toEqual({
     filterBooks: [
@@ -334,7 +340,7 @@ test('should get default hasKindleVersion', async () => {
     readonly books: readonly unknown[]
   }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
 
-  await wait(50)
+  await wait(20)
 
   const results = await app.gqlRequestUntyped<{
     readonly searchBooks: readonly unknown[]

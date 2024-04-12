@@ -2,10 +2,9 @@ import * as jose from 'jose'
 
 import plugin from '../plugin'
 
-const { PRIVATE_KEY, ISSUER } = plugin.config
-
-export async function signJwt<T extends object>({ data, expiresInSeconds }: { readonly data: T, readonly expiresInSeconds?: number }) {
-  const actualPrivateKey = PRIVATE_KEY ?? process.env.PRIVATE_KEY
+export async function signJwt<T extends object>({ data, expiresInSeconds, privateKey }: { readonly data: T, readonly expiresInSeconds?: number, readonly privateKey?: string }) {
+  const { PRIVATE_KEY, ISSUER } = plugin.config
+  const actualPrivateKey = privateKey ?? PRIVATE_KEY ?? process.env.PRIVATE_KEY
 
   if (!actualPrivateKey) {
     throw new Error('[zemble-plugin-auth] PRIVATE_KEY is not set, please set it as an environment variable or in the plugin config')

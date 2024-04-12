@@ -1,0 +1,46 @@
+{
+  "name": "@zemble/auth-apple",
+  "version": "0.0.44",
+  "description": "Zemble Plugin providing authentication through Sign in with Apple",
+  "main": "plugin.ts",
+  "scripts": {
+    "test": "bun test",
+    "dev": "zemble-dev plugin.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "graphql-codegen": "graphql-codegen"
+  },
+  "keywords": [
+    "zemble",
+    "zemble-plugin",
+    "@zemble"
+  ],
+  "author": {
+    "name": "Robert Herber",
+    "email": "robert@kingstinct.com",
+    "url": "https://github.com/robertherber"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingstinct/zemble",
+    "directory": "packages/apple-app-site-association"
+  },
+  "funding": [
+    "https://github.com/sponsors/kingstinct",
+    "https://github.com/sponsors/robertherber"
+  ],
+  "bugs": {
+    "url": "https://github.com/kingstinct/zemble/issues"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@envelop/core": "^5.0.0",
+    "@envelop/generic-auth": "^7.0.0",
+    "@whatwg-node/server-plugin-cookies": "^1.0.2",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
+    "graphql": "^16.8.1",
+    "jose": "^5.2.3",
+    "zemble-plugin-auth": "workspace:*"
+  }
+}

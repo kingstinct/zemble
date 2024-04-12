@@ -1,3 +1,5 @@
+import debug from 'debug'
+
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 import { defaultProviders } from './zembleContext'
@@ -12,7 +14,7 @@ export class Plugin<
   // eslint-disable-next-line functional/prefer-readonly-type
   #config: TResolvedConfig
 
-  readonly additionalConfigWhenRunningLocally?: TConfig
+  readonly additionalConfigWhenRunningLocally?: Partial<TConfig>
 
   readonly dependencies: readonly Plugin<Zemble.GlobalConfig>[]
 
@@ -25,6 +27,8 @@ export class Plugin<
 
   // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined
+
+  readonly debug: debug.Debugger
 
   /**
    *
@@ -39,13 +43,14 @@ export class Plugin<
     this.#pluginVersion = opts?.version ?? this.pluginVersion
     const deps = opts?.dependencies ?? []
     this.#middleware = opts?.middleware
+    this.debug = debug(this.#pluginName)
 
     const allDeps = (typeof deps === 'function') ? deps(this) : deps
 
     const filteredDeps = allDeps.filter((d) => (this.isPluginRunLocally ? true : d.onlyWhenRunningLocally))
 
     const resolvedDeps = filteredDeps
-      .map(({ plugin, config }) => plugin.configure(config))
+      .map(({ plugin, config }) => plugin.configure(config as Partial<unknown>))
 
     if (this.isPluginRunLocally) {
       this.configure(this.additionalConfigWhenRunningLocally)
@@ -93,7 +98,7 @@ export class Plugin<
     return this.#pluginName
   }
 
-  configure(config?: TConfig & Zemble.GlobalConfig) {
+  configure(config?: Partial<TConfig & Zemble.GlobalConfig>) {
     if (config) {
       // eslint-disable-next-line functional/immutable-data
       this.#config = mergeDeep(

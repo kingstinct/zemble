@@ -1,0 +1,48 @@
+scalar JSONObject
+
+input AuthOr {
+  includes: JSONObject
+  match: JSONObject
+}
+
+directive @auth(
+  match: JSONObject,
+  skip: Boolean
+  includes: JSONObject
+  or: [AuthOr!]
+) on FIELD_DEFINITION
+
+enum AppleAuthenticationUserDetectionStatus{
+    UNSUPPORTED
+    UNKNOWN
+    LIKELY_REAL
+}
+
+input AppleAuthenticationFullName {
+    familyName: String
+    givenName: String
+    middleName: String
+    namePrefix: String
+    nameSuffix: String
+    nickname: String
+}
+
+type AppleLoginResponse {
+  accessToken: String! @auth(skip: true)
+}
+
+type Mutation {
+  loginWithApple(
+      authorizationCode: String!
+      email: String
+      fullName: AppleAuthenticationFullName
+      identityToken: String!
+      state: String
+      realUserStatus: AppleAuthenticationUserDetectionStatus!
+      userUUID: String!
+  ): AppleLoginResponse! @auth(skip: true)
+}
+
+type Query {
+  state: String! @auth(skip: true)
+}

@@ -1,5 +1,34 @@
 # zemble-plugin-auth
 
+## 0.0.41
+
+### Patch Changes
+
+- 67e139d: Add @zemble/debug package
+- Updated dependencies [67e139d]
+  - @zemble/core@0.1.11
+  - @zemble/graphql@0.0.42
+  - @zemble/bun@0.0.22
+
+## 0.0.40
+
+### Patch Changes
+
+- Updated dependencies [80c3df0]
+  - @zemble/core@0.1.10
+  - @zemble/bun@0.0.21
+  - @zemble/graphql@0.0.41
+
+## 0.0.39
+
+### Patch Changes
+
+- 9b7e7de: Add @zemble/auth-apple plugin
+- Updated dependencies [9b7e7de]
+  - @zemble/core@0.1.9
+  - @zemble/bun@0.0.20
+  - @zemble/graphql@0.0.40
+
 ## 0.0.38
 
 ### Patch Changes
