@@ -33,7 +33,7 @@ export const debugPipeline = async<
 
       const duration = Date.now() - startTime
 
-      const res = await collection.aggregate<{readonly count: number}>([...allStages, { $count: 'count' }], {
+      const res = await collection.aggregate<{ readonly count: number }>([...allStages, { $count: 'count' }], {
         maxTimeMS: 20000,
       }).toArray()
 
