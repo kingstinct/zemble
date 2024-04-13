@@ -245,7 +245,7 @@ jobs:
 
       - name: Fail if no build was created when expected
         run: exit 1
-        if: ${{ (!env.BUILD_ID || env.BUILD_STATUS == 'ERRORED') && ((env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0) || inputs.always_run) }}
+        if: ${{ ((!env.BUILD_ID && !inputs.no_wait) || env.BUILD_STATUS == 'ERRORED') && ((env.MATCHING_IN_PROGRESS_BUILDS == 0 && env.MATCHING_FINISHED_BUILDS == 0 && env.MATCHING_IN_QUEUE_BUILDS == 0 && env.MATCHING_NEW_BUILDS == 0) || inputs.always_run) }}
 
       - run: echo "buildUrl=https://expo.dev/accounts/${{ inputs.expo_organisation_or_user_slug }}/projects/${{ inputs.expo_app_slug }}/builds/${{ env.BUILD_ID }}" > "$GITHUB_OUTPUT"
         id: buildUrl
