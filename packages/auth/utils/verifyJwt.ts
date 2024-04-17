@@ -3,7 +3,7 @@ import * as jose from 'jose'
 
 import plugin from '../plugin'
 
-export async function verifyJwt(token: string, publicKey?: string) {
+export async function verifyJwt(token: string, publicKey?: string, opts?: jose.JWTVerifyOptions) {
   try {
     const actualKey = publicKey ?? plugin.config.PUBLIC_KEY ?? process.env.PUBLIC_KEY
 
@@ -13,7 +13,7 @@ export async function verifyJwt(token: string, publicKey?: string) {
 
     const spkiKey = await jose.importSPKI(actualKey, 'RS256')
 
-    const decodedToken = await jose.jwtVerify(token, spkiKey)
+    const decodedToken = await jose.jwtVerify(token, spkiKey, opts)
     return decodedToken.payload
   } catch (e) {
     if (e instanceof jose.errors.JOSEError) {

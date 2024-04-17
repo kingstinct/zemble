@@ -1,9 +1,10 @@
 import { GraphQLError } from 'graphql'
-import { setCookie } from 'hono/cookie'
 import Auth from 'zemble-plugin-auth'
+import { generateRefreshToken } from 'zemble-plugin-auth/utils/generateRefreshToken'
+import { setBearerTokenCookie } from 'zemble-plugin-auth/utils/setBearerTokenCookie'
 
 import plugin from '../../plugin'
-import { generateAccessTokenFromAppleToken } from '../../utils/generateToken'
+import { generateBearerTokenFromAppleToken } from '../../utils/generateToken'
 import { validateIdToken } from '../../utils/validateIdToken'
 import { validateOAuthStateJWT } from '../../utils/validateOAuthStateJWT'
 
@@ -25,16 +26,25 @@ const loginConfirm: MutationResolvers['loginWithApple'] = async (_, {
 
   const idToken = await validateIdToken(identityToken)
 
-  const accessToken = await generateAccessTokenFromAppleToken(idToken, {
+  const bearerToken = await generateBearerTokenFromAppleToken(idToken, {
     email: email ?? undefined,
     name: fullName ?? undefined,
+    authorizationCode,
+    identityToken,
+    realUserStatus,
+    userUUID,
+    state: state ?? undefined,
   })
 
   if (Auth.config.cookies.isEnabled) {
-    setCookie(honoContext, Auth.config.cookies.name, accessToken, Auth.config.cookies.opts())
+    setBearerTokenCookie(honoContext, bearerToken)
   }
 
-  return { accessToken, __typename: 'AppleLoginResponse' }
+  return {
+    __typename: 'AppleLoginResponse',
+    bearerToken,
+    refreshToken: await generateRefreshToken(),
+  }
 }
 
 export default loginConfirm

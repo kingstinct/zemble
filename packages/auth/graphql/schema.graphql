@@ -17,3 +17,22 @@ type Query {
   readJWT(token: String!): JSONObject! @auth(skip: true)
   publicKey: String! @auth(skip: true)
 }
+
+interface Error {
+  message: String! @auth(skip: true)
+}
+
+type RefreshTokenInvalidError {
+  message: String! @auth(skip: true)
+}
+
+type NewTokenSuccessResponse {
+  bearerToken: String! @auth(skip: true)
+  refreshToken: String! @auth(skip: true)
+}
+
+union NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError
+
+type Mutation {
+  refreshToken(refreshToken: String!, bearerToken: String!): NewTokenResponse! @auth(skip: true)
+}

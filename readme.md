@@ -279,9 +279,27 @@ Concepts:
 - A plugin is a reusable piece of functionality that can be added to an app. It can provide middleware that traverses other plugins.
 - Every plugin has a config that can be configured in detail when composing an app.
 
+## Authorization
+The JWT handling of [@zemble/auth](https://github.com/kingstinct/zemble/blob/main/packages/auth) plugin allows for flexible authorization stitched to every use case. Every plugin or app can specify directly in the GraphQL schema what is required to exist in the JWT token in a flexible manner, see [examples here](https://github.com/kingstinct/zemble/blob/main/packages/auth/graphql/schema.local.graphql) accompanied by [test cases here](https://github.com/kingstinct/zemble/blob/main/packages/auth/graphql/Query).
 
+Each app is responsible for generating the structure of it's tokens, usually by looking up a user email/phone number/other identity (coming from an auth plugin like @zemble/auth-apple or @zemble/auth-otp) in their database and sending back whatever user data and authorization claims applies to that user.
 
+For operations that requires a more granular scope than just being authenticated we recommend plugins and apps to adhere to the following JWT structure:
+- In a `permissions` array, allow scoped permission that adheres to the plugin name, potentially with additional scope (examples `permissions: ['my-package-name:read']` or `permissions: ['my-package-name:write']`)
+- In a `permissions` array, allow for an applicable general scope:
+  - Admin (should be allowed for any operation): `admin:write`, `admin:read` or `admin` (unscoped = both read and write)
+  - Operations (meant for maintenance/system/settings): `operations:write`, `operations:read` or `operations` (read/write)
+  - Manage users: `manage-users:write`, `manage-users:read`, `manage-users:add`, `manage-users:delete` or `manage-users`
+  - API Tokens: `api-tokens:write`, `api-tokens:read`, `api-tokens:issue`, `api-tokens:delete` or `api-tokens`
+  - Editor: `editor:write`, `editor:read`, `editor:add`, `editor:delete` or `editor`
 
+Often a use case requires more fine-grained authorization (for example on group or organisation level). We recommend this to be handled in one of two ways:
+- By adding custom permissions for your custom resolvers, like `manage-users:my-organisation`. As you [see in these test cases](https://github.com/kingstinct/zemble/blob/main/packages/auth/graphql/Query/advancedWithOr.test.ts) we ids are supported.
+- By checking this inside your resolvers. For example if a user has a `manage-users:read` permission by only returning users in their organisations(s).
+
+If you provide a way to change the permissions of a user (like a user management system) you should take appropriate measures to invalidate tokens. The naive out-of-the-box solution will allow the user access until the bearer token expires. To mitigate this one or more of the following approaches can be taken:
+- Use short-lived bearer tokens (easily configurable). You might want to use refresh tokens for this to not impact the user experience, this requires implementing the `reissueBearerToken` function configuration in the @zemble/auth configuration, and appropriately call the `refreshBearerToken` mutation on the client.
+- Implement the `checkIfBearerTokenIsValid` function in the @zemble/auth configuration. An example of this would be setting a invalidateAllTokensBeforeTimestamp in your database/key value store when needed (on a permission change for example), and verifying the token was issued after this timestamp in `checkIfBearerTokenIsValid`.
 
 ## Kladd :)
 

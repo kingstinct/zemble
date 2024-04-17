@@ -28,7 +28,8 @@ input AppleAuthenticationFullName {
 }
 
 type AppleLoginResponse {
-  accessToken: String! @auth(skip: true)
+  bearerToken: String! @auth(skip: true)
+  refreshToken: String! @auth(skip: true)
 }
 
 type Mutation {

@@ -18,10 +18,6 @@ type Mutation {
   logout: LoginRequestSuccessResponse!
 }
 
-type LoginResponse {
-  token: String! @auth(skip: true)
-}
-
 type LoginRequestSuccessResponse {
     success: Boolean! @auth(skip: true)
 }
@@ -41,7 +37,8 @@ type LoginFailedError implements Error {
 union LoginRequestResponse = LoginRequestSuccessResponse | EmailNotValidError
 
 type LoginConfirmSuccessfulResponse {
-    accessToken: String! @auth(skip: true)
+    bearerToken: String! @auth(skip: true)
+    refreshToken: String! @auth(skip: true)
 }
 
 union LoginConfirmResponse = LoginConfirmSuccessfulResponse
@@ -51,5 +48,4 @@ union LoginConfirmResponse = LoginConfirmSuccessfulResponse
 
 interface Error {
   message: String! @auth(skip: true)
-  # code: ErrorCode!
 }

@@ -13,7 +13,7 @@ directive @auth(
 ) on FIELD_DEFINITION
 
 type Mutation {
-  login(username: String!): LoginResponse! @auth(skip: true)
+  login: LoginResponse! @auth(skip: true)
 }
 
 type LoginResponse {
@@ -22,7 +22,6 @@ type LoginResponse {
 
 type User {
   userId: ID!
-  username: String!
 }
 
 type Query {

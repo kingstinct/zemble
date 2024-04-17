@@ -36,7 +36,8 @@ export enum AppleAuthenticationUserDetectionStatus {
 
 export type AppleLoginResponse = {
   readonly __typename?: 'AppleLoginResponse';
-  readonly accessToken: Scalars['String']['output'];
+  readonly bearerToken: Scalars['String']['output'];
+  readonly refreshToken: Scalars['String']['output'];
 };
 
 export type AuthOr = {
@@ -170,7 +171,8 @@ export type AuthDirectiveArgs = {
 export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AppleLoginResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['AppleLoginResponse'] = ResolversParentTypes['AppleLoginResponse']> = ResolversObject<{
-  accessToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  bearerToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  refreshToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

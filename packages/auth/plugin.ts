@@ -21,15 +21,26 @@ import type { CookieOptions } from 'hono/utils/cookie'
 const ISSUER = process.env.ISSUER ?? 'zemble-plugin-auth'
 
 interface AuthConfig extends Zemble.GlobalConfig {
+  readonly bearerTokenExpiryInSeconds?: number
+  readonly refreshTokenExpiryInSeconds?: number
   readonly PUBLIC_KEY?: string;
   readonly PRIVATE_KEY?: string;
   readonly ISSUER?: string;
   readonly headerName?: string
   readonly decodeToken?: typeof defaultDecodeToken
+  /**
+   * Extra custom logic to check if a token invalid, for example if it needs refreshing (after authorization change) or if the user has "signed out of all devices"
+   * @param bearerToken
+   * @returns
+   */
+  readonly checkIfBearerTokenIsValid?: (bearerToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry]) => Promise<true | GraphQLError> | true | GraphQLError
+  readonly reissueBearerToken?: (
+    bearerToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
+  ) => Promise<Zemble.TokenRegistry[keyof Zemble.TokenRegistry]> | Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
   readonly cookies?: {
-    readonly name?: string
+    readonly bearerTokenCookieName?: string
     readonly isEnabled?: boolean
-    readonly opts?: () => CookieOptions
+    readonly opts?: (expiresInMs: number) => CookieOptions
   }
 }
 
@@ -88,15 +99,17 @@ const validateMatch = (matchValueNode: ObjectValueNode, decodedToken: Record<str
 const defaultConfig = {
   ISSUER,
   headerName: 'authorization',
+  bearerTokenExpiryInSeconds: 60 * 60 * 1, // 1 hour
+  reissueBearerToken: (previousTokenContent) => previousTokenContent,
   cookies: {
-    name: 'authorization',
+    bearerTokenCookieName: 'authorization',
     isEnabled: true as boolean,
-    opts: () => ({
+    opts: (expiresInMs: number) => ({
       sameSite: 'Lax',
       path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV !== 'development',
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 2), // 2 days
+      expires: new Date(Date.now() + expiresInMs),
     }),
   },
 } satisfies AuthConfig
@@ -112,7 +125,7 @@ const resolveTokens = async ({ config, context, decodeToken = defaultDecodeToken
 
         headerName = config.headerName ?? 'authorization',
         headerToken = isWs ? context.connectionParams?.authorization.split(' ')[1] : context.req.header(headerName)?.split(' ')[1],
-        cookieToken = config.cookies.isEnabled && !isWs !== false ? getCookie(context)[config.cookies.name] : undefined,
+        cookieToken = config.cookies.isEnabled && !isWs !== false ? getCookie(context)[config.cookies.bearerTokenCookieName] : undefined,
         token = headerToken ?? cookieToken
 
   const decodedToken = token ? await decodeToken(token) : undefined
@@ -170,13 +183,28 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
                 decodedToken,
               }
             }),
-            useGenericAuth<Record<string, unknown>, Zemble.GraphQLContext>({
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-              resolveUserFn: (context) => context.decodedToken,
+            useGenericAuth<{ readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry], readonly error?: GraphQLError }, Zemble.GraphQLContext>({
+              resolveUserFn: async (context) => {
+                const { decodedToken } = context
+
+                if (!decodedToken) {
+                  return null
+                }
+
+                if (decodedToken && plugin.config.checkIfBearerTokenIsValid) {
+                  const error = await plugin.config.checkIfBearerTokenIsValid?.(decodedToken)
+                  if (error !== true) {
+                    return { decodedToken, error }
+                  }
+                }
+                return { decodedToken }
+              },
               validateUser: ({
-                fieldAuthDirectiveNode, user: decodedToken, fieldNode, objectType, executionArgs,
+                fieldAuthDirectiveNode, user: { decodedToken, error }, fieldNode, objectType, executionArgs,
               }) => {
+                if (error) {
+                  return error
+                }
                 if (!decodedToken) {
                   let skipValidation = false
                   const skipArg = fieldAuthDirectiveNode?.arguments?.find(

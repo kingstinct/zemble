@@ -16,16 +16,22 @@ export type AppleUserSignupDataOnWeb = {
 export type AppleUserSignupData = {
   readonly email?: string
   readonly name?: AppleAuthenticationFullName
+  readonly authorizationCode?: string,
+  readonly identityToken?: string,
+  readonly realUserStatus?: string,
+  readonly userUUID?: string,
+  readonly fullName?: string,
+  readonly state?: string,
 }
 
-export const generateAccessTokenFromAppleToken = async (
+export const generateBearerTokenFromAppleToken = async (
   jwtContents: AppleJwtContents,
   signUpUserData: AppleUserSignupData | undefined,
 ) => {
-  const accessToken = await signJwt({
+  const bearerToken = await signJwt({
     data: await plugin.config.generateTokenContents(jwtContents, signUpUserData),
     expiresInSeconds: plugin.config.tokenExpiryInSeconds,
   })
 
-  return accessToken
+  return bearerToken
 }

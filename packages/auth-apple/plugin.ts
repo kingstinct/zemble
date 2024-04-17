@@ -8,7 +8,7 @@ import path from 'node:path'
 import Auth from 'zemble-plugin-auth'
 
 import { generateOAuthStateJWT } from './utils/generateOAuthStateJWT'
-import { generateAccessTokenFromAppleToken, type AppleUserSignupData, type AppleUserSignupDataOnWeb } from './utils/generateToken'
+import { generateBearerTokenFromAppleToken, type AppleUserSignupData, type AppleUserSignupDataOnWeb } from './utils/generateToken'
 import { validateIdToken, type AppleJwtContents } from './utils/validateIdToken'
 import { validateOAuthStateJWT } from './utils/validateOAuthStateJWT'
 
@@ -137,13 +137,13 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
           } : undefined,
         } : undefined
 
-        const token = await generateAccessTokenFromAppleToken(decoded, userData)
+        const bearerToken = await generateBearerTokenFromAppleToken(decoded, userData)
 
         // handle token
 
         // Code to handle user authentication and retrieval using the decoded information
 
-        return ctx.redirect(`${AUTHENTICATED_REDIRECT_URL}?zembleAuthToken=${token}`)
+        return ctx.redirect(`${AUTHENTICATED_REDIRECT_URL}?bearerToken=${bearerToken}`)
       } catch (error) {
         if (error instanceof Error) {
           plugin.providers.logger.error('Error:', error.message)
