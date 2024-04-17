@@ -155,7 +155,7 @@ bun install @graphql-codegen/cli
 ```JSON
 "scripts": {
   // other stuff
-  "graphql-codegen": "graphql-codegen"
+  "codegen": "graphql-codegen"
 }
 ```
 3. Add a `codegen.ts` to your app (you can easily extend it to suit your needs):

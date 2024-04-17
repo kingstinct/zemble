@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "typecheck": "tsc --noEmit",
     "web": "expo start --web",
-    "graphql-codegen": "graphql-codegen"
+    "codegen": "graphql-codegen"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",

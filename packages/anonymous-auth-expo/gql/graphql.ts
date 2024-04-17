@@ -22,6 +22,10 @@ export type AuthOr = {
   match?: InputMaybe<Scalars['JSONObject']['input']>;
 };
 
+export type Error = {
+  message: Scalars['String']['output'];
+};
+
 export type LoginResponse = {
   __typename?: 'LoginResponse';
   token: Scalars['String']['output'];
@@ -30,6 +34,7 @@ export type LoginResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   login: LoginResponse;
+  refreshToken: NewTokenResponse;
 };
 
 
@@ -37,28 +42,26 @@ export type MutationLoginArgs = {
   username: Scalars['String']['input'];
 };
 
+
+export type MutationRefreshTokenArgs = {
+  bearerToken: Scalars['String']['input'];
+  refreshToken: Scalars['String']['input'];
+};
+
+export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
+
+export type NewTokenSuccessResponse = {
+  __typename?: 'NewTokenSuccessResponse';
+  bearerToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  advancedWithOr: Scalars['String']['output'];
-  includes: Scalars['String']['output'];
   me: User;
-  privateShit: Scalars['String']['output'];
-  privateShitWithRole: Scalars['String']['output'];
   publicKey: Scalars['String']['output'];
-  publicShit: Scalars['String']['output'];
   readJWT: Scalars['JSONObject']['output'];
   validateJWT: Scalars['Boolean']['output'];
-  variableReference: Scalars['String']['output'];
-};
-
-
-export type QueryAdvancedWithOrArgs = {
-  organisationId: Scalars['String']['input'];
-};
-
-
-export type QueryIncludesArgs = {
-  organisationId: Scalars['String']['input'];
 };
 
 
@@ -71,9 +74,9 @@ export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
 };
 
-
-export type QueryVariableReferenceArgs = {
-  organisationId: Scalars['String']['input'];
+export type RefreshTokenInvalidError = {
+  __typename?: 'RefreshTokenInvalidError';
+  message: Scalars['String']['output'];
 };
 
 export type User = {
