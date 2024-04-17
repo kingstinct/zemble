@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "codegen": "graphql-code-generator",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
+    "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

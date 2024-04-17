@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "graphql-codegen": "graphql-codegen"
+    "codegen": "graphql-codegen"
   },
   "keywords": [
     "zemble",

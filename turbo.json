@@ -6,7 +6,7 @@
       "inputs": [ "**/*" ]
     },
     "test": {
-      "dependsOn": [ "graphql-codegen" ],
+      "dependsOn": [ "codegen" ],
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
@@ -18,7 +18,7 @@
       ]
     },
     "typecheck": {
-      "dependsOn": [ "graphql-codegen" ],
+      "dependsOn": [ "codegen" ],
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
@@ -29,7 +29,7 @@
         "**/package.json"
       ]
     },
-    "graphql-codegen": {
+    "codegen": {
       "outputMode": "errors-only",
       "outputs": [
         "**/*.generated/**/*",

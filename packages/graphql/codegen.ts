@@ -52,13 +52,18 @@ export function createServerConfig<TOutputPath extends string = typeof defaultSe
   schema = defaultSchema,
   outputPath,
   generatedFileName,
-  resolverGeneration = false,
+  resolverGeneration,
 }: {
   readonly schema?: Types.InstanceOrArray<Types.Schema>,
   readonly outputPath?: TOutputPath,
   readonly generatedFileName?: TOutputFilename,
   readonly resolverGeneration?: TypedPresetConfig | boolean
 }) {
+  if (resolverGeneration === undefined) {
+    // eslint-disable-next-line no-param-reassign
+    resolverGeneration = !!(process.env.GENERATE && JSON.stringify(process.env.GENERATE))
+  }
+
   const output = outputPath ?? defaultServerOutputRootPath
   const resolversTypeFilename = generatedFileName ?? defaultServerGeneratedResolverTypesFilename
 
