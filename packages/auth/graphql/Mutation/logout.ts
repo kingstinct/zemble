@@ -1,15 +1,16 @@
 import { deleteCookie } from 'hono/cookie'
-import Auth from 'zemble-plugin-auth'
+
+import plugin from '../../plugin'
 
 import type { MutationResolvers } from '../schema.generated'
 import type { Context } from 'hono'
 
 const logout: MutationResolvers['logout'] = async (_, __, { honoContext }) => {
-  if (Auth.config.cookies.isEnabled) {
-    deleteCookie(honoContext as Context, Auth.config.cookies.name, Auth.config.cookies.opts())
+  if (plugin.config.cookies.isEnabled) {
+    deleteCookie(honoContext as Context, plugin.config.cookies.bearerTokenCookieName, plugin.config.cookies.opts(0))
   }
 
-  return { success: true, __typename: 'LoginRequestSuccessResponse' }
+  return new Date()
 }
 
 export default logout

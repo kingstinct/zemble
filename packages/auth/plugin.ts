@@ -34,6 +34,8 @@ interface AuthConfig extends Zemble.GlobalConfig {
    * @returns
    */
   readonly checkIfBearerTokenIsValid?: (bearerToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry]) => Promise<true | GraphQLError> | true | GraphQLError
+  readonly invalidateToken?: (sub: string, token: string) => Promise<void> | void
+  readonly invalidateAllTokens?: (sub: string) => Promise<void> | void
   readonly reissueBearerToken?: (
     bearerToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
   ) => Promise<Zemble.TokenRegistry[keyof Zemble.TokenRegistry]> | Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
@@ -100,7 +102,30 @@ const defaultConfig = {
   ISSUER,
   headerName: 'authorization',
   bearerTokenExpiryInSeconds: 60 * 60 * 1, // 1 hour
-  reissueBearerToken: (previousTokenContent) => previousTokenContent,
+  // todo - I think a key value default implementation would be nicer here. For invalidateAllTokens store a `userId:
+  // lastInvalidatedAt` key value pair (and should apply to both refresh tokens and bearer tokens)
+  invalidateAllTokens: () => {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.warn('invalidateAllBearerTokens not implemented, just invalidating the same token in dev - will crash in production!')
+      return
+    }
+
+    throw new Error('invalidateAllBearerTokens not implemented')
+  },
+
+  invalidateToken: () => {
+  // todo - For invalidateToken store the token `invalidatedToken:{{token}}: invalidatedAt` key value pair
+  },
+  reissueBearerToken: (decodedToken) => {
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.warn('reissueBearerToken not implemented, just reissuing the same token in dev - will crash in production!')
+      return decodedToken
+    }
+
+    throw new Error('reissueBearerToken not implemented')
+  },
   cookies: {
     bearerTokenCookieName: 'authorization',
     isEnabled: true as boolean,
@@ -183,7 +208,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
                 decodedToken,
               }
             }),
-            useGenericAuth<{ readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry], readonly error?: GraphQLError }, Zemble.GraphQLContext>({
+            useGenericAuth<{ readonly decodedToken: Record<string, unknown>, readonly error?: GraphQLError }, Zemble.GraphQLContext>({
               resolveUserFn: async (context) => {
                 const { decodedToken } = context
 
