@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useExtendContext } from '@envelop/core'
 import { useGenericAuth } from '@envelop/generic-auth'
-import { Plugin } from '@zemble/core'
+import { Plugin, type TokenContents } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
 import {
   Kind,
   GraphQLError,
 } from 'graphql'
 import { getCookie } from 'hono/cookie'
+import kv from 'zemble-plugin-kv'
 
 import { decodeToken as defaultDecodeToken } from './utils/decodeToken'
 import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers'
@@ -33,12 +34,13 @@ interface AuthConfig extends Zemble.GlobalConfig {
    * @param bearerToken
    * @returns
    */
-  readonly checkIfBearerTokenIsValid?: (bearerToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry]) => Promise<true | GraphQLError> | true | GraphQLError
+  readonly checkIfBearerTokenIsValid?: (bearerToken: TokenContents) => Promise<true | GraphQLError> | true | GraphQLError
   readonly invalidateToken?: (sub: string, token: string) => Promise<void> | void
   readonly invalidateAllTokens?: (sub: string) => Promise<void> | void
+  readonly checkTokenValidity?: (token: string, decodedToken: TokenContents) => Promise<boolean> | boolean
   readonly reissueBearerToken?: (
-    bearerToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
-  ) => Promise<Zemble.TokenRegistry[keyof Zemble.TokenRegistry]> | Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
+    bearerToken: TokenContents
+  ) => Promise<TokenContents> | TokenContents
   readonly cookies?: {
     readonly bearerTokenCookieName?: string
     readonly isEnabled?: boolean
@@ -102,20 +104,26 @@ const defaultConfig = {
   ISSUER,
   headerName: 'authorization',
   bearerTokenExpiryInSeconds: 60 * 60 * 1, // 1 hour
-  // todo - I think a key value default implementation would be nicer here. For invalidateAllTokens store a `userId:
-  // lastInvalidatedAt` key value pair (and should apply to both refresh tokens and bearer tokens)
-  invalidateAllTokens: () => {
-    if (process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
-      console.warn('invalidateAllBearerTokens not implemented, just invalidating the same token in dev - will crash in production!')
-      return
+  checkTokenValidity: async (sub, token) => {
+    const isInvalid = await plugin.providers.kv('invalid-tokens').get(`${sub}:${token}`)
+    if (isInvalid) {
+      return false
     }
 
-    throw new Error('invalidateAllBearerTokens not implemented')
+    const wasInvalidatedAt = await plugin.providers.kv('tokens-invalidated-at').get(sub)
+    if (wasInvalidatedAt) {
+      return new Date(wasInvalidatedAt) > new Date()
+    }
+
+    return true
+  },
+  // todo - implement invalidation in auth plugin
+  invalidateAllTokens: async (sub) => {
+    await plugin.providers.kv('tokens-invalidated-at').set(sub, new Date().toString())
   },
 
-  invalidateToken: () => {
-  // todo - For invalidateToken store the token `invalidatedToken:{{token}}: invalidatedAt` key value pair
+  invalidateToken: async (sub, token) => {
+    await plugin.providers.kv('invalid-tokens').set(`${sub}:${token}`, true)
   },
   reissueBearerToken: (decodedToken) => {
     if (process.env.NODE_ENV === 'development') {
@@ -168,7 +176,7 @@ declare global {
       // eslint-disable-next-line functional/prefer-readonly-type
       token: string | undefined
       // eslint-disable-next-line functional/prefer-readonly-type
-      decodedToken: { readonly payload: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] } | undefined
+      decodedToken: TokenContents | undefined
     }
   }
 }
@@ -319,6 +327,9 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
       return [
         {
           plugin: gql,
+        },
+        {
+          plugin: kv,
         },
       ]
     },

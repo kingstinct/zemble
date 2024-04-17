@@ -1,5 +1,5 @@
 import { useEngine, useLogger } from '@envelop/core'
-import { Plugin, type IStandardLogger } from '@zemble/core'
+import { Plugin, type IStandardLogger, type TokenContents } from '@zemble/core'
 import debug from 'debug'
 import * as GraphQLJS from 'graphql'
 import { GraphQLSchema, type GraphQLFormattedError } from 'graphql'
@@ -54,7 +54,7 @@ declare global {
 
     interface GraphQLContext extends YogaInitialContext, GlobalContext {
       readonly token: string | undefined
-      readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] | undefined
+      readonly decodedToken: TokenContents | undefined
       readonly honoContext: RouteContext
       readonly logger: IStandardLogger
     }
@@ -80,7 +80,7 @@ declare global {
         & Record<
         keyof DirectiveArgs['includes'],
         ReadonlyArray<DirectiveArgs['includes'][keyof DirectiveArgs['includes']]>
-        > & DecodedTokenBase & Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
+        > & TokenContents
       }
   }
 }

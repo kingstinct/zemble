@@ -6,6 +6,7 @@ import type { PubSub } from 'graphql-yoga'
 import type {
   Hono, Context as HonoContext,
 } from 'hono'
+import type { JWTPayload } from 'jose'
 import type pino from 'pino'
 
 export interface IEmail {
@@ -144,15 +145,10 @@ declare global {
     interface TokenRegistry {
       // readonly UnknownToken: Record<string, unknown>
     }
-
-    interface DecodedTokenBase {
-      readonly iat: number
-      readonly iss: string
-    }
   }
 }
 
-export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & Zemble.DecodedTokenBase
+export type TokenContents = { readonly payload: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] } & JWTPayload
 
 export type Dependency = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
