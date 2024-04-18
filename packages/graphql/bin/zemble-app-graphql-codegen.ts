@@ -59,3 +59,5 @@ zembleContext.logger.info('Loaded app, proceeding with codegen..')
 await codegenMergedSchema(app, plugin.config)
 
 zembleContext.logger.info(`Successfully generated merged schema at ${plugin.config.outputMergedSchemaPath}`)
+
+process.exit(0)
