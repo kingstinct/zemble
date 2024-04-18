@@ -1,5 +1,8 @@
 ---
 "eslint-config-kingstinct": major
+"create-zemble-app": minor
+"create-zemble-plugin": minor
 ---
 
-Move in eslint package, rename graphql-codegen to codegen
+Move in eslint package, rename graphql-codegen to codegen, other improvements.
+```
