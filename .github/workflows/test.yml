@@ -204,4 +204,4 @@ jobs:
 
       - run: bun install --ignore-scripts
 
-      - run: bun run graphql-codegen
+      - run: bun run codegen
