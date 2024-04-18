@@ -2,12 +2,12 @@ import plugin from '../../plugin'
 import { decodeToken } from '../../utils/decodeToken'
 import { encodeToken } from '../../utils/encodeToken'
 import { generateRefreshToken } from '../../utils/generateRefreshToken'
-import { setBearerTokenCookie } from '../../utils/setBearerTokenCookie'
+import { setTokenCookies } from '../../utils/setBearerTokenCookie'
 import { verifyJwt } from '../../utils/verifyJwt'
 
 import type { MutationResolvers } from '../schema.generated'
 
-export const refreshToken: NonNullable<MutationResolvers['refreshToken']> = async (_parent, { bearerToken, refreshToken }, { honoContext }) => {
+export const refreshTokensFromPrevious = async (bearerToken: string, refreshToken: string) => {
   const previousBearerToken = await decodeToken(bearerToken, undefined, { currentDate: new Date(0) })
 
   if (!previousBearerToken.sub) {
@@ -17,16 +17,26 @@ export const refreshToken: NonNullable<MutationResolvers['refreshToken']> = asyn
   await verifyJwt(refreshToken, undefined, { subject: previousBearerToken.sub })
 
   // eslint-disable-next-line @typescript-eslint/await-thenable, @typescript-eslint/no-unsafe-argument
-  const newBearerTokenData = await plugin.config.reissueBearerToken(previousBearerToken)
-  const newBearerToken = await encodeToken(newBearerTokenData as Zemble.TokenRegistry[keyof Zemble.TokenRegistry], previousBearerToken.sub)
+  const newBearerTokenData = await plugin.config.reissueBearerToken(previousBearerToken),
+        newBearerToken = await encodeToken(newBearerTokenData as Zemble.TokenRegistry[keyof Zemble.TokenRegistry], previousBearerToken.sub),
+        newRefreshToken = await generateRefreshToken({ sub: previousBearerToken.sub }),
+
+  return {
+    bearerToken: newBearerToken,
+    refreshToken: newRefreshToken,
+  }
+}
+
+export const refreshToken: NonNullable<MutationResolvers['refreshToken']> = async (_parent, { bearerToken, refreshToken }, { honoContext }) => {
+  const { bearerToken: newBearerToken, refreshToken: newRefreshToken } = await refreshTokensFromPrevious(bearerToken, refreshToken)
 
   if (plugin.config.cookies.isEnabled) {
-    setBearerTokenCookie(honoContext, bearerToken)
+    setTokenCookies(honoContext, bearerToken, newRefreshToken)
   }
 
   return {
     __typename: 'NewTokenSuccessResponse',
     bearerToken: newBearerToken,
-    refreshToken: await generateRefreshToken({ sub: previousBearerToken.sub }),
+    refreshToken: newRefreshToken,
   }
 }

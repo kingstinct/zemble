@@ -10,8 +10,10 @@ import {
 } from 'graphql'
 import { getCookie } from 'hono/cookie'
 
-import { decodeToken as defaultDecodeToken } from './utils/decodeToken'
+import { refreshToken, refreshTokensFromPrevious } from './graphql/Mutation/refreshToken'
+import { decodeToken, decodeToken as defaultDecodeToken } from './utils/decodeToken'
 import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers'
+import { setTokenCookies } from './utils/setBearerTokenCookie'
 
 import type {
   ExecutionArgs, FieldNode, GraphQLObjectType, ObjectValueNode,
@@ -44,6 +46,7 @@ interface AuthConfig extends Zemble.GlobalConfig {
   ) => Promise<TokenContents> | TokenContents
   readonly cookies?: {
     readonly bearerTokenCookieName?: string
+    readonly refreshTokenCookieName?: string
     readonly isEnabled?: boolean
     readonly opts?: (expiresInMs: number) => CookieOptions
   }
@@ -105,6 +108,7 @@ const defaultConfig = {
   ISSUER,
   headerName: 'authorization',
   bearerTokenExpiryInSeconds: 60 * 60 * 1, // 1 hour
+  refreshTokenExpiryInSeconds: 60 * 60 * 24, // 24 hours
   checkTokenValidity: async (token, decodedToken) => {
     // we need to force sub to be set for all tokens for this to work
     const isInvalid = await plugin.providers.kv('invalid-tokens').get(`${(decodedToken as JWTPayload).sub}:${token}`)
@@ -112,17 +116,16 @@ const defaultConfig = {
       return false
     }
 
-    /* const wasInvalidatedAt = await plugin.providers.kv('tokens-invalidated-at').get(sub)
+    const wasInvalidatedAt = await plugin.providers.kv('tokens-invalidated-at').get(decodedToken.sub)
     if (wasInvalidatedAt) {
       return new Date(wasInvalidatedAt) > new Date()
-    } */
+    }
 
     return true
   },
   invalidateAllTokens: async (sub) => {
     await plugin.providers.kv('tokens-invalidated-at').set(sub, new Date().toString())
   },
-
   invalidateToken: async (sub, token) => {
     await plugin.providers.kv('invalid-tokens').set(`${sub}:${token}`, true)
   },
@@ -137,6 +140,7 @@ const defaultConfig = {
   },
   cookies: {
     bearerTokenCookieName: 'authorization',
+    refreshTokenCookieName: 'refresh',
     isEnabled: true as boolean,
     opts: (expiresInMs: number) => ({
       sameSite: 'Lax',
@@ -160,13 +164,12 @@ const resolveTokens = async ({ config, context, decodeToken = defaultDecodeToken
         headerName = config.headerName ?? 'authorization',
         headerToken = isWs ? context.connectionParams?.authorization.split(' ')[1] : context.req.header(headerName)?.split(' ')[1],
         cookieToken = config.cookies.isEnabled && !isWs !== false ? getCookie(context)[config.cookies.bearerTokenCookieName] : undefined,
+        refreshToken = config.cookies.isEnabled && !isWs !== false ? getCookie(context)[config.cookies.refreshTokenCookieName] : undefined,
         token = headerToken ?? cookieToken
-
-  const decodedToken = token ? await decodeToken(token) : undefined
 
   return {
     token,
-    decodedToken,
+    refreshToken,
   }
 }
 
@@ -187,11 +190,21 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
   {
     middleware: ({ config, app: { hono } }) => {
       hono.use('*', async (context, next) => {
-        const { token, decodedToken } = await resolveTokens({
+        const { token, refreshToken } = await resolveTokens({
           config,
           context,
           decodeToken: plugin.config.decodeToken,
         })
+
+        let bearerToken = token
+
+        if (plugin.config.cookies.isEnabled && token && refreshToken) {
+          const { bearerToken: newBearerToken, refreshToken: newRefreshToken } = await refreshTokensFromPrevious(token, refreshToken)
+          bearerToken = newBearerToken
+          setTokenCookies(context, newBearerToken, newRefreshToken)
+        }
+
+        const decodedToken = token ? await decodeToken(token) : undefined
 
         context.set('token', token)
         context.set('decodedToken', decodedToken)
@@ -206,7 +219,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
             useExtendContext(async (context: Zemble.GraphQLContext | Zemble.GraphQlWsContext) => {
               const isGraphQLContext = 'honoContext' in context
 
-              const { token, decodedToken } = await resolveTokens({
+              const { token } = await resolveTokens({
                 config,
                 context: isGraphQLContext ? context.honoContext : context,
                 decodeToken: plugin.config.decodeToken,
@@ -214,7 +227,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
 
               return {
                 token,
-                decodedToken,
+                decodedToken: token ? await decodeToken(token) : undefined,
               }
             }),
             useGenericAuth<{ readonly decodedToken: Record<string, unknown> | null, readonly error?: GraphQLError }, Zemble.GraphQLContext>({

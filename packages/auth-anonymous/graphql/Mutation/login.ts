@@ -2,22 +2,23 @@
 import authPlugin from '@zemble/auth'
 import { encodeToken } from '@zemble/auth/utils/encodeToken'
 import { generateRefreshToken } from '@zemble/auth/utils/generateRefreshToken'
-import { setBearerTokenCookie } from '@zemble/auth/utils/setBearerTokenCookie'
+import { setTokenCookies } from '@zemble/auth/utils/setBearerTokenCookie'
 
 import plugin from '../../plugin'
 
 import type { MutationResolvers } from '../schema.generated'
 
 const login: MutationResolvers['login'] = async (_: unknown, __, { honoContext }) => {
-  const userId = plugin.config.generateUserId()
-  const tokenData = plugin.config.generateTokenContents(userId)
-  const bearerToken = await encodeToken(tokenData, userId)
+  const userId = plugin.config.generateUserId(),
+        tokenData = plugin.config.generateTokenContents(userId),
+        bearerToken = await encodeToken(tokenData, userId),
+        refreshToken = await generateRefreshToken({ sub: tokenData.sub })
 
   if (authPlugin.config.cookies.isEnabled) {
-    setBearerTokenCookie(honoContext, bearerToken)
+    setTokenCookies(honoContext, bearerToken, refreshToken)
   }
 
-  return { bearerToken, refreshToken: await generateRefreshToken({ sub: tokenData.sub }) }
+  return { bearerToken, refreshToken }
 }
 
 export default login
