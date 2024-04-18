@@ -1,4 +1,4 @@
-# zemble-plugin-auth-expo
+# @zemble/auth-expo
 
 ## 0.0.6
 

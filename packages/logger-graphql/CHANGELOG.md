@@ -1,4 +1,4 @@
-# zemble-plugin-logger-graphql
+# @zemble/logger-graphql
 
 ## 0.0.38
 

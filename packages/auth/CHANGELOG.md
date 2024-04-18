@@ -1,4 +1,4 @@
-# zemble-plugin-auth
+# @zemble/auth
 
 ## 0.0.41
 

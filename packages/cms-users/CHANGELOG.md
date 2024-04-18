@@ -1,17 +1,17 @@
-# zemble-plugin-cms-users
+# @zemble/cms-users
 
 ## 0.0.46
 
 ### Patch Changes
 
 - Updated dependencies [67e139d]
-  - zemble-plugin-auth-otp@0.0.42
-  - zemble-plugin-auth@0.0.41
-  - zemble-plugin-cms@0.0.46
+  - @zemble/auth-otp@0.0.42
+  - @zemble/auth@0.0.41
+  - @zemble/cms@0.0.46
   - @zemble/core@0.1.11
   - @zemble/graphql@0.0.42
   - @zemble/mongodb@0.0.24
-  - zemble-plugin-kv@0.0.40
+  - @zemble/kv@0.0.40
 
 ## 0.0.45
 
@@ -19,11 +19,11 @@
 
 - Updated dependencies [80c3df0]
   - @zemble/core@0.1.10
-  - zemble-plugin-auth@0.0.40
-  - zemble-plugin-auth-otp@0.0.41
-  - zemble-plugin-cms@0.0.45
+  - @zemble/auth@0.0.40
+  - @zemble/auth-otp@0.0.41
+  - @zemble/cms@0.0.45
   - @zemble/graphql@0.0.41
-  - zemble-plugin-kv@0.0.39
+  - @zemble/kv@0.0.39
   - @zemble/mongodb@0.0.23
 
 ## 0.0.44
@@ -31,12 +31,12 @@
 ### Patch Changes
 
 - Updated dependencies [9b7e7de]
-  - zemble-plugin-auth@0.0.39
+  - @zemble/auth@0.0.39
   - @zemble/core@0.1.9
-  - zemble-plugin-auth-otp@0.0.40
-  - zemble-plugin-cms@0.0.44
+  - @zemble/auth-otp@0.0.40
+  - @zemble/cms@0.0.44
   - @zemble/graphql@0.0.40
-  - zemble-plugin-kv@0.0.38
+  - @zemble/kv@0.0.38
   - @zemble/mongodb@0.0.22
 
 ## 0.0.43
@@ -46,32 +46,32 @@
 - dc07e09: Add graphql resolver generation
 - Updated dependencies [dc07e09]
 - Updated dependencies [dc07e09]
-  - zemble-plugin-auth-otp@0.0.39
+  - @zemble/auth-otp@0.0.39
   - @zemble/graphql@0.0.39
   - @zemble/mongodb@0.0.21
-  - zemble-plugin-auth@0.0.38
+  - @zemble/auth@0.0.38
   - @zemble/core@0.1.8
-  - zemble-plugin-cms@0.0.43
-  - zemble-plugin-kv@0.0.37
+  - @zemble/cms@0.0.43
+  - @zemble/kv@0.0.37
 
 ## 0.0.42
 
 ### Patch Changes
 
 - Updated dependencies [9d84a4d]
-  - zemble-plugin-auth-otp@0.0.38
-  - zemble-plugin-auth@0.0.37
-  - zemble-plugin-cms@0.0.42
-  - zemble-plugin-kv@0.0.36
+  - @zemble/auth-otp@0.0.38
+  - @zemble/auth@0.0.37
+  - @zemble/cms@0.0.42
+  - @zemble/kv@0.0.36
 
 ## 0.0.41
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-auth-otp@0.0.37
+  - @zemble/auth-otp@0.0.37
   - @zemble/mongodb@0.0.20
-  - zemble-plugin-cms@0.0.41
+  - @zemble/cms@0.0.41
 
 ## 0.0.40
 
@@ -79,11 +79,11 @@
 
 - Updated dependencies
   - @zemble/core@0.1.7
-  - zemble-plugin-auth@0.0.36
-  - zemble-plugin-auth-otp@0.0.36
-  - zemble-plugin-cms@0.0.40
+  - @zemble/auth@0.0.36
+  - @zemble/auth-otp@0.0.36
+  - @zemble/cms@0.0.40
   - @zemble/graphql@0.0.38
-  - zemble-plugin-kv@0.0.36
+  - @zemble/kv@0.0.36
   - @zemble/mongodb@0.0.19
 
 ## 0.0.39
@@ -92,10 +92,10 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.37
-  - zemble-plugin-auth@0.0.35
-  - zemble-plugin-auth-otp@0.0.35
-  - zemble-plugin-cms@0.0.39
-  - zemble-plugin-kv@0.0.35
+  - @zemble/auth@0.0.35
+  - @zemble/auth-otp@0.0.35
+  - @zemble/cms@0.0.39
+  - @zemble/kv@0.0.35
 
 ## 0.0.38
 
@@ -103,10 +103,10 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.36
-  - zemble-plugin-auth@0.0.34
-  - zemble-plugin-auth-otp@0.0.34
-  - zemble-plugin-cms@0.0.38
-  - zemble-plugin-kv@0.0.34
+  - @zemble/auth@0.0.34
+  - @zemble/auth-otp@0.0.34
+  - @zemble/cms@0.0.38
+  - @zemble/kv@0.0.34
 
 ## 0.0.37
 
@@ -116,11 +116,11 @@
 - Updated dependencies
   - @zemble/mongodb@0.0.18
   - @zemble/core@0.1.6
-  - zemble-plugin-cms@0.0.37
-  - zemble-plugin-auth@0.0.33
-  - zemble-plugin-auth-otp@0.0.33
+  - @zemble/cms@0.0.37
+  - @zemble/auth@0.0.33
+  - @zemble/auth-otp@0.0.33
   - @zemble/graphql@0.0.35
-  - zemble-plugin-kv@0.0.33
+  - @zemble/kv@0.0.33
 
 ## 0.0.36
 
@@ -128,11 +128,11 @@
 
 - Updated dependencies [2fc60c4]
   - @zemble/core@0.1.5
-  - zemble-plugin-auth@0.0.32
-  - zemble-plugin-auth-otp@0.0.32
-  - zemble-plugin-cms@0.0.36
+  - @zemble/auth@0.0.32
+  - @zemble/auth-otp@0.0.32
+  - @zemble/cms@0.0.36
   - @zemble/graphql@0.0.34
-  - zemble-plugin-kv@0.0.32
+  - @zemble/kv@0.0.32
   - @zemble/mongodb@0.0.17
 
 ## 0.0.35
@@ -143,11 +143,11 @@
 - Updated dependencies [c1de438]
 - Updated dependencies [86d9288]
   - @zemble/core@0.1.4
-  - zemble-plugin-auth@0.0.31
+  - @zemble/auth@0.0.31
   - @zemble/graphql@0.0.33
-  - zemble-plugin-auth-otp@0.0.31
-  - zemble-plugin-cms@0.0.35
-  - zemble-plugin-kv@0.0.31
+  - @zemble/auth-otp@0.0.31
+  - @zemble/cms@0.0.35
+  - @zemble/kv@0.0.31
   - @zemble/mongodb@0.0.16
 
 ## 0.0.34
@@ -157,10 +157,10 @@
 - Updated dependencies [3358b3f]
   - @zemble/graphql@0.0.32
   - @zemble/core@0.1.3
-  - zemble-plugin-auth@0.0.30
-  - zemble-plugin-auth-otp@0.0.30
-  - zemble-plugin-cms@0.0.34
-  - zemble-plugin-kv@0.0.30
+  - @zemble/auth@0.0.30
+  - @zemble/auth-otp@0.0.30
+  - @zemble/cms@0.0.34
+  - @zemble/kv@0.0.30
   - @zemble/mongodb@0.0.15
 
 ## 0.0.33
@@ -169,10 +169,10 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.31
-  - zemble-plugin-auth@0.0.29
-  - zemble-plugin-auth-otp@0.0.29
-  - zemble-plugin-cms@0.0.33
-  - zemble-plugin-kv@0.0.29
+  - @zemble/auth@0.0.29
+  - @zemble/auth-otp@0.0.29
+  - @zemble/cms@0.0.33
+  - @zemble/kv@0.0.29
 
 ## 0.0.32
 
@@ -180,10 +180,10 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.30
-  - zemble-plugin-auth@0.0.28
-  - zemble-plugin-auth-otp@0.0.28
-  - zemble-plugin-cms@0.0.32
-  - zemble-plugin-kv@0.0.28
+  - @zemble/auth@0.0.28
+  - @zemble/auth-otp@0.0.28
+  - @zemble/cms@0.0.32
+  - @zemble/kv@0.0.28
 
 ## 0.0.31
 
@@ -191,10 +191,10 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.29
-  - zemble-plugin-auth@0.0.27
-  - zemble-plugin-auth-otp@0.0.27
-  - zemble-plugin-cms@0.0.31
-  - zemble-plugin-kv@0.0.27
+  - @zemble/auth@0.0.27
+  - @zemble/auth-otp@0.0.27
+  - @zemble/cms@0.0.31
+  - @zemble/kv@0.0.27
 
 ## 0.0.30
 
@@ -202,24 +202,24 @@
 
 - Updated dependencies [7bb5510]
   - @zemble/graphql@0.0.28
-  - zemble-plugin-auth@0.0.26
-  - zemble-plugin-auth-otp@0.0.26
-  - zemble-plugin-cms@0.0.30
-  - zemble-plugin-kv@0.0.26
+  - @zemble/auth@0.0.26
+  - @zemble/auth-otp@0.0.26
+  - @zemble/cms@0.0.30
+  - @zemble/kv@0.0.26
 
 ## 0.0.29
 
 ### Patch Changes
 
 - @zemble/mongodb@0.0.14
-- zemble-plugin-cms@0.0.29
+- @zemble/cms@0.0.29
 
 ## 0.0.28
 
 ### Patch Changes
 
 - @zemble/mongodb@0.0.13
-- zemble-plugin-cms@0.0.28
+- @zemble/cms@0.0.28
 
 ## 0.0.27
 
@@ -229,10 +229,10 @@
   - @zemble/graphql@0.0.27
   - @zemble/core@0.1.2
   - @zemble/mongodb@0.0.12
-  - zemble-plugin-auth@0.0.25
-  - zemble-plugin-auth-otp@0.0.25
-  - zemble-plugin-cms@0.0.27
-  - zemble-plugin-kv@0.0.25
+  - @zemble/auth@0.0.25
+  - @zemble/auth-otp@0.0.25
+  - @zemble/cms@0.0.27
+  - @zemble/kv@0.0.25
 
 ## 0.0.26
 
@@ -240,12 +240,12 @@
 
 - 1263fb6: Streamline logging
 - Updated dependencies [1263fb6]
-  - zemble-plugin-auth-otp@0.0.24
-  - zemble-plugin-auth@0.0.24
-  - zemble-plugin-cms@0.0.26
+  - @zemble/auth-otp@0.0.24
+  - @zemble/auth@0.0.24
+  - @zemble/cms@0.0.26
   - @zemble/core@0.1.1
   - @zemble/graphql@0.0.26
-  - zemble-plugin-kv@0.0.24
+  - @zemble/kv@0.0.24
   - @zemble/mongodb@0.0.11
 
 ## 0.0.25
@@ -254,11 +254,11 @@
 
 - Updated dependencies
   - @zemble/core@0.1.0
-  - zemble-plugin-auth@0.0.23
-  - zemble-plugin-auth-otp@0.0.23
-  - zemble-plugin-cms@0.0.25
+  - @zemble/auth@0.0.23
+  - @zemble/auth-otp@0.0.23
+  - @zemble/cms@0.0.25
   - @zemble/graphql@0.0.25
-  - zemble-plugin-kv@0.0.23
+  - @zemble/kv@0.0.23
   - @zemble/mongodb@0.0.10
 
 ## 0.0.24
@@ -267,7 +267,7 @@
 
 - Updated dependencies [6479619]
   - @zemble/mongodb@0.0.9
-  - zemble-plugin-cms@0.0.24
+  - @zemble/cms@0.0.24
 
 ## 0.0.23
 
@@ -275,7 +275,7 @@
 
 - Updated dependencies
   - @zemble/mongodb@0.0.8
-  - zemble-plugin-cms@0.0.23
+  - @zemble/cms@0.0.23
 
 ## 0.0.22
 
@@ -284,10 +284,10 @@
 - Updated dependencies
   - @zemble/graphql@0.0.24
   - @zemble/mongodb@0.0.7
-  - zemble-plugin-auth@0.0.22
-  - zemble-plugin-auth-otp@0.0.22
-  - zemble-plugin-cms@0.0.22
-  - zemble-plugin-kv@0.0.22
+  - @zemble/auth@0.0.22
+  - @zemble/auth-otp@0.0.22
+  - @zemble/cms@0.0.22
+  - @zemble/kv@0.0.22
 
 ## 0.0.21
 
@@ -295,11 +295,11 @@
 
 - Updated dependencies
   - @zemble/core@0.0.17
-  - zemble-plugin-auth@0.0.21
-  - zemble-plugin-auth-otp@0.0.21
-  - zemble-plugin-cms@0.0.21
+  - @zemble/auth@0.0.21
+  - @zemble/auth-otp@0.0.21
+  - @zemble/cms@0.0.21
   - @zemble/graphql@0.0.23
-  - zemble-plugin-kv@0.0.21
+  - @zemble/kv@0.0.21
   - @zemble/mongodb@0.0.6
 
 ## 0.0.20
@@ -307,11 +307,11 @@
 ### Patch Changes
 
 - Updated dependencies [627e87d]
-  - zemble-plugin-auth-otp@0.0.20
+  - @zemble/auth-otp@0.0.20
   - @zemble/core@0.0.16
-  - zemble-plugin-kv@0.0.20
-  - zemble-plugin-auth@0.0.20
-  - zemble-plugin-cms@0.0.20
+  - @zemble/kv@0.0.20
+  - @zemble/auth@0.0.20
+  - @zemble/cms@0.0.20
   - @zemble/graphql@0.0.22
   - @zemble/mongodb@0.0.5
 
@@ -321,14 +321,14 @@
 
 - Updated dependencies
   - @zemble/mongodb@0.0.4
-  - zemble-plugin-cms@0.0.19
+  - @zemble/cms@0.0.19
 
 ## 0.0.18
 
 ### Patch Changes
 
 - @zemble/mongodb@0.0.3
-- zemble-plugin-cms@0.0.18
+- @zemble/cms@0.0.18
 
 ## 0.0.17
 
@@ -336,10 +336,10 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.21
-  - zemble-plugin-auth@0.0.19
-  - zemble-plugin-auth-otp@0.0.19
-  - zemble-plugin-cms@0.0.17
-  - zemble-plugin-kv@0.0.19
+  - @zemble/auth@0.0.19
+  - @zemble/auth-otp@0.0.19
+  - @zemble/cms@0.0.17
+  - @zemble/kv@0.0.19
 
 ## 0.0.16
 
@@ -348,11 +348,11 @@
 - Updated dependencies
   - @zemble/core@0.0.15
   - @zemble/mongodb@0.0.2
-  - zemble-plugin-auth@0.0.18
-  - zemble-plugin-auth-otp@0.0.18
-  - zemble-plugin-cms@0.0.16
+  - @zemble/auth@0.0.18
+  - @zemble/auth-otp@0.0.18
+  - @zemble/cms@0.0.16
   - @zemble/graphql@0.0.20
-  - zemble-plugin-kv@0.0.18
+  - @zemble/kv@0.0.18
 
 ## 0.0.15
 
@@ -360,10 +360,10 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.19
-  - zemble-plugin-auth@0.0.17
-  - zemble-plugin-auth-otp@0.0.17
-  - zemble-plugin-cms@0.0.15
-  - zemble-plugin-kv@0.0.17
+  - @zemble/auth@0.0.17
+  - @zemble/auth-otp@0.0.17
+  - @zemble/cms@0.0.15
+  - @zemble/kv@0.0.17
 
 ## 0.0.14
 
@@ -371,12 +371,12 @@
 
 - Add @zemble/migrations, fixes across the board
 - Updated dependencies
-  - zemble-plugin-auth@0.0.16
-  - zemble-plugin-auth-otp@0.0.16
-  - zemble-plugin-cms@0.0.14
+  - @zemble/auth@0.0.16
+  - @zemble/auth-otp@0.0.16
+  - @zemble/cms@0.0.14
   - @zemble/core@0.0.14
   - @zemble/graphql@0.0.18
-  - zemble-plugin-kv@0.0.16
+  - @zemble/kv@0.0.16
 
 ## 0.0.13
 
@@ -384,11 +384,11 @@
 
 - Updated dependencies
   - @zemble/core@0.0.13
-  - zemble-plugin-auth@0.0.15
-  - zemble-plugin-auth-otp@0.0.15
-  - zemble-plugin-cms@0.0.13
+  - @zemble/auth@0.0.15
+  - @zemble/auth-otp@0.0.15
+  - @zemble/cms@0.0.13
   - @zemble/graphql@0.0.17
-  - zemble-plugin-kv@0.0.15
+  - @zemble/kv@0.0.15
 
 ## 0.0.12
 
@@ -396,11 +396,11 @@
 
 - Updated dependencies
   - @zemble/core@0.0.12
-  - zemble-plugin-auth@0.0.14
-  - zemble-plugin-auth-otp@0.0.14
-  - zemble-plugin-cms@0.0.12
+  - @zemble/auth@0.0.14
+  - @zemble/auth-otp@0.0.14
+  - @zemble/cms@0.0.12
   - @zemble/graphql@0.0.16
-  - zemble-plugin-kv@0.0.14
+  - @zemble/kv@0.0.14
 
 ## 0.0.11
 
@@ -408,11 +408,11 @@
 
 - Updated dependencies
   - @zemble/core@0.0.11
-  - zemble-plugin-auth@0.0.13
-  - zemble-plugin-auth-otp@0.0.13
-  - zemble-plugin-cms@0.0.11
+  - @zemble/auth@0.0.13
+  - @zemble/auth-otp@0.0.13
+  - @zemble/cms@0.0.11
   - @zemble/graphql@0.0.15
-  - zemble-plugin-kv@0.0.13
+  - @zemble/kv@0.0.13
 
 ## 0.0.10
 
@@ -420,11 +420,11 @@
 
 - Updated dependencies
   - @zemble/core@0.0.10
-  - zemble-plugin-auth@0.0.12
-  - zemble-plugin-auth-otp@0.0.12
-  - zemble-plugin-cms@0.0.10
+  - @zemble/auth@0.0.12
+  - @zemble/auth-otp@0.0.12
+  - @zemble/cms@0.0.10
   - @zemble/graphql@0.0.14
-  - zemble-plugin-kv@0.0.12
+  - @zemble/kv@0.0.12
 
 ## 0.0.9
 
@@ -432,23 +432,23 @@
 
 - Updated dependencies
   - @zemble/core@0.0.9
-  - zemble-plugin-auth@0.0.11
-  - zemble-plugin-auth-otp@0.0.11
-  - zemble-plugin-cms@0.0.9
+  - @zemble/auth@0.0.11
+  - @zemble/auth-otp@0.0.11
+  - @zemble/cms@0.0.9
   - @zemble/graphql@0.0.13
-  - zemble-plugin-kv@0.0.11
+  - @zemble/kv@0.0.11
 
 ## 0.0.8
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-auth-otp@0.0.10
+  - @zemble/auth-otp@0.0.10
   - @zemble/core@0.0.8
   - @zemble/graphql@0.0.12
-  - zemble-plugin-kv@0.0.10
-  - zemble-plugin-auth@0.0.10
-  - zemble-plugin-cms@0.0.8
+  - @zemble/kv@0.0.10
+  - @zemble/auth@0.0.10
+  - @zemble/cms@0.0.8
 
 ## 0.0.7
 
@@ -457,10 +457,10 @@
 - Updated dependencies
   - @zemble/core@0.0.7
   - @zemble/graphql@0.0.11
-  - zemble-plugin-auth@0.0.9
-  - zemble-plugin-auth-otp@0.0.9
-  - zemble-plugin-cms@0.0.7
-  - zemble-plugin-kv@0.0.9
+  - @zemble/auth@0.0.9
+  - @zemble/auth-otp@0.0.9
+  - @zemble/cms@0.0.7
+  - @zemble/kv@0.0.9
 
 ## 0.0.6
 
@@ -469,10 +469,10 @@
 - Updated dependencies [df7fa74]
   - @zemble/core@0.0.6
   - @zemble/graphql@0.0.10
-  - zemble-plugin-auth@0.0.8
-  - zemble-plugin-auth-otp@0.0.8
-  - zemble-plugin-cms@0.0.6
-  - zemble-plugin-kv@0.0.8
+  - @zemble/auth@0.0.8
+  - @zemble/auth-otp@0.0.8
+  - @zemble/cms@0.0.6
+  - @zemble/kv@0.0.8
 
 ## 0.0.5
 
@@ -481,21 +481,21 @@
 - Updated dependencies
   - @zemble/core@0.0.5
   - @zemble/graphql@0.0.9
-  - zemble-plugin-auth@0.0.7
-  - zemble-plugin-auth-otp@0.0.7
-  - zemble-plugin-cms@0.0.5
-  - zemble-plugin-kv@0.0.7
+  - @zemble/auth@0.0.7
+  - @zemble/auth-otp@0.0.7
+  - @zemble/cms@0.0.5
+  - @zemble/kv@0.0.7
 
 ## 0.0.4
 
 ### Patch Changes
 
 - Updated dependencies [d8c9842]
-  - zemble-plugin-cms@0.0.4
+  - @zemble/cms@0.0.4
   - @zemble/graphql@0.0.8
-  - zemble-plugin-auth@0.0.6
-  - zemble-plugin-auth-otp@0.0.6
-  - zemble-plugin-kv@0.0.6
+  - @zemble/auth@0.0.6
+  - @zemble/auth-otp@0.0.6
+  - @zemble/kv@0.0.6
 
 ## 0.0.3
 
@@ -503,20 +503,20 @@
 
 - c92781c: Update readme
 - Updated dependencies [c92781c]
-  - zemble-plugin-auth@0.0.5
-  - zemble-plugin-cms@0.0.3
+  - @zemble/auth@0.0.5
+  - @zemble/cms@0.0.3
   - @zemble/graphql@0.0.7
-  - zemble-plugin-auth-otp@0.0.5
-  - zemble-plugin-kv@0.0.5
+  - @zemble/auth-otp@0.0.5
+  - @zemble/kv@0.0.5
 
 ## 0.0.2
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-auth@0.0.2
-  - zemble-plugin-auth-otp@0.0.2
+  - @zemble/auth@0.0.2
+  - @zemble/auth-otp@0.0.2
   - @zemble/core@0.0.2
   - @zemble/graphql@0.0.2
-  - zemble-plugin-kv@0.0.2
-  - zemble-plugin-cms@0.0.2
+  - @zemble/kv@0.0.2
+  - @zemble/cms@0.0.2

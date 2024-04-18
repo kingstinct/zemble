@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-supabase",
+  "name": "@zemble/supabase",
   "version": "0.0.22",
   "description": "",
   "type": "module",
@@ -11,7 +11,7 @@
   "dependencies": {
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*",
-    "zemble-plugin-auth": "workspace:*",
+    "@zemble/auth": "workspace:*",
     "@zemble/routes": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@supabase/ssr": "^0.3.0",

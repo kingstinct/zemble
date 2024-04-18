@@ -1,6 +1,6 @@
+import Auth from '@zemble/auth'
+import { signJwt } from '@zemble/auth/utils/signJwt'
 import { setCookie } from 'hono/cookie'
-import Auth from 'zemble-plugin-auth'
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'

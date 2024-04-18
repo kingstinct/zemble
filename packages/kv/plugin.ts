@@ -21,7 +21,7 @@ declare global {
   namespace Zemble {
 
     interface MiddlewareConfig {
-      readonly 'zemble-plugin-kv'?: {
+      readonly '@zemble/kv'?: {
         readonly disable?: boolean,
       } & KeyValueConfig
     }
@@ -36,7 +36,7 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
     }) => {
       await setupProvider({
         app,
-        middlewareKey: 'zemble-plugin-kv',
+        middlewareKey: '@zemble/kv',
         initializeProvider: async (pluginConfig) => {
           const initWithConfig = pluginConfig ?? config
 

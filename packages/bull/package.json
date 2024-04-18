@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-bull",
+  "name": "@zemble/bull",
   "version": "0.1.5",
   "description": "@zemble Plugin providing Bull Queue Support",
   "main": "plugin.ts",
@@ -44,7 +44,7 @@
     "hono": "^4.2.5",
     "ioredis": "^5.4.1",
     "safe-stable-stringify": "^2.4.3",
-    "zemble-plugin-auth": "workspace:*"
+    "@zemble/auth": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "*"

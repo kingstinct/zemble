@@ -1,4 +1,4 @@
-import { verifyJwt } from 'zemble-plugin-auth/utils/verifyJwt'
+import { verifyJwt } from '@zemble/auth/utils/verifyJwt'
 
 import plugin from '../plugin'
 

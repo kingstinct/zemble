@@ -1,8 +1,8 @@
+import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
 import {
   beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
 import {

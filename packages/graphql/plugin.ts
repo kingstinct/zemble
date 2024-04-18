@@ -1,16 +1,12 @@
 import { useEngine, useLogger } from '@envelop/core'
 import { Plugin, type IStandardLogger } from '@zemble/core'
-import debug from 'debug'
 import * as GraphQLJS from 'graphql'
-
-import { type GraphQLFormattedError } from 'graphql'
-import { GraphQLJSON } from 'graphql-scalars'
 
 import middleware from './middleware'
 
 import type { SubschemaConfig } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
-import type { GraphQLSchema} from 'graphql';
+import type { GraphQLSchema } from 'graphql'
 import type { Context } from 'graphql-ws'
 import type {
   YogaServerOptions, YogaInitialContext, GraphQLParams,
@@ -32,7 +28,7 @@ declare global {
         opts?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean}
       ) => Promise<{
         readonly data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
-        readonly errors?: readonly GraphQLFormattedError[]
+        readonly errors?: readonly GraphQLJS.GraphQLFormattedError[]
       }>
 
       readonly gqlRequestUntyped: <TRes, TVars = unknown>(
@@ -41,7 +37,7 @@ declare global {
         opts?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean}
       ) => Promise<{
         readonly data?: TRes,
-        readonly errors?: readonly GraphQLFormattedError[]
+        readonly errors?: readonly GraphQLJS.GraphQLFormattedError[]
       }>
     }
 

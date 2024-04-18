@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-apple-app-site-association",
+  "name": "@zemble/apple-app-site-association",
   "version": "0.0.27",
   "description": "A package to easily expose a Apple App Site Association file for your iOS App",
   "private": true,

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import authPlugin from '@zemble/auth'
+import { encodeToken } from '@zemble/auth/utils/encodeToken'
 import {
   setCookie,
 } from 'hono/cookie'
-import authPlugin from 'zemble-plugin-auth'
-import { encodeToken } from 'zemble-plugin-auth/utils/encodeToken'
 
 import type { MutationResolvers } from '../schema.generated'
 

@@ -41,10 +41,10 @@
     "graphql-scalars": "^1.23.0",
     "mongodb": "^6.5.0",
     "papr": "^15.2.1",
-    "zemble-plugin-apple-app-site-association": "workspace:*",
-    "zemble-plugin-auth-otp": "workspace:*",
-    "zemble-plugin-bull": "workspace:*",
-    "zemble-plugin-todo": "workspace:*"
+    "@zemble/apple-app-site-association": "workspace:*",
+    "@zemble/auth-otp": "workspace:*",
+    "@zemble/bull": "workspace:*",
+    "@zemble/todo": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

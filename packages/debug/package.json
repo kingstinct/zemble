@@ -12,7 +12,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*",
     "@zemble/routes": "workspace:*",
-    "zemble-plugin-auth": "workspace:*",
+    "@zemble/auth": "workspace:*",
     "@zemble/graphql": "workspace:*"
   },
   "scripts": {

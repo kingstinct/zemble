@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-cms-users",
+  "name": "@zemble/cms-users",
   "version": "0.0.46",
   "description": "@zemble Plugin for managing users in the CMS",
   "main": "plugin.ts",
@@ -48,10 +48,10 @@
     "jose": "^5.2.4",
     "mongodb": "^6.5.0",
     "papr": "^15.2.1",
-    "zemble-plugin-auth": "workspace:*",
-    "zemble-plugin-auth-otp": "workspace:*",
-    "zemble-plugin-cms": "workspace:*",
-    "zemble-plugin-kv": "workspace:*",
+    "@zemble/auth": "workspace:*",
+    "@zemble/auth-otp": "workspace:*",
+    "@zemble/cms": "workspace:*",
+    "@zemble/kv": "workspace:*",
     "@zemble/mongodb": "workspace:*"
   },
   "devDependencies": {

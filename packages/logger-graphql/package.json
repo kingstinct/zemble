@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-logger-graphql",
+  "name": "@zemble/logger-graphql",
   "version": "0.0.38",
   "description": "@zemble Plugin for providing a GraphQL Stream of your apps logs",
   "main": "plugin.ts",

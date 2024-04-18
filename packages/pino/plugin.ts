@@ -11,7 +11,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     /* interface MiddlewareConfig {
-      readonly ['zemble-plugin-email-sendgrid']?: Zemble.DefaultMiddlewareConfig
+      readonly ['@zemble/email-sendgrid']?: Zemble.DefaultMiddlewareConfig
     } */
 
     interface Providers {

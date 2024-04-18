@@ -5,7 +5,7 @@
 ### Patch Changes
 
 - Updated dependencies [67e139d]
-  - zemble-plugin-bull@0.1.5
+  - @zemble/bull@0.1.5
   - @zemble/core@0.1.11
   - @zemble/graphql@0.0.42
   - @zemble/routes@0.0.23
@@ -16,7 +16,7 @@
 
 - Updated dependencies [80c3df0]
   - @zemble/core@0.1.10
-  - zemble-plugin-bull@0.1.4
+  - @zemble/bull@0.1.4
   - @zemble/graphql@0.0.41
   - @zemble/routes@0.0.22
 
@@ -26,7 +26,7 @@
 
 - Updated dependencies [9b7e7de]
   - @zemble/core@0.1.9
-  - zemble-plugin-bull@0.1.3
+  - @zemble/bull@0.1.3
   - @zemble/graphql@0.0.40
   - @zemble/routes@0.0.21
 
@@ -38,7 +38,7 @@
 - Updated dependencies [dc07e09]
   - @zemble/graphql@0.0.39
   - @zemble/routes@0.0.20
-  - zemble-plugin-bull@0.1.2
+  - @zemble/bull@0.1.2
   - @zemble/core@0.1.8
 
 ## 0.0.33
@@ -47,20 +47,20 @@
 
 - b6ef55d: added new job functions
 - Updated dependencies [b6ef55d]
-  - zemble-plugin-bull@0.1.1
+  - @zemble/bull@0.1.1
 
 ## 0.0.32
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-bull@0.1.0
+  - @zemble/bull@0.1.0
 
 ## 0.0.31
 
 ### Patch Changes
 
-- zemble-plugin-bull@0.0.39
+- @zemble/bull@0.0.39
 
 ## 0.0.30
 
@@ -68,7 +68,7 @@
 
 - Updated dependencies
   - @zemble/core@0.1.7
-  - zemble-plugin-bull@0.0.38
+  - @zemble/bull@0.0.38
   - @zemble/graphql@0.0.38
   - @zemble/routes@0.0.19
 
@@ -78,7 +78,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.37
-  - zemble-plugin-bull@0.0.37
+  - @zemble/bull@0.0.37
 
 ## 0.0.28
 
@@ -86,7 +86,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.36
-  - zemble-plugin-bull@0.0.36
+  - @zemble/bull@0.0.36
 
 ## 0.0.27
 
@@ -94,7 +94,7 @@
 
 - Updated dependencies
   - @zemble/core@0.1.6
-  - zemble-plugin-bull@0.0.35
+  - @zemble/bull@0.0.35
   - @zemble/graphql@0.0.35
   - @zemble/routes@0.0.18
 
@@ -104,7 +104,7 @@
 
 - Updated dependencies [2fc60c4]
   - @zemble/core@0.1.5
-  - zemble-plugin-bull@0.0.34
+  - @zemble/bull@0.0.34
   - @zemble/graphql@0.0.34
   - @zemble/routes@0.0.17
 
@@ -117,7 +117,7 @@
 - Updated dependencies [86d9288]
   - @zemble/core@0.1.4
   - @zemble/graphql@0.0.33
-  - zemble-plugin-bull@0.0.33
+  - @zemble/bull@0.0.33
   - @zemble/routes@0.0.16
 
 ## 0.0.24
@@ -127,7 +127,7 @@
 - Updated dependencies [3358b3f]
   - @zemble/graphql@0.0.32
   - @zemble/core@0.1.3
-  - zemble-plugin-bull@0.0.32
+  - @zemble/bull@0.0.32
   - @zemble/routes@0.0.15
 
 ## 0.0.23
@@ -136,7 +136,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.31
-  - zemble-plugin-bull@0.0.31
+  - @zemble/bull@0.0.31
 
 ## 0.0.22
 
@@ -144,7 +144,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.30
-  - zemble-plugin-bull@0.0.30
+  - @zemble/bull@0.0.30
 
 ## 0.0.21
 
@@ -152,7 +152,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.29
-  - zemble-plugin-bull@0.0.29
+  - @zemble/bull@0.0.29
 
 ## 0.0.20
 
@@ -160,7 +160,7 @@
 
 - Updated dependencies [7bb5510]
   - @zemble/graphql@0.0.28
-  - zemble-plugin-bull@0.0.28
+  - @zemble/bull@0.0.28
 
 ## 0.0.19
 
@@ -169,7 +169,7 @@
 - Updated dependencies
   - @zemble/graphql@0.0.27
   - @zemble/core@0.1.2
-  - zemble-plugin-bull@0.0.27
+  - @zemble/bull@0.0.27
   - @zemble/routes@0.0.14
 
 ## 0.0.18
@@ -179,7 +179,7 @@
 - Updated dependencies [1263fb6]
   - @zemble/core@0.1.1
   - @zemble/graphql@0.0.26
-  - zemble-plugin-bull@0.0.26
+  - @zemble/bull@0.0.26
   - @zemble/routes@0.0.13
 
 ## 0.0.17
@@ -188,7 +188,7 @@
 
 - Updated dependencies
   - @zemble/core@0.1.0
-  - zemble-plugin-bull@0.0.25
+  - @zemble/bull@0.0.25
   - @zemble/graphql@0.0.25
   - @zemble/routes@0.0.12
 
@@ -197,7 +197,7 @@
 ### Patch Changes
 
 - Updated dependencies [6479619]
-  - zemble-plugin-bull@0.0.24
+  - @zemble/bull@0.0.24
 
 ## 0.0.15
 
@@ -205,7 +205,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.24
-  - zemble-plugin-bull@0.0.23
+  - @zemble/bull@0.0.23
 
 ## 0.0.14
 
@@ -213,7 +213,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.17
-  - zemble-plugin-bull@0.0.22
+  - @zemble/bull@0.0.22
   - @zemble/graphql@0.0.23
   - @zemble/routes@0.0.11
 
@@ -223,7 +223,7 @@
 
 - Updated dependencies [627e87d]
   - @zemble/core@0.0.16
-  - zemble-plugin-bull@0.0.21
+  - @zemble/bull@0.0.21
   - @zemble/graphql@0.0.22
   - @zemble/routes@0.0.10
 
@@ -240,7 +240,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.21
-  - zemble-plugin-bull@0.0.20
+  - @zemble/bull@0.0.20
 
 ## 0.0.10
 
@@ -248,7 +248,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.15
-  - zemble-plugin-bull@0.0.19
+  - @zemble/bull@0.0.19
   - @zemble/graphql@0.0.20
   - @zemble/routes@0.0.8
 
@@ -257,7 +257,7 @@
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-bull@0.0.18
+  - @zemble/bull@0.0.18
 
 ## 0.0.8
 
@@ -265,7 +265,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.19
-  - zemble-plugin-bull@0.0.17
+  - @zemble/bull@0.0.17
 
 ## 0.0.7
 
@@ -273,7 +273,7 @@
 
 - Add @zemble/migrations, fixes across the board
 - Updated dependencies
-  - zemble-plugin-bull@0.0.16
+  - @zemble/bull@0.0.16
   - @zemble/core@0.0.14
   - @zemble/graphql@0.0.18
   - @zemble/routes@0.0.7
@@ -284,7 +284,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.13
-  - zemble-plugin-bull@0.0.15
+  - @zemble/bull@0.0.15
   - @zemble/graphql@0.0.17
   - @zemble/routes@0.0.6
 
@@ -294,7 +294,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.12
-  - zemble-plugin-bull@0.0.14
+  - @zemble/bull@0.0.14
   - @zemble/graphql@0.0.16
   - @zemble/routes@0.0.5
 
@@ -304,7 +304,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.11
-  - zemble-plugin-bull@0.0.13
+  - @zemble/bull@0.0.13
   - @zemble/graphql@0.0.15
   - @zemble/routes@0.0.4
 
@@ -314,7 +314,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.10
-  - zemble-plugin-bull@0.0.12
+  - @zemble/bull@0.0.12
   - @zemble/graphql@0.0.14
   - @zemble/routes@0.0.3
 
@@ -325,5 +325,5 @@
 - Updated dependencies
   - @zemble/core@0.0.9
   - @zemble/routes@0.0.2
-  - zemble-plugin-bull@0.0.11
+  - @zemble/bull@0.0.11
   - @zemble/graphql@0.0.13

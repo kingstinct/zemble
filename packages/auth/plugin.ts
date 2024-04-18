@@ -18,7 +18,7 @@ import type {
 import type { Context } from 'hono'
 import type { CookieOptions } from 'hono/utils/cookie'
 
-const ISSUER = process.env.ISSUER ?? 'zemble-plugin-auth'
+const ISSUER = process.env.ISSUER ?? '@zemble/auth'
 
 interface AuthConfig extends Zemble.GlobalConfig {
   readonly PUBLIC_KEY?: string;

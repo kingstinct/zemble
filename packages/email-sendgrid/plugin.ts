@@ -20,7 +20,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
-      readonly ['zemble-plugin-email-sendgrid']?: Zemble.DefaultMiddlewareConfig
+      readonly ['@zemble/email-sendgrid']?: Zemble.DefaultMiddlewareConfig
     }
 
     interface Providers {
@@ -80,7 +80,7 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
         app,
         initializeProvider,
         providerKey: 'sendEmail',
-        middlewareKey: 'zemble-plugin-email-sendgrid',
+        middlewareKey: '@zemble/email-sendgrid',
       })
     }
   },

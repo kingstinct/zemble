@@ -1,4 +1,4 @@
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
+import { signJwt } from '@zemble/auth/utils/signJwt'
 
 import plugin from '../plugin'
 

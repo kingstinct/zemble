@@ -1,6 +1,6 @@
+import Auth from '@zemble/auth'
 import { GraphQLError } from 'graphql'
 import { setCookie } from 'hono/cookie'
-import Auth from 'zemble-plugin-auth'
 
 import plugin from '../../plugin'
 import { generateAccessTokenFromAppleToken } from '../../utils/generateToken'
