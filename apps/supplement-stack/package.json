@@ -5,7 +5,7 @@
   "main": "app.ts",
   "private": true,
   "scripts": {
-    "dev": "docker-compose up -d && MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
+    "dev": "MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen"

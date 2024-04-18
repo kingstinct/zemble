@@ -37,12 +37,10 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   if (process.env.NODE_ENV !== 'test') {
     hono.use('*', logger((...args) => {
       context.logger.info(...args)
-      debuggah('hey maddafakka')
     }))
   }
 
   hono.use('*', async (ctx, next) => {
-    debuggah('hey maddafakka 2')
     // eslint-disable-next-line functional/immutable-data
     ctx.env = {
       ...ctx.env ?? {},
@@ -82,7 +80,7 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     (plugin) => 'initializeMiddleware' in plugin,
   )
 
-  debuggah(`Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
+  context.logger.info(`Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
     (p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p
       ? ' (middleware)'
       : ''}`,
@@ -114,6 +112,8 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     pluginWithMiddleware,
   ) => {
     const p = await prev
+
+    console.log('pluginWithMiddleware', pluginWithMiddleware.pluginName)
 
     const ret = await pluginWithMiddleware.initializeMiddleware?.({
       app: preInitApp,

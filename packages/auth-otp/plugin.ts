@@ -7,6 +7,8 @@ import GraphQL from '@zemble/graphql'
 import Auth from 'zemble-plugin-auth'
 import kv from 'zemble-plugin-kv'
 
+import { simpleTemplating } from './utils/simpleTemplating'
+
 import type { IEmail } from '@zemble/core'
 
 interface OtpAuthConfig extends Zemble.GlobalConfig {
@@ -56,14 +58,6 @@ function generateTokenContents(email: string): Zemble.OtpToken {
   return { email, type: 'AuthOtp' as const }
 }
 
-const simpleTemplating = (template: string, values: Record<string, string>): string => {
-  let result = template
-  Object.entries(values).forEach(([key, value]) => {
-    result = result.replaceAll(`{{${key}}}`, value)
-  })
-  return result
-}
-
 const defaultConfig = {
   tokenExpiryInSeconds: undefined,
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
@@ -71,7 +65,7 @@ const defaultConfig = {
   generateTokenContents,
   handleAuthRequest: async (to, twoFactorCode) => {
     const { sendEmail } = plugin.providers
-    if (sendEmail && process.env.NODE_ENV !== 'test') {
+    if (sendEmail && !['test', 'development'].includes(process.env.NODE_ENV ?? '')) {
       void sendEmail({
         from: plugin.config.from,
         subject: plugin.config.emailSubject ? simpleTemplating(plugin.config.emailSubject, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : 'Login',
@@ -80,7 +74,9 @@ const defaultConfig = {
         to,
       })
     }
-    plugin.debug(`handleAuthRequest for ${to.email}: ${twoFactorCode}`)
+    if (process.env.NODE_ENV === 'development') {
+      plugin.providers.logger.info(`Generated code for ${to.email}: ${twoFactorCode}`)
+    }
   },
 } satisfies Partial<OtpAuthConfig>
 
