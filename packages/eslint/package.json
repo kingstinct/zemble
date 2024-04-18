@@ -45,7 +45,7 @@
     "eslint-plugin-functional": "^6.4.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsonc": "^2.15.0",
-    "eslint-plugin-unicorn": "^51.0.1",
+    "eslint-plugin-unicorn": "^52.0.0",
     "eslint-plugin-yml": "^1.14.0",
     "graphql": "^16.8.1",
     "typescript": "^5.4.2"
