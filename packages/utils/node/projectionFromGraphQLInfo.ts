@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import graphqlFields from 'graphql-fields'
 
 import type { GraphQLResolveInfo } from 'graphql'

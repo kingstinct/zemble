@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { Platform, View } from 'react-native'
 import { RefreshControl } from 'react-native-gesture-handler'
 
 const ManualRefreshControl = ({ fetching, refetch }: { readonly fetching: boolean, readonly refetch: () => void }) => {

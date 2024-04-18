@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import fastifyPlugin from 'fastify-plugin'
 
 import { LOG_PREFIX, Timeoutify, TimeoutifyStatus } from '../node/Timeoutify'
