@@ -17,7 +17,8 @@ type Mutation {
 }
 
 type LoginResponse {
-  token: String! @auth(skip: true)
+  bearerToken: String! @auth(skip: true)
+  refreshToken: String! @auth(skip: true)
 }
 
 type User {

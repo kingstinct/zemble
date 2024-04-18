@@ -34,12 +34,22 @@ type User {
 }
 
 type Query {
-  users: [User!]! @auth(includes: { permissions: { type: "user-admin" } })
+  users: [User!]! @auth(or: [
+    { includes: { permissions: "@zemble/cms-users" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "manage-users:read" } },
+    { includes: { permissions: "manage-users" } },
+  ])
 }
 
 type Mutation {
   updatePermissions(
     userId: ID!,
     permissions: [PermissionInput!]!
-  ): User! @auth(includes: { permissions: { type: "user-admin" } })
+  ): User! @auth(or: [
+    { includes: { permissions: "@zemble/cms-users" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "manage-users:write" } },
+    { includes: { permissions: "manage-users" } },
+  ])
 }

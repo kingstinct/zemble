@@ -26,16 +26,38 @@ enum LogLevel {
 
 type Query {
   # not getting the log streaming to work currently, not quite sure why
-  logs: [LogOutput!]! @auth(match: { isSuperAdmin: true }) @stream
-  logLevel: LogLevel! @auth(match: { isSuperAdmin: true })
+  logs: [LogOutput!]! @auth(or: [
+    { includes: { permissions: "@zemble/logger-graphql" } },
+    { includes: { permissions: "@zemble/logger-graphql:read" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
+    { includes: { permissions: "operations:read" } },
+  ]) @stream
+  logLevel: LogLevel! @auth(or: [
+    { includes: { permissions: "@zemble/logger-graphql" } },
+    { includes: { permissions: "@zemble/logger-graphql:read" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
+    { includes: { permissions: "operations:read" } },
+  ])
 }
 
 type Subscription {
-  logs(minLevel: LogLevel): LogOutput! @auth(match: { isSuperAdmin: true })
+  logs(minLevel: LogLevel): LogOutput! @auth(or: [
+    { includes: { permissions: "@zemble/logger-graphql" } },
+    { includes: { permissions: "@zemble/logger-graphql:read" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
+    { includes: { permissions: "operations:read" } },
+  ])
 }
 
 type Mutation {
-  setLogLevel(level: LogLevel!): LogLevel! @auth(match: { isSuperAdmin: true })
+  setLogLevel(level: LogLevel!): LogLevel! @auth(or: [
+    { includes: { permissions: "@zemble/logger-graphql" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
+  ])
 }
 
 type LogOutput {

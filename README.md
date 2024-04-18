@@ -284,10 +284,11 @@ Each app is responsible for generating the structure of it's tokens, usually by 
 For operations that requires a more granular scope than just being authenticated we recommend plugins and apps to adhere to the following JWT structure:
 - In a `permissions` array, allow scoped permission that adheres to the plugin name, potentially with additional scope (examples `permissions: ['my-package-name:read']` or `permissions: ['my-package-name:write']`)
 - In a `permissions` array, allow for an applicable general scope:
-  - Admin (should be allowed for any operation): `admin:write`, `admin:read` or `admin` (unscoped = both read and write)
-  - Operations (meant for maintenance/system/settings): `operations:write`, `operations:read` or `operations` (read/write)
+  - Admin (should be allowed for any operation): `admin`
+  - Operations (meant for maintenance/system/settings): `operations:read` or `operations`
+  - Developer: `developer:read` or `developer`
   - Manage users: `manage-users:write`, `manage-users:read`, `manage-users:add`, `manage-users:delete` or `manage-users`
-  - API Tokens: `api-tokens:write`, `api-tokens:read`, `api-tokens:issue`, `api-tokens:delete` or `api-tokens`
+  - API Tokens: `api-tokens:issue`, `api-tokens:delete` or `api-tokens`
   - Editor: `editor:write`, `editor:read`, `editor:add`, `editor:delete` or `editor`
 
 Often a use case requires more fine-grained authorization (for example on group or organisation level). We recommend this to be handled in one of two ways:
