@@ -80,6 +80,12 @@ const defaultConfig = {
   },
 } satisfies Partial<OtpAuthConfig>
 
+/**
+ * This plugin allows you to easily add two factor authentication over email to your app. Implement
+ * `generateTokenContents` to modify the contents of the token that is sent to the user (and other things, like logging
+ * that the user logged in in the database). Modify the email configurations to customize the
+ * contents of the email sent. Whichever email provider is implemented is used.
+ */
 const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(import.meta.dir, {
   dependencies: [
     {
