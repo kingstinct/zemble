@@ -13,7 +13,7 @@ directive @auth(
 ) on FIELD_DEFINITION
 
 type Mutation {
-  login: LoginResponse! @auth(skip: true)
+  loginAnonymous: LoginResponse! @auth(skip: true)
 }
 
 type LoginResponse {

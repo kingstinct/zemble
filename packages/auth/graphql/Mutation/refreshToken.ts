@@ -19,7 +19,7 @@ export const refreshTokensFromPrevious = async (bearerToken: string, refreshToke
   // eslint-disable-next-line @typescript-eslint/await-thenable, @typescript-eslint/no-unsafe-argument
   const newBearerTokenData = await plugin.config.reissueBearerToken(previousBearerToken),
         newBearerToken = await encodeToken(newBearerTokenData as Zemble.TokenRegistry[keyof Zemble.TokenRegistry], previousBearerToken.sub),
-        newRefreshToken = await generateRefreshToken({ sub: previousBearerToken.sub }),
+        newRefreshToken = await generateRefreshToken({ sub: previousBearerToken.sub })
 
   return {
     bearerToken: newBearerToken,

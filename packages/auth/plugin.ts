@@ -232,7 +232,8 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
             }),
             useGenericAuth<{ readonly decodedToken: Record<string, unknown> | null, readonly error?: GraphQLError }, Zemble.GraphQLContext>({
               resolveUserFn: async (context) => {
-                const { decodedToken } = context
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const { decodedToken } = context as any
 
                 if (!decodedToken) {
                   return { decodedToken: null, error: undefined }

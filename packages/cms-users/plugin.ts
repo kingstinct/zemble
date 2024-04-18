@@ -27,7 +27,6 @@ declare global {
       readonly email: string,
       readonly permissions: readonly {
         readonly type: PermissionType,
-        readonly scope: string,
       }[]
     }
   }
@@ -73,8 +72,8 @@ const plugin = new Plugin(import.meta.dir,
                 $setOnInsert: {
                   email,
                   permissions: await isFirstUser() ? [
-                    { type: PermissionType.MODIFY_ENTITY, scope: '*' },
-                    { type: PermissionType.USER_ADMIN, scope: '*' },
+                    { type: PermissionType.DEVELOPER },
+                    { type: PermissionType.MANAGE_USERS },
                   ] : [],
                 },
                 $set: {

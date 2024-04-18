@@ -18,12 +18,10 @@ scalar DateTime
 
 type Permission {
   type: String!
-  scope: String!
 }
 
 input PermissionInput {
   type: String!
-  scope: String!
 }
 
 type User {

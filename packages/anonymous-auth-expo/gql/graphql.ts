@@ -29,12 +29,13 @@ export type Error = {
 
 export type LoginResponse = {
   __typename?: 'LoginResponse';
-  token: Scalars['String']['output'];
+  bearerToken: Scalars['String']['output'];
+  refreshToken: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login: LoginResponse;
+  loginAnonymous: LoginResponse;
   logout: Scalars['DateTime']['output'];
   logoutFromAllDevices: Scalars['DateTime']['output'];
   refreshToken: NewTokenResponse;
@@ -85,7 +86,7 @@ export type User = {
 export type LoginMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', token: string } };
+export type LoginMutation = { __typename?: 'Mutation', loginAnonymous: { __typename?: 'LoginResponse', bearerToken: string } };
 
 
-export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
+export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginAnonymous"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bearerToken"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;

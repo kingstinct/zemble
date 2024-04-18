@@ -8,8 +8,8 @@ import { graphql } from '../gql'
 
 const Login = graphql(/* GraphQL */ `
   mutation Login {
-    login{
-      token
+    loginAnonymous {
+      bearerToken
     }
   }
 `)
@@ -24,10 +24,10 @@ export const SimpleAnonymousAuthProvider: React.FC<React.PropsWithChildren> = ({
   const [response, login] = useMutation(Login)
 
   useEffect(() => {
-    const res = response.data?.login
+    const res = response.data?.loginAnonymous
 
-    if (res?.token) {
-      setToken(res.token)
+    if (res?.bearerToken) {
+      setToken(res.bearerToken)
     }
   }, [response])
 

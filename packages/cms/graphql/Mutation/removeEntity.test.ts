@@ -27,7 +27,7 @@ let opts: Record<string, unknown>
 
 beforeEach(async () => {
   app = await createTestApp(plugin)
-  const token = await signJwt({ data: { permissions: [{ type: 'modify-entity' }] }, sub: 'test' })
+  const token = await signJwt({ data: { permissions: ['admin'] }, sub: 'test' })
   opts = {
     headers: {
       Authorization: `Bearer ${token}`,
