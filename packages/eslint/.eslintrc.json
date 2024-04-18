@@ -7,7 +7,7 @@
   "overrides": [
     {
       "files": [
-        "jest.js",
+        "test.js",
         "react.js",
         "react-native.js",
         "base.js",

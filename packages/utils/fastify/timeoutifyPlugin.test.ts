@@ -1,3 +1,7 @@
+import {
+  describe, test, expect, jest,
+} from 'bun:test'
+
 import { timeoutifyPlugin } from './timeoutifyPlugin'
 
 import type { onRequestHookHandler } from 'fastify'

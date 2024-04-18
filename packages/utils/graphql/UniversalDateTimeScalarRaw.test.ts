@@ -1,3 +1,6 @@
+import {
+  describe, test, expect,
+} from 'bun:test'
 import { GraphQLError } from 'graphql/error'
 import { Kind } from 'graphql/language'
 

@@ -4,7 +4,6 @@ interface Object {
 
 // eslint-disable-next-line functional/immutable-data, no-extend-native
 Object.defineProperty(Object.prototype, 'pipeTo', {
-  // @ts-expect-error sdfsdf
   value(mapper) {
     return mapper(this)
   },

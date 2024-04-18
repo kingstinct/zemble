@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { describe, it, expect } from 'bun:test'
 import DataLoader from 'dataloader'
 
 import createSuperDataLoader from './SuperDataLoader'

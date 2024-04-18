@@ -13,24 +13,18 @@ export function mergeDeep<TType extends object>(...objects: readonly PartialDeep
   }
 
   return objects.reduce((prev, obj) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore could be improved
     Object.keys(obj).forEach((key) => {
-      // @ts-expect-error could be improved
       const pVal = prev[key]
-      // @ts-expect-error could be improved
+
       const oVal = obj[key]
 
       if (Array.isArray(pVal) && Array.isArray(oVal)) {
-        // @ts-expect-error could be improved
         // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-unsafe-argument
         prev[key] = pVal.concat(...oVal)
       } else if (isObject(pVal) && isObject(oVal)) {
-        // @ts-expect-error could be improved
         // eslint-disable-next-line no-param-reassign
         prev[key] = mergeDeep(pVal as Record<string, unknown>, oVal as Record<string, unknown>)
       } else {
-        // @ts-expect-error could be improved
         // eslint-disable-next-line no-param-reassign
         prev[key] = oVal
       }

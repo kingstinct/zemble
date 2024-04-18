@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'bun:test'
+
 import { getRedirectUrl } from './addRedirectToAppRoutes'
 
 const BASE_URL = 'https://my-awesome-api.com'

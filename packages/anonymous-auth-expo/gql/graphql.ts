@@ -22,10 +22,6 @@ export type AuthOr = {
   match?: InputMaybe<Scalars['JSONObject']['input']>;
 };
 
-export type Error = {
-  message: Scalars['String']['output'];
-};
-
 export type LoginResponse = {
   __typename?: 'LoginResponse';
   token: Scalars['String']['output'];
@@ -34,26 +30,11 @@ export type LoginResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   login: LoginResponse;
-  refreshToken: NewTokenResponse;
 };
 
 
 export type MutationLoginArgs = {
   username: Scalars['String']['input'];
-};
-
-
-export type MutationRefreshTokenArgs = {
-  bearerToken: Scalars['String']['input'];
-  refreshToken: Scalars['String']['input'];
-};
-
-export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
-
-export type NewTokenSuccessResponse = {
-  __typename?: 'NewTokenSuccessResponse';
-  bearerToken: Scalars['String']['output'];
-  refreshToken: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -72,11 +53,6 @@ export type QueryReadJwtArgs = {
 
 export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
-};
-
-export type RefreshTokenInvalidError = {
-  __typename?: 'RefreshTokenInvalidError';
-  message: Scalars['String']['output'];
 };
 
 export type User = {
