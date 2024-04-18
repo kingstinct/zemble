@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { AbstractCursor } from 'mongodb'
 
 export const LOG_PREFIX = '[Timeoutify]'
