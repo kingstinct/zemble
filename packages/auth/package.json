@@ -44,7 +44,7 @@
     "@zemble/bun": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.1",
-    "graphql-scalars": "^1.22.5",
+    "graphql-scalars": "^1.23.0",
     "hono": "^4.1.0",
     "jose": "^5.2.3"
   }

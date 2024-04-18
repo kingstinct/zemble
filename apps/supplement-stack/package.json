@@ -38,7 +38,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.1",
-    "graphql-scalars": "^1.22.5",
+    "graphql-scalars": "^1.23.0",
     "mongodb": "^6.5.0",
     "papr": "^15.2.1",
     "zemble-plugin-apple-app-site-association": "workspace:*",
