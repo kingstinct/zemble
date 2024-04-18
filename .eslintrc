@@ -1,6 +1,6 @@
 {
   "extends": [
-      "eslint-config-kingstinct/react-native"
+      "./packages/eslint/react-native.js"
   ],
   "rules": {
       "no-console": 2,

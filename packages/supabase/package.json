@@ -33,10 +33,10 @@
     "@graphql-codegen/client-preset": "^4.2.4",
     "@graphql-codegen/typescript": "^4.0.6",
     "@graphql-codegen/typescript-resolvers": "^4.0.6",
-    "@tsconfig/bun": "^1.0.4"
+    "@tsconfig/bun": "^1.0.5"
   },
   "peerDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "module": "plugin.ts",
   "main": "plugin.ts"
