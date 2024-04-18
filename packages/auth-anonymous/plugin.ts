@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import Auth from '@zemble/auth'
-import { Plugin } from '@zemble/core'
+import { Plugin, type BaseToken } from '@zemble/core'
 
 declare global {
   namespace Zemble {
@@ -9,7 +9,7 @@ declare global {
       readonly AnonymousAuth: {
         readonly type: 'AnonymousAuth',
         readonly userId: string,
-      }
+      } & BaseToken
     }
   }
 }
@@ -23,6 +23,7 @@ const defaultConfig = {
   generateTokenContents: (userId: string) => ({
     type: 'AnonymousAuth',
     userId,
+    sub: userId,
   }),
   generateUserId: () => Math.random().toString(36).substring(7),
 } satisfies AnonymousConfig

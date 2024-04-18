@@ -9,7 +9,8 @@ import type { MutationResolvers } from '../schema.generated'
 
 const login: MutationResolvers['login'] = async (_: unknown, __, { honoContext }) => {
   const userId = plugin.config.generateUserId()
-  const bearerToken = await encodeToken(plugin.config.generateTokenContents(userId))
+  const tokenData = plugin.config.generateTokenContents(userId)
+  const bearerToken = await encodeToken(tokenData, userId)
 
   if (authPlugin.config.cookies.isEnabled) {
     setBearerTokenCookie(honoContext, bearerToken)

@@ -1,5 +1,6 @@
 import Auth from '@zemble/auth'
 import { generateRefreshToken } from '@zemble/auth/utils/generateRefreshToken'
+import { setBearerTokenCookie } from '@zemble/auth/utils/setBearerTokenCookie'
 import { signJwt } from '@zemble/auth/utils/signJwt'
 
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
@@ -32,9 +33,12 @@ const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
     return { __typename: 'CodeNotValidError', message: 'Code not valid' }
   }
 
+  const { sub, ...data } = await plugin.config.generateTokenContents({ email })
+
   const bearerToken = await signJwt({
-    data: await plugin.config.generateTokenContents({ email }),
+    data,
     expiresInSeconds: Auth.config.bearerTokenExpiryInSeconds,
+    sub,
   })
 
   if (Auth.config.cookies.isEnabled) {
@@ -44,7 +48,7 @@ const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
   return {
     __typename: 'LoginConfirmSuccessfulResponse',
     bearerToken,
-    refreshToken: await generateRefreshToken(),
+    refreshToken: await generateRefreshToken({ sub }),
   }
 }
 

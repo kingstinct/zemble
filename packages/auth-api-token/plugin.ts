@@ -17,6 +17,7 @@ declare global {
       readonly AuthApiToken: {
         readonly type: 'AuthApiToken'
         readonly isAPIKey: true
+        readonly sub: string
       }
     }
   }

@@ -17,8 +17,8 @@ export const refreshToken: NonNullable<MutationResolvers['refreshToken']> = asyn
   await verifyJwt(refreshToken, undefined, { subject: previousBearerToken.sub })
 
   // eslint-disable-next-line @typescript-eslint/await-thenable, @typescript-eslint/no-unsafe-argument
-  const newBearerTokenData = (await plugin.config.reissueBearerToken(previousBearerToken as never))
-  const newBearerToken = await encodeToken(newBearerTokenData, previousBearerToken.sub)
+  const newBearerTokenData = await plugin.config.reissueBearerToken(previousBearerToken)
+  const newBearerToken = await encodeToken(newBearerTokenData as Zemble.TokenRegistry[keyof Zemble.TokenRegistry], previousBearerToken.sub)
 
   if (plugin.config.cookies.isEnabled) {
     setBearerTokenCookie(honoContext, bearerToken)
@@ -27,6 +27,6 @@ export const refreshToken: NonNullable<MutationResolvers['refreshToken']> = asyn
   return {
     __typename: 'NewTokenSuccessResponse',
     bearerToken: newBearerToken,
-    refreshToken: await generateRefreshToken(previousBearerToken.sub),
+    refreshToken: await generateRefreshToken({ sub: previousBearerToken.sub }),
   }
 }

@@ -10,5 +10,6 @@ test('Should verify JWT', async () => {
   expect(token).toEqual({
     iat: expect.any(Number),
     iss: '@zemble/auth',
+    sub: 'dsf',
   })
 })

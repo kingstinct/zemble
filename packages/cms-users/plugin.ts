@@ -8,7 +8,7 @@ import mongodb from '@zemble/mongodb'
 
 import { PermissionType, User, connect } from './clients/papr'
 
-import type { DependenciesResolver } from '@zemble/core'
+import type { DependenciesResolver, BaseToken } from '@zemble/core'
 
 interface CmsConfig extends Zemble.GlobalConfig {
 
@@ -21,7 +21,7 @@ const defaultConfig = {
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-    interface OtpToken {
+    interface OtpToken extends BaseToken {
       readonly id: string
       readonly type: 'cms-user'
       readonly email: string,
@@ -90,6 +90,7 @@ const plugin = new Plugin(import.meta.dir,
                 id: user!._id.toHexString(),
                 type: 'cms-user',
                 permissions: user!.permissions,
+                sub: user!._id.toHexString(),
               }
             },
           }),

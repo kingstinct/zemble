@@ -2,7 +2,7 @@ import { createClientConfig, createServerConfig } from '@zemble/graphql/codegen'
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-const defaultServerConfig = createServerConfig({ resolverGeneration: true })
+const defaultServerConfig = createServerConfig({ })
 const defaultClientConfig = createClientConfig({})
 
 const config: CodegenConfig = {

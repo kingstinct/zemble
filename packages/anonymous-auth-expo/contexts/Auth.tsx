@@ -7,8 +7,8 @@ import { useMutation } from 'urql'
 import { graphql } from '../gql'
 
 const Login = graphql(/* GraphQL */ `
-  mutation Login($username: String!) {
-    login(username: $username){
+  mutation Login {
+    login{
       token
     }
   }
@@ -35,9 +35,7 @@ export const SimpleAnonymousAuthProvider: React.FC<React.PropsWithChildren> = ({
     <AuthProvider setToken={setToken} token={token}>
       <SimpleAnonymousAuthContext.Provider value={useMemo(() => ({
         login: () => {
-          void login({
-            username: 'anonymous',
-          })
+          void login({})
         },
       }), [login])}
       >

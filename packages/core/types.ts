@@ -148,7 +148,12 @@ declare global {
   }
 }
 
-export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & JWTPayload | JWTPayload
+export interface BaseToken extends JWTPayload
+{
+  readonly sub: string
+}
+
+export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & BaseToken | BaseToken
 
 export type Dependency = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

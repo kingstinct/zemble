@@ -12,6 +12,7 @@ import type {
   YogaServerOptions, YogaInitialContext, GraphQLParams,
 } from 'graphql-yoga'
 import type { RedisOptions } from 'ioredis'
+import type { JWTPayload } from 'jose'
 
 interface GraphQLMiddlewareGlobalConfig {
   readonly graphqlSchemaTransforms?: SubschemaConfig['transforms']
@@ -52,7 +53,7 @@ declare global {
 
     interface GraphQLContext extends YogaInitialContext, GlobalContext {
       readonly token: string | undefined
-      readonly decodedToken: TokenContents | undefined
+      readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] | undefined
       readonly honoContext: RouteContext
       readonly logger: IStandardLogger
     }
@@ -78,7 +79,7 @@ declare global {
         & Record<
         keyof DirectiveArgs['includes'],
         ReadonlyArray<DirectiveArgs['includes'][keyof DirectiveArgs['includes']]>
-        > & TokenContents
+        > & TokenContents & JWTPayload
       }
   }
 }

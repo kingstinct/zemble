@@ -56,7 +56,7 @@ describe('Mutation.updatePermissions', () => {
       updatedAt: new Date(),
     })
 
-    const token = await signJwt({ data: { permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] } })
+    const token = await signJwt({ data: { permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] }, sub: 'test-id' })
 
     const { data } = await app.gqlRequest(UpdatePermissionsMutation, {
       userId: userId.toHexString(),
@@ -80,7 +80,7 @@ describe('Mutation.updatePermissions', () => {
 
     const userId = '650302fb3593982221caf2e4'
 
-    const token = await signJwt({ data: { permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] } })
+    const token = await signJwt({ data: { permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] }, sub: '1' })
 
     const { errors } = await app.gqlRequest(UpdatePermissionsMutation, {
       userId,
@@ -105,7 +105,7 @@ describe('Mutation.updatePermissions', () => {
     // 2. refetch permissions on every request for older tokens
     // 3. implement some kind of refresh mechanism (getting a new token with the right permissions, but without logging
     // in again)
-    const token = await signJwt({ data: { id: userId, permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] } })
+    const token = await signJwt({ data: { id: userId, permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] }, sub: '1' })
 
     const { errors } = await app.gqlRequest(UpdatePermissionsMutation, {
       userId,
