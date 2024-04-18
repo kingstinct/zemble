@@ -6,7 +6,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 import type { Types } from '@graphql-codegen/plugin-helpers'
 
 const defaultSchema: Types.InstanceOrArray<Types.Schema> = [
-  `./graphql/**/*.graphql`,
+  `./**/*.graphql`,
   '!./graphql/client.generated/**/*',
 ]
 export const defaultClientOutputPath = `./graphql/client.generated/` as const

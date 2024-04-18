@@ -14,7 +14,7 @@
     "test": "bun test",
     "dev": "bun --hot serve.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen"
+    "codegen": "bunx zemble-app-graphql-codegen app.ts && graphql-codegen"
   },
   "devDependencies": {
     "@types/bun": "*",
