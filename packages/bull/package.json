@@ -34,6 +34,7 @@
   "license": "ISC",
   "dependencies": {
     "@bull-board/api": "^5.16.0",
+    "@types/ejs": "^3.1.5",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "bullmq": "^5.7.2",
@@ -46,7 +47,6 @@
     "zemble-plugin-auth": "workspace:*"
   },
   "devDependencies": {
-    "@types/ejs": "^3.1.5",
     "@types/bun": "*"
   }
 }

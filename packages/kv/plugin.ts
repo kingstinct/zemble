@@ -1,10 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { KeyValue, Plugin, setupProvider } from '@zemble/core'
 
-import CloudflareKeyValue from './clients/CloudFlareKeyValue'
 import RedisKeyValue from './clients/RedisKeyValue'
 
-import type { KVNamespace } from '@cloudflare/workers-types'
 import type { IStandardKeyValueService } from '@zemble/core'
 import type { RedisOptions } from 'ioredis'
 
@@ -12,7 +10,6 @@ interface KeyValueConfig {
   readonly implementation?: 'in-memory' | 'redis' | 'cloudflare';
   readonly redisOptions?: RedisOptions
   readonly redisUrl?: string
-  readonly cloudflareNamespace?: KVNamespace
 }
 
 const defaultConfig = {
@@ -47,12 +44,7 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
             T extends Zemble.KVPrefixes[K],
             K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes
           >(prefix: K) {
-            if (initWithConfig.implementation === 'cloudflare') {
-              if (initWithConfig.cloudflareNamespace) {
-                return new CloudflareKeyValue<T>(initWithConfig.cloudflareNamespace!, prefix as string)
-              }
-              logger.warn('cloudflareNamespace is required for cloudflare implementation')
-            } else if (initWithConfig.implementation === 'redis') {
+            if (initWithConfig.implementation === 'redis') {
               if (initWithConfig.redisUrl) {
                 return new RedisKeyValue<T>(
                   prefix as string,
