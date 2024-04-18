@@ -1,3 +1,5 @@
+import { test, expect } from 'bun:test'
+
 import {
   parseEnvBoolean, parseEnvEnum, parseEnvJSON, parseEnvNumber,
 } from './parseEnv'

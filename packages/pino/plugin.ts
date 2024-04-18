@@ -2,7 +2,6 @@
 /* eslint-disable functional/immutable-data */
 import { Plugin } from '@zemble/core'
 import pino from 'pino'
-// @ts-expect-error no types available
 // eslint-disable-next-line import/no-extraneous-dependencies
 import pinoDebug from 'pino-debug'
 

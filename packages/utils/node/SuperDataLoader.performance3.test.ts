@@ -1,3 +1,6 @@
+import {
+  describe, it, expect,
+} from 'bun:test'
 /* eslint-disable no-console */
 import DataLoader from 'dataloader'
 

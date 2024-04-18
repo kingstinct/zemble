@@ -2,7 +2,6 @@ import { Repeater } from 'graphql-yoga'
 
 import type { LogOutput, QueryResolvers } from '../schema.generated'
 
-// @ts-expect-error fix later
 const loggerStreamer: QueryResolvers['logger'] = (_, __, { pubsub, logger }) => new Repeater<LogOutput>(async (push, stop) => {
   let hasStopped = false
 

@@ -47,7 +47,7 @@
     "zemble-plugin-logger-graphql": "workspace:*"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.2",
-    "typescript": "^5.4.2"
+    "@tsconfig/node20": "^20.1.4",
+    "typescript": "^5.4.5"
   }
 }

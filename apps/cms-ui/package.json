@@ -18,8 +18,8 @@
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/netinfo": "^9.4.1",
     "@react-navigation/native": "^6.1.9",
-    "@types/react": "^18.2.66",
-    "@urql/core": "4",
+    "@types/react": "^18.2.79",
+    "@urql/core": "5",
     "expo": "^49.0.21",
     "expo-constants": "~14.4.2",
     "expo-haptics": "^12.6.0",
@@ -29,11 +29,11 @@
     "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "^1.7.1",
     "expo-system-ui": "^2.6.0",
-    "graphql-ws": "^5.15.0",
+    "graphql-ws": "^5.16.0",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.51.0",
+    "react-hook-form": "^7.51.3",
     "react-native": "~0.72.4",
     "react-native-gesture-handler": "^2.14.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
@@ -45,14 +45,14 @@
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "^0.19.8",
     "recursive": "^0.0.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.4.5",
     "urql": "4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
+    "@babel/core": "^7.24.4",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.2.4"
+    "@graphql-codegen/client-preset": "^4.2.5"
   },
   "private": true
 }

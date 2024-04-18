@@ -71,7 +71,6 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
 
     const router = new Hono<HonoEnv>()
     routes.forEach((route) => {
-      // @ts-expect-error hey
       router[route.method.toString().toLowerCase()](route.route.toString(), async (c: Context) => {
         try {
           const response = await route.handler({

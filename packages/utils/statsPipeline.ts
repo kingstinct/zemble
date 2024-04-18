@@ -80,7 +80,7 @@ export class StatsPipeline<
   }
 
   get percentileSetStage() {
-    return this.stats.some((s) => isPercentile(s)) ? [
+    return this.stats.some(isPercentile) ? [
       {
         $set: {
           rawValue: {

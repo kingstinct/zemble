@@ -25,7 +25,7 @@ module.exports = {
       ],
     },
     {
-      extends: ['./jest.js'],
+      extends: ['./test.js'],
       files: [
         '**/test/**', '**/tests/**', '**/__tests__/**', 'test/**', '**/*.test.ts', '**/*.test.tsx', '**/*.test.js', '**/*.test.jsx', '**/jest.setup.ts', '**/jest.setup.js',
       ],
