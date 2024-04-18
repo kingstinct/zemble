@@ -12,8 +12,9 @@ import type {
 } from '../schema.generated'
 
 const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
-  email, code,
+  email: emailIn, code,
 }, { honoContext }) => {
+  const email = emailIn.toLowerCase().trim()
   if (!isValidEmail(email)) {
     return { __typename: 'EmailNotValidError', message: 'Email not valid' }
   }

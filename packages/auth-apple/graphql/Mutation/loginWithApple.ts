@@ -43,7 +43,7 @@ const loginConfirm: MutationResolvers['loginWithApple'] = async (_, {
   return {
     __typename: 'AppleLoginResponse',
     bearerToken,
-    refreshToken: await generateRefreshToken(),
+    refreshToken: await generateRefreshToken(idToken.sub),
   }
 }
 

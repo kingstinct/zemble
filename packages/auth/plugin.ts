@@ -18,6 +18,7 @@ import type {
 } from 'graphql'
 import type { Context } from 'hono'
 import type { CookieOptions } from 'hono/utils/cookie'
+import type { JWTPayload } from 'jose'
 
 const ISSUER = process.env.ISSUER ?? 'zemble-plugin-auth'
 
@@ -104,20 +105,20 @@ const defaultConfig = {
   ISSUER,
   headerName: 'authorization',
   bearerTokenExpiryInSeconds: 60 * 60 * 1, // 1 hour
-  checkTokenValidity: async (sub, token) => {
-    const isInvalid = await plugin.providers.kv('invalid-tokens').get(`${sub}:${token}`)
+  checkTokenValidity: async (token, decodedToken) => {
+    // we need to force sub to be set for all tokens for this to work
+    const isInvalid = await plugin.providers.kv('invalid-tokens').get(`${(decodedToken as JWTPayload).sub}:${token}`)
     if (isInvalid) {
       return false
     }
 
-    const wasInvalidatedAt = await plugin.providers.kv('tokens-invalidated-at').get(sub)
+    /* const wasInvalidatedAt = await plugin.providers.kv('tokens-invalidated-at').get(sub)
     if (wasInvalidatedAt) {
       return new Date(wasInvalidatedAt) > new Date()
-    }
+    } */
 
     return true
   },
-  // todo - implement invalidation in auth plugin
   invalidateAllTokens: async (sub) => {
     await plugin.providers.kv('tokens-invalidated-at').set(sub, new Date().toString())
   },

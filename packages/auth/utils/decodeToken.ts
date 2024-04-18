@@ -8,7 +8,7 @@ export const decodeToken = async (token: string, publicKey?: string | undefined,
   const decodedToken = await verifyJwt(token, publicKey, opts) as TokenContents
 
   if (plugin.config.checkTokenValidity && decodedToken.sub) {
-    const isValid = await plugin.config.checkTokenValidity(decodedToken.sub, token)
+    const isValid = await plugin.config.checkTokenValidity(token, decodedToken)
     if (!isValid) {
       throw new Error('Token has been invalidated')
     }

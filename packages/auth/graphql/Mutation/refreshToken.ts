@@ -8,13 +8,17 @@ import { verifyJwt } from '../../utils/verifyJwt'
 import type { MutationResolvers } from '../schema.generated'
 
 export const refreshToken: NonNullable<MutationResolvers['refreshToken']> = async (_parent, { bearerToken, refreshToken }, { honoContext }) => {
-  await verifyJwt(refreshToken)
-
   const previousBearerToken = await decodeToken(bearerToken, undefined, { currentDate: new Date(0) })
+
+  if (!previousBearerToken.sub) {
+    throw new Error('Token doesn\'t contain a sub field, cant reissue')
+  }
+
+  await verifyJwt(refreshToken, undefined, { subject: previousBearerToken.sub })
 
   // eslint-disable-next-line @typescript-eslint/await-thenable, @typescript-eslint/no-unsafe-argument
   const newBearerTokenData = (await plugin.config.reissueBearerToken(previousBearerToken as never))
-  const newBearerToken = await encodeToken(newBearerTokenData)
+  const newBearerToken = await encodeToken(newBearerTokenData, previousBearerToken.sub)
 
   if (plugin.config.cookies.isEnabled) {
     setBearerTokenCookie(honoContext, bearerToken)
@@ -23,6 +27,6 @@ export const refreshToken: NonNullable<MutationResolvers['refreshToken']> = asyn
   return {
     __typename: 'NewTokenSuccessResponse',
     bearerToken: newBearerToken,
-    refreshToken: await generateRefreshToken(),
+    refreshToken: await generateRefreshToken(previousBearerToken.sub),
   }
 }

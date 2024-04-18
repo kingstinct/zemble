@@ -1,6 +1,8 @@
 import { signJwt } from './signJwt'
 
-export const encodeToken = async (data: Zemble.TokenRegistry[keyof Zemble.TokenRegistry]) => {
-  const token = await signJwt({ data })
+import type { TokenContents } from '@zemble/core'
+
+export const encodeToken = async (data: TokenContents, sub: string) => {
+  const token = await signJwt({ data, sub })
   return token
 }

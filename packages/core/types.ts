@@ -148,7 +148,7 @@ declare global {
   }
 }
 
-export type TokenContents = { readonly payload: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] } & JWTPayload
+export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & JWTPayload | JWTPayload
 
 export type Dependency = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
