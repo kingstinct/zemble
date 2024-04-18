@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-kv",
+  "name": "@zemble/kv",
   "version": "0.0.40",
   "description": "@zemble Plugin that provides a single KV interface for in-memory, Redis, and Cloudflare KV",
   "main": "plugin.ts",
@@ -44,6 +44,6 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240405.0",
-    "zemble-plugin-auth-api-token": "workspace:*"
+    "@zemble/auth-api-token": "workspace:*"
   }
 }

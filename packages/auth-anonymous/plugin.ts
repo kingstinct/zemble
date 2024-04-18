@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
+import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
-import Auth from 'zemble-plugin-auth'
 
 declare global {
   namespace Zemble {

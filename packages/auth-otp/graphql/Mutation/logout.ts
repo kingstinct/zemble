@@ -1,5 +1,5 @@
+import Auth from '@zemble/auth'
 import { deleteCookie } from 'hono/cookie'
-import Auth from 'zemble-plugin-auth'
 
 import type { MutationResolvers } from '../schema.generated'
 import type { Context } from 'hono'

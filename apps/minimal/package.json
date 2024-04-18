@@ -40,11 +40,11 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/migrations": "workspace:*",
     "@zemble/bun": "workspace:*",
-    "zemble-plugin-auth": "workspace:*",
+    "@zemble/auth": "workspace:*",
     "@zemble/routes": "workspace:*",
     "@zemble/pino": "workspace:*",
-    "zemble-plugin-bull": "workspace:*",
-    "zemble-plugin-logger-graphql": "workspace:*"
+    "@zemble/bull": "workspace:*",
+    "@zemble/logger-graphql": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",

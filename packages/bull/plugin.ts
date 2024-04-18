@@ -17,7 +17,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
-      readonly ['zemble-plugin-bull']?: {
+      readonly ['@zemble/bull']?: {
         readonly disable?: boolean
       }
     }
@@ -48,7 +48,7 @@ const defaults = {
   redisUrl: process.env.REDIS_URL,
   middleware: {
     '@zemble/graphql': { disable: true },
-    'zemble-plugin-bull': { disable: true },
+    '@zemble/bull': { disable: true },
   },
 } satisfies BullPluginConfig
 
@@ -66,7 +66,7 @@ export default new Plugin<BullPluginConfig>(import.meta.dir, {
 
     const allQueues = [
       ...(await Promise.all(app.plugins.map(async ({ pluginPath, config }) => {
-        if (!config.middleware?.['zemble-plugin-bull']?.disable) {
+        if (!config.middleware?.['@zemble/bull']?.disable) {
           return setupQueues(pluginPath, pubsub, config, logger)
         }
         return []

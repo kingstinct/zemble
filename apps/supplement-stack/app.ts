@@ -1,7 +1,7 @@
+import AuthOTP from '@zemble/auth-otp'
 import bunRunner from '@zemble/bun'
 import zembleContext from '@zemble/core/zembleContext'
 import YogaGraphQL from '@zemble/graphql'
-import AuthOTP from 'zemble-plugin-auth-otp'
 
 import { connect } from './clients/papr'
 import { Users } from './models'

@@ -6,9 +6,9 @@
 
 - dc07e09: Add graphql resolver generation
 - Updated dependencies [dc07e09]
-  - zemble-plugin-auth-anonymous-expo@0.0.6
-  - zemble-plugin-auth-expo@0.0.6
-  - zemble-plugin-todo-ui@0.0.6
+  - @zemble/auth-anonymous-expo@0.0.6
+  - @zemble/auth-expo@0.0.6
+  - @zemble/todo-ui@0.0.6
 
 ## 0.0.6
 
@@ -24,9 +24,9 @@
 - Fix appPlugin, remove tsconfigs from published packages
 - Updated dependencies [fa6d720]
 - Updated dependencies
-  - zemble-plugin-auth-anonymous-expo@0.0.5
-  - zemble-plugin-auth-expo@0.0.5
-  - zemble-plugin-todo-ui@0.0.5
+  - @zemble/auth-anonymous-expo@0.0.5
+  - @zemble/auth-expo@0.0.5
+  - @zemble/todo-ui@0.0.5
 
 ## 0.0.4
 
@@ -34,9 +34,9 @@
 
 - 86d9288: Add resend, utils and react
 - Updated dependencies [86d9288]
-  - zemble-plugin-auth-anonymous-expo@0.0.4
-  - zemble-plugin-auth-expo@0.0.4
-  - zemble-plugin-todo-ui@0.0.4
+  - @zemble/auth-anonymous-expo@0.0.4
+  - @zemble/auth-expo@0.0.4
+  - @zemble/todo-ui@0.0.4
 
 ## 0.0.3
 
@@ -44,9 +44,9 @@
 
 - Add @zemble/migrations, fixes across the board
 - Updated dependencies
-  - zemble-plugin-auth-anonymous-expo@0.0.3
-  - zemble-plugin-auth-expo@0.0.3
-  - zemble-plugin-todo-ui@0.0.3
+  - @zemble/auth-anonymous-expo@0.0.3
+  - @zemble/auth-expo@0.0.3
+  - @zemble/todo-ui@0.0.3
 
 ## 0.0.2
 
@@ -54,6 +54,6 @@
 
 - real deps
 - Updated dependencies
-  - zemble-plugin-auth-anonymous-expo@0.0.2
-  - zemble-plugin-auth-expo@0.0.2
-  - zemble-plugin-todo-ui@0.0.2
+  - @zemble/auth-anonymous-expo@0.0.2
+  - @zemble/auth-expo@0.0.2
+  - @zemble/todo-ui@0.0.2

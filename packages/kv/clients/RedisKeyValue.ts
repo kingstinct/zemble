@@ -36,7 +36,7 @@ class RedisKeyValue<T> extends IStandardKeyValueService<T> {
       { redis: redisOptions, logger },
     )
 
-    this.prefix = `zemble-plugin-kv:${prefix}`
+    this.prefix = `@zemble/kv:${prefix}`
   }
 
   private getPrefixedKey(key: string): string {

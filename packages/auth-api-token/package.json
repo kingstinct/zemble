@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-auth-api-token",
+  "name": "@zemble/auth-api-token",
   "version": "0.0.41",
   "description": "Zemble Plugin providing simple API token authentication",
   "main": "plugin.ts",
@@ -39,6 +39,6 @@
     "graphql-scalars": "^1.23.0",
     "hono": "^4.2.5",
     "jose": "^5.2.4",
-    "zemble-plugin-auth": "workspace:*"
+    "@zemble/auth": "workspace:*"
   }
 }

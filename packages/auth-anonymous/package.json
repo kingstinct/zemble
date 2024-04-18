@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-auth-anonymous",
+  "name": "@zemble/auth-anonymous",
   "version": "0.0.39",
   "description": "Zemble Plugin providing Anonymous Auth support",
   "main": "plugin.ts",
@@ -27,6 +27,6 @@
     "@zemble/graphql": "workspace:*",
     "@whatwg-node/server-plugin-cookies": "^1.0.2",
     "graphql": "^16.8.1",
-    "zemble-plugin-auth": "workspace:*"
+    "@zemble/auth": "workspace:*"
   }
 }

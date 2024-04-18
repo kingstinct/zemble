@@ -1,8 +1,8 @@
+import AuthContext from '@zemble/auth-expo/contexts/Auth'
 import { useContext, useMemo } from 'react'
 import {
   Provider, fetchExchange, createClient,
 } from 'urql'
-import AuthContext from 'zemble-plugin-auth-expo/contexts/Auth'
 
 import { GRAPHQL_ENDPOINT } from '../config'
 
@@ -30,7 +30,7 @@ const createUrqlClient = (token: string | null, transformer: typeof bearerTokenC
   exchanges: [fetchExchange],
 }, token))
 
-const UrqlProvider: React.FC<PropsWithChildren<{readonly configTransformer?: typeof bearerTokenConfigTransformer}>> = ({ children, configTransformer }) => {
+const UrqlProvider: React.FC<PropsWithChildren<{ readonly configTransformer?: typeof bearerTokenConfigTransformer }>> = ({ children, configTransformer }) => {
   const { token } = useContext(AuthContext)
   const client = useMemo(() => createUrqlClient(token, configTransformer ?? bearerTokenConfigTransformer), [token, configTransformer])
 

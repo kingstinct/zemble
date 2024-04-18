@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable react-hooks/rules-of-hooks */
 
+import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
-import Auth from 'zemble-plugin-auth'
-import kv from 'zemble-plugin-kv'
+import kv from '@zemble/kv'
 
 import { simpleTemplating } from './utils/simpleTemplating'
 

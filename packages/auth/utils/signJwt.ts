@@ -7,7 +7,7 @@ export async function signJwt<T extends object>({ data, expiresInSeconds, privat
   const actualPrivateKey = privateKey ?? PRIVATE_KEY ?? process.env.PRIVATE_KEY
 
   if (!actualPrivateKey) {
-    throw new Error('[zemble-plugin-auth] PRIVATE_KEY is not set, please set it as an environment variable or in the plugin config')
+    throw new Error('[@zemble/auth] PRIVATE_KEY is not set, please set it as an environment variable or in the plugin config')
   }
 
   const ecPrivateKey = await jose.importPKCS8(actualPrivateKey, 'RS256')

@@ -1,9 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import { setupEnvOverride, resetEnv } from '@zemble/auth/test-utils'
+import cmsPapr from '@zemble/cms/clients/papr'
 import { createTestApp } from '@zemble/core/test-utils'
 import zembleContext from '@zemble/core/zembleContext'
 import { startInMemoryInstanceAndConfigurePlugin, closeAndStopInMemoryInstance, emptyAllCollections } from '@zemble/mongodb/test-utils'
-import { setupEnvOverride, resetEnv } from 'zemble-plugin-auth/test-utils'
-import cmsPapr from 'zemble-plugin-cms/clients/papr'
 
 import { connect, disconnect } from './clients/papr'
 import plugin from './plugin'

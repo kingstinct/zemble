@@ -1,11 +1,11 @@
+import Bull from '@zemble/bull'
 import { createApp } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
+import GraphQLLogger from '@zemble/logger-graphql'
 import Migrations from '@zemble/migrations'
 import dryrunAdapter from '@zemble/migrations/adapters/dryrun'
 import Logger from '@zemble/pino'
 import Routes from '@zemble/routes'
-import Bull from 'zemble-plugin-bull'
-import GraphQLLogger from 'zemble-plugin-logger-graphql'
 
 import MyRoutes from './plugins/files/plugin'
 

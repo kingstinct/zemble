@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign, functional/immutable-data */
+import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import Routes from '@zemble/routes'
-import Auth from 'zemble-plugin-auth'
 
 import { createSupabaseServerClient } from './clients/createSupabaseServerClient'
 import { decodeToken } from './decodeToken'

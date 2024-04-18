@@ -1,8 +1,8 @@
+import { AuthProvider } from '@zemble/auth-expo/contexts/Auth'
 import {
   createContext, useEffect, useMemo, useState,
 } from 'react'
 import { useMutation } from 'urql'
-import { AuthProvider } from 'zemble-plugin-auth-expo/contexts/Auth'
 
 import { graphql } from '../gql'
 
@@ -15,7 +15,7 @@ const Login = graphql(/* GraphQL */ `
 `)
 
 export const SimpleAnonymousAuthContext = createContext({
-  login: () => {},
+  login: () => { },
 })
 
 export const SimpleAnonymousAuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {

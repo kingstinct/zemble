@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import { signJwt } from '@zemble/auth/utils/signJwt'
 import { GraphQLError } from 'graphql'
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
 

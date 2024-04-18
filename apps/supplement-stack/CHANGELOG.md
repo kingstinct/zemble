@@ -5,12 +5,12 @@
 ### Patch Changes
 
 - Updated dependencies [67e139d]
-  - zemble-plugin-auth-otp@0.0.42
-  - zemble-plugin-bull@0.1.5
+  - @zemble/auth-otp@0.0.42
+  - @zemble/bull@0.1.5
   - @zemble/core@0.1.11
   - @zemble/graphql@0.0.42
-  - zemble-plugin-todo@0.0.39
-  - zemble-plugin-apple-app-site-association@0.0.27
+  - @zemble/todo@0.0.39
+  - @zemble/apple-app-site-association@0.0.27
   - @zemble/bun@0.0.22
 
 ## 0.0.43
@@ -19,12 +19,12 @@
 
 - Updated dependencies [80c3df0]
   - @zemble/core@0.1.10
-  - zemble-plugin-apple-app-site-association@0.0.26
-  - zemble-plugin-auth-otp@0.0.41
-  - zemble-plugin-bull@0.1.4
+  - @zemble/apple-app-site-association@0.0.26
+  - @zemble/auth-otp@0.0.41
+  - @zemble/bull@0.1.4
   - @zemble/bun@0.0.21
   - @zemble/graphql@0.0.41
-  - zemble-plugin-todo@0.0.38
+  - @zemble/todo@0.0.38
 
 ## 0.0.42
 
@@ -32,10 +32,10 @@
 
 - Updated dependencies [9b7e7de]
   - @zemble/core@0.1.9
-  - zemble-plugin-auth-otp@0.0.40
-  - zemble-plugin-bull@0.1.3
-  - zemble-plugin-todo@0.0.37
-  - zemble-plugin-apple-app-site-association@0.0.25
+  - @zemble/auth-otp@0.0.40
+  - @zemble/bull@0.1.3
+  - @zemble/todo@0.0.37
+  - @zemble/apple-app-site-association@0.0.25
   - @zemble/bun@0.0.20
   - @zemble/graphql@0.0.40
 
@@ -46,12 +46,12 @@
 - dc07e09: Add graphql resolver generation
 - Updated dependencies [dc07e09]
 - Updated dependencies [dc07e09]
-  - zemble-plugin-auth-otp@0.0.39
+  - @zemble/auth-otp@0.0.39
   - @zemble/graphql@0.0.39
-  - zemble-plugin-bull@0.1.2
+  - @zemble/bull@0.1.2
   - @zemble/core@0.1.8
-  - zemble-plugin-todo@0.0.36
-  - zemble-plugin-apple-app-site-association@0.0.24
+  - @zemble/todo@0.0.36
+  - @zemble/apple-app-site-association@0.0.24
   - @zemble/bun@0.0.19
 
 ## 0.0.40
@@ -60,30 +60,30 @@
 
 - b6ef55d: added new job functions
 - Updated dependencies [b6ef55d]
-  - zemble-plugin-bull@0.1.1
+  - @zemble/bull@0.1.1
 
 ## 0.0.39
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-bull@0.1.0
+  - @zemble/bull@0.1.0
 
 ## 0.0.38
 
 ### Patch Changes
 
 - Updated dependencies [9d84a4d]
-  - zemble-plugin-auth-otp@0.0.38
-  - zemble-plugin-bull@0.0.39
-  - zemble-plugin-todo@0.0.35
+  - @zemble/auth-otp@0.0.38
+  - @zemble/bull@0.0.39
+  - @zemble/todo@0.0.35
 
 ## 0.0.37
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-auth-otp@0.0.37
+  - @zemble/auth-otp@0.0.37
 
 ## 0.0.36
 
@@ -91,12 +91,12 @@
 
 - Updated dependencies
   - @zemble/core@0.1.7
-  - zemble-plugin-apple-app-site-association@0.0.23
-  - zemble-plugin-auth-otp@0.0.36
-  - zemble-plugin-bull@0.0.38
+  - @zemble/apple-app-site-association@0.0.23
+  - @zemble/auth-otp@0.0.36
+  - @zemble/bull@0.0.38
   - @zemble/bun@0.0.18
   - @zemble/graphql@0.0.38
-  - zemble-plugin-todo@0.0.34
+  - @zemble/todo@0.0.34
 
 ## 0.0.35
 
@@ -104,9 +104,9 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.37
-  - zemble-plugin-auth-otp@0.0.35
-  - zemble-plugin-bull@0.0.37
-  - zemble-plugin-todo@0.0.33
+  - @zemble/auth-otp@0.0.35
+  - @zemble/bull@0.0.37
+  - @zemble/todo@0.0.33
 
 ## 0.0.34
 
@@ -114,9 +114,9 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.36
-  - zemble-plugin-auth-otp@0.0.34
-  - zemble-plugin-bull@0.0.36
-  - zemble-plugin-todo@0.0.32
+  - @zemble/auth-otp@0.0.34
+  - @zemble/bull@0.0.36
+  - @zemble/todo@0.0.32
 
 ## 0.0.33
 
@@ -124,12 +124,12 @@
 
 - Updated dependencies
   - @zemble/core@0.1.6
-  - zemble-plugin-apple-app-site-association@0.0.22
-  - zemble-plugin-auth-otp@0.0.33
-  - zemble-plugin-bull@0.0.35
+  - @zemble/apple-app-site-association@0.0.22
+  - @zemble/auth-otp@0.0.33
+  - @zemble/bull@0.0.35
   - @zemble/bun@0.0.17
   - @zemble/graphql@0.0.35
-  - zemble-plugin-todo@0.0.31
+  - @zemble/todo@0.0.31
 
 ## 0.0.32
 
@@ -137,12 +137,12 @@
 
 - Updated dependencies [2fc60c4]
   - @zemble/core@0.1.5
-  - zemble-plugin-apple-app-site-association@0.0.21
-  - zemble-plugin-auth-otp@0.0.32
-  - zemble-plugin-bull@0.0.34
+  - @zemble/apple-app-site-association@0.0.21
+  - @zemble/auth-otp@0.0.32
+  - @zemble/bull@0.0.34
   - @zemble/bun@0.0.16
   - @zemble/graphql@0.0.34
-  - zemble-plugin-todo@0.0.30
+  - @zemble/todo@0.0.30
 
 ## 0.0.31
 
@@ -154,11 +154,11 @@
 - Updated dependencies [86d9288]
   - @zemble/core@0.1.4
   - @zemble/graphql@0.0.33
-  - zemble-plugin-auth-otp@0.0.31
-  - zemble-plugin-bull@0.0.33
-  - zemble-plugin-apple-app-site-association@0.0.20
+  - @zemble/auth-otp@0.0.31
+  - @zemble/bull@0.0.33
+  - @zemble/apple-app-site-association@0.0.20
   - @zemble/bun@0.0.15
-  - zemble-plugin-todo@0.0.29
+  - @zemble/todo@0.0.29
 
 ## 0.0.30
 
@@ -168,10 +168,10 @@
   - @zemble/graphql@0.0.32
   - @zemble/core@0.1.3
   - @zemble/bun@0.0.14
-  - zemble-plugin-auth-otp@0.0.30
-  - zemble-plugin-bull@0.0.32
-  - zemble-plugin-todo@0.0.28
-  - zemble-plugin-apple-app-site-association@0.0.19
+  - @zemble/auth-otp@0.0.30
+  - @zemble/bull@0.0.32
+  - @zemble/todo@0.0.28
+  - @zemble/apple-app-site-association@0.0.19
 
 ## 0.0.29
 
@@ -179,9 +179,9 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.31
-  - zemble-plugin-auth-otp@0.0.29
-  - zemble-plugin-bull@0.0.31
-  - zemble-plugin-todo@0.0.27
+  - @zemble/auth-otp@0.0.29
+  - @zemble/bull@0.0.31
+  - @zemble/todo@0.0.27
 
 ## 0.0.28
 
@@ -189,9 +189,9 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.30
-  - zemble-plugin-auth-otp@0.0.28
-  - zemble-plugin-bull@0.0.30
-  - zemble-plugin-todo@0.0.26
+  - @zemble/auth-otp@0.0.28
+  - @zemble/bull@0.0.30
+  - @zemble/todo@0.0.26
 
 ## 0.0.27
 
@@ -199,9 +199,9 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.29
-  - zemble-plugin-auth-otp@0.0.27
-  - zemble-plugin-bull@0.0.29
-  - zemble-plugin-todo@0.0.25
+  - @zemble/auth-otp@0.0.27
+  - @zemble/bull@0.0.29
+  - @zemble/todo@0.0.25
 
 ## 0.0.26
 
@@ -209,9 +209,9 @@
 
 - Updated dependencies [7bb5510]
   - @zemble/graphql@0.0.28
-  - zemble-plugin-auth-otp@0.0.26
-  - zemble-plugin-bull@0.0.28
-  - zemble-plugin-todo@0.0.24
+  - @zemble/auth-otp@0.0.26
+  - @zemble/bull@0.0.28
+  - @zemble/todo@0.0.24
 
 ## 0.0.25
 
@@ -220,10 +220,10 @@
 - Updated dependencies
   - @zemble/graphql@0.0.27
   - @zemble/core@0.1.2
-  - zemble-plugin-auth-otp@0.0.25
-  - zemble-plugin-bull@0.0.27
-  - zemble-plugin-todo@0.0.23
-  - zemble-plugin-apple-app-site-association@0.0.18
+  - @zemble/auth-otp@0.0.25
+  - @zemble/bull@0.0.27
+  - @zemble/todo@0.0.23
+  - @zemble/apple-app-site-association@0.0.18
   - @zemble/bun@0.0.13
 
 ## 0.0.24
@@ -232,12 +232,12 @@
 
 - 1263fb6: Streamline logging
 - Updated dependencies [1263fb6]
-  - zemble-plugin-auth-otp@0.0.24
+  - @zemble/auth-otp@0.0.24
   - @zemble/core@0.1.1
   - @zemble/graphql@0.0.26
-  - zemble-plugin-bull@0.0.26
-  - zemble-plugin-todo@0.0.22
-  - zemble-plugin-apple-app-site-association@0.0.17
+  - @zemble/bull@0.0.26
+  - @zemble/todo@0.0.22
+  - @zemble/apple-app-site-association@0.0.17
   - @zemble/bun@0.0.12
 
 ## 0.0.23
@@ -246,19 +246,19 @@
 
 - Updated dependencies
   - @zemble/core@0.1.0
-  - zemble-plugin-apple-app-site-association@0.0.16
-  - zemble-plugin-auth-otp@0.0.23
-  - zemble-plugin-bull@0.0.25
+  - @zemble/apple-app-site-association@0.0.16
+  - @zemble/auth-otp@0.0.23
+  - @zemble/bull@0.0.25
   - @zemble/bun@0.0.11
   - @zemble/graphql@0.0.25
-  - zemble-plugin-todo@0.0.21
+  - @zemble/todo@0.0.21
 
 ## 0.0.22
 
 ### Patch Changes
 
 - Updated dependencies [6479619]
-  - zemble-plugin-bull@0.0.24
+  - @zemble/bull@0.0.24
 
 ## 0.0.21
 
@@ -266,9 +266,9 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.24
-  - zemble-plugin-bull@0.0.23
-  - zemble-plugin-auth-otp@0.0.22
-  - zemble-plugin-todo@0.0.20
+  - @zemble/bull@0.0.23
+  - @zemble/auth-otp@0.0.22
+  - @zemble/todo@0.0.20
 
 ## 0.0.20
 
@@ -276,25 +276,25 @@
 
 - Updated dependencies
   - @zemble/core@0.0.17
-  - zemble-plugin-apple-app-site-association@0.0.15
-  - zemble-plugin-auth-otp@0.0.21
-  - zemble-plugin-bull@0.0.22
+  - @zemble/apple-app-site-association@0.0.15
+  - @zemble/auth-otp@0.0.21
+  - @zemble/bull@0.0.22
   - @zemble/bun@0.0.10
   - @zemble/graphql@0.0.23
-  - zemble-plugin-todo@0.0.19
+  - @zemble/todo@0.0.19
 
 ## 0.0.19
 
 ### Patch Changes
 
 - Updated dependencies [627e87d]
-  - zemble-plugin-auth-otp@0.0.20
+  - @zemble/auth-otp@0.0.20
   - @zemble/core@0.0.16
-  - zemble-plugin-apple-app-site-association@0.0.14
-  - zemble-plugin-bull@0.0.21
+  - @zemble/apple-app-site-association@0.0.14
+  - @zemble/bull@0.0.21
   - @zemble/bun@0.0.9
   - @zemble/graphql@0.0.22
-  - zemble-plugin-todo@0.0.18
+  - @zemble/todo@0.0.18
 
 ## 0.0.18
 
@@ -302,9 +302,9 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.21
-  - zemble-plugin-auth-otp@0.0.19
-  - zemble-plugin-bull@0.0.20
-  - zemble-plugin-todo@0.0.17
+  - @zemble/auth-otp@0.0.19
+  - @zemble/bull@0.0.20
+  - @zemble/todo@0.0.17
 
 ## 0.0.17
 
@@ -312,19 +312,19 @@
 
 - Updated dependencies
   - @zemble/core@0.0.15
-  - zemble-plugin-apple-app-site-association@0.0.13
-  - zemble-plugin-auth-otp@0.0.18
-  - zemble-plugin-bull@0.0.19
+  - @zemble/apple-app-site-association@0.0.13
+  - @zemble/auth-otp@0.0.18
+  - @zemble/bull@0.0.19
   - @zemble/bun@0.0.8
   - @zemble/graphql@0.0.20
-  - zemble-plugin-todo@0.0.16
+  - @zemble/todo@0.0.16
 
 ## 0.0.16
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-bull@0.0.18
+  - @zemble/bull@0.0.18
 
 ## 0.0.15
 
@@ -332,9 +332,9 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.19
-  - zemble-plugin-auth-otp@0.0.17
-  - zemble-plugin-bull@0.0.17
-  - zemble-plugin-todo@0.0.15
+  - @zemble/auth-otp@0.0.17
+  - @zemble/bull@0.0.17
+  - @zemble/todo@0.0.15
 
 ## 0.0.14
 
@@ -342,13 +342,13 @@
 
 - Add @zemble/migrations, fixes across the board
 - Updated dependencies
-  - zemble-plugin-apple-app-site-association@0.0.12
-  - zemble-plugin-auth-otp@0.0.16
-  - zemble-plugin-bull@0.0.16
+  - @zemble/apple-app-site-association@0.0.12
+  - @zemble/auth-otp@0.0.16
+  - @zemble/bull@0.0.16
   - @zemble/bun@0.0.7
   - @zemble/core@0.0.14
   - @zemble/graphql@0.0.18
-  - zemble-plugin-todo@0.0.14
+  - @zemble/todo@0.0.14
 
 ## 0.0.13
 
@@ -356,12 +356,12 @@
 
 - Updated dependencies
   - @zemble/core@0.0.13
-  - zemble-plugin-apple-app-site-association@0.0.11
-  - zemble-plugin-auth-otp@0.0.15
-  - zemble-plugin-bull@0.0.15
+  - @zemble/apple-app-site-association@0.0.11
+  - @zemble/auth-otp@0.0.15
+  - @zemble/bull@0.0.15
   - @zemble/bun@0.0.6
   - @zemble/graphql@0.0.17
-  - zemble-plugin-todo@0.0.13
+  - @zemble/todo@0.0.13
 
 ## 0.0.12
 
@@ -369,12 +369,12 @@
 
 - Updated dependencies
   - @zemble/core@0.0.12
-  - zemble-plugin-apple-app-site-association@0.0.10
-  - zemble-plugin-auth-otp@0.0.14
-  - zemble-plugin-bull@0.0.14
+  - @zemble/apple-app-site-association@0.0.10
+  - @zemble/auth-otp@0.0.14
+  - @zemble/bull@0.0.14
   - @zemble/bun@0.0.5
   - @zemble/graphql@0.0.16
-  - zemble-plugin-todo@0.0.12
+  - @zemble/todo@0.0.12
 
 ## 0.0.11
 
@@ -382,12 +382,12 @@
 
 - Updated dependencies
   - @zemble/core@0.0.11
-  - zemble-plugin-apple-app-site-association@0.0.9
-  - zemble-plugin-auth-otp@0.0.13
-  - zemble-plugin-bull@0.0.13
+  - @zemble/apple-app-site-association@0.0.9
+  - @zemble/auth-otp@0.0.13
+  - @zemble/bull@0.0.13
   - @zemble/bun@0.0.4
   - @zemble/graphql@0.0.15
-  - zemble-plugin-todo@0.0.11
+  - @zemble/todo@0.0.11
 
 ## 0.0.10
 
@@ -395,12 +395,12 @@
 
 - Updated dependencies
   - @zemble/core@0.0.10
-  - zemble-plugin-apple-app-site-association@0.0.8
-  - zemble-plugin-auth-otp@0.0.12
-  - zemble-plugin-bull@0.0.12
+  - @zemble/apple-app-site-association@0.0.8
+  - @zemble/auth-otp@0.0.12
+  - @zemble/bull@0.0.12
   - @zemble/bun@0.0.3
   - @zemble/graphql@0.0.14
-  - zemble-plugin-todo@0.0.10
+  - @zemble/todo@0.0.10
 
 ## 0.0.9
 
@@ -409,47 +409,47 @@
 - Updated dependencies
   - @zemble/bun@0.0.2
   - @zemble/core@0.0.9
-  - zemble-plugin-apple-app-site-association@0.0.7
-  - zemble-plugin-auth-otp@0.0.11
-  - zemble-plugin-bull@0.0.11
+  - @zemble/apple-app-site-association@0.0.7
+  - @zemble/auth-otp@0.0.11
+  - @zemble/bull@0.0.11
   - @zemble/graphql@0.0.13
-  - zemble-plugin-todo@0.0.9
+  - @zemble/todo@0.0.9
 
 ## 0.0.8
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-auth-otp@0.0.10
+  - @zemble/auth-otp@0.0.10
   - @zemble/core@0.0.8
   - @zemble/graphql@0.0.12
-  - zemble-plugin-apple-app-site-association@0.0.6
-  - zemble-plugin-bull@0.0.10
-  - zemble-plugin-todo@0.0.8
+  - @zemble/apple-app-site-association@0.0.6
+  - @zemble/bull@0.0.10
+  - @zemble/todo@0.0.8
 
 ## 0.0.7
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-bull@0.0.9
+  - @zemble/bull@0.0.9
   - @zemble/core@0.0.7
   - @zemble/graphql@0.0.11
-  - zemble-plugin-apple-app-site-association@0.0.5
-  - zemble-plugin-auth-otp@0.0.9
-  - zemble-plugin-todo@0.0.7
+  - @zemble/apple-app-site-association@0.0.5
+  - @zemble/auth-otp@0.0.9
+  - @zemble/todo@0.0.7
 
 ## 0.0.6
 
 ### Patch Changes
 
 - Updated dependencies [df7fa74]
-  - zemble-plugin-bull@0.0.8
+  - @zemble/bull@0.0.8
   - @zemble/core@0.0.6
   - @zemble/graphql@0.0.10
-  - zemble-plugin-apple-app-site-association@0.0.4
-  - zemble-plugin-auth-otp@0.0.8
-  - zemble-plugin-todo@0.0.6
+  - @zemble/apple-app-site-association@0.0.4
+  - @zemble/auth-otp@0.0.8
+  - @zemble/todo@0.0.6
 
 ## 0.0.5
 
@@ -458,10 +458,10 @@
 - Updated dependencies
   - @zemble/core@0.0.5
   - @zemble/graphql@0.0.9
-  - zemble-plugin-apple-app-site-association@0.0.3
-  - zemble-plugin-auth-otp@0.0.7
-  - zemble-plugin-bull@0.0.7
-  - zemble-plugin-todo@0.0.5
+  - @zemble/apple-app-site-association@0.0.3
+  - @zemble/auth-otp@0.0.7
+  - @zemble/bull@0.0.7
+  - @zemble/todo@0.0.5
 
 ## 0.0.4
 
@@ -469,28 +469,28 @@
 
 - Updated dependencies [d8c9842]
   - @zemble/graphql@0.0.8
-  - zemble-plugin-auth-otp@0.0.6
-  - zemble-plugin-bull@0.0.6
-  - zemble-plugin-todo@0.0.4
+  - @zemble/auth-otp@0.0.6
+  - @zemble/bull@0.0.6
+  - @zemble/todo@0.0.4
 
 ## 0.0.3
 
 ### Patch Changes
 
 - Updated dependencies [c92781c]
-  - zemble-plugin-bull@0.0.5
+  - @zemble/bull@0.0.5
   - @zemble/graphql@0.0.7
-  - zemble-plugin-auth-otp@0.0.5
-  - zemble-plugin-todo@0.0.3
+  - @zemble/auth-otp@0.0.5
+  - @zemble/todo@0.0.3
 
 ## 0.0.2
 
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-auth-otp@0.0.2
-  - zemble-plugin-bull@0.0.2
+  - @zemble/auth-otp@0.0.2
+  - @zemble/bull@0.0.2
   - @zemble/core@0.0.2
   - @zemble/graphql@0.0.2
-  - zemble-plugin-todo@0.0.2
-  - zemble-plugin-apple-app-site-association@0.0.2
+  - @zemble/todo@0.0.2
+  - @zemble/apple-app-site-association@0.0.2

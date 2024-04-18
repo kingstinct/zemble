@@ -113,8 +113,6 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
   ) => {
     const p = await prev
 
-    console.log('pluginWithMiddleware', pluginWithMiddleware.pluginName)
-
     const ret = await pluginWithMiddleware.initializeMiddleware?.({
       app: preInitApp,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
