@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-auth",
+  "name": "@zemble/auth",
   "version": "0.0.41",
   "description": "Zemble Plugin providing generic Auth Support",
   "main": "plugin.ts",
@@ -44,9 +44,9 @@
     "@zemble/bun": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.1",
-    "graphql-scalars": "^1.22.5",
-    "hono": "^4.1.0",
-    "jose": "^5.2.3",
-    "zemble-plugin-kv": "workspace:*"
+    "graphql-scalars": "^1.23.0",
+    "hono": "^4.2.5",
+    "jose": "^5.2.4",
+    "@zemble/kv": "workspace:*"
   }
 }

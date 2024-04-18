@@ -1,4 +1,4 @@
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
+import { signJwt } from '@zemble/auth/utils/signJwt'
 
 import { type AppleJwtContents } from './validateIdToken'
 import plugin from '../plugin'

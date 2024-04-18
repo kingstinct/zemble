@@ -4,10 +4,10 @@
     "strict": true,
     "baseUrl": "../..",
     "paths": {
-      "zemble-plugin-auth-anonymous-expo/*": [ "packages/simple-anonymous-auth-ui/*" ],
-      "zemble-plugin-auth-anonymous-expo": [ "packages/simple-anonymous-auth-ui" ],
-      "zemble-plugin-todo-ui/*": [ "packages/todo-ui/*" ],
-      "zemble-plugin-todo-ui": [ "packages/todo-ui" ]
+      "@zemble/auth-anonymous-expo/*": [ "packages/simple-anonymous-auth-ui/*" ],
+      "@zemble/auth-anonymous-expo": [ "packages/simple-anonymous-auth-ui" ],
+      "@zemble/todo-ui/*": [ "packages/todo-ui/*" ],
+      "@zemble/todo-ui": [ "packages/todo-ui" ]
     }
   }
 }

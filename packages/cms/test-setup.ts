@@ -1,9 +1,9 @@
 /* eslint-disable functional/immutable-data, import/no-extraneous-dependencies */
 
+import generateKeys from '@zemble/auth/generate-keys'
 import { setupEnvOverride, resetEnv, createTestApp } from '@zemble/core/test-utils'
 import zembleContext from '@zemble/core/zembleContext'
 import { startInMemoryInstanceAndConfigurePlugin, closeAndStopInMemoryInstance, emptyAllCollections } from '@zemble/mongodb/test-utils'
-import generateKeys from 'zemble-plugin-auth/generate-keys'
 
 import papr from './clients/papr'
 import plugin from './plugin'

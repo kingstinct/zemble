@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import authOtp from '@zemble/auth-otp'
+import cms from '@zemble/cms'
+import papr from '@zemble/cms/clients/papr'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import mongodb from '@zemble/mongodb'
-import authOtp from 'zemble-plugin-auth-otp'
-import cms from 'zemble-plugin-cms'
-import papr from 'zemble-plugin-cms/clients/papr'
 
 import { PermissionType, User, connect } from './clients/papr'
 

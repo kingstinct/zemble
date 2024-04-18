@@ -15,7 +15,7 @@
     "@types/bun": "*"
   },
   "peerDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,7 @@
   "bugs": {
     "url": "https://github.com/kingstinct/zemble/issues"
   },
-  "keywords": [ "zemble" ]
+  "keywords": [
+    "zemble"
+  ]
 }

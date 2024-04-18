@@ -1,3 +1,4 @@
+import Auth from '@zemble/auth'
 import { deleteCookie } from 'hono/cookie'
 
 import plugin from '../../plugin'

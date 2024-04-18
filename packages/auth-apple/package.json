@@ -40,7 +40,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.1",
-    "jose": "^5.2.3",
-    "zemble-plugin-auth": "workspace:*"
+    "jose": "^5.2.4",
+    "@zemble/auth": "workspace:*"
   }
 }

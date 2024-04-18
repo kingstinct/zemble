@@ -36,6 +36,6 @@
     "@zemble/core": "workspace:*",
     "@zemble/routes": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "zemble-plugin-bull": "workspace:*"
+    "@zemble/bull": "workspace:*"
   }
 }

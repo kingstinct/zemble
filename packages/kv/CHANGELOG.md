@@ -1,4 +1,4 @@
-# zemble-plugin-kv
+# @zemble/kv
 
 ## 0.0.40
 

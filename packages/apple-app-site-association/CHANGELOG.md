@@ -1,4 +1,4 @@
-# zemble-plugin-apple-app-site-association
+# @zemble/apple-app-site-association
 
 ## 0.0.27
 

@@ -1,7 +1,7 @@
+import Auth from '@zemble/auth'
+import { generateRefreshToken } from '@zemble/auth/utils/generateRefreshToken'
+import { setBearerTokenCookie } from '@zemble/auth/utils/setBearerTokenCookie'
 import { GraphQLError } from 'graphql'
-import Auth from 'zemble-plugin-auth'
-import { generateRefreshToken } from 'zemble-plugin-auth/utils/generateRefreshToken'
-import { setBearerTokenCookie } from 'zemble-plugin-auth/utils/setBearerTokenCookie'
 
 import plugin from '../../plugin'
 import { generateBearerTokenFromAppleToken } from '../../utils/generateToken'

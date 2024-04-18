@@ -1,4 +1,4 @@
-# zemble-plugin-bull
+# @zemble/bull
 
 This is still a WIP and breaking changes can occur. The design goal is to provide a generic interface to specify queues that is not tied to Bull. It's close, but for speed of implementation there are some Bull specific types in there still.
 

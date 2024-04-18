@@ -8,7 +8,7 @@ import {
   GraphQLError,
 } from 'graphql'
 import { getCookie } from 'hono/cookie'
-import kv from 'zemble-plugin-kv'
+import kv from '@zemble/kv'
 
 import { decodeToken as defaultDecodeToken } from './utils/decodeToken'
 import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers'
@@ -20,7 +20,7 @@ import type { Context } from 'hono'
 import type { CookieOptions } from 'hono/utils/cookie'
 import type { JWTPayload } from 'jose'
 
-const ISSUER = process.env.ISSUER ?? 'zemble-plugin-auth'
+const ISSUER = process.env.ISSUER ?? '@zemble/auth'
 
 interface AuthConfig extends Zemble.GlobalConfig {
   readonly bearerTokenExpiryInSeconds?: number

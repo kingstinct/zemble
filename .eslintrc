@@ -1,6 +1,6 @@
 {
   "extends": [
-      "eslint-config-kingstinct/react-native"
+      "./packages/eslint/react-native.js"
   ],
   "rules": {
       "no-console": 2,
@@ -18,12 +18,6 @@
     "*.js"
   ],
   "overrides": [
-    {
-        "files":["*.js", "*.jsx", "*.ts", "*.tsx"],
-        "rules": {
-            "jest/no-deprecated-functions": 0
-        }
-    },
         {
             "files": ["*.graphql"],
             "rules": {

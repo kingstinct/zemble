@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import authPlugin from 'zemble-plugin-auth'
-import { encodeToken } from 'zemble-plugin-auth/utils/encodeToken'
-import { setBearerTokenCookie } from 'zemble-plugin-auth/utils/setBearerTokenCookie'
+import authPlugin from '@zemble/auth'
+import { encodeToken } from '@zemble/auth/utils/encodeToken'
+import { setBearerTokenCookie } from '@zemble/auth/utils/setBearerTokenCookie'
 
 import plugin from '../../plugin'
 

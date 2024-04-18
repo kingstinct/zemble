@@ -1,5 +1,5 @@
 {
-  "name": "zemble-plugin-auth-anonymous-expo",
+  "name": "@zemble/auth-anonymous-expo",
   "version": "0.0.6",
   "main": "index.js",
   "scripts": {
@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "codegen": "graphql-code-generator",
+    "codegen": "graphql-codegen",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
@@ -16,16 +16,16 @@
     "graphql": "^16.8.1",
     "react": "^18.2.0",
     "react-native": "~0.72.4",
-    "zemble-plugin-auth-expo": "workspace:*",
-    "zemble-plugin-urql-expo": "workspace:*",
+    "@zemble/auth-expo": "workspace:*",
+    "@zemble/urql-expo": "workspace:*",
     "urql": "4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
+    "@babel/core": "^7.24.4",
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.2.4",
-    "@types/react": "^18.2.66",
-    "typescript": "^5.4.2"
+    "@graphql-codegen/client-preset": "^4.2.5",
+    "@types/react": "^18.2.79",
+    "typescript": "^5.4.5"
   },
   "private": true
 }

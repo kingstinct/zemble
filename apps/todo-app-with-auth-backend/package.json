@@ -35,14 +35,14 @@
     "@envelop/generic-auth": "^7.0.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "zemble-plugin-auth-anonymous": "workspace:*",
-    "zemble-plugin-apple-app-site-association": "workspace:*",
-    "zemble-plugin-bull": "workspace:*",
-    "zemble-plugin-todo": "workspace:*",
+    "@zemble/auth-anonymous": "workspace:*",
+    "@zemble/apple-app-site-association": "workspace:*",
+    "@zemble/bull": "workspace:*",
+    "@zemble/todo": "workspace:*",
     "@zemble/ignite": "workspace:*",
     "@zemble/bun": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5"
   }
 }

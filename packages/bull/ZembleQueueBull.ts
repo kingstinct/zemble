@@ -57,7 +57,7 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
     // eslint-disable-next-line functional/immutable-data
     this.#queueInternal = queue
 
-    const repeatJobKey = `zemble-plugin-bull-repeat-${queue.name}`
+    const repeatJobKey = `@zemble/bull-repeat-${queue.name}`
     await queue.removeRepeatableByKey(repeatJobKey)
     if (this.#config?.repeat) {
       await queue.add(repeatJobKey, {} as DataType, {

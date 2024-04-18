@@ -1,7 +1,6 @@
-import Auth from 'zemble-plugin-auth'
-import { generateRefreshToken } from 'zemble-plugin-auth/utils/generateRefreshToken'
-import { setBearerTokenCookie } from 'zemble-plugin-auth/utils/setBearerTokenCookie'
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
+import Auth from '@zemble/auth'
+import { generateRefreshToken } from '@zemble/auth/utils/generateRefreshToken'
+import { signJwt } from '@zemble/auth/utils/signJwt'
 
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'

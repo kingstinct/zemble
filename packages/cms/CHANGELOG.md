@@ -1,4 +1,4 @@
-# zemble-plugin-cms
+# @zemble/cms
 
 ## 0.0.46
 
@@ -6,7 +6,7 @@
 
 - 67e139d: Add @zemble/debug package
 - Updated dependencies [67e139d]
-  - zemble-plugin-auth@0.0.41
+  - @zemble/auth@0.0.41
   - @zemble/core@0.1.11
   - @zemble/graphql@0.0.42
   - @zemble/mongodb@0.0.24
@@ -17,7 +17,7 @@
 
 - Updated dependencies [80c3df0]
   - @zemble/core@0.1.10
-  - zemble-plugin-auth@0.0.40
+  - @zemble/auth@0.0.40
   - @zemble/graphql@0.0.41
   - @zemble/mongodb@0.0.23
 
@@ -26,7 +26,7 @@
 ### Patch Changes
 
 - Updated dependencies [9b7e7de]
-  - zemble-plugin-auth@0.0.39
+  - @zemble/auth@0.0.39
   - @zemble/core@0.1.9
   - @zemble/graphql@0.0.40
   - @zemble/mongodb@0.0.22
@@ -39,7 +39,7 @@
 - Updated dependencies [dc07e09]
   - @zemble/graphql@0.0.39
   - @zemble/mongodb@0.0.21
-  - zemble-plugin-auth@0.0.38
+  - @zemble/auth@0.0.38
   - @zemble/core@0.1.8
 
 ## 0.0.42
@@ -47,7 +47,7 @@
 ### Patch Changes
 
 - Updated dependencies [9d84a4d]
-  - zemble-plugin-auth@0.0.37
+  - @zemble/auth@0.0.37
 
 ## 0.0.41
 
@@ -62,7 +62,7 @@
 
 - Updated dependencies
   - @zemble/core@0.1.7
-  - zemble-plugin-auth@0.0.36
+  - @zemble/auth@0.0.36
   - @zemble/graphql@0.0.38
   - @zemble/mongodb@0.0.19
 
@@ -72,7 +72,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.37
-  - zemble-plugin-auth@0.0.35
+  - @zemble/auth@0.0.35
 
 ## 0.0.38
 
@@ -80,7 +80,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.36
-  - zemble-plugin-auth@0.0.34
+  - @zemble/auth@0.0.34
 
 ## 0.0.37
 
@@ -90,7 +90,7 @@
 - Updated dependencies
   - @zemble/mongodb@0.0.18
   - @zemble/core@0.1.6
-  - zemble-plugin-auth@0.0.33
+  - @zemble/auth@0.0.33
   - @zemble/graphql@0.0.35
 
 ## 0.0.36
@@ -99,7 +99,7 @@
 
 - Updated dependencies [2fc60c4]
   - @zemble/core@0.1.5
-  - zemble-plugin-auth@0.0.32
+  - @zemble/auth@0.0.32
   - @zemble/graphql@0.0.34
   - @zemble/mongodb@0.0.17
 
@@ -111,7 +111,7 @@
 - Updated dependencies [c1de438]
 - Updated dependencies [86d9288]
   - @zemble/core@0.1.4
-  - zemble-plugin-auth@0.0.31
+  - @zemble/auth@0.0.31
   - @zemble/graphql@0.0.33
   - @zemble/mongodb@0.0.16
 
@@ -122,7 +122,7 @@
 - Updated dependencies [3358b3f]
   - @zemble/graphql@0.0.32
   - @zemble/core@0.1.3
-  - zemble-plugin-auth@0.0.30
+  - @zemble/auth@0.0.30
   - @zemble/mongodb@0.0.15
 
 ## 0.0.33
@@ -131,7 +131,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.31
-  - zemble-plugin-auth@0.0.29
+  - @zemble/auth@0.0.29
 
 ## 0.0.32
 
@@ -139,7 +139,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.30
-  - zemble-plugin-auth@0.0.28
+  - @zemble/auth@0.0.28
 
 ## 0.0.31
 
@@ -147,7 +147,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.29
-  - zemble-plugin-auth@0.0.27
+  - @zemble/auth@0.0.27
 
 ## 0.0.30
 
@@ -155,7 +155,7 @@
 
 - Updated dependencies [7bb5510]
   - @zemble/graphql@0.0.28
-  - zemble-plugin-auth@0.0.26
+  - @zemble/auth@0.0.26
 
 ## 0.0.29
 
@@ -177,7 +177,7 @@
   - @zemble/graphql@0.0.27
   - @zemble/core@0.1.2
   - @zemble/mongodb@0.0.12
-  - zemble-plugin-auth@0.0.25
+  - @zemble/auth@0.0.25
 
 ## 0.0.26
 
@@ -185,7 +185,7 @@
 
 - 1263fb6: Streamline logging
 - Updated dependencies [1263fb6]
-  - zemble-plugin-auth@0.0.24
+  - @zemble/auth@0.0.24
   - @zemble/core@0.1.1
   - @zemble/graphql@0.0.26
   - @zemble/mongodb@0.0.11
@@ -196,7 +196,7 @@
 
 - Updated dependencies
   - @zemble/core@0.1.0
-  - zemble-plugin-auth@0.0.23
+  - @zemble/auth@0.0.23
   - @zemble/graphql@0.0.25
   - @zemble/mongodb@0.0.10
 
@@ -221,7 +221,7 @@
 - Updated dependencies
   - @zemble/graphql@0.0.24
   - @zemble/mongodb@0.0.7
-  - zemble-plugin-auth@0.0.22
+  - @zemble/auth@0.0.22
 
 ## 0.0.21
 
@@ -229,7 +229,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.17
-  - zemble-plugin-auth@0.0.21
+  - @zemble/auth@0.0.21
   - @zemble/graphql@0.0.23
   - @zemble/mongodb@0.0.6
 
@@ -239,7 +239,7 @@
 
 - Updated dependencies [627e87d]
   - @zemble/core@0.0.16
-  - zemble-plugin-auth@0.0.20
+  - @zemble/auth@0.0.20
   - @zemble/graphql@0.0.22
   - @zemble/mongodb@0.0.5
 
@@ -262,7 +262,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.21
-  - zemble-plugin-auth@0.0.19
+  - @zemble/auth@0.0.19
 
 ## 0.0.16
 
@@ -271,7 +271,7 @@
 - Updated dependencies
   - @zemble/core@0.0.15
   - @zemble/mongodb@0.0.2
-  - zemble-plugin-auth@0.0.18
+  - @zemble/auth@0.0.18
   - @zemble/graphql@0.0.20
 
 ## 0.0.15
@@ -280,7 +280,7 @@
 
 - Updated dependencies
   - @zemble/graphql@0.0.19
-  - zemble-plugin-auth@0.0.17
+  - @zemble/auth@0.0.17
 
 ## 0.0.14
 
@@ -288,7 +288,7 @@
 
 - Add @zemble/migrations, fixes across the board
 - Updated dependencies
-  - zemble-plugin-auth@0.0.16
+  - @zemble/auth@0.0.16
   - @zemble/core@0.0.14
   - @zemble/graphql@0.0.18
 
@@ -298,7 +298,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.13
-  - zemble-plugin-auth@0.0.15
+  - @zemble/auth@0.0.15
   - @zemble/graphql@0.0.17
 
 ## 0.0.12
@@ -307,7 +307,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.12
-  - zemble-plugin-auth@0.0.14
+  - @zemble/auth@0.0.14
   - @zemble/graphql@0.0.16
 
 ## 0.0.11
@@ -316,7 +316,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.11
-  - zemble-plugin-auth@0.0.13
+  - @zemble/auth@0.0.13
   - @zemble/graphql@0.0.15
 
 ## 0.0.10
@@ -325,7 +325,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.10
-  - zemble-plugin-auth@0.0.12
+  - @zemble/auth@0.0.12
   - @zemble/graphql@0.0.14
 
 ## 0.0.9
@@ -334,7 +334,7 @@
 
 - Updated dependencies
   - @zemble/core@0.0.9
-  - zemble-plugin-auth@0.0.11
+  - @zemble/auth@0.0.11
   - @zemble/graphql@0.0.13
 
 ## 0.0.8
@@ -344,7 +344,7 @@
 - Updated dependencies
   - @zemble/core@0.0.8
   - @zemble/graphql@0.0.12
-  - zemble-plugin-auth@0.0.10
+  - @zemble/auth@0.0.10
 
 ## 0.0.7
 
@@ -353,7 +353,7 @@
 - Updated dependencies
   - @zemble/core@0.0.7
   - @zemble/graphql@0.0.11
-  - zemble-plugin-auth@0.0.9
+  - @zemble/auth@0.0.9
 
 ## 0.0.6
 
@@ -362,7 +362,7 @@
 - Updated dependencies [df7fa74]
   - @zemble/core@0.0.6
   - @zemble/graphql@0.0.10
-  - zemble-plugin-auth@0.0.8
+  - @zemble/auth@0.0.8
 
 ## 0.0.5
 
@@ -371,7 +371,7 @@
 - Updated dependencies
   - @zemble/core@0.0.5
   - @zemble/graphql@0.0.9
-  - zemble-plugin-auth@0.0.7
+  - @zemble/auth@0.0.7
 
 ## 0.0.4
 
@@ -380,7 +380,7 @@
 - d8c9842: Bump graphql
 - Updated dependencies [d8c9842]
   - @zemble/graphql@0.0.8
-  - zemble-plugin-auth@0.0.6
+  - @zemble/auth@0.0.6
 
 ## 0.0.3
 
@@ -388,7 +388,7 @@
 
 - c92781c: Update readme
 - Updated dependencies [c92781c]
-  - zemble-plugin-auth@0.0.5
+  - @zemble/auth@0.0.5
   - @zemble/graphql@0.0.7
 
 ## 0.0.2
@@ -396,6 +396,6 @@
 ### Patch Changes
 
 - Updated dependencies
-  - zemble-plugin-auth@0.0.2
+  - @zemble/auth@0.0.2
   - @zemble/core@0.0.2
   - @zemble/graphql@0.0.2

@@ -1,4 +1,4 @@
-import UrqlProvider from 'zemble-plugin-urql-expo/contexts/UrqlProvider'
+import UrqlProvider from '@zemble/urql-expo/contexts/UrqlProvider'
 
 import { SimpleAnonymousAuthProvider } from './Auth'
 

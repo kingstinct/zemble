@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable react-hooks/rules-of-hooks */
 
+import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import path from 'node:path'
-import Auth from 'zemble-plugin-auth'
 
 import { generateOAuthStateJWT } from './utils/generateOAuthStateJWT'
 import { generateBearerTokenFromAppleToken, type AppleUserSignupData, type AppleUserSignupDataOnWeb } from './utils/generateToken'

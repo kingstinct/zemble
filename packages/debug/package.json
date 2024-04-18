@@ -12,7 +12,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*",
     "@zemble/routes": "workspace:*",
-    "zemble-plugin-auth": "workspace:*",
+    "@zemble/auth": "workspace:*",
     "@zemble/graphql": "workspace:*"
   },
   "scripts": {
@@ -23,15 +23,15 @@
   },
   "devDependencies": {
     "@types/bun": "*",
-    "@graphql-codegen/add": "^5.0.0",
-    "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/client-preset": "^4.1.0",
-    "@graphql-codegen/typescript": "^4.0.1",
-    "@graphql-codegen/typescript-resolvers": "^4.0.1",
-    "@tsconfig/bun": "^1.0.1"
+    "@graphql-codegen/add": "^5.0.2",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.2.5",
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-resolvers": "^4.0.6",
+    "@tsconfig/bun": "^1.0.5"
   },
   "peerDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "module": "plugin.ts",
   "main": "plugin.ts"

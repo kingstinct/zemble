@@ -2,7 +2,6 @@
 /* eslint-disable functional/immutable-data */
 import { Plugin } from '@zemble/core'
 import pino from 'pino'
-// @ts-expect-error no types available
 // eslint-disable-next-line import/no-extraneous-dependencies
 import pinoDebug from 'pino-debug'
 
@@ -12,7 +11,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     /* interface MiddlewareConfig {
-      readonly ['zemble-plugin-email-sendgrid']?: Zemble.DefaultMiddlewareConfig
+      readonly ['@zemble/email-sendgrid']?: Zemble.DefaultMiddlewareConfig
     } */
 
     interface Providers {

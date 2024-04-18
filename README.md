@@ -1,4 +1,4 @@
-# @zemble plugin system
+# Zemble Composable Framework
 [![Test Status](https://github.com/kingstinct/zemble/actions/workflows/test.yml/badge.svg)](https://github.com/kingstinct/zemble/actions/workflows/test.yml)
 [![Downloads on NPM](https://img.shields.io/npm/dt/@zemble/core)](https://www.npmjs.com/package/@zemble/core)
 [![Discord](https://dcbadge.vercel.app/api/server/eSHBxENbPF?style=flat)](https://discord.gg/eSHBxENbPF)
@@ -32,9 +32,6 @@ Here we go through all the basics of @zemble:
 - [Ok, so what about composability?](#ok-so-what-about-composability)
 - [What about testing?](#what-about-testing)
 - [What about auth?](#what-about-auth)
-
-
-
 
 ### Take it for a spin
 Let's start simple
@@ -197,9 +194,9 @@ it('Should return world!', async () => {
 ### What about auth?
 Ok, let's take it one step further. You usually need to authenticate users in an app, both to provide an individualized experience as well as protect your users privacy. How can we make this composable? Let's try it out.
 
-1. Install zemble-plugin-auth-anonymous:
+1. Install @zemble/auth-anonymous:
 ```bash
-bun install zemble-plugin-auth-anonymous
+bun install @zemble/auth-anonymous
 ```
 3. Add it to your app config:
 ```TypeScript
@@ -207,7 +204,7 @@ import serve from '@zemble/bun'
 
 import GraphQL from '@zemble/graphql'
 import Routes from '@zemble/routes'
-import AnonymousAuth from 'zemble-plugin-auth-anonymous'
+import AnonymousAuth from '@zemble/auth-anonymous'
 
 export default serve({
   plugins: [
@@ -223,16 +220,16 @@ bunx zemble-generate-keys
 ```
 4. Run your app and try to call your hello query again :)
 
-`zemble-plugin-auth-anonymous` depends on the `zemble-plugin-auth` which does the following:
+`@zemble/auth-anonymous` depends on the `@zemble/auth` which does the following:
 - Protectes all GraphQL queries by default. You can opt-out or configure this with the auth directive, for example: `@auth(skip: true)`
 - Allows an authentication token to be sent either as a header (by default a bearer token, `authorization: "Bearer {token}"`) or a cookie.
 - It uses public/private key encryption which makes it possible to verify the authenticity of an authentication token without knowing the private key. It exposes a standard `/.well-known/jwks.json` REST endpoint as well as GraphQL queries for the public key, validating and parsing a token.
 
-`zemble-plugin-auth-anonymous` in turn adds a simple `login` mutation to GraphQL, which returns an authentication token. Check out `zemble-plugin-auth-otp` for another approach, where it adds a flow for authenticating a user by sending a one-time-password to their email address.
+`@zemble/auth-anonymous` in turn adds a simple `login` mutation to GraphQL, which returns an authentication token. Check out `@zemble/auth-otp` for another approach, where it adds a flow for authenticating a user by sending a one-time-password to their email address.
 
 ### Ecosystem
 
-We're also providing `zemble-plugin-bull` out of the box, which contains middleware to set up queue jobs. We hope we can build a thriving ecosystem around this together.
+We're also providing `@zemble/bull` out of the box, which contains middleware to set up queue jobs. We hope we can build a thriving ecosystem around this together.
 
 ## Full examples
 

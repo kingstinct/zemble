@@ -2,10 +2,12 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable react-hooks/rules-of-hooks */
 
+import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
-import Auth from 'zemble-plugin-auth'
-import kv from 'zemble-plugin-kv'
+import kv from '@zemble/kv'
+
+import { simpleTemplating } from './utils/simpleTemplating'
 
 import type { IEmail } from '@zemble/core'
 
@@ -55,21 +57,13 @@ function generateTokenContents({ email }: {readonly email: string}): Zemble.OtpT
   return { email, type: 'AuthOtp' as const }
 }
 
-const simpleTemplating = (template: string, values: Record<string, string>): string => {
-  let result = template
-  Object.entries(values).forEach(([key, value]) => {
-    result = result.replaceAll(`{{${key}}}`, value)
-  })
-  return result
-}
-
 const defaultConfig = {
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
   generateTokenContents,
   handleAuthRequest: async (to, twoFactorCode) => {
     const { sendEmail } = plugin.providers
-    if (sendEmail && process.env.NODE_ENV !== 'test') {
+    if (sendEmail && !['test', 'development'].includes(process.env.NODE_ENV ?? '')) {
       void sendEmail({
         from: plugin.config.from,
         subject: plugin.config.emailSubject ? simpleTemplating(plugin.config.emailSubject, { email: to.email, name: to.name ?? to.email, twoFactorCode }) : 'Login',
@@ -78,10 +72,18 @@ const defaultConfig = {
         to,
       })
     }
-    plugin.debug(`handleAuthRequest for ${to.email}: ${twoFactorCode}`)
+    if (process.env.NODE_ENV === 'development') {
+      plugin.providers.logger.info(`Generated code for ${to.email}: ${twoFactorCode}`)
+    }
   },
 } satisfies Partial<OtpAuthConfig>
 
+/**
+ * This plugin allows you to easily add two factor authentication over email to your app. Implement
+ * `generateTokenContents` to modify the contents of the token that is sent to the user (and other things, like logging
+ * that the user logged in in the database). Modify the email configurations to customize the
+ * contents of the email sent. Whichever email provider is implemented is used.
+ */
 const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(import.meta.dir, {
   dependencies: [
     {

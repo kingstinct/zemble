@@ -1,4 +1,6 @@
-import { handleExtraFields, removeDeepFields } from './projectionFromGraphQLInfo'
+import { describe, test, expect } from 'bun:test'
+
+import { handleExtraFields, removeDeepFields, type Projection } from './projectionFromGraphQLInfo'
 
 import type { ObjectId } from 'mongodb'
 
@@ -64,6 +66,6 @@ describe('projectionFromGraphQLInfo', () => {
       'a.very.deep.property': ['b.very.deep.property'],
     })
 
-    expect(projection).toEqual({ 'a.very.deep.property': 1, 'b.very.deep.property': 1 })
+    expect(projection).toEqual({ 'a.very.deep.property': 1, 'b.very.deep.property': 1 } as Projection<DbType>)
   })
 })

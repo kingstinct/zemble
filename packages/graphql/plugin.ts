@@ -1,14 +1,12 @@
 import { useEngine, useLogger } from '@envelop/core'
 import { Plugin, type IStandardLogger, type TokenContents } from '@zemble/core'
-import debug from 'debug'
 import * as GraphQLJS from 'graphql'
-import { GraphQLSchema, type GraphQLFormattedError } from 'graphql'
-import { GraphQLJSON } from 'graphql-scalars'
 
 import middleware from './middleware'
 
 import type { SubschemaConfig } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
+import type { GraphQLSchema } from 'graphql'
 import type { Context } from 'graphql-ws'
 import type {
   YogaServerOptions, YogaInitialContext, GraphQLParams,
@@ -30,7 +28,7 @@ declare global {
         opts?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean}
       ) => Promise<{
         readonly data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
-        readonly errors?: readonly GraphQLFormattedError[]
+        readonly errors?: readonly GraphQLJS.GraphQLFormattedError[]
       }>
 
       readonly gqlRequestUntyped: <TRes, TVars = unknown>(
@@ -39,7 +37,7 @@ declare global {
         opts?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean}
       ) => Promise<{
         readonly data?: TRes,
-        readonly errors?: readonly GraphQLFormattedError[]
+        readonly errors?: readonly GraphQLJS.GraphQLFormattedError[]
       }>
     }
 
@@ -105,147 +103,6 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
 
 const logFn = (eventName: string, ...args: readonly unknown[]) => {
   plugin.providers.logger.debug(eventName, ...args)
-}
-
-const createEnvironmentSchema = () => {
-  const authDirective = new GraphQLJS.GraphQLDirective({
-    locations: [GraphQLJS.DirectiveLocation.FIELD_DEFINITION],
-    name: 'auth',
-    args: {
-      includes: {
-        type: GraphQLJSON,
-      },
-      match: {
-        type: GraphQLJSON,
-      },
-      or: {
-        type: new GraphQLJS.GraphQLList(
-          new GraphQLJS.GraphQLInputObjectType({
-            name: 'AuthOr',
-            fields: {
-              includes: {
-                type: GraphQLJSON,
-              },
-              match: {
-                type: GraphQLJSON,
-              },
-            },
-          }),
-        ),
-      },
-      skip: {
-        type: GraphQLJS.GraphQLBoolean,
-      },
-    },
-  })
-  const schema = new GraphQLSchema({
-    directives: [authDirective],
-    query: new GraphQLJS.GraphQLObjectType({
-      name: 'Query',
-      fields: {
-        env: {
-          type: GraphQLJSON,
-          resolve: () => process.env,
-        },
-      },
-    }),
-    mutation: new GraphQLJS.GraphQLObjectType({
-      name: 'Mutation',
-      fields: {
-        debugMode: {
-          type: GraphQLJS.GraphQLBoolean,
-          astNode: {
-            kind: GraphQLJS.Kind.FIELD_DEFINITION,
-            name: {
-              kind: GraphQLJS.Kind.NAME,
-              value: 'debugMode',
-            },
-            type: {
-              kind: GraphQLJS.Kind.NON_NULL_TYPE,
-              type: {
-                kind: GraphQLJS.Kind.NAMED_TYPE,
-                name: {
-                  kind: GraphQLJS.Kind.NAME,
-                  value: 'Boolean',
-                },
-              },
-            },
-            directives: [
-              {
-                kind: GraphQLJS.Kind.DIRECTIVE,
-                name: {
-                  kind: GraphQLJS.Kind.NAME,
-                  value: 'auth',
-                },
-                arguments: [
-                  {
-                    kind: GraphQLJS.Kind.ARGUMENT,
-                    name: {
-                      kind: GraphQLJS.Kind.NAME,
-                      value: 'includes',
-                    },
-                    value: {
-                      kind: GraphQLJS.Kind.OBJECT,
-                      fields: [
-                        {
-                          kind: GraphQLJS.Kind.OBJECT_FIELD,
-                          name: {
-                            kind: GraphQLJS.Kind.NAME,
-                            value: 'role',
-                          },
-                          value: {
-                            kind: GraphQLJS.Kind.STRING,
-                            value: 'admin',
-                          },
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          args: {
-            namespaces: { type: GraphQLJS.GraphQLString },
-          },
-          // auth directive here:
-          resolve: (_, { namespaces }) => {
-            if (namespaces) {
-              debug.enable(namespaces)
-            } else {
-              debug.disable()
-            }
-
-            return !!namespaces
-          },
-        },
-        updateEnv: {
-          type: GraphQLJS.GraphQLString,
-          args: {
-            key: { type: new GraphQLJS.GraphQLNonNull(GraphQLJS.GraphQLString) },
-            value: { type: new GraphQLJS.GraphQLNonNull(GraphQLJS.GraphQLString) },
-          },
-          resolve: (_, { key, value }) => {
-            // eslint-disable-next-line functional/immutable-data
-            process.env[key] = value
-            return value
-          },
-        },
-        removeEnv: {
-          type: GraphQLJS.GraphQLBoolean,
-          args: {
-            key: { type: new GraphQLJS.GraphQLNonNull(GraphQLJS.GraphQLString) },
-          },
-          resolve: (_, { key }) => {
-            // eslint-disable-next-line functional/immutable-data
-            delete process.env[key]
-            return true
-          },
-        },
-      },
-    }),
-  })
-  return schema
 }
 
 const defaultConfig = {

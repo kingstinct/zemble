@@ -1,1 +1,1 @@
-export * from 'zemble-plugin-auth-expo/components/ShowForAuthenticated'
+export * from '@zemble/auth-expo/components/ShowForAuthenticated'

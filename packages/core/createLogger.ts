@@ -28,21 +28,17 @@ const logFn = (levelToLog: LevelWithSilentOrString, minLevelToLog: LevelWithSile
 
     if (extraData) {
       if (typeof args[0] === 'string') {
-        // @ts-expect-error fix later
         // eslint-disable-next-line no-console
         console[callFn](`${args[0]} ${JSON.stringify(extraData)}`, ...args.slice(1))
       } else if (typeof args[0] === 'object') {
-        // @ts-expect-error fix later
         // eslint-disable-next-line no-console
         console[callFn]({ ...extraData, ...args[0] }, ...args.slice(1))
       } else {
-        // @ts-expect-error fix later
         // eslint-disable-next-line no-console
         console[callFn](JSON.stringify(extraData), ...args)
       }
     } else {
-      // @ts-expect-error fix later
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console[callFn](...args)
     }
   }

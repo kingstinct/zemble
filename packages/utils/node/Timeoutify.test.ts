@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'bun:test'
+
 import Timeoutify, { TimeoutifyStatus } from './Timeoutify'
 import wait from '../wait'
 
