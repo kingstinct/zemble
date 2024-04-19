@@ -1,5 +1,11 @@
 # @zemble/auth-anonymous-expo
 
+## 0.0.7
+
+### Patch Changes
+
+- 80fe6c9: Improve authorization model
+
 ## 0.0.6
 
 ### Patch Changes

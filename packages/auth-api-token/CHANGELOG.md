@@ -1,5 +1,13 @@
 # @zemble/auth-api-token
 
+## 0.0.42
+
+### Patch Changes
+
+- 80fe6c9: Improve authorization model
+- Updated dependencies [80fe6c9]
+  - @zemble/auth@0.0.42
+
 ## 0.0.41
 
 ### Patch Changes

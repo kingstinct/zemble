@@ -1,5 +1,11 @@
 # @zemble/ignite
 
+## 0.0.38
+
+### Patch Changes
+
+- @zemble/bull@0.1.6
+
 ## 0.0.37
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @zemble/bull
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [80fe6c9]
+  - @zemble/auth@0.0.42
+
 ## 0.1.5
 
 ### Patch Changes
