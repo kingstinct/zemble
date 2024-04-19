@@ -1,4 +1,3 @@
 **/*.generated/**/*.ts
-**/gql/**/*.ts
 **/expo-env.d.ts
 packages/cms/entities-json-schema.json

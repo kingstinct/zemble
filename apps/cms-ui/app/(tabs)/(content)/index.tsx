@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { Button } from 'react-native-paper'
 import { useMutation, useQuery } from 'urql'
 
-import { graphql } from '../../../gql'
+import { graphql } from '../../../gql.generated'
 import { capitalize, pluralize } from '../../../utils/text'
 
 export const GetEntitiesQuery = graphql(`

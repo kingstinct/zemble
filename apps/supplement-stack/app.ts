@@ -6,11 +6,14 @@ import YogaGraphQL from '@zemble/graphql'
 import { connect } from './clients/papr'
 import { Users } from './models'
 
+import type { BaseToken } from '@zemble/core'
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-    interface OtpToken {
+    interface OtpToken extends BaseToken {
       readonly userId: string,
+
     }
   }
 }
@@ -24,7 +27,7 @@ void bunRunner({
     }),
     AuthOTP.configure({
       from: { email: 'robert@herber.me' },
-      generateTokenContents: async (email): Promise<Zemble.OtpToken> => {
+      generateTokenContents: async ({ email }): Promise<Zemble.OtpToken> => {
         const user = await Users.findOneAndUpdate({ email }, {
           $set: {
             lastLoginAt: new Date(),
@@ -42,6 +45,7 @@ void bunRunner({
           email,
           type: 'AuthOtp' as const,
           userId: user!._id.toHexString(),
+          sub: user!._id.toHexString(),
         })
 
         return ret

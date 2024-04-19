@@ -14,26 +14,33 @@ directive @auth(
 
 type Mutation {
   setEnv(key: String!, value: String!): JSONObject! @auth(or: [
-    { includes: { permissions: "@zemble/debug:write" } },
-    { match: { isSuperAdmin: true } }
+    { includes: { permissions: "@zemble/debug" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
   ])
   removeEnv(key: String!): JSONObject! @auth(or: [
-    { includes: { permissions: "@zemble/debug:write" } },
-    { match: { isSuperAdmin: true } }
+    { includes: { permissions: "@zemble/debug" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
   ])
   enableDebug(namespaces: String): String! @auth(or: [
-    { includes: { permissions: "@zemble/debug:write" } },
-    { match: { isSuperAdmin: true } }
+    { includes: { permissions: "@zemble/debug" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
   ])
   disableDebug: Boolean! @auth(or: [
-    { includes: { permissions: "@zemble/debug:write" } },
-    { match: { isSuperAdmin: true } }
+    { includes: { permissions: "@zemble/debug" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
   ])
 }
 
 type Query {
   env: JSONObject! @auth(or: [
     { includes: { permissions: "@zemble/debug:read" } },
-    { match: { isSuperAdmin: true } }
+    { includes: { permissions: "@zemble/debug" } },
+    { includes: { permissions: "admin" } },
+    { includes: { permissions: "operations" } },
+    { includes: { permissions: "operations:read" } },
   ])
 }

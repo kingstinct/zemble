@@ -19,7 +19,6 @@ export const UpdatePermissionsMutation = graphql(`
       id
       permissions{
         type
-        scope
       }
     }
   }
@@ -35,7 +34,7 @@ describe('Mutation.updatePermissions', () => {
 
     const { errors } = await app.gqlRequest(
       UpdatePermissionsMutation,
-      { userId: 'abc', permissions: [{ type: PermissionType.MODIFY_ENTITY, scope: '*' }] },
+      { userId: 'abc', permissions: [{ type: PermissionType.DEVELOPER }] },
       { silenceErrors: true },
     )
 
@@ -56,11 +55,11 @@ describe('Mutation.updatePermissions', () => {
       updatedAt: new Date(),
     })
 
-    const token = await signJwt({ data: { permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] } })
+    const token = await signJwt({ data: { permissions: ['manage-users'] }, sub: 'test-id' })
 
     const { data } = await app.gqlRequest(UpdatePermissionsMutation, {
       userId: userId.toHexString(),
-      permissions: [{ type: PermissionType.MODIFY_ENTITY, scope: '*' }],
+      permissions: [{ type: PermissionType.DEVELOPER }],
     }, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -69,8 +68,7 @@ describe('Mutation.updatePermissions', () => {
 
     expect(data?.updatePermissions.permissions).toEqual([
       {
-        type: PermissionType.MODIFY_ENTITY,
-        scope: '*',
+        type: PermissionType.DEVELOPER,
       },
     ])
   })
@@ -80,11 +78,11 @@ describe('Mutation.updatePermissions', () => {
 
     const userId = '650302fb3593982221caf2e4'
 
-    const token = await signJwt({ data: { permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] } })
+    const token = await signJwt({ data: { permissions: ['manage-users'] }, sub: 'test-id' })
 
     const { errors } = await app.gqlRequest(UpdatePermissionsMutation, {
       userId,
-      permissions: [{ type: PermissionType.MODIFY_ENTITY, scope: '*' }],
+      permissions: [{ type: PermissionType.DEVELOPER }],
     }, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -105,11 +103,11 @@ describe('Mutation.updatePermissions', () => {
     // 2. refetch permissions on every request for older tokens
     // 3. implement some kind of refresh mechanism (getting a new token with the right permissions, but without logging
     // in again)
-    const token = await signJwt({ data: { id: userId, permissions: [{ type: PermissionType.USER_ADMIN, scope: '*' }] } })
+    const token = await signJwt({ data: { permissions: [PermissionType.MANAGE_USERS], id: userId }, sub: 'test-id' })
 
     const { errors } = await app.gqlRequest(UpdatePermissionsMutation, {
       userId,
-      permissions: [{ type: PermissionType.MODIFY_ENTITY, scope: '*' }],
+      permissions: [{ type: PermissionType.MANAGE_USERS }],
     }, {
       headers: {
         Authorization: `Bearer ${token}`,

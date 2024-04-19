@@ -1,5 +1,5 @@
 import { useEngine, useLogger } from '@envelop/core'
-import { Plugin, type IStandardLogger } from '@zemble/core'
+import { Plugin, type IStandardLogger, type TokenContents } from '@zemble/core'
 import * as GraphQLJS from 'graphql'
 
 import middleware from './middleware'
@@ -12,6 +12,7 @@ import type {
   YogaServerOptions, YogaInitialContext, GraphQLParams,
 } from 'graphql-yoga'
 import type { RedisOptions } from 'ioredis'
+import type { JWTPayload } from 'jose'
 
 interface GraphQLMiddlewareGlobalConfig {
   readonly graphqlSchemaTransforms?: SubschemaConfig['transforms']
@@ -78,7 +79,7 @@ declare global {
         & Record<
         keyof DirectiveArgs['includes'],
         ReadonlyArray<DirectiveArgs['includes'][keyof DirectiveArgs['includes']]>
-        > & DecodedTokenBase & Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
+        > & TokenContents & JWTPayload
       }
   }
 }

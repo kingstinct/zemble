@@ -26,7 +26,7 @@ describe('variableReference', () => {
   it('Should fail without right id in JWT', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { role: 'admin', organisationId: '2' } })
+    const token = await signJwt({ data: { role: 'admin', organisationId: '2' }, sub: '1' })
 
     const response = await app.gqlRequest(VariableReferenceQuery, { id: '1' }, {
       headers: {
@@ -40,7 +40,7 @@ describe('variableReference', () => {
   it('Should fail when trying to reference the exact variable literal', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { role: 'admin', organisationId: '$organisationId' } })
+    const token = await signJwt({ data: { role: 'admin', organisationId: '$organisationId' }, sub: '1' })
 
     const response = await app.gqlRequest(VariableReferenceQuery, { id: '1' }, {
       headers: {
@@ -54,7 +54,7 @@ describe('variableReference', () => {
   it('Should succeed with role in JWT', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { role: 'admin', organisationId: '1' } })
+    const token = await signJwt({ data: { role: 'admin', organisationId: '1' }, sub: '1' })
 
     const response = await app.gqlRequest(VariableReferenceQuery, { id: '1' }, {
       headers: {

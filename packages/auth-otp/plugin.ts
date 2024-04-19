@@ -12,7 +12,6 @@ import { simpleTemplating } from './utils/simpleTemplating'
 import type { IEmail } from '@zemble/core'
 
 interface OtpAuthConfig extends Zemble.GlobalConfig {
-  readonly tokenExpiryInSeconds?: number
   readonly twoFactorCodeExpiryInSeconds?: number
   readonly minTimeBetweenTwoFactorCodeRequestsInSeconds?: number
   readonly from: IEmail
@@ -32,12 +31,13 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
     */
   readonly emailHtml?: string
   readonly handleAuthRequest?: (email: IEmail, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
-  readonly generateTokenContents: (email: string) => Promise<Zemble.OtpToken> | Zemble.OtpToken
+  readonly generateTokenContents: ({ email }: {readonly email: string}) => Promise<Zemble.OtpToken> | Zemble.OtpToken
 }
 
 export interface DefaultOtpToken {
   // readonly type: 'AuthOtp',
   readonly email: string,
+  readonly sub: string
 }
 
 declare global {
@@ -52,14 +52,13 @@ declare global {
   }
 }
 
-function generateTokenContents(email: string): Zemble.OtpToken {
+function generateTokenContents({ email }: {readonly email: string}): Zemble.OtpToken {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - this is a default implementation
   return { email, type: 'AuthOtp' as const }
 }
 
 const defaultConfig = {
-  tokenExpiryInSeconds: undefined,
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
   generateTokenContents,

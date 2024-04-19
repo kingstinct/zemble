@@ -1,9 +1,9 @@
 import { Button, Text, View } from 'react-native'
 import { useMutation } from 'urql'
 
-import { graphql } from '../gql'
+import { graphql } from '../gql.generated'
 
-import type { AllTodosQuery } from '../gql/graphql'
+import type { AllTodosQuery } from '../gql.generated/graphql'
 
 const CompleteTodo = graphql(/* GraphQL */ `
   mutation CompleteTodo($completed: Boolean!, $id: ID!) {
@@ -15,7 +15,7 @@ const CompleteTodo = graphql(/* GraphQL */ `
   }
 `)
 
-const TodoListItem: React.FC<{readonly todo: AllTodosQuery['todos'][0], readonly refetch: () => void}> = ({ todo, refetch }) => {
+const TodoListItem: React.FC<{ readonly todo: AllTodosQuery['todos'][0], readonly refetch: () => void }> = ({ todo, refetch }) => {
   const [, completeTodo] = useMutation(CompleteTodo)
 
   return (

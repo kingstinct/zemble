@@ -1,4 +1,5 @@
 scalar JSONObject
+scalar DateTime
 
 input AuthOr {
   includes: JSONObject
@@ -16,4 +17,25 @@ type Query {
   validateJWT(token: String!): Boolean! @auth(skip: true)
   readJWT(token: String!): JSONObject! @auth(skip: true)
   publicKey: String! @auth(skip: true)
+}
+
+interface Error {
+  message: String! @auth(skip: true)
+}
+
+type RefreshTokenInvalidError {
+  message: String! @auth(skip: true)
+}
+
+type NewTokenSuccessResponse {
+  bearerToken: String! @auth(skip: true)
+  refreshToken: String! @auth(skip: true)
+}
+
+union NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError
+
+type Mutation {
+  refreshToken(refreshToken: String!, bearerToken: String!): NewTokenResponse! @auth(skip: true)
+  logout: DateTime!
+  logoutFromAllDevices: DateTime!
 }

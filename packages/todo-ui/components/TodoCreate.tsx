@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button, TextInput, View } from 'react-native'
 import { useMutation } from 'urql'
 
-import { graphql } from '../gql'
+import { graphql } from '../gql.generated'
 
 const CreateTodo = graphql(/* GraphQL */ `
   mutation CreateTodo($title: String!) {
@@ -14,7 +14,7 @@ const CreateTodo = graphql(/* GraphQL */ `
   }
 `)
 
-const TodoCreate: React.FC<{readonly refetch: () => void}> = ({ refetch }) => {
+const TodoCreate: React.FC<{ readonly refetch: () => void }> = ({ refetch }) => {
   // const { token } = useContext(AuthContext)
   const [title, setTitle] = useState('')
   const [, createTodo] = useMutation(CreateTodo)

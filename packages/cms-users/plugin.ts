@@ -8,7 +8,7 @@ import mongodb from '@zemble/mongodb'
 
 import { PermissionType, User, connect } from './clients/papr'
 
-import type { DependenciesResolver } from '@zemble/core'
+import type { DependenciesResolver, BaseToken } from '@zemble/core'
 
 interface CmsConfig extends Zemble.GlobalConfig {
 
@@ -21,13 +21,12 @@ const defaultConfig = {
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-    interface OtpToken {
+    interface OtpToken extends BaseToken {
       readonly id: string
       readonly type: 'cms-user'
       readonly email: string,
       readonly permissions: readonly {
         readonly type: PermissionType,
-        readonly scope: string,
       }[]
     }
   }
@@ -66,17 +65,15 @@ const plugin = new Plugin(import.meta.dir,
             from: {
               email: 'noreply@cmsexample.com',
             },
-            generateTokenContents: async (emailIn) => {
-              const email = emailIn.trim().toLowerCase()
-
+            generateTokenContents: async ({ email }) => {
               const user = await User.findOneAndUpdate({
                 email,
               }, {
                 $setOnInsert: {
                   email,
                   permissions: await isFirstUser() ? [
-                    { type: PermissionType.MODIFY_ENTITY, scope: '*' },
-                    { type: PermissionType.USER_ADMIN, scope: '*' },
+                    { type: PermissionType.DEVELOPER },
+                    { type: PermissionType.MANAGE_USERS },
                   ] : [],
                 },
                 $set: {
@@ -92,6 +89,7 @@ const plugin = new Plugin(import.meta.dir,
                 id: user!._id.toHexString(),
                 type: 'cms-user',
                 permissions: user!.permissions,
+                sub: user!._id.toHexString(),
               }
             },
           }),

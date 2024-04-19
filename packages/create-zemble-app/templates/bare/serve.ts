@@ -1,5 +1,5 @@
 import { serve } from '@zemble/bun'
 
-import app from './app'
+import app from './config'
 
 void serve(app)

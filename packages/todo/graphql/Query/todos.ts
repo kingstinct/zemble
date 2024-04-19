@@ -6,7 +6,7 @@ import type { QueryResolvers, Todo } from '../schema.generated'
 
 const todo: QueryResolvers['todos'] = async (_, __, { decodedToken }) => {
   if (decodedToken?.type === 'AnonymousAuth') {
-    const { userId } = decodedToken!
+    const { userId } = decodedToken
     const allTodos = await plugin.providers.kv<Todo>(userId).values()
 
     return allTodos

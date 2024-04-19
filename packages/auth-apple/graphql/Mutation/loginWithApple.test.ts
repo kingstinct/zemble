@@ -27,7 +27,8 @@ const LoginWithAppleDocument = graphql(`
       userUUID: $userUUID
     ) {
       __typename
-      accessToken
+      bearerToken
+      refreshToken
     }
   }
 `)

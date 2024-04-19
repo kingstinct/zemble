@@ -1,9 +1,10 @@
+import { createApp } from '@zemble/core'
 import { test, expect } from 'bun:test'
 
-import appInit from './app'
+import config from './config'
 
 test('Should return world!', async () => {
-  const app = await appInit
+  const app = await createApp(config)
   const res = await app.hono.request('/')
 
   expect(await res.text()).toContain('Hello Zemble! Serving ')

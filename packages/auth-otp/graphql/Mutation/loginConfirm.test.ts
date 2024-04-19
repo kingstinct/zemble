@@ -13,7 +13,7 @@ const LoginConfirmMutation = graphql(`
     loginConfirm(email: $email, code: $code) {
       __typename
       ... on LoginConfirmSuccessfulResponse {
-        accessToken
+        bearerToken
       }
       ... on Error {
         message
@@ -38,7 +38,7 @@ describe('Mutation.loginConfirm', () => {
     expect(response.data).toEqual({
       loginConfirm: {
         __typename: 'LoginConfirmSuccessfulResponse',
-        accessToken: expect.any(String),
+        bearerToken: expect.any(String),
       },
     })
   })

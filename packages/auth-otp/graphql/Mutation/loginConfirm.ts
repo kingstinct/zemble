@@ -1,6 +1,7 @@
 import Auth from '@zemble/auth'
+import { generateRefreshToken } from '@zemble/auth/utils/generateRefreshToken'
+import { setTokenCookies } from '@zemble/auth/utils/setBearerTokenCookie'
 import { signJwt } from '@zemble/auth/utils/signJwt'
-import { setCookie } from 'hono/cookie'
 
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'
@@ -11,8 +12,9 @@ import type {
 } from '../schema.generated'
 
 const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
-  email, code,
+  email: emailIn, code,
 }, { honoContext }) => {
+  const email = emailIn.toLowerCase().trim()
   if (!isValidEmail(email)) {
     return { __typename: 'EmailNotValidError', message: 'Email not valid' }
   }
@@ -31,16 +33,25 @@ const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
     return { __typename: 'CodeNotValidError', message: 'Code not valid' }
   }
 
-  const accessToken = await signJwt({
-    data: await plugin.config.generateTokenContents(email),
-    expiresInSeconds: plugin.config.tokenExpiryInSeconds,
+  const { sub, ...data } = await plugin.config.generateTokenContents({ email })
+
+  const bearerToken = await signJwt({
+    data,
+    expiresInSeconds: Auth.config.bearerTokenExpiryInSeconds,
+    sub,
   })
 
+  const refreshToken = await generateRefreshToken({ sub })
+
   if (Auth.config.cookies.isEnabled) {
-    setCookie(honoContext, Auth.config.cookies.name, accessToken, Auth.config.cookies.opts())
+    setTokenCookies(honoContext, bearerToken, refreshToken)
   }
 
-  return { accessToken, __typename: 'LoginConfirmSuccessfulResponse' }
+  return {
+    __typename: 'LoginConfirmSuccessfulResponse',
+    bearerToken,
+    refreshToken,
+  }
 }
 
 export default loginConfirm

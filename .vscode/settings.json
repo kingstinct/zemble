@@ -27,6 +27,9 @@
   "[json]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
   "[jsonc]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },

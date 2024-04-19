@@ -43,7 +43,6 @@
     "ioredis": "^5.4.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240405.0",
-    "@zemble/auth-api-token": "workspace:*"
+    "@cloudflare/workers-types": "^4.20240405.0"
   }
 }

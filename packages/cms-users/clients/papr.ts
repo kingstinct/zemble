@@ -32,13 +32,12 @@ export async function disconnect() {
 }
 
 export enum PermissionType {
-  MODIFY_ENTITY = 'modify-entity',
-  USER_ADMIN = 'user-admin',
+  DEVELOPER = 'developer',
+  MANAGE_USERS = 'manage-users',
 }
 
 const PermissionSchemaObject = {
   type: types.enum(Object.values(PermissionType), { required: true }),
-  scope: types.string({ required: true }),
 }
 
 export type Permission = typeof PermissionSchemaObject

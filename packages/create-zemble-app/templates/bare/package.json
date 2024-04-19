@@ -20,6 +20,6 @@
   "peerDependencies": {
     "typescript": "^5.3.3"
   },
-  "module": "app.ts",
-  "main": "app.ts"
+  "module": "serve.ts",
+  "main": "serve.ts"
 }

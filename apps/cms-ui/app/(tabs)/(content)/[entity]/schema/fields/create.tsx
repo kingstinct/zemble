@@ -4,7 +4,7 @@ import { useQuery } from 'urql'
 
 import { GetEntityByNamePluralQuery } from '../..'
 import UpsertField from '../../../../../../components/UpsertField'
-import { GetEntitiesDocument } from '../../../../../../gql/graphql'
+import { GetEntitiesDocument } from '../../../../../../gql.generated/graphql'
 
 const AddField = () => {
   const { entity } = useLocalSearchParams()
