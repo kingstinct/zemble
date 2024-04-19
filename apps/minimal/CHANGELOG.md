@@ -1,5 +1,14 @@
 # minimal
 
+## 0.0.47
+
+### Patch Changes
+
+- 80fe6c9: Improve authorization model
+- Updated dependencies [80fe6c9]
+  - @zemble/auth@0.0.42
+  - @zemble/bull@0.1.6
+
 ## 0.0.46
 
 ### Patch Changes

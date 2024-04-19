@@ -1,5 +1,11 @@
 # @zemble/auth
 
+## 0.0.42
+
+### Patch Changes
+
+- 80fe6c9: Improve authorization model
+
 ## 0.0.41
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # create-zemble-plugin
 
+## 0.1.0
+
+### Minor Changes
+
+- 1928354: Move in eslint package, rename graphql-codegen to codegen, other improvements.
+  ```
+
+  ```
+
 ## 0.0.8
 
 ### Patch Changes

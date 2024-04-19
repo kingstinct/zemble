@@ -1,5 +1,12 @@
 # @zemble/debug
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [80fe6c9]
+  - @zemble/auth@0.0.42
+
 ## 0.0.2
 
 ### Patch Changes

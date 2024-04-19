@@ -1,5 +1,15 @@
 # supplement-stack
 
+## 0.0.45
+
+### Patch Changes
+
+- 80fe6c9: Improve authorization model
+- Updated dependencies [80fe6c9]
+  - @zemble/auth-otp@0.0.43
+  - @zemble/todo@0.0.40
+  - @zemble/bull@0.1.6
+
 ## 0.0.44
 
 ### Patch Changes
