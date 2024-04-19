@@ -4,7 +4,7 @@ import {
 } from 'react'
 import { useMutation } from 'urql'
 
-import { graphql } from '../gql'
+import { graphql } from '../gql.generated'
 
 const Login = graphql(/* GraphQL */ `
   mutation Login {

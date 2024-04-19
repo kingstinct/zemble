@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useMutation } from 'urql'
 
-import { graphql } from '../../gql'
+import { graphql } from '../../gql.generated'
 
 import type { TextInput as TextInputNative } from 'react-native'
 

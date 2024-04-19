@@ -23,7 +23,7 @@ import { capitalize } from '../utils/text'
 
 import type {
   EntityRelationField,
-} from '../gql/graphql'
+} from '../gql.generated/graphql'
 import type { Entity } from '../utils/getSelectionSet'
 import type {
   UseFormProps,
@@ -164,7 +164,7 @@ const UpsertEntry: React.FC<{
                   key={field.name}
                   icon='chevron-down'
                 >
-                  { data[queryName][field.name] ? data[queryName][field.name].displayName : `Select ${field.name}`}
+                  {data[queryName][field.name] ? data[queryName][field.name].displayName : `Select ${field.name}`}
                 </Button>
               )
             }

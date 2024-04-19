@@ -6,7 +6,7 @@ import { Button } from 'react-native-paper'
 import { useQuery } from 'urql'
 
 import ListOfEntries from '../../../../components/ListOfEntries'
-import { graphql } from '../../../../gql'
+import { graphql } from '../../../../gql.generated'
 
 export const GetEntityByNamePluralQuery = graphql(`
   query GetEntityByNamePlural($namePlural: String!) { 
@@ -60,15 +60,15 @@ const EntityDetails = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Button mode='contained' style={{ margin: 16 }} onPress={() => router.push(`/(tabs)/(content)/${entity as string}/create`)}>{ `Create ${data?.getEntityByNamePlural?.nameSingular}` }</Button>
-      { data?.getEntityByNamePlural ? (
+      <Button mode='contained' style={{ margin: 16 }} onPress={() => router.push(`/(tabs)/(content)/${entity as string}/create`)}>{`Create ${data?.getEntityByNamePlural?.nameSingular}`}</Button>
+      {data?.getEntityByNamePlural ? (
         <ListOfEntries
           entity={data.getEntityByNamePlural}
           onSelected={(s) => {
             router.push(`/(tabs)/(content)/${entity as string}/edit/${s.id}`)
           }}
         />
-      ) : null }
+      ) : null}
     </View>
   )
 }

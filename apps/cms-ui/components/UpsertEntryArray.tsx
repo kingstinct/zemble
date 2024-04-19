@@ -18,7 +18,7 @@ import getDefaultValueFromEntityField from '../utils/getDefaultValueFromEntityFi
 
 import type {
   EntityRelationField,
-} from '../gql/graphql'
+} from '../gql.generated/graphql'
 
 type ArrayField = {
   readonly __typename: 'ArrayField',
@@ -44,7 +44,7 @@ type ArrayFieldComponentProps = {
 const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items, onChange }) => {
   const {
     control, handleSubmit, setValue, watch,
-  } = useForm({ })
+  } = useForm({})
 
   useEffect(() => {
     items.forEach((item, index) => {
@@ -67,7 +67,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
     onChange(mappedValues)
   }, [onChange]))
 
-  const [fieldForEntitySelection, setFieldForEntity] = useState<{readonly field: EntityRelationField, readonly name: string, readonly index: number} | null>(null)
+  const [fieldForEntitySelection, setFieldForEntity] = useState<{ readonly field: EntityRelationField, readonly name: string, readonly index: number } | null>(null)
 
   return (
     <Card key={field.name} style={Styles.margin8}>
@@ -129,7 +129,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
                     key={name}
                     icon='chevron-down'
                   >
-                    { value ?? `Select ${subField.name}`}
+                    {value ?? `Select ${subField.name}`}
                   </Button>
                 </View>
 
@@ -148,7 +148,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
             )
           })
         }
-        { field.availableFields.map((f) => (
+        {field.availableFields.map((f) => (
           <Button
             icon='plus'
             mode='outlined'
@@ -165,10 +165,10 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
           >
             {`Add ${f.name}`}
           </Button>
-        )) }
+        ))}
 
       </Card.Content>
-      { fieldForEntitySelection ? (
+      {fieldForEntitySelection ? (
         <Portal>
           <SelectEntityRelation
             control={control}
@@ -187,7 +187,7 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({ field, items,
             }}
           />
         </Portal>
-      ) : null }
+      ) : null}
     </Card>
   )
 }

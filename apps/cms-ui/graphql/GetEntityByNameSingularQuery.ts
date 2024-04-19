@@ -1,4 +1,4 @@
-import { graphql } from '../gql'
+import { graphql } from '../gql.generated'
 
 export const GetEntityByNameSingularQuery = graphql(`
   query GetEntityByNameSingular($name: String!) { getEntityByNameSingular(name: $name) { 

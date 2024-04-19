@@ -9,7 +9,7 @@ const config: CodegenConfig = {
   documents: ['./components/**/*.tsx', './app/**/*.tsx'],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
-    './gql/': {
+    './gql.generated/': {
       preset: 'client',
     },
   },

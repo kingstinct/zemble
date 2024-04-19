@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
 
-import { graphql } from '../../gql'
+import { graphql } from '../../gql.generated'
 
 export const GetUsersQuery = graphql(`
   query GetUsers {
