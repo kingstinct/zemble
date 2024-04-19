@@ -9,7 +9,7 @@ const initializeOnce = (pubsub: Zemble.PubSubType) => {
   }, 1000)
 }
 
-const tick: SubscriptionResolvers['tick'] = {
+export const tick: SubscriptionResolvers['tick'] = {
   // subscribe to the tick event
   subscribe: (_, __, { pubsub }) => {
     initializeOnce(pubsub)

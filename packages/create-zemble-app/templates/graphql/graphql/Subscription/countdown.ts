@@ -1,6 +1,6 @@
 import type { SubscriptionResolvers } from '../schema.generated'
 
-const countdown: SubscriptionResolvers['countdown'] = {
+export const countdown: SubscriptionResolvers['countdown'] = {
   // This will return the value on every 1 sec until it reaches 0
   // eslint-disable-next-line object-shorthand
   subscribe: async function* (_, { from }, { logger }) {
