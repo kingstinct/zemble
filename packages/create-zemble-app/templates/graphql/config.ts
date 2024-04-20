@@ -1,4 +1,4 @@
-import { createApp, type Configure } from '@zemble/core'
+import { type Configure } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import Routes from '@zemble/routes'
 
