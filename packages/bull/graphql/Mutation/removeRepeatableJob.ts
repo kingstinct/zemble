@@ -4,7 +4,7 @@ import { getQueueByName } from '../../utils/setupQueues'
 
 import type { MutationResolvers } from '../schema.generated'
 
-const removeRepeatableJob: MutationResolvers['removeRepeatableJob'] = async (_, {
+export const removeRepeatableJob: NonNullable<MutationResolvers['removeRepeatableJob']> = async (_, {
   queue, repeatJobKey,
 }) => {
   const q = getQueueByName(queue)

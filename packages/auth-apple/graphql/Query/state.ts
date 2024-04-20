@@ -1,3 +1,7 @@
 import { generateOAuthStateJWT } from '../../utils/generateOAuthStateJWT'
 
-export default generateOAuthStateJWT
+import type { QueryResolvers } from '../schema.generated'
+
+export const state: NonNullable<QueryResolvers['state']> = generateOAuthStateJWT
+
+export default state

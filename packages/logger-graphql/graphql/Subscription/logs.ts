@@ -1,6 +1,6 @@
 import type { SubscriptionResolvers } from '../schema.generated'
 
-const loggerStreamer: SubscriptionResolvers['logs'] = {
+export const logs: NonNullable<SubscriptionResolvers['logs']> = {
   subscribe: (_, __, { pubsub }) => {
     setTimeout(() => {
       pubsub.publish(`logger`, { severity: 'info', args: ['logger streamer started'] })
@@ -18,4 +18,4 @@ const loggerStreamer: SubscriptionResolvers['logs'] = {
   },
 }
 
-export default loggerStreamer
+export default logs

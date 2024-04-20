@@ -13,7 +13,7 @@ const getTwoFactorCode = () => {
   return twoFactorCode
 }
 
-const loginRequest: MutationResolvers['loginRequest'] = async (_, {
+export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = async (_, {
   email,
 }, context) => {
   if (!isValidEmail(email)) {

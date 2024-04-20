@@ -1,6 +1,6 @@
 import type { SubscriptionResolvers } from '../schema.generated'
 
-const randomNumber: SubscriptionResolvers['randomNumber'] = {
+export const randomNumber: NonNullable<SubscriptionResolvers['randomNumber']> = {
   // subscribe to the randomNumber event
   subscribe: (_, __, { pubsub, logger }) => {
     logger.info('subscribing to randomNumber')

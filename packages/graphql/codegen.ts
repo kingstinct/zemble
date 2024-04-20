@@ -55,7 +55,7 @@ const DEFAULT_SERVER_CONFIG = {
   useTypeImports: true,
 } satisfies Types.PluginConfig<unknown>
 
-const createServerOutputConfig = () => ({
+export const createServerOutputConfig = () => ({
   config: DEFAULT_SERVER_CONFIG,
   plugins: [
     {
@@ -76,7 +76,6 @@ const createServerOutputConfigWithResolverGeneration = (config?: TypedPresetConf
     typeDefsFilePath: false,
     mode: 'merged',
     typesPluginsConfig: DEFAULT_SERVER_CONFIG,
-    // resolverTypesPath, maybe important?
     ...config,
   }, {
 
@@ -102,6 +101,11 @@ export function createServerConfig<TOutputPath extends string = typeof DEFAULT_S
 
   const serverOutputSchemaPath = serverOutputSchemaPathOverride ?? DEFAULT_SERVER_OUTPUT_SCHEMA_PATH
 
+  const pathToServerOutputSchemaPathas = serverOutputSchemaPath.split('/')
+  // eslint-disable-next-line functional/immutable-data
+  pathToServerOutputSchemaPathas.pop()
+  const pathToServerOutputSchemaPath = `${pathToServerOutputSchemaPathas.join('/')}/`
+
   return {
     schema,
     ignoreNoDocuments: true,
@@ -109,7 +113,7 @@ export function createServerConfig<TOutputPath extends string = typeof DEFAULT_S
       ...(resolverGeneration === false ? {
         [serverOutputSchemaPath]: createServerOutputConfig(),
       } : {
-        [serverOutputSchemaPath]: createServerOutputConfigWithResolverGeneration(),
+        [pathToServerOutputSchemaPath]: createServerOutputConfigWithResolverGeneration(),
       }),
     },
   } satisfies CodegenConfig

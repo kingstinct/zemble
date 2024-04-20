@@ -2,7 +2,7 @@ import { Repeater } from 'graphql-yoga'
 
 import type { LogOutput, QueryResolvers } from '../schema.generated'
 
-const loggerStreamer: QueryResolvers['logger'] = (_, __, { pubsub, logger }) => new Repeater<LogOutput>(async (push, stop) => {
+export const logs: NonNullable<QueryResolvers['logs']> = (_, __, { pubsub, logger }) => new Repeater<LogOutput>(async (push, stop) => {
   let hasStopped = false
 
   void stop.then(() => {
@@ -31,4 +31,4 @@ const loggerStreamer: QueryResolvers['logger'] = (_, __, { pubsub, logger }) => 
   await stop
 })
 
-export default loggerStreamer
+export default logs

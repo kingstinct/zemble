@@ -2,7 +2,7 @@ import { getQueues } from '../../utils/setupQueues'
 
 import type { QueryResolvers } from '../schema.generated'
 
-const queues: QueryResolvers['queues'] = () => {
+export const queues: NonNullable<QueryResolvers['queues']> = () => {
   const qs = getQueues()
 
   return qs

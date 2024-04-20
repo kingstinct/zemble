@@ -1,8 +1,6 @@
-// @ts-nocheck
-import '@zemble/core'
 import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type Maybe<T> = T | null | undefined;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -16,8 +14,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
-  JSONObject: { input: any; output: any; }
+  DateTime: { input: Date | string; output: Date | string; }
+  JSONObject: { input: Record<string, any>; output: Record<string, any>; }
 };
 
 export type AppleAuthenticationFullName = {
@@ -29,11 +27,10 @@ export type AppleAuthenticationFullName = {
   readonly nickname?: InputMaybe<Scalars['String']['input']>;
 };
 
-export enum AppleAuthenticationUserDetectionStatus {
-  LikelyReal = 'LIKELY_REAL',
-  Unknown = 'UNKNOWN',
-  Unsupported = 'UNSUPPORTED'
-}
+export type AppleAuthenticationUserDetectionStatus =
+  | 'LIKELY_REAL'
+  | 'UNKNOWN'
+  | 'UNSUPPORTED';
 
 export type AppleLoginResponse = {
   readonly __typename?: 'AppleLoginResponse';
@@ -59,7 +56,7 @@ export type Mutation = {
 };
 
 
-export type MutationLoginWithAppleArgs = {
+export type MutationloginWithAppleArgs = {
   authorizationCode: Scalars['String']['input'];
   email?: InputMaybe<Scalars['String']['input']>;
   fullName?: InputMaybe<AppleAuthenticationFullName>;
@@ -70,7 +67,7 @@ export type MutationLoginWithAppleArgs = {
 };
 
 
-export type MutationRefreshTokenArgs = {
+export type MutationrefreshTokenArgs = {
   bearerToken: Scalars['String']['input'];
   refreshToken: Scalars['String']['input'];
 };
@@ -92,12 +89,12 @@ export type Query = {
 };
 
 
-export type QueryReadJwtArgs = {
+export type QueryreadJWTArgs = {
   token: Scalars['String']['input'];
 };
 
 
-export type QueryValidateJwtArgs = {
+export type QueryvalidateJWTArgs = {
   token: Scalars['String']['input'];
 };
 
@@ -176,7 +173,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  NewTokenResponse: ( NewTokenSuccessResponse ) | ( RefreshTokenInvalidError );
+  NewTokenResponse: ( NewTokenSuccessResponse & { __typename: 'NewTokenSuccessResponse' } ) | ( RefreshTokenInvalidError & { __typename: 'RefreshTokenInvalidError' } );
 }>;
 
 /** Mapping of interface types */
@@ -187,10 +184,10 @@ export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = R
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   AppleAuthenticationFullName: AppleAuthenticationFullName;
+  String: ResolverTypeWrapper<Scalars['String']['output']>;
   AppleAuthenticationUserDetectionStatus: AppleAuthenticationUserDetectionStatus;
   AppleLoginResponse: ResolverTypeWrapper<AppleLoginResponse>;
   AuthOr: AuthOr;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Error: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Error']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
@@ -198,16 +195,16 @@ export type ResolversTypes = ResolversObject<{
   NewTokenResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['NewTokenResponse']>;
   NewTokenSuccessResponse: ResolverTypeWrapper<NewTokenSuccessResponse>;
   Query: ResolverTypeWrapper<{}>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   RefreshTokenInvalidError: ResolverTypeWrapper<RefreshTokenInvalidError>;
-  String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   AppleAuthenticationFullName: AppleAuthenticationFullName;
+  String: Scalars['String']['output'];
   AppleLoginResponse: AppleLoginResponse;
   AuthOr: AuthOr;
-  Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
   Error: ResolversInterfaceTypes<ResolversParentTypes>['Error'];
   JSONObject: Scalars['JSONObject']['output'];
@@ -215,18 +212,18 @@ export type ResolversParentTypes = ResolversObject<{
   NewTokenResponse: ResolversUnionTypes<ResolversParentTypes>['NewTokenResponse'];
   NewTokenSuccessResponse: NewTokenSuccessResponse;
   Query: {};
+  Boolean: Scalars['Boolean']['output'];
   RefreshTokenInvalidError: RefreshTokenInvalidError;
-  String: Scalars['String']['output'];
 }>;
 
-export type AuthDirectiveArgs = {
+export type authDirectiveArgs = {
   includes?: Maybe<Scalars['JSONObject']['input']>;
   match?: Maybe<Scalars['JSONObject']['input']>;
   or?: Maybe<ReadonlyArray<AuthOr>>;
   skip?: Maybe<Scalars['Boolean']['input']>;
 };
 
-export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type authDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = authDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AppleLoginResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['AppleLoginResponse'] = ResolversParentTypes['AppleLoginResponse']> = ResolversObject<{
   bearerToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
@@ -239,23 +236,23 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type ErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
-  __resolveType: TypeResolveFn<null, ParentType, ContextType>;
+  __resolveType?: TypeResolveFn<null, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
 }>;
 
-export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+export interface JSONObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
   name: 'JSONObject';
 }
 
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  loginWithApple?: Resolver<ResolversTypes['AppleLoginResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationLoginWithAppleArgs, 'authorizationCode' | 'identityToken' | 'realUserStatus' | 'userUUID'>>;
+  loginWithApple?: Resolver<ResolversTypes['AppleLoginResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationloginWithAppleArgs, 'authorizationCode' | 'identityToken' | 'realUserStatus' | 'userUUID'>>;
   logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   logoutFromAllDevices?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  refreshToken?: Resolver<ResolversTypes['NewTokenResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRefreshTokenArgs, 'bearerToken' | 'refreshToken'>>;
+  refreshToken?: Resolver<ResolversTypes['NewTokenResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationrefreshTokenArgs, 'bearerToken' | 'refreshToken'>>;
 }>;
 
 export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'NewTokenSuccessResponse' | 'RefreshTokenInvalidError', ParentType, ContextType>;
+  __resolveType?: TypeResolveFn<'NewTokenSuccessResponse' | 'RefreshTokenInvalidError', ParentType, ContextType>;
 }>;
 
 export type NewTokenSuccessResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenSuccessResponse'] = ResolversParentTypes['NewTokenSuccessResponse']> = ResolversObject<{
@@ -266,9 +263,9 @@ export type NewTokenSuccessResponseResolvers<ContextType = Zemble.GraphQLContext
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   publicKey?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
+  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryreadJWTArgs, 'token'>>;
   state?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
+  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryvalidateJWTArgs, 'token'>>;
 }>;
 
 export type RefreshTokenInvalidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RefreshTokenInvalidError'] = ResolversParentTypes['RefreshTokenInvalidError']> = ResolversObject<{
@@ -289,5 +286,5 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
 }>;
 
 export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
-  auth?: AuthDirectiveResolver<any, any, ContextType>;
+  auth?: authDirectiveResolver<any, any, ContextType>;
 }>;
