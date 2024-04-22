@@ -85,7 +85,7 @@ const createServerOutputConfigWithResolverGeneration = (config?: TypedPresetConf
   },
 } satisfies Types.ConfiguredOutput)
 
-export function createServerConfig<TOutputPath extends string = typeof DEFAULT_SERVER_OUTPUT_SCHEMA_PATH, TOutputFilename extends string = typeof DEFAULT_SERVER_GENERATED_RESOLVER_TYPES_FILENAME>({
+export function createServerConfig<TOutputPath extends string = typeof DEFAULT_SERVER_OUTPUT_SCHEMA_PATH>({
   schema = DEFAULT_SCHEMA_INPUT,
   serverOutputSchemaPath: serverOutputSchemaPathOverride,
   resolverGeneration,

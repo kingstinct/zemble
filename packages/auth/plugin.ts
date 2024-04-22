@@ -10,7 +10,7 @@ import {
 } from 'graphql'
 import { getCookie } from 'hono/cookie'
 
-import { refreshToken, refreshTokensFromPrevious } from './graphql/Mutation/refreshToken'
+import { refreshTokensFromPrevious } from './graphql/Mutation/refreshToken'
 import { decodeToken, decodeToken as defaultDecodeToken } from './utils/decodeToken'
 import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers'
 import { setTokenCookies } from './utils/setBearerTokenCookie'

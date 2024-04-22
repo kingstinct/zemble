@@ -6,6 +6,7 @@ import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import kv from '@zemble/kv'
+import { parseEnvJSON } from '@zemble/utils/node/parseEnv'
 
 import { simpleTemplating } from './utils/simpleTemplating'
 
@@ -14,6 +15,8 @@ import type { IEmail } from '@zemble/core'
 interface OtpAuthConfig extends Zemble.GlobalConfig {
   readonly twoFactorCodeExpiryInSeconds?: number
   readonly minTimeBetweenTwoFactorCodeRequestsInSeconds?: number
+  readonly WHITELISTED_SIGNUP_EMAILS?: readonly string[]
+  readonly WHITELISTED_SIGNUP_EMAIL_DOMAINS?: readonly string[]
   readonly from: IEmail
   /*
    * Write {{email}}, {{name}} and {{twoFactorCode}} to have them replaced with the
@@ -62,6 +65,8 @@ const defaultConfig = {
   twoFactorCodeExpiryInSeconds: 60 * 5, // 5 minutes
   minTimeBetweenTwoFactorCodeRequestsInSeconds: 60 * 1, // 1 minute
   generateTokenContents,
+  WHITELISTED_SIGNUP_EMAIL_DOMAINS: parseEnvJSON('WHITELISTED_SIGNUP_EMAIL_DOMAINS', undefined),
+  WHITELISTED_SIGNUP_EMAILS: parseEnvJSON('WHITELISTED_SIGNUP_EMAILS', undefined),
   handleAuthRequest: async (to, twoFactorCode) => {
     const { sendEmail } = plugin.providers
     if (sendEmail && !['test', 'development'].includes(process.env.NODE_ENV ?? '')) {

@@ -14,13 +14,28 @@ const getTwoFactorCode = () => {
 }
 
 export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = async (_, {
-  email,
+  email: emailInput,
 }, context) => {
-  if (!isValidEmail(email)) {
+  if (!isValidEmail(emailInput)) {
     return { message: 'Not a valid email', __typename: 'EmailNotValidError' }
   }
 
-  const existing = await loginRequestKeyValue().get(email.toLowerCase())
+  const email = emailInput.toLowerCase().trim()
+
+  const whitelistedEmailFromDomain = plugin.config.WHITELISTED_SIGNUP_EMAIL_DOMAINS?.includes(emailInput.split('@')[1]!)
+
+  const validatedEmailFromWhitelist = plugin.config.WHITELISTED_SIGNUP_EMAILS?.includes(email)
+
+  const hasWhitelist = plugin.config.WHITELISTED_SIGNUP_EMAILS || plugin.config.WHITELISTED_SIGNUP_EMAIL_DOMAINS
+
+  if (hasWhitelist && !whitelistedEmailFromDomain && !validatedEmailFromWhitelist) {
+    return {
+      message: 'Email not whitelisted',
+      __typename: 'EmailNotValidError',
+    }
+  }
+
+  const existing = await loginRequestKeyValue().get(email)
 
   if (existing?.loginRequestedAt) {
     const { loginRequestedAt } = existing,
@@ -36,12 +51,12 @@ export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = asyn
 
   const twoFactorCode = getTwoFactorCode()
 
-  await loginRequestKeyValue().set(email.toLowerCase(), {
+  await loginRequestKeyValue().set(email, {
     loginRequestedAt: new Date().toISOString(),
     twoFactorCode,
   }, plugin.config.twoFactorCodeExpiryInSeconds)
 
-  await plugin.config.handleAuthRequest({ email }, twoFactorCode, context)
+  await plugin.config.handleAuthRequest({ email: emailInput }, twoFactorCode, context)
 
   return {
     __typename: 'LoginRequestSuccessResponse',
