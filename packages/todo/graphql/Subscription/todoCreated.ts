@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-const todoCreated: SubscriptionResolvers['todoCreated'] = {
+export const todoCreated: NonNullable<SubscriptionResolvers['todoCreated']> = {
   // subscribe to the todoCreated event
   subscribe: (_, __, { pubsub, logger }) => {
     logger.info('subscribing to todoCreated')

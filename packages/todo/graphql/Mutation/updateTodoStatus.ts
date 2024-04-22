@@ -2,7 +2,7 @@ import plugin from '../../plugin'
 
 import type { MutationResolvers, Todo } from '../schema.generated'
 
-const updateTodoStatus: MutationResolvers['updateTodoStatus'] = async (_, {
+export const updateTodoStatus: NonNullable<MutationResolvers['updateTodoStatus']> = async (_, {
   id, completed,
 }, { pubsub, decodedToken }) => {
   const { userId } = decodedToken!

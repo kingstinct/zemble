@@ -52,6 +52,17 @@ module.exports = {
       ],
     },
     {
+      extends: ['./json.js'],
+      files: [
+        'package.json'
+      ],
+      rules: {
+        'eol-last': 0,
+        'jsonc/array-element-newline': 0,
+        'jsonc/array-bracket-spacing': 0
+      }
+    },
+    {
       files: 'app.json',
       rules: {
         'jsonc/array-bracket-newline': 0,

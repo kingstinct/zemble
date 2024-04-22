@@ -2,7 +2,7 @@ import { readEntities } from '../../utils/fs'
 
 import type { QueryResolvers } from '../schema.generated'
 
-const entities: QueryResolvers['entities'] = async () => {
+export const getAllEntities: NonNullable<QueryResolvers['getAllEntities']> = async () => {
   const result = await readEntities()
 
   return result.map((entity) => ({
@@ -11,4 +11,4 @@ const entities: QueryResolvers['entities'] = async () => {
   }))
 }
 
-export default entities
+export default getAllEntities

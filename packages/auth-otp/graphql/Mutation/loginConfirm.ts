@@ -11,7 +11,7 @@ import type {
   MutationResolvers,
 } from '../schema.generated'
 
-const loginConfirm: MutationResolvers['loginConfirm'] = async (_, {
+export const loginConfirm: NonNullable<MutationResolvers['loginConfirm']> = async (_, {
   email: emailIn, code,
 }, { honoContext }) => {
   const email = emailIn.toLowerCase().trim()
