@@ -3,7 +3,7 @@ import defaultConfig, { DEFAULT_CLIENT_OUTPUT_DIRECTORY_PATH } from '@zemble/gra
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-const config: CodegenConfig = {
+const config = {
   generates: {
     [DEFAULT_CLIENT_OUTPUT_DIRECTORY_PATH]: {
       config: {
@@ -13,6 +13,6 @@ const config: CodegenConfig = {
       },
     },
   },
-}
+} satisfies CodegenConfig
 
-export default mergeDeep<CodegenConfig>(defaultConfig, config)
+export default mergeDeep(defaultConfig, config)

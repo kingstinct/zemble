@@ -13,7 +13,7 @@ export const logout: NonNullable<MutationResolvers['logout']> = async (_, __, { 
 
   const { sub } = (decodedToken ?? {}) as JWTPayload
   if (sub && token) {
-    plugin.config.invalidateToken(sub, token)
+    await plugin.config.invalidateToken(sub, token)
   }
 
   return new Date()
