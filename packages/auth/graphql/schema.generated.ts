@@ -1,5 +1,5 @@
 // @ts-nocheck
-  import '@zemble/core'
+import '@zemble/core'
 import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -83,7 +83,7 @@ export type Query = {
   readonly keys: ReadonlyArray<Scalars['String']['output']>;
   readonly privateShit: Scalars['String']['output'];
   readonly privateShitWithRole: Scalars['String']['output'];
-  readonly publicKey: Scalars['String']['output'];
+  readonly publicKey?: Maybe<Scalars['String']['output']>;
   readonly publicShit: Scalars['String']['output'];
   readonly readJWT: Scalars['JSONObject']['output'];
   readonly size: Scalars['Int']['output'];
@@ -320,7 +320,7 @@ export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
   keys?: Resolver<ReadonlyArray<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryKeysArgs, 'prefix'>>;
   privateShit?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   privateShitWithRole?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  publicKey?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
   publicShit?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
   readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
   size?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QuerySizeArgs, 'prefix'>>;

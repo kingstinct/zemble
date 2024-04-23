@@ -13,7 +13,7 @@ export const logoutFromAllDevices: NonNullable<MutationResolvers['logoutFromAllD
 
   const { sub } = (decodedToken ?? {}) as JWTPayload
   if (sub) {
-    plugin.config.invalidateAllTokens(sub)
+    await plugin.config.invalidateAllTokens(sub)
   }
 
   return new Date()

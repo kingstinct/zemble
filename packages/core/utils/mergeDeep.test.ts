@@ -17,7 +17,7 @@ test('should merge objects', () => {
     },
   }
 
-  expect(mergeDeep<object>(a, b)).toEqual({
+  expect(mergeDeep<Record<string, unknown>>(a, b)).toEqual({
     a: 2,
     b: {
       c: 2,

@@ -1,5 +1,5 @@
 // @ts-nocheck
-  import '@zemble/core'
+import '@zemble/core'
 import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;

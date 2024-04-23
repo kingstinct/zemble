@@ -3,7 +3,7 @@ import defaultConfig, { DEFAULT_SERVER_OUTPUT_SCHEMA_PATH, createServerOutputCon
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-const hello: CodegenConfig = {
+const hello = {
   schema: `./graphql/**/*.graphql`,
   generates: {
     [DEFAULT_SERVER_OUTPUT_SCHEMA_PATH]: {
@@ -21,8 +21,8 @@ const hello: CodegenConfig = {
       },
     },
   },
-}
+} satisfies CodegenConfig
 
-const config = mergeDeep<CodegenConfig>(defaultConfig, hello)
+const config = mergeDeep(defaultConfig, hello)
 
 export default config

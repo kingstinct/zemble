@@ -105,25 +105,27 @@ const validateMatch = (matchValueNode: ObjectValueNode, decodedToken: Record<str
   }
 }
 
+const checkTokenValidityDefault = async (token: string, decodedToken: TokenContents): Promise<boolean> => {
+  // we need to force sub to be set for all tokens for this to work
+  const isInvalid = await plugin.providers.kv<string>('invalid-tokens').get(`${(decodedToken as JWTPayload).sub}:${token}`)
+  if (isInvalid) {
+    return false
+  }
+
+  const wasInvalidatedAt = await plugin.providers.kv<string>('tokens-invalidated-at').get(decodedToken.sub)
+  if (wasInvalidatedAt) {
+    return new Date(wasInvalidatedAt) > new Date()
+  }
+
+  return true
+}
+
 const defaultConfig = {
   ISSUER,
   headerName: 'authorization',
   bearerTokenExpiryInSeconds: 60 * 60 * 1, // 1 hour
   refreshTokenExpiryInSeconds: 60 * 60 * 24, // 24 hours
-  checkTokenValidity: async (token, decodedToken) => {
-    // we need to force sub to be set for all tokens for this to work
-    const isInvalid = await plugin.providers.kv('invalid-tokens').get(`${(decodedToken as JWTPayload).sub}:${token}`)
-    if (isInvalid) {
-      return false
-    }
-
-    const wasInvalidatedAt = await plugin.providers.kv('tokens-invalidated-at').get(decodedToken.sub)
-    if (wasInvalidatedAt) {
-      return new Date(wasInvalidatedAt) > new Date()
-    }
-
-    return true
-  },
+  checkTokenValidity: checkTokenValidityDefault,
   invalidateAllTokens: async (sub) => {
     await plugin.providers.kv('tokens-invalidated-at').set(sub, new Date().toString())
   },

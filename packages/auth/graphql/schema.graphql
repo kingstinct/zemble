@@ -16,7 +16,7 @@ directive @auth(
 type Query {
   validateJWT(token: String!): Boolean! @auth(skip: true)
   readJWT(token: String!): JSONObject! @auth(skip: true)
-  publicKey: String! @auth(skip: true)
+  publicKey: String @auth(skip: true)
 }
 
 interface Error {
