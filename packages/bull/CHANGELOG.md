@@ -1,5 +1,14 @@
 # @zemble/bull
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [b73d640]
+  - @zemble/core@0.1.12
+  - @zemble/auth@0.0.43
+  - @zemble/graphql@0.0.43
+
 ## 0.1.6
 
 ### Patch Changes

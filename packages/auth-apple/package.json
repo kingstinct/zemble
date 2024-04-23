@@ -1,6 +1,6 @@
 {
   "name": "@zemble/auth-apple",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "Zemble Plugin providing authentication through Sign in with Apple",
   "main": "plugin.ts",
   "scripts": {
