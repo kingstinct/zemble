@@ -1,5 +1,16 @@
 # @zemble/debug
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [23a37c5]
+  - @zemble/auth@0.0.44
+  - @zemble/core@0.1.13
+  - @zemble/graphql@0.0.44
+  - @zemble/bun@0.0.24
+  - @zemble/routes@0.0.25
+
 ## 0.0.4
 
 ### Patch Changes

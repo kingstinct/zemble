@@ -1,5 +1,19 @@
 # @zemble/cms-users
 
+## 0.0.49
+
+### Patch Changes
+
+- 23a37c5: Type fixes
+- Updated dependencies [23a37c5]
+  - @zemble/auth-otp@0.0.45
+  - @zemble/auth@0.0.44
+  - @zemble/cms@0.0.49
+  - @zemble/core@0.1.13
+  - @zemble/graphql@0.0.44
+  - @zemble/kv@0.0.42
+  - @zemble/mongodb@0.0.26
+
 ## 0.0.48
 
 ### Patch Changes
