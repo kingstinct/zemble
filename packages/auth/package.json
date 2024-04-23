@@ -1,6 +1,6 @@
 {
   "name": "@zemble/auth",
-  "version": "0.0.43",
+  "version": "0.0.44",
   "description": "Zemble Plugin providing generic Auth Support",
   "main": "plugin.ts",
   "bin": {

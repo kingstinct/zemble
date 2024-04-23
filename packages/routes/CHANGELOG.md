@@ -1,5 +1,12 @@
 # @zemble/routes
 
+## 0.0.25
+
+### Patch Changes
+
+- Updated dependencies [23a37c5]
+  - @zemble/core@0.1.13
+
 ## 0.0.24
 
 ### Patch Changes

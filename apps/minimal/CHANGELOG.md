@@ -1,5 +1,21 @@
 # minimal
 
+## 0.0.49
+
+### Patch Changes
+
+- 23a37c5: Type fixes
+- Updated dependencies [23a37c5]
+  - @zemble/auth@0.0.44
+  - @zemble/bull@0.1.8
+  - @zemble/core@0.1.13
+  - @zemble/graphql@0.0.44
+  - @zemble/logger-graphql@0.0.40
+  - @zemble/bun@0.0.24
+  - @zemble/migrations@0.0.24
+  - @zemble/pino@0.0.14
+  - @zemble/routes@0.0.25
+
 ## 0.0.48
 
 ### Patch Changes
