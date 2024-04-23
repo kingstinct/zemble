@@ -11,10 +11,11 @@ import {
 import { getCookie } from 'hono/cookie'
 
 import { refreshTokensFromPrevious } from './graphql/Mutation/refreshToken'
-import { decodeToken, decodeToken as defaultDecodeToken } from './utils/decodeToken'
+import { decodeToken } from './utils/decodeToken'
 import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers'
 import { setTokenCookies } from './utils/setBearerTokenCookie'
 
+import type { decodeToken as defaultDecodeToken } from './utils/decodeToken'
 import type {
   ExecutionArgs, FieldNode, GraphQLObjectType, ObjectValueNode,
 } from 'graphql'
@@ -158,7 +159,7 @@ type ResolveTokensArgs = {
   readonly decodeToken?: typeof defaultDecodeToken
 }
 
-const resolveTokens = async ({ config, context, decodeToken = defaultDecodeToken }: ResolveTokensArgs) => {
+const resolveTokens = async ({ config, context }: ResolveTokensArgs) => {
   const isWs = isGraphQlWsContext(context),
 
         headerName = config.headerName ?? 'authorization',

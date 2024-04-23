@@ -33,6 +33,7 @@ export const createPluginSchema = async (plugin: Plugin) => {
     readResolvers(join(graphqlDir, '/Mutation'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Subscription'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Type'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Scalar'), plugin.providers.logger, plugin.isPluginRunLocally),
   ])
 

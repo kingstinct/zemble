@@ -7,7 +7,7 @@ export default new Plugin(import.meta.dir, {
   // this is mostly to ensure we get the global typings past here
   dependencies: () => [
     { plugin: Yoga },
-    { plugin: AnonymousAuth, onlyWhenRunningLocally: true },
+    { plugin: AnonymousAuth },
     { plugin: KV },
   ],
 })
