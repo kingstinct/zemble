@@ -1,5 +1,12 @@
 # @zemble/node
 
+## 0.0.23
+
+### Patch Changes
+
+- Updated dependencies [b73d640]
+  - @zemble/core@0.1.12
+
 ## 0.0.22
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.12
+
+### Patch Changes
+
+- b73d640: Type updates
+
 ## 0.1.11
 
 ### Patch Changes
