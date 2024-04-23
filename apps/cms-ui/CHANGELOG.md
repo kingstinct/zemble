@@ -1,5 +1,11 @@
 # cms-ui
 
+## 0.0.10
+
+### Patch Changes
+
+- 80fe6c9: Improve authorization model
+
 ## 0.0.9
 
 ### Patch Changes

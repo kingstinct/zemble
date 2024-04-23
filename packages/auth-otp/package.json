@@ -1,6 +1,6 @@
 {
   "name": "@zemble/auth-otp",
-  "version": "0.0.42",
+  "version": "0.0.43",
   "description": "Zemble Plugin providing OTP authentication through email",
   "main": "plugin.ts",
   "scripts": {
@@ -41,6 +41,7 @@
     "@whatwg-node/server-plugin-cookies": "^1.0.2",
     "graphql": "^16.8.1",
     "@zemble/auth": "workspace:*",
+    "@zemble/utils": "workspace:*",
     "@zemble/kv": "workspace:*"
   }
 }

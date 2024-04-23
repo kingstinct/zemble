@@ -36,7 +36,7 @@ const mapInputToField = (input: FieldInput): Field => {
   }
 }
 
-const addFieldsToEntity: MutationResolvers['addFieldsToEntity'] = async (_, { namePlural, fields: fieldsInput }, { pubsub }) => {
+export const addFieldsToEntity: NonNullable<MutationResolvers['addFieldsToEntity']> = async (_, { namePlural, fields: fieldsInput }, { pubsub }) => {
   const fields = fieldsInput.map(mapInputToField)
 
   const entities = await readEntities()

@@ -12,7 +12,7 @@ import type {
   MutationResolvers,
 } from '../schema.generated'
 
-const loginConfirm: MutationResolvers['loginWithApple'] = async (_, {
+export const loginWithApple: NonNullable<MutationResolvers['loginWithApple']> = async (_, {
   authorizationCode, identityToken, realUserStatus, userUUID, email, fullName, state,
 }, { honoContext }) => {
   if (state) {
@@ -49,4 +49,4 @@ const loginConfirm: MutationResolvers['loginWithApple'] = async (_, {
   }
 }
 
-export default loginConfirm
+export default loginWithApple

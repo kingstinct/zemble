@@ -2,7 +2,7 @@ import plugin from '../../plugin'
 
 import type { MutationResolvers } from '../schema.generated'
 
-const createTodo: MutationResolvers['createTodo'] = async (_, { title }, { pubsub, decodedToken }) => {
+export const createTodo: NonNullable<MutationResolvers['createTodo']> = async (_, { title }, { pubsub, decodedToken }) => {
   const id = Math.random().toString(36).substring(7)
   const { userId } = decodedToken!
   const todo = { title, id, completed: false }

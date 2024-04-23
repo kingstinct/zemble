@@ -1,3 +1,7 @@
 import { verifyJwt } from '../../utils/verifyJwt'
 
-export default async (_: unknown, { token }: {readonly token: string}) => verifyJwt(token)
+import type { QueryResolvers } from '../schema.generated'
+
+export const readJWT: NonNullable<QueryResolvers['readJWT']> = async (_, { token }) => verifyJwt(token)
+
+export default readJWT

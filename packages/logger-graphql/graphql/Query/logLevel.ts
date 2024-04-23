@@ -12,6 +12,6 @@ const mapLogLevel: Record<LevelWithSilentOrString, LogLevel> = {
   info: LogLevel.Info,
 }
 
-const logLevel: QueryResolvers['logLevel'] = (_, __, { logger }) => mapLogLevel[logger.level]!
+export const logLevel: NonNullable<QueryResolvers['logLevel']> = (_, __, { logger }) => mapLogLevel[logger.level]!
 
 export default logLevel

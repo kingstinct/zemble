@@ -5,7 +5,7 @@ import { PermissionType, User } from '../../clients/papr'
 
 import type { MutationResolvers } from '../schema.generated'
 
-const updatePermissions: MutationResolvers['updatePermissions'] = async (_, { userId, permissions }, { decodedToken }) => {
+export const updatePermissions: NonNullable<MutationResolvers['updatePermissions']> = async (_, { userId, permissions }, { decodedToken }) => {
   // @ts-expect-error fix sometime
   if (userId === decodedToken.id && permissions.some((p) => p.type === PermissionType.MANAGE_USERS)) {
     throw new GraphQLError('You cannot remove your own user-admin permission')
