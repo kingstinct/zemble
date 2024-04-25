@@ -13,7 +13,6 @@ import { validateIdToken, type AppleJwtContents } from './utils/validateIdToken'
 import { validateOAuthStateJWT } from './utils/validateOAuthStateJWT'
 
 interface AppleAuthConfig extends Zemble.GlobalConfig {
-  readonly tokenExpiryInSeconds?: number
   readonly PRIVATE_KEY?: string;
   readonly generateTokenContents: (jwtContents: AppleJwtContents, signUpUserData: AppleUserSignupData | undefined) => Promise<Zemble.AppleToken> | Zemble.AppleToken
   readonly UNAUTHENTICATED_REDIRECT_URL?: string
@@ -58,7 +57,6 @@ function generateTokenContents(jwtContents: AppleJwtContents): Zemble.AppleToken
 }
 
 const defaultConfig = {
-  tokenExpiryInSeconds: undefined,
   generateTokenContents,
   AUTHENTICATED_REDIRECT_URL: process.env.AUTH_LOGGED_IN_REDIRECT_URL ?? '/',
   UNAUTHENTICATED_REDIRECT_URL: process.env.AUTH_LOGIN_REDIRECT_URL ?? '/login',
