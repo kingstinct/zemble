@@ -36,6 +36,7 @@
   "editor.formatOnSave": true,
   "cSpell.words": [
     "composability",
+    "dataloaders",
     "pucelle",
     "tldr",
     "zemble"
