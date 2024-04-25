@@ -55,6 +55,7 @@ const DEFAULT_SERVER_CONFIG = {
   directiveContextTypes: ['auth#Zemble.AuthContextWithToken'],
   showUnusedMappers: true,
   useTypeImports: true,
+  maybeValue: 'T | null | undefined',
 } satisfies Types.PluginConfig<unknown>
 
 export const createServerOutputConfig = () => ({
