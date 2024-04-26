@@ -8,6 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "noPropertyAccessFromIndexSignature": false,
     "noUnusedLocals": false,
+    "resolveJsonModule": true,
     "noUnusedParameters": false,
     "types": [ "bun-types" ]
   },
