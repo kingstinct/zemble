@@ -1,5 +1,19 @@
 # @zemble/cms-users
 
+## 0.0.50
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+- Updated dependencies [b7d7656]
+  - @zemble/auth-otp@0.0.46
+  - @zemble/auth@0.0.45
+  - @zemble/cms@0.0.50
+  - @zemble/core@0.1.14
+  - @zemble/graphql@0.0.45
+  - @zemble/kv@0.0.43
+  - @zemble/mongodb@0.0.27
+
 ## 0.0.49
 
 ### Patch Changes
