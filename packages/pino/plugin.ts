@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
 import { Plugin } from '@zemble/core'
+import mergeDeep from '@zemble/core/utils/mergeDeep'
 import pino from 'pino'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import pinoDebug from 'pino-debug'
@@ -75,7 +76,7 @@ export default new Plugin<LoggerConfig>(
         : (process.env.NODE_ENV === 'test' ? defaultTestConfig
           : defaultDevConfig)
 
-      const logger = pino(config.logger ?? defaultConfig)
+      const logger = pino(mergeDeep(defaultConfig, config.logger ?? {}))
 
       app.providers.logger = logger
 

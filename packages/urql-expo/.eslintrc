@@ -1,5 +1,6 @@
 {
   "extends": [
-      "../../.eslintrc"
+      "../../.eslintrc",
+      "../eslint/react-native.js"
   ]
 }

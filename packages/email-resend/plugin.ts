@@ -53,12 +53,12 @@ const plugin = new Plugin<EmailResendConfig, typeof defaultConfig>(import.meta.d
         from, to, html, text, subject, replyTo, cc, bcc,
       // eslint-disable-next-line unicorn/consistent-function-scoping
       }) => {
-        if (!plugin.config.RESEND_API_KEY) {
+        if (!config.RESEND_API_KEY) {
           logger.warn('RESEND_API_KEY must be set to send email, skipping')
           return false
         }
 
-        const resend = new Resend(plugin.config.RESEND_API_KEY)
+        const resend = new Resend(config.RESEND_API_KEY)
 
         const response = await resend.emails.send({
           to: to instanceof Array ? to.map(mapEmail) : mapEmail(to),

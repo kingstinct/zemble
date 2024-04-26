@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { OneOfInputObjectsRule, useExtendedValidation } from '@envelop/extended-validation'
 import auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'

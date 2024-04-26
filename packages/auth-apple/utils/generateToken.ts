@@ -1,3 +1,4 @@
+import authPlugin from '@zemble/auth'
 import { signJwt } from '@zemble/auth/utils/signJwt'
 
 import { type AppleJwtContents } from './validateIdToken'
@@ -30,7 +31,7 @@ export const generateBearerTokenFromAppleToken = async (
 ) => {
   const bearerToken = await signJwt({
     data: await plugin.config.generateTokenContents(jwtContents, signUpUserData),
-    expiresInSeconds: plugin.config.tokenExpiryInSeconds,
+    expiresInSeconds: authPlugin.config.bearerTokenExpiryInSeconds,
     sub: jwtContents.sub,
   })
 

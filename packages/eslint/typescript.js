@@ -30,6 +30,7 @@ module.exports = {
     'no-shadow': 0,
     '@typescript-eslint/no-unnecessary-type-assertion': 0,
     '@typescript-eslint/no-unsafe-argument': 1,
+    '@typescript-eslint/no-unused-vars': 1,
     '@typescript-eslint/no-unsafe-assignment': 0,
     // would like to have these but they don't work well..
     '@typescript-eslint/no-unsafe-call': 0,

@@ -3,6 +3,7 @@ import { Plugin, type IStandardLogger, type TokenContents } from '@zemble/core'
 import * as GraphQLJS from 'graphql'
 
 import middleware from './middleware'
+import { useServerTiming } from './utils/useServerTiming'
 
 import type { SubschemaConfig } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
@@ -100,6 +101,8 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly outputMergedSchemaPath?: string | false
 
   readonly subscriptionTransport?: 'sse' | 'ws'
+
+  readonly enableServerTiming?: boolean
 }
 
 const logFn = (eventName: string, ...args: readonly unknown[]) => {
@@ -110,12 +113,11 @@ const defaultConfig = {
   yoga: {
     graphqlEndpoint: '/graphql',
     plugins: [
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       useEngine(GraphQLJS),
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       useLogger({
         logFn,
       }),
+      useServerTiming(),
     ],
     maskedErrors: {
       isDev: process.env.NODE_ENV === 'development',
@@ -130,6 +132,7 @@ const defaultConfig = {
   redisUrl: process.env.REDIS_URL,
   outputMergedSchemaPath: './app.generated.graphql',
   subscriptionTransport: 'sse',
+  enableServerTiming: process.env.NODE_ENV === 'development',
   // extendSchema: async () => [createEnvironmentSchema()],
 } satisfies GraphQLMiddlewareConfig
 

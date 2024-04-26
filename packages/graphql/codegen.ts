@@ -7,6 +7,7 @@ import type { Types } from '@graphql-codegen/plugin-helpers'
 export const DEFAULT_SCHEMA_INPUT: Types.InstanceOrArray<Types.Schema> = [
   `./**/*.graphql`,
   '!./graphql/client.generated/**/*',
+  `!./node_modules/**/*`,
 ]
 export const DEFAULT_CLIENT_OUTPUT_DIRECTORY_PATH = `./graphql/client.generated/` as const
 export const DEFAULT_SERVER_OUTPUT_SCHEMA_PATH = `./graphql/schema.generated.ts` as const
@@ -28,6 +29,7 @@ export const createClientOutputConfig = () => ({
     `./*.ts`,
     `!./**/*.generated.ts`,
     `!./node_modules/**/*`,
+    `!./**/node_modules/**/*`,
   ],
   config: {
     useTypeImports: true,
@@ -53,6 +55,7 @@ const DEFAULT_SERVER_CONFIG = {
   directiveContextTypes: ['auth#Zemble.AuthContextWithToken'],
   showUnusedMappers: true,
   useTypeImports: true,
+  maybeValue: 'T | null | undefined',
 } satisfies Types.PluginConfig<unknown>
 
 export const createServerOutputConfig = () => ({

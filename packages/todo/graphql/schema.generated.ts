@@ -1,8 +1,8 @@
 // @ts-nocheck
 import '@zemble/core'
-import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+import type { GraphQLResolveInfo } from 'graphql';
+export type Maybe<T> = T | null | undefined;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -16,40 +16,17 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  JSON: { input: any; output: any; }
 };
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
-  readonly clear: Scalars['Boolean']['output'];
   readonly createTodo: Todo;
-  readonly delete: Scalars['Boolean']['output'];
-  readonly set: Scalars['Boolean']['output'];
   readonly updateTodoStatus?: Maybe<Todo>;
-};
-
-
-export type MutationClearArgs = {
-  prefix: Scalars['String']['input'];
 };
 
 
 export type MutationCreateTodoArgs = {
   title: Scalars['String']['input'];
-};
-
-
-export type MutationDeleteArgs = {
-  key: Scalars['String']['input'];
-  prefix: Scalars['String']['input'];
-};
-
-
-export type MutationSetArgs = {
-  expireAfterSeconds?: InputMaybe<Scalars['Int']['input']>;
-  key: Scalars['String']['input'];
-  prefix: Scalars['String']['input'];
-  value: Scalars['JSON']['input'];
 };
 
 
@@ -60,45 +37,7 @@ export type MutationUpdateTodoStatusArgs = {
 
 export type Query = {
   readonly __typename?: 'Query';
-  readonly entries: ReadonlyArray<Scalars['JSON']['output']>;
-  readonly get?: Maybe<Scalars['JSON']['output']>;
-  readonly has: Scalars['Boolean']['output'];
-  readonly keys: ReadonlyArray<Scalars['String']['output']>;
-  readonly size: Scalars['Int']['output'];
   readonly todos: ReadonlyArray<Todo>;
-  readonly values: ReadonlyArray<Scalars['JSON']['output']>;
-};
-
-
-export type QueryEntriesArgs = {
-  prefix: Scalars['String']['input'];
-};
-
-
-export type QueryGetArgs = {
-  key: Scalars['String']['input'];
-  prefix: Scalars['String']['input'];
-};
-
-
-export type QueryHasArgs = {
-  key: Scalars['String']['input'];
-  prefix: Scalars['String']['input'];
-};
-
-
-export type QueryKeysArgs = {
-  prefix: Scalars['String']['input'];
-};
-
-
-export type QuerySizeArgs = {
-  prefix: Scalars['String']['input'];
-};
-
-
-export type QueryValuesArgs = {
-  prefix: Scalars['String']['input'];
 };
 
 export type Subscription = {
@@ -188,8 +127,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -201,8 +138,6 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
-  Int: Scalars['Int']['output'];
-  JSON: Scalars['JSON']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
@@ -210,26 +145,13 @@ export type ResolversParentTypes = ResolversObject<{
   Todo: Todo;
 }>;
 
-export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
-  name: 'JSON';
-}
-
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  clear?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationClearArgs, 'prefix'>>;
   createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'title'>>;
-  delete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteArgs, 'key' | 'prefix'>>;
-  set?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetArgs, 'key' | 'prefix' | 'value'>>;
   updateTodoStatus?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationUpdateTodoStatusArgs, 'completed' | 'id'>>;
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  entries?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryEntriesArgs, 'prefix'>>;
-  get?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryGetArgs, 'key' | 'prefix'>>;
-  has?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryHasArgs, 'key' | 'prefix'>>;
-  keys?: Resolver<ReadonlyArray<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryKeysArgs, 'prefix'>>;
-  size?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QuerySizeArgs, 'prefix'>>;
   todos?: Resolver<ReadonlyArray<ResolversTypes['Todo']>, ParentType, ContextType>;
-  values?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryValuesArgs, 'prefix'>>;
 }>;
 
 export type SubscriptionResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
@@ -245,7 +167,6 @@ export type TodoResolvers<ContextType = Zemble.GraphQLContext, ParentType extend
 }>;
 
 export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
-  JSON?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;

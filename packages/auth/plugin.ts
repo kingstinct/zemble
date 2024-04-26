@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useExtendContext } from '@envelop/core'
 import { useGenericAuth } from '@envelop/generic-auth'
 import { Plugin, type TokenContents } from '@zemble/core'
@@ -196,12 +195,12 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
         const { token, refreshToken } = await resolveTokens({
           config,
           context,
-          decodeToken: plugin.config.decodeToken,
+          decodeToken: config.decodeToken,
         })
 
         let bearerToken = token
 
-        if (plugin.config.cookies.isEnabled && token && refreshToken) {
+        if (config.cookies.isEnabled && token && refreshToken) {
           const { bearerToken: newBearerToken, refreshToken: newRefreshToken } = await refreshTokensFromPrevious(token, refreshToken)
           bearerToken = newBearerToken
           setTokenCookies(context, newBearerToken, newRefreshToken)
@@ -225,7 +224,7 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
               const { token } = await resolveTokens({
                 config,
                 context: isGraphQLContext ? context.honoContext : context,
-                decodeToken: plugin.config.decodeToken,
+                decodeToken: config.decodeToken,
               })
 
               return {
@@ -242,8 +241,8 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
                   return { decodedToken: null, error: undefined }
                 }
 
-                if (decodedToken && plugin.config.checkIfBearerTokenIsValid) {
-                  const error = await plugin.config.checkIfBearerTokenIsValid?.(decodedToken)
+                if (decodedToken && config.checkIfBearerTokenIsValid) {
+                  const error = await config.checkIfBearerTokenIsValid?.(decodedToken)
                   if (error !== true) {
                     return { decodedToken, error }
                   }
