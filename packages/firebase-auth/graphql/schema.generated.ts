@@ -1,8 +1,8 @@
 // @ts-nocheck
 import '@zemble/core'
-import type { GraphQLResolveInfo } from 'graphql';
-export type Maybe<T> = T | null | undefined;
-export type InputMaybe<T> = T | null | undefined;
+import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -16,12 +16,23 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
+  JSONObject: { input: any; output: any; }
+};
+
+export type AuthOr = {
+  readonly includes?: InputMaybe<Scalars['JSONObject']['input']>;
+  readonly match?: InputMaybe<Scalars['JSONObject']['input']>;
 };
 
 export type AuthResponse = {
   readonly __typename?: 'AuthResponse';
   readonly bearerToken: Scalars['String']['output'];
   readonly refreshToken: Scalars['String']['output'];
+};
+
+export type Error = {
+  readonly message: Scalars['String']['output'];
 };
 
 export type FirebaseUser = {
@@ -38,6 +49,9 @@ export type FirebaseUser = {
 export type Mutation = {
   readonly __typename?: 'Mutation';
   readonly createUserWithEmailAndPassword: AuthResponse;
+  readonly logout: Scalars['DateTime']['output'];
+  readonly logoutFromAllDevices: Scalars['DateTime']['output'];
+  readonly refreshToken: NewTokenResponse;
   readonly signInWithEmailAndPassword: AuthResponse;
 };
 
@@ -48,15 +62,32 @@ export type MutationCreateUserWithEmailAndPasswordArgs = {
 };
 
 
+export type MutationRefreshTokenArgs = {
+  bearerToken: Scalars['String']['input'];
+  refreshToken: Scalars['String']['input'];
+};
+
+
 export type MutationSignInWithEmailAndPasswordArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
+
+export type NewTokenSuccessResponse = {
+  readonly __typename?: 'NewTokenSuccessResponse';
+  readonly bearerToken: Scalars['String']['output'];
+  readonly refreshToken: Scalars['String']['output'];
 };
 
 export type Query = {
   readonly __typename?: 'Query';
   readonly firebaseListUsers: ReadonlyArray<FirebaseUser>;
   readonly firebaseUserById?: Maybe<FirebaseUser>;
+  readonly publicKey?: Maybe<Scalars['String']['output']>;
+  readonly readJWT: Scalars['JSONObject']['output'];
+  readonly validateJWT: Scalars['Boolean']['output'];
 };
 
 
@@ -68,6 +99,21 @@ export type QueryFirebaseListUsersArgs = {
 
 export type QueryFirebaseUserByIdArgs = {
   uid: Scalars['ID']['input'];
+};
+
+
+export type QueryReadJwtArgs = {
+  token: Scalars['String']['input'];
+};
+
+
+export type QueryValidateJwtArgs = {
+  token: Scalars['String']['input'];
+};
+
+export type RefreshTokenInvalidError = {
+  readonly __typename?: 'RefreshTokenInvalidError';
+  readonly message: Scalars['String']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -138,36 +184,76 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+/** Mapping of union types */
+export type ResolversUnionTypes<RefType extends Record<string, unknown>> = ResolversObject<{
+  NewTokenResponse: ( NewTokenSuccessResponse ) | ( RefreshTokenInvalidError );
+}>;
 
+/** Mapping of interface types */
+export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
+  Error: never;
+}>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AuthOr: AuthOr;
   AuthResponse: ResolverTypeWrapper<AuthResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Error: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Error']>;
   FirebaseUser: ResolverTypeWrapper<FirebaseUser>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
+  NewTokenResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['NewTokenResponse']>;
+  NewTokenSuccessResponse: ResolverTypeWrapper<NewTokenSuccessResponse>;
   Query: ResolverTypeWrapper<{}>;
+  RefreshTokenInvalidError: ResolverTypeWrapper<RefreshTokenInvalidError>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AuthOr: AuthOr;
   AuthResponse: AuthResponse;
   Boolean: Scalars['Boolean']['output'];
+  DateTime: Scalars['DateTime']['output'];
+  Error: ResolversInterfaceTypes<ResolversParentTypes>['Error'];
   FirebaseUser: FirebaseUser;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
+  JSONObject: Scalars['JSONObject']['output'];
   Mutation: {};
+  NewTokenResponse: ResolversUnionTypes<ResolversParentTypes>['NewTokenResponse'];
+  NewTokenSuccessResponse: NewTokenSuccessResponse;
   Query: {};
+  RefreshTokenInvalidError: RefreshTokenInvalidError;
   String: Scalars['String']['output'];
 }>;
+
+export type AuthDirectiveArgs = {
+  includes?: Maybe<Scalars['JSONObject']['input']>;
+  match?: Maybe<Scalars['JSONObject']['input']>;
+  or?: Maybe<ReadonlyArray<AuthOr>>;
+  skip?: Maybe<Scalars['Boolean']['input']>;
+};
+
+export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AuthResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['AuthResponse'] = ResolversParentTypes['AuthResponse']> = ResolversObject<{
   bearerToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
   refreshToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
+
+export type ErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
+  __resolveType: TypeResolveFn<null, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
 }>;
 
 export type FirebaseUserResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['FirebaseUser'] = ResolversParentTypes['FirebaseUser']> = ResolversObject<{
@@ -181,20 +267,54 @@ export type FirebaseUserResolvers<ContextType = Zemble.GraphQLContext, ParentTyp
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject';
+}
+
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUserWithEmailAndPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationCreateUserWithEmailAndPasswordArgs, 'email' | 'password'>>;
+  logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  logoutFromAllDevices?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  refreshToken?: Resolver<ResolversTypes['NewTokenResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRefreshTokenArgs, 'bearerToken' | 'refreshToken'>>;
   signInWithEmailAndPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignInWithEmailAndPasswordArgs, 'email' | 'password'>>;
+}>;
+
+export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'NewTokenSuccessResponse' | 'RefreshTokenInvalidError', ParentType, ContextType>;
+}>;
+
+export type NewTokenSuccessResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenSuccessResponse'] = ResolversParentTypes['NewTokenSuccessResponse']> = ResolversObject<{
+  bearerToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  refreshToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   firebaseListUsers?: Resolver<ReadonlyArray<ResolversTypes['FirebaseUser']>, ParentType, ContextType, Partial<QueryFirebaseListUsersArgs>>;
   firebaseUserById?: Resolver<Maybe<ResolversTypes['FirebaseUser']>, ParentType, ContextType, RequireFields<QueryFirebaseUserByIdArgs, 'uid'>>;
+  publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
+  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
+}>;
+
+export type RefreshTokenInvalidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RefreshTokenInvalidError'] = ResolversParentTypes['RefreshTokenInvalidError']> = ResolversObject<{
+  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   AuthResponse?: AuthResponseResolvers<ContextType>;
+  DateTime?: GraphQLScalarType;
+  Error?: ErrorResolvers<ContextType>;
   FirebaseUser?: FirebaseUserResolvers<ContextType>;
+  JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
+  NewTokenResponse?: NewTokenResponseResolvers<ContextType>;
+  NewTokenSuccessResponse?: NewTokenSuccessResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RefreshTokenInvalidError?: RefreshTokenInvalidErrorResolvers<ContextType>;
 }>;
 
+export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
+}>;

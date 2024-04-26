@@ -26,15 +26,14 @@ export const createPluginSchema = async (plugin: Plugin) => {
     Query,
     Mutation,
     Subscription,
-    Type,
-    Scalars,
+    ...TypesAndScalars
   ] = await Promise.all([
     readResolvers(join(graphqlDir, '/Query'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Mutation'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Subscription'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Type'), plugin.providers.logger, plugin.isPluginRunLocally),
-    readResolvers(join(graphqlDir), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Scalar'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir), plugin.providers.logger, plugin.isPluginRunLocally),
   ])
 
   const graphqlGlob = plugin.isPluginRunLocally
@@ -43,6 +42,7 @@ export const createPluginSchema = async (plugin: Plugin) => {
 
   const schemaWithoutResolvers = await loadSchema(graphqlGlob, {
     loaders: [new GraphQLFileLoader()],
+    assumeValid: false,
   }).catch(() => null)
 
   if (!schemaWithoutResolvers) {
@@ -55,9 +55,7 @@ export const createPluginSchema = async (plugin: Plugin) => {
       Object.keys(Query).length > 0 ? { Query } : {},
       Object.keys(Mutation).length > 0 ? { Mutation } : {},
       Object.keys(Subscription).length > 0 ? { Subscription } : {},
-      Type,
-      Scalars,
-      // scalars,
+      ...TypesAndScalars,
     ]),
   })
 

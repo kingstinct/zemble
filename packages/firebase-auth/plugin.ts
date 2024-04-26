@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import Routes from '@zemble/routes'
@@ -44,6 +45,7 @@ export default new Plugin<PluginConfig, typeof defaultConfig>(
   {
     dependencies: [
       { plugin: GraphQL },
+      { plugin: Auth },
       { plugin: Routes },
     ],
     defaultConfig,
