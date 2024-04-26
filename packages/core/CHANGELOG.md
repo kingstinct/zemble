@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.14
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+
 ## 0.1.13
 
 ### Patch Changes

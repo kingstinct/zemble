@@ -1,5 +1,16 @@
 # @zemble/auth-otp
 
+## 0.0.46
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+- Updated dependencies [b7d7656]
+  - @zemble/auth@0.0.45
+  - @zemble/core@0.1.14
+  - @zemble/graphql@0.0.45
+  - @zemble/kv@0.0.43
+
 ## 0.0.45
 
 ### Patch Changes

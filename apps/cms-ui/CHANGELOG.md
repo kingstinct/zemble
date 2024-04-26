@@ -1,5 +1,11 @@
 # cms-ui
 
+## 0.0.11
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+
 ## 0.0.10
 
 ### Patch Changes
