@@ -1,4 +1,4 @@
-type DataLoaderWithKeyFunction<T, TKey> = {
+export type DataLoaderWithKeyFunction<T, TKey> = {
   readonly batchLoadFn: (keys: readonly TKey[]) => Promise<readonly T[]> | readonly T[],
   readonly cacheKeyFn?: (key: TKey) => string,
   readonly chunkSize?: number
