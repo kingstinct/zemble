@@ -1,5 +1,11 @@
 # @zemble/auth-expo
 
+## 0.0.7
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+
 ## 0.0.6
 
 ### Patch Changes

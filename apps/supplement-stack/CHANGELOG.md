@@ -1,5 +1,19 @@
 # supplement-stack
 
+## 0.0.48
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+- Updated dependencies [b7d7656]
+  - @zemble/auth-otp@0.0.46
+  - @zemble/bull@0.1.9
+  - @zemble/core@0.1.14
+  - @zemble/todo@0.0.43
+  - @zemble/apple-app-site-association@0.0.30
+  - @zemble/bun@0.0.25
+  - @zemble/graphql@0.0.45
+
 ## 0.0.47
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @zemble/bull
 
+## 0.1.9
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+- Updated dependencies [b7d7656]
+  - @zemble/auth@0.0.45
+  - @zemble/core@0.1.14
+  - @zemble/graphql@0.0.45
+
 ## 0.1.8
 
 ### Patch Changes

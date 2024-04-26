@@ -1,5 +1,21 @@
 # minimal
 
+## 0.0.50
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+- Updated dependencies [b7d7656]
+  - @zemble/auth@0.0.45
+  - @zemble/bull@0.1.9
+  - @zemble/core@0.1.14
+  - @zemble/bun@0.0.25
+  - @zemble/graphql@0.0.45
+  - @zemble/logger-graphql@0.0.41
+  - @zemble/migrations@0.0.25
+  - @zemble/pino@0.0.15
+  - @zemble/routes@0.0.26
+
 ## 0.0.49
 
 ### Patch Changes
