@@ -89,7 +89,7 @@ module.exports = {
     'import/no-cycle': 0,
     'import/no-named-as-default-member': 0,
     'import/no-named-as-default': 0,
-    'no-nested-ternary': 2,
+    'no-nested-ternary': 0,
     'unicorn/expiring-todo-comments': [
       'error',
       {

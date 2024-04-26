@@ -42,7 +42,6 @@ export default new Plugin<GraphQLMiddlewareConfig>(
       {
         plugin: YogaPlugin.configure({
           yoga: {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
             plugins: [useDeferStream()],
           },
         }),

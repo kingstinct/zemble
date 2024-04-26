@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import authOtp from '@zemble/auth-otp'
 import cms from '@zemble/cms'
 import papr from '@zemble/cms/clients/papr'

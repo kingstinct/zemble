@@ -1,0 +1,38 @@
+scalar JSONObject
+
+input AuthOr {
+  includes: JSONObject
+  match: JSONObject
+}
+
+directive @auth(
+  match: JSONObject,
+  skip: Boolean
+  includes: JSONObject
+  or: [AuthOr!]
+) on FIELD_DEFINITION
+
+type FirebaseUser {
+  email: String
+  uid: ID!
+  emailVerified: Boolean!
+  displayName: String
+  photoURL: String
+  phoneNumber: String
+  disabled: Boolean!
+}
+
+type Query {
+  firebaseListUsers(maxResults: Int, pageToken: String): [FirebaseUser!]!
+  firebaseUserById(uid: ID!): FirebaseUser
+}
+
+type AuthResponse {
+  bearerToken: String! @auth(skip: true)
+  refreshToken: String! @auth(skip: true)
+}
+
+type Mutation {
+  signInWithEmailAndPassword(email: String!, password: String!): AuthResponse! @auth(skip: true)
+  createUserWithEmailAndPassword(email: String!, password: String!): AuthResponse! @auth(skip: true)
+}

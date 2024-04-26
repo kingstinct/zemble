@@ -1,6 +1,6 @@
 {
   "extends": [
-      "./packages/eslint/react-native.js"
+      "./packages/eslint/base.js"
   ],
   "rules": {
       "no-console": 2,

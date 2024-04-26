@@ -4,6 +4,7 @@ import { loadSchema } from '@graphql-tools/load'
 import { mergeResolvers } from '@graphql-tools/merge'
 import { addResolversToSchema } from '@graphql-tools/schema'
 import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
+import debug from 'debug'
 import fs from 'node:fs'
 import path, { join } from 'node:path'
 
@@ -26,15 +27,14 @@ export const createPluginSchema = async (plugin: Plugin) => {
     Query,
     Mutation,
     Subscription,
-    Type,
-    Scalars,
+    ...TypesAndScalars
   ] = await Promise.all([
     readResolvers(join(graphqlDir, '/Query'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Mutation'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Subscription'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Type'), plugin.providers.logger, plugin.isPluginRunLocally),
-    readResolvers(join(graphqlDir), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Scalar'), plugin.providers.logger, plugin.isPluginRunLocally),
+    readResolvers(join(graphqlDir), plugin.providers.logger, plugin.isPluginRunLocally),
   ])
 
   const graphqlGlob = plugin.isPluginRunLocally
@@ -43,7 +43,14 @@ export const createPluginSchema = async (plugin: Plugin) => {
 
   const schemaWithoutResolvers = await loadSchema(graphqlGlob, {
     loaders: [new GraphQLFileLoader()],
-  }).catch(() => null)
+  }).catch((e) => {
+    if (e instanceof Error && e.message.includes('Unable to find any GraphQL type definitions for the following pointers')) {
+      plugin.providers.logger.debug(`Error loading schema in ${graphqlGlob}:\n${e.message}`)
+    } else if (process.env.NODE_ENV !== 'test') {
+      plugin.providers.logger.warn(`Error loading schema in ${graphqlGlob}:\n${e}`)
+    }
+    return null
+  })
 
   if (!schemaWithoutResolvers) {
     return []
@@ -55,9 +62,7 @@ export const createPluginSchema = async (plugin: Plugin) => {
       Object.keys(Query).length > 0 ? { Query } : {},
       Object.keys(Mutation).length > 0 ? { Mutation } : {},
       Object.keys(Subscription).length > 0 ? { Subscription } : {},
-      Type,
-      Scalars,
-      // scalars,
+      ...TypesAndScalars,
     ]),
   })
 
