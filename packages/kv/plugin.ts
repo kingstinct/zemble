@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { KeyValue, Plugin, setupProvider } from '@zemble/core'
 
 import RedisKeyValue from './clients/RedisKeyValue'

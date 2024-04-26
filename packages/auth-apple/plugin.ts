@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-namespace */
 
 import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'

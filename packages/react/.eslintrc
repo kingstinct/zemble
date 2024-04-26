@@ -1,6 +1,7 @@
 {
   "extends": [
-      "../../.eslintrc"
+      "../../.eslintrc",
+      "../eslint/react-native.js"
   ],
   "rules": {
     "import/no-extraneous-dependencies": 1

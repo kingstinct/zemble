@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useExtendContext } from '@envelop/core'
 import { useGenericAuth } from '@envelop/generic-auth'
 import { Plugin, type TokenContents } from '@zemble/core'
