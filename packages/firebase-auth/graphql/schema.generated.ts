@@ -272,11 +272,11 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createUserWithEmailAndPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationCreateUserWithEmailAndPasswordArgs, 'email' | 'password'>>;
+  createUserWithEmailAndPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationCreateUserWithEmailAndPasswordArgs, 'email' | 'password'>>;
   logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   logoutFromAllDevices?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   refreshToken?: Resolver<ResolversTypes['NewTokenResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRefreshTokenArgs, 'bearerToken' | 'refreshToken'>>;
-  signInWithEmailAndPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<MutationSignInWithEmailAndPasswordArgs, 'email' | 'password'>>;
+  signInWithEmailAndPassword?: Resolver<ResolversTypes['AuthResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationSignInWithEmailAndPasswordArgs, 'email' | 'password'>>;
 }>;
 
 export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{

@@ -33,6 +33,6 @@ type AuthResponse {
 }
 
 type Mutation {
-  signInWithEmailAndPassword(email: String!, password: String!): AuthResponse!
-  createUserWithEmailAndPassword(email: String!, password: String!): AuthResponse!
+  signInWithEmailAndPassword(email: String!, password: String!): AuthResponse! @auth(skip: true)
+  createUserWithEmailAndPassword(email: String!, password: String!): AuthResponse! @auth(skip: true)
 }
