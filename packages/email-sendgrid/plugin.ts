@@ -50,12 +50,12 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
         from, to, html, text, subject, bcc, cc, replyTo,
       // eslint-disable-next-line unicorn/consistent-function-scoping
       }) => {
-        if (!plugin.config.SENDGRID_API_KEY) {
+        if (!config.SENDGRID_API_KEY) {
           logger.warn('SENDGRID_API_KEY must be set to send email, skipping')
           return false
         }
 
-        sendgrid.setApiKey(plugin.config.SENDGRID_API_KEY)
+        sendgrid.setApiKey(config.SENDGRID_API_KEY)
 
         const [response] = await sendgrid.send({
           // eslint-disable-next-line no-nested-ternary

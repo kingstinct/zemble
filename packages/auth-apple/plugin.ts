@@ -76,13 +76,13 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
     },
   ],
   defaultConfig,
-  middleware: async ({ app }) => {
-    app.hono.get(plugin.config.appleAuthInitializePath, async (ctx) => {
+  middleware: async ({ app, config, self }) => {
+    app.hono.get(config.appleAuthInitializePath, async (ctx) => {
       const scope = 'email name',
             state = await generateOAuthStateJWT(),
             {
               APPLE_CLIENT_ID, INTERNAL_URL, appleAuthCallbackPath,
-            } = plugin.config,
+            } = config,
             redirectUri = path.join(INTERNAL_URL, appleAuthCallbackPath)
 
       if (!APPLE_CLIENT_ID) {
@@ -96,7 +96,7 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
       return ctx.redirect(authorizationUri)
     })
 
-    app.hono.post(plugin.config.appleAuthCallbackPath, async (ctx) => {
+    app.hono.post(config.appleAuthCallbackPath, async (ctx) => {
       const formData = await ctx.req.formData(),
             idToken = formData.get('id_token')?.toString(),
             user = formData.get('user')?.toString(),
@@ -104,21 +104,21 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
             {
               UNAUTHENTICATED_REDIRECT_URL,
               AUTHENTICATED_REDIRECT_URL,
-            } = plugin.config
+            } = config
 
       if (state) {
         const isValid = await validateOAuthStateJWT(state)
         if (!isValid) {
-          plugin.providers.logger.error('state is invalid or expired')
+          self.providers.logger.error('state is invalid or expired')
           return ctx.redirect(UNAUTHENTICATED_REDIRECT_URL)
         }
-      } else if (plugin.config.enforceStateValidation) {
-        plugin.providers.logger.error('state is not present in formdata from Apple')
+      } else if (config.enforceStateValidation) {
+        self.providers.logger.error('state is not present in formdata from Apple')
         return ctx.redirect(UNAUTHENTICATED_REDIRECT_URL)
       }
 
       if (!idToken) {
-        plugin.providers.logger.error('No id_token found in formdata from Apple')
+        self.providers.logger.error('No id_token found in formdata from Apple')
         return ctx.redirect(UNAUTHENTICATED_REDIRECT_URL)
       }
 
@@ -142,9 +142,9 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
         return ctx.redirect(`${AUTHENTICATED_REDIRECT_URL}?bearerToken=${bearerToken}`)
       } catch (error) {
         if (error instanceof Error) {
-          plugin.providers.logger.error('Error:', error.message)
+          self.providers.logger.error('Error:', error.message)
         } else {
-          plugin.providers.logger.error('Error:', error)
+          self.providers.logger.error('Error:', error)
         }
 
         return ctx.redirect(UNAUTHENTICATED_REDIRECT_URL)
