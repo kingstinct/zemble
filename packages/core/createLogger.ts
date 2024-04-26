@@ -21,9 +21,9 @@ const logFn = (levelToLog: LevelWithSilentOrString, minLevelToLog: LevelWithSile
 
   const shouldLog = severitiesInOrder.indexOf(levelToLog) <= severitiesInOrder.indexOf(minLevelToLog)
   if (shouldLog) {
-    const logFn = console[levelToLog as keyof typeof console] ?? levelToLog === 'fatal'
+    const logFn = (console[levelToLog as keyof typeof console] ?? (levelToLog === 'fatal'
       ? console.error
-      : console.log
+      : console.log)) as typeof console['log']
 
     if (extraData) {
       if (typeof args[0] === 'string') {
