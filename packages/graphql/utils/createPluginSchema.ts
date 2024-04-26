@@ -43,7 +43,9 @@ export const createPluginSchema = async (plugin: Plugin) => {
   const schemaWithoutResolvers = await loadSchema(graphqlGlob, {
     loaders: [new GraphQLFileLoader()],
   }).catch((e) => {
-    plugin.providers.logger.warn(`Error loading schema in ${graphqlGlob}:\n${e}`)
+    if (process.env.NODE_ENV !== 'test') {
+      plugin.providers.logger.warn(`Error loading schema in ${graphqlGlob}:\n${e}`)
+    }
     return null
   })
 

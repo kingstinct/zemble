@@ -85,7 +85,7 @@ export type NewTokenSuccessResponse = {
 
 export type Query = {
   readonly __typename?: 'Query';
-  readonly publicKey: Scalars['String']['output'];
+  readonly publicKey?: Maybe<Scalars['String']['output']>;
   readonly readJWT: Scalars['JSONObject']['output'];
   readonly state: Scalars['String']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
@@ -265,7 +265,7 @@ export type NewTokenSuccessResponseResolvers<ContextType = Zemble.GraphQLContext
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  publicKey?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
   readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
   state?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
   validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;

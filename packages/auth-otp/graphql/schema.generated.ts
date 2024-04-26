@@ -1,8 +1,8 @@
 // @ts-nocheck
 import '@zemble/core'
 import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type Maybe<T> = T | null | undefined;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -122,7 +122,7 @@ export type Query = {
   readonly get?: Maybe<Scalars['JSON']['output']>;
   readonly has: Scalars['Boolean']['output'];
   readonly keys: ReadonlyArray<Scalars['String']['output']>;
-  readonly publicKey: Scalars['String']['output'];
+  readonly publicKey?: Maybe<Scalars['String']['output']>;
   readonly readJWT: Scalars['JSONObject']['output'];
   readonly size: Scalars['Int']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
@@ -390,7 +390,7 @@ export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
   get?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryGetArgs, 'key' | 'prefix'>>;
   has?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryHasArgs, 'key' | 'prefix'>>;
   keys?: Resolver<ReadonlyArray<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryKeysArgs, 'prefix'>>;
-  publicKey?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
   readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
   size?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QuerySizeArgs, 'prefix'>>;
   validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
