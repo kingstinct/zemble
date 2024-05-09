@@ -89,5 +89,9 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   async getJob(...args: Parameters<Queue<DataType, ReturnType>['getJob']>) {
     return this.#queue.getJob(...args)
   }
+
+  async getDelayed(...args: Parameters<Queue<DataType, ReturnType>['getDelayed']>) {
+    return this.#queue.getDelayed(...args)
+  }
 }
 export default ZembleQueueBull
