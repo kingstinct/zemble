@@ -1,5 +1,14 @@
 # minimal
 
+## 0.0.51
+
+### Patch Changes
+
+- Updated dependencies [1ac0e73]
+- Updated dependencies [90036f2]
+  - @zemble/bull@0.1.10
+  - @zemble/auth@0.0.46
+
 ## 0.0.50
 
 ### Patch Changes

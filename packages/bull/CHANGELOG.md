@@ -1,5 +1,14 @@
 # @zemble/bull
 
+## 0.1.10
+
+### Patch Changes
+
+- 1ac0e73: Update ZembleQueueBull.ts
+- 90036f2: Strict up some types
+- Updated dependencies [90036f2]
+  - @zemble/auth@0.0.46
+
 ## 0.1.9
 
 ### Patch Changes

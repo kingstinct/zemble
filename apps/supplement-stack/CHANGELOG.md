@@ -1,5 +1,16 @@
 # supplement-stack
 
+## 0.0.49
+
+### Patch Changes
+
+- 90036f2: Strict up some types
+- Updated dependencies [1ac0e73]
+- Updated dependencies [90036f2]
+  - @zemble/bull@0.1.10
+  - @zemble/auth-otp@0.0.47
+  - @zemble/todo@0.0.44
+
 ## 0.0.48
 
 ### Patch Changes

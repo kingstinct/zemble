@@ -1,5 +1,14 @@
 # @zemble/cms-users
 
+## 0.0.51
+
+### Patch Changes
+
+- Updated dependencies [90036f2]
+  - @zemble/auth-otp@0.0.47
+  - @zemble/auth@0.0.46
+  - @zemble/cms@0.0.51
+
 ## 0.0.50
 
 ### Patch Changes

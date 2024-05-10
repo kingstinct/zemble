@@ -1,5 +1,13 @@
 # @zemble/cms
 
+## 0.0.51
+
+### Patch Changes
+
+- 90036f2: Strict up some types
+- Updated dependencies [90036f2]
+  - @zemble/auth@0.0.46
+
 ## 0.0.50
 
 ### Patch Changes
