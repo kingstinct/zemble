@@ -1,5 +1,11 @@
 # @zemble/auth-expo
 
+## 0.0.8
+
+### Patch Changes
+
+- 90036f2: Strict up some types
+
 ## 0.0.7
 
 ### Patch Changes

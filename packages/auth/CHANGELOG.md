@@ -1,5 +1,11 @@
 # @zemble/auth
 
+## 0.0.46
+
+### Patch Changes
+
+- 90036f2: Strict up some types
+
 ## 0.0.45
 
 ### Patch Changes

@@ -1,10 +1,17 @@
 # create-zemble-app
 
+## 0.1.1
+
+### Patch Changes
+
+- 90036f2: Strict up some types
+
 ## 0.1.0
 
 ### Minor Changes
 
 - 1928354: Move in eslint package, rename graphql-codegen to codegen, other improvements.
+
   ```
 
   ```

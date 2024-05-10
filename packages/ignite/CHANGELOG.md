@@ -1,5 +1,13 @@
 # @zemble/ignite
 
+## 0.0.42
+
+### Patch Changes
+
+- Updated dependencies [1ac0e73]
+- Updated dependencies [90036f2]
+  - @zemble/bull@0.1.10
+
 ## 0.0.41
 
 ### Patch Changes
