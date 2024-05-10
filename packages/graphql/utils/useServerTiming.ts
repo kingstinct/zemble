@@ -9,7 +9,7 @@ import plugin from '../plugin'
 export const useServerTiming = (): EnvelopPlugin<Pick<Zemble.GraphQLContext, 'honoContext'>> => ({
   onPluginInit: ({ addPlugin }) => {
     if (plugin.config.enableServerTiming) {
-      const opCounts = {}
+      const opCounts: Record<string, number> = {}
       addPlugin(
         useOnResolve<Pick<Zemble.GraphQLContext, 'honoContext'>>(({ info, context }) => {
           const c = context.honoContext
@@ -17,7 +17,7 @@ export const useServerTiming = (): EnvelopPlugin<Pick<Zemble.GraphQLContext, 'ho
           const { fieldName } = info
 
           // eslint-disable-next-line functional/immutable-data
-          opCounts[fieldName] = opCounts[fieldName] ? opCounts[fieldName] + 1 : 1
+          opCounts[fieldName] = opCounts[fieldName] ? opCounts[fieldName]! + 1 : 1
 
           const uniqueName = `${fieldName}-${opCounts[fieldName]}`
 
