@@ -1,5 +1,3 @@
-import React from 'react'
-
 import useEvent from '../hooks/useEvent'
 
 export const useOnClick = () => {

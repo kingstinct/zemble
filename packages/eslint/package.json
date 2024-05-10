@@ -63,7 +63,6 @@
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@graphql-eslint/eslint-plugin": "^3.20.1",
-    "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",
     "eslint": "8",
