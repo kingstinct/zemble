@@ -56,12 +56,12 @@ function generateTokenContents(jwtContents: AppleJwtContents): Zemble.AppleToken
 
 const defaultConfig = {
   generateTokenContents,
-  AUTHENTICATED_REDIRECT_URL: process.env.AUTH_LOGGED_IN_REDIRECT_URL ?? '/',
-  UNAUTHENTICATED_REDIRECT_URL: process.env.AUTH_LOGIN_REDIRECT_URL ?? '/login',
-  INTERNAL_URL: process.env.INTERNAL_URL ?? 'http://localhost:3000',
-  APPLE_CLIENT_ID: process.env.APPLE_CLIENT_ID,
-  PRIVATE_KEY: process.env.PRIVATE_KEY,
-  PUBLIC_KEY: process.env.PUBLIC_KEY,
+  AUTHENTICATED_REDIRECT_URL: process.env['AUTH_LOGGED_IN_REDIRECT_URL'] ?? '/',
+  UNAUTHENTICATED_REDIRECT_URL: process.env['AUTH_LOGIN_REDIRECT_URL'] ?? '/login',
+  INTERNAL_URL: process.env['INTERNAL_URL'] ?? 'http://localhost:3000',
+  APPLE_CLIENT_ID: process.env['APPLE_CLIENT_ID'],
+  PRIVATE_KEY: process.env['PRIVATE_KEY'],
+  PUBLIC_KEY: process.env['PUBLIC_KEY'],
   appleAuthInitializePath: '/auth/apple',
   appleAuthCallbackPath: '/auth/apple/callback',
 } satisfies AppleAuthConfig

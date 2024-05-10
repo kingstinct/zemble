@@ -37,7 +37,10 @@
   "cSpell.words": [
     "composability",
     "dataloaders",
+    "pino",
     "pucelle",
+    "SENDGRID",
+    "supabase",
     "tldr",
     "zemble"
   ],

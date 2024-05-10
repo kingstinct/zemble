@@ -53,7 +53,7 @@ const setupQueues = async (
   if (hasQueues) {
     plugin.debug('Initializing queues from ', queuePath)
 
-    const redisUrl = config?.redisUrl ?? process.env.REDIS_URL
+    const redisUrl = config?.redisUrl ?? process.env['REDIS_URL']
 
     if (redisUrl || process.env.NODE_ENV === 'test') {
       const filenames = readDir(queuePath)

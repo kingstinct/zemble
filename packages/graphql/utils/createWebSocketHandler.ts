@@ -18,7 +18,7 @@ export const createWebsocketHandler = (
         schema, execute, subscribe, contextFactory, parse, validate,
       } = yoga.getEnveloped({
         ...ctx,
-        req: ctx.extra.request,
+        req: ctx.extra['request'],
         socket: ctx.extra.socket,
         params: msg.payload,
       })

@@ -16,15 +16,15 @@ interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
 class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZembleQueue<DataType, ReturnType> {
   constructor(
     readonly worker: ZembleWorker,
-    config?: ZembleQueueConfig,
+    _?: ZembleQueueConfig,
   ) {
     this.#worker = worker
-    this.#config = config
+    // this.#config = config
   }
 
   readonly #worker: ZembleWorker
 
-  readonly #config?: ZembleQueueConfig
+  // readonly #config?: ZembleQueueConfig
 
   #queueInternal: Queue<DataType, ReturnType, string> | undefined
 

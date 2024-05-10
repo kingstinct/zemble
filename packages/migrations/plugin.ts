@@ -1,5 +1,4 @@
 import { Plugin } from '@zemble/core'
-import createLogger from '@zemble/core/createLogger'
 import { readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
@@ -98,7 +97,7 @@ let downMigrationsRemaining = [] as readonly MigrationToProcess[]
 export const migrateDown = async (
   opts?: { readonly migrateDownCount?: number, readonly logger?: IStandardLogger },
 ) => {
-  const { migrateDownCount = 1, logger = defaultLogger() } = opts ?? {}
+  const { migrateDownCount = 1 } = opts ?? {}
 
   plugin.debug('migrateDown: %d migrations to process', upMigrationsRemaining.length)
 
@@ -122,11 +121,11 @@ export const migrateDown = async (
   }, Promise.resolve())
 }
 
-let defaultLoggerInternal: IStandardLogger | undefined
-const defaultLogger = () => {
-  defaultLoggerInternal ??= createLogger({ pluginName: '@zemble/migrations' })
-  return defaultLoggerInternal
-}
+// let defaultLoggerInternal: IStandardLogger | undefined
+// const defaultLogger = () => {
+//   defaultLoggerInternal ??= createLogger({ pluginName: '@zemble/migrations' })
+//   return defaultLoggerInternal
+// }
 
 export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
   const { migrateUpCount = Infinity } = opts ?? {}

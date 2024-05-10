@@ -8,7 +8,7 @@ import type {
 } from '../schema.generated'
 import type { WithoutId } from 'mongodb'
 
-export const addIngredient: NonNullable<MutationResolvers['addIngredient']> = async (parent, {
+export const addIngredient: NonNullable<MutationResolvers['addIngredient']> = async (_, {
   title, imageUrls, nutrientsPer100g, servingSizes, ingredientId,
 }, { logger }) => {
   const _id = ingredientId ? new ObjectId(ingredientId) : new ObjectId()

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, Text, View } from 'react-native'
 
 import { useAlert, useConfirm } from '../hooks'

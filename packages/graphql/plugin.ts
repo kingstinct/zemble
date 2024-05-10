@@ -54,7 +54,7 @@ declare global {
 
     interface GraphQLContext extends YogaInitialContext, GlobalContext {
       readonly token: string | undefined
-      readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] | undefined
+      readonly decodedToken: TokenContents | undefined
       readonly honoContext: RouteContext
       readonly logger: IStandardLogger
     }
@@ -129,7 +129,7 @@ const defaultConfig = {
       disable: process.env.NODE_ENV ? !['development', 'test'].includes(process.env.NODE_ENV) : true,
     },
   },
-  redisUrl: process.env.REDIS_URL,
+  redisUrl: process.env['REDIS_URL'],
   outputMergedSchemaPath: './app.generated.graphql',
   subscriptionTransport: 'sse',
   enableServerTiming: process.env.NODE_ENV === 'development',

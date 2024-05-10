@@ -3,7 +3,7 @@ import { readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 const target = process.argv.slice(2)[0] ?? 'node'
-if (process.env.DEBUG) {
+if (process.env['DEBUG']) {
   console.log(`Target: ${target}`)
 }
 
@@ -36,7 +36,7 @@ void Bun.build({
   if (stdout.logs.length > 0) {
     console.log(stdout.logs)
   }
-  if (process.env.DEBUG) {
+  if (process.env['DEBUG']) {
     if (stdout.success) {
       console.log('success!')
     }

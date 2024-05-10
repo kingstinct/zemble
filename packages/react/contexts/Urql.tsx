@@ -1,4 +1,4 @@
-import React, {
+import {
   useMemo, createContext, useContext, useState,
 } from 'react'
 import { Provider } from 'urql'

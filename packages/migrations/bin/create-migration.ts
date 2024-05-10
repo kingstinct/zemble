@@ -10,7 +10,7 @@ const dirName = import.meta.url.replace('file://', '')
 // how to make this properly configurable - point out app.js somehow?
 const targetFolder = 'migrations'
 
-void mkdir(join(process.cwd(), targetFolder)).catch((e) => {}).finally(async () => {
+void mkdir(join(process.cwd(), targetFolder)).catch((_) => {}).finally(async () => {
   const args = process.argv.slice(2)
 
   const migrationName = args[0]

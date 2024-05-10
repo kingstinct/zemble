@@ -32,7 +32,7 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
     */
   readonly emailHtml?: string
   readonly handleAuthRequest?: (email: IEmail, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
-  readonly generateTokenContents: ({ email }: {readonly email: string}) => Promise<Zemble.OtpToken> | Zemble.OtpToken
+  readonly generateTokenContents: ({ email }: {readonly email: string}) => Promise<Omit<Zemble.OtpToken, 'iat'>> | Omit<Zemble.OtpToken, 'iat'>
 }
 
 export interface DefaultOtpToken {

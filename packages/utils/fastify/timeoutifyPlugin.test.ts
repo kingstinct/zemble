@@ -6,7 +6,7 @@ import { timeoutifyPlugin } from './timeoutifyPlugin'
 
 import type { onRequestHookHandler } from 'fastify'
 
-const on = (evt: string, handler: () => void) => {
+const on = (_: string, handler: () => void) => {
   handler()
 }
 
@@ -25,7 +25,7 @@ describe('timeoutifyPlugin', () => {
     const done = jest.fn()
     let callback: onRequestHookHandler
     const fakeServer = {
-      addHook: (eventType: string, handler: onRequestHookHandler) => {
+      addHook: (_: string, handler: onRequestHookHandler) => {
         callback = handler
       },
     }
