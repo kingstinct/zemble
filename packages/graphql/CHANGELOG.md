@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.46
+
+### Patch Changes
+
+- 3bba66d: Type fix
+
 ## 0.0.45
 
 ### Patch Changes

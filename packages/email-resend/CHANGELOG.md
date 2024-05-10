@@ -1,5 +1,12 @@
 # @zemble/email-resend
 
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies [3bba66d]
+  - @zemble/graphql@0.0.46
+
 ## 0.0.14
 
 ### Patch Changes
