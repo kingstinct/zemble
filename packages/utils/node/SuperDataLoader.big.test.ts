@@ -29,8 +29,13 @@ function issuerById() {
   }
 }
 
+type DataLoaders = {
+  readonly instrumentById: DataLoader<string, unknown, unknown>
+  readonly issuerById: DataLoader<string, unknown, unknown>
+}
+
 function initDataLoaders() {
-  const dls: Record<string, DataLoader<unknown, unknown, unknown>> = {
+  const dls: DataLoaders = {
     instrumentById: new DataLoader(instrumentById(), { cacheKeyFn: (_id) => _id.toString() }),
     issuerById: new DataLoader(issuerById(), { cacheKeyFn: (_id) => _id.toString() }),
   }
@@ -52,14 +57,14 @@ describe('SuperDataLoader.big', () => {
   it('trivial', async () => {
     const dataloaders = initDataLoaders()
 
-    const instrument = await dataloaders.instrumentById?.load('558ba89433d865236cb94bda')
+    const instrument = await dataloaders['instrumentById']?.load('558ba89433d865236cb94bda')
 
     expect(instrument).toStrictEqual({
       _id: '558ba89433d865236cb94bda',
       issuerId: '5c4700e90a40e1000171e371',
     })
 
-    const issuer = await dataloaders.issuerById?.load('561a62f35548753344e7252f')
+    const issuer = await dataloaders['issuerById']?.load('561a62f35548753344e7252f')
 
     expect(issuer).toStrictEqual({
       _id: '561a62f35548753344e7252f',
@@ -72,7 +77,7 @@ describe('SuperDataLoader.big', () => {
     const instrumentIds: readonly string[] = TRANSACTION_ITEMS.map((item) => item.instrumentId)
 
     const startDataLoader = performance.now()
-    const loadedInstruments = await dataloaders.instrumentById?.loadMany(instrumentIds)
+    const loadedInstruments = await dataloaders['instrumentById']?.loadMany(instrumentIds)
     const endDataLoader = performance.now()
 
     expect(loadedInstruments).toHaveLength(95022)
@@ -123,11 +128,11 @@ describe('SuperDataLoader.big', () => {
       },
       TransactionItem: {
         // eslint-disable-next-line @typescript-eslint/no-shadow
-        instrument: async ({ instrumentId }, _, { dataloaders }) => dataloaders.instrumentById.load(instrumentId),
+        instrument: async ({ instrumentId }: { readonly instrumentId: string }, _: unknown, { dataloaders }: {readonly dataloaders: DataLoaders}) => dataloaders.instrumentById.load(instrumentId),
       },
       Instrument: {
         // eslint-disable-next-line @typescript-eslint/no-shadow
-        issuer: ({ issuerId }, _, { dataloaders }) => (issuerId ? dataloaders.issuerById.load(issuerId) : null),
+        issuer: async ({ issuerId }: { readonly issuerId: string }, _: unknown, { dataloaders }: {readonly dataloaders: DataLoaders}) => (issuerId ? dataloaders.issuerById.load(issuerId) : null),
       },
     }
 
@@ -160,7 +165,7 @@ describe('SuperDataLoader.big', () => {
     const endDataLoader = performance.now()
     expect(result.errors).toBeUndefined()
 
-    let transactionItems = result?.data?.transactionItems
+    let transactionItems = result?.data?.['transactionItems']
 
     expect(transactionItems).toBeDefined()
     expect(transactionItems).toHaveLength(95022)
@@ -179,7 +184,7 @@ describe('SuperDataLoader.big', () => {
     const endSuperDataLoader = performance.now()
     expect(result.errors).toBeUndefined()
 
-    transactionItems = result?.data?.transactionItems
+    transactionItems = result?.data?.['transactionItems']
 
     expect(transactionItems).toBeDefined()
     expect(transactionItems).toHaveLength(95022)

@@ -4,7 +4,6 @@ import { loadSchema } from '@graphql-tools/load'
 import { mergeResolvers } from '@graphql-tools/merge'
 import { addResolversToSchema } from '@graphql-tools/schema'
 import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
-import debug from 'debug'
 import fs from 'node:fs'
 import path, { join } from 'node:path'
 

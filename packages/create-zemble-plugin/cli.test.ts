@@ -25,7 +25,7 @@ const testTemplate = (template: string) => {
   if (createRes.error) {
     console.error(createRes.error.message)
   }
-  if (createRes.stdout && process.env.DEBUG) {
+  if (createRes.stdout && process.env['DEBUG']) {
     console.log(createRes.stdout.toString('utf-8'))
   }
   expect(createRes.status).toBe(0)
@@ -34,7 +34,7 @@ const testTemplate = (template: string) => {
   if (testRes.error) {
     console.error(testRes.error.message)
   }
-  if (testRes.stdout && process.env.DEBUG) {
+  if (testRes.stdout && process.env['DEBUG']) {
     console.log(testRes.stdout.toString('utf-8'))
   }
   expect(testRes.status).toBe(0)

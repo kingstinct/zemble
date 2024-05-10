@@ -158,7 +158,7 @@ export class StatsPipeline<
   getScalarValue(entry: Result | null | undefined, stat: TS): number | null {
     const val = match(stat as Statistic)
       .with('AVG', () => entry?.avg ?? null)
-      .with('MEDIAN', () => entry?.p50 ?? null)
+      .with('MEDIAN', () => entry?.['p50'] ?? null)
       .with('COUNT', () => entry?.count ?? null)
       .with('MAX', () => entry?.max ?? null)
       .with('MIN', () => entry?.min ?? null)
@@ -166,9 +166,9 @@ export class StatsPipeline<
       .with('STD_DEV_POP', () => entry?.stdDevPop ?? null)
       .with('STD_DEV_SAMPLE', () => entry?.stdDevSamp ?? null)
       .with('TOP_3_AVG', () => {
-        const top1 = entry?.top1 ?? null
-        const top2 = entry?.top2 ?? null
-        const top3 = entry?.top3 ?? null
+        const top1 = entry?.['top1'] ?? null
+        const top2 = entry?.['top2'] ?? null
+        const top3 = entry?.['top3'] ?? null
 
         if (top1 !== null && top2 !== null && top3 !== null) {
           return (top1 + top2 + top3) / 3

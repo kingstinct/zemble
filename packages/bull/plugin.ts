@@ -45,7 +45,7 @@ export interface BullPluginConfig extends Zemble.GlobalConfig {
 }
 
 const defaults = {
-  redisUrl: process.env.REDIS_URL,
+  redisUrl: process.env['REDIS_URL'],
   middleware: {
     '@zemble/graphql': { disable: true },
     '@zemble/bull': { disable: true },

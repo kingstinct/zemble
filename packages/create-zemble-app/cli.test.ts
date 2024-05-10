@@ -26,7 +26,7 @@ const testTemplate = (template: string) => {
   if (createRes.error) {
     zembleContext.logger.error(createRes.error.message)
   }
-  if (createRes.stdout && process.env.DEBUG) {
+  if (createRes.stdout && process.env['DEBUG']) {
     zembleContext.logger.info(createRes.stdout.toString('utf-8'))
   }
   expect(createRes.status).toBe(0)
@@ -35,7 +35,7 @@ const testTemplate = (template: string) => {
   if (testRes.error) {
     zembleContext.logger.error(testRes.error.message)
   }
-  if (testRes.stdout && process.env.DEBUG) {
+  if (testRes.stdout && process.env['DEBUG']) {
     zembleContext.logger.info(testRes.stdout.toString('utf-8'))
   }
   expect(testRes.status).toBe(0)

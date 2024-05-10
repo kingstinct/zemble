@@ -6,6 +6,7 @@
     "verbatimModuleSyntax": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "noPropertyAccessFromIndexSignature":true,
     "types": [ "bun-types" ]
   },
   "exclude": [

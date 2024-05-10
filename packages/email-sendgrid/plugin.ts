@@ -31,7 +31,7 @@ declare global {
 }
 
 const defaultConfig = {
-  SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+  SENDGRID_API_KEY: process.env['SENDGRID_API_KEY'],
   disable: process.env.NODE_ENV === 'test',
   middleware: {
     '@zemble/graphql': {
@@ -91,7 +91,7 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
   ],
   defaultConfig,
   additionalConfigWhenRunningLocally: {
-    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+    SENDGRID_API_KEY: process.env['SENDGRID_API_KEY'],
     middleware: {
       '@zemble/graphql': {
         disable: false,

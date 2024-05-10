@@ -99,7 +99,7 @@ export function createServerConfig<TOutputPath extends string = typeof DEFAULT_S
 }) {
   if (resolverGeneration === undefined) {
     // eslint-disable-next-line no-param-reassign
-    resolverGeneration = !!(process.env.GENERATE && JSON.stringify(process.env.GENERATE))
+    resolverGeneration = !!(process.env['GENERATE'] && JSON.stringify(process.env['GENERATE']))
   }
 
   const serverOutputSchemaPath = serverOutputSchemaPathOverride ?? DEFAULT_SERVER_OUTPUT_SCHEMA_PATH

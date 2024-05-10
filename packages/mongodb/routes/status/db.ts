@@ -3,7 +3,7 @@ import plugin from '../../plugin'
 export default async (ctx: Zemble.RouteContext) => {
   try {
     const pong = await plugin.providers.mongodb?.db.command({ ping: 1 })
-    if (pong?.ok === 1) {
+    if (pong?.['ok'] === 1) {
       return ctx.json({ status: 'ok' }, 200)
     }
     return ctx.json({ status: 'error', message: 'ping failed' }, 503)

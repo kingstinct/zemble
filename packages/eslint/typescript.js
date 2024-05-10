@@ -15,6 +15,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'indent': 0,
+    'dot-notation': 0,
     '@typescript-eslint/indent': [
       'error', 2, {
         VariableDeclarator: { const: 3, let: 2, var: 2 },

@@ -151,7 +151,6 @@ declare global {
 export interface BaseToken extends JWTPayload
 {
   readonly sub: string
-  readonly iat: number
 }
 
 export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & BaseToken | BaseToken

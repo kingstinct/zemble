@@ -4,6 +4,7 @@ import { Plugin } from '@zemble/core'
 import mergeDeep from '@zemble/core/utils/mergeDeep'
 import pino from 'pino'
 // eslint-disable-next-line import/no-extraneous-dependencies
+// @ts-expect-error pino-debug does not have types
 import pinoDebug from 'pino-debug'
 
 import type pinopretty from 'pino-pretty'
@@ -27,7 +28,7 @@ interface LoggerConfig extends Zemble.GlobalConfig {
 }
 
 export const defaultProdConfig = {
-  level: process.env.LOG_LEVEL ?? 'info',
+  level: process.env['LOG_LEVEL'] ?? 'info',
 } satisfies pino.LoggerOptions
 
 export const defaultDevConfig = {
@@ -40,7 +41,7 @@ export const defaultDevConfig = {
     targets: [
       {
         target: 'pino-pretty',
-        level: process.env.LOG_LEVEL ?? 'debug',
+        level: process.env['LOG_LEVEL'] ?? 'debug',
         options: {
           translateTime: 'HH:MM:ss',
           messageFormat: '{if pluginName}[{pluginName}@{pluginVersion}]{end} {if middlewarePluginName}({middlewarePluginName}@{middlewarePluginVersion}){end} {msg}',
@@ -57,7 +58,7 @@ export const defaultTestConfig = {
     ...defaultDevConfig.transport,
     targets: defaultDevConfig.transport.targets.map((target) => ({
       ...target,
-      level: process.env.LOG_LEVEL ?? 'warn',
+      level: process.env['LOG_LEVEL'] ?? 'warn',
       options: {
         ...target.options,
         colorize: false,

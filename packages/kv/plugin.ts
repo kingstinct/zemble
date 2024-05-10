@@ -12,7 +12,7 @@ interface KeyValueConfig {
 }
 
 const defaultConfig = {
-  redisUrl: process.env.REDIS_URL,
+  redisUrl: process.env['REDIS_URL'],
 } satisfies KeyValueConfig
 
 declare global {

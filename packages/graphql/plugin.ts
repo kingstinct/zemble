@@ -129,7 +129,7 @@ const defaultConfig = {
       disable: process.env.NODE_ENV ? !['development', 'test'].includes(process.env.NODE_ENV) : true,
     },
   },
-  redisUrl: process.env.REDIS_URL,
+  redisUrl: process.env['REDIS_URL'],
   outputMergedSchemaPath: './app.generated.graphql',
   subscriptionTransport: 'sse',
   enableServerTiming: process.env.NODE_ENV === 'development',

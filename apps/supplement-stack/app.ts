@@ -27,7 +27,7 @@ void bunRunner({
     }),
     AuthOTP.configure({
       from: { email: 'robert@herber.me' },
-      generateTokenContents: async ({ email }): Promise<Zemble.OtpToken> => {
+      generateTokenContents: async ({ email }) => {
         const user = await Users.findOneAndUpdate({ email }, {
           $set: {
             lastLoginAt: new Date(),
@@ -41,12 +41,12 @@ void bunRunner({
           returnDocument: 'after',
         })
 
-        const ret = ({
+        const ret = {
           email,
           type: 'AuthOtp' as const,
           userId: user!._id.toHexString(),
           sub: user!._id.toHexString(),
-        })
+        }
 
         return ret
       },

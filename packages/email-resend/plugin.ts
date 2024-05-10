@@ -34,7 +34,7 @@ declare global {
 }
 
 const defaultConfig = {
-  RESEND_API_KEY: process.env.RESEND_API_KEY,
+  RESEND_API_KEY: process.env['RESEND_API_KEY'],
   disable: process.env.NODE_ENV === 'test',
   middleware: {
     '@zemble/graphql': {
@@ -91,7 +91,7 @@ const plugin = new Plugin<EmailResendConfig, typeof defaultConfig>(import.meta.d
   ],
   defaultConfig,
   additionalConfigWhenRunningLocally: {
-    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    RESEND_API_KEY: process.env['RESEND_API_KEY'],
     middleware: {
       '@zemble/graphql': {
         disable: false,

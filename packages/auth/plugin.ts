@@ -1,4 +1,4 @@
-import { useExtendContext } from '@envelop/core'
+import { useExtendContext, type PromiseOrValue } from '@envelop/core'
 import { useGenericAuth } from '@envelop/generic-auth'
 import { Plugin, type TokenContents } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
@@ -22,7 +22,7 @@ import type { Context } from 'hono'
 import type { CookieOptions } from 'hono/utils/cookie'
 import type { JWTPayload } from 'jose'
 
-const ISSUER = process.env.ISSUER ?? '@zemble/auth'
+const ISSUER = process.env['ISSUER'] ?? '@zemble/auth'
 
 interface AuthConfig extends Zemble.GlobalConfig {
   readonly bearerTokenExpiryInSeconds?: number
@@ -37,13 +37,13 @@ interface AuthConfig extends Zemble.GlobalConfig {
    * @param bearerToken
    * @returns
    */
-  readonly checkIfBearerTokenIsValid?: (bearerToken: TokenContents) => Promise<true | GraphQLError> | true | GraphQLError
-  readonly invalidateToken?: (sub: string, token: string) => Promise<void> | void
-  readonly invalidateAllTokens?: (sub: string) => Promise<void> | void
-  readonly checkTokenValidity?: (token: string, decodedToken: TokenContents) => Promise<boolean> | boolean
+  readonly checkIfBearerTokenIsValid?: (bearerToken: TokenContents) => PromiseOrValue<true | GraphQLError>
+  readonly invalidateToken?: (sub: string, token: string) => PromiseOrValue<void>
+  readonly invalidateAllTokens?: (sub: string) => PromiseOrValue<void>
+  readonly checkTokenValidity?: (token: string, decodedToken: TokenContents) => PromiseOrValue<boolean>
   readonly reissueBearerToken?: (
     bearerToken: TokenContents
-  ) => Promise<TokenContents> | TokenContents
+  ) => PromiseOrValue<TokenContents>
   readonly cookies?: {
     readonly bearerTokenCookieName?: string
     readonly refreshTokenCookieName?: string
@@ -198,11 +198,8 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
           decodeToken: config.decodeToken,
         })
 
-        let bearerToken = token
-
         if (config.cookies.isEnabled && token && refreshToken) {
           const { bearerToken: newBearerToken, refreshToken: newRefreshToken } = await refreshTokensFromPrevious(token, refreshToken)
-          bearerToken = newBearerToken
           setTokenCookies(context, newBearerToken, newRefreshToken)
         }
 

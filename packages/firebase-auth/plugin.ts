@@ -36,8 +36,8 @@ declare global {
 }
 
 const defaultConfig = {
-  FIREBASE_ADMIN_SERVICE_ACCOUNT: process.env.FIREBASE_ADMIN_SERVICE_ACCOUNT ? parseEnvJSON<firebaseAdmin.ServiceAccount>('FIREBASE_ADMIN_SERVICE_ACCOUNT', undefined) : undefined,
-  FIREBASE_CLIENT_CONFIG: process.env.FIREBASE_CLIENT_CONFIG ? parseEnvJSON<firebaseClient.FirebaseOptions>('FIREBASE_CLIENT_CONFIG', undefined) : undefined,
+  FIREBASE_ADMIN_SERVICE_ACCOUNT: process.env['FIREBASE_ADMIN_SERVICE_ACCOUNT'] ? parseEnvJSON<firebaseAdmin.ServiceAccount>('FIREBASE_ADMIN_SERVICE_ACCOUNT', undefined) : undefined,
+  FIREBASE_CLIENT_CONFIG: process.env['FIREBASE_CLIENT_CONFIG'] ? parseEnvJSON<firebaseClient.FirebaseOptions>('FIREBASE_CLIENT_CONFIG', undefined) : undefined,
   generateTokenContents: (args) => ({ type: '@zemble/auth-firebase', ...args }),
 } satisfies Partial<PluginConfig>
 
