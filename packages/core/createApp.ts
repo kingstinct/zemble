@@ -80,11 +80,17 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     (plugin) => 'initializeMiddleware' in plugin,
   )
 
-  context.logger.info(`Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
+  const logText = `Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
     (p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p
       ? ' (middleware)'
       : ''}`,
-  ).join('\n')}`)
+  ).join('\n')}`
+
+  if (process.env.NODE_ENV !== 'test') {
+    context.logger.info(logText)
+  } else {
+    debuggah(logText)
+  }
 
   plugins.forEach((plugin) => {
     // eslint-disable-next-line functional/immutable-data, no-param-reassign

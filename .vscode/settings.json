@@ -38,6 +38,7 @@
     "composability",
     "dataloaders",
     "pino",
+    "Proxying",
     "pucelle",
     "SENDGRID",
     "supabase",
