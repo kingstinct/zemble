@@ -1,5 +1,13 @@
 # @zemble/kv
 
+## 0.0.45
+
+### Patch Changes
+
+- Updated dependencies [03620c0]
+  - @zemble/core@0.1.15
+  - @zemble/graphql@0.0.47
+
 ## 0.0.44
 
 ### Patch Changes
