@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.15
+
+### Patch Changes
+
+- 03620c0: fix issue where multiple resolvers on same scalar didnt resolve
+
 ## 0.1.14
 
 ### Patch Changes

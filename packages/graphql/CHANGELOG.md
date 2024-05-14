@@ -1,5 +1,13 @@
 # @zemble/graphql
 
+## 0.0.47
+
+### Patch Changes
+
+- 03620c0: fix issue where multiple resolvers on same scalar didnt resolve
+- Updated dependencies [03620c0]
+  - @zemble/core@0.1.15
+
 ## 0.0.46
 
 ### Patch Changes
