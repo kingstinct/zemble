@@ -20,7 +20,6 @@ export const createClientOutputConfig = () => ({
         content: `// @ts-nocheck`,
       },
     },
-    'typescript',
   ],
   documents: [
     `./**/*.tsx`,
