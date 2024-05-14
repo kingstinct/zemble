@@ -17,10 +17,12 @@ export async function connect({ logger }: {readonly logger: IStandardLogger}) {
 
   papr.initialize(db)
 
-  logger.info(`Registering ${papr.models.size} models...`)
-  papr.models.forEach((model) => {
-    logger.info(`Registering model: ${model.collection.collectionName}`)
-  })
+  if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
+    logger.info(`Registering ${papr.models.size} models...`)
+    papr.models.forEach((model) => {
+      logger.info(`Registering model: ${model.collection.collectionName}`)
+    })
+  }
 
   await papr.updateSchemas()
 

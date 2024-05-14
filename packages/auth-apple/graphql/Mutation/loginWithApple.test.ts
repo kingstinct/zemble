@@ -45,6 +45,8 @@ describe('Mutation.loginWithAple', () => {
       identityToken: '000000',
       realUserStatus: AppleAuthenticationUserDetectionStatus.Unsupported,
       userUUID: '000000',
+    }, {
+      silenceErrors: true,
     })
 
     expect(res.errors).toHaveLength(1)
@@ -60,6 +62,8 @@ describe('Mutation.loginWithAple', () => {
       identityToken: 'eyJraWQiOiJsVkhkT3g4bHRSIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLmtpbmdzdGluY3Quc2lnbi1pbi13aXRoLWFwcGxlIiwiZXhwIjoxNzEyMzE0NzA1LCJpYXQiOjE3MTIyMjgzMDUsInN1YiI6IjAwMjAyMS5jZmY1YmEyYWYwMDk0NTExODllZjZkMjM0YzJjNTc2NC4xMDU4IiwiY19oYXNoIjoidW1RT2VJVXpXNldqS2RpYVNPaXZJUSIsImVtYWlsIjoidWtAaGVyYmVyLm1lIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF1dGhfdGltZSI6MTcxMjIyODMwNSwibm9uY2Vfc3VwcG9ydGVkIjp0cnVlfQ.ZfjaAofABfZdvXyzD5R6f0O2kHn7oxcT50XqBmB3UsILuOLSdfzK5rV8FIrsj4H-0yTQUz5bxbQmVxABn8MIG2m866SBgD6--kIOcbDJm9spsGutucF7bQ4ZrrgMrTsnFSMUpk04OddmFYpjggTRH_Ja1MBB3eiFEOKWMkTgS5SGoRFmcBP5cTyTlXnp-W7QaNmcSJC2vqxshQ6WOudmXALkGktdDmfK_R40jQrhqY2oA_TvJZP55xk7QoLNFMu76YEp4Wbh2WSGZy5q6WTt6wAVcU-pnYKOdKTZtLAIgSvhjddUNZJ7Qz0PdbW6DNtpYmcHirMzj3mrbyM0A9t62A',
       realUserStatus: AppleAuthenticationUserDetectionStatus.Unsupported,
       userUUID: '000000',
+    }, {
+      silenceErrors: true,
     })
 
     expect(res.errors).toHaveLength(1)
@@ -74,6 +78,8 @@ describe('Mutation.loginWithAple', () => {
       identityToken: 'eyJraWQiOiJsVkhkT3g4bHRSIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiY29tLmtpbmdzdGluY3Quc2lnbi1pbi13aXRoLWFwcGxlIiwiZXhwIjoxNzEyMzE0NzA1LCJpYXQiOjE3MTIyMjgzMDUsInN1YiI6IjAwMjAyMS5jZmY1YmEyYWYwMDk0NTExODllZjZkMjM0YzJjNTc2NC4xMDU4IiwiY19oYXNoIjoidW1RT2VJVXpXNldqS2RpYVNPaXZJUSIsImVtYWlsIjoidWtAaGVyYmVyLm1lIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF1dGhfdGltZSI6MTcxMjIyODMwNSwibm9uY2Vfc3VwcG9ydGVkIjp0cnVlfQ.ZfjaAofABfZdvXyzD5R6f0O2kHn7oxcT50XqBmB3UsILuOLSdfzK5rV8FIrsj4H-0yTQUz5bxbQmVxABn8MIG2m866SBgD6--kIOcbDJm9spsGutucF7bQ4ZrrgMrTsnFSMUpk04OddmFYpjggTRH_Ja1MBB3eiFEOKWMkTgS5SGoRFmcBP5cTyTlXnp-W7QaNmcSJC2vqxshQ6WOudmXALkGktdDmfK_R40jQrhqY2oA_TvJZP55xk7QoLNFMu76YEp4Wbh2WSGZy5q6WTt6wAVcU-pnYKOdKTZtLAIgSvhjddUNZJ7Qz0PdbW6DNtpYmcHirMzj3mrbyM0A9t62A',
       realUserStatus: AppleAuthenticationUserDetectionStatus.Unsupported,
       userUUID: '000000',
+    }, {
+      silenceErrors: true,
     })
 
     expect(res.errors?.[0]).toHaveProperty('message', '[@zemble/auth-apple] Error validating Apple ID token, the token has expired')
