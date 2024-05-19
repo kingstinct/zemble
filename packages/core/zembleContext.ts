@@ -18,10 +18,14 @@ class ContextInstance implements Zemble.GlobalContext {
 
 const context = new ContextInstance()
 
-export const defaultProviders = {
-  logger: context.logger,
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  kv: context.kv.bind(context.kv),
-} as Zemble.Providers
+export const defaultMultiProviders = {
+  logger: {
+    '@zemble/core': context.logger,
+  },
+  kv: {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    '@zemble/core': context.kv.bind(context.kv),
+  },
+} as Zemble.MultiProviders
 
 export default context

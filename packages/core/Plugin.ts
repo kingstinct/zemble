@@ -1,8 +1,9 @@
 import debug from 'debug'
 
+import { createProviderProxy } from './createProvidersProxy'
 import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
-import { defaultProviders } from './zembleContext'
+import { defaultMultiProviders } from './zembleContext'
 
 import type { Middleware, PluginOpts } from './types'
 
@@ -23,12 +24,15 @@ export class Plugin<
   readonly #middleware?: Middleware<TResolvedConfig, Plugin>
 
   // eslint-disable-next-line functional/prefer-readonly-type
-  providers = defaultProviders as Zemble.Providers
+  multiProviders: Zemble.MultiProviders = defaultMultiProviders
 
   // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined
 
   readonly debug: debug.Debugger
+
+  // eslint-disable-next-line functional/prefer-readonly-type
+  #providerStrategies: Zemble.ProviderStrategies = {}
 
   /**
    *
@@ -57,6 +61,15 @@ export class Plugin<
     }
 
     this.dependencies = resolvedDeps
+  }
+
+  setProviderStrategies(providerStrategies: Zemble.ProviderStrategies) {
+    // eslint-disable-next-line functional/immutable-data
+    this.#providerStrategies = providerStrategies
+  }
+
+  get providers() {
+    return createProviderProxy(this.multiProviders, this.#providerStrategies)
   }
 
   get isPluginRunLocally() {

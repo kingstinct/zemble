@@ -16,9 +16,8 @@ const defaultConfig = {
 export default new Plugin<GraphQLMiddlewareConfig>(
   import.meta.dir,
   {
-    middleware: ({ logger, context }) => {
-      // @ts-expect-error sdf
-      logger.on('level-change', (level) => {
+    middleware: ({ context, app }) => {
+      app.providers.pinoLogger.on('level-change', (level) => {
         context.pubsub.publish('logger', { severity: 'info', args: ['log level change', level] })
       })
     },

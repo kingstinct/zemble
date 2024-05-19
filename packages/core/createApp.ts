@@ -3,9 +3,10 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 
+import { createProviderProxy } from './createProvidersProxy'
 import { Plugin } from './Plugin'
 import { readPackageJson } from './utils/readPackageJson'
-import context, { defaultProviders } from './zembleContext'
+import context, { defaultMultiProviders } from './zembleContext'
 
 import type { RunBeforeServeFn } from './types'
 
@@ -14,6 +15,7 @@ const packageJson = readPackageJson()
 export type Configure = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly plugins: readonly (Plugin<any, any, any>)[],
+  readonly providerStrategies?: Zemble.ProviderStrategies
 }
 
 const debuggah = debug('@zemble/core')
@@ -30,7 +32,7 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
   }
 }, {})
 
-export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure) => {
+export const createApp = async ({ plugins: pluginsBeforeResolvingDeps, providerStrategies: providerStrategiesIn }: Configure) => {
   const hono = new Hono<Zemble.HonoEnv>()
 
   // maybe this should be later - how about middleware that overrides logger?
@@ -57,7 +59,11 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   const resolved = pluginsBeforeResolvingDeps.flatMap((plugin) => [...plugin.dependencies, plugin])
 
+  const providerStrategies = providerStrategiesIn ?? {}
+
   const plugins = resolved.reduce((prev, plugin) => {
+    plugin.setProviderStrategies(providerStrategies)
+
     const existingPlugin = prev.find(({ pluginName }) => pluginName === plugin.pluginName)
     if (existingPlugin) {
       if (existingPlugin !== plugin) {
@@ -94,18 +100,22 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   plugins.forEach((plugin) => {
     // eslint-disable-next-line functional/immutable-data, no-param-reassign
-    plugin.providers = { ...defaultProviders }
+    plugin.multiProviders = { ...defaultMultiProviders }
 
     debuggah(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
   })
 
   const appDir = process.cwd()
 
-  const preInitApp = {
+  const multiProviders = defaultMultiProviders
+
+  const preInitApp: Omit<Zemble.App, 'runBeforeServe'> = {
     hono,
     appDir,
-    providers: defaultProviders,
+    providerStrategies,
+    providers: createProviderProxy(multiProviders, providerStrategies),
     plugins,
+    multiProviders,
     appPlugin: plugins.some((p) => p.isPluginRunLocally) ? undefined : new Plugin(appDir, {
       name: packageJson.name,
       version: packageJson.version,
