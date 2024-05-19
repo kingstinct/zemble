@@ -1,0 +1,10 @@
+enum Platform {
+  android
+  ios
+  web
+}
+
+type Mutation {
+  registerExpoPushToken(pushToken: String!, platform: Platform!): Boolean!
+  sendPushNotification(pushToken: String!, title: String!, body: String!): Boolean!
+}
