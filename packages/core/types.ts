@@ -124,7 +124,8 @@ declare global {
 
     // eslint-disable-next-line functional/prefer-readonly-type
     type MultiProviders = {
-      [key in keyof Providers]: { readonly
+      // eslint-disable-next-line functional/prefer-readonly-type
+      [key in keyof Providers]: {
         [middlewareKey in keyof MiddlewareConfig]: Providers[key]
       }
     }

@@ -24,7 +24,7 @@ export class Plugin<
   readonly #middleware?: Middleware<TResolvedConfig, Plugin>
 
   // eslint-disable-next-line functional/prefer-readonly-type
-  multiProviders: Zemble.MultiProviders = defaultMultiProviders
+  multiProviders = defaultMultiProviders as unknown as Zemble.MultiProviders
 
   // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined

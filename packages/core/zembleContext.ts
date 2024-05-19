@@ -26,6 +26,6 @@ export const defaultMultiProviders = {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     '@zemble/core': context.kv.bind(context.kv),
   },
-} as Zemble.MultiProviders
+} as Pick<Zemble.MultiProviders, 'kv' | 'logger'>
 
 export default context

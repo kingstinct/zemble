@@ -100,16 +100,16 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps, providerS
 
   plugins.forEach((plugin) => {
     // eslint-disable-next-line functional/immutable-data, no-param-reassign
-    plugin.multiProviders = { ...defaultMultiProviders }
+    plugin.multiProviders = defaultMultiProviders as unknown as Zemble.MultiProviders
 
     debuggah(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
   })
 
   const appDir = process.cwd()
 
-  const multiProviders = defaultMultiProviders
+  const multiProviders = defaultMultiProviders as unknown as Zemble.MultiProviders
 
-  const preInitApp: Omit<Zemble.App, 'runBeforeServe'> = {
+  const preInitApp = {
     hono,
     appDir,
     providerStrategies,

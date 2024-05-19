@@ -1,5 +1,5 @@
 {
-  "name": "zemble-push-expo",
+  "name": "@zemble/push-expo",
   "version": "0.0.1",
   "description": "",
   "type": "module",

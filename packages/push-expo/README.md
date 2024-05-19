@@ -1,4 +1,4 @@
-# zemble-push-expo
+# @zemble/push-expo
 
 ## Develop
 
