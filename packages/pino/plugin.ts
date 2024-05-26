@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
 import { Plugin, setupProvider } from '@zemble/core'
-import mergeDeep from '@zemble/core/utils/mergeDeep'
+import mergeDeep from '@zemble/utils/mergeDeep'
 import pino from 'pino'
 // eslint-disable-next-line import/no-extraneous-dependencies
 // @ts-expect-error pino-debug does not have types

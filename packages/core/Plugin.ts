@@ -1,7 +1,7 @@
+import mergeDeep from '@zemble/utils/mergeDeep'
 import debug from 'debug'
 
 import { createProviderProxy } from './createProvidersProxy'
-import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
 import { defaultMultiProviders } from './zembleContext'
 
