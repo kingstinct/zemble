@@ -31,7 +31,10 @@ export const startInMemoryInstanceAndConfigurePlugin = async () => {
   const client = await MongoClient.connect(url)
 
   // eslint-disable-next-line functional/immutable-data
-  MongoDBPlugin.providers.mongodb = { client, db: client.db() }
+  MongoDBPlugin.multiProviders.mongodb = {
+    ...MongoDBPlugin.multiProviders.mongodb,
+    '@zemble/mongodb': { client, db: client.db() },
+  }
 }
 
 export const closeAndStopInMemoryInstance = async () => {

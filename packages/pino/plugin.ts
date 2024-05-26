@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
-import { Plugin } from '@zemble/core'
+import { Plugin, setupProvider } from '@zemble/core'
 import mergeDeep from '@zemble/core/utils/mergeDeep'
 import pino from 'pino'
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -12,13 +12,12 @@ import type pinopretty from 'pino-pretty'
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-    /* interface MiddlewareConfig {
-      readonly ['@zemble/email-sendgrid']?: Zemble.DefaultMiddlewareConfig
-    } */
-
     interface Providers {
-      // eslint-disable-next-line functional/prefer-readonly-type
-      logger: pino.Logger
+      readonly pinoLogger: pino.Logger
+    }
+
+    interface MiddlewareConfig {
+      readonly ['@zemble/pino']?: undefined
     }
   }
 }
@@ -70,7 +69,7 @@ export const defaultTestConfig = {
 export default new Plugin<LoggerConfig>(
   import.meta.dir,
   {
-    middleware: ({
+    middleware: async ({
       app, config, context,
     }) => {
       const defaultConfig = process.env.NODE_ENV === 'production' ? defaultProdConfig
@@ -79,17 +78,29 @@ export default new Plugin<LoggerConfig>(
 
       const logger = pino(mergeDeep(defaultConfig, config.logger ?? {}))
 
-      app.providers.logger = logger
-
       context.logger = logger
 
       pinoDebug(logger)
 
-      app.plugins.forEach((plugin) => {
-        plugin.providers.logger = logger.child({
-          pluginName: plugin.pluginName,
-          pluginVersion: plugin.pluginVersion,
-        })
+      await setupProvider({
+        app,
+        initializeProvider: (_, plugin) => logger.child({
+          pluginName: plugin?.pluginName,
+          pluginVersion: plugin?.pluginVersion,
+        }),
+        middlewareKey: '@zemble/pino',
+        providerKey: 'logger',
+        alwaysCreateForEveryPlugin: true,
+      })
+      await setupProvider({
+        app,
+        initializeProvider: (_, plugin) => logger.child({
+          pluginName: plugin?.pluginName,
+          pluginVersion: plugin?.pluginVersion,
+        }) as pino.Logger,
+        middlewareKey: '@zemble/pino',
+        providerKey: 'pinoLogger',
+        alwaysCreateForEveryPlugin: true,
       })
     },
   },

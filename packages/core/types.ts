@@ -2,6 +2,7 @@
 
 import type { Plugin } from '.'
 import type { WebSocketHandler } from 'bun'
+import type { PromiseOrValue } from 'graphql/jsutils/PromiseOrValue'
 import type { PubSub } from 'graphql-yoga'
 import type {
   Hono, Context as HonoContext,
@@ -51,6 +52,40 @@ export interface IStandardLogger extends pino.BaseLogger {
   readonly child: (bindings: Record<string, unknown>) => IStandardLogger
 }
 
+export interface PushMessage {
+  readonly data?: Record<string, unknown>;
+  readonly title?: string;
+  readonly subtitle?: string;
+  readonly body?: string;
+  readonly sound?: 'default' | null | {
+    readonly critical?: boolean;
+    readonly name?: 'default' | null;
+    readonly volume?: number;
+  };
+  readonly ttl?: number;
+  readonly expiration?: number;
+  readonly priority?: 'default' | 'normal' | 'high';
+  readonly badge?: number;
+  readonly channelId?: string;
+  readonly categoryId?: string;
+  readonly mutableContent?: boolean;
+}
+
+export type PushTokenWithMessage = {
+  readonly pushToken: PushTokenWithMetadata
+  readonly message: PushMessage
+}
+
+export type PushTokenWithMessageAndTicket = PushTokenWithMessage & { readonly ticketId: string }
+
+export interface SendPushResponse {
+  readonly failedSendsToRemoveTokensFor: readonly PushTokenWithMetadata[]
+  readonly failedSendsOthers: readonly PushTokenWithMessage[]
+  readonly successfulSends: readonly PushTokenWithMessageAndTicket[]
+}
+
+export type SendPushProvider = (pushTokens: readonly PushTokenWithMetadata[], message: PushMessage) => PromiseOrValue<SendPushResponse>
+
 declare global {
   namespace Zemble {
     interface HonoVariables extends Record<string, unknown> {
@@ -87,12 +122,27 @@ declare global {
 
     }
 
+    // eslint-disable-next-line functional/prefer-readonly-type
+    type MultiProviders = {
+      // eslint-disable-next-line functional/prefer-readonly-type
+      [key in keyof Providers]: {
+        [middlewareKey in keyof MiddlewareConfig]: Providers[key]
+      }
+    }
+
+    type ProviderStrategies = Partial<Record<keyof Providers, 'last' | 'all' | 'failover' | 'round-robin'>>
+
     interface App {
       readonly hono: Hono<HonoEnv>
       readonly appDir: string
 
       // eslint-disable-next-line functional/prefer-readonly-type
       providers: Providers
+      // eslint-disable-next-line functional/prefer-readonly-type
+      multiProviders: MultiProviders
+
+      // eslint-disable-next-line functional/prefer-readonly-type
+      providerStrategies: ProviderStrategies
 
       readonly runBeforeServe: readonly RunBeforeServeFn[]
 
@@ -145,6 +195,10 @@ declare global {
     interface TokenRegistry {
       // readonly UnknownToken: Record<string, unknown>
     }
+
+    interface PushTokenRegistry {
+
+    }
   }
 }
 
@@ -154,6 +208,7 @@ export interface BaseToken extends JWTPayload
 }
 
 export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & BaseToken | BaseToken
+export type PushTokenWithMetadata = Zemble.PushTokenRegistry[keyof Zemble.PushTokenRegistry]
 
 export type Dependency = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -204,7 +259,7 @@ export type MiddlewareReturn = Promise<void> | void | RunBeforeServeFn | Promise
 
 export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig, PluginType extends Plugin = Plugin> = (
   opts: {
-    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers' | 'websocketHandler' | 'appPlugin' | 'plugins'>,
+    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers' | 'websocketHandler' | 'appPlugin' | 'plugins' | 'multiProviders'>,
     readonly context: Zemble.GlobalContext
     readonly config: TMiddlewareConfig,
     readonly self: PluginType,

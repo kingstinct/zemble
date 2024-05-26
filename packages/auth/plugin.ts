@@ -126,7 +126,7 @@ const defaultConfig = {
   refreshTokenExpiryInSeconds: 60 * 60 * 24, // 24 hours
   checkTokenValidity: checkTokenValidityDefault,
   invalidateAllTokens: async (sub) => {
-    await plugin.providers.kv('tokens-invalidated-at').set(sub, new Date().toString())
+    await plugin.providers.kv('tokens-invalidated-at').set(sub, new Date().toISOString())
   },
   invalidateToken: async (sub, token) => {
     await plugin.providers.kv('invalid-tokens').set(`${sub}:${token}`, true)

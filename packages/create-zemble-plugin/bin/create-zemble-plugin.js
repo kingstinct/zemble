@@ -32,9 +32,6 @@ const template = args[1] ?? defaultTemplate
 
 const dirName = import.meta.dir.replace('file://', '')
 
-const templatePath = join(dirName, '../templates', template)
-const targetDir = join(process.cwd(), name)
-
 if(!name || name === '--help' || name === '-h' || name === 'help') {
   console.log('Usage: create-zemble-plugin <name> [template]')
   const templates = readdirSync(join(dirName, '../templates'))
@@ -42,6 +39,10 @@ if(!name || name === '--help' || name === '-h' || name === 'help') {
   console.log('Available templates:\n', templates.map(t => '- ' + t + (t === defaultTemplate ? ' (default)' : '')).join('\n '))
   process.exit(0)
 }
+
+const templatePath = join(dirName, '../templates', template)
+
+const targetDir = join(process.cwd(), name)
 
 const validNpmPackageNameRegex = new RegExp('^[a-z0-9-]+$')
 
