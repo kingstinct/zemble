@@ -7,7 +7,7 @@ A plugin system to build composable systems.
 
 # Getting started
 
-## tldr
+## tldr;
 
 The quickest way to give it a spin is to use the create CLI.
 
@@ -251,11 +251,11 @@ Everything is a plugin. Here are some of the core plugins:
 | @zemble/auth-otp | Adds mutations to authorize through OTP with an email, works seamlessly with @zemble/auth |
 
 Core functionality:
-- REST Routes
 - GraphQL
-- Queues (would be nice, and very nice to be less bootstrapping for it)
-- (Key-Value Store (would be nice, but maybe more of a plugin, not needed for every system))
-- (Pub/Sub (would be nice, but maybe more of a plugin, not needed for every system))
+- REST Routes
+- Queues
+- Key-Value Store
+- Pub/Sub
 
 ## Plugins
 
@@ -275,6 +275,49 @@ Concepts:
 - An app is a set of configured plugins with or without custom code.
 - A plugin is a reusable piece of functionality that can be added to an app. It can provide middleware that traverses other plugins.
 - Every plugin has a config that can be configured in detail when composing an app.
+
+## Providers
+A provider exposes some kind of functionality to all other plugins, for example a function for sending an email or accessing a database. Multiple plugins can provide the same functionality and there are a few different ways to configure this:
+- last (default, the last configured provider will be used)
+- all (all providers will be used - if we for example have an app supporting both apple and expo push notifications)
+- failover (the last provider will be used - but if it fails the others will be attempted in LIFO order, good for avoiding single-point-of-failures for system-critical providers)
+- round-robin (if you want to distribute usage across multiple provider implementations, for example to reduce load)
+
+To make the provider available with good DX for consuming libraries and apps the provider has to expose both it's type as well as the functionality itself. An example:
+```TypeScript
+// add to the global Zemble.Providers type, to make it clear for consumers it's available
+declare global {
+  namespace Zemble {
+    interface MiddlewareConfig {
+      readonly ['@zemble/email-resend']?: Zemble.DefaultMiddlewareConfig
+    }
+
+    interface Providers {
+      sendEmail: IStandardSendEmailService
+    }
+  }
+}
+
+type YourPluginConfig = {
+  // ..
+}
+
+const plugin = new Plugin<YourPluginConfig>(import.meta.dir, {
+  middleware: async ({
+    app,
+  }) => {
+    const initializeProvider = (): IStandardSendEmailService => {
+      // something that returns the IStandardSendEmailService
+    }
+    await setupProvider({
+      app,
+      initializeProvider: myIni,
+      providerKey: 'sendEmail',
+      middlewareKey: '@zemble/email-resend',
+    })
+  }
+})
+```
 
 ## Authorization
 The JWT handling of [@zemble/auth](https://github.com/kingstinct/zemble/blob/main/packages/auth) plugin allows for flexible authorization stitched to every use case. Every plugin or app can specify directly in the GraphQL schema what is required to exist in the JWT token in a flexible manner, see [examples here](https://github.com/kingstinct/zemble/blob/main/packages/auth/graphql/schema.local.graphql) accompanied by [test cases here](https://github.com/kingstinct/zemble/blob/main/packages/auth/graphql/Query).
@@ -323,11 +366,6 @@ If you provide a way to change the permissions of a user (like a user management
 - displayName for entity entries
 
 - Publish to npm
-
-
-
-Plugins vs middleware? Middlewares (graphql och queues) som wirear upp mkt logik borde eventuellt vara mer effortless att sätta upp?
-
 
 
 
