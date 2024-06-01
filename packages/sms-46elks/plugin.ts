@@ -1,12 +1,18 @@
 import { Plugin, setupProvider } from '@zemble/core'
 import yoga from '@zemble/graphql'
 
-import type {  IStandardSendSmsService } from '@zemble/core'
+import type { IStandardSendSmsService } from '@zemble/core'
 
 interface Sms46ElksConfig extends Zemble.GlobalConfig {
   readonly ELKS_USERNAME?: string
   readonly ELKS_PASSWORD?: string
   readonly disable?: boolean
+  readonly options: {
+    readonly dryrun?: 'yes' | 'no'
+    readonly flashsms?: 'yes' | 'no'
+    readonly dontlog?: 'message' | 'from' | 'to'
+    readonly whendelivered?: string
+  }
 }
 
 declare global {
@@ -40,33 +46,49 @@ const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(import.meta.dir
     config, app, logger,
   }) => {
     if (!config.disable) {
+      // eslint-disable-next-line unicorn/consistent-function-scoping
       const initializeProvider = (): IStandardSendSmsService => async (data) => {
         if (!config.ELKS_USERNAME || !config.ELKS_PASSWORD) {
           logger.warn('ELKS_USERNAME and ELKS_PASSWORD must be set to send sms, skipping')
           return false
         }
 
+        const auth = Buffer.from(`${config.ELKS_USERNAME}:${config.ELKS_PASSWORD}`).toString('base64')
 
-        const auth  = Buffer.from(config.ELKS_USERNAME + ":" + config.ELKS_PASSWORD).toString("base64");
+        if (config.options) {
+          data = {...data, ...config.options}
+        }
 
         const body = new URLSearchParams(data).toString()
 
         try {
 
-         const response = await fetch("https://api.46elks.com/a1/sms", {
-            method: "post",
+          const response = await fetch('https://api.46elks.com/a1/sms', {
+            method: 'POST',
             body,
-            headers: {"Authorization": "Basic "  + auth}
+            headers: { "Authorization": `Basic ${auth}` },
           })
 
-          const ok = response.ok
-          
-          return ok
+
+          const { ok } = response
+
+          if (!ok) {
+            console.log(response.status)
+            throw new Error('Failed to send sms')
+          }
+
+          if (ok) {
+            console.log('RESPONSE', await response.json())
+          } 
+
+          return true
         } catch (error) {
-          logger.error('Error sending sms', error)
+          if (error instanceof Error) {
+
+            logger.error('Error sending sms', error.message)
+          }
           return false
         }
-
       }
       await setupProvider({
         app,
@@ -83,8 +105,6 @@ const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(import.meta.dir
   ],
   defaultConfig,
   additionalConfigWhenRunningLocally: {
-    ELKS_USERNAME: process.env['ELKS_USERNAME'],
-    ELKS_PASSWORD: process.env['ELKS_PASSWORD'],
     middleware: {
       '@zemble/graphql': {
         disable: false,

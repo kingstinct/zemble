@@ -3,7 +3,7 @@ import {
   describe, beforeEach, it, expect,
 } from 'bun:test'
 
-import { LoginRequestMutation } from './loginRequest.test'
+import { LoginRequestMutation } from './emailLoginRequest.test'
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'

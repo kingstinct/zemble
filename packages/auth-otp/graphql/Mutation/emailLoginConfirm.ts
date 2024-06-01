@@ -5,26 +5,25 @@ import { signJwt } from '@zemble/auth/utils/signJwt'
 
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'
+import { isValidEmail } from '../../utils/isValidEmail'
 
 import type {
   MutationResolvers,
 } from '../schema.generated'
-import { isValidE164Number } from '../../utils/isValidE164Number'
 
-export const loginConfirm: NonNullable<MutationResolvers['loginConfirm']> = async (_, {
-  phoneNum: phoneNumIn, code,
+export const emailLoginConfirm: NonNullable<MutationResolvers['emailLoginConfirm']> = async (_, {
+  email: emailIn, code,
 }, { honoContext }) => {
-  const phoneNum = phoneNumIn.trim()
-
-  if (!isValidE164Number(phoneNum)) {
-    return { __typename: 'PhoneNumNotValidError', message: 'Phone number is not valid' }
+  const email = emailIn.toLowerCase().trim()
+  if (!emailIn || !isValidEmail(email)) {
+    return { __typename: 'EmailNotValidError', message: 'Email not valid' }
   }
 
   if (code.length !== 6) {
     return { __typename: 'CodeNotValidError', message: 'Code should be 6 characters' }
   }
 
-  const entry = await loginRequestKeyValue().get(phoneNum)
+  const entry = await loginRequestKeyValue().get(email.toLowerCase())
 
   if (!entry) {
     return { __typename: 'CodeNotValidError', message: 'Must loginRequest code first, it might have expired' }
@@ -34,7 +33,7 @@ export const loginConfirm: NonNullable<MutationResolvers['loginConfirm']> = asyn
     return { __typename: 'CodeNotValidError', message: 'Code not valid' }
   }
 
-  const { sub, ...data } = await plugin.config.generateTokenContents({ phoneNum })
+  const { sub, ...data } = await plugin.config.generateTokenContents({ email })
 
   const bearerToken = await signJwt({
     data,
@@ -55,4 +54,4 @@ export const loginConfirm: NonNullable<MutationResolvers['loginConfirm']> = asyn
   }
 }
 
-export default loginConfirm
+export default emailLoginConfirm

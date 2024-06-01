@@ -13,7 +13,7 @@ const getTwoFactorCode = () => {
   return twoFactorCode
 }
 
-export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = async (_, {
+export const emailLoginRequest: NonNullable<MutationResolvers['emailLoginRequest']> = async (_, {
   email: emailInput,
 }, context) => {
   if (!isValidEmail(emailInput)) {
@@ -56,7 +56,7 @@ export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = asyn
     twoFactorCode,
   }, plugin.config.twoFactorCodeExpiryInSeconds)
 
-  await plugin.config.handleAuthRequest({ email: emailInput }, twoFactorCode, context)
+  await plugin.config.handleEmailAuthRequest({ email: emailInput }, twoFactorCode, context)
 
   return {
     __typename: 'LoginRequestSuccessResponse',
@@ -64,4 +64,4 @@ export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = asyn
   }
 }
 
-export default loginRequest
+export default emailLoginRequest

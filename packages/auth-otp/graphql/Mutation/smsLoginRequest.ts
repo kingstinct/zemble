@@ -13,7 +13,7 @@ const getTwoFactorCode = () => {
   return twoFactorCode
 }
 
-export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = async (_, {
+export const smsLoginRequest: NonNullable<MutationResolvers['smsLoginRequest']> = async (_, {
   phoneNum: phoneNumInput,
 }, context) => {
   if (!isValidE164Number(phoneNumInput)) {
@@ -43,7 +43,7 @@ export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = asyn
     twoFactorCode,
   }, plugin.config.twoFactorCodeExpiryInSeconds)
 
-  await plugin.config.handleAuthRequest(phoneNum, twoFactorCode, context)
+   await plugin.config.handleSmsAuthRequest(phoneNum, twoFactorCode, context)
 
   return {
     __typename: 'LoginRequestSuccessResponse',
@@ -51,4 +51,4 @@ export const loginRequest: NonNullable<MutationResolvers['loginRequest']> = asyn
   }
 }
 
-export default loginRequest
+export default smsLoginRequest

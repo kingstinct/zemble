@@ -16,7 +16,6 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
   JSON: { input: any; output: any; }
   JSONObject: { input: any; output: any; }
 };
@@ -30,6 +29,10 @@ export type CodeNotValidError = Error & {
   readonly __typename?: 'CodeNotValidError';
   readonly message: Scalars['String']['output'];
 };
+
+export type EmailLoginConfirmResponse = CodeNotValidError | EmailNotValidError | LoginConfirmSuccessfulResponse | LoginFailedError;
+
+export type EmailLoginRequestResponse = EmailNotValidError | LoginRequestSuccessResponse;
 
 export type EmailNotValidError = Error & {
   readonly __typename?: 'EmailNotValidError';
@@ -60,16 +63,23 @@ export type LoginRequestSuccessResponse = {
   readonly success: Scalars['Boolean']['output'];
 };
 
+export type LoginResponse = {
+  readonly __typename?: 'LoginResponse';
+  readonly token: Scalars['String']['output'];
+};
+
 export type Mutation = {
   readonly __typename?: 'Mutation';
   readonly clear: Scalars['Boolean']['output'];
   readonly delete: Scalars['Boolean']['output'];
+  readonly emailLoginConfirm: EmailLoginConfirmResponse;
+  readonly emailLoginRequest: EmailLoginRequestResponse;
   readonly loginConfirm: LoginConfirmResponse;
   readonly loginRequest: LoginRequestResponse;
-  readonly logout: Scalars['DateTime']['output'];
-  readonly logoutFromAllDevices: Scalars['DateTime']['output'];
-  readonly refreshToken: NewTokenResponse;
+  readonly logout: LoginRequestSuccessResponse;
   readonly set: Scalars['Boolean']['output'];
+  readonly smsLoginConfirm: SmsLoginConfirmResponse;
+  readonly smsLoginRequest: SmsLoginRequestResponse;
 };
 
 
@@ -84,6 +94,17 @@ export type MutationDeleteArgs = {
 };
 
 
+export type MutationEmailLoginConfirmArgs = {
+  code: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+};
+
+
+export type MutationEmailLoginRequestArgs = {
+  email: Scalars['String']['input'];
+};
+
+
 export type MutationLoginConfirmArgs = {
   code: Scalars['String']['input'];
   email: Scalars['String']['input'];
@@ -95,12 +116,6 @@ export type MutationLoginRequestArgs = {
 };
 
 
-export type MutationRefreshTokenArgs = {
-  bearerToken: Scalars['String']['input'];
-  refreshToken: Scalars['String']['input'];
-};
-
-
 export type MutationSetArgs = {
   expireAfterSeconds?: InputMaybe<Scalars['Int']['input']>;
   key: Scalars['String']['input'];
@@ -108,12 +123,20 @@ export type MutationSetArgs = {
   value: Scalars['JSON']['input'];
 };
 
-export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
 
-export type NewTokenSuccessResponse = {
-  readonly __typename?: 'NewTokenSuccessResponse';
-  readonly bearerToken: Scalars['String']['output'];
-  readonly refreshToken: Scalars['String']['output'];
+export type MutationSmsLoginConfirmArgs = {
+  code: Scalars['String']['input'];
+  phoneNum: Scalars['String']['input'];
+};
+
+
+export type MutationSmsLoginRequestArgs = {
+  phoneNum: Scalars['String']['input'];
+};
+
+export type PhoneNumNotValidError = Error & {
+  readonly __typename?: 'PhoneNumNotValidError';
+  readonly message: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -122,7 +145,7 @@ export type Query = {
   readonly get?: Maybe<Scalars['JSON']['output']>;
   readonly has: Scalars['Boolean']['output'];
   readonly keys: ReadonlyArray<Scalars['String']['output']>;
-  readonly publicKey?: Maybe<Scalars['String']['output']>;
+  readonly publicKey: Scalars['String']['output'];
   readonly readJWT: Scalars['JSONObject']['output'];
   readonly size: Scalars['Int']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
@@ -171,10 +194,9 @@ export type QueryValuesArgs = {
   prefix: Scalars['String']['input'];
 };
 
-export type RefreshTokenInvalidError = {
-  readonly __typename?: 'RefreshTokenInvalidError';
-  readonly message: Scalars['String']['output'];
-};
+export type SmsLoginConfirmResponse = CodeNotValidError | LoginConfirmSuccessfulResponse | LoginFailedError | PhoneNumNotValidError;
+
+export type SmsLoginRequestResponse = LoginRequestSuccessResponse | PhoneNumNotValidError;
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -246,14 +268,17 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping of union types */
 export type ResolversUnionTypes<RefType extends Record<string, unknown>> = ResolversObject<{
+  EmailLoginConfirmResponse: ( CodeNotValidError ) | ( EmailNotValidError ) | ( LoginConfirmSuccessfulResponse ) | ( LoginFailedError );
+  EmailLoginRequestResponse: ( EmailNotValidError ) | ( LoginRequestSuccessResponse );
   LoginConfirmResponse: ( CodeNotValidError ) | ( EmailNotValidError ) | ( LoginConfirmSuccessfulResponse ) | ( LoginFailedError );
   LoginRequestResponse: ( EmailNotValidError ) | ( LoginRequestSuccessResponse );
-  NewTokenResponse: ( NewTokenSuccessResponse ) | ( RefreshTokenInvalidError );
+  SmsLoginConfirmResponse: ( CodeNotValidError ) | ( LoginConfirmSuccessfulResponse ) | ( LoginFailedError ) | ( PhoneNumNotValidError );
+  SmsLoginRequestResponse: ( LoginRequestSuccessResponse ) | ( PhoneNumNotValidError );
 }>;
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  Error: ( CodeNotValidError ) | ( EmailNotValidError ) | ( LoginFailedError );
+  Error: ( CodeNotValidError ) | ( EmailNotValidError ) | ( LoginFailedError ) | ( PhoneNumNotValidError );
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -261,7 +286,8 @@ export type ResolversTypes = ResolversObject<{
   AuthOr: AuthOr;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CodeNotValidError: ResolverTypeWrapper<CodeNotValidError>;
-  DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  EmailLoginConfirmResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['EmailLoginConfirmResponse']>;
+  EmailLoginRequestResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['EmailLoginRequestResponse']>;
   EmailNotValidError: ResolverTypeWrapper<EmailNotValidError>;
   Error: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Error']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -272,11 +298,12 @@ export type ResolversTypes = ResolversObject<{
   LoginFailedError: ResolverTypeWrapper<LoginFailedError>;
   LoginRequestResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['LoginRequestResponse']>;
   LoginRequestSuccessResponse: ResolverTypeWrapper<LoginRequestSuccessResponse>;
+  LoginResponse: ResolverTypeWrapper<LoginResponse>;
   Mutation: ResolverTypeWrapper<{}>;
-  NewTokenResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['NewTokenResponse']>;
-  NewTokenSuccessResponse: ResolverTypeWrapper<NewTokenSuccessResponse>;
+  PhoneNumNotValidError: ResolverTypeWrapper<PhoneNumNotValidError>;
   Query: ResolverTypeWrapper<{}>;
-  RefreshTokenInvalidError: ResolverTypeWrapper<RefreshTokenInvalidError>;
+  SmsLoginConfirmResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['SmsLoginConfirmResponse']>;
+  SmsLoginRequestResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['SmsLoginRequestResponse']>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
 
@@ -285,7 +312,8 @@ export type ResolversParentTypes = ResolversObject<{
   AuthOr: AuthOr;
   Boolean: Scalars['Boolean']['output'];
   CodeNotValidError: CodeNotValidError;
-  DateTime: Scalars['DateTime']['output'];
+  EmailLoginConfirmResponse: ResolversUnionTypes<ResolversParentTypes>['EmailLoginConfirmResponse'];
+  EmailLoginRequestResponse: ResolversUnionTypes<ResolversParentTypes>['EmailLoginRequestResponse'];
   EmailNotValidError: EmailNotValidError;
   Error: ResolversInterfaceTypes<ResolversParentTypes>['Error'];
   Int: Scalars['Int']['output'];
@@ -296,11 +324,12 @@ export type ResolversParentTypes = ResolversObject<{
   LoginFailedError: LoginFailedError;
   LoginRequestResponse: ResolversUnionTypes<ResolversParentTypes>['LoginRequestResponse'];
   LoginRequestSuccessResponse: LoginRequestSuccessResponse;
+  LoginResponse: LoginResponse;
   Mutation: {};
-  NewTokenResponse: ResolversUnionTypes<ResolversParentTypes>['NewTokenResponse'];
-  NewTokenSuccessResponse: NewTokenSuccessResponse;
+  PhoneNumNotValidError: PhoneNumNotValidError;
   Query: {};
-  RefreshTokenInvalidError: RefreshTokenInvalidError;
+  SmsLoginConfirmResponse: ResolversUnionTypes<ResolversParentTypes>['SmsLoginConfirmResponse'];
+  SmsLoginRequestResponse: ResolversUnionTypes<ResolversParentTypes>['SmsLoginRequestResponse'];
   String: Scalars['String']['output'];
 }>;
 
@@ -318,9 +347,13 @@ export type CodeNotValidErrorResolvers<ContextType = Zemble.GraphQLContext, Pare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
-  name: 'DateTime';
-}
+export type EmailLoginConfirmResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['EmailLoginConfirmResponse'] = ResolversParentTypes['EmailLoginConfirmResponse']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginConfirmSuccessfulResponse' | 'LoginFailedError', ParentType, ContextType>;
+}>;
+
+export type EmailLoginRequestResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['EmailLoginRequestResponse'] = ResolversParentTypes['EmailLoginRequestResponse']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'EmailNotValidError' | 'LoginRequestSuccessResponse', ParentType, ContextType>;
+}>;
 
 export type EmailNotValidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['EmailNotValidError'] = ResolversParentTypes['EmailNotValidError']> = ResolversObject<{
   message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
@@ -328,7 +361,7 @@ export type EmailNotValidErrorResolvers<ContextType = Zemble.GraphQLContext, Par
 }>;
 
 export type ErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginFailedError', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginFailedError' | 'PhoneNumNotValidError', ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
 }>;
 
@@ -364,24 +397,26 @@ export type LoginRequestSuccessResponseResolvers<ContextType = Zemble.GraphQLCon
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type LoginResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
+  token?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   clear?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationClearArgs, 'prefix'>>;
   delete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteArgs, 'key' | 'prefix'>>;
+  emailLoginConfirm?: Resolver<ResolversTypes['EmailLoginConfirmResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationEmailLoginConfirmArgs, 'code' | 'email'>>;
+  emailLoginRequest?: Resolver<ResolversTypes['EmailLoginRequestResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationEmailLoginRequestArgs, 'email'>>;
   loginConfirm?: Resolver<ResolversTypes['LoginConfirmResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationLoginConfirmArgs, 'code' | 'email'>>;
   loginRequest?: Resolver<ResolversTypes['LoginRequestResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationLoginRequestArgs, 'email'>>;
-  logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  logoutFromAllDevices?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  refreshToken?: Resolver<ResolversTypes['NewTokenResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRefreshTokenArgs, 'bearerToken' | 'refreshToken'>>;
+  logout?: Resolver<ResolversTypes['LoginRequestSuccessResponse'], ParentType, ContextType>;
   set?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetArgs, 'key' | 'prefix' | 'value'>>;
+  smsLoginConfirm?: Resolver<ResolversTypes['SmsLoginConfirmResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationSmsLoginConfirmArgs, 'code' | 'phoneNum'>>;
+  smsLoginRequest?: Resolver<ResolversTypes['SmsLoginRequestResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationSmsLoginRequestArgs, 'phoneNum'>>;
 }>;
 
-export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'NewTokenSuccessResponse' | 'RefreshTokenInvalidError', ParentType, ContextType>;
-}>;
-
-export type NewTokenSuccessResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenSuccessResponse'] = ResolversParentTypes['NewTokenSuccessResponse']> = ResolversObject<{
-  bearerToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  refreshToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+export type PhoneNumNotValidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['PhoneNumNotValidError'] = ResolversParentTypes['PhoneNumNotValidError']> = ResolversObject<{
+  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -390,21 +425,25 @@ export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
   get?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryGetArgs, 'key' | 'prefix'>>;
   has?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryHasArgs, 'key' | 'prefix'>>;
   keys?: Resolver<ReadonlyArray<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryKeysArgs, 'prefix'>>;
-  publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  publicKey?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
   readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
   size?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QuerySizeArgs, 'prefix'>>;
   validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
   values?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryValuesArgs, 'prefix'>>;
 }>;
 
-export type RefreshTokenInvalidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RefreshTokenInvalidError'] = ResolversParentTypes['RefreshTokenInvalidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+export type SmsLoginConfirmResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['SmsLoginConfirmResponse'] = ResolversParentTypes['SmsLoginConfirmResponse']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'CodeNotValidError' | 'LoginConfirmSuccessfulResponse' | 'LoginFailedError' | 'PhoneNumNotValidError', ParentType, ContextType>;
+}>;
+
+export type SmsLoginRequestResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['SmsLoginRequestResponse'] = ResolversParentTypes['SmsLoginRequestResponse']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'LoginRequestSuccessResponse' | 'PhoneNumNotValidError', ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   CodeNotValidError?: CodeNotValidErrorResolvers<ContextType>;
-  DateTime?: GraphQLScalarType;
+  EmailLoginConfirmResponse?: EmailLoginConfirmResponseResolvers<ContextType>;
+  EmailLoginRequestResponse?: EmailLoginRequestResponseResolvers<ContextType>;
   EmailNotValidError?: EmailNotValidErrorResolvers<ContextType>;
   Error?: ErrorResolvers<ContextType>;
   JSON?: GraphQLScalarType;
@@ -414,11 +453,12 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   LoginFailedError?: LoginFailedErrorResolvers<ContextType>;
   LoginRequestResponse?: LoginRequestResponseResolvers<ContextType>;
   LoginRequestSuccessResponse?: LoginRequestSuccessResponseResolvers<ContextType>;
+  LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  NewTokenResponse?: NewTokenResponseResolvers<ContextType>;
-  NewTokenSuccessResponse?: NewTokenSuccessResponseResolvers<ContextType>;
+  PhoneNumNotValidError?: PhoneNumNotValidErrorResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  RefreshTokenInvalidError?: RefreshTokenInvalidErrorResolvers<ContextType>;
+  SmsLoginConfirmResponse?: SmsLoginConfirmResponseResolvers<ContextType>;
+  SmsLoginRequestResponse?: SmsLoginRequestResponseResolvers<ContextType>;
 }>;
 
 export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
