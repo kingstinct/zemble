@@ -223,12 +223,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 /** Mapping of union types */
-export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
+export type ResolversUnionTypes<RefType extends Record<string, unknown>> = ResolversObject<{
   NewTokenResponse: ( NewTokenSuccessResponse ) | ( RefreshTokenInvalidError );
 }>;
 
 /** Mapping of interface types */
-export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
+export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
   Error: never;
 }>;
 

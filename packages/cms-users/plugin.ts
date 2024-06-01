@@ -61,7 +61,7 @@ const plugin = new Plugin(import.meta.dir,
         },
         {
           plugin: authOtp.configure({
-            from: {
+            fromEmail: {
               email: 'noreply@cmsexample.com',
             },
             generateTokenContents: async ({ email }) => {

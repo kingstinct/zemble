@@ -10,7 +10,7 @@ import dryrunAdapter from '@zemble/migrations/adapters/dryrun'
 import Logger from '@zemble/pino'
 import Routes from '@zemble/routes'
 import Elks from '@zemble/sms-46elks'
-import Twilio from '@zemble/sms-twilio'
+// import Twilio from '@zemble/sms-twilio'
 
 import MyRoutes from './plugins/files/plugin'
 
