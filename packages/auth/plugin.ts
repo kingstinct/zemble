@@ -198,7 +198,6 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(
           decodeToken: config.decodeToken,
         })
 
-
         if (config.cookies.isEnabled && token && refreshToken) {
           const { bearerToken: newBearerToken, refreshToken: newRefreshToken } = await refreshTokensFromPrevious(token, refreshToken)
           setTokenCookies(context, newBearerToken, newRefreshToken)

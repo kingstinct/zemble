@@ -8,7 +8,6 @@ import { parseEnvJSON } from '@zemble/utils/node/parseEnv'
 import { parsePhoneNumber } from 'libphonenumber-js'
 import { type CountryCode } from 'libphonenumber-js'
 
-import { isValidE164Number } from './utils/isValidE164Number'
 import { simpleTemplating } from './utils/simpleTemplating'
 
 import type { IEmail } from '@zemble/core'

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Plugin, setupProvider } from '@zemble/core'
 import yoga from '@zemble/graphql'
 

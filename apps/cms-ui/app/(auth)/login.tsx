@@ -18,7 +18,7 @@ type TextInputHandles = Pick<TextInputNative, 'focus' | 'clear' | 'blur' | 'isFo
 
 export const LoginConfirmMutation = graphql(`
   mutation LoginConfirm($email: String!, $code: String!) {
-    loginConfirm(email: $email, code: $code) {
+    emailLoginConfirm(email: $email, code: $code) {
       __typename
       ... on LoginConfirmSuccessfulResponse {
         bearerToken
@@ -32,7 +32,7 @@ export const LoginConfirmMutation = graphql(`
 
 export const LoginRequestMutation = graphql(`
   mutation LoginRequest($email: String!) {
-    loginRequest(email: $email) {
+    emailLoginRequest(email: $email) {
       __typename
       ... on Error {
         message
@@ -55,8 +55,8 @@ const Login = () => {
   const doConfirm = useCallback(async () => {
     const { data } = await loginConfirm({ email, code })
 
-    if (data?.loginConfirm.__typename === 'LoginConfirmSuccessfulResponse') {
-      setToken(data.loginConfirm.bearerToken)
+    if (data?.emailLoginConfirm.__typename === 'LoginConfirmSuccessfulResponse') {
+      setToken(data.emailLoginConfirm.bearerToken)
     }
   }, [
     email, code, loginConfirm, setToken,

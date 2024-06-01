@@ -6,7 +6,7 @@ import { graphql } from '../client.generated'
 
 export const LoginRequestMutation = graphql(`
   mutation LoginRequest($email: String!) {
-    loginRequest(email: $email) {
+    emailLoginRequest(email: $email) {
       __typename
       ... on Error {
         message
@@ -24,7 +24,7 @@ describe('Mutation.loginRequest', () => {
     const { data } = await app.gqlRequest(LoginRequestMutation, { email })
 
     expect(data).toEqual({
-      loginRequest: {
+      emailLoginRequest: {
         __typename: 'LoginRequestSuccessResponse',
       },
     })
@@ -38,7 +38,7 @@ describe('Mutation.loginRequest', () => {
     const { data } = await app.gqlRequest(LoginRequestMutation, { email })
 
     expect(data).toEqual({
-      loginRequest: {
+      emailLoginRequest: {
         __typename: 'EmailNotValidError',
         message: 'Not a valid email',
       },

@@ -43,7 +43,7 @@ export const smsLoginRequest: NonNullable<MutationResolvers['smsLoginRequest']> 
     twoFactorCode,
   }, plugin.config.twoFactorCodeExpiryInSeconds)
 
-   await plugin.config.handleSmsAuthRequest(phoneNum, twoFactorCode, context)
+  await plugin.config.handleSmsAuthRequest(phoneNum, twoFactorCode, context)
 
   return {
     __typename: 'LoginRequestSuccessResponse',
