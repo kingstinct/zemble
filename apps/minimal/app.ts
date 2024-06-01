@@ -36,10 +36,10 @@ export default createApp({
       },
     }),
     AuthOtp.configure({
-      fromSms: 'Ryan Iguchi',
+      fromSms: 'Kingstinct',
       fromEmail: {
         email: 'info@getlifeline.app',
-        name: 'Ryan Iguchi',
+        name: 'Kingstinct',
       },
       smsMessage: 'Your two factor code is {{twoFactorCode}}',
       WHITELISTED_COUNTRY_CODES: ['SE'],
