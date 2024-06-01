@@ -10,6 +10,7 @@ import dryrunAdapter from '@zemble/migrations/adapters/dryrun'
 import Logger from '@zemble/pino'
 import Routes from '@zemble/routes'
 import Elks from '@zemble/sms-46elks'
+import Twilio from '@zemble/sms-twilio'
 
 import MyRoutes from './plugins/files/plugin'
 
@@ -22,13 +23,17 @@ export default createApp({
         nodeModulesRootPath: '../..',
       },
     }),
+    // Twilio.configure({
+    //   TWILIO_ACCOUNT_SID: process.env['TWILIO_ACCOUNT_SID'],
+    //   TWILIO_AUTH_TOKEN: process.env['TWILIO_AUTH_TOKEN'],
+    // }),
     Elks.configure({
-      ELKS_USERNAME: 'u7c8ce96784a6310f788498d749bb9368',
-      ELKS_PASSWORD: '5259CE2557B0631914FA64F4741F7B8F',
+      ELKS_USERNAME: process.env['ELKS_USERNAME'],
+      ELKS_PASSWORD: process.env['ELKS_PASSWORD'],
       disable: false,
       options: {
         dryrun: 'yes',
-      }
+      },
     }),
     AuthOtp.configure({
       fromSms: 'Ryan Iguchi',
@@ -37,7 +42,7 @@ export default createApp({
         name: 'Ryan Iguchi',
       },
       smsMessage: 'Your two factor code is {{twoFactorCode}}',
-      WHITELISTED_COUNTRY_CODES: ['SE']
+      WHITELISTED_COUNTRY_CODES: ['SE'],
     }),
     GraphQLLogger,
     GraphQL.configure({

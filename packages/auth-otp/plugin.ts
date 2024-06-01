@@ -5,13 +5,13 @@ import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import kv from '@zemble/kv'
 import { parseEnvJSON } from '@zemble/utils/node/parseEnv'
+import { parsePhoneNumber } from 'libphonenumber-js'
+import { type CountryCode } from 'libphonenumber-js'
 
+import { isValidE164Number } from './utils/isValidE164Number'
 import { simpleTemplating } from './utils/simpleTemplating'
 
 import type { IEmail } from '@zemble/core'
-import {parsePhoneNumber} from 'libphonenumber-js'
-import { type CountryCode } from 'libphonenumber-js'
-import { isValidE164Number } from './utils/isValidE164Number'
 
 interface OtpAuthConfig extends Zemble.GlobalConfig {
   readonly twoFactorCodeExpiryInSeconds?: number
@@ -47,7 +47,6 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
     */
   readonly smsMessage?: string
   readonly WHITELISTED_COUNTRY_CODES?: readonly CountryCode[]
-
 
   readonly handleEmailAuthRequest?: (email: IEmail, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
   readonly handleSmsAuthRequest?: (phoneNum: string, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
@@ -120,16 +119,15 @@ const defaultConfig = {
 
   handleSmsAuthRequest: async (phoneNum, twoFactorCode) => {
     const { sendSms } = plugin.providers,
-    {fromSms, smsMessage, WHITELISTED_COUNTRY_CODES} = plugin.config
+          { fromSms: from, smsMessage, WHITELISTED_COUNTRY_CODES } = plugin.config
 
-    const from = fromSms?.replace(/\s/g, '')
-    const {country, number: to} = parsePhoneNumber(phoneNum)
+    const { country, number: to } = parsePhoneNumber(phoneNum)
 
     if (!from) {
       throw new Error('fromSms must be set')
     }
 
-    if (WHITELISTED_COUNTRY_CODES  && WHITELISTED_COUNTRY_CODES.length) {
+    if (WHITELISTED_COUNTRY_CODES && WHITELISTED_COUNTRY_CODES.length) {
       if (!country || !WHITELISTED_COUNTRY_CODES.includes(country)) {
         throw new Error(`Country code ${country} is not allowed`)
       }
@@ -139,7 +137,7 @@ const defaultConfig = {
 
     if (sendSms && !['test', 'development'].includes(process.env.NODE_ENV ?? '')) {
       void sendSms({
-        from: from,
+        from,
         message,
         to,
       })

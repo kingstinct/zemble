@@ -55,20 +55,20 @@ const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(import.meta.dir
 
         const auth = Buffer.from(`${config.ELKS_USERNAME}:${config.ELKS_PASSWORD}`).toString('base64')
 
+        let formatedData = { ...data, from: data.from.replace(/\s/g, '') }
+
         if (config.options) {
-          data = {...data, ...config.options}
+          formatedData = { ...formatedData, ...config.options }
         }
 
-        const body = new URLSearchParams(data).toString()
+        const body = new URLSearchParams(formatedData).toString()
 
         try {
-
           const response = await fetch('https://api.46elks.com/a1/sms', {
             method: 'POST',
             body,
-            headers: { "Authorization": `Basic ${auth}` },
+            headers: { Authorization: `Basic ${auth}` },
           })
-
 
           const { ok } = response
 
@@ -79,12 +79,11 @@ const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(import.meta.dir
 
           if (ok) {
             console.log('RESPONSE', await response.json())
-          } 
+          }
 
           return true
         } catch (error) {
           if (error instanceof Error) {
-
             logger.error('Error sending sms', error.message)
           }
           return false

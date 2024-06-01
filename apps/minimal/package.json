@@ -47,7 +47,8 @@
     "@zemble/migrations": "workspace:*",
     "@zemble/pino": "workspace:*",
     "@zemble/routes": "workspace:*",
-    "@zemble/sms-46elks": "workspace:*"
+    "@zemble/sms-46elks": "workspace:*",
+    "@zemble/sms-twilio": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
