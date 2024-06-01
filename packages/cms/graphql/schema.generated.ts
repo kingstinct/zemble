@@ -500,20 +500,20 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 /** Mapping of union types */
-export type ResolversUnionTypes<RefType extends Record<string, unknown>> = ResolversObject<{
+export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
   BookContributorsUnion: ( BookContributorsAuthor ) | ( BookContributorsEditor );
   NewTokenResponse: ( NewTokenSuccessResponse ) | ( RefreshTokenInvalidError );
 }>;
 
 /** Mapping of interface types */
-export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
+export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
   Error: never;
-  Field: ( ArrayField ) | ( BooleanField ) | ( Omit<EntityRelationField, 'entity'> & { entity: RefType['Entity'] } ) | ( IdField ) | ( NumberField ) | ( StringField );
+  Field: ( Omit<ArrayField, 'availableFields'> & { availableFields: ReadonlyArray<_RefType['Field']> } ) | ( BooleanField ) | ( Omit<EntityRelationField, 'entity'> & { entity: _RefType['Entity'] } ) | ( IdField ) | ( NumberField ) | ( StringField );
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  ArrayField: ResolverTypeWrapper<ArrayField>;
+  ArrayField: ResolverTypeWrapper<Omit<ArrayField, 'availableFields'> & { availableFields: ReadonlyArray<ResolversTypes['Field']> }>;
   ArrayFieldInput: ArrayFieldInput;
   AuthOr: AuthOr;
   Author: ResolverTypeWrapper<Author>;
@@ -563,7 +563,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  ArrayField: ArrayField;
+  ArrayField: Omit<ArrayField, 'availableFields'> & { availableFields: ReadonlyArray<ResolversParentTypes['Field']> };
   ArrayFieldInput: ArrayFieldInput;
   AuthOr: AuthOr;
   Author: Author;
@@ -1335,20 +1335,20 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 /** Mapping of union types */
-export type ResolversUnionTypes<RefType extends Record<string, unknown>> = ResolversObject<{
+export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
   BookContributorsUnion: ( BookContributorsAuthor ) | ( BookContributorsEditor );
   NewTokenResponse: ( NewTokenSuccessResponse ) | ( RefreshTokenInvalidError );
 }>;
 
 /** Mapping of interface types */
-export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
+export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
   Error: never;
-  Field: ( ArrayField ) | ( BooleanField ) | ( Omit<EntityRelationField, 'entity'> & { entity: RefType['Entity'] } ) | ( IdField ) | ( NumberField ) | ( StringField );
+  Field: ( Omit<ArrayField, 'availableFields'> & { availableFields: ReadonlyArray<_RefType['Field']> } ) | ( BooleanField ) | ( Omit<EntityRelationField, 'entity'> & { entity: _RefType['Entity'] } ) | ( IdField ) | ( NumberField ) | ( StringField );
 }>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  ArrayField: ResolverTypeWrapper<ArrayField>;
+  ArrayField: ResolverTypeWrapper<Omit<ArrayField, 'availableFields'> & { availableFields: ReadonlyArray<ResolversTypes['Field']> }>;
   ArrayFieldInput: ArrayFieldInput;
   AuthOr: AuthOr;
   Author: ResolverTypeWrapper<Author>;
@@ -1398,7 +1398,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  ArrayField: ArrayField;
+  ArrayField: Omit<ArrayField, 'availableFields'> & { availableFields: ReadonlyArray<ResolversParentTypes['Field']> };
   ArrayFieldInput: ArrayFieldInput;
   AuthOr: AuthOr;
   Author: Author;
