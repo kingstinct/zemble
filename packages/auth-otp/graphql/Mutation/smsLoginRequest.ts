@@ -1,26 +1,29 @@
+import { parsePhoneNumber } from 'libphonenumber-js'
+
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'
+import getTwoFactorCode from '../../utils/getTwoFactorCode'
 import { isValidE164Number } from '../../utils/isValidE164Number'
 
 import type { MutationResolvers } from '../schema.generated'
 
-const getTwoFactorCode = () => {
-  if (process.env.NODE_ENV === 'test') {
-    return '000000'
-  }
-  const twoFactorCode = Math.floor(100000 + Math.random() * 900000).toString()
-
-  return twoFactorCode
-}
-
 export const smsLoginRequest: NonNullable<MutationResolvers['smsLoginRequest']> = async (_, {
   phoneNum: phoneNumInput,
 }, context) => {
-  if (!isValidE164Number(phoneNumInput)) {
+  const phoneNum = phoneNumInput.trim()
+
+  if (!isValidE164Number(phoneNum)) {
     return { message: 'Not a valid phone number', __typename: 'PhoneNumNotValidError' }
   }
 
-  const phoneNum = phoneNumInput.trim()
+  const { country } = parsePhoneNumber(phoneNum),
+        { WHITELISTED_COUNTRY_CODES } = plugin.config
+
+  if (WHITELISTED_COUNTRY_CODES && WHITELISTED_COUNTRY_CODES.length) {
+    if (!country || !WHITELISTED_COUNTRY_CODES.includes(country)) {
+      throw new Error(`Country code ${country} is not allowed`)
+    }
+  }
 
   const existing = await loginRequestKeyValue().get(phoneNum)
 

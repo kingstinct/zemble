@@ -1,10 +1,4 @@
-import Auth from '@zemble/auth'
-import { generateRefreshToken } from '@zemble/auth/utils/generateRefreshToken'
-import { setTokenCookies } from '@zemble/auth/utils/setBearerTokenCookie'
-import { signJwt } from '@zemble/auth/utils/signJwt'
-
-import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
-import plugin from '../../plugin'
+import getTokens from '../../utils/getTokens'
 import { isValidE164Number } from '../../utils/isValidE164Number'
 
 import type {
@@ -20,32 +14,10 @@ export const smsLoginConfirm: NonNullable<MutationResolvers['smsLoginConfirm']> 
     return { __typename: 'PhoneNumNotValidError', message: 'Phone number is not valid' }
   }
 
-  if (code.length !== 6) {
-    return { __typename: 'CodeNotValidError', message: 'Code should be 6 characters' }
-  }
+  const { bearerToken, refreshToken } = await getTokens(code, phoneNum, honoContext)
 
-  const entry = await loginRequestKeyValue().get(phoneNum)
-
-  if (!entry) {
-    return { __typename: 'CodeNotValidError', message: 'Must loginRequest code first, it might have expired' }
-  }
-
-  if (entry?.twoFactorCode !== code) {
+  if (!bearerToken || !refreshToken) {
     return { __typename: 'CodeNotValidError', message: 'Code not valid' }
-  }
-
-  const { sub, ...data } = await plugin.config.generateTokenContents({ phoneNum })
-
-  const bearerToken = await signJwt({
-    data,
-    expiresInSeconds: Auth.config.bearerTokenExpiryInSeconds,
-    sub,
-  })
-
-  const refreshToken = await generateRefreshToken({ sub })
-
-  if (Auth.config.cookies.isEnabled) {
-    setTokenCookies(honoContext, bearerToken, refreshToken)
   }
 
   return {

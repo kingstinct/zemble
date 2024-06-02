@@ -49,7 +49,7 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
 
   readonly handleEmailAuthRequest?: (email: IEmail, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
   readonly handleSmsAuthRequest?: (phoneNum: string, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
-  readonly generateTokenContents: ({ email, phoneNum }: {readonly email?: string, readonly phoneNum?: string}) => Promise<Omit<Zemble.OtpToken, 'iat'>> | Omit<Zemble.OtpToken, 'iat'>
+  readonly generateTokenContents: ({ emailOrPhone }: {readonly emailOrPhone: string}) => Promise<Omit<Zemble.OtpToken, 'iat'>> | Omit<Zemble.OtpToken, 'iat'>
 }
 
 export interface DefaultOtpToken {
@@ -73,20 +73,10 @@ declare global {
   }
 }
 
-function generateTokenContents({ email, phoneNum }: {readonly email?: string, readonly phoneNum?: string}): Zemble.OtpToken {
-  if (email) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore - this is a default implementation
-    return { email, type: 'AuthOtp' as const }
-  }
-
-  if (phoneNum) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore - this is a default implementation
-    return { phoneNum, type: 'AuthOtp' as const }
-  }
-
-  throw new Error('Either email or phoneNum must be provided')
+function generateTokenContents({ emailOrPhone }: {readonly emailOrPhone: string}): Zemble.OtpToken {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore - this is a default implementation
+  return { emailOrPhone, type: 'AuthOtp' as const }
 }
 
 const defaultConfig = {
@@ -116,20 +106,12 @@ const defaultConfig = {
     }
   },
 
-  handleSmsAuthRequest: async (phoneNum, twoFactorCode) => {
+  handleSmsAuthRequest: async (to, twoFactorCode) => {
     const { sendSms } = plugin.providers,
-          { fromSms: from, smsMessage, WHITELISTED_COUNTRY_CODES } = plugin.config
-
-    const { country, number: to } = parsePhoneNumber(phoneNum)
+          { fromSms: from, smsMessage } = plugin.config
 
     if (!from) {
       throw new Error('fromSms must be set')
-    }
-
-    if (WHITELISTED_COUNTRY_CODES && WHITELISTED_COUNTRY_CODES.length) {
-      if (!country || !WHITELISTED_COUNTRY_CODES.includes(country)) {
-        throw new Error(`Country code ${country} is not allowed`)
-      }
     }
 
     const message = smsMessage ? simpleTemplating(smsMessage, { twoFactorCode }) : `Your code is ${twoFactorCode}`

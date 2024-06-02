@@ -1,17 +1,9 @@
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'
+import getTwoFactorCode from '../../utils/getTwoFactorCode'
 import { isValidEmail } from '../../utils/isValidEmail'
 
 import type { MutationResolvers } from '../schema.generated'
-
-const getTwoFactorCode = () => {
-  if (process.env.NODE_ENV === 'test') {
-    return '000000'
-  }
-  const twoFactorCode = Math.floor(100000 + Math.random() * 900000).toString()
-
-  return twoFactorCode
-}
 
 export const emailLoginRequest: NonNullable<MutationResolvers['emailLoginRequest']> = async (_, {
   email: emailInput,
