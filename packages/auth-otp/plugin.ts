@@ -5,7 +5,6 @@ import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import kv from '@zemble/kv'
 import { parseEnvJSON } from '@zemble/utils/node/parseEnv'
-import { parsePhoneNumber } from 'libphonenumber-js'
 import { type CountryCode } from 'libphonenumber-js'
 
 import { simpleTemplating } from './utils/simpleTemplating'
