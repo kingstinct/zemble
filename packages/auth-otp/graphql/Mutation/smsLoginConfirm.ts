@@ -14,17 +14,7 @@ export const smsLoginConfirm: NonNullable<MutationResolvers['smsLoginConfirm']> 
     return { __typename: 'PhoneNumNotValidError', message: 'Phone number is not valid' }
   }
 
-  const { bearerToken, refreshToken } = await getTokens(code, phoneNum, honoContext)
-
-  if (!bearerToken || !refreshToken) {
-    return { __typename: 'CodeNotValidError', message: 'Code not valid' }
-  }
-
-  return {
-    __typename: 'LoginConfirmSuccessfulResponse',
-    bearerToken,
-    refreshToken,
-  }
+  return getTokens(code, phoneNum, honoContext)
 }
 
 export default smsLoginConfirm

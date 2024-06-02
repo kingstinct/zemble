@@ -13,17 +13,7 @@ export const emailLoginConfirm: NonNullable<MutationResolvers['emailLoginConfirm
     return { __typename: 'EmailNotValidError', message: 'Email not valid' }
   }
 
-  const { bearerToken, refreshToken } = await getTokens(code, emailIn, honoContext)
-
-  if (!bearerToken || !refreshToken) {
-    return { __typename: 'CodeNotValidError', message: 'Code not valid' }
-  }
-
-  return {
-    __typename: 'LoginConfirmSuccessfulResponse',
-    bearerToken,
-    refreshToken,
-  }
+  return getTokens(code, emailIn, honoContext)
 }
 
 export default emailLoginConfirm

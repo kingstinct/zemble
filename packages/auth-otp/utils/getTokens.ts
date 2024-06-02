@@ -8,17 +8,17 @@ import plugin from '../plugin'
 
 const getTokens = async (code: string, emailOrPhone: string, honoContext: Zemble.RouteContext) => {
   if (code.length !== 6) {
-    return { __typename: 'CodeNotValidError', message: 'Code should be 6 characters' }
+    return { __typename: 'CodeNotValidError' as const, message: 'Code should be 6 characters' }
   }
 
   const entry = await loginRequestKeyValue().get(emailOrPhone.toLowerCase())
 
   if (!entry) {
-    return { __typename: 'CodeNotValidError', message: 'Must loginRequest code first, it might have expired' }
+    return { __typename: 'CodeNotValidError' as const, message: 'Must loginRequest code first, it might have expired' }
   }
 
   if (entry?.twoFactorCode !== code) {
-    return { __typename: 'CodeNotValidError', message: 'Code not valid' }
+    return { __typename: 'CodeNotValidError' as const, message: 'Code not valid' }
   }
 
   const { sub, ...data } = await plugin.config.generateTokenContents({ emailOrPhone })
@@ -35,7 +35,11 @@ const getTokens = async (code: string, emailOrPhone: string, honoContext: Zemble
     setTokenCookies(honoContext, bearerToken, refreshToken)
   }
 
-  return { bearerToken, refreshToken }
+  return {
+    __typename: 'LoginConfirmSuccessfulResponse' as const,
+    bearerToken,
+    refreshToken,
+  }
 }
 
 export default getTokens
