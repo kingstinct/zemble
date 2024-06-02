@@ -53,7 +53,7 @@ export default createApp({
       createAdapter: () => dryrunAdapter,
     }),
     Resend.configure({
-      RESEND_API_KEY: 're_V3Znff2Z_C8jWM3NRxR4ERVc6xnFA7bxZ',
+      RESEND_API_KEY: process.env['RESEND_API_KEY'],
       disable: false,
     }),
     // Auth.configure({
