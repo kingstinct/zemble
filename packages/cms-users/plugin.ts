@@ -64,7 +64,7 @@ const plugin = new Plugin(import.meta.dir,
             fromEmail: {
               email: 'noreply@cmsexample.com',
             },
-            generateTokenContents: async ({ emailOrPhone: email }) => {
+            generateTokenContents: async ({ email }) => {
               const user = await User.findOneAndUpdate({
                 email,
               }, {
