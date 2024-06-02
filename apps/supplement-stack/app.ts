@@ -27,7 +27,7 @@ void bunRunner({
     }),
     AuthOTP.configure({
       fromEmail: { email: 'robert@herber.me' },
-      generateTokenContents: async ({ emailOrPhone: email }) => {
+      generateTokenContents: async ({ email }) => {
         const user = await Users.findOneAndUpdate({ email }, {
           $set: {
             lastLoginAt: new Date(),
