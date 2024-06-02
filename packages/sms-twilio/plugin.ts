@@ -74,14 +74,13 @@ const plugin = new Plugin<SmsTwilioConfig, typeof defaultConfig>(import.meta.dir
           const responseData = await response.json()
 
           if (!response.ok) {
-            throw new Error(`Error: ${responseData.message}`)
+            throw new Error(`Failed to send the SMS message. Error code: ${response.status}. Status: ${response.statusText}.`)
           }
 
           console.log('SMS sent successfully:', responseData)
           return true
         } catch (error) {
           if (error instanceof Error) {
-            console.error('Error sending SMS:', error)
             logger.error('Error sending sms', error.message)
           }
 

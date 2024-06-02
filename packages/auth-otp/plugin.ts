@@ -9,6 +9,7 @@ import { type CountryCode } from 'libphonenumber-js'
 
 import { simpleTemplating } from './utils/simpleTemplating'
 
+import type { E164PhoneNumber } from './utils/types'
 import type { IEmail } from '@zemble/core'
 
 interface OtpAuthConfig extends Zemble.GlobalConfig {
@@ -47,18 +48,16 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
   readonly WHITELISTED_COUNTRY_CODES?: readonly CountryCode[]
 
   readonly handleEmailAuthRequest?: (email: IEmail, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
-  readonly handleSmsAuthRequest?: (phoneNum: string, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
-  readonly generateTokenContents: ({ emailOrPhone }: {readonly emailOrPhone: string}) => Promise<Omit<Zemble.OtpToken, 'iat'>> | Omit<Zemble.OtpToken, 'iat'>
+  readonly handleSmsAuthRequest?: (phoneNum: E164PhoneNumber, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
+  readonly generateTokenContents: ({ email, phoneNumber }: GenerateTokenContentArgs) => Promise<Omit<Zemble.OtpToken, 'iat'>> | Omit<Zemble.OtpToken, 'iat'>
 }
 
 export interface DefaultOtpToken {
-  // readonly type: 'AuthOtp',
+  readonly type: 'AuthOtp',
   readonly email?: string,
-  readonly phoneNum?: string,
+  readonly phoneNumber?: string,
   readonly sub: string
 }
-// type EmailOrPhoneNumber = { readonly email: string } | { readonly phoneNumber: string }
-// type DefaultOtpToken = { readonly sub: string } & EmailOrPhoneNumber
 
 declare global {
   namespace Zemble {
@@ -72,10 +71,12 @@ declare global {
   }
 }
 
-function generateTokenContents({ emailOrPhone }: {readonly emailOrPhone: string}): Zemble.OtpToken {
+type GenerateTokenContentArgs = {readonly email?: string, readonly phoneNumber?: string}
+
+function generateTokenContents({ email, phoneNumber }: GenerateTokenContentArgs): Zemble.OtpToken {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - this is a default implementation
-  return { emailOrPhone, type: 'AuthOtp' as const }
+  return { email, phoneNumber, type: 'AuthOtp' as const }
 }
 
 const defaultConfig = {

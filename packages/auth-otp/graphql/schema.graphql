@@ -13,10 +13,10 @@ directive @auth(
 ) on FIELD_DEFINITION
 
 type Mutation {
-  emailLoginRequest(email: String!): EmailLoginRequestResponse! @auth(skip: true)
-  emailLoginConfirm(email: String!, code: String!): EmailLoginConfirmResponse! @auth(skip: true)
-  smsLoginRequest(phoneNum: String!): SmsLoginRequestResponse! @auth(skip: true)
-  smsLoginConfirm(phoneNum: String!, code: String!): SmsLoginConfirmResponse! @auth(skip: true)
+  loginRequestWithEmail(email: String!): LoginRequestWithEmailResponse! @auth(skip: true)
+  loginConfirmWithEmail(email: String!, code: String!): LoginConfirmWithEmailResponse! @auth(skip: true)
+  loginRequestWithSms(phoneNumberWithCountryCode: String!): LoginRequestWithSmsResponse! @auth(skip: true)
+  loginConfirmWithSms(phoneNumberWithCountryCode: String!, code: String!): LoginConfirmWithSmsResponse! @auth(skip: true)
 }
 
 type LoginRequestSuccessResponse {
@@ -39,20 +39,20 @@ type LoginFailedError implements Error {
     message: String! @auth(skip: true)
 }
 
-union EmailLoginRequestResponse = LoginRequestSuccessResponse | EmailNotValidError
-union SmsLoginRequestResponse = LoginRequestSuccessResponse | PhoneNumNotValidError
+union LoginRequestWithEmailResponse = LoginRequestSuccessResponse | EmailNotValidError
+union LoginRequestWithSmsResponse = LoginRequestSuccessResponse | PhoneNumNotValidError
 
 type LoginConfirmSuccessfulResponse {
     bearerToken: String! @auth(skip: true)
     refreshToken: String! @auth(skip: true)
 }
 
-union EmailLoginConfirmResponse = LoginConfirmSuccessfulResponse
+union LoginConfirmWithEmailResponse = LoginConfirmSuccessfulResponse
   | EmailNotValidError
   | CodeNotValidError
   | LoginFailedError
 
-union SmsLoginConfirmResponse = LoginConfirmSuccessfulResponse
+union LoginConfirmWithSmsResponse = LoginConfirmSuccessfulResponse
   | PhoneNumNotValidError
   | CodeNotValidError
   | LoginFailedError

@@ -74,10 +74,10 @@ const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(import.meta.dir
           const { ok } = response
 
           if (!ok) {
-            console.log(response.status)
-            throw new Error('Failed to send sms')
+            throw new Error(`Failed to send the SMS message. Error code: ${response.status}. Status: ${response.statusText}.`)
           }
 
+          // REMOVE THIS
           if (ok) {
             console.log('RESPONSE', await response.json())
           }

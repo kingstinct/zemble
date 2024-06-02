@@ -5,7 +5,7 @@ import type {
   MutationResolvers,
 } from '../schema.generated'
 
-export const emailLoginConfirm: NonNullable<MutationResolvers['emailLoginConfirm']> = async (_, {
+export const loginConfirmWithEmail: NonNullable<MutationResolvers['loginConfirmWithEmail']> = async (_, {
   email: emailIn, code,
 }, { honoContext }) => {
   const email = emailIn.toLowerCase().trim()
@@ -13,7 +13,7 @@ export const emailLoginConfirm: NonNullable<MutationResolvers['emailLoginConfirm
     return { __typename: 'EmailNotValidError', message: 'Email not valid' }
   }
 
-  return getTokens(code, emailIn, honoContext)
+  return getTokens(code, emailIn, honoContext, 'email')
 }
 
-export default emailLoginConfirm
+export default loginConfirmWithEmail
