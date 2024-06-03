@@ -1,15 +1,7 @@
 # @zemble/sms-46elks
 
-To install dependencies:
+This package is a @zemble plugin to easily send SMS messages using the 46elks API.
 
-```bash
-bun install
-```
+Read more about [46Elks](https://46elks.com/)
 
-To run:
-
-```bash
-bun run plugin.ts
-```
-
-This project was created using `bun init` in bun v1.1.0. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+Read more about [@zemble](https://github.com/kingstinct/zemble)

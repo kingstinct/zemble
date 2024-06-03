@@ -4,6 +4,27 @@ import yoga from '@zemble/graphql'
 
 import type { IStandardSendSmsService } from '@zemble/core'
 
+/*
+  * This plugin is used to send SMS messages using the 46Elks API.
+  * Docs:  https://46elks.se/docs/send-sms#:~:text=(response.text)-,Optional%20request%20parameters,message,-Enable%20to%20avoid
+  *
+  * To use this plugin, you need to set the following environment variables:
+  *
+  * - ELKS_USERNAME: The username for the 46Elks API
+  * - ELKS_PASSWORD: The password for the 46Elks API
+  *
+  *
+  * You can also set the following configuration options in the plugin configuration:
+  *
+  * - disable: If set to true, the plugin will be disabled
+  * - options: An object with the following options:
+  *   - dryrun: If set to 'yes', the plugin will not send any SMS messages.
+  *   - flashsms: Send the message as a Flash SMS. The message will be displayed immediately upon arrival and not
+  *       stored.
+  *   - dontlog: Enable to avoid storing the message text in your history. The other parameters will still be
+  *       stored.
+  *   - whendelivered: A webhook URL will receive a POST request every time the delivery status changes.
+*/
 interface Sms46ElksConfig extends Zemble.GlobalConfig {
   readonly ELKS_USERNAME?: string
   readonly ELKS_PASSWORD?: string
@@ -75,11 +96,6 @@ const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(import.meta.dir
 
           if (!ok) {
             throw new Error(`Failed to send the SMS message. Error code: ${response.status}. Status: ${response.statusText}.`)
-          }
-
-          // REMOVE THIS
-          if (ok) {
-            console.log('RESPONSE', await response.json())
           }
 
           return true

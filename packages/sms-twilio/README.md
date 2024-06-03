@@ -1,15 +1,7 @@
 # @zemble/sms-twilio
 
-To install dependencies:
+This package is a @zemble plugin to easily send SMS messages using the Twilio API.
 
-```bash
-bun install
-```
+Read more about [Twilio](https://www.twilio.com/en-us)
 
-To run:
-
-```bash
-bun run plugin.ts
-```
-
-This project was created using `bun init` in bun v1.1.0. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+Read more about [@zemble](https://github.com/kingstinct/zemble)

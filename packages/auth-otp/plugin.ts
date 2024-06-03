@@ -39,12 +39,20 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
 
   // SMS
 
+  /*
+    * The name that the SMS will appear to be sent from.
+    * Should be a E.164 formatted phone number (e.g. +14155552671) or a string (company name).
+  */
   readonly fromSms?: string
   /*
    * Write {{twoFactorCode}} to have them replaced with the
    * email, name and two factor code.
     */
   readonly smsMessage?: string
+  /*
+    * A list of two-letter country codes in ISO alpha-2 format that are allowed to receive SMS messages.
+    * If this is not set, all country codes are allowed.
+  */
   readonly WHITELISTED_COUNTRY_CODES?: readonly CountryCode[]
 
   readonly handleEmailAuthRequest?: (email: IEmail, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
