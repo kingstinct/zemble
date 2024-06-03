@@ -1,5 +1,17 @@
 # @zemble/auth
 
+## 0.0.49
+
+### Patch Changes
+
+- acdedbd: Login with phone number
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+- Updated dependencies [d17b6f3]
+  - @zemble/core@0.1.16
+  - @zemble/bun@0.0.27
+  - @zemble/graphql@0.0.48
+  - @zemble/kv@0.0.46
+
 ## 0.0.48
 
 ### Patch Changes

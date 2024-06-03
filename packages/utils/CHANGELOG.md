@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.35
+
+### Patch Changes
+
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+
 ## 0.7.34
 
 ### Patch Changes

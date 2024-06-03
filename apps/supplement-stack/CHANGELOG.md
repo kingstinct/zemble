@@ -1,5 +1,20 @@
 # supplement-stack
 
+## 0.0.52
+
+### Patch Changes
+
+- acdedbd: Login with phone number
+- Updated dependencies [acdedbd]
+- Updated dependencies [d17b6f3]
+  - @zemble/auth-otp@0.0.50
+  - @zemble/core@0.1.16
+  - @zemble/bull@0.1.13
+  - @zemble/todo@0.0.47
+  - @zemble/apple-app-site-association@0.0.32
+  - @zemble/bun@0.0.27
+  - @zemble/graphql@0.0.48
+
 ## 0.0.51
 
 ### Patch Changes
