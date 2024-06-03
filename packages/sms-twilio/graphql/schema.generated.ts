@@ -20,28 +20,15 @@ export type Scalars = {
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
-  readonly registerExpoPushToken: Scalars['Boolean']['output'];
-  readonly sendPushNotification: Scalars['Boolean']['output'];
+  readonly sendSms: Scalars['Boolean']['output'];
 };
 
 
-export type MutationRegisterExpoPushTokenArgs = {
-  platform: Platform;
-  pushToken: Scalars['String']['input'];
+export type MutationSendSmsArgs = {
+  from: Scalars['String']['input'];
+  message: Scalars['String']['input'];
+  to: Scalars['String']['input'];
 };
-
-
-export type MutationSendPushNotificationArgs = {
-  body: Scalars['String']['input'];
-  pushToken: Scalars['String']['input'];
-  title: Scalars['String']['input'];
-};
-
-export enum Platform {
-  Android = 'android',
-  Ios = 'ios',
-  Web = 'web'
-}
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -117,7 +104,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
-  Platform: Platform;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
 
@@ -129,8 +115,7 @@ export type ResolversParentTypes = ResolversObject<{
 }>;
 
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  registerExpoPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterExpoPushTokenArgs, 'platform' | 'pushToken'>>;
-  sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'pushToken' | 'title'>>;
+  sendSms?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendSmsArgs, 'from' | 'message' | 'to'>>;
 }>;
 
 export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{

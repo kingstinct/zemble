@@ -28,6 +28,14 @@ export type SendEmailParams = {
 
 export type IStandardSendEmailService = (options: SendEmailParams) => Promise<boolean>
 
+export type SendSmsParams = {
+  readonly to: string,
+  readonly from: string,
+  readonly message: string,
+}
+
+export type IStandardSendSmsService = (options: SendSmsParams) => Promise<boolean>
+
 export abstract class IStandardKeyValueService<T = unknown> {
   abstract set(key: string, value: T, expireAfterSeconds?: number): Promise<void> | void
 
@@ -107,6 +115,8 @@ declare global {
     interface DefaultProviders {
       // eslint-disable-next-line functional/prefer-readonly-type
       sendEmail?: IStandardSendEmailService
+      // eslint-disable-next-line functional/prefer-readonly-type
+      sendSms?: IStandardSendSmsService
       // eslint-disable-next-line functional/prefer-readonly-type
       kv: <T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
 

@@ -1,5 +1,6 @@
 import Bull from '@zemble/bull'
 import { createApp } from '@zemble/core'
+import Resend from '@zemble/email-resend'
 import GraphQL from '@zemble/graphql'
 import GraphQLLogger from '@zemble/logger-graphql'
 import Migrations from '@zemble/migrations'
@@ -25,6 +26,10 @@ export default createApp({
     MyRoutes.configure(),
     Migrations.configure({
       createAdapter: () => dryrunAdapter,
+    }),
+    Resend.configure({
+      RESEND_API_KEY: process.env['RESEND_API_KEY'],
+      disable: false,
     }),
   ],
 })
