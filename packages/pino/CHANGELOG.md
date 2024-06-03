@@ -1,5 +1,14 @@
 # @zemble/pino
 
+## 0.0.17
+
+### Patch Changes
+
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+- Updated dependencies [d17b6f3]
+  - @zemble/core@0.1.16
+  - @zemble/bun@0.0.27
+
 ## 0.0.16
 
 ### Patch Changes

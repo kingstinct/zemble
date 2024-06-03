@@ -1,5 +1,15 @@
 # @zemble/logger-graphql
 
+## 0.0.44
+
+### Patch Changes
+
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+- Updated dependencies [d17b6f3]
+  - @zemble/core@0.1.16
+  - @zemble/pino@0.0.17
+  - @zemble/graphql@0.0.48
+
 ## 0.0.43
 
 ### Patch Changes
