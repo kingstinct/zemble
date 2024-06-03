@@ -1,5 +1,11 @@
 # @zemble/auth
 
+## 0.0.50
+
+### Patch Changes
+
+- c4186d0: Allow overriding sub in @zemble/auth-apple
+
 ## 0.0.49
 
 ### Patch Changes

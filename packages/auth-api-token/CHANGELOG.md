@@ -1,5 +1,12 @@
 # @zemble/auth-api-token
 
+## 0.0.50
+
+### Patch Changes
+
+- Updated dependencies [c4186d0]
+  - @zemble/auth@0.0.50
+
 ## 0.0.49
 
 ### Patch Changes
