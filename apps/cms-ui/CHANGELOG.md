@@ -1,5 +1,11 @@
 # cms-ui
 
+## 0.0.12
+
+### Patch Changes
+
+- acdedbd: Login with phone number
+
 ## 0.0.11
 
 ### Patch Changes

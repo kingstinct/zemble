@@ -19,18 +19,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: string; output: string; }
-  JSONObject: { input: any; output: any; }
   ObjectId: { input: string; output: string; }
-};
-
-export type AuthOr = {
-  readonly includes?: InputMaybe<Scalars['JSONObject']['input']>;
-  readonly match?: InputMaybe<Scalars['JSONObject']['input']>;
-};
-
-export type CodeNotValidError = Error & {
-  readonly __typename?: 'CodeNotValidError';
-  readonly message: Scalars['String']['output'];
 };
 
 export type Eatable = {
@@ -53,15 +42,6 @@ export type EatableProportion = {
 export type EatableProportionInput = {
   readonly eatableId: Scalars['ObjectId']['input'];
   readonly proportion: Scalars['Float']['input'];
-};
-
-export type EmailNotValidError = Error & {
-  readonly __typename?: 'EmailNotValidError';
-  readonly message: Scalars['String']['output'];
-};
-
-export type Error = {
-  readonly message: Scalars['String']['output'];
 };
 
 export type Food = Eatable & {
@@ -100,38 +80,11 @@ export enum IntakeTime {
   Wakeup = 'WAKEUP'
 }
 
-export type LoginConfirmResponse = CodeNotValidError | EmailNotValidError | LoginConfirmSuccessfulResponse | LoginFailedError;
-
-export type LoginConfirmSuccessfulResponse = {
-  readonly __typename?: 'LoginConfirmSuccessfulResponse';
-  readonly accessToken: Scalars['String']['output'];
-};
-
-export type LoginFailedError = Error & {
-  readonly __typename?: 'LoginFailedError';
-  readonly message: Scalars['String']['output'];
-};
-
-export type LoginRequestResponse = EmailNotValidError | LoginRequestSuccessResponse;
-
-export type LoginRequestSuccessResponse = {
-  readonly __typename?: 'LoginRequestSuccessResponse';
-  readonly success: Scalars['Boolean']['output'];
-};
-
-export type LoginResponse = {
-  readonly __typename?: 'LoginResponse';
-  readonly token: Scalars['String']['output'];
-};
-
 export type Mutation = {
   readonly __typename?: 'Mutation';
   readonly addFood: Food;
   readonly addIngredient: Ingredient;
   readonly addSupplement: SupplementIntake;
-  readonly loginConfirm: LoginConfirmResponse;
-  readonly loginRequest: LoginRequestResponse;
-  readonly logout: LoginRequestSuccessResponse;
 };
 
 
@@ -158,17 +111,6 @@ export type MutationAddSupplementArgs = {
   foodId: Scalars['ObjectId']['input'];
   intakeTime: IntakeTime;
   supplementId?: InputMaybe<Scalars['ObjectId']['input']>;
-};
-
-
-export type MutationLoginConfirmArgs = {
-  code: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-};
-
-
-export type MutationLoginRequestArgs = {
-  email: Scalars['String']['input'];
 };
 
 export type NutrientQuantity = {
@@ -428,41 +370,20 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-/** Mapping of union types */
-export type ResolversUnionTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  LoginConfirmResponse: ( CodeNotValidError ) | ( EmailNotValidError ) | ( LoginConfirmSuccessfulResponse ) | ( LoginFailedError );
-  LoginRequestResponse: ( EmailNotValidError ) | ( LoginRequestSuccessResponse );
-}>;
 
-/** Mapping of interface types */
-export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  Eatable: ( EatableDbType ) | ( EatableDbType );
-  Error: ( CodeNotValidError ) | ( EmailNotValidError ) | ( LoginFailedError );
-}>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  AuthOr: AuthOr;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  CodeNotValidError: ResolverTypeWrapper<CodeNotValidError>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Eatable: ResolverTypeWrapper<EatableDbType>;
   EatableProportion: ResolverTypeWrapper<Omit<EatableProportion, 'eatable'> & { eatable: ResolversTypes['Eatable'] }>;
   EatableProportionInput: EatableProportionInput;
-  EmailNotValidError: ResolverTypeWrapper<EmailNotValidError>;
-  Error: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Error']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Food: ResolverTypeWrapper<EatableDbType>;
   Image: ResolverTypeWrapper<Image>;
   Ingredient: ResolverTypeWrapper<EatableDbType>;
   IntakeTime: IntakeTime;
-  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
-  LoginConfirmResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['LoginConfirmResponse']>;
-  LoginConfirmSuccessfulResponse: ResolverTypeWrapper<LoginConfirmSuccessfulResponse>;
-  LoginFailedError: ResolverTypeWrapper<LoginFailedError>;
-  LoginRequestResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['LoginRequestResponse']>;
-  LoginRequestSuccessResponse: ResolverTypeWrapper<LoginRequestSuccessResponse>;
-  LoginResponse: ResolverTypeWrapper<LoginResponse>;
   Mutation: ResolverTypeWrapper<{}>;
   NutrientQuantity: ResolverTypeWrapper<NutrientQuantity>;
   NutrientQuantityInput: NutrientQuantityInput;
@@ -480,26 +401,15 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  AuthOr: AuthOr;
   Boolean: Scalars['Boolean']['output'];
-  CodeNotValidError: CodeNotValidError;
   DateTime: Scalars['DateTime']['output'];
   Eatable: EatableDbType;
   EatableProportion: Omit<EatableProportion, 'eatable'> & { eatable: ResolversParentTypes['Eatable'] };
   EatableProportionInput: EatableProportionInput;
-  EmailNotValidError: EmailNotValidError;
-  Error: ResolversInterfaceTypes<ResolversParentTypes>['Error'];
   Float: Scalars['Float']['output'];
   Food: EatableDbType;
   Image: Image;
   Ingredient: EatableDbType;
-  JSONObject: Scalars['JSONObject']['output'];
-  LoginConfirmResponse: ResolversUnionTypes<ResolversParentTypes>['LoginConfirmResponse'];
-  LoginConfirmSuccessfulResponse: LoginConfirmSuccessfulResponse;
-  LoginFailedError: LoginFailedError;
-  LoginRequestResponse: ResolversUnionTypes<ResolversParentTypes>['LoginRequestResponse'];
-  LoginRequestSuccessResponse: LoginRequestSuccessResponse;
-  LoginResponse: LoginResponse;
   Mutation: {};
   NutrientQuantity: NutrientQuantity;
   NutrientQuantityInput: NutrientQuantityInput;
@@ -510,20 +420,6 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
   SupplementIntake: SupplementIntakeDbType;
   User: User;
-}>;
-
-export type AuthDirectiveArgs = {
-  includes?: Maybe<Scalars['JSONObject']['input']>;
-  match?: Maybe<Scalars['JSONObject']['input']>;
-  or?: Maybe<ReadonlyArray<AuthOr>>;
-  skip?: Maybe<Scalars['Boolean']['input']>;
-};
-
-export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
-
-export type CodeNotValidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['CodeNotValidError'] = ResolversParentTypes['CodeNotValidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -546,16 +442,6 @@ export type EatableProportionResolvers<ContextType = Zemble.GraphQLContext, Pare
   eatableId?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   proportion?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type EmailNotValidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['EmailNotValidError'] = ResolversParentTypes['EmailNotValidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type ErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginFailedError', ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
 }>;
 
 export type FoodResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Food'] = ResolversParentTypes['Food']> = ResolversObject<{
@@ -586,45 +472,10 @@ export type IngredientResolvers<ContextType = Zemble.GraphQLContext, ParentType 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
-  name: 'JSONObject';
-}
-
-export type LoginConfirmResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginConfirmResponse'] = ResolversParentTypes['LoginConfirmResponse']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginConfirmSuccessfulResponse' | 'LoginFailedError', ParentType, ContextType>;
-}>;
-
-export type LoginConfirmSuccessfulResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginConfirmSuccessfulResponse'] = ResolversParentTypes['LoginConfirmSuccessfulResponse']> = ResolversObject<{
-  accessToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type LoginFailedErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginFailedError'] = ResolversParentTypes['LoginFailedError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type LoginRequestResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginRequestResponse'] = ResolversParentTypes['LoginRequestResponse']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'EmailNotValidError' | 'LoginRequestSuccessResponse', ParentType, ContextType>;
-}>;
-
-export type LoginRequestSuccessResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginRequestSuccessResponse'] = ResolversParentTypes['LoginRequestSuccessResponse']> = ResolversObject<{
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type LoginResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addFood?: Resolver<ResolversTypes['Food'], ParentType, ContextType, RequireFields<MutationAddFoodArgs, 'title'>>;
   addIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationAddIngredientArgs, 'title'>>;
   addSupplement?: Resolver<ResolversTypes['SupplementIntake'], ParentType, ContextType, RequireFields<MutationAddSupplementArgs, 'amountInGrams' | 'foodId' | 'intakeTime'>>;
-  loginConfirm?: Resolver<ResolversTypes['LoginConfirmResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationLoginConfirmArgs, 'code' | 'email'>>;
-  loginRequest?: Resolver<ResolversTypes['LoginRequestResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationLoginRequestArgs, 'email'>>;
-  logout?: Resolver<ResolversTypes['LoginRequestSuccessResponse'], ParentType, ContextType>;
 }>;
 
 export type NutrientQuantityResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NutrientQuantity'] = ResolversParentTypes['NutrientQuantity']> = ResolversObject<{
@@ -664,22 +515,12 @@ export type UserResolvers<ContextType = Zemble.GraphQLContext, ParentType extend
 }>;
 
 export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
-  CodeNotValidError?: CodeNotValidErrorResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Eatable?: EatableResolvers<ContextType>;
   EatableProportion?: EatableProportionResolvers<ContextType>;
-  EmailNotValidError?: EmailNotValidErrorResolvers<ContextType>;
-  Error?: ErrorResolvers<ContextType>;
   Food?: FoodResolvers<ContextType>;
   Image?: ImageResolvers<ContextType>;
   Ingredient?: IngredientResolvers<ContextType>;
-  JSONObject?: GraphQLScalarType;
-  LoginConfirmResponse?: LoginConfirmResponseResolvers<ContextType>;
-  LoginConfirmSuccessfulResponse?: LoginConfirmSuccessfulResponseResolvers<ContextType>;
-  LoginFailedError?: LoginFailedErrorResolvers<ContextType>;
-  LoginRequestResponse?: LoginRequestResponseResolvers<ContextType>;
-  LoginRequestSuccessResponse?: LoginRequestSuccessResponseResolvers<ContextType>;
-  LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   NutrientQuantity?: NutrientQuantityResolvers<ContextType>;
   ObjectId?: GraphQLScalarType;
@@ -689,9 +530,6 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   User?: UserResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
-  auth?: AuthDirectiveResolver<any, any, ContextType>;
-}>;
 
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -701,18 +539,7 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: string; output: string; }
-  JSONObject: { input: any; output: any; }
   ObjectId: { input: string; output: string; }
-};
-
-export type AuthOr = {
-  readonly includes?: InputMaybe<Scalars['JSONObject']['input']>;
-  readonly match?: InputMaybe<Scalars['JSONObject']['input']>;
-};
-
-export type CodeNotValidError = Error & {
-  readonly __typename?: 'CodeNotValidError';
-  readonly message: Scalars['String']['output'];
 };
 
 export type Eatable = {
@@ -735,15 +562,6 @@ export type EatableProportion = {
 export type EatableProportionInput = {
   readonly eatableId: Scalars['ObjectId']['input'];
   readonly proportion: Scalars['Float']['input'];
-};
-
-export type EmailNotValidError = Error & {
-  readonly __typename?: 'EmailNotValidError';
-  readonly message: Scalars['String']['output'];
-};
-
-export type Error = {
-  readonly message: Scalars['String']['output'];
 };
 
 export type Food = Eatable & {
@@ -782,38 +600,11 @@ export enum IntakeTime {
   Wakeup = 'WAKEUP'
 }
 
-export type LoginConfirmResponse = CodeNotValidError | EmailNotValidError | LoginConfirmSuccessfulResponse | LoginFailedError;
-
-export type LoginConfirmSuccessfulResponse = {
-  readonly __typename?: 'LoginConfirmSuccessfulResponse';
-  readonly accessToken: Scalars['String']['output'];
-};
-
-export type LoginFailedError = Error & {
-  readonly __typename?: 'LoginFailedError';
-  readonly message: Scalars['String']['output'];
-};
-
-export type LoginRequestResponse = EmailNotValidError | LoginRequestSuccessResponse;
-
-export type LoginRequestSuccessResponse = {
-  readonly __typename?: 'LoginRequestSuccessResponse';
-  readonly success: Scalars['Boolean']['output'];
-};
-
-export type LoginResponse = {
-  readonly __typename?: 'LoginResponse';
-  readonly token: Scalars['String']['output'];
-};
-
 export type Mutation = {
   readonly __typename?: 'Mutation';
   readonly addFood: Food;
   readonly addIngredient: Ingredient;
   readonly addSupplement: SupplementIntake;
-  readonly loginConfirm: LoginConfirmResponse;
-  readonly loginRequest: LoginRequestResponse;
-  readonly logout: LoginRequestSuccessResponse;
 };
 
 
@@ -840,17 +631,6 @@ export type MutationAddSupplementArgs = {
   foodId: Scalars['ObjectId']['input'];
   intakeTime: IntakeTime;
   supplementId?: InputMaybe<Scalars['ObjectId']['input']>;
-};
-
-
-export type MutationLoginConfirmArgs = {
-  code: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-};
-
-
-export type MutationLoginRequestArgs = {
-  email: Scalars['String']['input'];
 };
 
 export type NutrientQuantity = {
@@ -1110,41 +890,20 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-/** Mapping of union types */
-export type ResolversUnionTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  LoginConfirmResponse: ( CodeNotValidError ) | ( EmailNotValidError ) | ( LoginConfirmSuccessfulResponse ) | ( LoginFailedError );
-  LoginRequestResponse: ( EmailNotValidError ) | ( LoginRequestSuccessResponse );
-}>;
 
-/** Mapping of interface types */
-export type ResolversInterfaceTypes<RefType extends Record<string, unknown>> = ResolversObject<{
-  Eatable: ( EatableDbType ) | ( EatableDbType );
-  Error: ( CodeNotValidError ) | ( EmailNotValidError ) | ( LoginFailedError );
-}>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  AuthOr: AuthOr;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  CodeNotValidError: ResolverTypeWrapper<CodeNotValidError>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Eatable: ResolverTypeWrapper<EatableDbType>;
   EatableProportion: ResolverTypeWrapper<Omit<EatableProportion, 'eatable'> & { eatable: ResolversTypes['Eatable'] }>;
   EatableProportionInput: EatableProportionInput;
-  EmailNotValidError: ResolverTypeWrapper<EmailNotValidError>;
-  Error: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Error']>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   Food: ResolverTypeWrapper<EatableDbType>;
   Image: ResolverTypeWrapper<Image>;
   Ingredient: ResolverTypeWrapper<EatableDbType>;
   IntakeTime: IntakeTime;
-  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
-  LoginConfirmResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['LoginConfirmResponse']>;
-  LoginConfirmSuccessfulResponse: ResolverTypeWrapper<LoginConfirmSuccessfulResponse>;
-  LoginFailedError: ResolverTypeWrapper<LoginFailedError>;
-  LoginRequestResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['LoginRequestResponse']>;
-  LoginRequestSuccessResponse: ResolverTypeWrapper<LoginRequestSuccessResponse>;
-  LoginResponse: ResolverTypeWrapper<LoginResponse>;
   Mutation: ResolverTypeWrapper<{}>;
   NutrientQuantity: ResolverTypeWrapper<NutrientQuantity>;
   NutrientQuantityInput: NutrientQuantityInput;
@@ -1162,26 +921,15 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  AuthOr: AuthOr;
   Boolean: Scalars['Boolean']['output'];
-  CodeNotValidError: CodeNotValidError;
   DateTime: Scalars['DateTime']['output'];
   Eatable: EatableDbType;
   EatableProportion: Omit<EatableProportion, 'eatable'> & { eatable: ResolversParentTypes['Eatable'] };
   EatableProportionInput: EatableProportionInput;
-  EmailNotValidError: EmailNotValidError;
-  Error: ResolversInterfaceTypes<ResolversParentTypes>['Error'];
   Float: Scalars['Float']['output'];
   Food: EatableDbType;
   Image: Image;
   Ingredient: EatableDbType;
-  JSONObject: Scalars['JSONObject']['output'];
-  LoginConfirmResponse: ResolversUnionTypes<ResolversParentTypes>['LoginConfirmResponse'];
-  LoginConfirmSuccessfulResponse: LoginConfirmSuccessfulResponse;
-  LoginFailedError: LoginFailedError;
-  LoginRequestResponse: ResolversUnionTypes<ResolversParentTypes>['LoginRequestResponse'];
-  LoginRequestSuccessResponse: LoginRequestSuccessResponse;
-  LoginResponse: LoginResponse;
   Mutation: {};
   NutrientQuantity: NutrientQuantity;
   NutrientQuantityInput: NutrientQuantityInput;
@@ -1192,20 +940,6 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String']['output'];
   SupplementIntake: SupplementIntakeDbType;
   User: User;
-}>;
-
-export type AuthDirectiveArgs = {
-  includes?: Maybe<Scalars['JSONObject']['input']>;
-  match?: Maybe<Scalars['JSONObject']['input']>;
-  or?: Maybe<ReadonlyArray<AuthOr>>;
-  skip?: Maybe<Scalars['Boolean']['input']>;
-};
-
-export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
-
-export type CodeNotValidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['CodeNotValidError'] = ResolversParentTypes['CodeNotValidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -1228,16 +962,6 @@ export type EatableProportionResolvers<ContextType = Zemble.GraphQLContext, Pare
   eatableId?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
   proportion?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type EmailNotValidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['EmailNotValidError'] = ResolversParentTypes['EmailNotValidError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type ErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginFailedError', ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
 }>;
 
 export type FoodResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Food'] = ResolversParentTypes['Food']> = ResolversObject<{
@@ -1268,45 +992,10 @@ export type IngredientResolvers<ContextType = Zemble.GraphQLContext, ParentType 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
-  name: 'JSONObject';
-}
-
-export type LoginConfirmResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginConfirmResponse'] = ResolversParentTypes['LoginConfirmResponse']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'CodeNotValidError' | 'EmailNotValidError' | 'LoginConfirmSuccessfulResponse' | 'LoginFailedError', ParentType, ContextType>;
-}>;
-
-export type LoginConfirmSuccessfulResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginConfirmSuccessfulResponse'] = ResolversParentTypes['LoginConfirmSuccessfulResponse']> = ResolversObject<{
-  accessToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type LoginFailedErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginFailedError'] = ResolversParentTypes['LoginFailedError']> = ResolversObject<{
-  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type LoginRequestResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginRequestResponse'] = ResolversParentTypes['LoginRequestResponse']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'EmailNotValidError' | 'LoginRequestSuccessResponse', ParentType, ContextType>;
-}>;
-
-export type LoginRequestSuccessResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginRequestSuccessResponse'] = ResolversParentTypes['LoginRequestSuccessResponse']> = ResolversObject<{
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type LoginResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addFood?: Resolver<ResolversTypes['Food'], ParentType, ContextType, RequireFields<MutationAddFoodArgs, 'title'>>;
   addIngredient?: Resolver<ResolversTypes['Ingredient'], ParentType, ContextType, RequireFields<MutationAddIngredientArgs, 'title'>>;
   addSupplement?: Resolver<ResolversTypes['SupplementIntake'], ParentType, ContextType, RequireFields<MutationAddSupplementArgs, 'amountInGrams' | 'foodId' | 'intakeTime'>>;
-  loginConfirm?: Resolver<ResolversTypes['LoginConfirmResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationLoginConfirmArgs, 'code' | 'email'>>;
-  loginRequest?: Resolver<ResolversTypes['LoginRequestResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationLoginRequestArgs, 'email'>>;
-  logout?: Resolver<ResolversTypes['LoginRequestSuccessResponse'], ParentType, ContextType>;
 }>;
 
 export type NutrientQuantityResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NutrientQuantity'] = ResolversParentTypes['NutrientQuantity']> = ResolversObject<{
@@ -1346,22 +1035,12 @@ export type UserResolvers<ContextType = Zemble.GraphQLContext, ParentType extend
 }>;
 
 export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
-  CodeNotValidError?: CodeNotValidErrorResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Eatable?: EatableResolvers<ContextType>;
   EatableProportion?: EatableProportionResolvers<ContextType>;
-  EmailNotValidError?: EmailNotValidErrorResolvers<ContextType>;
-  Error?: ErrorResolvers<ContextType>;
   Food?: FoodResolvers<ContextType>;
   Image?: ImageResolvers<ContextType>;
   Ingredient?: IngredientResolvers<ContextType>;
-  JSONObject?: GraphQLScalarType;
-  LoginConfirmResponse?: LoginConfirmResponseResolvers<ContextType>;
-  LoginConfirmSuccessfulResponse?: LoginConfirmSuccessfulResponseResolvers<ContextType>;
-  LoginFailedError?: LoginFailedErrorResolvers<ContextType>;
-  LoginRequestResponse?: LoginRequestResponseResolvers<ContextType>;
-  LoginRequestSuccessResponse?: LoginRequestSuccessResponseResolvers<ContextType>;
-  LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   NutrientQuantity?: NutrientQuantityResolvers<ContextType>;
   ObjectId?: GraphQLScalarType;
@@ -1371,6 +1050,3 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   User?: UserResolvers<ContextType>;
 }>;
 
-export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
-  auth?: AuthDirectiveResolver<any, any, ContextType>;
-}>;

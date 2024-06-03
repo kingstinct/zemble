@@ -3,14 +3,14 @@ import {
   describe, beforeEach, it, expect,
 } from 'bun:test'
 
-import { LoginRequestMutation } from './loginRequest.test'
+import { LoginRequestMutation } from './loginRequestWithEmail.test'
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
 
 const LoginConfirmMutation = graphql(`
   mutation LoginConfirm($email: String!, $code: String!) {
-    loginConfirm(email: $email, code: $code) {
+    loginConfirmWithEmail(email: $email, code: $code) {
       __typename
       ... on LoginConfirmSuccessfulResponse {
         bearerToken
@@ -36,7 +36,7 @@ describe('Mutation.loginConfirm', () => {
 
     const response = await app.gqlRequest(LoginConfirmMutation, { email, code: '000000' })
     expect(response.data).toEqual({
-      loginConfirm: {
+      loginConfirmWithEmail: {
         __typename: 'LoginConfirmSuccessfulResponse',
         bearerToken: expect.any(String),
       },
@@ -50,7 +50,7 @@ describe('Mutation.loginConfirm', () => {
 
     const response = await app.gqlRequest(LoginConfirmMutation, { email, code: '000000' })
     expect(response.data).toEqual({
-      loginConfirm: {
+      loginConfirmWithEmail: {
         __typename: 'CodeNotValidError',
         message: 'Must loginRequest code first, it might have expired',
       },

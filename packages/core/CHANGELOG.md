@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.16
+
+### Patch Changes
+
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+
 ## 0.1.15
 
 ### Patch Changes

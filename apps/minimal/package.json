@@ -1,6 +1,6 @@
 {
   "name": "minimal",
-  "version": "0.0.53",
+  "version": "0.0.55",
   "description": "A minimal example app",
   "private": true,
   "main": "app.ts",
@@ -36,15 +36,19 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@zemble/core": "workspace:*",
-    "@zemble/graphql": "workspace:*",
-    "@zemble/migrations": "workspace:*",
-    "@zemble/bun": "workspace:*",
     "@zemble/auth": "workspace:*",
-    "@zemble/routes": "workspace:*",
-    "@zemble/pino": "workspace:*",
+    "@zemble/auth-otp": "workspace:*",
     "@zemble/bull": "workspace:*",
-    "@zemble/logger-graphql": "workspace:*"
+    "@zemble/bun": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/email-resend": "workspace:*",
+    "@zemble/graphql": "workspace:*",
+    "@zemble/logger-graphql": "workspace:*",
+    "@zemble/migrations": "workspace:*",
+    "@zemble/pino": "workspace:*",
+    "@zemble/routes": "workspace:*",
+    "@zemble/sms-46elks": "workspace:*",
+    "@zemble/sms-twilio": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",

@@ -1,5 +1,16 @@
 # @zemble/mongodb
 
+## 0.0.29
+
+### Patch Changes
+
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+- Updated dependencies [d17b6f3]
+  - @zemble/core@0.1.16
+  - @zemble/bun@0.0.27
+  - @zemble/migrations@0.0.27
+  - @zemble/routes@0.0.28
+
 ## 0.0.28
 
 ### Patch Changes

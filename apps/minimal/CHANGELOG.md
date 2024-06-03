@@ -1,5 +1,35 @@
 # minimal
 
+## 0.0.55
+
+### Patch Changes
+
+- Updated dependencies [c4186d0]
+  - @zemble/auth-otp@0.0.51
+  - @zemble/auth@0.0.50
+  - @zemble/bull@0.1.14
+
+## 0.0.54
+
+### Patch Changes
+
+- acdedbd: Login with phone number
+- Updated dependencies [acdedbd]
+- Updated dependencies [d17b6f3]
+  - @zemble/auth-otp@0.0.50
+  - @zemble/auth@0.0.49
+  - @zemble/core@0.1.16
+  - @zemble/logger-graphql@0.0.44
+  - @zemble/pino@0.0.17
+  - @zemble/bull@0.1.13
+  - @zemble/bun@0.0.27
+  - @zemble/email-resend@0.0.17
+  - @zemble/graphql@0.0.48
+  - @zemble/migrations@0.0.27
+  - @zemble/routes@0.0.28
+  - @zemble/sms-46elks@0.0.2
+  - @zemble/sms-twilio@0.0.2
+
 ## 0.0.53
 
 ### Patch Changes

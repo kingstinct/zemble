@@ -1,6 +1,6 @@
 {
   "name": "@zemble/auth-anonymous",
-  "version": "0.0.46",
+  "version": "0.0.48",
   "description": "Zemble Plugin providing Anonymous Auth support",
   "main": "plugin.ts",
   "scripts": {
