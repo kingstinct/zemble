@@ -1,5 +1,12 @@
 # @zemble/auth-anonymous
 
+## 0.0.48
+
+### Patch Changes
+
+- Updated dependencies [c4186d0]
+  - @zemble/auth@0.0.50
+
 ## 0.0.47
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @zemble/supabase
 
+## 0.0.31
+
+### Patch Changes
+
+- Updated dependencies [c4186d0]
+  - @zemble/auth@0.0.50
+
 ## 0.0.30
 
 ### Patch Changes
