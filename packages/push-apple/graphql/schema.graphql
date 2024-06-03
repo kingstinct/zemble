@@ -1,0 +1,7 @@
+type Mutation {
+  sendPushNotification(title: String!, body: String!, subtitle: String!): Boolean!
+}
+
+type Query {
+  hello: String!
+}

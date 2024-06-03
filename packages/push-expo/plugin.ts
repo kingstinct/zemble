@@ -34,7 +34,7 @@ declare global {
     }
 
     interface MiddlewareConfig {
-      readonly ['@zemble/expo-push']?: undefined
+      readonly ['@zemble/push-expo']?: undefined
     }
   }
 }
@@ -110,7 +110,7 @@ const pushExpoPlugin = new Plugin<Config>(
         app,
         initializeProvider: () => sendPush,
         providerKey: 'sendPush',
-        middlewareKey: '@zemble/expo-push',
+        middlewareKey: '@zemble/push-expo',
       })
     },
     dependencies: [{ plugin: GraphQL }],

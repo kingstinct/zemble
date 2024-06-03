@@ -42,10 +42,6 @@
     "codegen": {
       "cache": false,
       "outputMode": "errors-only",
-      "outputs": [
-        "**/*.generated/**/*",
-        "**/*.generated.*"
-      ],
       "inputs": [
         "**/*.graphql",
         "**/codegen.ts",

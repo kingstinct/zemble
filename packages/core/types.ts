@@ -65,18 +65,28 @@ export interface PushMessage {
   readonly title?: string;
   readonly subtitle?: string;
   readonly body?: string;
-  readonly sound?: 'default' | null | {
+  readonly sound?: {
     readonly critical?: boolean;
-    readonly name?: 'default' | null;
+    readonly name?: string;
     readonly volume?: number;
   };
   readonly ttl?: number;
-  readonly expiration?: number;
-  readonly priority?: 'default' | 'normal' | 'high';
+  // readonly expiration?: number;
+  readonly priority?: 'normal' | 'high';
   readonly badge?: number;
   readonly channelId?: string;
   readonly categoryId?: string;
   readonly mutableContent?: boolean;
+
+  // not supported by expo
+  readonly threadId?: string;
+  readonly bodyLocalizationKey?: string;
+  readonly bodyLocalizationArgs?: readonly string[];
+  readonly titleLocalizationKey?: string;
+  readonly titleLocalizationArgs?: readonly string[];
+  readonly subtitleLocalizationKey?: string;
+  readonly subtitleLocalizationArgs?: readonly string[];
+  readonly launchImageName?: string;
 }
 
 export type PushTokenWithMessage = {
@@ -86,13 +96,17 @@ export type PushTokenWithMessage = {
 
 export type PushTokenWithMessageAndTicket = PushTokenWithMessage & { readonly ticketId: string }
 
+export type PushTokenWithMessageAndFailedReason = PushTokenWithMessage & { readonly failedReason: string }
+
 export interface SendPushResponse {
   readonly failedSendsToRemoveTokensFor: readonly PushTokenWithMetadata[]
-  readonly failedSendsOthers: readonly PushTokenWithMessage[]
+  readonly failedSendsOthers: readonly PushTokenWithMessageAndFailedReason[]
   readonly successfulSends: readonly PushTokenWithMessageAndTicket[]
 }
 
 export type SendPushProvider = (pushTokens: readonly PushTokenWithMetadata[], message: PushMessage) => PromiseOrValue<SendPushResponse>
+export type SendSilentPushProvider = (pushTokens: readonly PushTokenWithMetadata[], data: Record<string, unknown>) => PromiseOrValue<SendPushResponse>
+export type SendPushToAllProvider = (message: PushMessage) => PromiseOrValue<SendPushResponse>
 
 declare global {
   namespace Zemble {
