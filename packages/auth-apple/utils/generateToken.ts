@@ -29,10 +29,13 @@ export const generateBearerTokenFromAppleToken = async (
   jwtContents: AppleJwtContents,
   signUpUserData: AppleUserSignupData | undefined,
 ) => {
+  const data = await plugin.config.generateTokenContents(jwtContents, signUpUserData),
+        sub = 'sub' in data ? data.sub as string : jwtContents.sub
+
   const bearerToken = await signJwt({
-    data: await plugin.config.generateTokenContents(jwtContents, signUpUserData),
+    sub,
+    data,
     expiresInSeconds: authPlugin.config.bearerTokenExpiryInSeconds,
-    sub: jwtContents.sub,
   })
 
   return bearerToken
