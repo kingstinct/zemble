@@ -43,7 +43,7 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
             T extends Zemble.KVPrefixes[K],
             K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes
           >(prefix: K) {
-            if (initWithConfig.implementation === 'redis') {
+            if (initWithConfig.implementation === 'redis' && process.env.NODE_ENV !== 'test') {
               if (initWithConfig.redisUrl) {
                 return new RedisKeyValue<T>(
                   prefix as string,

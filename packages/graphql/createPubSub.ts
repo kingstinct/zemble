@@ -5,7 +5,7 @@ import type { IStandardLogger } from '@zemble/core'
 import type { RedisOptions } from 'ioredis'
 
 const createPubSub = async (redisUrl?: string, options?: { readonly redis?: RedisOptions, readonly logger?: IStandardLogger }) => {
-  if (redisUrl) {
+  if (redisUrl && process.env.NODE_ENV !== 'test') {
     const optionsWithDefaults = { logger: zembleContext.logger, ...options }
     try {
       // eslint-disable-next-line import/no-extraneous-dependencies
