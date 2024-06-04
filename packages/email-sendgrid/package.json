@@ -1,6 +1,6 @@
 {
   "name": "@zemble/email-sendgrid",
-  "version": "0.0.46",
+  "version": "0.0.47",
   "description": "@zemble Plugin for sending emails via SendGrid",
   "main": "plugin.ts",
   "scripts": {
