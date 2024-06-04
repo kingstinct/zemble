@@ -1,5 +1,13 @@
 # @zemble/debug
 
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies [655ff83]
+  - @zemble/auth@0.0.51
+  - @zemble/graphql@0.0.49
+
 ## 0.0.11
 
 ### Patch Changes
