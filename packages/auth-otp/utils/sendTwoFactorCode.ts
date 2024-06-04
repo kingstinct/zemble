@@ -9,7 +9,7 @@ type Context = Omit<Zemble.GraphQLContext, 'decodedToken'> & {
 }
 
 const sendTwoFactorCode = async (emailOrPhoneNumber: string, context: Context, signInMethod: 'email' | 'sms') => {
-  const existing = await loginRequestKeyValue().get(emailOrPhoneNumber)
+  const existing = await loginRequestKeyValue().get(emailOrPhoneNumber.toLowerCase())
 
   if (existing?.loginRequestedAt) {
     const { loginRequestedAt } = existing,
@@ -25,7 +25,7 @@ const sendTwoFactorCode = async (emailOrPhoneNumber: string, context: Context, s
 
   const twoFactorCode = getTwoFactorCode()
 
-  await loginRequestKeyValue().set(emailOrPhoneNumber, {
+  await loginRequestKeyValue().set(emailOrPhoneNumber.toLowerCase(), {
     loginRequestedAt: new Date().toISOString(),
     twoFactorCode,
   }, plugin.config.twoFactorCodeExpiryInSeconds)
