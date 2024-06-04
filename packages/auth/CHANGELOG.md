@@ -1,5 +1,14 @@
 # @zemble/auth
 
+## 0.0.51
+
+### Patch Changes
+
+- 655ff83: Add redis test escape hatches and lowercase emails
+- Updated dependencies [655ff83]
+  - @zemble/graphql@0.0.49
+  - @zemble/kv@0.0.47
+
 ## 0.0.50
 
 ### Patch Changes

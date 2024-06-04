@@ -1,6 +1,6 @@
 {
   "name": "@zemble/todo",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "description": "@zemble Plugin for basic todos, provided mostly as an example",
   "main": "plugin.ts",
   "private": true,
