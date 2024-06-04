@@ -4,6 +4,13 @@ import {
   type PushMessage,
   type PushTokenWithMetadata,
   type SendSilentPushProvider,
+  type LiveActivityPushProps,
+  type SendStartLiveActivityPushProvider,
+  type TokenContents,
+  type SendPushResponse,
+  type PushTokenWithContentsAndFailedReason,
+  type PushTokenWithContentsAndTicket,
+  type SendUpdateLiveActivityPushProvider,
 } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import * as jose from 'jose'
@@ -11,7 +18,9 @@ import http2 from 'node:http2'
 
 import { readP8KeyStringOrFile } from './clients/apns'
 
+import type { ApplePushPlatform } from './graphql/schema.generated'
 import type { APNSError, Aps } from './types'
+import type { JSON } from '@zemble/utils/JSON'
 
 interface ApplePushOptions extends Zemble.GlobalConfig {
   readonly APPLE_TEAM_ID?: string
@@ -19,6 +28,10 @@ interface ApplePushOptions extends Zemble.GlobalConfig {
   readonly APPLE_PATH_TO_P8_KEY?: string
   readonly APPLE_P8_KEY?: string
   readonly DEFAULT_TOPIC?: string
+  readonly persistPushToken: (
+    decodedToken: TokenContents,
+    pushTokenWithMetadata: Zemble.ApplePushTokenWithMetadata | Zemble.AppleStartLiveActivityPushTokenWithMetadata | Zemble.AppleUpdateLiveActivityPushTokenWithMetadata,
+  ) => Promise<void>
 }
 
 declare global {
@@ -30,13 +43,39 @@ declare global {
 
     type ApplePushTokenWithMetadata = {
       readonly type: 'APPLE',
-      readonly platforms: readonly ('ios')[]
+      readonly platforms: readonly ApplePushPlatform[]
       readonly createdAt: Date
       readonly pushToken: string
+      readonly appBundleId: string
+    }
+
+    type AppleStartLiveActivityPushTokenWithMetadata = {
+      readonly type: 'APPLE_START_LIVE_ACTIVITY',
+      readonly platforms: readonly ApplePushPlatform[]
+      readonly createdAt: Date
+      readonly pushToken: string
+      readonly appBundleId: string
+    }
+
+    type AppleUpdateLiveActivityPushTokenWithMetadata = {
+      readonly type: 'APPLE_UPDATE_LIVE_ACTIVITY',
+      readonly platforms: readonly ApplePushPlatform[]
+      readonly createdAt: Date
+      readonly pushToken: string
+      readonly appBundleId: string
+      readonly liveActivityId: string
     }
 
     interface PushTokenRegistry {
       readonly apple: ApplePushTokenWithMetadata
+    }
+
+    interface PushTokenStartLiveActivityRegistry {
+      readonly appleStartLiveActivity: AppleStartLiveActivityPushTokenWithMetadata
+    }
+
+    interface PushTokenUpdateLiveActivityRegistry {
+      readonly appleUpdateLiveActivity: AppleUpdateLiveActivityPushTokenWithMetadata
     }
 
     interface MiddlewareConfig {
@@ -45,12 +84,14 @@ declare global {
   }
 }
 
-const convertNowPlusSecondsToDate = (seconds: number) => {
+/* const convertNowPlusSecondsToDate = (seconds: number) => {
   const now = new Date()
   now.setSeconds(now.getSeconds() + seconds)
 
   return now
-}
+} */
+
+const convertDateToSecondsSinceEpoch = (date: Date) => Math.round(date.getTime() / 1000)
 
 const getBearerToken = async () => {
   const signingKeyString = (await readP8KeyStringOrFile()) as unknown as string
@@ -121,22 +162,23 @@ type HeaderOptions = {
   readonly 'apns-collapse-id'?: string,
 }
 
-const makeRequest = async (aps: Aps, pushToken: string, headerOptions?: HeaderOptions) => {
+const makeRequest = async (body: ApnsBody, pushToken: string, headerOptions?: HeaderOptions) => {
   const signedKey = await getBearerToken()
 
   const url = new URL(`https://api.development.push.apple.com/3/device/${pushToken}`)
 
   const client = http2.connect(url)
 
-  const body = { aps }
-
   const buffer = JSON.stringify(body)
 
-  let d = ''
+  let rawBody = ''
 
   const headers = new Map<string, string | number>()
 
-  const pushType = headerOptions?.['apns-push-type'] ?? 'alert'
+  const pushType = headerOptions?.['apns-push-type'] ?? 'alert',
+        topic = headerOptions?.['apns-topic'] ?? getDefaultTopic(pushType)
+
+  console.log('topic', topic)
 
   return new Promise<PushReturnType>((resolve, reject) => {
     client.on('error', (err) => {
@@ -150,18 +192,18 @@ const makeRequest = async (aps: Aps, pushToken: string, headerOptions?: HeaderOp
       ':method': 'POST',
       'content-type': 'application/json',
       'content-length': buffer.length,
-      'apns-collapse-id': headerOptions?.['apns-collapse-id'],
       'authorization': `bearer ${signedKey}`,
+      // 'apns-collapse-id': headerOptions?.['apns-collapse-id'],
       'apns-push-type': pushType,
       'apns-expiration': headerOptions?.['apns-expiration'] ?? '0',
       'apns-priority': headerOptions?.['apns-priority'] ?? mapDefaultPriority[pushType],
-      'apns-topic': headerOptions?.['apns-topic'] ?? getDefaultTopic(pushType),
+      'apns-topic': topic,
     }, {
       endStream: false,
     })
       .setEncoding('utf8')
       .on('data', (chunk) => {
-        d += chunk
+        rawBody += chunk
       })
       .on('end', () => {
         client.close()
@@ -170,15 +212,25 @@ const makeRequest = async (aps: Aps, pushToken: string, headerOptions?: HeaderOp
               apnsUniqueId = headers.get('apns-unique-id') as string | undefined
 
         try {
-          const data = JSON.parse(d)
+          const data = JSON.parse(rawBody)
           const reason = data.reason as APNSError['error']
           resolve({
-            'rawBody': d, data, 'rawHeaders': headers, statusCode, 'failedReason': reason, 'apns-id': apnsId, 'apns-unique-id': apnsUniqueId,
+            'rawBody': rawBody,
+            'data': data,
+            'rawHeaders': headers,
+            'statusCode': statusCode,
+            'failedReason': reason,
+            'apns-id': apnsId,
+            'apns-unique-id': apnsUniqueId,
           })
         } catch (e) {
           if (typeof statusCode === 'number') {
             resolve({
-              'rawBody': d, 'rawHeaders': headers, statusCode, 'apns-id': apnsId, 'apns-unique-id': apnsUniqueId,
+              'rawBody': rawBody,
+              'rawHeaders': headers,
+              'statusCode': statusCode,
+              'apns-id': apnsId,
+              'apns-unique-id': apnsUniqueId,
             })
           } else {
             reject(e)
@@ -192,7 +244,7 @@ const makeRequest = async (aps: Aps, pushToken: string, headerOptions?: HeaderOp
           if (typeof value === 'string' || typeof value === 'number') {
             headers.set(name, value)
           } else {
-            console.warn('got non-string/number header', { name, value })
+            plugin.providers.logger.warn('got non-string/number header', { name, value })
           }
         }
       })
@@ -203,31 +255,44 @@ const makeRequest = async (aps: Aps, pushToken: string, headerOptions?: HeaderOp
   })
 }
 
-const processPushResponses = (responses: readonly { readonly response: PushReturnType, readonly pushToken: PushTokenWithMetadata }[], message: PushMessage) => {
+function processPushResponses<TPush = PushTokenWithMetadata>(
+  responses: readonly { readonly response: PushReturnType, readonly pushToken: TPush }[],
+  contents: PushMessage | LiveActivityPushProps | Omit<LiveActivityPushProps, 'event'> | Record<string, JSON>,
+) {
   const successfulSends = responses.filter(({ response }) => response.statusCode === 200).map(({ response, pushToken }) => ({
-    message,
+    contents,
     ticketId: response['apns-unique-id']!,
     pushToken,
-  }))
+  } as unknown as PushTokenWithContentsAndTicket<TPush>))
 
   const failedSendsToRemoveTokensFor = responses.filter(({ response }) => response.statusCode === 410).map(({ pushToken }) => pushToken)
 
-  const failedSendsOthers = responses.filter(({ response }) => response.statusCode !== 200 && response.statusCode !== 410).map(({ pushToken, response }) => ({
-    failedReason: response.failedReason!,
-    message,
-    pushToken,
-  }))
+  const failedSendsOthers = responses
+    .filter(({ response }) => response.statusCode !== 200 && response.statusCode !== 410)
+    .map(({ pushToken, response }) => ({
+      failedReason: response.failedReason,
+      contents,
+      pushToken,
+    } as unknown as PushTokenWithContentsAndFailedReason<TPush>))
 
-  return {
+  const response: SendPushResponse<TPush> = {
     failedSendsOthers,
     failedSendsToRemoveTokensFor,
     successfulSends,
   }
+
+  return response
 }
 
-export const sendSilentPush: SendSilentPushProvider = async (pushTokens: readonly Zemble.PushTokenRegistry['apple'][], data: Record<string, unknown>) => {
-  const body: Aps = {
-    'content-available': 1 as const,
+export const sendSilentPush: SendSilentPushProvider = async (
+  pushTokens: readonly Zemble.PushTokenRegistry['apple'][],
+  data: Record<string, JSON>,
+) => {
+  const body = {
+    aps: {
+      'content-available': 1 as const,
+    } satisfies Aps,
+    ...data,
   }
 
   const responses = await Promise.all(pushTokens.map(async (pushToken) => ({
@@ -237,109 +302,109 @@ export const sendSilentPush: SendSilentPushProvider = async (pushTokens: readonl
     pushToken,
   })))
 
-  const processed = processPushResponses(responses, {
-    data,
-    mutableContent: false,
-  })
+  const processed: ReturnType<SendSilentPushProvider> = processPushResponses(responses, data)
 
   return processed
 }
 
-export const sendPush: SendPushProvider = async (pushTokens: readonly Zemble.PushTokenRegistry['apple'][], message: PushMessage) => {
+interface ApnsBody {
+  readonly [key: string]: JSON | Aps
+  readonly aps: Aps
+}
+
+export const updateLiveActivity: SendUpdateLiveActivityPushProvider<Zemble.AppleUpdateLiveActivityPushTokenWithMetadata> = async (pushTokens, liveActivity) => {
   const body = {
-    'alert': {
-      'title': message.title,
-      // subtitle: message.subtitle,
-      'body': message.body,
-      'subtitle': message.subtitle,
-      'loc-args': message.bodyLocalizationArgs,
-      'loc-key': message.bodyLocalizationKey,
-      'launch-image': message.launchImageName,
-      'subtitle-loc-args': message.subtitleLocalizationArgs,
-      'subtitle-loc-key': message.subtitleLocalizationKey,
-      'title-loc-args': message.titleLocalizationArgs,
-      'title-loc-key': message.titleLocalizationKey,
-    },
-    'badge': message.badge,
-    'category': message.categoryId,
-    'sound': message.sound ? {
-      critical: message.sound.critical ? 1 : 0,
-      name: message.sound.name,
-      volume: message.sound.volume,
-    } : undefined,
-    'thread-id': message.threadId,
-  } satisfies Aps
+    aps: {
+      'content-state': liveActivity.contentState!,
+      'relevance-score': liveActivity.relevanceScore,
+      'stale-date': liveActivity.staleDate ? convertDateToSecondsSinceEpoch(liveActivity.staleDate) : undefined,
+      'event': liveActivity.event,
+      'timestamp': liveActivity.timestamp ? convertDateToSecondsSinceEpoch(liveActivity.timestamp) : undefined,
+      'attributes-type': liveActivity.attributesType,
+      'dismissal-date': liveActivity.dismissalDate ? convertDateToSecondsSinceEpoch(liveActivity.dismissalDate) : undefined,
+      'attributes': liveActivity.attributes,
+    } satisfies Aps,
+  } satisfies ApnsBody
+
+  const responses = await Promise.all(pushTokens.map(async (pushToken) => ({
+    response: await makeRequest(body, pushToken.pushToken, {
+      'apns-push-type': 'liveactivity',
+    }),
+    pushToken,
+  })))
+
+  console.log(responses)
+
+  const processed = processPushResponses(responses, liveActivity)
+
+  return processed
+}
+
+export const startLiveActivity: SendStartLiveActivityPushProvider<Zemble.AppleStartLiveActivityPushTokenWithMetadata> = async (pushTokens, liveActivity) => {
+  const body = {
+    aps: {
+      'content-state': liveActivity.contentState,
+      'relevance-score': liveActivity.relevanceScore,
+      'stale-date': liveActivity.staleDate ? convertDateToSecondsSinceEpoch(liveActivity.staleDate) : undefined,
+      'event': 'start',
+      'timestamp': liveActivity.timestamp ? convertDateToSecondsSinceEpoch(liveActivity.timestamp) : undefined,
+      'attributes-type': liveActivity.attributesType,
+      'dismissal-date': liveActivity.dismissalDate ? convertDateToSecondsSinceEpoch(liveActivity.dismissalDate) : undefined,
+      'attributes': liveActivity.attributes,
+    } satisfies Aps,
+  }
+
+  const responses = await Promise.all(pushTokens.map(async (pushToken) => ({
+    response: await makeRequest(body, pushToken.pushToken, {
+      'apns-push-type': 'liveactivity',
+    }),
+    pushToken,
+  })))
+
+  console.log(responses)
+
+  const processed = processPushResponses(responses, liveActivity)
+
+  return processed
+}
+
+export const sendPush: SendPushProvider = async (pushTokens, message: PushMessage) => {
+  const body = {
+    aps: {
+      'alert': {
+        'title': message.title,
+        // subtitle: message.subtitle,
+        'body': message.body,
+        'subtitle': message.subtitle,
+        'loc-args': message.bodyLocalizationArgs,
+        'loc-key': message.bodyLocalizationKey,
+        'launch-image': message.launchImageName,
+        'subtitle-loc-args': message.subtitleLocalizationArgs,
+        'subtitle-loc-key': message.subtitleLocalizationKey,
+        'title-loc-args': message.titleLocalizationArgs,
+        'title-loc-key': message.titleLocalizationKey,
+      },
+      'badge': message.badge,
+      'category': message.categoryId,
+      'sound': message.sound ? {
+        critical: message.sound.critical ? 1 : 0,
+        name: message.sound.name,
+        volume: message.sound.volume,
+      } : undefined,
+      'thread-id': message.threadId,
+    } satisfies Aps,
+    ...message.data,
+  }
 
   const responses = await Promise.all(pushTokens.map(async (pushToken) => ({
     response: await makeRequest(body, pushToken.pushToken),
     pushToken,
   })))
 
-  console.log('responses', responses)
-
   const processed = processPushResponses(responses, message)
-
-  console.log('processed', processed)
 
   return processed
 }
-
-// working but bläh
-// export const sendPush: SendPushProvider = async (pushTokens: readonly Zemble.PushTokenRegistry['apple'][], message:
-// PushMessage) => {
-//   const options = {
-//     token: {
-//       key: await readP8KeyStringOrFile(),
-//       keyId: plugin.config.APPLE_KEY_ID!,
-//       teamId: plugin.config.APPLE_TEAM_ID!,
-//     },
-//     production: false,
-//   }
-
-//   const apnProvider = new apn.Provider(options)
-
-//   const notification = new apn.Notification({
-//     alert: message.body!,
-//     badge: message.badge!,
-//     category: message.categoryId!,
-//     mutableContent: message.mutableContent!,
-//     expiry: message.ttl!,
-//     payload: message.data!,
-//   })
-//   // eslint-disable-next-line functional/immutable-data
-//   notification.topic = plugin.config.DEFAULT_TOPIC!
-
-//   const res = await apnProvider.send(notification, pushTokens.map((token) => token.pushToken))
-
-//   console.log('res', res)
-
-//   return {
-//     failedSendsToRemoveTokensFor: [],
-//     failedSendsOthers: [],
-//     successfulSends: [],
-//   }
-// }
-
-// const sendPushNative = async (pushTokens: Zemble.PushTokenRegistry['apple'][], message: PushMessage) => {
-//   const apns = await createClient()
-
-//   await apns.sendMany(pushTokens.map((token) => new Notification(token.pushToken, {
-//     alert: message.body,
-//     badge: message.badge,
-//     category: message.categoryId,
-//     mutableContent: message.mutableContent,
-//     data: message.data,
-//     expiration: message.ttl ? convertNowPlusSecondsToDate(message.ttl) : undefined,
-//     priority: mapPriority(message.priority),
-//     type: PushType.alert,
-//   })))
-
-//   return {
-//     failedSendsToRemoveTokensFor: [],
-//     failedSendsOthers: [],
-//     successfulSends: [],
-//   }
-// }
 
 const defaultConfig: ApplePushOptions = {
   APPLE_TEAM_ID: process.env['APPLE_TEAM_ID'],
@@ -347,6 +412,9 @@ const defaultConfig: ApplePushOptions = {
   APPLE_PATH_TO_P8_KEY: process.env['APPLE_PATH_TO_P8_KEY'],
   APPLE_P8_KEY: process.env['APPLE_P8_KEY'],
   DEFAULT_TOPIC: process.env['DEFAULT_TOPIC'],
+  persistPushToken: async (_, pushTokenInfo) => {
+    plugin.providers.logger.error('[@zemble/push-apple] persistPushToken not configured', pushTokenInfo)
+  },
 }
 
 const plugin = new Plugin<ApplePushOptions, typeof defaultConfig>(

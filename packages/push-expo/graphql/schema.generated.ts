@@ -18,15 +18,22 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export enum ExpoPushPlatform {
+  Android = 'android',
+  Ios = 'ios',
+  Web = 'web'
+}
+
 export type Mutation = {
   readonly __typename?: 'Mutation';
+  readonly randomNumber: Scalars['Int']['output'];
   readonly registerExpoPushToken: Scalars['Boolean']['output'];
   readonly sendPushNotification: Scalars['Boolean']['output'];
 };
 
 
 export type MutationRegisterExpoPushTokenArgs = {
-  platform: Platform;
+  platform: ExpoPushPlatform;
   pushToken: Scalars['String']['input'];
 };
 
@@ -37,11 +44,22 @@ export type MutationSendPushNotificationArgs = {
   title: Scalars['String']['input'];
 };
 
-export enum Platform {
-  Android = 'android',
-  Ios = 'ios',
-  Web = 'web'
-}
+export type Query = {
+  readonly __typename?: 'Query';
+  readonly hello: Scalars['String']['output'];
+};
+
+export type Subscription = {
+  readonly __typename?: 'Subscription';
+  readonly countdown: Scalars['Int']['output'];
+  readonly randomNumber: Scalars['Int']['output'];
+  readonly tick: Scalars['Float']['output'];
+};
+
+
+export type SubscriptionCountdownArgs = {
+  from: Scalars['Int']['input'];
+};
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -116,24 +134,45 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  ExpoPushPlatform: ExpoPushPlatform;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
-  Platform: Platform;
+  Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Subscription: ResolverTypeWrapper<{}>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
+  Float: Scalars['Float']['output'];
+  Int: Scalars['Int']['output'];
   Mutation: {};
+  Query: {};
   String: Scalars['String']['output'];
+  Subscription: {};
 }>;
 
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  randomNumber?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   registerExpoPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterExpoPushTokenArgs, 'platform' | 'pushToken'>>;
   sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'pushToken' | 'title'>>;
 }>;
 
+export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+}>;
+
+export type SubscriptionResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
+  countdown?: SubscriptionResolver<ResolversTypes['Int'], "countdown", ParentType, ContextType, RequireFields<SubscriptionCountdownArgs, 'from'>>;
+  randomNumber?: SubscriptionResolver<ResolversTypes['Int'], "randomNumber", ParentType, ContextType>;
+  tick?: SubscriptionResolver<ResolversTypes['Float'], "tick", ParentType, ContextType>;
+}>;
+
 export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
 }>;
 

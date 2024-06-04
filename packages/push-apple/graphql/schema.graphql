@@ -1,5 +1,23 @@
+scalar JSONObject
+enum ApplePushPlatform {
+  ios
+  watchos
+  ipados
+  macos
+}
+
+type StartLiveActivityResponse {
+  liveActivityId: ID!
+}
+
 type Mutation {
   sendPushNotification(title: String!, body: String!, subtitle: String!): Boolean!
+  updateLiveActivity(data: JSONObject!, liveActivityId: ID!): Boolean!
+  startLiveActivity(data: JSONObject!, pushToken: String!): StartLiveActivityResponse!
+
+  registerApplePushToken(token: String!, platform: ApplePushPlatform!, appBundleId: String!): Boolean!
+  registerAppleStartLiveActivityPushToken(token: String!, appBundleId: String!): Boolean!
+  registerAppleUpdateLiveActivityPushToken(token: String!, liveActivityId: ID!, appBundleId: String!): Boolean!
 }
 
 type Query {

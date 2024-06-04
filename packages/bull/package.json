@@ -35,16 +35,17 @@
   "dependencies": {
     "@bull-board/api": "^5.16.0",
     "@types/ejs": "^3.1.5",
+    "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
+    "@zemble/utils": "workspace:*",
     "bullmq": "^5.7.2",
     "ejs": "^3.1.10",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.23.0",
     "hono": "^4.2.5",
     "ioredis": "^5.4.1",
-    "safe-stable-stringify": "^2.4.3",
-    "@zemble/auth": "workspace:*"
+    "safe-stable-stringify": "^2.4.3"
   },
   "devDependencies": {
     "@types/bun": "*"

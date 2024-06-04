@@ -1,3 +1,5 @@
+import type { JSON } from '@zemble/utils/JSON'
+
 // original: https://github.com/henhal/apns-types/blob/main/src/index.ts
 
 // Types generated from specifications at https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification
@@ -160,10 +162,27 @@ export interface Aps {
    */
   readonly 'stale-date'?: number
   /**
+  * The UNIX timestamp that represents the date at which the system ends a Live Activity and removes it from the
+  * Dynamic Island and the Lock Screen. For more information, see Updating and ending your Live Activity with
+  * ActivityKit push notifications.
+  */
+  readonly 'dismissal-date'?: number
+  /**
+    * A string you use when you start a Live Activity with a remote push notification. It must match the name of the
+    * structure that describes the dynamic data that appears in a Live Activity. For more information, see Updating and
+    * ending your Live Activity with ActivityKit push notifications.
+    */
+  readonly 'attributes-type'?: string
+  /**
+   * The dictionary that contains data you pass to a Live Activity that you start with a remote push notification. For
+   * more information, see Updating and ending your Live Activity with ActivityKit push notifications.
+   */
+  readonly 'attributes'?: Record<string, JSON>
+  /**
    * The updated or final content for a Live Activity. The content of this dictionary must match the data you
    * describe with your custom ActivityAttributes implementation.
    */
-  readonly 'content-state'?: Record<string, unknown>;
+  readonly 'content-state'?: Record<string, JSON>;
   /**
    * The UNIX timestamp that marks the time when you send the remote notification that updates or ends a Live Activity.
    */
@@ -171,7 +190,7 @@ export interface Aps {
   /**
    * The string that describes whether you update or end an ongoing Live Activity with the remote push notification.
    */
-  readonly events?: 'update' | 'end';
+  readonly event?: 'update' | 'end' | 'start';
 }
 
 export type APNSError =

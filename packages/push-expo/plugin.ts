@@ -1,8 +1,10 @@
 import {
   Plugin, setupProvider, type PushTokenWithMetadata, type SendPushProvider,
-  type PushTokenWithMessage,
-  type PushTokenWithMessageAndTicket,
+  type PushTokenWithContents,
+  type PushTokenWithContentsAndTicket,
   type TokenContents,
+  type SendPushResponse,
+  type PushTokenWithContentsAndFailedReason,
 } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import { chunkArray } from '@zemble/utils/chunkArray'
@@ -39,7 +41,7 @@ declare global {
   }
 }
 
-export const sendPush: SendPushProvider = async (pushTokens, message) => {
+export const sendPush: SendPushProvider = async (pushTokens, contents) => {
   // Create a new Expo SDK client
   // optionally providing an access token if you have enabled push security
   const expo = new Expo({
@@ -50,9 +52,9 @@ export const sendPush: SendPushProvider = async (pushTokens, message) => {
 
   const somePushTokens = pushTokens.filter((token) => token.type === 'EXPO')
 
-  const tokensWithMessages: readonly PushTokenWithMessage[] = somePushTokens.map((pushToken) => ({
+  const tokensWithMessages: readonly PushTokenWithContents[] = somePushTokens.map((pushToken) => ({
     pushToken,
-    message,
+    contents,
   }))
 
   // The Expo push notification service accepts batches of notifications so
@@ -61,9 +63,9 @@ export const sendPush: SendPushProvider = async (pushTokens, message) => {
   // and to compress them (notifications with similar content will get
   // compressed).
   const chunks = chunkArray(tokensWithMessages, Expo.pushNotificationChunkSizeLimit)
-  let successfulSends: readonly PushTokenWithMessageAndTicket[] = []
+  let successfulSends: readonly PushTokenWithContentsAndTicket[] = []
   let failedSendsToRemoveTokensFor: readonly PushTokenWithMetadata[] = []
-  let failedSendsOthers: readonly PushTokenWithMessage[] = []
+  let failedSendsOthers: readonly PushTokenWithContentsAndFailedReason[] = []
   //   const failedSendsToRetry: readonly TokenWithMessage[] = []
 
   // Send the chunks to the Expo push notification service. There are
@@ -74,20 +76,20 @@ export const sendPush: SendPushProvider = async (pushTokens, message) => {
     // eslint-disable-next-line no-await-in-loop
     const ticketChunk = await expo.sendPushNotificationsAsync(chunk.map((tokenWithMessage) => ({ ...tokenWithMessage.message, to: tokenWithMessage.pushToken.pushToken })))
     // eslint-disable-next-line no-loop-func
-    chunk.forEach(({ message, pushToken }, index) => {
+    chunk.forEach(({ contents, pushToken }, index) => {
       const ticket = ticketChunk[index]
       if (ticket) {
         if (ticket.status === 'error') {
           if (ticket.details?.error === 'DeviceNotRegistered') {
             failedSendsToRemoveTokensFor = [...failedSendsToRemoveTokensFor, pushToken]
           } else if (ticket.details?.error) {
-            pushExpoPlugin.providers.logger.error(`${ticket.details.error}: ${ticket.message}`, { ticket, message, pushToken })
-            failedSendsOthers = [...failedSendsOthers, { message, pushToken }]
+            pushExpoPlugin.providers.logger.error(`${ticket.details.error}: ${ticket.message}`, { ticket, contents, pushToken })
+            failedSendsOthers = [...failedSendsOthers, { contents, pushToken, failedReason: ticket.details.error }]
           } else {
-            pushExpoPlugin.providers.logger.error(`Unknown error: ${ticket.message}`, { ticket, message, pushToken })
+            pushExpoPlugin.providers.logger.error(`Unknown error: ${ticket.message}`, { ticket, contents, pushToken })
           }
         } else {
-          successfulSends = [...successfulSends, { message, pushToken, ticketId: ticket.id }]
+          successfulSends = [...successfulSends, { contents, pushToken, ticketId: ticket.id }]
         }
       } else {
         pushExpoPlugin.providers.logger.error(`Expo ticket is undefined, something went wrong`)
@@ -99,7 +101,9 @@ export const sendPush: SendPushProvider = async (pushTokens, message) => {
     // https://docs.expo.io/push-notifications/sending-notifications/#individual-errors
   }
 
-  return { failedSendsToRemoveTokensFor, failedSendsOthers, successfulSends }
+  const response: SendPushResponse = { failedSendsToRemoveTokensFor, failedSendsOthers, successfulSends }
+
+  return response
 }
 
 const pushExpoPlugin = new Plugin<Config>(
