@@ -11,7 +11,6 @@ import {
   type PushTokenWithContentsAndFailedReason,
   type PushTokenWithContentsAndTicket,
   type SendUpdateLiveActivityPushProvider,
-  setupProvider,
 } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import * as jose from 'jose'
@@ -332,8 +331,6 @@ export const updateLiveActivity: SendUpdateLiveActivityPushProvider<Zemble.Apple
     pushToken,
   })))
 
-  console.log(responses)
-
   const processed = processPushResponses(responses, liveActivity)
 
   return processed
@@ -370,16 +367,12 @@ export const startLiveActivity: SendStartLiveActivityPushProvider<Zemble.AppleSt
     } satisfies Aps,
   }
 
-  console.log(body)
-
   const responses = await Promise.all(pushTokens.map(async (pushToken) => ({
     response: await makeRequest(body, pushToken.pushToken, {
       'apns-push-type': 'liveactivity',
     }),
     pushToken,
   })))
-
-  console.log(responses)
 
   const processed = processPushResponses(responses, liveActivity)
 
@@ -440,34 +433,11 @@ const plugin = new Plugin<ApplePushOptions, typeof defaultConfig>(
   {
     dependencies: [{ plugin: GraphQL }],
     defaultConfig,
-    middleware: async ({ app }) => {
-      await setupProvider({
-        app,
-        initializeProvider: () => sendPush,
-        providerKey: 'sendPush',
-        middlewareKey: '@zemble/push-apple',
-      })
-
-      await setupProvider({
-        app,
-        initializeProvider: () => sendSilentPush,
-        providerKey: 'sendSilentPush',
-        middlewareKey: '@zemble/push-apple',
-      })
-
-      await setupProvider({
-        app,
-        initializeProvider: () => startLiveActivity,
-        providerKey: 'sendStartLiveActivityPush',
-        middlewareKey: '@zemble/push-apple',
-      })
-
-      await setupProvider({
-        app,
-        initializeProvider: () => updateLiveActivity,
-        providerKey: 'sendUpdateLiveActivityPush',
-        middlewareKey: '@zemble/push-apple',
-      })
+    providers: {
+      sendPush: () => sendPush,
+      sendSilentPush: () => sendSilentPush,
+      sendStartLiveActivityPush: () => startLiveActivity,
+      sendUpdateLiveActivityPush: () => updateLiveActivity,
     },
   },
 )

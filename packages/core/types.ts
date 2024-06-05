@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import type { Plugin } from '.'
+import type { InitializeProvider, Plugin } from '.'
 import type { JSON } from '@zemble/utils/JSON'
 import type { WebSocketHandler } from 'bun'
 import type { PromiseOrValue } from 'graphql/jsutils/PromiseOrValue'
@@ -305,6 +305,10 @@ export type PluginOpts<
   readonly dependencies?: DependenciesResolver<TSelf>
 
   readonly additionalConfigWhenRunningLocally?: Partial<TConfig>,
+  readonly providers?: Partial<{
+    // @ts-expect-error fix later
+    readonly [key in keyof Zemble.Providers]: InitializeProvider<Zemble.Providers[key], unknown>
+  }>
 
   readonly name?: string,
   readonly version?: string,
