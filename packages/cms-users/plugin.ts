@@ -22,7 +22,7 @@ declare global {
   namespace Zemble {
     interface OtpToken extends BaseToken {
       readonly id: string
-      readonly type: 'cms-user'
+      readonly type: 'cms-user' | 'AuthOtp',
       readonly email?: string,
       readonly permissions: readonly {
         readonly type: PermissionType,
