@@ -21,9 +21,6 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface OtpToken extends BaseToken {
-      readonly id: string
-      readonly type: 'cms-user',
-      readonly email?: string,
       readonly permissions: readonly {
         readonly type: PermissionType,
       }[]
