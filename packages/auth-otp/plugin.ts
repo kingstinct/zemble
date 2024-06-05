@@ -61,7 +61,7 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
 }
 
 export interface DefaultOtpToken {
-  // readonly type: 'AuthOtp',
+  readonly type: 'AuthOtp' | 'cms-user',
   readonly email?: string,
   readonly phoneNumber?: string,
   readonly sub: string
