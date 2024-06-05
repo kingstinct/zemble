@@ -7,13 +7,13 @@ import type {
 
 export const loginConfirmWithEmail: NonNullable<MutationResolvers['loginConfirmWithEmail']> = async (_, {
   email: emailIn, code,
-}, { honoContext }) => {
+}, context) => {
   const email = emailIn.toLowerCase().trim()
   if (!emailIn || !isValidEmail(email)) {
     return { __typename: 'EmailNotValidError', message: 'Email not valid' }
   }
 
-  return getTokens(code, emailIn, honoContext, 'email')
+  return getTokens(code, emailIn, context, 'email')
 }
 
 export default loginConfirmWithEmail

@@ -7,14 +7,14 @@ import type {
 
 export const loginConfirmWithSms: NonNullable<MutationResolvers['loginConfirmWithSms']> = async (_, {
   phoneNumberWithCountryCode: phoneNumberIn, code,
-}, { honoContext }) => {
+}, context) => {
   const phoneNumberWithCountryCode = phoneNumberIn.trim()
 
   if (!isValidE164Number(phoneNumberWithCountryCode)) {
     return { __typename: 'PhoneNumNotValidError', message: 'Phone number is not valid' }
   }
 
-  return getTokens(code, phoneNumberWithCountryCode, honoContext, 'sms')
+  return getTokens(code, phoneNumberWithCountryCode, context, 'sms')
 }
 
 export default loginConfirmWithSms
