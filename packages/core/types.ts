@@ -68,7 +68,7 @@ export interface PushMessage {
   readonly body?: string;
   readonly sound?: {
     readonly critical?: boolean;
-    readonly name?: string;
+    readonly name?: 'default' | string;
     readonly volume?: number;
   };
   readonly ttl?: number;
@@ -95,11 +95,11 @@ export type PushTokenWithContents<TPush> = {
   readonly contents: PushMessage | LiveActivityPushProps | Record<string, JSON>
 }
 
-export type PushTokenWithContentsAndTicket<TPush> = TPush & { readonly ticketId: string }
+export type PushTokenWithContentsAndTicket<TPush> = PushTokenWithContents<TPush> & { readonly ticketId: string }
 
-export type PushTokenWithContentsAndTicketAndLiveActivityId<TPush> = TPush & { readonly ticketId: string, readonly liveActivityId: string }
+export type PushTokenWithContentsAndTicketAndLiveActivityId<TPush> = PushTokenWithContents<TPush> & { readonly ticketId: string, readonly liveActivityId: string }
 
-export type PushTokenWithContentsAndFailedReason<TPush> = TPush & { readonly failedReason: string }
+export type PushTokenWithContentsAndFailedReason<TPush> = PushTokenWithContents<TPush> & { readonly failedReason: string }
 
 export interface SendPushResponse<TPush, TSuccess = PushTokenWithContentsAndTicket<TPush>> {
   readonly failedSendsToRemoveTokensFor: readonly TPush[]
@@ -110,12 +110,13 @@ export interface SendPushResponse<TPush, TSuccess = PushTokenWithContentsAndTick
 export type LiveActivityPushProps = {
   readonly relevanceScore?: number
   readonly staleDate?: Date
-  readonly contentState?: Record<string, JSON>
+  readonly contentState: Record<string, JSON>
   readonly timestamp?: Date
   readonly event: 'end' | 'update' // 'start' is separate since it's a different flow
   readonly dismissalDate?: Date
-  readonly attributesType?: string
+  readonly attributesType: string
   readonly attributes?: Record<string, JSON>
+  // readonly attributes?: Record<string, JSON>
 }
 
 export type SendPushProvider = (
@@ -128,11 +129,11 @@ export type SendSilentPushProvider = (
 ) => PromiseOrValue<SendPushResponse<PushTokenWithMetadata>>
 export type SendStartLiveActivityPushProvider<TPush = PushTokenForStartingLiveActivityWithMetadata> = (
   pushTokens: readonly TPush[],
-  liveActivity: Omit<LiveActivityPushProps, 'event'>
+  liveActivity: Omit<LiveActivityPushProps, 'event'> & PushMessage
 ) => PromiseOrValue<SendPushResponse<TPush>>
 export type SendUpdateLiveActivityPushProvider<TPush = PushTokenForUpdatingLiveActivityWithMetadata> = (
   pushTokens: readonly TPush[],
-  liveActivity: LiveActivityPushProps
+  liveActivity: Omit<LiveActivityPushProps, 'attributesType' | 'attributes'>
 ) => PromiseOrValue<SendPushResponse<TPush>>
 
 declare global {

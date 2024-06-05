@@ -5,8 +5,7 @@ import type { MutationResolvers } from '../schema.generated'
 const registerApplePushToken: MutationResolvers['registerApplePushToken'] = async (_, { platform, token, appBundleId }, { decodedToken }) => {
   const pushTokenWithMetadata: Zemble.ApplePushTokenWithMetadata = {
     type: 'APPLE',
-    platforms: [platform],
-    createdAt: new Date(),
+    platform,
     pushToken: token,
     appBundleId,
   }

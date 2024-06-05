@@ -2,15 +2,13 @@ import pushExpoPlugin from '../../plugin'
 import { ApplePushPlatform, type MutationResolvers } from '../schema.generated'
 
 const registerAppleUpdateLiveActivityPushToken: MutationResolvers['registerAppleUpdateLiveActivityPushToken'] = async (_, {
-  token, appBundleId, liveActivityId,
+  token, appBundleId,
 }, { decodedToken }) => {
   const pushTokenWithMetadata: Zemble.AppleUpdateLiveActivityPushTokenWithMetadata = {
     type: 'APPLE_UPDATE_LIVE_ACTIVITY',
-    platforms: [ApplePushPlatform.Ios],
-    createdAt: new Date(),
+    platform: ApplePushPlatform.Ios,
     pushToken: token,
     appBundleId,
-    liveActivityId,
   }
 
   await pushExpoPlugin.config.persistPushToken(decodedToken!, pushTokenWithMetadata)

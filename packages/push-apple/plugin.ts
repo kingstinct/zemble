@@ -11,6 +11,7 @@ import {
   type PushTokenWithContentsAndFailedReason,
   type PushTokenWithContentsAndTicket,
   type SendUpdateLiveActivityPushProvider,
+  setupProvider,
 } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import * as jose from 'jose'
@@ -39,31 +40,30 @@ declare global {
   namespace Zemble {
     interface Providers {
       readonly sendPush: SendPushProvider
+      readonly sendSilentPush: SendSilentPushProvider
+      readonly sendStartLiveActivityPush: SendStartLiveActivityPushProvider
+      readonly sendUpdateLiveActivityPush: SendUpdateLiveActivityPushProvider
     }
 
     type ApplePushTokenWithMetadata = {
       readonly type: 'APPLE',
-      readonly platforms: readonly ApplePushPlatform[]
-      readonly createdAt: Date
+      readonly platform: ApplePushPlatform
       readonly pushToken: string
       readonly appBundleId: string
     }
 
     type AppleStartLiveActivityPushTokenWithMetadata = {
       readonly type: 'APPLE_START_LIVE_ACTIVITY',
-      readonly platforms: readonly ApplePushPlatform[]
-      readonly createdAt: Date
+      readonly platform: ApplePushPlatform
       readonly pushToken: string
       readonly appBundleId: string
     }
 
     type AppleUpdateLiveActivityPushTokenWithMetadata = {
       readonly type: 'APPLE_UPDATE_LIVE_ACTIVITY',
-      readonly platforms: readonly ApplePushPlatform[]
-      readonly createdAt: Date
+      readonly platform: ApplePushPlatform
       readonly pushToken: string
       readonly appBundleId: string
-      readonly liveActivityId: string
     }
 
     interface PushTokenRegistry {
@@ -178,8 +178,6 @@ const makeRequest = async (body: ApnsBody, pushToken: string, headerOptions?: He
   const pushType = headerOptions?.['apns-push-type'] ?? 'alert',
         topic = headerOptions?.['apns-topic'] ?? getDefaultTopic(pushType)
 
-  console.log('topic', topic)
-
   return new Promise<PushReturnType>((resolve, reject) => {
     client.on('error', (err) => {
       reject(err)
@@ -257,7 +255,7 @@ const makeRequest = async (body: ApnsBody, pushToken: string, headerOptions?: He
 
 function processPushResponses<TPush = PushTokenWithMetadata>(
   responses: readonly { readonly response: PushReturnType, readonly pushToken: TPush }[],
-  contents: PushMessage | LiveActivityPushProps | Omit<LiveActivityPushProps, 'event'> | Record<string, JSON>,
+  contents: PushMessage | Omit<LiveActivityPushProps, 'attributesType' | 'attributes'> | Omit<LiveActivityPushProps, 'event'> | Record<string, JSON>,
 ) {
   const successfulSends = responses.filter(({ response }) => response.statusCode === 200).map(({ response, pushToken }) => ({
     contents,
@@ -312,17 +310,18 @@ interface ApnsBody {
   readonly aps: Aps
 }
 
-export const updateLiveActivity: SendUpdateLiveActivityPushProvider<Zemble.AppleUpdateLiveActivityPushTokenWithMetadata> = async (pushTokens, liveActivity) => {
+export const updateLiveActivity: SendUpdateLiveActivityPushProvider<Zemble.AppleUpdateLiveActivityPushTokenWithMetadata> = async (
+  pushTokens,
+  liveActivity,
+) => {
   const body = {
     aps: {
-      'content-state': liveActivity.contentState!,
+      'content-state': liveActivity.contentState,
       'relevance-score': liveActivity.relevanceScore,
       'stale-date': liveActivity.staleDate ? convertDateToSecondsSinceEpoch(liveActivity.staleDate) : undefined,
       'event': liveActivity.event,
-      'timestamp': liveActivity.timestamp ? convertDateToSecondsSinceEpoch(liveActivity.timestamp) : undefined,
-      'attributes-type': liveActivity.attributesType,
+      'timestamp': convertDateToSecondsSinceEpoch(liveActivity.timestamp ? liveActivity.timestamp : new Date()),
       'dismissal-date': liveActivity.dismissalDate ? convertDateToSecondsSinceEpoch(liveActivity.dismissalDate) : undefined,
-      'attributes': liveActivity.attributes,
     } satisfies Aps,
   } satisfies ApnsBody
 
@@ -347,12 +346,31 @@ export const startLiveActivity: SendStartLiveActivityPushProvider<Zemble.AppleSt
       'relevance-score': liveActivity.relevanceScore,
       'stale-date': liveActivity.staleDate ? convertDateToSecondsSinceEpoch(liveActivity.staleDate) : undefined,
       'event': 'start',
-      'timestamp': liveActivity.timestamp ? convertDateToSecondsSinceEpoch(liveActivity.timestamp) : undefined,
+      'timestamp': convertDateToSecondsSinceEpoch(liveActivity.timestamp ?? new Date()),
       'attributes-type': liveActivity.attributesType,
       'dismissal-date': liveActivity.dismissalDate ? convertDateToSecondsSinceEpoch(liveActivity.dismissalDate) : undefined,
       'attributes': liveActivity.attributes,
+      'alert': {
+        'title': liveActivity.title,
+        'body': liveActivity.body,
+        'subtitle': liveActivity.subtitle,
+        'loc-args': liveActivity.bodyLocalizationArgs,
+        'loc-key': liveActivity.bodyLocalizationKey,
+        'launch-image': liveActivity.launchImageName,
+        'subtitle-loc-args': liveActivity.subtitleLocalizationArgs,
+        'subtitle-loc-key': liveActivity.subtitleLocalizationKey,
+        'title-loc-args': liveActivity.titleLocalizationArgs,
+        'title-loc-key': liveActivity.titleLocalizationKey,
+      },
+      'sound': liveActivity.sound ? {
+        critical: liveActivity.sound.critical ? 1 : 0,
+        name: liveActivity.sound.name,
+        volume: liveActivity.sound.volume,
+      } : undefined,
     } satisfies Aps,
   }
+
+  console.log(body)
 
   const responses = await Promise.all(pushTokens.map(async (pushToken) => ({
     response: await makeRequest(body, pushToken.pushToken, {
@@ -422,6 +440,35 @@ const plugin = new Plugin<ApplePushOptions, typeof defaultConfig>(
   {
     dependencies: [{ plugin: GraphQL }],
     defaultConfig,
+    middleware: async ({ app }) => {
+      await setupProvider({
+        app,
+        initializeProvider: () => sendPush,
+        providerKey: 'sendPush',
+        middlewareKey: '@zemble/push-apple',
+      })
+
+      await setupProvider({
+        app,
+        initializeProvider: () => sendSilentPush,
+        providerKey: 'sendSilentPush',
+        middlewareKey: '@zemble/push-apple',
+      })
+
+      await setupProvider({
+        app,
+        initializeProvider: () => startLiveActivity,
+        providerKey: 'sendStartLiveActivityPush',
+        middlewareKey: '@zemble/push-apple',
+      })
+
+      await setupProvider({
+        app,
+        initializeProvider: () => updateLiveActivity,
+        providerKey: 'sendUpdateLiveActivityPush',
+        middlewareKey: '@zemble/push-apple',
+      })
+    },
   },
 )
 

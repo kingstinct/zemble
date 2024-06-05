@@ -6,8 +6,7 @@ const registerAppleStartLiveActivityPushToken: MutationResolvers['registerAppleS
 }, { decodedToken }) => {
   const pushTokenWithMetadata: Zemble.AppleStartLiveActivityPushTokenWithMetadata = {
     type: 'APPLE_START_LIVE_ACTIVITY',
-    platforms: [ApplePushPlatform.Ios],
-    createdAt: new Date(),
+    platform: ApplePushPlatform.Ios,
     pushToken: token,
     appBundleId,
   }

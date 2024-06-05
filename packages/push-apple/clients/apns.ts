@@ -1,4 +1,3 @@
-import { ApnsClient } from 'apns2'
 import fs from 'fs'
 import Path from 'path'
 
@@ -14,16 +13,3 @@ export const readP8KeyFile = async () => {
 }
 
 export const readP8KeyStringOrFile = async () => plugin.config.APPLE_P8_KEY ?? readP8KeyFile()
-
-const createClient = async () => {
-  const client = new ApnsClient({
-    team: plugin.config.APPLE_TEAM_ID!,
-    keyId: plugin.config.APPLE_KEY_ID!,
-    signingKey: await readP8KeyStringOrFile(),
-    defaultTopic: plugin.config.DEFAULT_TOPIC,
-  })
-
-  return client
-}
-
-export default createClient

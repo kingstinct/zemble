@@ -33,6 +33,7 @@ export type Mutation = {
   readonly registerAppleStartLiveActivityPushToken: Scalars['Boolean']['output'];
   readonly registerAppleUpdateLiveActivityPushToken: Scalars['Boolean']['output'];
   readonly sendPushNotification: Scalars['Boolean']['output'];
+  readonly sendSilentPushNotification: Scalars['Boolean']['output'];
   readonly startLiveActivity: StartLiveActivityResponse;
   readonly updateLiveActivity: Scalars['Boolean']['output'];
 };
@@ -53,27 +54,36 @@ export type MutationRegisterAppleStartLiveActivityPushTokenArgs = {
 
 export type MutationRegisterAppleUpdateLiveActivityPushTokenArgs = {
   appBundleId: Scalars['String']['input'];
-  liveActivityId: Scalars['ID']['input'];
+  liveActivityAttributes: Scalars['JSONObject']['input'];
+  liveActivityType: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
 
 
 export type MutationSendPushNotificationArgs = {
   body: Scalars['String']['input'];
-  subtitle: Scalars['String']['input'];
-  title: Scalars['String']['input'];
+  pushToken: Scalars['String']['input'];
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationSendSilentPushNotificationArgs = {
+  data: Scalars['JSONObject']['input'];
+  pushToken: Scalars['String']['input'];
 };
 
 
 export type MutationStartLiveActivityArgs = {
   data: Scalars['JSONObject']['input'];
+  liveActivityType: Scalars['String']['input'];
   pushToken: Scalars['String']['input'];
 };
 
 
 export type MutationUpdateLiveActivityArgs = {
   data: Scalars['JSONObject']['input'];
-  liveActivityId: Scalars['ID']['input'];
+  pushToken: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -186,10 +196,11 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   registerApplePushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterApplePushTokenArgs, 'appBundleId' | 'platform' | 'token'>>;
   registerAppleStartLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleStartLiveActivityPushTokenArgs, 'appBundleId' | 'token'>>;
-  registerAppleUpdateLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleUpdateLiveActivityPushTokenArgs, 'appBundleId' | 'liveActivityId' | 'token'>>;
-  sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'subtitle' | 'title'>>;
-  startLiveActivity?: Resolver<ResolversTypes['StartLiveActivityResponse'], ParentType, ContextType, RequireFields<MutationStartLiveActivityArgs, 'data' | 'pushToken'>>;
-  updateLiveActivity?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateLiveActivityArgs, 'data' | 'liveActivityId'>>;
+  registerAppleUpdateLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleUpdateLiveActivityPushTokenArgs, 'appBundleId' | 'liveActivityAttributes' | 'liveActivityType' | 'token'>>;
+  sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'pushToken'>>;
+  sendSilentPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendSilentPushNotificationArgs, 'data' | 'pushToken'>>;
+  startLiveActivity?: Resolver<ResolversTypes['StartLiveActivityResponse'], ParentType, ContextType, RequireFields<MutationStartLiveActivityArgs, 'data' | 'liveActivityType' | 'pushToken'>>;
+  updateLiveActivity?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateLiveActivityArgs, 'data' | 'pushToken'>>;
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
