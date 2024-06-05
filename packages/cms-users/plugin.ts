@@ -23,7 +23,7 @@ declare global {
     interface OtpToken extends BaseToken {
       readonly id: string
       readonly type: 'cms-user'
-      readonly email: string,
+      readonly email?: string,
       readonly permissions: readonly {
         readonly type: PermissionType,
       }[]
@@ -65,6 +65,9 @@ const plugin = new Plugin(import.meta.dir,
               email: 'noreply@cmsexample.com',
             },
             generateTokenContents: async ({ email }) => {
+              if (!email) {
+                throw new Error('Email is required')
+              }
               const user = await User.findOneAndUpdate({
                 email,
               }, {
