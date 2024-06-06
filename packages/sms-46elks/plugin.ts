@@ -98,6 +98,10 @@ const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(import.meta.dir
             throw new Error(`Failed to send the SMS message. Error code: ${response.status}. Status: ${response.statusText}.`)
           }
 
+          if (config.options?.dryrun === 'yes') {
+            console.log('Dryrun:', await response.json())
+          }
+
           return true
         } catch (error) {
           if (error instanceof Error) {
