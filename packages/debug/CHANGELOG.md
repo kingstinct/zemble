@@ -1,5 +1,15 @@
 # @zemble/debug
 
+## 0.0.14
+
+### Patch Changes
+
+- @zemble/core@0.1.18
+- @zemble/auth@0.0.53
+- @zemble/bun@0.0.29
+- @zemble/graphql@0.0.51
+- @zemble/routes@0.0.30
+
 ## 0.0.13
 
 ### Patch Changes

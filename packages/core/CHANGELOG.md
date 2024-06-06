@@ -1,5 +1,12 @@
 # @zemble/core
 
+## 0.1.18
+
+### Patch Changes
+
+- Updated dependencies [49fcd76]
+  - @zemble/utils@0.7.36
+
 ## 0.1.17
 
 ### Patch Changes

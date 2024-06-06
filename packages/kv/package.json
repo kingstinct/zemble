@@ -1,6 +1,6 @@
 {
   "name": "@zemble/kv",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "description": "@zemble Plugin that provides a single KV interface for in-memory, Redis, and Cloudflare KV",
   "main": "plugin.ts",
   "scripts": {

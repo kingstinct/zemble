@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.36
+
+### Patch Changes
+
+- 49fcd76: bump @zemble/utils
+
 ## 0.7.35
 
 ### Patch Changes

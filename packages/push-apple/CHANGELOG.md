@@ -1,5 +1,14 @@
 # @zemble/push-apple
 
+## 0.0.3
+
+### Patch Changes
+
+- @zemble/core@0.1.18
+- @zemble/bun@0.0.29
+- @zemble/graphql@0.0.51
+- @zemble/routes@0.0.30
+
 ## 0.0.2
 
 ### Patch Changes

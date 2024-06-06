@@ -1,6 +1,6 @@
 {
   "name": "@zemble/apple-app-site-association",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "description": "A package to easily expose a Apple App Site Association file for your iOS App",
   "private": true,
   "main": "plugin.ts",
