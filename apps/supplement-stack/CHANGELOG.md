@@ -1,5 +1,20 @@
 # supplement-stack
 
+## 0.0.55
+
+### Patch Changes
+
+- 7456648: Add @zemble/push-apple
+- Updated dependencies [7456648]
+- Updated dependencies [da74085]
+  - @zemble/auth-otp@0.0.53
+  - @zemble/bull@0.1.16
+  - @zemble/core@0.1.17
+  - @zemble/todo@0.0.50
+  - @zemble/apple-app-site-association@0.0.33
+  - @zemble/bun@0.0.28
+  - @zemble/graphql@0.0.50
+
 ## 0.0.54
 
 ### Patch Changes

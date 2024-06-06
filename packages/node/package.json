@@ -1,6 +1,6 @@
 {
   "name": "@zemble/node",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "@zemble Plugin for Node.js runtime",
   "main": "serve.js",
   "module": "serve.mjs",

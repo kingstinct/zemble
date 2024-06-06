@@ -1,5 +1,18 @@
 # @zemble/auth-otp
 
+## 0.0.53
+
+### Patch Changes
+
+- 7456648: Add @zemble/push-apple
+- da74085: Expose token on generate token contents
+- Updated dependencies [7456648]
+- Updated dependencies [da74085]
+  - @zemble/auth@0.0.52
+  - @zemble/core@0.1.17
+  - @zemble/graphql@0.0.50
+  - @zemble/kv@0.0.48
+
 ## 0.0.52
 
 ### Patch Changes
