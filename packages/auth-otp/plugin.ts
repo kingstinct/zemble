@@ -10,7 +10,7 @@ import { type CountryCode } from 'libphonenumber-js'
 import { simpleTemplating } from './utils/simpleTemplating'
 
 import type { E164PhoneNumber } from './utils/types'
-import type { IEmail } from '@zemble/core'
+import type { IEmail, TokenContents } from '@zemble/core'
 
 interface OtpAuthConfig extends Zemble.GlobalConfig {
   readonly twoFactorCodeExpiryInSeconds?: number
@@ -57,11 +57,11 @@ interface OtpAuthConfig extends Zemble.GlobalConfig {
 
   readonly handleEmailAuthRequest?: (email: IEmail, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
   readonly handleSmsAuthRequest?: (phoneNum: E164PhoneNumber, twoFactorCode: string, context: Zemble.GlobalContext) => Promise<void> | void
-  readonly generateTokenContents: ({ email, phoneNumber }: GenerateTokenContentArgs) => Promise<Omit<Zemble.OtpToken, 'iat'>> | Omit<Zemble.OtpToken, 'iat'>
+  readonly generateTokenContents: ({ email, phoneNumber, decodedToken }: GenerateTokenContentArgs) => Promise<Omit<Zemble.OtpToken, 'iat'>> | Omit<Zemble.OtpToken, 'iat'>
 }
 
 export interface DefaultOtpToken {
-  // readonly type: 'AuthOtp',
+  readonly type: 'AuthOtp',
   readonly email?: string,
   readonly phoneNumber?: string,
   readonly sub: string
@@ -79,12 +79,14 @@ declare global {
   }
 }
 
-type GenerateTokenContentArgs = {readonly email?: string, readonly phoneNumber?: string}
+type GenerateTokenContentArgs = ({readonly email?: string, readonly phoneNumber?: string, readonly decodedToken?: TokenContents})
 
 function generateTokenContents({ email, phoneNumber }: GenerateTokenContentArgs): Zemble.OtpToken {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - this is a default implementation
-  return { email, phoneNumber, type: 'AuthOtp' as const }
+  return {
+    email, phoneNumber, type: 'AuthOtp',
+  }
 }
 
 const defaultConfig = {

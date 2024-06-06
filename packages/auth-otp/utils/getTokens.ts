@@ -6,7 +6,7 @@ import { signJwt } from '@zemble/auth/utils/signJwt'
 import { loginRequestKeyValue } from '../clients/loginRequestKeyValue'
 import plugin from '../plugin'
 
-const getTokens = async (code: string, emailOrPhoneNumber: string, honoContext: Zemble.RouteContext, signInMethod: 'email' | 'sms') => {
+const getTokens = async (code: string, emailOrPhoneNumber: string, { decodedToken, honoContext }: Zemble.GraphQLContext, signInMethod: 'email' | 'sms') => {
   if (code.length !== 6) {
     return { __typename: 'CodeNotValidError' as const, message: 'Code should be 6 characters' }
   }
@@ -23,7 +23,7 @@ const getTokens = async (code: string, emailOrPhoneNumber: string, honoContext: 
 
   const generateTokenContentsArgs = signInMethod === 'email' ? { email: emailOrPhoneNumber } : { phoneNumber: emailOrPhoneNumber }
 
-  const { sub, ...data } = await plugin.config.generateTokenContents(generateTokenContentsArgs)
+  const { sub, ...data } = await plugin.config.generateTokenContents({ ...generateTokenContentsArgs, decodedToken })
 
   const bearerToken = await signJwt({
     data,
