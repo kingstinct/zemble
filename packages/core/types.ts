@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import type { Plugin } from '.'
+import type { InitializeProvider, Plugin } from '.'
+import type { JSON } from '@zemble/utils/JSON'
 import type { WebSocketHandler } from 'bun'
 import type { PromiseOrValue } from 'graphql/jsutils/PromiseOrValue'
 import type { PubSub } from 'graphql-yoga'
@@ -61,42 +62,91 @@ export interface IStandardLogger extends pino.BaseLogger {
 }
 
 export interface PushMessage {
-  readonly data?: Record<string, unknown>;
+  readonly data?: Record<string, JSON>;
   readonly title?: string;
   readonly subtitle?: string;
   readonly body?: string;
-  readonly sound?: 'default' | null | {
+  readonly sound?: {
     readonly critical?: boolean;
-    readonly name?: 'default' | null;
+    readonly name?: 'default' | string;
     readonly volume?: number;
   };
   readonly ttl?: number;
-  readonly expiration?: number;
-  readonly priority?: 'default' | 'normal' | 'high';
+  // readonly expiration?: number;
+  readonly priority?: 'normal' | 'high';
   readonly badge?: number;
   readonly channelId?: string;
   readonly categoryId?: string;
   readonly mutableContent?: boolean;
+
+  // not supported by expo
+  readonly threadId?: string;
+  readonly bodyLocalizationKey?: string;
+  readonly bodyLocalizationArgs?: readonly string[];
+  readonly titleLocalizationKey?: string;
+  readonly titleLocalizationArgs?: readonly string[];
+  readonly subtitleLocalizationKey?: string;
+  readonly subtitleLocalizationArgs?: readonly string[];
+  readonly launchImageName?: string;
 }
 
-export type PushTokenWithMessage = {
-  readonly pushToken: PushTokenWithMetadata
-  readonly message: PushMessage
+export type PushTokenWithContents<TPush> = {
+  readonly pushToken: TPush
+  readonly contents: PushMessage | LiveActivityPushProps | Record<string, JSON>
 }
 
-export type PushTokenWithMessageAndTicket = PushTokenWithMessage & { readonly ticketId: string }
+export type PushTokenWithContentsAndTicket<TPush> = PushTokenWithContents<TPush> & { readonly ticketId: string }
 
-export interface SendPushResponse {
-  readonly failedSendsToRemoveTokensFor: readonly PushTokenWithMetadata[]
-  readonly failedSendsOthers: readonly PushTokenWithMessage[]
-  readonly successfulSends: readonly PushTokenWithMessageAndTicket[]
+export type PushTokenWithContentsAndTicketAndLiveActivityId<TPush> = PushTokenWithContents<TPush> & { readonly ticketId: string, readonly liveActivityId: string }
+
+export type PushTokenWithContentsAndFailedReason<TPush> = PushTokenWithContents<TPush> & { readonly failedReason: string }
+
+export interface SendPushResponse<TPush, TSuccess = PushTokenWithContentsAndTicket<TPush>> {
+  readonly failedSendsToRemoveTokensFor: readonly TPush[]
+  readonly failedSendsOthers: readonly PushTokenWithContentsAndFailedReason<TPush>[]
+  readonly successfulSends: readonly TSuccess[]
 }
 
-export type SendPushProvider = (pushTokens: readonly PushTokenWithMetadata[], message: PushMessage) => PromiseOrValue<SendPushResponse>
+export type LiveActivityPushProps = {
+  readonly relevanceScore?: number
+  readonly staleDate?: Date
+  readonly contentState: Record<string, JSON>
+  readonly timestamp?: Date
+  readonly event: 'end' | 'update' // 'start' is separate since it's a different flow
+  readonly dismissalDate?: Date
+  readonly attributesType: string
+  readonly attributes?: Record<string, JSON>
+  // readonly attributes?: Record<string, JSON>
+}
+
+export type SendPushProvider = (
+  pushTokens: readonly PushTokenWithMetadata[],
+  message: PushMessage
+) => PromiseOrValue<SendPushResponse<PushTokenWithMetadata>>
+export type SendSilentPushProvider = (
+  pushTokens: readonly PushTokenWithMetadata[],
+  data: Record<string, JSON>
+) => PromiseOrValue<SendPushResponse<PushTokenWithMetadata>>
+export type SendStartLiveActivityPushProvider<TPush = PushTokenForStartingLiveActivityWithMetadata> = (
+  pushTokens: readonly TPush[],
+  liveActivity: Omit<LiveActivityPushProps, 'event'> & PushMessage
+) => PromiseOrValue<SendPushResponse<TPush>>
+export type SendUpdateLiveActivityPushProvider<TPush = PushTokenForUpdatingLiveActivityWithMetadata> = (
+  pushTokens: readonly TPush[],
+  liveActivity: Omit<LiveActivityPushProps, 'attributesType' | 'attributes'>
+) => PromiseOrValue<SendPushResponse<TPush>>
 
 declare global {
   namespace Zemble {
     interface HonoVariables extends Record<string, unknown> {
+
+    }
+
+    interface PushTokenStartLiveActivityRegistry {
+
+    }
+
+    interface PushTokenUpdateLiveActivityRegistry {
 
     }
 
@@ -219,6 +269,8 @@ export interface BaseToken extends JWTPayload
 
 export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & BaseToken | BaseToken
 export type PushTokenWithMetadata = Zemble.PushTokenRegistry[keyof Zemble.PushTokenRegistry]
+export type PushTokenForStartingLiveActivityWithMetadata = Zemble.PushTokenStartLiveActivityRegistry[keyof Zemble.PushTokenStartLiveActivityRegistry]
+export type PushTokenForUpdatingLiveActivityWithMetadata = Zemble.PushTokenUpdateLiveActivityRegistry[keyof Zemble.PushTokenUpdateLiveActivityRegistry]
 
 export type Dependency = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -253,6 +305,10 @@ export type PluginOpts<
   readonly dependencies?: DependenciesResolver<TSelf>
 
   readonly additionalConfigWhenRunningLocally?: Partial<TConfig>,
+  readonly providers?: Partial<{
+    // @ts-expect-error fix later
+    readonly [key in keyof Zemble.Providers]: InitializeProvider<Zemble.Providers[key], unknown>
+  }>
 
   readonly name?: string,
   readonly version?: string,

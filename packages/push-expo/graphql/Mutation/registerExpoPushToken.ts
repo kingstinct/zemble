@@ -5,8 +5,7 @@ import type { MutationResolvers } from '../schema.generated'
 const registerExpoPushToken: MutationResolvers['registerExpoPushToken'] = async (_, { platform, pushToken }, { decodedToken }) => {
   const pushTokenWithMetadata: Zemble.ExpoPushTokenWithMetadata = {
     type: 'EXPO',
-    platforms: [platform],
-    createdAt: new Date(),
+    platform,
     pushToken,
   }
 

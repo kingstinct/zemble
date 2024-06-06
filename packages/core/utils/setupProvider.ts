@@ -6,6 +6,11 @@
 
 import type { Plugin } from '..'
 
+export type InitializeProvider<T, TMiddlewareKey extends keyof Zemble.MiddlewareConfig> = (
+  forSpecificPlugin: Zemble.MiddlewareConfig[TMiddlewareKey] | undefined,
+  plugin: Plugin | undefined
+) => Promise<T> | T
+
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
 export type SetupProviderArgs<
@@ -14,7 +19,7 @@ export type SetupProviderArgs<
   TMiddlewareKey extends keyof Zemble.MiddlewareConfig
 > = {
   readonly app: Pick<Zemble.App, 'providers' | 'plugins' | 'multiProviders'>,
-  readonly initializeProvider: (forSpecificPlugin: Zemble.MiddlewareConfig[TMiddlewareKey] | undefined, plugin: Plugin | undefined) => Promise<T> | T,
+  readonly initializeProvider: InitializeProvider<T, TMiddlewareKey>,
   readonly providerKey: Key,
   readonly middlewareKey: TMiddlewareKey
   readonly alwaysCreateForEveryPlugin?: boolean

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import '@zemble/core'
-import type { GraphQLResolveInfo } from 'graphql';
+import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -16,32 +16,74 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSONObject: { input: any; output: any; }
 };
 
-export enum ExpoPushPlatform {
-  Android = 'android',
+export enum ApplePushPlatform {
   Ios = 'ios',
-  Web = 'web'
+  Ipados = 'ipados',
+  Macos = 'macos',
+  Watchos = 'watchos'
 }
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
-  readonly randomNumber: Scalars['Int']['output'];
-  readonly registerExpoPushToken: Scalars['Boolean']['output'];
+  readonly registerApplePushToken: Scalars['Boolean']['output'];
+  readonly registerAppleStartLiveActivityPushToken: Scalars['Boolean']['output'];
+  readonly registerAppleUpdateLiveActivityPushToken: Scalars['Boolean']['output'];
   readonly sendPushNotification: Scalars['Boolean']['output'];
+  readonly sendSilentPushNotification: Scalars['Boolean']['output'];
+  readonly startLiveActivity: StartLiveActivityResponse;
+  readonly updateLiveActivity: Scalars['Boolean']['output'];
 };
 
 
-export type MutationRegisterExpoPushTokenArgs = {
-  platform: ExpoPushPlatform;
-  pushToken: Scalars['String']['input'];
+export type MutationRegisterApplePushTokenArgs = {
+  appBundleId: Scalars['String']['input'];
+  platform: ApplePushPlatform;
+  token: Scalars['String']['input'];
+};
+
+
+export type MutationRegisterAppleStartLiveActivityPushTokenArgs = {
+  appBundleId: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+};
+
+
+export type MutationRegisterAppleUpdateLiveActivityPushTokenArgs = {
+  appBundleId: Scalars['String']['input'];
+  liveActivityAttributes: Scalars['JSONObject']['input'];
+  liveActivityType: Scalars['String']['input'];
+  token: Scalars['String']['input'];
 };
 
 
 export type MutationSendPushNotificationArgs = {
   body: Scalars['String']['input'];
   pushToken: Scalars['String']['input'];
-  title: Scalars['String']['input'];
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationSendSilentPushNotificationArgs = {
+  data: Scalars['JSONObject']['input'];
+  pushToken: Scalars['String']['input'];
+};
+
+
+export type MutationStartLiveActivityArgs = {
+  data: Scalars['JSONObject']['input'];
+  liveActivityType: Scalars['String']['input'];
+  pushToken: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateLiveActivityArgs = {
+  data: Scalars['JSONObject']['input'];
+  pushToken: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -49,16 +91,9 @@ export type Query = {
   readonly hello: Scalars['String']['output'];
 };
 
-export type Subscription = {
-  readonly __typename?: 'Subscription';
-  readonly countdown: Scalars['Int']['output'];
-  readonly randomNumber: Scalars['Int']['output'];
-  readonly tick: Scalars['Float']['output'];
-};
-
-
-export type SubscriptionCountdownArgs = {
-  from: Scalars['Int']['input'];
+export type StartLiveActivityResponse = {
+  readonly __typename?: 'StartLiveActivityResponse';
+  readonly liveActivityId: Scalars['ID']['output'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -133,46 +168,54 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  ApplePushPlatform: ApplePushPlatform;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  ExpoPushPlatform: ExpoPushPlatform;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  StartLiveActivityResponse: ResolverTypeWrapper<StartLiveActivityResponse>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Subscription: ResolverTypeWrapper<{}>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
-  Float: Scalars['Float']['output'];
-  Int: Scalars['Int']['output'];
+  ID: Scalars['ID']['output'];
+  JSONObject: Scalars['JSONObject']['output'];
   Mutation: {};
   Query: {};
+  StartLiveActivityResponse: StartLiveActivityResponse;
   String: Scalars['String']['output'];
-  Subscription: {};
 }>;
 
+export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject';
+}
+
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  randomNumber?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  registerExpoPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterExpoPushTokenArgs, 'platform' | 'pushToken'>>;
-  sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'pushToken' | 'title'>>;
+  registerApplePushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterApplePushTokenArgs, 'appBundleId' | 'platform' | 'token'>>;
+  registerAppleStartLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleStartLiveActivityPushTokenArgs, 'appBundleId' | 'token'>>;
+  registerAppleUpdateLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleUpdateLiveActivityPushTokenArgs, 'appBundleId' | 'liveActivityAttributes' | 'liveActivityType' | 'token'>>;
+  sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'pushToken'>>;
+  sendSilentPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendSilentPushNotificationArgs, 'data' | 'pushToken'>>;
+  startLiveActivity?: Resolver<ResolversTypes['StartLiveActivityResponse'], ParentType, ContextType, RequireFields<MutationStartLiveActivityArgs, 'data' | 'liveActivityType' | 'pushToken'>>;
+  updateLiveActivity?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateLiveActivityArgs, 'data' | 'pushToken'>>;
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 }>;
 
-export type SubscriptionResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
-  countdown?: SubscriptionResolver<ResolversTypes['Int'], "countdown", ParentType, ContextType, RequireFields<SubscriptionCountdownArgs, 'from'>>;
-  randomNumber?: SubscriptionResolver<ResolversTypes['Int'], "randomNumber", ParentType, ContextType>;
-  tick?: SubscriptionResolver<ResolversTypes['Float'], "tick", ParentType, ContextType>;
+export type StartLiveActivityResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['StartLiveActivityResponse'] = ResolversParentTypes['StartLiveActivityResponse']> = ResolversObject<{
+  liveActivityId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
+  JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  Subscription?: SubscriptionResolvers<ContextType>;
+  StartLiveActivityResponse?: StartLiveActivityResponseResolvers<ContextType>;
 }>;
 

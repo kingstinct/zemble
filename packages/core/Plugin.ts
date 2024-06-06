@@ -1,8 +1,9 @@
+import mergeDeep from '@zemble/utils/mergeDeep'
 import debug from 'debug'
 
 import { createProviderProxy } from './createProvidersProxy'
-import mergeDeep from './utils/mergeDeep'
 import { readPackageJson } from './utils/readPackageJson'
+import setupProvider, { type InitializeProvider } from './utils/setupProvider'
 import { defaultMultiProviders } from './zembleContext'
 
 import type { Middleware, PluginOpts } from './types'
@@ -34,6 +35,11 @@ export class Plugin<
   // eslint-disable-next-line functional/prefer-readonly-type
   #providerStrategies: Zemble.ProviderStrategies = {}
 
+  readonly #providers?: Partial<{
+    // @ts-expect-error fix later
+    readonly [key in keyof Zemble.Providers]: InitializeProvider<Zemble.Providers[key], unknown>
+  }>
+
   /**
    *
    * @param __dirname This should be the directory of the plugin (usually import.meta.dir), usually containing subdirectories like /routes and /graphql for automatic bootstrapping
@@ -48,6 +54,7 @@ export class Plugin<
     const deps = opts?.dependencies ?? []
     this.#middleware = opts?.middleware
     this.debug = debug(this.#pluginName)
+    this.#providers = opts?.providers
 
     const allDeps = (typeof deps === 'function') ? deps(this) : deps
 
@@ -78,8 +85,23 @@ export class Plugin<
     )
   }
 
-  get initializeMiddleware() {
-    return this.#middleware
+  async initializeMiddleware(...args: Parameters<Middleware<TResolvedConfig, Plugin>>) {
+    const providers = this.#providers
+    if (providers) {
+      Object.keys(providers).forEach((key) => {
+        const providerKey = key as keyof Zemble.Providers
+        const initializeProvider = providers[providerKey]
+        void setupProvider({
+          app: args[0].app,
+          initializeProvider: initializeProvider as never,
+          middlewareKey: this.pluginName as never,
+          providerKey,
+          alwaysCreateForEveryPlugin: false,
+        })
+      })
+    }
+
+    return this.#middleware?.(...args)
   }
 
   // eslint-disable-next-line functional/prefer-readonly-type

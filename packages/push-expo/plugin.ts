@@ -1,12 +1,19 @@
 import {
-  Plugin, setupProvider, type PushTokenWithMetadata, type SendPushProvider,
-  type PushTokenWithMessage,
-  type PushTokenWithMessageAndTicket,
+  Plugin, setupProvider,
+  type PushTokenWithMetadata,
+  type SendPushProvider,
+  type PushTokenWithContentsAndTicket,
   type TokenContents,
+  type SendPushResponse,
+  type PushTokenWithContentsAndFailedReason,
+  type SendSilentPushProvider,
+  type PushMessage,
 } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import { chunkArray } from '@zemble/utils/chunkArray'
-import { Expo } from 'expo-server-sdk'
+import { Expo, type ExpoPushMessage } from 'expo-server-sdk'
+
+import type { JSON } from '@zemble/utils/JSON'
 
 interface Config extends Zemble.GlobalConfig {
   readonly EXPO_ACCESS_TOKEN?: string
@@ -20,12 +27,12 @@ declare global {
   namespace Zemble {
     interface Providers {
       readonly sendPush: SendPushProvider
+      readonly sendSilentPush: SendSilentPushProvider
     }
 
-    type ExpoPushTokenWithMetadata = {
+    interface ExpoPushTokenWithMetadata {
       readonly type: 'EXPO',
-      readonly platforms: readonly ('ios' | 'android' | 'web')[]
-      readonly createdAt: Date
+      readonly platform: 'ios' | 'android' | 'web'
       readonly pushToken: string
     }
 
@@ -34,60 +41,53 @@ declare global {
     }
 
     interface MiddlewareConfig {
-      readonly ['@zemble/expo-push']?: undefined
+      readonly ['@zemble/push-expo']?: undefined
     }
   }
 }
 
-export const sendPush: SendPushProvider = async (pushTokens, message) => {
-  // Create a new Expo SDK client
-  // optionally providing an access token if you have enabled push security
-  const expo = new Expo({
-    accessToken: pushExpoPlugin.config.EXPO_ACCESS_TOKEN,
-    useFcmV1: pushExpoPlugin.config.useFcmV1 ?? false, // this can be set to true in order to use the FCM v1 API
-    maxConcurrentRequests: pushExpoPlugin.config.maxConcurrentRequests,
-  })
+type TokenWithSilentMessage = { readonly pushToken: Zemble.ExpoPushTokenWithMetadata, readonly contents: Record<string, JSON> }
+type TokenWithMessage = { readonly pushToken: Zemble.ExpoPushTokenWithMetadata, readonly contents: PushMessage }
 
-  const somePushTokens = pushTokens.filter((token) => token.type === 'EXPO')
+export async function processPushes<T extends TokenWithSilentMessage | TokenWithMessage>(
+  tokensWithMessages: readonly T[],
+  mapContent: (tokenWithMessage: T) => ExpoPushMessage,
+) {
+  const expo = getClient()
 
-  const tokensWithMessages: readonly PushTokenWithMessage[] = somePushTokens.map((pushToken) => ({
-    pushToken,
-    message,
-  }))
-
-  // The Expo push notification service accepts batches of notifications so
-  // that you don't need to send 1000 requests to send 1000 notifications. We
-  // recommend you batch your notifications to reduce the number of requests
-  // and to compress them (notifications with similar content will get
-  // compressed).
   const chunks = chunkArray(tokensWithMessages, Expo.pushNotificationChunkSizeLimit)
-  let successfulSends: readonly PushTokenWithMessageAndTicket[] = []
+  let successfulSends: readonly PushTokenWithContentsAndTicket<Zemble.ExpoPushTokenWithMetadata>[] = []
   let failedSendsToRemoveTokensFor: readonly PushTokenWithMetadata[] = []
-  let failedSendsOthers: readonly PushTokenWithMessage[] = []
+  let failedSendsOthers: readonly PushTokenWithContentsAndFailedReason<Zemble.ExpoPushTokenWithMetadata>[] = []
   //   const failedSendsToRetry: readonly TokenWithMessage[] = []
-
   // Send the chunks to the Expo push notification service. There are
   // different strategies you could use. A simple one is to send one chunk at a
   // time, which nicely spreads the load out over time:
   // eslint-disable-next-line no-restricted-syntax
   for (const chunk of chunks) {
     // eslint-disable-next-line no-await-in-loop
-    const ticketChunk = await expo.sendPushNotificationsAsync(chunk.map((tokenWithMessage) => ({ ...tokenWithMessage.message, to: tokenWithMessage.pushToken.pushToken })))
+    const ticketChunk = await expo.sendPushNotificationsAsync(chunk.map(mapContent))
     // eslint-disable-next-line no-loop-func
-    chunk.forEach(({ message, pushToken }, index) => {
+    chunk.forEach(({ contents, pushToken }, index) => {
       const ticket = ticketChunk[index]
       if (ticket) {
         if (ticket.status === 'error') {
           if (ticket.details?.error === 'DeviceNotRegistered') {
             failedSendsToRemoveTokensFor = [...failedSendsToRemoveTokensFor, pushToken]
           } else if (ticket.details?.error) {
-            pushExpoPlugin.providers.logger.error(`${ticket.details.error}: ${ticket.message}`, { ticket, message, pushToken })
-            failedSendsOthers = [...failedSendsOthers, { message, pushToken }]
+            pushExpoPlugin.providers.logger.error(`${ticket.details.error}: ${ticket.message}`, { ticket, contents, pushToken })
+            failedSendsOthers = [
+              ...failedSendsOthers, {
+                contents,
+                pushToken,
+                failedReason: ticket.details.error,
+              },
+            ]
           } else {
-            pushExpoPlugin.providers.logger.error(`Unknown error: ${ticket.message}`, { ticket, message, pushToken })
+            pushExpoPlugin.providers.logger.error(`Unknown error: ${ticket.message}`, { ticket, contents, pushToken })
           }
         } else {
-          successfulSends = [...successfulSends, { message, pushToken, ticketId: ticket.id }]
+          successfulSends = [...successfulSends, { contents, pushToken, ticketId: ticket.id }]
         }
       } else {
         pushExpoPlugin.providers.logger.error(`Expo ticket is undefined, something went wrong`)
@@ -99,7 +99,69 @@ export const sendPush: SendPushProvider = async (pushTokens, message) => {
     // https://docs.expo.io/push-notifications/sending-notifications/#individual-errors
   }
 
-  return { failedSendsToRemoveTokensFor, failedSendsOthers, successfulSends }
+  const response: SendPushResponse<Zemble.ExpoPushTokenWithMetadata> = { failedSendsToRemoveTokensFor, failedSendsOthers, successfulSends }
+
+  return response
+}
+
+const getClient = () => {
+  const expo = new Expo({
+    accessToken: pushExpoPlugin.config.EXPO_ACCESS_TOKEN,
+    useFcmV1: pushExpoPlugin.config.useFcmV1 ?? false, // this can be set to true in order to use the FCM v1 API
+    maxConcurrentRequests: pushExpoPlugin.config.maxConcurrentRequests,
+  })
+
+  return expo
+}
+
+export const sendSilentPush: SendSilentPushProvider = async (pushTokens, contents) => {
+  const somePushTokens = pushTokens.filter((token) => token.type === 'EXPO')
+
+  const tokensWithMessages = somePushTokens.map((pushToken) => ({
+    pushToken,
+    contents,
+  }))
+
+  const mapSilentContent = (tokenWithMessage: { readonly pushToken: Zemble.ExpoPushTokenWithMetadata, readonly contents: JSON }) => {
+    const contents = {
+      data: tokenWithMessage.contents as object,
+      to: tokenWithMessage.pushToken.pushToken,
+      // @ts-expect-error https://github.com/expo/expo/issues/13767
+      _contentAvailable: true,
+    } satisfies ExpoPushMessage
+    return ({
+      ...contents,
+      to: tokenWithMessage.pushToken.pushToken,
+    })
+  }
+
+  return processPushes(tokensWithMessages, mapSilentContent)
+}
+
+const mapContent = (tokenWithMessage: TokenWithMessage) => {
+  const contents = {
+    ...tokenWithMessage.contents,
+    sound: tokenWithMessage.contents.sound ? {
+      ...tokenWithMessage.contents.sound,
+      name: tokenWithMessage.contents.sound.name as 'default' | null | undefined, // not sure how this is dealt with IRL, quite probable that it works with any sound file (since it looks like a more or less straight mapping to APNS)
+    } : undefined,
+    to: tokenWithMessage.pushToken.pushToken,
+  } satisfies ExpoPushMessage
+  return ({
+    ...contents,
+    to: tokenWithMessage.pushToken.pushToken,
+  })
+}
+
+export const sendPush: SendPushProvider = async (pushTokens, contents) => {
+  const somePushTokens = pushTokens.filter((token) => token.type === 'EXPO')
+
+  const tokensWithMessages = somePushTokens.map((pushToken) => ({
+    pushToken,
+    contents,
+  }))
+
+  return processPushes(tokensWithMessages, mapContent)
 }
 
 const pushExpoPlugin = new Plugin<Config>(
@@ -110,7 +172,14 @@ const pushExpoPlugin = new Plugin<Config>(
         app,
         initializeProvider: () => sendPush,
         providerKey: 'sendPush',
-        middlewareKey: '@zemble/expo-push',
+        middlewareKey: '@zemble/push-expo',
+      })
+
+      await setupProvider({
+        app,
+        initializeProvider: () => sendSilentPush,
+        providerKey: 'sendSilentPush',
+        middlewareKey: '@zemble/push-expo',
       })
     },
     dependencies: [{ plugin: GraphQL }],
