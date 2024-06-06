@@ -1,5 +1,14 @@
 # @zemble/sms-twilio
 
+## 0.0.4
+
+### Patch Changes
+
+- da74085: Expose token on generate token contents
+- Updated dependencies [7456648]
+  - @zemble/core@0.1.17
+  - @zemble/graphql@0.0.50
+
 ## 0.0.3
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # minimal
 
+## 0.0.57
+
+### Patch Changes
+
+- da74085: Expose token on generate token contents
+- Updated dependencies [7456648]
+- Updated dependencies [da74085]
+  - @zemble/auth-otp@0.0.53
+  - @zemble/auth@0.0.52
+  - @zemble/bull@0.1.16
+  - @zemble/core@0.1.17
+  - @zemble/pino@0.0.18
+  - @zemble/sms-46elks@0.0.4
+  - @zemble/sms-twilio@0.0.4
+  - @zemble/bun@0.0.28
+  - @zemble/email-resend@0.0.19
+  - @zemble/graphql@0.0.50
+  - @zemble/logger-graphql@0.0.46
+  - @zemble/migrations@0.0.28
+  - @zemble/routes@0.0.29
+
 ## 0.0.56
 
 ### Patch Changes

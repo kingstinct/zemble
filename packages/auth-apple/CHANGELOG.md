@@ -1,5 +1,16 @@
 # @zemble/auth-apple
 
+## 0.0.55
+
+### Patch Changes
+
+- da74085: Expose token on generate token contents
+- Updated dependencies [7456648]
+- Updated dependencies [da74085]
+  - @zemble/auth@0.0.52
+  - @zemble/core@0.1.17
+  - @zemble/graphql@0.0.50
+
 ## 0.0.54
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @zemble/todo
 
+## 0.0.50
+
+### Patch Changes
+
+- Updated dependencies [7456648]
+- Updated dependencies [da74085]
+  - @zemble/auth-anonymous@0.0.50
+  - @zemble/auth@0.0.52
+  - @zemble/core@0.1.17
+  - @zemble/graphql@0.0.50
+  - @zemble/kv@0.0.48
+
 ## 0.0.49
 
 ### Patch Changes
