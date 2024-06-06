@@ -1,5 +1,11 @@
 # @zemble/routes
 
+## 0.0.30
+
+### Patch Changes
+
+- @zemble/core@0.1.18
+
 ## 0.0.29
 
 ### Patch Changes

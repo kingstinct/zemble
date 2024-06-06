@@ -1,5 +1,14 @@
 # @zemble/auth
 
+## 0.0.53
+
+### Patch Changes
+
+- @zemble/core@0.1.18
+- @zemble/bun@0.0.29
+- @zemble/graphql@0.0.51
+- @zemble/kv@0.0.49
+
 ## 0.0.52
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @zemble/push-expo
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [49fcd76]
+  - @zemble/utils@0.7.36
+  - @zemble/core@0.1.18
+  - @zemble/bun@0.0.29
+  - @zemble/graphql@0.0.51
+
 ## 0.0.4
 
 ### Patch Changes

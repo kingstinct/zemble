@@ -1,5 +1,16 @@
 # @zemble/cms
 
+## 0.0.58
+
+### Patch Changes
+
+- Updated dependencies [49fcd76]
+  - @zemble/utils@0.7.36
+  - @zemble/core@0.1.18
+  - @zemble/auth@0.0.53
+  - @zemble/graphql@0.0.51
+  - @zemble/mongodb@0.0.31
+
 ## 0.0.57
 
 ### Patch Changes
