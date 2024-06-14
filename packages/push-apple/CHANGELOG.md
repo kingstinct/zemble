@@ -1,5 +1,11 @@
 # @zemble/push-apple
 
+## 0.0.5
+
+### Patch Changes
+
+- 86ed7b1: Hide local/test graphql endpoints
+
 ## 0.0.4
 
 ### Patch Changes
