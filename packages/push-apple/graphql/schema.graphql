@@ -11,12 +11,6 @@ type StartLiveActivityResponse {
 }
 
 type Mutation {
-  sendPushNotification(title: String, body: String!, subtitle: String, pushToken: String!): Boolean!
-  sendSilentPushNotification(data: JSONObject!, pushToken: String!): Boolean!
-
-  updateLiveActivity(data: JSONObject!, pushToken: String!): Boolean!
-  startLiveActivity(data: JSONObject!, liveActivityType: String!, pushToken: String!): StartLiveActivityResponse!
-
   registerApplePushToken(token: String!, platform: ApplePushPlatform!, appBundleId: String!): Boolean!
   registerAppleStartLiveActivityPushToken(token: String!, appBundleId: String!): Boolean!
   registerAppleUpdateLiveActivityPushToken(
