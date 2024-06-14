@@ -1,5 +1,11 @@
 # @zemble/push-expo
 
+## 0.0.6
+
+### Patch Changes
+
+- 3227955: y
+
 ## 0.0.5
 
 ### Patch Changes
