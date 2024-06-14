@@ -26,7 +26,3 @@ type Mutation {
     liveActivityAttributes: JSONObject!
   ): Boolean!
 }
-
-type Query {
-  hello: String!
-}

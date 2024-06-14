@@ -6,5 +6,4 @@ enum ExpoPushPlatform {
 
 type Mutation {
   registerExpoPushToken(pushToken: String!, platform: ExpoPushPlatform!): Boolean!
-  sendPushNotification(pushToken: String!, title: String!, body: String!): Boolean!
 }
