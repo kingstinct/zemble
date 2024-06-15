@@ -1,5 +1,11 @@
 # @zemble/mongodb
 
+## 0.0.32
+
+### Patch Changes
+
+- 959f22a: reduce logging when running tests
+
 ## 0.0.31
 
 ### Patch Changes
