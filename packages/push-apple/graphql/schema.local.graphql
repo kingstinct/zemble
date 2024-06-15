@@ -5,7 +5,11 @@ type StartLiveActivityResponse {
 }
 
 type Mutation {
-  updateLiveActivity(data: JSONObject!, pushToken: String!): Boolean!
+  updateLiveActivity(
+    data: JSONObject!,
+    pushToken: String!,
+    liveActivityAttributes: JSONObject!
+  ): Boolean!
   startLiveActivity(data: JSONObject!, liveActivityType: String!, pushToken: String!): StartLiveActivityResponse!
 
   sendPushNotification(title: String, body: String!, subtitle: String, pushToken: String!): Boolean!

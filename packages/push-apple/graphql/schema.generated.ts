@@ -83,6 +83,7 @@ export type MutationStartLiveActivityArgs = {
 
 export type MutationUpdateLiveActivityArgs = {
   data: Scalars['JSONObject']['input'];
+  liveActivityAttributes: Scalars['JSONObject']['input'];
   pushToken: Scalars['String']['input'];
 };
 
@@ -200,7 +201,7 @@ export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType ex
   sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'pushToken'>>;
   sendSilentPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendSilentPushNotificationArgs, 'data' | 'pushToken'>>;
   startLiveActivity?: Resolver<ResolversTypes['StartLiveActivityResponse'], ParentType, ContextType, RequireFields<MutationStartLiveActivityArgs, 'data' | 'liveActivityType' | 'pushToken'>>;
-  updateLiveActivity?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateLiveActivityArgs, 'data' | 'pushToken'>>;
+  updateLiveActivity?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateLiveActivityArgs, 'data' | 'liveActivityAttributes' | 'pushToken'>>;
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
