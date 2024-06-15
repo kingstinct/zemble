@@ -1,5 +1,11 @@
 # @zemble/push-apple
 
+## 0.0.6
+
+### Patch Changes
+
+- f200832: Remove endpoints
+
 ## 0.0.5
 
 ### Patch Changes
