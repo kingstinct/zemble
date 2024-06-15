@@ -2,4 +2,4 @@
 "@zemble/push-apple": patch
 ---
 
-Remove endpoints
+Some push cleanup
