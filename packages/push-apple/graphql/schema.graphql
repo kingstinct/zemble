@@ -6,10 +6,6 @@ enum ApplePushPlatform {
   macos
 }
 
-type StartLiveActivityResponse {
-  liveActivityId: ID!
-}
-
 type Mutation {
   registerApplePushToken(token: String!, platform: ApplePushPlatform!, appBundleId: String!): Boolean!
   registerAppleStartLiveActivityPushToken(token: String!, appBundleId: String!): Boolean!

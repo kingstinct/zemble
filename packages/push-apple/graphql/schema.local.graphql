@@ -1,5 +1,9 @@
 scalar JSONObject
 
+type StartLiveActivityResponse {
+  liveActivityId: ID!
+}
+
 type Mutation {
   updateLiveActivity(data: JSONObject!, pushToken: String!): Boolean!
   startLiveActivity(data: JSONObject!, liveActivityType: String!, pushToken: String!): StartLiveActivityResponse!
