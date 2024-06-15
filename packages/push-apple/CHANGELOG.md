@@ -1,5 +1,11 @@
 # @zemble/push-apple
 
+## 0.0.7
+
+### Patch Changes
+
+- Some push cleanup
+
 ## 0.0.6
 
 ### Patch Changes
