@@ -12,4 +12,8 @@ export const readP8KeyFile = async () => {
   return fs.readFileSync(absoluteOrRelativePath, 'utf8')
 }
 
-export const readP8KeyStringOrFile = async () => plugin.config.APPLE_P8_KEY ?? readP8KeyFile()
+export const readP8KeyStringOrFile = async () => {
+  const p8 = plugin.config.APPLE_P8_KEY ?? readP8KeyFile()
+  if (!p8) throw new Error('No P8 key provided, set it with APPLE_P8_KEY or APPLE_PATH_TO_P8_KEY')
+  return p8
+}

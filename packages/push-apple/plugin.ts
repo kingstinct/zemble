@@ -209,7 +209,8 @@ const makeRequest = async (body: ApnsBody, pushToken: string, headerOptions?: He
               apnsUniqueId = headers.get('apns-unique-id') as string | undefined
 
         try {
-          const data = JSON.parse(rawBody)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const data = JSON.parse(rawBody) as any
           const reason = data.reason as APNSError['error']
           resolve({
             'rawBody': rawBody,

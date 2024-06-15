@@ -12,7 +12,6 @@ type Mutation {
   registerAppleUpdateLiveActivityPushToken(
     token: String!,
     appBundleId: String!,
-    liveActivityType: String!,
-    liveActivityAttributes: JSONObject!
+    liveActivityType: String!
   ): Boolean!
 }
