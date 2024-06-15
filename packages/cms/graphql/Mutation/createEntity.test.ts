@@ -38,7 +38,7 @@ describe('Mutation.createEntity', () => {
 
     expect(res.data?.createEntity.nameSingular).toEqual('book')
 
-    await wait(50)
+    await wait(100)
 
     const entities = await readEntities()
 
@@ -77,7 +77,7 @@ describe('Mutation.createEntity', () => {
 
     expect(res.data?.createEntity.nameSingular).toEqual('article')
 
-    await wait(50)
+    await wait(100)
 
     const entities = await readEntities()
 

@@ -17,14 +17,14 @@ describe('SuperDataLoader.performance', () => {
 
     const original = new DataLoader(async (keys: readonly string[]) => Promise.resolve(batchLoadFn(keys)))
 
-    await wait(50)
+    await wait(100)
 
     const start2 = performance.now()
     await loader.loadMany(hello)
     const end2 = performance.now()
     const superDataLoaderTime = end2 - start2
 
-    await wait(50)
+    await wait(100)
 
     const start = performance.now()
     await original.loadMany(hello)
@@ -49,14 +49,14 @@ describe('SuperDataLoader.performance', () => {
 
     const original = new DataLoader(batchLoadFn)
 
-    await wait(50)
+    await wait(100)
 
     const start2 = performance.now()
     await loader.loadMany(hello)
     const end2 = performance.now()
     const superDataLoaderTime = end2 - start2
 
-    await wait(50)
+    await wait(100)
 
     const start = performance.now()
     await original.loadMany(hello)

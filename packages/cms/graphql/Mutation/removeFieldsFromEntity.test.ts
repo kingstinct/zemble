@@ -45,7 +45,7 @@ beforeEach(async () => {
     namePlural: 'books',
   }, opts)
 
-  await wait(50)
+  await wait(100)
 })
 
 test('should remove a title field', async () => {
@@ -61,7 +61,7 @@ test('should remove a title field', async () => {
     ],
   }, opts)
 
-  await wait(50)
+  await wait(100)
 
   const { data } = await app.gqlRequest(RemoveFieldsFromEntityMutation, {
     namePlural: 'books',
@@ -79,7 +79,7 @@ test('should remove a title field', async () => {
     ],
   })
 
-  await wait(50)
+  await wait(100)
 
   const entitites = await readEntities()
 
