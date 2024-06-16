@@ -13,14 +13,14 @@ export const createClient = (redisUrl: string, options: { readonly redis?: Redis
 
   logger.info(`Connecting to Redis at ${redisUrl}`)
 
-  const redisOptions = options.redis ?? {}
+  const redisOptions = { ...options.redis }
   // eslint-disable-next-line functional/immutable-data
   delete redisOptions.keyPrefix
 
   const redis = new Redis(redisUrl, {
     maxRetriesPerRequest: null,
     enableReadyCheck: false,
-    ...options.redis,
+    ...redisOptions,
   })
   redis.setMaxListeners(30)
 
