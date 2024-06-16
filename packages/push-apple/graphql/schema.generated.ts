@@ -41,6 +41,7 @@ export type Mutation = {
 
 export type MutationRegisterApplePushTokenArgs = {
   appBundleId: Scalars['String']['input'];
+  isSandbox?: InputMaybe<Scalars['Boolean']['input']>;
   platform: ApplePushPlatform;
   token: Scalars['String']['input'];
 };
@@ -48,13 +49,14 @@ export type MutationRegisterApplePushTokenArgs = {
 
 export type MutationRegisterAppleStartLiveActivityPushTokenArgs = {
   appBundleId: Scalars['String']['input'];
+  isSandbox?: InputMaybe<Scalars['Boolean']['input']>;
   token: Scalars['String']['input'];
 };
 
 
 export type MutationRegisterAppleUpdateLiveActivityPushTokenArgs = {
   appBundleId: Scalars['String']['input'];
-  liveActivityAttributes: Scalars['JSONObject']['input'];
+  isSandbox?: InputMaybe<Scalars['Boolean']['input']>;
   liveActivityType: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
