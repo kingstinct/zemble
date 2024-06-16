@@ -1,5 +1,7 @@
 import { Queue, Worker } from 'bullmq'
 
+import plugin from './plugin'
+
 import type { IStandardLogger } from '@zemble/core'
 import type {
   Job, JobsOptions, QueueOptions, RedisOptions, RepeatOptions,
@@ -52,6 +54,7 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
     const queue = new Queue(queueName, {
       connection,
       defaultJobOptions: this.#config?.defaultJobOptions,
+      prefix: plugin.config.redisOptions?.keyPrefix,
     })
 
     // eslint-disable-next-line functional/immutable-data
