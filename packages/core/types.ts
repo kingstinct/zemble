@@ -90,18 +90,18 @@ export interface PushMessage {
   readonly launchImageName?: string;
 }
 
-export type PushTokenWithContents<TPush> = {
+export type PushTokenWithContents<TPush extends AnyPushTokenWithMetadata> = {
   readonly pushToken: TPush
   readonly contents: PushMessage | LiveActivityPushProps | Record<string, JSON>
 }
 
-export type PushTokenWithContentsAndTicket<TPush> = PushTokenWithContents<TPush> & { readonly ticketId: string }
+export type PushTokenWithContentsAndTicket<TPush extends AnyPushTokenWithMetadata> = PushTokenWithContents<TPush> & { readonly ticketId: string }
 
-export type PushTokenWithContentsAndTicketAndLiveActivityId<TPush> = PushTokenWithContents<TPush> & { readonly ticketId: string, readonly liveActivityId: string }
+export type PushTokenWithContentsAndTicketAndLiveActivityId<TPush extends AnyPushTokenWithMetadata> = PushTokenWithContents<TPush> & { readonly ticketId: string, readonly liveActivityId: string }
 
-export type PushTokenWithContentsAndFailedReason<TPush> = PushTokenWithContents<TPush> & { readonly failedReason: string }
+export type PushTokenWithContentsAndFailedReason<TPush extends AnyPushTokenWithMetadata> = PushTokenWithContents<TPush> & { readonly failedReason: string }
 
-export interface SendPushResponse<TPush, TSuccess = PushTokenWithContentsAndTicket<TPush>> {
+export interface SendPushResponse<TPush extends AnyPushTokenWithMetadata, TSuccess = PushTokenWithContentsAndTicket<TPush>> {
   readonly failedSendsToRemoveTokensFor: readonly TPush[]
   readonly failedSendsOthers: readonly PushTokenWithContentsAndFailedReason<TPush>[]
   readonly successfulSends: readonly TSuccess[]
@@ -127,11 +127,11 @@ export type SendSilentPushProvider = (
   pushTokens: readonly PushTokenWithMetadata[],
   data: Record<string, JSON>
 ) => PromiseOrValue<SendPushResponse<PushTokenWithMetadata>>
-export type SendStartLiveActivityPushProvider<TPush = PushTokenForStartingLiveActivityWithMetadata> = (
+export type SendStartLiveActivityPushProvider<TPush extends PushTokenForStartingLiveActivityWithMetadata = PushTokenForStartingLiveActivityWithMetadata> = (
   pushTokens: readonly TPush[],
   liveActivity: Omit<LiveActivityPushProps, 'event'> & PushMessage
 ) => PromiseOrValue<SendPushResponse<TPush>>
-export type SendUpdateLiveActivityPushProvider<TPush = PushTokenForUpdatingLiveActivityWithMetadata> = (
+export type SendUpdateLiveActivityPushProvider<TPush extends PushTokenForUpdatingLiveActivityWithMetadata = PushTokenForUpdatingLiveActivityWithMetadata> = (
   pushTokens: readonly TPush[],
   liveActivity: Omit<LiveActivityPushProps, 'attributesType' | 'attributes'>
 ) => PromiseOrValue<SendPushResponse<TPush>>
@@ -267,10 +267,13 @@ export interface BaseToken extends JWTPayload
   readonly sub: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & BaseToken | BaseToken
 export type PushTokenWithMetadata = Zemble.PushTokenRegistry[keyof Zemble.PushTokenRegistry]
 export type PushTokenForStartingLiveActivityWithMetadata = Zemble.PushTokenStartLiveActivityRegistry[keyof Zemble.PushTokenStartLiveActivityRegistry]
 export type PushTokenForUpdatingLiveActivityWithMetadata = Zemble.PushTokenUpdateLiveActivityRegistry[keyof Zemble.PushTokenUpdateLiveActivityRegistry]
+// eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents, @typescript-eslint/no-redundant-type-constituents
+export type AnyPushTokenWithMetadata = PushTokenWithMetadata | PushTokenForStartingLiveActivityWithMetadata | PushTokenForUpdatingLiveActivityWithMetadata
 
 export type Dependency = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

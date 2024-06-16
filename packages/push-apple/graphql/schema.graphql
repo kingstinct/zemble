@@ -7,11 +7,21 @@ enum ApplePushPlatform {
 }
 
 type Mutation {
-  registerApplePushToken(token: String!, platform: ApplePushPlatform!, appBundleId: String!): Boolean!
-  registerAppleStartLiveActivityPushToken(token: String!, appBundleId: String!): Boolean!
+  registerApplePushToken(
+    token: String!,
+    platform: ApplePushPlatform!,
+    appBundleId: String!,
+    isSandbox: Boolean
+  ): Boolean!
+  registerAppleStartLiveActivityPushToken(
+    token: String!,
+    appBundleId: String!,
+    isSandbox: Boolean
+  ): Boolean!
   registerAppleUpdateLiveActivityPushToken(
     token: String!,
     appBundleId: String!,
     liveActivityType: String!
+    isSandbox: Boolean
   ): Boolean!
 }
