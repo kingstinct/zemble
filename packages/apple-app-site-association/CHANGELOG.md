@@ -1,5 +1,12 @@
 # @zemble/apple-app-site-association
 
+## 0.0.35
+
+### Patch Changes
+
+- Updated dependencies [8c78110]
+  - @zemble/core@0.1.19
+
 ## 0.0.34
 
 ### Patch Changes
