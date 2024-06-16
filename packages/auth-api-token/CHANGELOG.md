@@ -1,5 +1,14 @@
 # @zemble/auth-api-token
 
+## 0.0.54
+
+### Patch Changes
+
+- Updated dependencies [8c78110]
+  - @zemble/core@0.1.19
+  - @zemble/auth@0.0.54
+  - @zemble/graphql@0.0.52
+
 ## 0.0.53
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @zemble/push-apple
 
+## 0.0.8
+
+### Patch Changes
+
+- 8c78110: Add isSandbox, handleExpiredPushTokens and handlePushTokenErrors
+- Updated dependencies [8c78110]
+  - @zemble/core@0.1.19
+  - @zemble/bun@0.0.30
+  - @zemble/graphql@0.0.52
+  - @zemble/routes@0.0.31
+
 ## 0.0.7
 
 ### Patch Changes
