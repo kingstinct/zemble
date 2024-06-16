@@ -1,5 +1,12 @@
 # minimal
 
+## 0.0.59
+
+### Patch Changes
+
+- Updated dependencies [4ba0288]
+  - @zemble/bull@0.1.18
+
 ## 0.0.58
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.1.18
+
+### Patch Changes
+
+- 4ba0288: Workaround keyPrefix blocker
+
 ## 0.1.17
 
 ### Patch Changes
