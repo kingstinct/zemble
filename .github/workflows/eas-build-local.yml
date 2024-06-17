@@ -17,6 +17,11 @@ on:
         description: The java version to use
         required: false
         default: "17"
+      xcode_version:
+        type: string
+        description: The xcode version to use
+        required: false
+        default: "latest-stable"
       platform:
         type: string
         description: ios or android
@@ -120,9 +125,15 @@ jobs:
 
       # as required by expo 50
       - uses: actions/setup-java@v4
+        if: ${{ inputs.platform == 'android' }}
         with:
           distribution: zulu
           java-version: ${{ inputs.java_version }}
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        if: ${{ inputs.platform == 'ios' }}
+        with:
+          xcode-version: ${{ inputs.xcode_version || 'latest-stable'}}
 
       - uses: pnpm/action-setup@v3
         if: ${{ inputs.package_manager == 'pnpm' }}
