@@ -19,7 +19,7 @@ export const mapDefaultPriority: Record<ApnsPushTypes, number> = {
 
 export const topicSuffixes: Record<ApnsPushTypes, string> = {
   alert: '',
-  background: '.background',
+  background: '',
   location: '.location-query',
   complication: '.complication',
   fileprovider: '.pushkit.fileprovider',
