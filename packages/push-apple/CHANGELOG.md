@@ -1,5 +1,11 @@
 # @zemble/push-apple
 
+## 0.0.9
+
+### Patch Changes
+
+- 01c9bbe: Push bug fixes
+
 ## 0.0.8
 
 ### Patch Changes
