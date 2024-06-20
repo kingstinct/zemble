@@ -19,7 +19,13 @@ interface Config extends Zemble.GlobalConfig {
   readonly EXPO_ACCESS_TOKEN?: string
   readonly maxConcurrentRequests?: number,
   readonly useFcmV1?: boolean
-  readonly persistPushToken: (decodedToken: TokenContents, pushTokenWithMetadata: Zemble.ExpoPushTokenWithMetadata) => Promise<void>
+  readonly persistPushToken: (decodedToken: TokenContents, pushTokenWithMetadata: ExpoPushTokenWithMetadata) => Promise<void>
+}
+
+export interface ExpoPushTokenWithMetadata {
+  readonly type: 'EXPO',
+  readonly platform: 'ios' | 'android' | 'web'
+  readonly pushToken: string
 }
 
 declare global {
@@ -28,12 +34,6 @@ declare global {
     interface Providers {
       readonly sendPush: SendPushProvider
       readonly sendSilentPush: SendSilentPushProvider
-    }
-
-    interface ExpoPushTokenWithMetadata {
-      readonly type: 'EXPO',
-      readonly platform: 'ios' | 'android' | 'web'
-      readonly pushToken: string
     }
 
     interface PushTokenRegistry {
@@ -46,8 +46,8 @@ declare global {
   }
 }
 
-type TokenWithSilentMessage = { readonly pushToken: Zemble.ExpoPushTokenWithMetadata, readonly contents: Record<string, JSON> }
-type TokenWithMessage = { readonly pushToken: Zemble.ExpoPushTokenWithMetadata, readonly contents: PushMessage }
+type TokenWithSilentMessage = { readonly pushToken: ExpoPushTokenWithMetadata, readonly contents: Record<string, JSON> }
+type TokenWithMessage = { readonly pushToken: ExpoPushTokenWithMetadata, readonly contents: PushMessage }
 
 export async function processPushes<T extends TokenWithSilentMessage | TokenWithMessage>(
   tokensWithMessages: readonly T[],
@@ -56,9 +56,9 @@ export async function processPushes<T extends TokenWithSilentMessage | TokenWith
   const expo = getClient()
 
   const chunks = chunkArray(tokensWithMessages, Expo.pushNotificationChunkSizeLimit)
-  let successfulSends: readonly PushTokenWithContentsAndTicket<Zemble.ExpoPushTokenWithMetadata>[] = []
+  let successfulSends: readonly PushTokenWithContentsAndTicket<ExpoPushTokenWithMetadata>[] = []
   let failedSendsToRemoveTokensFor: readonly PushTokenWithMetadata[] = []
-  let failedSendsOthers: readonly PushTokenWithContentsAndFailedReason<Zemble.ExpoPushTokenWithMetadata>[] = []
+  let failedSendsOthers: readonly PushTokenWithContentsAndFailedReason<ExpoPushTokenWithMetadata>[] = []
   //   const failedSendsToRetry: readonly TokenWithMessage[] = []
   // Send the chunks to the Expo push notification service. There are
   // different strategies you could use. A simple one is to send one chunk at a
@@ -99,7 +99,7 @@ export async function processPushes<T extends TokenWithSilentMessage | TokenWith
     // https://docs.expo.io/push-notifications/sending-notifications/#individual-errors
   }
 
-  const response: SendPushResponse<Zemble.ExpoPushTokenWithMetadata> = { failedSendsToRemoveTokensFor, failedSendsOthers, successfulSends }
+  const response: SendPushResponse<ExpoPushTokenWithMetadata> = { failedSendsToRemoveTokensFor, failedSendsOthers, successfulSends }
 
   return response
 }
@@ -122,7 +122,7 @@ export const sendSilentPush: SendSilentPushProvider = async (pushTokens, content
     contents,
   }))
 
-  const mapSilentContent = (tokenWithMessage: { readonly pushToken: Zemble.ExpoPushTokenWithMetadata, readonly contents: JSON }) => {
+  const mapSilentContent = (tokenWithMessage: { readonly pushToken: ExpoPushTokenWithMetadata, readonly contents: JSON }) => {
     const contents = {
       data: tokenWithMessage.contents as object,
       to: tokenWithMessage.pushToken.pushToken,
