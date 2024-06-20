@@ -1,5 +1,11 @@
 # @zemble/push-expo
 
+## 0.0.8
+
+### Patch Changes
+
+- 399b3ca: Move ExpoPushTokenWithMetadata from Zemble namespace
+
 ## 0.0.7
 
 ### Patch Changes
