@@ -80,8 +80,12 @@ async function processPushResponses<TPush extends AnyPushTokenWithMetadata>(
     successfulSends,
   }
 
-  await plugin.config.handleExpiredPushTokens(response.failedSendsToRemoveTokensFor)
-  await plugin.config.handlePushTokenErrors?.(response.failedSendsOthers)
+  if (response.failedSendsToRemoveTokensFor.length > 0) {
+    await plugin.config.handleExpiredPushTokens(response.failedSendsToRemoveTokensFor)
+  }
+  if (response.failedSendsOthers.length > 0) {
+    await plugin.config.handlePushTokenErrors?.(response.failedSendsOthers)
+  }
 
   return response
 }
