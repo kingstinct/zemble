@@ -10,7 +10,7 @@ let mongodb: MongoMemoryServer | MongoMemoryReplSet | null = null
 
 export const startInMemoryInstance = async () => {
   try {
-    const mdb = new ((await import('mongodb-memory-server')).MongoMemoryServer)()
+    const mdb = new ((await import('mongodb-memory-server')).MongoMemoryReplSet)()
     mongodb = mdb
 
     await mdb.start()
