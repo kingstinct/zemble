@@ -1,9 +1,10 @@
+import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
+import wait from '@zemble/utils/wait'
 import {
   expect, test, beforeEach, beforeAll, afterAll, afterEach,
 } from 'bun:test'
 import { ObjectId } from 'mongodb'
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import papr from '../clients/papr'
 import plugin from '../plugin'
@@ -21,7 +22,7 @@ let opts: Record<string, unknown>
 
 beforeEach(async () => {
   app = await createTestApp(plugin)
-  const token = await signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
+  const token = await signJwt({ data: { permissions: ['admin'] }, sub: '1' })
   opts = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -33,10 +34,14 @@ beforeEach(async () => {
     namePlural: 'books',
   }, opts)
 
+  await wait(100)
+
   await app.gqlRequest(CreateEntityMutation, {
     nameSingular: 'author',
     namePlural: 'authors',
   }, opts)
+
+  await wait(100)
 
   await app.gqlRequest(AddFieldsToEntityMutation, {
     namePlural: 'books',
@@ -95,7 +100,7 @@ beforeEach(async () => {
     ],
   }, opts)
 
-  await new Promise((resolve) => { setTimeout(resolve, 100) })
+  await wait(100)
 
   await app.gqlRequest(AddFieldsToEntityMutation, {
     namePlural: 'authors',
@@ -114,6 +119,8 @@ beforeEach(async () => {
       },
     ],
   }, opts)
+
+  await wait(100)
 })
 
 test('should create a book', async () => {
@@ -185,10 +192,12 @@ test('should create a book with authors', async () => {
     }
 
     // wait for schema to be updated
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await wait(100)
 
     const { data: jrr } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "J.R.R.", lastName: "Tolkien") { id, firstName, lastName } }`, {}, opts)
     const { data: christopher } = await app.gqlRequestUntyped<CreateAuthorMutationType>(`mutation CreateAuthor { createAuthor(firstName: "Christopher", lastName: "Tolkien") { id, firstName, lastName } } `, {}, opts)
+
+    await wait(100)
 
     const createBookReq = await app.gqlRequestUntyped<{readonly createBook: unknown}, unknown>(`mutation { 
       createBook(title: "Silmarillion", contributors: [
@@ -237,6 +246,8 @@ test('should create a book with authors', async () => {
       },
     })
 
+    await wait(100)
+
     const booksCollection = await papr.contentCollection('books')
 
     const books = await booksCollection.find({})
@@ -244,6 +255,8 @@ test('should create a book with authors', async () => {
     const authorsCollection = await papr.contentCollection('authors')
 
     const authors = await authorsCollection.find({})
+
+    await wait(100)
 
     expect(authors).toEqual([
       {
@@ -305,9 +318,13 @@ test('should filter on title field', async () => {
     readonly books: readonly unknown[]
   }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
 
+  await wait(100)
+
   const results = await app.gqlRequestUntyped<{
     readonly filterBooks: readonly unknown[]
   }, unknown>('query { filterBooks(title: { eq: "Lord of the rings" }) { title } }', {}, opts)
+
+  await wait(100)
 
   expect(results.data).toEqual({
     filterBooks: [
@@ -322,6 +339,8 @@ test('should get default hasKindleVersion', async () => {
   await app.gqlRequestUntyped<{
     readonly books: readonly unknown[]
   }, unknown>('mutation { createBook(title: "Lord of the rings") { title } }', {}, opts)
+
+  await wait(100)
 
   const results = await app.gqlRequestUntyped<{
     readonly searchBooks: readonly unknown[]

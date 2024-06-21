@@ -1,6 +1,6 @@
 {
-  "name": "zemble-plugin-cms-users",
-  "version": "0.0.41",
+  "name": "@zemble/cms-users",
+  "version": "0.0.60",
   "description": "@zemble Plugin for managing users in the CMS",
   "main": "plugin.ts",
   "private": true,
@@ -8,7 +8,7 @@
     "test": "bun test",
     "dev": "docker-compose up -d && bunx zemble-generate-keys && MONGO_URL=mongodb://localhost:27017/test-db REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
+    "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -38,21 +38,22 @@
     "@envelop/core": "^5.0.0",
     "@envelop/extended-validation": "^4.0.0",
     "@envelop/generic-auth": "^7.0.0",
-    "@graphql-tools/executor": "^1.2.0",
+    "@graphql-tools/executor": "^1.2.6",
+    "@zemble/auth": "workspace:*",
+    "@zemble/auth-otp": "workspace:*",
+    "@zemble/cms": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
+    "@zemble/kv": "workspace:*",
+    "@zemble/mongodb": "workspace:*",
+    "@zemble/utils": "workspace:*",
     "dataloader": "^2.2.2",
     "graphql": "^16.8.1",
-    "graphql-scalars": "^1.22.4",
-    "hono": "^3.12.12",
-    "jose": "^5.2.2",
-    "mongodb": "^6.3.0",
-    "papr": "^15.2.0",
-    "zemble-plugin-auth": "workspace:*",
-    "zemble-plugin-auth-otp": "workspace:*",
-    "zemble-plugin-cms": "workspace:*",
-    "zemble-plugin-kv": "workspace:*",
-    "@zemble/mongodb": "workspace:*"
+    "graphql-scalars": "^1.23.0",
+    "hono": "^4.2.5",
+    "jose": "^5.2.4",
+    "mongodb": "^6.5.0",
+    "papr": "^15.2.1"
   },
   "devDependencies": {
     "mongodb-memory-server": "9"

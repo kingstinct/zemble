@@ -1,3 +1,5 @@
+import { test, expect } from 'bun:test'
+
 import {
   parseEnvBoolean, parseEnvEnum, parseEnvJSON, parseEnvNumber,
 } from './parseEnv'
@@ -64,4 +66,10 @@ test('parseEnvJSON return defaultValue when null', () => {
   const result = parseEnvJSON('isSomething', { defaultish: true }, { isSomething: undefined })
 
   expect(result).toEqual({ defaultish: true })
+})
+
+test('parseEnvJSON return actual value', () => {
+  const result = parseEnvJSON<{readonly isValid: boolean}>('envVariableWithJson', { isValid: false }, { envVariableWithJson: '{ "isValid": true }' })
+
+  expect(result).toEqual({ isValid: true })
 })

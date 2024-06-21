@@ -1,8 +1,8 @@
+import LogoutButton from '@zemble/auth-expo/components/LogoutButton'
+import { ShowForAuthenticated } from '@zemble/auth-expo/components/ShowForAuthenticated'
+import { ShowForUnauthenticated } from '@zemble/auth-expo/components/ShowForUnauthenticated'
+import UrqlProvider from '@zemble/urql-expo/contexts/UrqlProvider'
 import { SafeAreaView, Text } from 'react-native'
-import LogoutButton from 'zemble-plugin-auth-expo/components/LogoutButton'
-import { ShowForAuthenticated } from 'zemble-plugin-auth-expo/components/ShowForAuthenticated'
-import { ShowForUnauthenticated } from 'zemble-plugin-auth-expo/components/ShowForUnauthenticated'
-import UrqlProvider from 'zemble-plugin-urql-expo/contexts/UrqlProvider'
 
 import LoginButton from './components/LoginButton'
 import { SimpleAnonymousAuthProvider } from './contexts/Auth'

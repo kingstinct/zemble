@@ -26,7 +26,7 @@ describe('PrivateShitWithRole', () => {
   it('Should fail without role in JWT', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { } })
+    const token = await signJwt({ data: { }, sub: '1' })
 
     const response = await app.gqlRequest(PrivateShitWithRoleQuery, {}, {
       headers: {
@@ -40,7 +40,7 @@ describe('PrivateShitWithRole', () => {
   it('Should succeed with role in JWT', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { role: 'admin' } })
+    const token = await signJwt({ data: { role: 'admin' }, sub: '1' })
 
     const response = await app.gqlRequest(PrivateShitWithRoleQuery, {}, {
       headers: {

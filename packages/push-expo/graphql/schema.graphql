@@ -1,0 +1,9 @@
+enum ExpoPushPlatform {
+  android
+  ios
+  web
+}
+
+type Mutation {
+  registerExpoPushToken(pushToken: String!, platform: ExpoPushPlatform!): Boolean!
+}

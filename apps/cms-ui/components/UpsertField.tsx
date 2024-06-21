@@ -14,9 +14,9 @@ import { useMutation } from 'urql'
 import SelectOneController from './SelectOneControl'
 import SwitchControl from './SwitchControl'
 import TextControl, { TextControlInBottomSheet } from './TextControl'
-import { graphql } from '../gql'
+import { graphql } from '../gql.generated'
 
-import type { FieldInput, FieldInputWithoutArray } from '../gql/graphql'
+import type { FieldInput, FieldInputWithoutArray } from '../gql.generated/graphql'
 import type { Entity } from '../utils/getSelectionSet'
 
 const AddFieldsToEntityMutation = graphql(`
@@ -110,15 +110,15 @@ const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField, availableEn
         rules={{ required: true }}
         buttonStyle={Styles.margin8}
       />
-      { fieldType === 'EntityRelationField' ? (
+      {fieldType === 'EntityRelationField' ? (
         <SelectOneController
           control={control}
           name='entityNamePlural'
           options={availableEntityNames}
         />
 
-      ) : null }
-      { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>) }
+      ) : null}
+      {Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>)}
 
       <Button
         onPress={onSubmit}
@@ -256,7 +256,7 @@ const UpsertField: React.FC<Props> = ({
           rules={{ required: true, pattern: /^[^-\s\d][^-\s]+$/ }}
         />
 
-        { fieldType === 'BooleanField' ? (
+        {fieldType === 'BooleanField' ? (
           <SwitchControl
             control={control}
             label='Default Value'
@@ -271,30 +271,30 @@ const UpsertField: React.FC<Props> = ({
           />
         ) : null)}
 
-        { fieldType !== 'ArrayField' ? (
+        {fieldType !== 'ArrayField' ? (
           <SwitchControl
             control={control}
             label='Required'
             name='isRequired'
           />
-        ) : null }
+        ) : null}
 
-        { fieldType === 'StringField' ? (
+        {fieldType === 'StringField' ? (
           <SwitchControl
             control={control}
             label='Searchable'
             name='isSearchable'
           />
-        ) : null }
+        ) : null}
 
-        { fieldType === 'EntityRelationField' ? (
+        {fieldType === 'EntityRelationField' ? (
           <SelectOneController
             control={control}
             name='entityNamePlural'
             options={availableEntityNames}
           />
 
-        ) : null }
+        ) : null}
 
         {
           fieldType === 'ArrayField' && watch('availableFields').length > 0 ? (
@@ -323,7 +323,7 @@ const UpsertField: React.FC<Props> = ({
 
         }
 
-        { Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>) }
+        {Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>)}
         <Button
           onPress={onSubmit}
           mode='contained'
@@ -331,7 +331,7 @@ const UpsertField: React.FC<Props> = ({
         >
           Save
         </Button>
-        { fieldNameToModify ? (
+        {fieldNameToModify ? (
           <Button
             onPress={onDelete}
             mode='outlined'
@@ -339,7 +339,7 @@ const UpsertField: React.FC<Props> = ({
           >
             Delete field
           </Button>
-        ) : null }
+        ) : null}
 
       </ScrollView>
       {
@@ -362,8 +362,8 @@ const UpsertField: React.FC<Props> = ({
                     bottomSheet.current?.collapse()
                     onChange([
                       ...value.filter((a) => {
-                        const f = Object.values(a)[0] as {readonly name: string}
-                        const f2 = Object.values(field)[0] as {readonly name: string}
+                        const f = Object.values(a)[0] as { readonly name: string }
+                        const f2 = Object.values(field)[0] as { readonly name: string }
                         return f.name !== f2.name
                       }),
                       field,

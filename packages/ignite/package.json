@@ -1,6 +1,6 @@
 {
   "name": "@zemble/ignite",
-  "version": "0.0.30",
+  "version": "0.0.51",
   "description": "@zemble Plugin that provides a basic boilerplate",
   "private": true,
   "main": "plugin.ts",
@@ -36,6 +36,6 @@
     "@zemble/core": "workspace:*",
     "@zemble/routes": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "zemble-plugin-bull": "workspace:*"
+    "@zemble/bull": "workspace:*"
   }
 }

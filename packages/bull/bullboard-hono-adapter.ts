@@ -4,7 +4,7 @@ import { Hono } from 'hono'
 import { serveStatic } from 'hono/bun'
 
 import type {
-  AppControllerRoute, AppViewRoute, BullBoardQueues, ControllerHandlerReturnType, IServerAdapter, UIConfig,
+  AppControllerRoute, AppViewRoute, BullBoardQueues, ControllerHandlerReturnType, HTTPMethod, IServerAdapter, UIConfig,
 } from '@bull-board/api/dist/typings/app'
 import type { Context, Env } from 'hono'
 
@@ -71,8 +71,10 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
 
     const router = new Hono<HonoEnv>()
     routes.forEach((route) => {
-      // @ts-expect-error hey
-      router[route.method.toString().toLowerCase()](route.route.toString(), async (c: Context) => {
+      const routeMethod = route.method.toString().toLowerCase() as HTTPMethod
+      const routePath = route.route.toString()
+
+      router[routeMethod](routePath, async (c: Context) => {
         try {
           const response = await route.handler({
             queues: this.bullBoardQueues as BullBoardQueues,

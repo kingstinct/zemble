@@ -1,5 +1,33 @@
 # create-zemble-plugin
 
+## 0.1.1
+
+### Patch Changes
+
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+
+## 0.1.0
+
+### Minor Changes
+
+- 1928354: Move in eslint package, rename graphql-codegen to codegen, other improvements.
+
+  ```
+
+  ```
+
+## 0.0.8
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+
+## 0.0.7
+
+### Patch Changes
+
+- 2393e62: Add support for local plugins
+
 ## 0.0.6
 
 ### Patch Changes

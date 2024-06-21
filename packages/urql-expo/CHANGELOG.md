@@ -1,4 +1,26 @@
-# zemble-plugin-urql-expo
+# @zemble/urql-expo
+
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [90036f2]
+  - @zemble/auth-expo@0.0.8
+
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [b7d7656]
+  - @zemble/auth-expo@0.0.7
+
+## 0.0.6
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/auth-expo@0.0.6
 
 ## 0.0.5
 
@@ -8,14 +30,14 @@
 - Fix appPlugin, remove tsconfigs from published packages
 - Updated dependencies [fa6d720]
 - Updated dependencies
-  - zemble-plugin-auth-expo@0.0.5
+  - @zemble/auth-expo@0.0.5
 
 ## 0.0.4
 
 ### Patch Changes
 
 - Updated dependencies [86d9288]
-  - zemble-plugin-auth-expo@0.0.4
+  - @zemble/auth-expo@0.0.4
 
 ## 0.0.3
 
@@ -23,7 +45,7 @@
 
 - Add @zemble/migrations, fixes across the board
 - Updated dependencies
-  - zemble-plugin-auth-expo@0.0.3
+  - @zemble/auth-expo@0.0.3
 
 ## 0.0.2
 
@@ -31,4 +53,4 @@
 
 - real deps
 - Updated dependencies
-  - zemble-plugin-auth-expo@0.0.2
+  - @zemble/auth-expo@0.0.2

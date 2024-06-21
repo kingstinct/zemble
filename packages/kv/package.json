@@ -1,12 +1,12 @@
 {
-  "name": "zemble-plugin-kv",
-  "version": "0.0.36",
+  "name": "@zemble/kv",
+  "version": "0.0.50",
   "description": "@zemble Plugin that provides a single KV interface for in-memory, Redis, and Cloudflare KV",
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
+    "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -37,14 +37,12 @@
     "@envelop/generic-auth": "^7.0.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "graphql-scalars": "^1.22.4",
-    "hono": "^3.12.12",
-    "jose": "^5.2.2",
-    "ioredis": "^5.3.2"
+    "graphql-scalars": "^1.23.0",
+    "hono": "^4.2.5",
+    "jose": "^5.2.4",
+    "ioredis": "^5.4.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240208.0",
-    "@eddeee888/gcg-typescript-resolver-files": "^0.7.2",
-    "zemble-plugin-auth-api-token": "workspace:*"
+    "@cloudflare/workers-types": "^4.20240405.0"
   }
 }

@@ -1,10 +1,12 @@
+import debug from 'debug'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 
+import { createProviderProxy } from './createProvidersProxy'
 import { Plugin } from './Plugin'
 import { readPackageJson } from './utils/readPackageJson'
-import context from './zembleContext'
+import context, { defaultMultiProviders } from './zembleContext'
 
 import type { RunBeforeServeFn } from './types'
 
@@ -13,7 +15,10 @@ const packageJson = readPackageJson()
 export type Configure = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly plugins: readonly (Plugin<any, any, any>)[],
+  readonly providerStrategies?: Zemble.ProviderStrategies
 }
+
+const debuggah = debug('@zemble/core')
 
 const logFilter = (log: string) => (log.includes('BEGIN PRIVATE KEY') || log.includes('BEGIN PUBLIC KEY') ? '<<KEY>>' : log)
 
@@ -27,7 +32,7 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
   }
 }, {})
 
-export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configure) => {
+export const createApp = async ({ plugins: pluginsBeforeResolvingDeps, providerStrategies: providerStrategiesIn }: Configure) => {
   const hono = new Hono<Zemble.HonoEnv>()
 
   // maybe this should be later - how about middleware that overrides logger?
@@ -54,7 +59,11 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
 
   const resolved = pluginsBeforeResolvingDeps.flatMap((plugin) => [...plugin.dependencies, plugin])
 
+  const providerStrategies = providerStrategiesIn ?? {}
+
   const plugins = resolved.reduce((prev, plugin) => {
+    plugin.setProviderStrategies(providerStrategies)
+
     const existingPlugin = prev.find(({ pluginName }) => pluginName === plugin.pluginName)
     if (existingPlugin) {
       if (existingPlugin !== plugin) {
@@ -77,35 +86,36 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     (plugin) => 'initializeMiddleware' in plugin,
   )
 
-  if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
-    context.logger.info(`[@zemble/core] Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
-      (p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p
-        ? ' (middleware)'
-        : ''}`,
-    ).join('\n')}`)
-  }
+  const logText = `Initializing ${packageJson.name} with ${plugins.length} plugins:\n${plugins.map(
+    (p) => `- ${p.pluginName}@${p.pluginVersion}${'initializeMiddleware' in p
+      ? ' (middleware)'
+      : ''}`,
+  ).join('\n')}`
 
-  const defaultProviders = {
-    logger: context.logger,
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    kv: context.kv.bind(context.kv),
-  } as Zemble.Providers
+  if (process.env.NODE_ENV !== 'test') {
+    context.logger.info(logText)
+  } else {
+    debuggah(logText)
+  }
 
   plugins.forEach((plugin) => {
     // eslint-disable-next-line functional/immutable-data, no-param-reassign
-    plugin.providers = { ...defaultProviders }
-    if (process.env.DEBUG) {
-      context.logger.info(`[@zemble/core] Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
-    }
+    plugin.multiProviders = defaultMultiProviders as unknown as Zemble.MultiProviders
+
+    debuggah(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
   })
 
   const appDir = process.cwd()
 
+  const multiProviders = defaultMultiProviders as unknown as Zemble.MultiProviders
+
   const preInitApp = {
     hono,
     appDir,
-    providers: defaultProviders,
+    providerStrategies,
+    providers: createProviderProxy(multiProviders, providerStrategies),
     plugins,
+    multiProviders,
     appPlugin: plugins.some((p) => p.isPluginRunLocally) ? undefined : new Plugin(appDir, {
       name: packageJson.name,
       version: packageJson.version,
@@ -156,10 +166,8 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps }: Configu
     </body>
   </html>`))
 
-  if (process.env.DEBUG) {
-    const routes = hono.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
-    context.logger.info(`[@zemble/core] Routes:\n${routes}`)
-  }
+  const routes = hono.routes.map((route) => ` - [${route.method}] ${route.path}`).join('\n')
+  debuggah(`Routes:\n${routes}`)
 
   return zembleApp
 }

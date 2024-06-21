@@ -1,4 +1,3 @@
-import memfs from 'memfs'
 import * as fs from 'node:fs'
 
 import type { EntitySchemaType } from '../types'

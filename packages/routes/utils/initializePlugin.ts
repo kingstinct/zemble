@@ -1,3 +1,4 @@
+import { stream } from 'hono/streaming'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
@@ -140,20 +141,18 @@ const initializeRoutes = async (
 
             const conentType = fileExtensionToMimeType[path.extname(route)]
 
-            return context.stream(async (stream) => {
+            context.header('X-Content-Type-Options', 'nosniff')
+            context.header('Content-Length', fileStream.readableLength.toString())
+            context.header('Transfer-Encoding', 'chunked')
+            context.header('Content-Type', conentType!)
+
+            return stream(context, async (stream) => {
               fileStream.on('data', async (data) => {
                 void stream.write(data)
               })
               fileStream.on('end', async () => {
                 await stream.close()
               })
-            }, {
-              headers: {
-                'Content-Type': conentType!,
-                'X-Content-Type-Options': 'nosniff',
-                'Content-Length': fileStream.readableLength.toString(),
-                'Transfer-Encoding': 'chunked',
-              },
             })
           })
         }

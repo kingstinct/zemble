@@ -1,11 +1,12 @@
-interface Object {
-  pipeTo<T, TOut>(this: T, mapper: (value: T) => TOut): TOut;
+declare global {
+  interface Object {
+    pipeTo<T, TOut>(this: T, mapper: (value: T) => TOut): TOut;
+  }
 }
 
 // eslint-disable-next-line functional/immutable-data, no-extend-native
 Object.defineProperty(Object.prototype, 'pipeTo', {
-  // @ts-expect-error sdfsdf
-  value(mapper) {
+  value(mapper: (value: unknown) => unknown) {
     return mapper(this)
   },
   configurable: true,

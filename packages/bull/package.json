@@ -1,12 +1,12 @@
 {
-  "name": "zemble-plugin-bull",
-  "version": "0.0.38",
+  "name": "@zemble/bull",
+  "version": "0.1.19",
   "description": "@zemble Plugin providing Bull Queue Support",
   "main": "plugin.ts",
   "scripts": {
     "dev": "docker-compose up -d && REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
+    "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -33,20 +33,21 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@bull-board/api": "^5.14.1",
+    "@bull-board/api": "^5.16.0",
+    "@types/ejs": "^3.1.5",
+    "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "bullmq": "^5.2.1",
-    "ejs": "^3.1.9",
+    "@zemble/utils": "workspace:*",
+    "bullmq": "^5.7.2",
+    "ejs": "^3.1.10",
     "graphql": "^16.8.1",
-    "graphql-scalars": "^1.22.4",
-    "hono": "^3.12.12",
-    "ioredis": "^5.3.2",
-    "safe-stable-stringify": "^2.4.3",
-    "zemble-plugin-auth": "workspace:*"
+    "graphql-scalars": "^1.23.0",
+    "hono": "^4.2.5",
+    "ioredis": "^5.4.1",
+    "safe-stable-stringify": "^2.4.3"
   },
   "devDependencies": {
-    "@types/ejs": "^3.1.5",
-    "@types/bun": "latest"
+    "@types/bun": "*"
   }
 }

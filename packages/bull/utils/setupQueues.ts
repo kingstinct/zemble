@@ -6,7 +6,7 @@ import safeStableStringify from 'safe-stable-stringify'
 import '@zemble/graphql'
 import readDir from './readDir'
 import createClient from '../clients/redis'
-import { type BullPluginConfig } from '../plugin'
+import plugin, { type BullPluginConfig } from '../plugin'
 import ZembleQueueBull from '../ZembleQueueBull'
 
 import type { IStandardLogger } from '@zemble/core'
@@ -51,10 +51,9 @@ const setupQueues = async (
   }
 
   if (hasQueues) {
-    if (process.env.NODE_ENV !== 'test' || process.env.DEBUG) {
-      logger.info('[bull-plugin] Initializing queues from ', queuePath)
-    }
-    const redisUrl = config?.redisUrl ?? process.env.REDIS_URL
+    plugin.debug('Initializing queues from ', queuePath)
+
+    const redisUrl = config?.redisUrl ?? process.env['REDIS_URL']
 
     if (redisUrl || process.env.NODE_ENV === 'test') {
       const filenames = readDir(queuePath)

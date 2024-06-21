@@ -1,5 +1,5 @@
-type Argument<T> = T extends (arg: infer U, callback: infer X) => unknown ? U : unknown;
-type Callback<T> = T extends (arg: infer U, callback: infer X) => unknown ? X : unknown;
+type Argument<T> = T extends (arg: infer U, callback: infer _) => unknown ? U : unknown;
+type Callback<T> = T extends (arg: infer _, callback: infer X) => unknown ? X : unknown;
 
 export function promisify<
   V,

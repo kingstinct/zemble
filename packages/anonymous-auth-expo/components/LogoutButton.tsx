@@ -1,1 +1,1 @@
-export * from 'zemble-plugin-auth-expo/components/LogoutButton'
+export * from '@zemble/auth-expo/components/LogoutButton'

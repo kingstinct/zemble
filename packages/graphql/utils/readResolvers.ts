@@ -1,4 +1,4 @@
-import { readdirSync } from 'node:fs'
+import { readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 import type { IStandardLogger } from '@zemble/core'
@@ -9,11 +9,17 @@ export const readResolvers = async (path: string, logger: IStandardLogger, isRun
     const erroredPaths: Record<string, unknown> = {}
 
     const resolvers = await readdirSync(path).reduce(async (prev, filename) => {
-      if (filename.includes('.test.') || filename.endsWith('.graphql') || (!isRunningLocally && filename.includes('.local.'))) {
+      if (filename.includes('.test.') || filename.includes('.generated') || filename.endsWith('.graphql') || (!isRunningLocally && filename.includes('.local.'))) {
         return prev
       }
 
       const route = join(path, filename)
+
+      const stat = statSync(route)
+
+      if (stat.isDirectory()) {
+        return prev
+      }
 
       const fileNameWithoutExtension = filename.replace('.local.', '.').replace(/\.[^/.]+$/, '')
       const routeWithoutExtension = route.replace('.local.', '.').replace(/\.[^/.]+$/, '')
@@ -24,7 +30,7 @@ export const readResolvers = async (path: string, logger: IStandardLogger, isRun
       try {
         const item = await import(route)
         resolvedPaths.add(routeWithoutExtension)
-        return { ...await prev, [fileNameWithoutExtension]: item.default }
+        return { ...await prev, [fileNameWithoutExtension]: item[fileNameWithoutExtension] || item.default }
       } catch (error) {
         // eslint-disable-next-line functional/immutable-data
         erroredPaths[route] = error

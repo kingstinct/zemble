@@ -1,8 +1,9 @@
+import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
+import wait from '@zemble/utils/wait'
 import {
   beforeEach, test, expect, beforeAll, afterAll, afterEach,
 } from 'bun:test'
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
@@ -32,7 +33,7 @@ let opts: Record<string, unknown>
 
 beforeEach(async () => {
   app = await createTestApp(plugin)
-  const token = await signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
+  const token = await signJwt({ data: { permissions: ['developer'] }, sub: '1' })
   opts = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -43,6 +44,8 @@ beforeEach(async () => {
     nameSingular: 'book',
     namePlural: 'books',
   }, opts)
+
+  await wait(100)
 })
 
 test('should remove a title field', async () => {
@@ -57,6 +60,8 @@ test('should remove a title field', async () => {
       },
     ],
   }, opts)
+
+  await wait(100)
 
   const { data } = await app.gqlRequest(RemoveFieldsFromEntityMutation, {
     namePlural: 'books',
@@ -73,6 +78,8 @@ test('should remove a title field', async () => {
       },
     ],
   })
+
+  await wait(100)
 
   const entitites = await readEntities()
 

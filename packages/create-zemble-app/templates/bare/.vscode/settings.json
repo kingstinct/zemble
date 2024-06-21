@@ -2,7 +2,7 @@
   "runOnSave.commands": [
     {
       "globMatch": "**/*.{graphql,test.ts}",
-      "command": "bun run graphql-codegen",
+      "command": "bun run codegen",
       "runIn": "terminal"
     },
   ]

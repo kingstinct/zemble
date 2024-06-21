@@ -1,4 +1,22 @@
-# zemble-plugin-auth-expo
+# @zemble/auth-expo
+
+## 0.0.8
+
+### Patch Changes
+
+- 90036f2: Strict up some types
+
+## 0.0.7
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+
+## 0.0.6
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
 
 ## 0.0.5
 

@@ -1,6 +1,6 @@
 {
   "name": "@zemble/routes",
-  "version": "0.0.19",
+  "version": "0.0.31",
   "description": "@zemble Plugin for routing and static files",
   "main": "plugin.ts",
   "scripts": {
@@ -33,6 +33,6 @@
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*",
-    "hono": "^3.12.12"
+    "hono": "^4.2.5"
   }
 }

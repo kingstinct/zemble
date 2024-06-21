@@ -1,3 +1,2 @@
 **/*.generated/**/*.ts
-**/gql/**/*.ts
 **/expo-env.d.ts

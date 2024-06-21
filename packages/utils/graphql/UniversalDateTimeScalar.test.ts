@@ -1,10 +1,13 @@
+import {
+  describe, test, beforeEach, expect,
+} from 'bun:test'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import { GraphQLError } from 'graphql/error'
 import { Kind } from 'graphql/language'
 
-import { UniversalDateTime, isValidDayjs } from './UniversalDateTimeScalar'
+import { UniversalDateTime } from './UniversalDateTimeScalar'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)

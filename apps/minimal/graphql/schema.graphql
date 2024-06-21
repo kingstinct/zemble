@@ -4,6 +4,11 @@ type Query {
 
 type Mutation {
   randomNumber: Int!
+  # sendSms(
+  #   from: String!,
+  #   to: String!,
+  #   message: String!,
+  # ): Boolean!
 }
 
 type Subscription {

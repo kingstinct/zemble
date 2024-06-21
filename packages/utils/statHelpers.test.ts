@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'bun:test'
+
 import { getStat, quantile } from './statHelpers'
 
 describe('statHelpers', () => {

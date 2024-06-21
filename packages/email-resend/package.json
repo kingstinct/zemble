@@ -1,13 +1,13 @@
 {
   "name": "@zemble/email-resend",
-  "version": "0.0.7",
+  "version": "0.0.21",
   "description": "@zemble Plugin for sending emails via Resend",
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "graphql-codegen": "graphql-codegen"
+    "codegen": "graphql-codegen"
   },
   "keywords": [
     "zemble",
@@ -41,6 +41,6 @@
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.2",
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.2.2"
+    "@graphql-codegen/client-preset": "^4.2.5"
   }
 }

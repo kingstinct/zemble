@@ -1,13 +1,13 @@
 {
-  "name": "zemble-plugin-logger-graphql",
-  "version": "0.0.34",
+  "name": "@zemble/logger-graphql",
+  "version": "0.0.48",
   "description": "@zemble Plugin for providing a GraphQL Stream of your apps logs",
   "main": "plugin.ts",
   "private": true,
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
+    "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -34,18 +34,18 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@graphql-yoga/plugin-defer-stream": "^3.1.1",
+    "@graphql-yoga/plugin-defer-stream": "^3.3.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/pino": "workspace:*",
-    "graphql-yoga": "^5.1.1",
-    "hono": "^3.12.12",
-    "pino": "^8.19.0"
+    "graphql-yoga": "^5.3.0",
+    "hono": "^4.2.5",
+    "pino": "^8.20.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/typescript": "^4.0.4",
-    "@graphql-codegen/typescript-resolvers": "^4.0.4",
-    "@urql/core": "4"
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-resolvers": "^4.0.6",
+    "@urql/core": "5"
   }
 }

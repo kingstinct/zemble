@@ -4,20 +4,20 @@
   "description": "",
   "type": "module",
   "dependencies": {
-    "@zemble/core": "latest",
-    "@zemble/bun": "latest",
-    "@zemble/routes": "latest",
-    "@zemble/graphql": "latest"
+    "@zemble/core": "workspace:*",
+    "@zemble/bun": "workspace:*",
+    "@zemble/routes": "workspace:*",
+    "@zemble/graphql": "workspace:*"
   },
   "scripts": {
     "start": "bun serve.ts",
     "test": "bun test",
     "dev": "bun --hot serve.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen"
+    "codegen": "bunx zemble-app-graphql-codegen config.ts && graphql-codegen"
   },
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "*",
     "@graphql-codegen/add": "^5.0.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
@@ -28,6 +28,6 @@
   "peerDependencies": {
     "typescript": "^5.3.3"
   },
-  "module": "app.ts",
-  "main": "app.ts"
+  "module": "serve.ts",
+  "main": "serve.ts"
 }

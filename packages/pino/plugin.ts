@@ -1,9 +1,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable functional/immutable-data */
-import { Plugin } from '@zemble/core'
+import { Plugin, setupProvider } from '@zemble/core'
+import mergeDeep from '@zemble/utils/mergeDeep'
 import pino from 'pino'
-// @ts-expect-error no types available
 // eslint-disable-next-line import/no-extraneous-dependencies
+// @ts-expect-error pino-debug does not have types
 import pinoDebug from 'pino-debug'
 
 import type pinopretty from 'pino-pretty'
@@ -11,13 +12,12 @@ import type pinopretty from 'pino-pretty'
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-    /* interface MiddlewareConfig {
-      readonly ['zemble-plugin-email-sendgrid']?: Zemble.DefaultMiddlewareConfig
-    } */
-
     interface Providers {
-      // eslint-disable-next-line functional/prefer-readonly-type
-      logger: pino.Logger
+      readonly pinoLogger: pino.Logger
+    }
+
+    interface MiddlewareConfig {
+      readonly ['@zemble/pino']?: undefined
     }
   }
 }
@@ -27,7 +27,7 @@ interface LoggerConfig extends Zemble.GlobalConfig {
 }
 
 export const defaultProdConfig = {
-  level: process.env.LOG_LEVEL ?? 'info',
+  level: process.env['LOG_LEVEL'] ?? 'info',
 } satisfies pino.LoggerOptions
 
 export const defaultDevConfig = {
@@ -40,7 +40,7 @@ export const defaultDevConfig = {
     targets: [
       {
         target: 'pino-pretty',
-        level: process.env.LOG_LEVEL ?? 'debug',
+        level: process.env['LOG_LEVEL'] ?? 'debug',
         options: {
           translateTime: 'HH:MM:ss',
           messageFormat: '{if pluginName}[{pluginName}@{pluginVersion}]{end} {if middlewarePluginName}({middlewarePluginName}@{middlewarePluginVersion}){end} {msg}',
@@ -57,7 +57,7 @@ export const defaultTestConfig = {
     ...defaultDevConfig.transport,
     targets: defaultDevConfig.transport.targets.map((target) => ({
       ...target,
-      level: process.env.LOG_LEVEL ?? 'warn',
+      level: process.env['LOG_LEVEL'] ?? 'warn',
       options: {
         ...target.options,
         colorize: false,
@@ -69,26 +69,38 @@ export const defaultTestConfig = {
 export default new Plugin<LoggerConfig>(
   import.meta.dir,
   {
-    middleware: ({
+    middleware: async ({
       app, config, context,
     }) => {
       const defaultConfig = process.env.NODE_ENV === 'production' ? defaultProdConfig
         : (process.env.NODE_ENV === 'test' ? defaultTestConfig
           : defaultDevConfig)
 
-      const logger = pino(config.logger ?? defaultConfig)
-
-      app.providers.logger = logger
+      const logger = pino(mergeDeep(defaultConfig, config.logger ?? {}))
 
       context.logger = logger
 
       pinoDebug(logger)
 
-      app.plugins.forEach((plugin) => {
-        plugin.providers.logger = logger.child({
-          pluginName: plugin.pluginName,
-          pluginVersion: plugin.pluginVersion,
-        })
+      await setupProvider({
+        app,
+        initializeProvider: (_, plugin) => logger.child({
+          pluginName: plugin?.pluginName,
+          pluginVersion: plugin?.pluginVersion,
+        }),
+        middlewareKey: '@zemble/pino',
+        providerKey: 'logger',
+        alwaysCreateForEveryPlugin: true,
+      })
+      await setupProvider({
+        app,
+        initializeProvider: (_, plugin) => logger.child({
+          pluginName: plugin?.pluginName,
+          pluginVersion: plugin?.pluginVersion,
+        }) as pino.Logger,
+        middlewareKey: '@zemble/pino',
+        providerKey: 'pinoLogger',
+        alwaysCreateForEveryPlugin: true,
       })
     },
   },

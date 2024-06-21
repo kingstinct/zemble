@@ -1,5 +1,78 @@
 # @zemble/core
 
+## 0.1.19
+
+### Patch Changes
+
+- 8c78110: Add isSandbox, handleExpiredPushTokens and handlePushTokenErrors
+
+## 0.1.18
+
+### Patch Changes
+
+- Updated dependencies [49fcd76]
+  - @zemble/utils@0.7.36
+
+## 0.1.17
+
+### Patch Changes
+
+- 7456648: Add @zemble/push-apple
+
+## 0.1.16
+
+### Patch Changes
+
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+
+## 0.1.15
+
+### Patch Changes
+
+- 03620c0: fix issue where multiple resolvers on same scalar didnt resolve
+
+## 0.1.14
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+
+## 0.1.13
+
+### Patch Changes
+
+- 23a37c5: Type fixes
+
+## 0.1.12
+
+### Patch Changes
+
+- b73d640: Type updates
+
+## 0.1.11
+
+### Patch Changes
+
+- 67e139d: Add @zemble/debug package
+
+## 0.1.10
+
+### Patch Changes
+
+- 80c3df0: Type fix
+
+## 0.1.9
+
+### Patch Changes
+
+- 9b7e7de: Add @zemble/auth-apple plugin
+
+## 0.1.8
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+
 ## 0.1.7
 
 ### Patch Changes

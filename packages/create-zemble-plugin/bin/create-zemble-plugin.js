@@ -2,7 +2,7 @@
 
 import { copy } from 'fs-extra'
 import { spawn } from 'node:child_process'
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import { readFileSync, readdirSync, writeFileSync,existsSync } from 'node:fs'
 import { join } from 'node:path'
 import {readdir,rename} from 'node:fs/promises'
 
@@ -32,9 +32,6 @@ const template = args[1] ?? defaultTemplate
 
 const dirName = import.meta.dir.replace('file://', '')
 
-const templatePath = join(dirName, '../templates', template)
-const targetDir = join(process.cwd(), name)
-
 if(!name || name === '--help' || name === '-h' || name === 'help') {
   console.log('Usage: create-zemble-plugin <name> [template]')
   const templates = readdirSync(join(dirName, '../templates'))
@@ -42,6 +39,10 @@ if(!name || name === '--help' || name === '-h' || name === 'help') {
   console.log('Available templates:\n', templates.map(t => '- ' + t + (t === defaultTemplate ? ' (default)' : '')).join('\n '))
   process.exit(0)
 }
+
+const templatePath = join(dirName, '../templates', template)
+
+const targetDir = join(process.cwd(), name)
 
 const validNpmPackageNameRegex = new RegExp('^[a-z0-9-]+$')
 
@@ -52,10 +53,40 @@ if(!validNpmPackageNameRegex.test(name)) {
 
 console.log('Creating plugin', name)
 
+const findNextPackageJsonAboveRecursive = (dir, traversalsLeft = 2) => {
+  const packageJsonPath = join(dir, 'package.json')
+
+  if(traversalsLeft === 0) {
+    return null
+  }
+
+  if(readdirSync(dir).includes('package.json')) {
+    return packageJsonPath
+  }
+
+  const parentDir = join(dir, '..')
+  if(parentDir === dir) {
+    return null
+  }
+
+  return findNextPackageJsonAboveRecursive(parentDir, traversalsLeft - 1)
+}
+
+const isInZembleMonorepo = () => {
+  const rootPackageJsonPath = findNextPackageJsonAboveRecursive(process.cwd())
+  
+  if(rootPackageJsonPath){
+    const packageJsonStr = readFileSync(rootPackageJsonPath)
+    const packageJson = JSON.parse(packageJsonStr)
+    return packageJson.name === 'zemble'
+  }
+}
+
 copy(templatePath, targetDir).then(async () => {
   const packageJsonPath = join(targetDir, 'package.json')
   if(existsSync(packageJsonPath)) {
-    const packageJson = JSON.parse(readFileSync(packageJsonPath))
+    const packageJsonStr = readFileSync(packageJsonPath)
+    const packageJson = JSON.parse(isInZembleMonorepo ? packageJsonStr : packageJsonStr.replace('"workspace:*"', '"*"'))
     packageJson.name = name
     writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n')
   }

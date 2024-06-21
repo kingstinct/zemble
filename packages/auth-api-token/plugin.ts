@@ -1,9 +1,9 @@
+import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQLYoga from '@zemble/graphql'
-import Auth from 'zemble-plugin-auth'
 
-const API_KEY_SECRET = process.env.API_KEY_SECRET ?? 'top-secret'
-const INVALIDATE_API_KEYS_IAT_BEFORE = process.env.INVALIDATE_API_KEYS_IAT_BEFORE ? parseInt(process.env.INVALIDATE_API_KEYS_IAT_BEFORE, 10) : 0
+const API_KEY_SECRET = process.env['API_KEY_SECRET'] ?? 'top-secret'
+const INVALIDATE_API_KEYS_IAT_BEFORE = process.env['INVALIDATE_API_KEYS_IAT_BEFORE'] ? parseInt(process.env['INVALIDATE_API_KEYS_IAT_BEFORE'], 10) : 0
 
 interface AuthConfig extends Zemble.GlobalConfig {
   readonly API_KEY_SECRET?: string;
@@ -17,6 +17,7 @@ declare global {
       readonly AuthApiToken: {
         readonly type: 'AuthApiToken'
         readonly isAPIKey: true
+        readonly sub: string
       }
     }
   }

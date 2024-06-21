@@ -2,6 +2,7 @@
 /* eslint-disable functional/immutable-data */
 
 import { printSchemaWithDirectives } from '@graphql-tools/utils'
+import { timing } from 'hono/timing'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
@@ -57,6 +58,8 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
   )
 
   const { hono } = app
+
+  hono.use(timing())
 
   hono.use('*', async (ctx, done) => {
     ctx.env.pubsub = pubsub

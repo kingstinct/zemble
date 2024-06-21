@@ -1,21 +1,24 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import {
-  setCookie,
-} from 'hono/cookie'
-import authPlugin from 'zemble-plugin-auth'
-import { encodeToken } from 'zemble-plugin-auth/utils/encodeToken'
+import authPlugin from '@zemble/auth'
+import { encodeToken } from '@zemble/auth/utils/encodeToken'
+import { generateRefreshToken } from '@zemble/auth/utils/generateRefreshToken'
+import { setTokenCookies } from '@zemble/auth/utils/setBearerTokenCookie'
+
+import plugin from '../../plugin'
 
 import type { MutationResolvers } from '../schema.generated'
 
-const login: MutationResolvers['login'] = async (_: unknown, { username }, { honoContext }) => {
-  const userId = Math.random().toString(36).substring(7)
-  const token = await encodeToken({ userId, username, type: 'AnonymousAuth' })
+const login: MutationResolvers['loginAnonymous'] = async (_: unknown, __, { honoContext }) => {
+  const userId = plugin.config.generateUserId(),
+        tokenData = plugin.config.generateTokenContents(userId),
+        bearerToken = await encodeToken(tokenData, userId),
+        refreshToken = await generateRefreshToken({ sub: tokenData.userId })
 
   if (authPlugin.config.cookies.isEnabled) {
-    setCookie(honoContext, authPlugin.config.cookies.name, token, authPlugin.config.cookies.opts())
+    setTokenCookies(honoContext, bearerToken, refreshToken)
   }
 
-  return { token }
+  return { bearerToken, refreshToken }
 }
 
 export default login

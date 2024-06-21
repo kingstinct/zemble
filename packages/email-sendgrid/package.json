@@ -1,13 +1,13 @@
 {
-  "name": "zemble-plugin-email-sendgrid",
-  "version": "0.0.36",
+  "name": "@zemble/email-sendgrid",
+  "version": "0.0.50",
   "description": "@zemble Plugin for sending emails via SendGrid",
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "graphql-codegen": "graphql-codegen"
+    "codegen": "graphql-codegen"
   },
   "keywords": [
     "zemble",
@@ -35,12 +35,12 @@
   "dependencies": {
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "@sendgrid/mail": "^8.1.1",
+    "@sendgrid/mail": "^8.1.3",
     "graphql": "^16.8.1"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.2",
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.2.2"
+    "@graphql-codegen/client-preset": "^4.2.5"
   }
 }

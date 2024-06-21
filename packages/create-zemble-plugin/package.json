@@ -1,6 +1,6 @@
 {
   "name": "create-zemble-plugin",
-  "version": "0.0.6",
+  "version": "0.1.1",
   "description": "CLI for creating a zemble plugin in a zap",
   "bin": "./bin/create-zemble-plugin.js",
   "type": "module",
@@ -12,10 +12,10 @@
   },
   "module": "index.ts",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "*"
   },
   "peerDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "repository": {
     "type": "git",

@@ -20,6 +20,7 @@ import createGetByIdsResolver from './getByIds'
 import createSearch from './search'
 import { fieldToOutputType, resetTypes } from './utils'
 import papr from '../clients/papr'
+import plugin from '../plugin'
 import {
   capitalize,
 } from '../utils'
@@ -198,10 +199,9 @@ export default async ({ logger }: {readonly logger: IStandardLogger}) => {
     }),
   })
 
-  if (process.env.DEBUG) {
-    const schemaStr = printSchemaWithDirectives(schema)
-    logger.debug(`\n\n------- ▼ UPDATED SCHEMA ▼ -------\n\n${schemaStr}\n\n------- ⏶ UPDATED SCHEMA ⏶ -------\n\n`)
-  }
+  const schemaStr = printSchemaWithDirectives(schema)
+
+  plugin.debug(`\n\n------- ▼ UPDATED SCHEMA ▼ -------\n\n${schemaStr}\n\n------- ⏶ UPDATED SCHEMA ⏶ -------\n\n`)
 
   if (process.env.NODE_ENV !== 'test') {
     const schemaStr = printSchemaWithDirectives(schema)

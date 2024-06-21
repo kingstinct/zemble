@@ -4,8 +4,8 @@
   "description": "",
   "type": "module",
   "dependencies": {
-    "@zemble/core": "latest",
-    "@zemble/bun": "latest"
+    "@zemble/core": "workspace:*",
+    "@zemble/bun": "workspace:*"
   },
   "scripts": {
     "start": "bun serve.ts",
@@ -14,12 +14,12 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "*",
     "@tsconfig/bun": "^1.0.1"
   },
   "peerDependencies": {
     "typescript": "^5.3.3"
   },
-  "module": "app.ts",
-  "main": "app.ts"
+  "module": "serve.ts",
+  "main": "serve.ts"
 }

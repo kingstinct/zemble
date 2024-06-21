@@ -1,6 +1,6 @@
 {
-  "name": "zemble-plugin-auth-otp",
-  "version": "0.0.37",
+  "name": "@zemble/auth-otp",
+  "version": "0.0.55",
   "description": "Zemble Plugin providing OTP authentication through email",
   "main": "plugin.ts",
   "scripts": {
@@ -8,7 +8,7 @@
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "graphql-codegen": "graphql-codegen"
+    "codegen": "graphql-codegen"
   },
   "keywords": [
     "zemble",
@@ -36,11 +36,13 @@
   "dependencies": {
     "@envelop/core": "^5.0.0",
     "@envelop/generic-auth": "^7.0.0",
+    "@whatwg-node/server-plugin-cookies": "^1.0.2",
+    "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "@whatwg-node/server-plugin-cookies": "^1.0.2",
+    "@zemble/kv": "workspace:*",
+    "@zemble/utils": "workspace:*",
     "graphql": "^16.8.1",
-    "zemble-plugin-auth": "workspace:*",
-    "zemble-plugin-kv": "workspace:*"
+    "libphonenumber-js": "^1.11.2"
   }
 }

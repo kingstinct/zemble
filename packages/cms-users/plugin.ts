@@ -1,14 +1,13 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+import authOtp from '@zemble/auth-otp'
+import cms from '@zemble/cms'
+import papr from '@zemble/cms/clients/papr'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import mongodb from '@zemble/mongodb'
-import authOtp from 'zemble-plugin-auth-otp'
-import cms from 'zemble-plugin-cms'
-import papr from 'zemble-plugin-cms/clients/papr'
 
 import { PermissionType, User, connect } from './clients/papr'
 
-import type { DependenciesResolver } from '@zemble/core'
+import type { DependenciesResolver, BaseToken } from '@zemble/core'
 
 interface CmsConfig extends Zemble.GlobalConfig {
 
@@ -21,13 +20,9 @@ const defaultConfig = {
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-    interface OtpToken {
-      readonly id: string
-      readonly type: 'cms-user'
-      readonly email: string,
+    interface OtpToken extends BaseToken {
       readonly permissions: readonly {
         readonly type: PermissionType,
-        readonly scope: string,
       }[]
     }
   }
@@ -63,20 +58,21 @@ const plugin = new Plugin(import.meta.dir,
         },
         {
           plugin: authOtp.configure({
-            from: {
+            fromEmail: {
               email: 'noreply@cmsexample.com',
             },
-            generateTokenContents: async (emailIn) => {
-              const email = emailIn.trim().toLowerCase()
-
+            generateTokenContents: async ({ email }) => {
+              if (!email) {
+                throw new Error('Email is required')
+              }
               const user = await User.findOneAndUpdate({
                 email,
               }, {
                 $setOnInsert: {
                   email,
                   permissions: await isFirstUser() ? [
-                    { type: PermissionType.MODIFY_ENTITY, scope: '*' },
-                    { type: PermissionType.USER_ADMIN, scope: '*' },
+                    { type: PermissionType.DEVELOPER },
+                    { type: PermissionType.MANAGE_USERS },
                   ] : [],
                 },
                 $set: {
@@ -92,6 +88,7 @@ const plugin = new Plugin(import.meta.dir,
                 id: user!._id.toHexString(),
                 type: 'cms-user',
                 permissions: user!.permissions,
+                sub: user!._id.toHexString(),
               }
             },
           }),

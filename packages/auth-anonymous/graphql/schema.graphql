@@ -13,16 +13,16 @@ directive @auth(
 ) on FIELD_DEFINITION
 
 type Mutation {
-  login(username: String!): LoginResponse! @auth(skip: true)
+  loginAnonymous: LoginResponse! @auth(skip: true)
 }
 
 type LoginResponse {
-  token: String! @auth(skip: true)
+  bearerToken: String! @auth(skip: true)
+  refreshToken: String! @auth(skip: true)
 }
 
 type User {
   userId: ID!
-  username: String!
 }
 
 type Query {

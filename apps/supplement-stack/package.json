@@ -1,14 +1,14 @@
 {
   "name": "supplement-stack",
-  "version": "0.0.37",
+  "version": "0.0.58",
   "description": "",
   "main": "app.ts",
   "private": true,
   "scripts": {
-    "dev": "docker-compose up -d && MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
+    "dev": "MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "graphql-codegen": "graphql-codegen"
+    "codegen": "graphql-codegen"
   },
   "keywords": [
     "zemble",
@@ -34,18 +34,20 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/generic-auth": "^7.0.0",
+    "@zemble/apple-app-site-association": "workspace:*",
+    "@zemble/auth-otp": "workspace:*",
+    "@zemble/bull": "workspace:*",
+    "@zemble/bun": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "graphql-scalars": "^1.22.4",
-    "mongodb": "^6.3.0",
-    "papr": "^15.2.0",
-    "zemble-plugin-apple-app-site-association": "workspace:*",
-    "zemble-plugin-auth-otp": "workspace:*",
-    "zemble-plugin-bull": "workspace:*",
-    "zemble-plugin-todo": "workspace:*",
-    "@zemble/bun": "workspace:*"
+    "@zemble/todo": "workspace:*",
+    "@zemble/utils": "workspace:*",
+    "graphql": "^16.8.1",
+    "graphql-scalars": "^1.23.0",
+    "mongodb": "^6.5.0",
+    "papr": "^15.2.1"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   }
 }

@@ -20,7 +20,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
-      readonly ['zemble-plugin-email-sendgrid']?: Zemble.DefaultMiddlewareConfig
+      readonly ['@zemble/email-sendgrid']?: Zemble.DefaultMiddlewareConfig
     }
 
     interface Providers {
@@ -31,7 +31,7 @@ declare global {
 }
 
 const defaultConfig = {
-  SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+  SENDGRID_API_KEY: process.env['SENDGRID_API_KEY'],
   disable: process.env.NODE_ENV === 'test',
   middleware: {
     '@zemble/graphql': {
@@ -50,12 +50,12 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
         from, to, html, text, subject, bcc, cc, replyTo,
       // eslint-disable-next-line unicorn/consistent-function-scoping
       }) => {
-        if (!plugin.config.SENDGRID_API_KEY) {
+        if (!config.SENDGRID_API_KEY) {
           logger.warn('SENDGRID_API_KEY must be set to send email, skipping')
           return false
         }
 
-        sendgrid.setApiKey(plugin.config.SENDGRID_API_KEY)
+        sendgrid.setApiKey(config.SENDGRID_API_KEY)
 
         const [response] = await sendgrid.send({
           // eslint-disable-next-line no-nested-ternary
@@ -80,7 +80,7 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
         app,
         initializeProvider,
         providerKey: 'sendEmail',
-        middlewareKey: 'zemble-plugin-email-sendgrid',
+        middlewareKey: '@zemble/email-sendgrid',
       })
     }
   },
@@ -91,7 +91,7 @@ const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta
   ],
   defaultConfig,
   additionalConfigWhenRunningLocally: {
-    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+    SENDGRID_API_KEY: process.env['SENDGRID_API_KEY'],
     middleware: {
       '@zemble/graphql': {
         disable: false,

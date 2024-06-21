@@ -1,6 +1,6 @@
 {
-  "name": "zemble-plugin-auth",
-  "version": "0.0.36",
+  "name": "@zemble/auth",
+  "version": "0.0.54",
   "description": "Zemble Plugin providing generic Auth Support",
   "main": "plugin.ts",
   "bin": {
@@ -10,7 +10,7 @@
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
+    "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -39,13 +39,14 @@
   "dependencies": {
     "@envelop/core": "^5.0.0",
     "@envelop/generic-auth": "^7.0.0",
-    "@graphql-tools/wrap": "^10.0.1",
+    "@graphql-tools/wrap": "^10.0.5",
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.1",
-    "graphql-scalars": "^1.22.4",
-    "hono": "^3.12.12",
-    "jose": "^5.2.2"
+    "graphql-scalars": "^1.23.0",
+    "hono": "^4.2.5",
+    "jose": "^5.2.4",
+    "@zemble/kv": "workspace:*"
   }
 }

@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useMutation } from 'urql'
 
-import { graphql } from '../../gql'
+import { graphql } from '../../gql.generated'
 
 import type { TextInput as TextInputNative } from 'react-native'
 
@@ -18,10 +18,10 @@ type TextInputHandles = Pick<TextInputNative, 'focus' | 'clear' | 'blur' | 'isFo
 
 export const LoginConfirmMutation = graphql(`
   mutation LoginConfirm($email: String!, $code: String!) {
-    loginConfirm(email: $email, code: $code) {
+    loginConfirmWithEmail(email: $email, code: $code) {
       __typename
       ... on LoginConfirmSuccessfulResponse {
-        accessToken
+        bearerToken
       }
       ... on Error {
         message
@@ -32,7 +32,7 @@ export const LoginConfirmMutation = graphql(`
 
 export const LoginRequestMutation = graphql(`
   mutation LoginRequest($email: String!) {
-    loginRequest(email: $email) {
+    loginRequestWithEmail(email: $email) {
       __typename
       ... on Error {
         message
@@ -55,8 +55,8 @@ const Login = () => {
   const doConfirm = useCallback(async () => {
     const { data } = await loginConfirm({ email, code })
 
-    if (data?.loginConfirm.__typename === 'LoginConfirmSuccessfulResponse') {
-      setToken(data.loginConfirm.accessToken)
+    if (data?.loginConfirmWithEmail.__typename === 'LoginConfirmSuccessfulResponse') {
+      setToken(data.loginConfirmWithEmail.bearerToken)
     }
   }, [
     email, code, loginConfirm, setToken,
@@ -66,7 +66,7 @@ const Login = () => {
 
   return (
     <SafeAreaView style={{ padding: 16, flex: 1 }}>
-      <KeyboardAwareScrollView keyboardDismissMode='interactive' keyboardShouldPersistTaps='handled' style={{ }} contentContainerStyle={{ flex: 1 }}>
+      <KeyboardAwareScrollView keyboardDismissMode='interactive' keyboardShouldPersistTaps='handled' style={{}} contentContainerStyle={{ flex: 1 }}>
         <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
           <Title>Login to CMS Admin</Title>
           <TextInput
@@ -82,7 +82,7 @@ const Login = () => {
             returnKeyType='next'
             autoFocus
           />
-          { requestData ? (
+          {requestData ? (
             <TextInput
               // @ts-expect-error sadface
               ref={txtPasswordRef}
@@ -99,7 +99,7 @@ const Login = () => {
               onSubmitEditing={doConfirm}
               returnKeyType='send'
             />
-          ) : null }
+          ) : null}
           <View style={{ flex: 1 }} />
           <Button
             onPress={doRequest}
@@ -107,9 +107,9 @@ const Login = () => {
             disabled={fetchingConfirm || fetchingRequest}
             mode={requestData ? 'text' : 'contained'}
           >
-            { requestData ? 'Request code again' : 'Continue' }
+            {requestData ? 'Request code again' : 'Continue'}
           </Button>
-          { requestData ? (
+          {requestData ? (
             <Button
               onPress={doConfirm}
               loading={fetchingConfirm}
@@ -118,7 +118,7 @@ const Login = () => {
             >
               Continue
             </Button>
-          ) : null }
+          ) : null}
           <View style={{ height: 80 }} />
         </KeyboardAvoidingView>
       </KeyboardAwareScrollView>

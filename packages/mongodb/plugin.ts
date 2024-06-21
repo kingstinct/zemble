@@ -37,7 +37,7 @@ declare global {
 }
 
 const defaultConfig = {
-  url: process.env.MONGO_URL ?? 'mongodb://localhost:27017',
+  url: process.env['MONGO_URL'] ?? 'mongodb://localhost:27017',
 } satisfies MongodbClientConfig
 
 const regexToHidePassword = /(?<=mongodb\+srv:\/\/[^:]+:)[^@]+/
@@ -48,7 +48,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
     middleware: async ({
       app, config, logger,
     }) => {
-      if (process.env.DEBUG) {
+      if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
         logger.info('Connecting to MongoDB', config.url.replace(regexToHidePassword, '***'))
       }
 
@@ -60,7 +60,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
         logger.error('MongoDB error', error)
       })
 
-      if (process.env.DEBUG || process.env.NODE_ENV !== 'test') {
+      if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
         logger.info('Connected to MongoDB')
       }
 

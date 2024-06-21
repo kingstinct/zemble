@@ -2,7 +2,7 @@
 /* eslint-disable functional/immutable-data */
 import { mergeSchemas } from '@graphql-tools/schema'
 
-import createPluginSchema from './createPluginSchema'
+import createPluginSchema, { type PluginSchema } from './createPluginSchema'
 
 import type { GraphQLMiddlewareConfig } from '../plugin'
 import type {
@@ -16,7 +16,7 @@ export const buildMergedSchema = async (
   const selfSchemas: readonly GraphQLSchemaWithContext<Zemble.GraphQLContext>[] = [
     // don't load if we're already a plugin
     ...(appPlugin
-      ? await createPluginSchema(appPlugin)
+      ? (await createPluginSchema(appPlugin)).map((p) => p.schema)
       : []),
     // eslint-disable-next-line no-nested-ternary
     ...(config.extendSchema
@@ -31,13 +31,25 @@ export const buildMergedSchema = async (
     config,
   }) => !config.middleware?.['@zemble/graphql']?.disable)
 
+  const pluginSchemas = await pluginsToAdd.reduce(async (
+    prev,
+    plugin,
+  ) => {
+    const toReturn = [
+      ...await prev,
+      ...await createPluginSchema(plugin),
+    ]
+
+    return toReturn
+  }, Promise.resolve([] as readonly PluginSchema[]))
+
   const graphQLSchemas = await pluginsToAdd.reduce(async (
     prev,
     plugin,
   ) => {
     const toReturn: readonly GraphQLSchemaWithContext<Zemble.GraphQLContext>[] = [
       ...await prev,
-      ...await createPluginSchema(plugin),
+      ...(await createPluginSchema(plugin)).map((p) => p.schema),
     ]
 
     return toReturn
@@ -46,6 +58,7 @@ export const buildMergedSchema = async (
   const mergedSchema = mergeSchemas({
     // eslint-disable-next-line functional/prefer-readonly-type
     schemas: graphQLSchemas as unknown as GraphQLSchemaWithContext<Zemble.GraphQLContext>[],
+    resolvers: pluginSchemas.map((p) => p.resolvers),
     resolverValidationOptions: {
       // requireResolversForArgs: 'warn',
     },

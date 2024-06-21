@@ -1,5 +1,37 @@
 # cms-ui
 
+## 0.0.12
+
+### Patch Changes
+
+- acdedbd: Login with phone number
+
+## 0.0.11
+
+### Patch Changes
+
+- b7d7656: Add firebase, DX improvs, minor bumps
+
+## 0.0.10
+
+### Patch Changes
+
+- 80fe6c9: Improve authorization model
+
+## 0.0.9
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+- Updated dependencies [dc07e09]
+  - @zemble/react@1.0.14
+
+## 0.0.8
+
+### Patch Changes
+
+- 9d84a4d: Logout mutation
+
 ## 0.0.7
 
 ### Patch Changes

@@ -1,13 +1,13 @@
 {
-  "name": "zemble-plugin-auth-anonymous",
-  "version": "0.0.34",
+  "name": "@zemble/auth-anonymous",
+  "version": "0.0.52",
   "description": "Zemble Plugin providing Anonymous Auth support",
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "graphql-codegen": "graphql-codegen"
+    "codegen": "graphql-codegen"
   },
   "keywords": [
     "zemble",
@@ -23,10 +23,11 @@
   "dependencies": {
     "@envelop/core": "^5.0.0",
     "@envelop/generic-auth": "^7.0.0",
+    "@whatwg-node/server-plugin-cookies": "^1.0.2",
+    "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "@whatwg-node/server-plugin-cookies": "^1.0.2",
-    "graphql": "^16.8.1",
-    "zemble-plugin-auth": "workspace:*"
+    "@zemble/utils": "workspace:*",
+    "graphql": "^16.8.1"
   }
 }

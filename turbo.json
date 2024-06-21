@@ -2,11 +2,11 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "lint": {
-      "outputMode": "errors-only",
-      "inputs": [ "**/*" ]
+      "dependsOn": [ "codegen" ],
+      "outputMode": "errors-only"
     },
     "test": {
-      "dependsOn": [ "graphql-codegen" ],
+      "dependsOn": [ "codegen" ],
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
@@ -18,7 +18,7 @@
       ]
     },
     "typecheck": {
-      "dependsOn": [ "graphql-codegen" ],
+      "dependsOn": [ "codegen" ],
       "outputMode": "errors-only",
       "inputs": [
         "**/*.ts",
@@ -29,12 +29,9 @@
         "**/package.json"
       ]
     },
-    "graphql-codegen": {
+    "codegen": {
+      "dependsOn": [ "^codegen" ],
       "outputMode": "errors-only",
-      "outputs": [
-        "**/*.generated/**/*",
-        "**/*.generated.*"
-      ],
       "inputs": [
         "**/*.graphql",
         "**/codegen.ts",

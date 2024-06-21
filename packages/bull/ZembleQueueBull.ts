@@ -1,5 +1,7 @@
 import { Queue, Worker } from 'bullmq'
 
+import plugin from './plugin'
+
 import type { IStandardLogger } from '@zemble/core'
 import type {
   Job, JobsOptions, QueueOptions, RedisOptions, RepeatOptions,
@@ -52,12 +54,13 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
     const queue = new Queue(queueName, {
       connection,
       defaultJobOptions: this.#config?.defaultJobOptions,
+      prefix: plugin.config.redisOptions?.keyPrefix,
     })
 
     // eslint-disable-next-line functional/immutable-data
     this.#queueInternal = queue
 
-    const repeatJobKey = `zemble-plugin-bull-repeat-${queue.name}`
+    const repeatJobKey = `@zemble/bull-repeat-${queue.name}`
     await queue.removeRepeatableByKey(repeatJobKey)
     if (this.#config?.repeat) {
       await queue.add(repeatJobKey, {} as DataType, {
@@ -69,6 +72,7 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
     // @ts-expect-error if this cannot be a promise I'm not sure how stuff will work
     const worker = new Worker(queueName, this.#worker, {
       connection,
+      prefix: plugin.config.redisOptions?.keyPrefix,
     })
 
     return { queue, worker }
@@ -81,6 +85,17 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   async addBulk(...args: Parameters<Queue<DataType, ReturnType>['addBulk']>) {
     return this.#queue.addBulk(...args)
   }
-}
 
+  async remove(...args: Parameters<Queue<DataType, ReturnType>['remove']>) {
+    return this.#queue.remove(...args)
+  }
+
+  async getJob(...args: Parameters<Queue<DataType, ReturnType>['getJob']>) {
+    return this.#queue.getJob(...args)
+  }
+
+  async getDelayed(...args: Parameters<Queue<DataType, ReturnType>['getDelayed']>) {
+    return this.#queue.getDelayed(...args)
+  }
+}
 export default ZembleQueueBull

@@ -4,7 +4,7 @@ import { readEntities, writeEntities } from '../../utils/fs'
 import type { EntitySchemaType } from '../../types'
 import type { MutationResolvers } from '../schema.generated'
 
-const createEntity: MutationResolvers['createEntity'] = async (_, { nameSingular: nameInput, namePlural: pluralIn, isPublishable }, { pubsub }) => {
+export const createEntity: NonNullable<MutationResolvers['createEntity']> = async (_, { nameSingular: nameInput, namePlural: pluralIn, isPublishable }, { pubsub }) => {
   const namePlural = pluralIn.trim()
 
   // just try to remove the "s" from the end of the namePlural

@@ -22,7 +22,7 @@ describe('privateShit', () => {
   it('Should succeed authentication', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { } })
+    const token = await signJwt({ data: { }, sub: '1' })
 
     const response = await app.gqlRequest(PrivateShitQuery, {}, {
       headers: {

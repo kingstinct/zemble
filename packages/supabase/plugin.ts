@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign, functional/immutable-data */
+import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import Routes from '@zemble/routes'
-import Auth from 'zemble-plugin-auth'
 
 import { createSupabaseServerClient } from './clients/createSupabaseServerClient'
 import { decodeToken } from './decodeToken'
@@ -15,8 +15,8 @@ interface SupabaseConfig extends Zemble.GlobalConfig {
 }
 
 const defaultConfig = {
-  supabaseUrl: process.env.SUPABASE_URL,
-  supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+  supabaseUrl: process.env['SUPABASE_URL'],
+  supabaseAnonKey: process.env['SUPABASE_ANON_KEY'],
 }
 
 declare global {

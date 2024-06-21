@@ -9,8 +9,8 @@
     "@zemble"
   ],
   "dependencies": {
-    "@zemble/core": "latest",
-    "@zemble/bun": "latest"
+    "@zemble/core": "workspace:*",
+    "@zemble/bun": "workspace:*"
   },
   "scripts": {
     "test": "bun test",
@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "*",
     "@tsconfig/bun": "^1.0.1"
   },
   "peerDependencies": {

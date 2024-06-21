@@ -1,12 +1,12 @@
 {
-  "name": "zemble-plugin-auth-api-token",
-  "version": "0.0.36",
+  "name": "@zemble/auth-api-token",
+  "version": "0.0.54",
   "description": "Zemble Plugin providing simple API token authentication",
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
+    "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -36,9 +36,9 @@
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.8.1",
-    "graphql-scalars": "^1.22.4",
-    "hono": "^3.12.12",
-    "jose": "^5.2.2",
-    "zemble-plugin-auth": "workspace:*"
+    "graphql-scalars": "^1.23.0",
+    "hono": "^4.2.5",
+    "jose": "^5.2.4",
+    "@zemble/auth": "workspace:*"
   }
 }

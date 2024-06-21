@@ -7,7 +7,7 @@ import type {
   MutationResolvers,
 } from '../schema.generated'
 
-const removeFieldsFromEntity: MutationResolvers['removeFieldsFromEntity'] = async (_, { namePlural, fields }, { pubsub }) => {
+export const removeFieldsFromEntity: NonNullable<MutationResolvers['removeFieldsFromEntity']> = async (_, { namePlural, fields }, { pubsub }) => {
   const entities = await readEntities()
   const entity = entities.find((entity) => entity.namePlural === namePlural)
 

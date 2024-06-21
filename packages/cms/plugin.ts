@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { OneOfInputObjectsRule, useExtendedValidation } from '@envelop/extended-validation'
+import auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
 import MongoDB from '@zemble/mongodb'
-import auth from 'zemble-plugin-auth'
 
 import papr from './clients/papr'
 import createDynamicSchema from './dynamicSchema/createDynamicSchema'

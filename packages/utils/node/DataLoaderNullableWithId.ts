@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import DataLoader from 'dataloader'
 
 import NotFoundError from './errors/NotFoundError'

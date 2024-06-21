@@ -1,6 +1,6 @@
 {
-  "name": "zemble-plugin-auth-expo",
-  "version": "0.0.5",
+  "name": "@zemble/auth-expo",
+  "version": "0.0.8",
   "main": "index.js",
   "scripts": {
     "start": "expo start",
@@ -17,9 +17,9 @@
     "react-native": "~0.72.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "@types/react": "^18.2.57",
-    "typescript": "^5.3.3"
+    "@babel/core": "^7.24.4",
+    "@types/react": "^18.2.79",
+    "typescript": "^5.4.5"
   },
   "private": true
 }

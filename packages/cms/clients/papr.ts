@@ -51,7 +51,9 @@ class PaprWrapper {
 
     if (db === undefined) throw new Error('MongoDB client not provided or initialized')
 
-    logger.info(`Registering ${papr.models.size} models...`)
+    if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
+      logger.info(`Registering ${papr.models.size} models...`)
+    }
 
     papr.initialize(db)
 

@@ -1,8 +1,9 @@
+import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
+import wait from '@zemble/utils/wait'
 import {
   beforeEach, test, expect, describe, afterEach, afterAll, beforeAll,
 } from 'bun:test'
-import { signJwt } from 'zemble-plugin-auth/utils/signJwt'
 
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
@@ -21,7 +22,7 @@ describe('Mutation.createEntity', () => {
 
   beforeEach(async () => {
     app = await createTestApp(plugin)
-    const token = await signJwt({ data: { permissions: [{ type: 'modify-entity' }] } })
+    const token = await signJwt({ data: { permissions: ['admin'] }, sub: '1' })
     opts = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -36,6 +37,8 @@ describe('Mutation.createEntity', () => {
     }, opts)
 
     expect(res.data?.createEntity.nameSingular).toEqual('book')
+
+    await wait(100)
 
     const entities = await readEntities()
 
@@ -73,6 +76,8 @@ describe('Mutation.createEntity', () => {
     }, opts)
 
     expect(res.data?.createEntity.nameSingular).toEqual('article')
+
+    await wait(100)
 
     const entities = await readEntities()
 

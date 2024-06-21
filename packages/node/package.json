@@ -1,6 +1,6 @@
 {
   "name": "@zemble/node",
-  "version": "0.0.18",
+  "version": "0.0.30",
   "description": "@zemble Plugin for Node.js runtime",
   "main": "serve.js",
   "module": "serve.mjs",
@@ -38,7 +38,7 @@
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*",
-    "@hono/node-server": "1.8.1"
+    "@hono/node-server": "1.10.0"
   },
   "devDependencies": {
     "ts-node-dev": "^2.0.0"

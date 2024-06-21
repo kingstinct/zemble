@@ -1,6 +1,6 @@
 import { capitalize } from './text'
 
-import type { GetEntityByNamePluralQuery } from '../gql/graphql'
+import type { GetEntityByNamePluralQuery } from '../gql.generated/graphql'
 
 type ArraySubFieldNameProps = {readonly entityName: string, readonly arrayFieldName: string, readonly subFieldName: string }
 

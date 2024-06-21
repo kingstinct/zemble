@@ -1,6 +1,6 @@
 {
   "name": "@zemble/core",
-  "version": "0.1.7",
+  "version": "0.1.19",
   "description": "Zemble Core Package for the Zemble Plugin System",
   "main": "index.ts",
   "scripts": {
@@ -32,12 +32,15 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@zemble/utils": "workspace:*",
+    "debug": "^4.3.4",
     "dotenv": "^16.4.5",
-    "hono": "^3.12.12",
-    "pino": "^8.19.0",
+    "hono": "^4.2.5",
+    "jose": "^5.2.4",
+    "pino": "^8.20.0",
     "pino-debug": "^2.0.0"
   },
   "devDependencies": {
-    "type-fest": "^4.10.2"
+    "type-fest": "^4.15.0"
   }
 }

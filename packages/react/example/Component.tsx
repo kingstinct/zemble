@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { createThemedStylesHook } from '..'
 import { Row, Text } from '../primitives'
 

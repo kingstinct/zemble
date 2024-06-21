@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   type LevelWithSilentOrString,
 } from 'pino'
@@ -20,26 +21,20 @@ const logFn = (levelToLog: LevelWithSilentOrString, minLevelToLog: LevelWithSile
 
   const shouldLog = severitiesInOrder.indexOf(levelToLog) <= severitiesInOrder.indexOf(minLevelToLog)
   if (shouldLog) {
-    const callFn = (Object.keys(console).includes(levelToLog) ? levelToLog : (levelToLog === 'fatal' ? 'error' : 'log'))
+    const logFn = (console[levelToLog as keyof typeof console] ?? (levelToLog === 'fatal'
+      ? console.error
+      : console.log)) as typeof console['log']
 
     if (extraData) {
       if (typeof args[0] === 'string') {
-        // @ts-expect-error fix later
-        // eslint-disable-next-line no-console
-        console[callFn](`${args[0]} ${JSON.stringify(extraData)}`, ...args.slice(1))
+        logFn(`${args[0]} ${JSON.stringify(extraData)}`, ...args.slice(1))
       } else if (typeof args[0] === 'object') {
-        // @ts-expect-error fix later
-        // eslint-disable-next-line no-console
-        console[callFn]({ ...extraData, ...args[0] }, ...args.slice(1))
+        logFn({ ...extraData, ...args[0] }, ...args.slice(1))
       } else {
-        // @ts-expect-error fix later
-        // eslint-disable-next-line no-console
-        console[callFn](JSON.stringify(extraData), ...args)
+        logFn(JSON.stringify(extraData), ...args)
       }
     } else {
-      // @ts-expect-error fix later
-    // eslint-disable-next-line no-console
-      console[callFn](...args)
+      logFn(...args)
     }
   }
 }

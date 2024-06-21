@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 // eslint-disable-next-line max-classes-per-file
-import zembleContext from './zembleContext'
-
-import type { Plugin } from '.'
+import type { InitializeProvider, Plugin } from '.'
+import type { JSON } from '@zemble/utils/JSON'
 import type { WebSocketHandler } from 'bun'
+import type { PromiseOrValue } from 'graphql/jsutils/PromiseOrValue'
 import type { PubSub } from 'graphql-yoga'
 import type {
   Hono, Context as HonoContext,
 } from 'hono'
+import type { JWTPayload } from 'jose'
 import type pino from 'pino'
 
 export interface IEmail {
@@ -162,6 +163,14 @@ export type SendEmailParams = {
 
 export type IStandardSendEmailService = (options: SendEmailParams) => Promise<boolean>
 
+export type SendSmsParams = {
+  readonly to: string,
+  readonly from: string,
+  readonly message: string,
+}
+
+export type IStandardSendSmsService = (options: SendSmsParams) => Promise<boolean>
+
 export abstract class IStandardKeyValueService<T = unknown> {
   abstract set(key: string, value: T, expireAfterSeconds?: number): Promise<void> | void
 
@@ -186,9 +195,92 @@ export interface IStandardLogger extends pino.BaseLogger {
   readonly child: (bindings: Record<string, unknown>) => IStandardLogger
 }
 
+export interface PushMessage {
+  readonly data?: Record<string, JSON>;
+  readonly title?: string;
+  readonly subtitle?: string;
+  readonly body?: string;
+  readonly sound?: {
+    readonly critical?: boolean;
+    readonly name?: 'default' | string;
+    readonly volume?: number;
+  };
+  readonly ttl?: number;
+  // readonly expiration?: number;
+  readonly priority?: 'normal' | 'high';
+  readonly badge?: number;
+  readonly channelId?: string;
+  readonly categoryId?: string;
+  readonly mutableContent?: boolean;
+
+  // not supported by expo
+  readonly threadId?: string;
+  readonly bodyLocalizationKey?: string;
+  readonly bodyLocalizationArgs?: readonly string[];
+  readonly titleLocalizationKey?: string;
+  readonly titleLocalizationArgs?: readonly string[];
+  readonly subtitleLocalizationKey?: string;
+  readonly subtitleLocalizationArgs?: readonly string[];
+  readonly launchImageName?: string;
+}
+
+export type PushTokenWithContents<TPush extends AnyPushTokenWithMetadata> = {
+  readonly pushToken: TPush
+  readonly contents: PushMessage | LiveActivityPushProps | Record<string, JSON>
+}
+
+export type PushTokenWithContentsAndTicket<TPush extends AnyPushTokenWithMetadata> = PushTokenWithContents<TPush> & { readonly ticketId: string }
+
+export type PushTokenWithContentsAndTicketAndLiveActivityId<TPush extends AnyPushTokenWithMetadata> = PushTokenWithContents<TPush> & { readonly ticketId: string, readonly liveActivityId: string }
+
+export type PushTokenWithContentsAndFailedReason<TPush extends AnyPushTokenWithMetadata> = PushTokenWithContents<TPush> & { readonly failedReason: string }
+
+export interface SendPushResponse<TPush extends AnyPushTokenWithMetadata, TSuccess = PushTokenWithContentsAndTicket<TPush>> {
+  readonly failedSendsToRemoveTokensFor: readonly TPush[]
+  readonly failedSendsOthers: readonly PushTokenWithContentsAndFailedReason<TPush>[]
+  readonly successfulSends: readonly TSuccess[]
+}
+
+export type LiveActivityPushProps = {
+  readonly relevanceScore?: number
+  readonly staleDate?: Date
+  readonly contentState: Record<string, JSON>
+  readonly timestamp?: Date
+  readonly event: 'end' | 'update' // 'start' is separate since it's a different flow
+  readonly dismissalDate?: Date
+  readonly attributesType: string
+  readonly attributes?: Record<string, JSON>
+  // readonly attributes?: Record<string, JSON>
+}
+
+export type SendPushProvider = (
+  pushTokens: readonly PushTokenWithMetadata[],
+  message: PushMessage
+) => PromiseOrValue<SendPushResponse<PushTokenWithMetadata>>
+export type SendSilentPushProvider = (
+  pushTokens: readonly PushTokenWithMetadata[],
+  data: Record<string, JSON>
+) => PromiseOrValue<SendPushResponse<PushTokenWithMetadata>>
+export type SendStartLiveActivityPushProvider<TPush extends PushTokenForStartingLiveActivityWithMetadata = PushTokenForStartingLiveActivityWithMetadata> = (
+  pushTokens: readonly TPush[],
+  liveActivity: Omit<LiveActivityPushProps, 'event'> & PushMessage
+) => PromiseOrValue<SendPushResponse<TPush>>
+export type SendUpdateLiveActivityPushProvider<TPush extends PushTokenForUpdatingLiveActivityWithMetadata = PushTokenForUpdatingLiveActivityWithMetadata> = (
+  pushTokens: readonly TPush[],
+  liveActivity: Omit<LiveActivityPushProps, 'attributesType' | 'attributes'>
+) => PromiseOrValue<SendPushResponse<TPush>>
+
 declare global {
   namespace Zemble {
     interface HonoVariables extends Record<string, unknown> {
+
+    }
+
+    interface PushTokenStartLiveActivityRegistry {
+
+    }
+
+    interface PushTokenUpdateLiveActivityRegistry {
 
     }
 
@@ -208,6 +300,8 @@ declare global {
       // eslint-disable-next-line functional/prefer-readonly-type
       sendEmail?: IStandardSendEmailService
       // eslint-disable-next-line functional/prefer-readonly-type
+      sendSms?: IStandardSendSmsService
+      // eslint-disable-next-line functional/prefer-readonly-type
       kv: <T extends Zemble.KVPrefixes[K], K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes>(prefix: K) => IStandardKeyValueService<T>
 
       // eslint-disable-next-line functional/prefer-readonly-type
@@ -225,12 +319,27 @@ declare global {
 
     }
 
+    // eslint-disable-next-line functional/prefer-readonly-type
+    type MultiProviders = {
+      // eslint-disable-next-line functional/prefer-readonly-type
+      [key in keyof Providers]: {
+        [middlewareKey in keyof MiddlewareConfig]: Providers[key]
+      }
+    }
+
+    type ProviderStrategies = Partial<Record<keyof Providers, 'last' | 'all' | 'failover' | 'round-robin'>>
+
     interface App {
       readonly hono: Hono<HonoEnv>
       readonly appDir: string
 
       // eslint-disable-next-line functional/prefer-readonly-type
       providers: Providers
+      // eslint-disable-next-line functional/prefer-readonly-type
+      multiProviders: MultiProviders
+
+      // eslint-disable-next-line functional/prefer-readonly-type
+      providerStrategies: ProviderStrategies
 
       readonly runBeforeServe: readonly RunBeforeServeFn[]
 
@@ -284,14 +393,24 @@ declare global {
       // readonly UnknownToken: Record<string, unknown>
     }
 
-    interface DecodedTokenBase {
-      readonly iat: number
-      readonly iss: string
+    interface PushTokenRegistry {
+
     }
   }
 }
 
-export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & Zemble.DecodedTokenBase
+export interface BaseToken extends JWTPayload
+{
+  readonly sub: string
+}
+
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+export type TokenContents = Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & BaseToken | BaseToken
+export type PushTokenWithMetadata = Zemble.PushTokenRegistry[keyof Zemble.PushTokenRegistry]
+export type PushTokenForStartingLiveActivityWithMetadata = Zemble.PushTokenStartLiveActivityRegistry[keyof Zemble.PushTokenStartLiveActivityRegistry]
+export type PushTokenForUpdatingLiveActivityWithMetadata = Zemble.PushTokenUpdateLiveActivityRegistry[keyof Zemble.PushTokenUpdateLiveActivityRegistry]
+// eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents, @typescript-eslint/no-redundant-type-constituents
+export type AnyPushTokenWithMetadata = PushTokenWithMetadata | PushTokenForStartingLiveActivityWithMetadata | PushTokenForUpdatingLiveActivityWithMetadata
 
 export type Dependency = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -325,7 +444,11 @@ export type PluginOpts<
    */
   readonly dependencies?: DependenciesResolver<TSelf>
 
-  readonly additionalConfigWhenRunningLocally?: TConfig,
+  readonly additionalConfigWhenRunningLocally?: Partial<TConfig>,
+  readonly providers?: Partial<{
+    // @ts-expect-error fix later
+    readonly [key in keyof Zemble.Providers]: InitializeProvider<Zemble.Providers[key], unknown>
+  }>
 
   readonly name?: string,
   readonly version?: string,
@@ -342,7 +465,7 @@ export type MiddlewareReturn = Promise<void> | void | RunBeforeServeFn | Promise
 
 export type Middleware<TMiddlewareConfig extends Zemble.GlobalConfig, PluginType extends Plugin = Plugin> = (
   opts: {
-    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers' | 'websocketHandler' | 'appPlugin' | 'plugins'>,
+    readonly app: Pick<Zemble.App, 'hono' |'appDir' |'providers' | 'websocketHandler' | 'appPlugin' | 'plugins' | 'multiProviders'>,
     readonly context: Zemble.GlobalContext
     readonly config: TMiddlewareConfig,
     readonly self: PluginType,

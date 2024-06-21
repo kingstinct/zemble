@@ -1,8 +1,9 @@
+import { createApp } from '@zemble/core'
 import {
   it, expect,
 } from 'bun:test'
 
-import appInit from '../../app'
+import config from '../../config'
 import { graphql } from '../client.generated'
 
 const randomNumberMutation = graphql(`
@@ -12,7 +13,7 @@ const randomNumberMutation = graphql(`
 `)
 
 it('Should return a number', async () => {
-  const app = await appInit
+  const app = await createApp(config)
 
   const response = await app.gqlRequest(randomNumberMutation, {})
   expect(response.data).toEqual({

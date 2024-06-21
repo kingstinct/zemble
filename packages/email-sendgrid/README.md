@@ -1,4 +1,4 @@
-# zemble-plugin-email-sendgrid
+# @zemble/email-sendgrid
 
 This package is a @zemble plugin to easily send emails using SendGrid with your app or plugin.
 

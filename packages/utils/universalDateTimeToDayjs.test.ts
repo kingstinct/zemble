@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'bun:test'
 import dayjs from 'dayjs'
 
 import { universalDateTimeToDate, universalDateTimeToDateString } from './universalDateTimeToDayjs'
@@ -20,8 +21,8 @@ describe('universalDateTimeToDayjs', () => {
   })
 
   it('convert dayjs to date', () => {
-    const day = dayjs()
     const now = new Date()
+    const day = dayjs(now)
 
     expect(universalDateTimeToDate(day)).toEqual(now)
   })

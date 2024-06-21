@@ -1,11 +1,12 @@
+import {
+  describe, it, expect, jest,
+} from 'bun:test'
+
 import debouncedAggregate from './debouncedAggregate'
 
 describe('debouncedAggregate', () => {
-  beforeEach(() => {
-
-  })
-
   it('Should work', async () => {
+    // @ts-expect-error broken bun types
     jest.useFakeTimers()
     const callback = jest.fn()
     const debouncer = debouncedAggregate(100, callback)

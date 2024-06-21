@@ -1,11 +1,12 @@
-import mergeDeep from '@zemble/core/utils/mergeDeep'
-import defaultConfig from '@zemble/graphql/codegen'
+import defaultConfig, { DEFAULT_SERVER_OUTPUT_SCHEMA_PATH, createServerOutputConfig } from '@zemble/graphql/codegen'
+import mergeDeep from '@zemble/utils/mergeDeep'
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-const config: CodegenConfig = {
+const config = {
   generates: {
-    [`./graphql/schema.generated.ts`]: {
+    [DEFAULT_SERVER_OUTPUT_SCHEMA_PATH]: {
+      ...createServerOutputConfig(),
       config: {
         mappers: {
           Ingredient: '../models#EatableDbType',
@@ -20,6 +21,6 @@ const config: CodegenConfig = {
       },
     },
   },
-}
+} satisfies CodegenConfig
 
-export default mergeDeep<CodegenConfig>(defaultConfig, config)
+export default mergeDeep(defaultConfig, config)

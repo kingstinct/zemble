@@ -1,11 +1,11 @@
-import mergeDeep from '@zemble/core/utils/mergeDeep'
-import defaultConfig, { defaultServerOutputPath } from '@zemble/graphql/codegen'
+import defaultConfig, { DEFAULT_CLIENT_OUTPUT_DIRECTORY_PATH } from '@zemble/graphql/codegen'
+import mergeDeep from '@zemble/utils/mergeDeep'
 
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-const config: CodegenConfig = {
+const config = {
   generates: {
-    [defaultServerOutputPath]: {
+    [DEFAULT_CLIENT_OUTPUT_DIRECTORY_PATH]: {
       config: {
         mappers: {
           User: '@zemble/core/types#TokenContents',
@@ -13,6 +13,6 @@ const config: CodegenConfig = {
       },
     },
   },
-}
+} satisfies CodegenConfig
 
-export default mergeDeep<CodegenConfig>(defaultConfig, config)
+export default mergeDeep(defaultConfig, config)

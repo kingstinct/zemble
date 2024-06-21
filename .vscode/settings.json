@@ -2,7 +2,7 @@
   "runOnSave.commands": [
     {
       "globMatch": "**/*.{graphql,test.ts}",
-      "command": "bun run graphql-codegen",
+      "command": "bun run codegen",
       "runIn": "terminal"
     },
     {
@@ -13,5 +13,65 @@
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.enable": false,
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never",
+    "source.fixAll.eslint": "explicit"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "editor.formatOnSave": true,
+  "cSpell.words": [
+    "bullmq",
+    "composability",
+    "dataloaders",
+    "fileprovider",
+    "liveactivity",
+    "Onesignal",
+    "papr",
+    "pino",
+    "Proxying",
+    "pucelle",
+    "pushkit",
+    "pushtotalk",
+    "SENDGRID",
+    "supabase",
+    "tldr",
+    "zemble"
+  ],
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "yaml",
+    "json",
+    "typescript",
+    "typescriptreact",
+    "JSON",
+    "graphql",
+    "jsonc"
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "yaml",
+    "json",
+    "typescript",
+    "typescriptreact",
+    "JSON",
+    "graphql",
+    "jsonc"
+  ],
 }

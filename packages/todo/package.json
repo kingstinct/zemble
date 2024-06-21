@@ -1,13 +1,13 @@
 {
-  "name": "zemble-plugin-todo",
-  "version": "0.0.34",
+  "name": "@zemble/todo",
+  "version": "0.0.52",
   "description": "@zemble Plugin for basic todos, provided mostly as an example",
   "main": "plugin.ts",
   "private": true,
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "lint": "eslint .",
-    "graphql-codegen": "graphql-codegen",
+    "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -34,14 +34,14 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@bull-board/api": "^5.14.1",
+    "@bull-board/api": "^5.16.0",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "bullmq": "^5.2.1",
+    "bullmq": "^5.7.2",
     "graphql": "^16.8.1",
-    "hono": "^3.12.12",
-    "zemble-plugin-auth": "workspace:*",
-    "zemble-plugin-auth-anonymous": "workspace:*",
-    "zemble-plugin-kv": "workspace:*"
+    "hono": "^4.2.5",
+    "@zemble/auth": "workspace:*",
+    "@zemble/auth-anonymous": "workspace:*",
+    "@zemble/kv": "workspace:*"
   }
 }

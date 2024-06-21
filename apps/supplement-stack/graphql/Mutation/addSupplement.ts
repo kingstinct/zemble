@@ -8,13 +8,13 @@ import type {
 } from '../schema.generated'
 import type { DocumentForInsert } from 'papr'
 
-const addSupplement: MutationResolvers['addSupplement'] = async (parent, {
+export const addSupplement: NonNullable<MutationResolvers['addSupplement']> = async (_, {
   amountInGrams, foodId, intakeTime, supplementId,
 }, { decodedToken }) => {
   const supplement: DocumentForInsert<typeof SupplementIntakeDbType[0], typeof SupplementIntakeDbType[1]> = {
     amountInGrams,
     foodId: new ObjectId(foodId),
-    userId: new ObjectId(decodedToken!.userId),
+    userId: new ObjectId(decodedToken!.sub),
     intakeTime,
   }
 

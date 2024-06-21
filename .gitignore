@@ -5,8 +5,14 @@ node_modules
 .turbo
 dist
 
+# generated except schema.generated.ts
+
+
 *.generated.ts
+!schema.generated.ts
 *.generated
 *.generated.graphql
 
 test-output
+
+*.p8

@@ -1,0 +1,7 @@
+type Mutation {
+  sendSms(
+    from: String!,
+    to: String!,
+    message: String!,
+  ): Boolean!
+}

@@ -1,17 +1,19 @@
 import { useEngine, useLogger } from '@envelop/core'
-import { Plugin, type IStandardLogger } from '@zemble/core'
+import { Plugin, type IStandardLogger, type TokenContents } from '@zemble/core'
 import * as GraphQLJS from 'graphql'
 
 import middleware from './middleware'
+import { useServerTiming } from './utils/useServerTiming'
 
 import type { SubschemaConfig } from '@graphql-tools/delegate'
 import type { TypedDocumentNode, ResultOf } from '@graphql-typed-document-node/core'
-import type { GraphQLFormattedError, GraphQLSchema } from 'graphql'
+import type { GraphQLSchema } from 'graphql'
 import type { Context } from 'graphql-ws'
 import type {
   YogaServerOptions, YogaInitialContext, GraphQLParams,
 } from 'graphql-yoga'
 import type { RedisOptions } from 'ioredis'
+import type { JWTPayload } from 'jose'
 
 interface GraphQLMiddlewareGlobalConfig {
   readonly graphqlSchemaTransforms?: SubschemaConfig['transforms']
@@ -28,7 +30,7 @@ declare global {
         opts?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean}
       ) => Promise<{
         readonly data?: ResultOf<TypedDocumentNode<TQuery, TVars>>,
-        readonly errors?: readonly GraphQLFormattedError[]
+        readonly errors?: readonly GraphQLJS.GraphQLFormattedError[]
       }>
 
       readonly gqlRequestUntyped: <TRes, TVars = unknown>(
@@ -37,7 +39,7 @@ declare global {
         opts?: {readonly headers?: Record<string, string>, readonly silenceErrors?: boolean}
       ) => Promise<{
         readonly data?: TRes,
-        readonly errors?: readonly GraphQLFormattedError[]
+        readonly errors?: readonly GraphQLJS.GraphQLFormattedError[]
       }>
     }
 
@@ -52,7 +54,7 @@ declare global {
 
     interface GraphQLContext extends YogaInitialContext, GlobalContext {
       readonly token: string | undefined
-      readonly decodedToken: Zemble.TokenRegistry[keyof Zemble.TokenRegistry] | undefined
+      readonly decodedToken: TokenContents | undefined
       readonly honoContext: RouteContext
       readonly logger: IStandardLogger
     }
@@ -71,14 +73,14 @@ declare global {
       readonly match?: Record<string, unknown>
       readonly includes?: Record<string, unknown>
       readonly skip?: boolean
-    }> = DirectiveArgs['skip'] extends true
+    } = {readonly match: undefined}> = DirectiveArgs['skip'] extends true
       ? Omit<TContext, 'decodedToken' | 'token'>
       : Omit<TContext, 'decodedToken'> & {
         readonly decodedToken: DirectiveArgs['match']
         & Record<
         keyof DirectiveArgs['includes'],
         ReadonlyArray<DirectiveArgs['includes'][keyof DirectiveArgs['includes']]>
-        > & DecodedTokenBase & Zemble.TokenRegistry[keyof Zemble.TokenRegistry]
+        > & TokenContents & JWTPayload
       }
   }
 }
@@ -99,6 +101,8 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly outputMergedSchemaPath?: string | false
 
   readonly subscriptionTransport?: 'sse' | 'ws'
+
+  readonly enableServerTiming?: boolean
 }
 
 const logFn = (eventName: string, ...args: readonly unknown[]) => {
@@ -109,12 +113,11 @@ const defaultConfig = {
   yoga: {
     graphqlEndpoint: '/graphql',
     plugins: [
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       useEngine(GraphQLJS),
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       useLogger({
         logFn,
       }),
+      useServerTiming(),
     ],
     maskedErrors: {
       isDev: process.env.NODE_ENV === 'development',
@@ -126,9 +129,11 @@ const defaultConfig = {
       disable: process.env.NODE_ENV ? !['development', 'test'].includes(process.env.NODE_ENV) : true,
     },
   },
-  redisUrl: process.env.REDIS_URL,
+  redisUrl: process.env['REDIS_URL'],
   outputMergedSchemaPath: './app.generated.graphql',
   subscriptionTransport: 'sse',
+  enableServerTiming: process.env.NODE_ENV === 'development',
+  // extendSchema: async () => [createEnvironmentSchema()],
 } satisfies GraphQLMiddlewareConfig
 
 const plugin = new Plugin<GraphQLMiddlewareConfig>(

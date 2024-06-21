@@ -1,5 +1,11 @@
 ## 1.0.10
 
+## 1.0.14
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+
 ## 1.0.13
 
 ### Patch Changes

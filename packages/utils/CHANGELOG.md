@@ -1,5 +1,29 @@
 # @zemble/utils
 
+## 0.7.36
+
+### Patch Changes
+
+- 49fcd76: bump @zemble/utils
+
+## 0.7.35
+
+### Patch Changes
+
+- d17b6f3: Add @zemble/push-expo and support provider strategies
+
+## 0.7.34
+
+### Patch Changes
+
+- 0374755: Avoid promise creation and add batching
+
+## 0.7.33
+
+### Patch Changes
+
+- dc07e09: Add graphql resolver generation
+
 ## 0.7.32
 
 ### Patch Changes

@@ -1,0 +1,41 @@
+{
+  "name": "@zemble/firebase-auth",
+  "version": "0.0.11",
+  "description": "",
+  "type": "module",
+  "keywords": [
+    "zemble",
+    "zemble-plugin",
+    "@zemble"
+  ],
+  "dependencies": {
+    "@zemble/bun": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
+    "@zemble/routes": "workspace:*",
+    "@zemble/auth": "workspace:*",
+    "@zemble/utils": "workspace:*",
+    "firebase": "^10.11.0",
+    "firebase-admin": "^12.1.0"
+  },
+  "scripts": {
+    "test": "bun test",
+    "dev": "zemble-dev plugin.ts",
+    "typecheck": "tsc --noEmit",
+    "codegen": "graphql-codegen"
+  },
+  "devDependencies": {
+    "@types/bun": "*",
+    "@graphql-codegen/add": "^5.0.0",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@tsconfig/bun": "^1.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "module": "plugin.ts",
+  "main": "plugin.ts"
+}

@@ -4,7 +4,7 @@ import { getQueueByName } from '../../utils/setupQueues'
 
 import type { MutationResolvers } from '../schema.generated'
 
-const cleanQueue: MutationResolvers['cleanQueue'] = async (_, {
+export const cleanQueue: NonNullable<MutationResolvers['cleanQueue']> = async (_, {
   queue, limit, grace, type,
 }) => {
   const q = getQueueByName(queue)

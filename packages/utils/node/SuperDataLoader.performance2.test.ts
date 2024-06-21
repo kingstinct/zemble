@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
+import { describe, it, expect } from 'bun:test'
 import DataLoader from 'dataloader'
 
 import createSuperDataLoader from './SuperDataLoader'
 import times from '../times'
 import wait from '../wait'
 
-describe.skip('SuperDataLoader.performance', () => {
+describe('SuperDataLoader.performance', () => {
   it('Should be faster than normal dataloader with loadMany with different keys - warm cache', async () => {
     const hello = times(1000000, (i) => `hello${i}`)
     // eslint-disable-next-line unicorn/consistent-function-scoping
@@ -16,14 +18,14 @@ describe.skip('SuperDataLoader.performance', () => {
 
     await original.loadMany(hello)
 
-    await wait(50)
+    await wait(100)
 
     const start2 = performance.now()
     await loader.loadMany(hello)
     const end2 = performance.now()
     const superDataLoaderTime = end2 - start2
 
-    await wait(50)
+    await wait(100)
 
     const start = performance.now()
     await original.loadMany(hello)
@@ -52,14 +54,14 @@ describe.skip('SuperDataLoader.performance', () => {
 
     await original.loadMany(hello)
 
-    await wait(50)
+    await wait(100)
 
     const start2 = performance.now()
     await loader.loadMany(hello)
     const end2 = performance.now()
     const superDataLoaderTime = end2 - start2
 
-    await wait(50)
+    await wait(100)
 
     const start = performance.now()
     await original.loadMany(hello)

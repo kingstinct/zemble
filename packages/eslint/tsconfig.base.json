@@ -1,0 +1,16 @@
+{
+  "extends": "@tsconfig/bun/tsconfig.json",
+  "compilerOptions": {
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true,
+    "verbatimModuleSyntax": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "noPropertyAccessFromIndexSignature":true,
+    "types": [ "bun-types" ]
+  },
+  "exclude": [
+    "**/*.generated/*.ts",
+    "**/*.generated.ts"
+  ]
+}

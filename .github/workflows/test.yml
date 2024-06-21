@@ -43,6 +43,7 @@ on:
         required: false
         default: '7.0.4'
         type: string
+  
   push:
     branches:
       - "*" # matches every branch that doesn't contain a '/'
@@ -73,14 +74,14 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
           key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
-      - run: bun install --concurrent-scripts 1
+      - run: bun install
 
       - name: Test
         run: bun run test-recursive
@@ -110,14 +111,14 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
           key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
           path: ~/.cache/mongodb-binaries
 
-      - run: bun install --concurrent-scripts 1
+      - run: bun install
 
       - uses: supabase/setup-cli@v1
       
@@ -148,7 +149,7 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --concurrent-scripts 1 --ignore-scripts
+      - run: bun install --ignore-scripts
 
       - name: Typecheck
         run: bun run typecheck
@@ -174,7 +175,7 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --concurrent-scripts 1 --ignore-scripts
+      - run: bun install --ignore-scripts
 
       - name: Lint
         run: bun run lint --quiet
@@ -199,6 +200,6 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --concurrent-scripts 1 --ignore-scripts
+      - run: bun install --ignore-scripts
 
-      - run: bun run graphql-codegen
+      - run: bun run codegen

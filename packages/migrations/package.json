@@ -1,7 +1,7 @@
 {
   "name": "@zemble/migrations",
   "description": "@zemble Plugin providing generic migration functionality",
-  "version": "0.0.18",
+  "version": "0.0.30",
   "keywords": [
     "zemble",
     "zemble-plugin",
@@ -34,13 +34,13 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "type-fest": "^4.10.2"
+    "type-fest": "^4.15.0"
   },
   "peerDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "optionalDependencies": {
-    "mongodb": "^6.3.0"
+    "mongodb": "^6.5.0"
   },
   "main": "plugin.ts"
 }

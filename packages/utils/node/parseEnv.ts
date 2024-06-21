@@ -18,18 +18,16 @@ export function parseEnvNumber<
   try {
     return parseFloat(rawValue) as T
   } catch (e) {
-    console.error(`Failed to parse environment variable "${prop}", expected number got "${rawValue}"`)
-    return undefined as TDefault
+    throw new Error(`Failed to parse environment variable "${prop}", expected number got "${rawValue}"`)
   }
 }
 
-// todo [2024-03-01]: allow to only specify first type argument
 export function parseEnvJSON<
   T,
-  TDefault extends T | undefined
+  TDefault extends T | undefined = T | undefined
 >(
   prop: string,
-  defaultValue?: TDefault,
+  defaultValue: TDefault,
   env = process.env,
 ): T | TDefault {
   const rawValue = env[prop]
@@ -44,8 +42,7 @@ export function parseEnvJSON<
   try {
     return JSON.parse(rawValue) as T
   } catch (e) {
-    console.error(`Failed to parse environment variable "${prop}", expected JSON got "${rawValue}"`)
-    return undefined as TDefault
+    throw Error(`Failed to parse environment variable "${prop}", expected JSON got "${rawValue}"`)
   }
 }
 
@@ -77,8 +74,7 @@ export function parseEnvBoolean<T extends boolean>(
 
     return defaultValue as T
   } catch (e) {
-    console.error(`Failed to parse environment variable "${prop}", expected boolean got "${rawValue}"`)
-    return defaultValue ?? false as T
+    throw new Error(`Failed to parse environment variable "${prop}", expected boolean got "${rawValue}"`)
   }
 }
 
@@ -103,8 +99,12 @@ export function parseEnvEnum<
     return rawValue as T & TDefault
   }
 
-  if (isNotNullOrUndefined(defaultValue) && enumOrArray.includes(defaultValue)) {
-    return defaultValue
+  if (isNotNullOrUndefined(defaultValue)) {
+    if (enumOrArray.includes(defaultValue)) {
+      return defaultValue
+    }
+
+    throw new Error(`Failed to parse environment variable "${prop}", expected one of ${JSON.stringify(enumOrArray)} got "${rawValue}"`)
   }
 
   return undefined as unknown as T & TDefault

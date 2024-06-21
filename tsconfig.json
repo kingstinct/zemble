@@ -1,11 +1,10 @@
 {
-  "extends": "@tsconfig/bun/tsconfig.json",
+  "extends": "./packages/eslint/tsconfig.base.json",
   "compilerOptions": {
-    "noUncheckedIndexedAccess": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
-    "verbatimModuleSyntax": true,
-    "allowSyntheticDefaultImports": true
+    "types": [ "bun-types" ]
   },
-  "exclude": [ "**/*.generated/*.ts" ]
+  "exclude": [
+    "**/*.generated/*.ts",
+    "**/*.generated.ts"
+  ]
 }
