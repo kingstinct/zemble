@@ -1,6 +1,6 @@
 {
   "name": "minimal",
-  "version": "0.0.60",
+  "version": "0.0.39",
   "description": "A minimal example app",
   "private": true,
   "main": "app.ts",
@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen"
+    "graphql-codegen": "graphql-codegen"
   },
   "keywords": [
     "zemble",
@@ -41,17 +41,16 @@
     "@zemble/bull": "workspace:*",
     "@zemble/bun": "workspace:*",
     "@zemble/core": "workspace:*",
-    "@zemble/email-resend": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "@zemble/logger-graphql": "workspace:*",
     "@zemble/migrations": "workspace:*",
-    "@zemble/pino": "workspace:*",
+    "@zemble/queues-in-memory": "workspace:*",
+    "zemble-plugin-auth": "workspace:*",
     "@zemble/routes": "workspace:*",
-    "@zemble/sms-46elks": "workspace:*",
-    "@zemble/sms-twilio": "workspace:*"
+    "@zemble/pino": "workspace:*",
+    "zemble-plugin-logger-graphql": "workspace:*"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
-    "typescript": "^5.4.5"
+    "@tsconfig/node20": "^20.1.2",
+    "typescript": "^5.3.3"
   }
 }

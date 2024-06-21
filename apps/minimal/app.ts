@@ -4,6 +4,9 @@ import GraphQL from '@zemble/graphql'
 import GraphQLLogger from '@zemble/logger-graphql'
 import Migrations from '@zemble/migrations'
 import dryrunAdapter from '@zemble/migrations/adapters/dryrun'
+
+// eslint-disable-next-line import/no-relative-packages
+import Cron from '../../packages/queues-in-memory'
 import Logger from '@zemble/pino'
 import Routes from '@zemble/routes'
 
@@ -13,6 +16,7 @@ export default createApp({
   plugins: [
     Routes.configure(),
     Logger.configure(),
+    Cron.configure(),
     Bull.configure({
       bullboard: {
         nodeModulesRootPath: '../..',
