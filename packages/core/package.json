@@ -33,14 +33,14 @@
   "license": "ISC",
   "dependencies": {
     "@zemble/utils": "workspace:*",
-    "debug": "^4.3.4",
+    "debug": "^4.3.5",
     "dotenv": "^16.4.5",
-    "hono": "^4.2.5",
-    "jose": "^5.2.4",
-    "pino": "^8.20.0",
+    "hono": "^4.4.7",
+    "jose": "^5.4.1",
+    "pino": "^9.2.0",
     "pino-debug": "^2.0.0"
   },
   "devDependencies": {
-    "type-fest": "^4.15.0"
+    "type-fest": "^4.20.1"
   }
 }

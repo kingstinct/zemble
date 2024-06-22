@@ -171,10 +171,6 @@ export type AuthDirectiveArgs = {
 
 export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type OneOfDirectiveArgs = { };
-
-export type OneOfDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = OneOfDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
-
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
@@ -220,7 +216,6 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
 
 export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   auth?: AuthDirectiveResolver<any, any, ContextType>;
-  oneOf?: OneOfDirectiveResolver<any, any, ContextType>;
 }>;
 
 /** All built-in and custom scalars, mapped to their actual values */
@@ -384,10 +379,6 @@ export type AuthDirectiveArgs = {
 
 export type AuthDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type OneOfDirectiveArgs = { };
-
-export type OneOfDirectiveResolver<Result, Parent, ContextType = Zemble.GraphQLContext, Args = OneOfDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
-
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
@@ -433,5 +424,4 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
 
 export type DirectiveResolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   auth?: AuthDirectiveResolver<any, any, ContextType>;
-  oneOf?: OneOfDirectiveResolver<any, any, ContextType>;
 }>;

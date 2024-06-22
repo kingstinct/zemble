@@ -46,7 +46,7 @@ const fieldResolver = (parent: EntityEntryType, field: AnyField, displayNameFiel
   }
   if (field.name === 'displayName') {
     return displayNameField && parent[displayNameField]
-    // @ts-expect-error sdfgsdfg
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       ? parent[displayNameField].toString()
       : parent._id.toHexString()
   }
