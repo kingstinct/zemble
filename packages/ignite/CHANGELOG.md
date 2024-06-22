@@ -1,5 +1,15 @@
 # @zemble/ignite
 
+## 0.0.52
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/bull@0.1.20
+  - @zemble/core@0.1.20
+  - @zemble/graphql@0.0.53
+  - @zemble/routes@0.0.32
+
 ## 0.0.51
 
 ### Patch Changes

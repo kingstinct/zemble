@@ -1,5 +1,20 @@
 # @zemble/cms-users
 
+## 0.0.61
+
+### Patch Changes
+
+- adb556d: Bump deps
+- Updated dependencies [23f817a]
+- Updated dependencies [adb556d]
+  - @zemble/mongodb@0.0.34
+  - @zemble/auth-otp@0.0.56
+  - @zemble/auth@0.0.55
+  - @zemble/cms@0.0.61
+  - @zemble/core@0.1.20
+  - @zemble/graphql@0.0.53
+  - @zemble/kv@0.0.51
+
 ## 0.0.60
 
 ### Patch Changes

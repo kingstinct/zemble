@@ -1,5 +1,16 @@
 # @zemble/mongodb
 
+## 0.0.34
+
+### Patch Changes
+
+- 23f817a: Add MongoMemoryReplSet support
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+  - @zemble/bun@0.0.31
+  - @zemble/migrations@0.0.31
+  - @zemble/routes@0.0.32
+
 ## 0.0.33
 
 ### Patch Changes

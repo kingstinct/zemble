@@ -1,5 +1,12 @@
 # @zemble/bun
 
+## 0.0.31
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+
 ## 0.0.30
 
 ### Patch Changes

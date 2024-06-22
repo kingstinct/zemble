@@ -1,5 +1,12 @@
 # @zemble/routes
 
+## 0.0.32
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+
 ## 0.0.31
 
 ### Patch Changes

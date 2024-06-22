@@ -1,5 +1,16 @@
 # @zemble/supabase
 
+## 0.0.36
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/auth@0.0.55
+  - @zemble/core@0.1.20
+  - @zemble/bun@0.0.31
+  - @zemble/graphql@0.0.53
+  - @zemble/routes@0.0.32
+
 ## 0.0.35
 
 ### Patch Changes

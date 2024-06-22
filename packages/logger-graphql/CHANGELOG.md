@@ -1,5 +1,14 @@
 # @zemble/logger-graphql
 
+## 0.0.49
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+  - @zemble/graphql@0.0.53
+  - @zemble/pino@0.0.21
+
 ## 0.0.48
 
 ### Patch Changes

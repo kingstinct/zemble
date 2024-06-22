@@ -1,5 +1,14 @@
 # @zemble/auth-anonymous-expo
 
+## 0.0.10
+
+### Patch Changes
+
+- adb556d: Bump deps
+- Updated dependencies [adb556d]
+  - @zemble/auth-expo@0.0.9
+  - @zemble/urql-expo@0.0.9
+
 ## 0.0.9
 
 ### Patch Changes
