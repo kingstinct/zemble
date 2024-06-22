@@ -1,0 +1,38 @@
+{
+  "name": "@zemble/queue-in-memory",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "keywords": [
+    "zemble",
+    "zemble-plugin",
+    "@zemble"
+  ],
+  "dependencies": {
+    "@zemble/core": "workspace:*",
+    "@zemble/bun": "workspace:*",
+    "@zemble/utils": "workspace:*",
+    "@zemble/graphql": "workspace:*"
+  },
+  "scripts": {
+    "test": "bun test",
+    "dev": "zemble-dev plugin.ts",
+    "testing-it-out": "zemble-dev testing-it-out.ts",
+    "typecheck": "tsc --noEmit",
+    "codegen": "graphql-codegen"
+  },
+  "devDependencies": {
+    "@types/bun": "*",
+    "@graphql-codegen/add": "^5.0.0",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@tsconfig/bun": "^1.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "module": "plugin.ts",
+  "main": "plugin.ts"
+}
