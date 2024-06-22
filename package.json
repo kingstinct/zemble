@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test-recursive": "bunx turbo run test --continue -- --timeout 20000",
-    "lint": "bunx turbo run lint --continue -- --quiet",
-    "typecheck": "bunx turbo run typecheck --continue",
+    "lint": "bunx turbo run lint --concurrency=100% --continue -- --quiet",
+    "typecheck": "bunx turbo run typecheck --concurrency=100% --continue",
     "codegen": "bunx turbo run codegen",
     "build": "bunx turbo run build",
     "prepare": "husky install",
@@ -32,6 +32,7 @@
     "zemble",
     "@zemble"
   ],
+  "packageManager": "bun@1.1.15",
   "repository": {
     "type": "git",
     "url": "https://github.com/kingstinct/zemble"
@@ -53,12 +54,12 @@
   "devDependencies": {
     "@graphql-eslint/eslint-plugin": "^3.20.1",
     "@graphql-typed-document-node/core": "^3.2.0",
-    "@tsconfig/bun": "^1.0.5",
+    "@tsconfig/bun": "^1.0.6",
     "@types/bun": "*",
     "@types/debug": "^4.1.12",
-    "@typescript-eslint/eslint-plugin": "^7.7.1",
-    "@typescript-eslint/parser": "^7.7.1",
-    "bun-types": "1.1.5",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "bun-types": "1.1.15",
     "check-dependency-version-consistency": "^4.1.0",
     "eslint": "8",
     "eslint-config-airbnb": "^19.0.4",
@@ -66,30 +67,30 @@
     "eslint-config-kingstinct": "workspace:*",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-comment-length": "^1.7.3",
-    "eslint-plugin-functional": "^6.5.1",
+    "eslint-plugin-functional": "^6.6.0",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsonc": "^2.15.1",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
-    "eslint-plugin-react": "7.34.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-jsonc": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-react": "7.34.3",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-native": "^4.1.0",
     "eslint-plugin-react-native-a11y": "^3.3.0",
-    "eslint-plugin-unicorn": "^52.0.0",
+    "eslint-plugin-unicorn": "^54.0.0",
     "eslint-plugin-yml": "^1.14.0",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "pino-pretty": "^11.0.0",
-    "turbo": "^1.13.3",
-    "typescript-json-schema": "^0.63.0"
+    "lint-staged": "^15.2.7",
+    "pino-pretty": "^11.2.1",
+    "turbo": "^2.0.4",
+    "typescript-json-schema": "^0.64.0"
   },
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.27.1",
-    "debug": "^4.3.4",
-    "graphql": "^16.8.1",
+    "@changesets/cli": "^2.27.5",
+    "debug": "^4.3.5",
+    "graphql": "^16.9.0",
     "madge": "^7.0.0"
   }
 }

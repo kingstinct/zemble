@@ -42,12 +42,12 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/todo": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "graphql": "^16.8.1",
+    "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
-    "mongodb": "^6.5.0",
-    "papr": "^15.2.1"
+    "mongodb": "^6.7.0",
+    "papr": "^15.2.2"
   },
   "devDependencies": {
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.2"
   }
 }

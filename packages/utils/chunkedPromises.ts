@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { chunk } from 'lodash/fp'
 
 export async function chunkedPromises<T = unknown, TRes = unknown>(

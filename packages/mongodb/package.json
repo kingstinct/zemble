@@ -11,7 +11,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*",
     "@zemble/routes": "workspace:*",
-    "mongodb": "^6.5.0"
+    "mongodb": "^6.7.0"
   },
   "scripts": {
     "test": "bun test",
