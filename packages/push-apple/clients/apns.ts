@@ -303,7 +303,7 @@ export const makeRequest = async (body: ApnsBody, token: { readonly pushToken: s
       'content-type': 'application/json',
       'content-length': buffer.length,
       'authorization': `bearer ${signedKey}`,
-      // 'apns-collapse-id': headerOptions?.['apns-collapse-id'],
+      'apns-collapse-id': headerOptions?.['apns-collapse-id'],
       'apns-push-type': pushType,
       'apns-expiration': headerOptions?.['apns-expiration'] ?? '0',
       'apns-priority': headerOptions?.['apns-priority'] ?? mapDefaultPriority[pushType],

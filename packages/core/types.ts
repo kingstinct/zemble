@@ -78,6 +78,7 @@ export interface PushMessage {
   readonly channelId?: string;
   readonly categoryId?: string;
   readonly mutableContent?: boolean;
+  readonly collapseId?: string;
 
   // not supported by expo
   readonly threadId?: string;
