@@ -60,8 +60,8 @@ describe('concurrencyExecutionLock', () => {
     const timeConsumed = Date.now() - start
 
     expect(fn).toHaveBeenCalledTimes(6)
-    expect(timeConsumed).toBeGreaterThan(100)
-    expect(timeConsumed).toBeLessThan(200)
+    expect(timeConsumed).toBeGreaterThanOrEqual(100)
+    expect(timeConsumed).toBeLessThan(150)
   })
 
   it('should run the function more if in parallel with timeout', async () => {
