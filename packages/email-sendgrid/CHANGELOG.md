@@ -1,5 +1,14 @@
 # @zemble/email-sendgrid
 
+## 0.0.51
+
+### Patch Changes
+
+- adb556d: Bump deps
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+  - @zemble/graphql@0.0.53
+
 ## 0.0.50
 
 ### Patch Changes

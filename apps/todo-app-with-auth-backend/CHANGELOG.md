@@ -1,5 +1,20 @@
 # todo-app-with-auth-backend
 
+## 0.0.60
+
+### Patch Changes
+
+- adb556d: Bump deps
+- Updated dependencies [adb556d]
+  - @zemble/auth-anonymous@0.0.53
+  - @zemble/bull@0.1.20
+  - @zemble/core@0.1.20
+  - @zemble/todo@0.0.53
+  - @zemble/ignite@0.0.52
+  - @zemble/apple-app-site-association@0.0.36
+  - @zemble/bun@0.0.31
+  - @zemble/graphql@0.0.53
+
 ## 0.0.59
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @zemble/graphql
 
+## 0.0.53
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+
 ## 0.0.52
 
 ### Patch Changes

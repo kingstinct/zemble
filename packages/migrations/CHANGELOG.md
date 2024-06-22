@@ -1,5 +1,13 @@
 # @zemble/migrations
 
+## 0.0.31
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+  - @zemble/bun@0.0.31
+
 ## 0.0.30
 
 ### Patch Changes

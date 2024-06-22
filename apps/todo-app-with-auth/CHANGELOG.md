@@ -1,5 +1,15 @@
 # todoappwithauth
 
+## 0.0.11
+
+### Patch Changes
+
+- adb556d: Bump deps
+- Updated dependencies [adb556d]
+  - @zemble/auth-anonymous-expo@0.0.10
+  - @zemble/auth-expo@0.0.9
+  - @zemble/todo-ui@0.0.10
+
 ## 0.0.10
 
 ### Patch Changes

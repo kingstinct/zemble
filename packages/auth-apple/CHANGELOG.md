@@ -1,5 +1,15 @@
 # @zemble/auth-apple
 
+## 0.0.58
+
+### Patch Changes
+
+- adb556d: Bump deps
+- Updated dependencies [adb556d]
+  - @zemble/auth@0.0.55
+  - @zemble/core@0.1.20
+  - @zemble/graphql@0.0.53
+
 ## 0.0.57
 
 ### Patch Changes
