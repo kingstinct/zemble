@@ -35,10 +35,10 @@
   "dependencies": {
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "graphql": "^16.8.1",
+    "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
-    "hono": "^4.2.5",
-    "jose": "^5.2.4",
+    "hono": "^4.4.7",
+    "jose": "^5.4.1",
     "@zemble/auth": "workspace:*"
   }
 }

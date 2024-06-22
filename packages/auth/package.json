@@ -37,16 +37,16 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^5.0.0",
+    "@envelop/core": "^5.0.1",
     "@envelop/generic-auth": "^7.0.0",
     "@graphql-tools/wrap": "^10.0.5",
     "@zemble/core": "workspace:*",
     "@zemble/bun": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "graphql": "^16.8.1",
+    "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
-    "hono": "^4.2.5",
-    "jose": "^5.2.4",
+    "hono": "^4.4.7",
+    "jose": "^5.4.1",
     "@zemble/kv": "workspace:*"
   }
 }

@@ -1,13 +1,13 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "lint": {
       "dependsOn": [ "codegen" ],
-      "outputMode": "errors-only"
+      "outputLogs": "errors-only"
     },
     "test": {
       "dependsOn": [ "codegen" ],
-      "outputMode": "errors-only",
+      "outputLogs": "errors-only",
       "inputs": [
         "**/*.ts",
         "**/*.tsx",
@@ -19,7 +19,7 @@
     },
     "typecheck": {
       "dependsOn": [ "codegen" ],
-      "outputMode": "errors-only",
+      "outputLogs": "errors-only",
       "inputs": [
         "**/*.ts",
         "**/*.tsx",
@@ -31,7 +31,7 @@
     },
     "codegen": {
       "dependsOn": [ "^codegen" ],
-      "outputMode": "errors-only",
+      "outputLogs": "errors-only",
       "inputs": [
         "**/*.graphql",
         "**/codegen.ts",

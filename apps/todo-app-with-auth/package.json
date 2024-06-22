@@ -15,8 +15,8 @@
     "@urql/storage-rn": "^1.1.0",
     "expo": "^49.0.21",
     "expo-status-bar": "^1.7.1",
-    "graphql": "^16.8.1",
-    "react": "^18.2.0",
+    "graphql": "^16.9.0",
+    "react": "^18.3.1",
     "react-native": "~0.72.4",
     "react-native-web": "^0.19.8",
     "@zemble/auth-anonymous-expo": "workspace:*",
@@ -24,9 +24,9 @@
     "@zemble/todo-ui": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.4",
-    "@types/react": "^18.2.79",
-    "typescript": "^5.4.5"
+    "@babel/core": "^7.24.7",
+    "@types/react": "^18.3.3",
+    "typescript": "^5.5.2"
   },
   "private": true
 }

@@ -57,6 +57,7 @@ export type MutationRegisterAppleStartLiveActivityPushTokenArgs = {
 export type MutationRegisterAppleUpdateLiveActivityPushTokenArgs = {
   appBundleId: Scalars['String']['input'];
   isSandbox?: InputMaybe<Scalars['Boolean']['input']>;
+  liveActivityAttributes: Scalars['JSONObject']['input'];
   liveActivityType: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
