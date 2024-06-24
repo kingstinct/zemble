@@ -1,5 +1,13 @@
 # @zemble/todo-ui
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/auth-anonymous-expo@0.0.10
+  - @zemble/auth-expo@0.0.9
+
 ## 0.0.9
 
 ### Patch Changes

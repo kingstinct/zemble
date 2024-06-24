@@ -1,5 +1,14 @@
 # @zemble/push-expo
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+  - @zemble/bun@0.0.31
+  - @zemble/graphql@0.0.53
+
 ## 0.0.8
 
 ### Patch Changes

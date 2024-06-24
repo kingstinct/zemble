@@ -1,5 +1,16 @@
 # @zemble/auth
 
+## 0.0.55
+
+### Patch Changes
+
+- adb556d: Bump deps
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+  - @zemble/bun@0.0.31
+  - @zemble/graphql@0.0.53
+  - @zemble/kv@0.0.51
+
 ## 0.0.54
 
 ### Patch Changes

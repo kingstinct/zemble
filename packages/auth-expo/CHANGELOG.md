@@ -1,5 +1,11 @@
 # @zemble/auth-expo
 
+## 0.0.9
+
+### Patch Changes
+
+- adb556d: Bump deps
+
 ## 0.0.8
 
 ### Patch Changes

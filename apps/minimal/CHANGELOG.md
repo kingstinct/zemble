@@ -1,5 +1,25 @@
 # minimal
 
+## 0.0.61
+
+### Patch Changes
+
+- adb556d: Bump deps
+- Updated dependencies [adb556d]
+  - @zemble/auth-otp@0.0.56
+  - @zemble/auth@0.0.55
+  - @zemble/bull@0.1.20
+  - @zemble/core@0.1.20
+  - @zemble/email-resend@0.0.22
+  - @zemble/bun@0.0.31
+  - @zemble/graphql@0.0.53
+  - @zemble/logger-graphql@0.0.49
+  - @zemble/migrations@0.0.31
+  - @zemble/pino@0.0.21
+  - @zemble/routes@0.0.32
+  - @zemble/sms-46elks@0.0.7
+  - @zemble/sms-twilio@0.0.7
+
 ## 0.0.60
 
 ### Patch Changes

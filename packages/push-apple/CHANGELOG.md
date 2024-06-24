@@ -1,5 +1,16 @@
 # @zemble/push-apple
 
+## 0.0.10
+
+### Patch Changes
+
+- 3e9c2f4: Add push collapseId support
+- Updated dependencies [adb556d]
+  - @zemble/core@0.1.20
+  - @zemble/bun@0.0.31
+  - @zemble/graphql@0.0.53
+  - @zemble/routes@0.0.32
+
 ## 0.0.9
 
 ### Patch Changes

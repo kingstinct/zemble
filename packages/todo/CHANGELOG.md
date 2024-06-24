@@ -1,5 +1,16 @@
 # @zemble/todo
 
+## 0.0.53
+
+### Patch Changes
+
+- Updated dependencies [adb556d]
+  - @zemble/auth-anonymous@0.0.53
+  - @zemble/auth@0.0.55
+  - @zemble/core@0.1.20
+  - @zemble/graphql@0.0.53
+  - @zemble/kv@0.0.51
+
 ## 0.0.52
 
 ### Patch Changes

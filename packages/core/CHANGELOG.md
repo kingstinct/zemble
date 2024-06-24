@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.20
+
+### Patch Changes
+
+- adb556d: Bump deps
+
 ## 0.1.19
 
 ### Patch Changes
