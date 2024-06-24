@@ -35,6 +35,45 @@ export type SendSmsParams = {
   readonly message: string,
 }
 
+export type JobStatus = 'completed' | 'failed' | 'queued' | 'active' | 'cancelled'
+
+export type Job<TType extends keyof Zemble.QueueRegistry> = {
+  readonly jobId: string
+  readonly status: JobStatus
+  readonly type: TType
+}
+
+export type Cron = {
+  readonly recurrencePattern: string
+  readonly worker: () => Promise<void>
+  readonly errorHandler?: (error: unknown) => void
+}
+
+export type Queue = {
+  readonly worker: () => Promise<void>
+  readonly errorHandler?: (error: unknown) => void
+}
+
+export interface StartJobParams<TType extends keyof Zemble.QueueRegistry> {
+  readonly jobId?: string
+  readonly type: TType
+  readonly data: Zemble.QueueRegistry[TType]
+  readonly delayMs?: number
+  readonly priority?: number
+}
+
+type StartCronParams = {
+  readonly type: string
+  readonly data: Record<string, JSON>
+  readonly recurrencePattern: string
+}
+
+export type IStandardCronService = (options: StartCronParams) => Promise<Cron>
+
+export type IStandardRemoveFromQueueService = (jobId: string) => Promise<Job<keyof Zemble.QueueRegistry>> | Job<keyof Zemble.QueueRegistry>
+
+export type IStandardAddToQueueService = (options: StartJobParams<keyof Zemble.QueueRegistry>) => Promise<Job<keyof Zemble.QueueRegistry>> | Job<keyof Zemble.QueueRegistry>
+
 export type IStandardSendSmsService = (options: SendSmsParams) => Promise<boolean>
 
 export abstract class IStandardKeyValueService<T = unknown> {
@@ -255,6 +294,10 @@ declare global {
     // Extend the TokenRegistry for the new type
     interface TokenRegistry {
       // readonly UnknownToken: Record<string, unknown>
+    }
+
+    interface QueueRegistry {
+
     }
 
     interface PushTokenRegistry {
