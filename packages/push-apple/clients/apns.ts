@@ -287,8 +287,7 @@ export const makeRequest = async (body: ApnsBody, token: { readonly pushToken: s
 
   const headers = new Map<string, string | number>()
 
-  const pushType = headerOptions?.['apns-push-type'] ?? 'alert',
-        topic = headerOptions?.['apns-topic'] ?? getDefaultTopic(pushType)
+  const pushType = headerOptions?.['apns-push-type'] ?? 'alert'
 
   return new Promise<PushReturnType>((resolve, reject) => {
     client.on('error', (err) => {
@@ -303,11 +302,11 @@ export const makeRequest = async (body: ApnsBody, token: { readonly pushToken: s
       'content-type': 'application/json',
       'content-length': buffer.length,
       'authorization': `bearer ${signedKey}`,
-      'apns-collapse-id': headerOptions?.['apns-collapse-id'],
       'apns-push-type': pushType,
-      'apns-expiration': headerOptions?.['apns-expiration'] ?? '0',
-      'apns-priority': headerOptions?.['apns-priority'] ?? mapDefaultPriority[pushType],
-      'apns-topic': topic,
+      'apns-expiration': '0',
+      'apns-priority': mapDefaultPriority[pushType],
+      'apns-topic': getDefaultTopic(pushType),
+      ...headerOptions,
     }, {
       endStream: false,
     })
