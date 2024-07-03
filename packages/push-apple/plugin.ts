@@ -212,9 +212,9 @@ export const sendPush: SendPushProvider = async (pushTokens, message: PushMessag
   }
 
   const responses = await Promise.all(pushTokens.map(async (pushToken) => ({
-    response: await makeRequest(body, pushToken, {
+    response: await makeRequest(body, pushToken, message.collapseId ? {
       'apns-collapse-id': message.collapseId,
-    }),
+    } : {}),
     pushToken,
   })))
 
