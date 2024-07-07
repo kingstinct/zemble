@@ -1,6 +1,6 @@
 {
   "name": "@zemble/auth-api-token",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "description": "Zemble Plugin providing simple API token authentication",
   "main": "plugin.ts",
   "scripts": {
