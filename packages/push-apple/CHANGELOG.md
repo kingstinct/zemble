@@ -1,5 +1,11 @@
 # @zemble/push-apple
 
+## 0.0.12
+
+### Patch Changes
+
+- 7cc12fe: Add liveActivityType, activityId to payload
+
 ## 0.0.11
 
 ### Patch Changes
