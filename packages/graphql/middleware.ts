@@ -59,9 +59,7 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
 
   const { hono } = app
 
-  hono.use(timing({
-    enabled: (ctx) => ctx.
-  }))
+  hono.use(timing())
 
   hono.use('*', async (ctx, done) => {
     ctx.env.pubsub = pubsub

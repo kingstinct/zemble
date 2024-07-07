@@ -54,11 +54,11 @@ export const createPluginSchema = async (plugin: Plugin): Promise<readonly Plugi
     loaders: [new GraphQLFileLoader()],
   }).catch((e) => {
     if (e instanceof Error && e.message.includes('Unable to find any GraphQL type definitions for the following pointers')) {
+      // this happens if there is no schema - which happens and is most often valid
       plugin.providers.logger.debug(`Error loading schema in ${graphqlGlob}:\n${e.message}`)
-    } else if (process.env.NODE_ENV !== 'test') {
-      plugin.providers.logger.warn(`Error loading schema in ${graphqlGlob}:\n${e}`)
+      return null
     }
-    return null
+    throw e
   })
 
   if (!schemaWithoutResolvers) {
