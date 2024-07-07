@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.54
+
+### Patch Changes
+
+- 03e4bb3: Rethrow graphql errors
+
 ## 0.0.53
 
 ### Patch Changes

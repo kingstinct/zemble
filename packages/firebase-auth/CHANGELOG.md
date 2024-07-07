@@ -1,5 +1,13 @@
 # @zemble/firebase-auth
 
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies [03e4bb3]
+  - @zemble/graphql@0.0.54
+  - @zemble/auth@0.0.56
+
 ## 0.0.12
 
 ### Patch Changes

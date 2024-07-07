@@ -1,5 +1,12 @@
 # @zemble/logger-graphql
 
+## 0.0.50
+
+### Patch Changes
+
+- Updated dependencies [03e4bb3]
+  - @zemble/graphql@0.0.54
+
 ## 0.0.49
 
 ### Patch Changes

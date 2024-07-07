@@ -1,5 +1,14 @@
 # @zemble/push-apple
 
+## 0.0.11
+
+### Patch Changes
+
+- d2154d6: Add appleLiveActivityStateUpdated and activityId to registerLiveActivity
+- e7054be: Remove collapseId header from live activity
+- Updated dependencies [03e4bb3]
+  - @zemble/graphql@0.0.54
+
 ## 0.0.10
 
 ### Patch Changes
