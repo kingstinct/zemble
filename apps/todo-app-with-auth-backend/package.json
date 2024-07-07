@@ -43,6 +43,6 @@
     "@zemble/bun": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   }
 }

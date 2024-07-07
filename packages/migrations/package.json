@@ -34,13 +34,13 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "type-fest": "^4.20.1"
+    "type-fest": "^4.21.0"
   },
   "peerDependencies": {
     "typescript": "^5.4.2"
   },
   "optionalDependencies": {
-    "mongodb": "^6.7.0"
+    "mongodb": "^6.8.0"
   },
   "main": "plugin.ts"
 }

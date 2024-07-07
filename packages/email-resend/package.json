@@ -36,11 +36,11 @@
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql": "^16.9.0",
-    "resend": "^3.3.0"
+    "resend": "^3.4.0"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.3",
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.3.0"
+    "@graphql-codegen/client-preset": "^4.3.2"
   }
 }

@@ -82,6 +82,6 @@ describe('Mutation.loginWithAple', () => {
       silenceErrors: true,
     })
 
-    expect(res.errors?.[0]).toHaveProperty('message', '[@zemble/auth-apple] Error validating Apple ID token, the token has expired')
+    expect(res.errors?.[0]).toHaveProperty('message', '[@zemble/auth-apple] Error validating Apple ID token, the token is probably not valid')
   })
 })

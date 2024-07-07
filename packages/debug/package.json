@@ -25,10 +25,10 @@
     "@types/bun": "*",
     "@graphql-codegen/add": "^5.0.3",
     "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.3.0",
-    "@graphql-codegen/typescript": "^4.0.7",
-    "@graphql-codegen/typescript-resolvers": "^4.1.0",
-    "@tsconfig/bun": "^1.0.6"
+    "@graphql-codegen/client-preset": "^4.3.2",
+    "@graphql-codegen/typescript": "^4.0.9",
+    "@graphql-codegen/typescript-resolvers": "^4.2.1",
+    "@tsconfig/bun": "^1.0.7"
   },
   "peerDependencies": {
     "typescript": "^5.4.2"

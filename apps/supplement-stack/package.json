@@ -44,10 +44,10 @@
     "@zemble/utils": "workspace:*",
     "graphql": "^16.9.0",
     "graphql-scalars": "^1.23.0",
-    "mongodb": "^6.7.0",
+    "mongodb": "^6.8.0",
     "papr": "^15.2.2"
   },
   "devDependencies": {
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   }
 }
