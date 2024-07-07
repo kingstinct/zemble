@@ -8,6 +8,8 @@ const updateLiveActivityResolver: MutationResolvers['updateLiveActivity'] = asyn
       appBundleId: plugin.config.DEFAULT_TOPIC!,
       pushToken: process.env['LIVE_ACTIVITY_TOKEN']!,
       type: 'APPLE_UPDATE_LIVE_ACTIVITY',
+      activityId: 'activity-id',
+      liveActivityType: 'live-activity-type',
     },
   ], { contentState: data, event: 'update' })
 

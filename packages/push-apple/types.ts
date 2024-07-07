@@ -45,4 +45,6 @@ export type AppleUpdateLiveActivityPushTokenWithMetadata = {
   readonly pushToken: string
   readonly appBundleId: string
   readonly isSandbox?: boolean
+  readonly activityId: string
+  readonly liveActivityType: string
 }

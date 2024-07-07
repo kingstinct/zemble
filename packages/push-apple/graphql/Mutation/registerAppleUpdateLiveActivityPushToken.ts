@@ -4,7 +4,7 @@ import { ApplePushPlatform, type MutationResolvers } from '../schema.generated'
 import type { AppleUpdateLiveActivityPushTokenWithMetadata } from '../../types'
 
 const registerAppleUpdateLiveActivityPushToken: MutationResolvers['registerAppleUpdateLiveActivityPushToken'] = async (_, {
-  token, appBundleId, isSandbox,
+  token, appBundleId, isSandbox, liveActivityType, activityId,
 }, { decodedToken }) => {
   const pushTokenWithMetadata: AppleUpdateLiveActivityPushTokenWithMetadata = {
     type: 'APPLE_UPDATE_LIVE_ACTIVITY',
@@ -12,6 +12,8 @@ const registerAppleUpdateLiveActivityPushToken: MutationResolvers['registerApple
     pushToken: token,
     appBundleId,
     isSandbox: isSandbox ?? false,
+    activityId,
+    liveActivityType,
   }
 
   await pushExpoPlugin.config.persistPushToken(decodedToken!, pushTokenWithMetadata)
