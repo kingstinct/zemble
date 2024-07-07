@@ -6,6 +6,13 @@ enum ApplePushPlatform {
   macos
 }
 
+enum LiveActivityState {
+  active
+  dismissed
+  ended
+  stale
+}
+
 type Mutation {
   registerApplePushToken(
     token: String!,
@@ -22,6 +29,12 @@ type Mutation {
     token: String!,
     appBundleId: String!,
     liveActivityType: String!
-    isSandbox: Boolean
+    isSandbox: Boolean,
+    activityId: ID!
+  ): Boolean!
+  appleLiveActivityStateUpdated(
+    liveActivityType: String!
+    activityId: ID!
+    state: LiveActivityState!
   ): Boolean!
 }

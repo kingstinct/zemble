@@ -1,4 +1,4 @@
-import type { ApplePushPlatform } from './graphql/schema.generated'
+import type { ApplePushPlatform, MutationAppleLiveActivityStateUpdatedArgs } from './graphql/schema.generated'
 import type { AnyPushTokenWithMetadata, PushTokenWithContentsAndFailedReason, TokenContents } from '@zemble/core'
 
 export interface ApplePushOptions extends Zemble.GlobalConfig {
@@ -16,6 +16,10 @@ export interface ApplePushOptions extends Zemble.GlobalConfig {
   ) => Promise<void>
   readonly handlePushTokenErrors?: (
     pushTokenWithMetadata: readonly PushTokenWithContentsAndFailedReason<AnyPushTokenWithMetadata>[],
+  ) => Promise<void>
+  readonly handleLiveActivityStateChange?: (
+    args: MutationAppleLiveActivityStateUpdatedArgs,
+    context: Zemble.GraphQLContext,
   ) => Promise<void>
 }
 

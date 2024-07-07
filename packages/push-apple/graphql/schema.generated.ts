@@ -27,8 +27,16 @@ export enum ApplePushPlatform {
   Watchos = 'watchos'
 }
 
+export enum LiveActivityState {
+  Active = 'active',
+  Dismissed = 'dismissed',
+  Ended = 'ended',
+  Stale = 'stale'
+}
+
 export type Mutation = {
   readonly __typename?: 'Mutation';
+  readonly appleLiveActivityStateUpdated: Scalars['Boolean']['output'];
   readonly registerApplePushToken: Scalars['Boolean']['output'];
   readonly registerAppleStartLiveActivityPushToken: Scalars['Boolean']['output'];
   readonly registerAppleUpdateLiveActivityPushToken: Scalars['Boolean']['output'];
@@ -36,6 +44,13 @@ export type Mutation = {
   readonly sendSilentPushNotification: Scalars['Boolean']['output'];
   readonly startLiveActivity: StartLiveActivityResponse;
   readonly updateLiveActivity: Scalars['Boolean']['output'];
+};
+
+
+export type MutationAppleLiveActivityStateUpdatedArgs = {
+  activityId: Scalars['ID']['input'];
+  liveActivityType: Scalars['String']['input'];
+  state: LiveActivityState;
 };
 
 
@@ -55,6 +70,7 @@ export type MutationRegisterAppleStartLiveActivityPushTokenArgs = {
 
 
 export type MutationRegisterAppleUpdateLiveActivityPushTokenArgs = {
+  activityId: Scalars['ID']['input'];
   appBundleId: Scalars['String']['input'];
   isSandbox?: InputMaybe<Scalars['Boolean']['input']>;
   liveActivityAttributes: Scalars['JSONObject']['input'];
@@ -176,6 +192,7 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
+  LiveActivityState: LiveActivityState;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   StartLiveActivityResponse: ResolverTypeWrapper<StartLiveActivityResponse>;
@@ -198,9 +215,10 @@ export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<Resolver
 }
 
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  appleLiveActivityStateUpdated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAppleLiveActivityStateUpdatedArgs, 'activityId' | 'liveActivityType' | 'state'>>;
   registerApplePushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterApplePushTokenArgs, 'appBundleId' | 'platform' | 'token'>>;
   registerAppleStartLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleStartLiveActivityPushTokenArgs, 'appBundleId' | 'token'>>;
-  registerAppleUpdateLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleUpdateLiveActivityPushTokenArgs, 'appBundleId' | 'liveActivityAttributes' | 'liveActivityType' | 'token'>>;
+  registerAppleUpdateLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleUpdateLiveActivityPushTokenArgs, 'activityId' | 'appBundleId' | 'liveActivityAttributes' | 'liveActivityType' | 'token'>>;
   sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'pushToken'>>;
   sendSilentPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendSilentPushNotificationArgs, 'data' | 'pushToken'>>;
   startLiveActivity?: Resolver<ResolversTypes['StartLiveActivityResponse'], ParentType, ContextType, RequireFields<MutationStartLiveActivityArgs, 'data' | 'liveActivityType' | 'pushToken'>>;
