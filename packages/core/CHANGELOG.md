@@ -1,5 +1,11 @@
 # @zemble/core
 
+## 0.1.21
+
+### Patch Changes
+
+- 6846bbd: Allow overriding appDir
+
 ## 0.1.20
 
 ### Patch Changes
