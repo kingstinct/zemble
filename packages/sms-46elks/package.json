@@ -1,6 +1,6 @@
 {
   "name": "@zemble/sms-46elks",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "@zemble Plugin for sending sms via 46elks",
   "main": "plugin.ts",
   "scripts": {

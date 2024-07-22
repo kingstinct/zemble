@@ -1,5 +1,15 @@
 # @zemble/auth
 
+## 0.0.57
+
+### Patch Changes
+
+- Updated dependencies [6846bbd]
+  - @zemble/core@0.1.21
+  - @zemble/bun@0.0.32
+  - @zemble/graphql@0.0.55
+  - @zemble/kv@0.0.53
+
 ## 0.0.56
 
 ### Patch Changes

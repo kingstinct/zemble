@@ -1,5 +1,13 @@
 # @zemble/migrations
 
+## 0.0.32
+
+### Patch Changes
+
+- Updated dependencies [6846bbd]
+  - @zemble/core@0.1.21
+  - @zemble/bun@0.0.32
+
 ## 0.0.31
 
 ### Patch Changes
