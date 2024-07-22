@@ -16,6 +16,7 @@ export type Configure = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly plugins: readonly (Plugin<any, any, any>)[],
   readonly providerStrategies?: Zemble.ProviderStrategies
+  readonly appDir?: string
 }
 
 const debuggah = debug('@zemble/core')
@@ -32,7 +33,11 @@ const filterConfig = (config: Zemble.GlobalConfig) => Object.keys(config).reduce
   }
 }, {})
 
-export const createApp = async ({ plugins: pluginsBeforeResolvingDeps, providerStrategies: providerStrategiesIn }: Configure) => {
+export const createApp = async ({
+  plugins: pluginsBeforeResolvingDeps,
+  providerStrategies: providerStrategiesIn,
+  appDir = process.cwd(),
+}: Configure) => {
   const hono = new Hono<Zemble.HonoEnv>()
 
   // maybe this should be later - how about middleware that overrides logger?
@@ -104,8 +109,6 @@ export const createApp = async ({ plugins: pluginsBeforeResolvingDeps, providerS
 
     debuggah(`Loading ${plugin.pluginName} with config: ${JSON.stringify(filterConfig(plugin.config), null, 2)}`)
   })
-
-  const appDir = process.cwd()
 
   const multiProviders = defaultMultiProviders as unknown as Zemble.MultiProviders
 
