@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.56
+
+### Patch Changes
+
+- 179ffcd: Fix issue with too many resolvers in useServerTiming
+
 ## 0.0.55
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@zemble/sms-twilio",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "@zemble Plugin for sending sms via Twilio",
   "main": "plugin.ts",
   "scripts": {

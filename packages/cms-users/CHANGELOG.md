@@ -1,5 +1,16 @@
 # @zemble/cms-users
 
+## 0.0.64
+
+### Patch Changes
+
+- Updated dependencies [179ffcd]
+  - @zemble/graphql@0.0.56
+  - @zemble/auth@0.0.58
+  - @zemble/auth-otp@0.0.59
+  - @zemble/cms@0.0.64
+  - @zemble/kv@0.0.54
+
 ## 0.0.63
 
 ### Patch Changes
