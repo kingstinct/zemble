@@ -1,5 +1,13 @@
 # @zemble/ignite
 
+## 0.0.55
+
+### Patch Changes
+
+- Updated dependencies [179ffcd]
+  - @zemble/graphql@0.0.56
+  - @zemble/bull@0.1.23
+
 ## 0.0.54
 
 ### Patch Changes

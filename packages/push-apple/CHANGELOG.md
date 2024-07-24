@@ -1,5 +1,12 @@
 # @zemble/push-apple
 
+## 0.0.14
+
+### Patch Changes
+
+- Updated dependencies [179ffcd]
+  - @zemble/graphql@0.0.56
+
 ## 0.0.13
 
 ### Patch Changes
