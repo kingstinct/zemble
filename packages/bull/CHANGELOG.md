@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.1.24
+
+### Patch Changes
+
+- e91821e: Add returnType to bull workers
+
 ## 0.1.23
 
 ### Patch Changes
