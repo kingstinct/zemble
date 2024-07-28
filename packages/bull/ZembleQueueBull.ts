@@ -27,7 +27,7 @@ export type ZembleJobOpts = {
   readonly logger: IStandardLogger
 }
 
-export type ZembleWorker<DataType = unknown, ReturnType = unknown> = (job: Job<DataType, ReturnType>, opts: ZembleJobOpts) => Promise<void> | void
+export type ZembleWorker<DataType = unknown, ReturnType = unknown> = (job: Job<DataType, ReturnType>, opts: ZembleJobOpts) => Promise<ReturnType> | ReturnType
 
 export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   readonly #worker: ZembleWorker<DataType, ReturnType>
