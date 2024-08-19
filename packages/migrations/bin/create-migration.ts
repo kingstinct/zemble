@@ -21,10 +21,10 @@ void mkdir(join(process.cwd(), targetFolder)).catch((_) => {}).finally(async () 
     process.exit(1)
   }
 
-  const validNpmPackageNameRegex = /^[a-z0-9-_]+$/
+  const validNpmPackageNameRegex = /^[a-zA-Z0-9-_]+$/
 
   if (!validNpmPackageNameRegex.test(migrationName)) {
-    console.error('The app name must be a valid file name')
+    console.error('The migration name must be a valid file name')
     process.exit(1)
   }
 
