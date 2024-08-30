@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.1.25
+
+### Patch Changes
+
+- b5acf45: adding pauseWorkersOnStart config option
+
 ## 0.1.24
 
 ### Patch Changes
