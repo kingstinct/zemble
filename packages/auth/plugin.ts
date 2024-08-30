@@ -1,6 +1,6 @@
 import { useExtendContext, type PromiseOrValue } from '@envelop/core'
 import { useGenericAuth } from '@envelop/generic-auth'
-import { Plugin, type TokenContents } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import graphqlYoga from '@zemble/graphql'
 import kv from '@zemble/kv'
 import {
@@ -15,6 +15,7 @@ import { handleValueNode, transformObjectNode } from './utils/graphqlToJSMappers
 import { setTokenCookies } from './utils/setBearerTokenCookie'
 
 import type { decodeToken as defaultDecodeToken } from './utils/decodeToken'
+import type { IStandardKeyValueService, TokenContents } from '@zemble/core'
 import type {
   ExecutionArgs, FieldNode, GraphQLObjectType, ObjectValueNode,
 } from 'graphql'
@@ -50,6 +51,17 @@ interface AuthConfig extends Zemble.GlobalConfig {
     readonly isEnabled?: boolean
     readonly opts?: (expiresInMs: number) => CookieOptions
   }
+}
+
+const initializedKvs = new Map<string, IStandardKeyValueService<string | boolean>>()
+const getKv = <T extends string | boolean> (key: string): IStandardKeyValueService<T> => {
+  if (initializedKvs.has(key)) {
+    return initializedKvs.get(key) as IStandardKeyValueService<T>
+  }
+
+  const newKv = plugin.providers.kv<T>(key)
+  initializedKvs.set(key, newKv)
+  return newKv
 }
 
 function isGraphQlWsContext(context: Context | Zemble.GraphQlWsContext): context is Zemble.GraphQlWsContext {
@@ -106,12 +118,12 @@ const validateMatch = (matchValueNode: ObjectValueNode, decodedToken: Record<str
 
 const checkTokenValidityDefault = async (token: string, decodedToken: TokenContents): Promise<boolean> => {
   // we need to force sub to be set for all tokens for this to work
-  const isInvalid = await plugin.providers.kv<string>('invalid-tokens').get(`${(decodedToken as JWTPayload).sub}:${token}`)
+  const isInvalid = await getKv<boolean>('invalid-tokens').get(`${(decodedToken as JWTPayload).sub}:${token}`)
   if (isInvalid) {
     return false
   }
 
-  const wasInvalidatedAt = await plugin.providers.kv<string>('tokens-invalidated-at').get(decodedToken.sub)
+  const wasInvalidatedAt = await getKv<string>('tokens-invalidated-at').get(decodedToken.sub)
   if (wasInvalidatedAt) {
     return new Date(wasInvalidatedAt) > new Date()
   }
@@ -126,10 +138,10 @@ const defaultConfig = {
   refreshTokenExpiryInSeconds: 60 * 60 * 24, // 24 hours
   checkTokenValidity: checkTokenValidityDefault,
   invalidateAllTokens: async (sub) => {
-    await plugin.providers.kv('tokens-invalidated-at').set(sub, new Date().toISOString())
+    await getKv('tokens-invalidated-at').set(sub, new Date().toISOString())
   },
   invalidateToken: async (sub, token) => {
-    await plugin.providers.kv('invalid-tokens').set(`${sub}:${token}`, true)
+    await getKv('invalid-tokens').set(`${sub}:${token}`, true)
   },
   reissueBearerToken: (decodedToken) => {
     if (process.env.NODE_ENV === 'development') {
