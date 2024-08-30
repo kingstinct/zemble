@@ -79,11 +79,13 @@ const setupQueues = async (
           queuePubber('paused', queue)
           queuePubber('resumed', queue)
 
-          worker.on('completed', jobUpdated)
-          worker.on('active', jobUpdated)
+          if (worker) {
+            worker.on('completed', jobUpdated)
+            worker.on('active', jobUpdated)
 
-          worker.on('progress', jobUpdated)
-          worker.on('failed', (job) => (job ? jobUpdated(job) : null))
+            worker.on('progress', jobUpdated)
+            worker.on('failed', (job) => (job ? jobUpdated(job) : null))
+          }
 
           // eslint-disable-next-line functional/immutable-data
           queues.push(queue)

@@ -2,6 +2,7 @@ import { createBullBoard } from '@bull-board/api'
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
+import { parseEnvBoolean } from '@zemble/utils/node/parseEnv'
 
 import HonoAdapter from './bullboard-hono-adapter'
 import setupQueues from './utils/setupQueues'
@@ -42,9 +43,16 @@ export interface BullPluginConfig extends Zemble.GlobalConfig {
     readonly nodeModulesRootPath?: string
     readonly basePath?: string
   } | false
+
+  /**
+  * Disables all queue workers
+  */
+  readonly DISABLE_QUEUE_WORKERS?: boolean
+
 }
 
 const defaults = {
+  DISABLE_QUEUE_WORKERS: parseEnvBoolean('DISABLE_QUEUE_WORKERS', false),
   redisUrl: process.env['REDIS_URL'],
   middleware: {
     '@zemble/graphql': { disable: true },
