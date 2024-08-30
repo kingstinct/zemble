@@ -70,7 +70,7 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
     }
 
     // @ts-expect-error if this cannot be a promise I'm not sure how stuff will work
-    const worker = new Worker(queueName, this.#worker, {
+    const worker = plugin.config.DISABLE_QUEUE_WORKERS ? null : new Worker(queueName, this.#worker, {
       connection,
       prefix: plugin.config.redisOptions?.keyPrefix,
     })
