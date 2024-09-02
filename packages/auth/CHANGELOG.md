@@ -1,5 +1,11 @@
 # @zemble/auth
 
+## 0.0.59
+
+### Patch Changes
+
+- 7c9b94d: adding kv map in Auth plugin
+
 ## 0.0.58
 
 ### Patch Changes

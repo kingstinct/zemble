@@ -1,5 +1,14 @@
 # minimal
 
+## 0.0.67
+
+### Patch Changes
+
+- Updated dependencies [7c9b94d]
+  - @zemble/auth@0.0.59
+  - @zemble/auth-otp@0.0.60
+  - @zemble/bull@0.1.26
+
 ## 0.0.66
 
 ### Patch Changes

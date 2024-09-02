@@ -1,5 +1,14 @@
 # todo-app-with-auth-backend
 
+## 0.0.66
+
+### Patch Changes
+
+- @zemble/auth-anonymous@0.0.57
+- @zemble/bull@0.1.26
+- @zemble/todo@0.0.57
+- @zemble/ignite@0.0.58
+
 ## 0.0.65
 
 ### Patch Changes
