@@ -118,7 +118,21 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-        if: ${{ !inputs.checkout_ref }}
+
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+        if: ${{ inputs.envTemplateFile }}
+
+      - name: Load secret
+        uses: 1password/load-secrets-action/configure@v2
+        if: ${{ inputs.envTemplateFile }}
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+      - name: Build .env.production
+        run: op inject -i ${{ inputs.envTemplateFile }}.tpl -o ${{ inputs.envTemplateFile }}
+        if: ${{ inputs.envTemplateFile }}
+        working-directory: ${{ inputs.working_directory }}
 
       - uses: actions/checkout@v4
         if: ${{ inputs.checkout_ref }}
@@ -172,7 +186,7 @@ jobs:
           eas-version: latest
           packager: ${{ inputs.package_manager }}
           expo-cache: true # optional
-          
+
       - name: Get Hash
         if: ${{ !inputs.always_run }}
         run: echo "HASH=`jq -r '.expo.${{ inputs.platform }}.runtimeVersion' app.json`" >> $GITHUB_ENV
