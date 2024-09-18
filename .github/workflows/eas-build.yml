@@ -80,6 +80,10 @@ on:
         required: false
         type: string
         description: Set bun version
+      env_template_file:
+        type: string
+        description: The Path to the .env template file
+    required: true
     secrets:
       EXPO_TOKEN:
         description: The Expo token to use for publishing
@@ -96,6 +100,9 @@ on:
       DISCORD_WEBHOOK:
         description: The Discord Webhook to use for notifications
         required: false
+      OP_SERVICE_ACCOUNT_TOKEN:
+        description: The 1Password service account token
+        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -118,20 +125,21 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+        if: ${{ !inputs.checkout_ref }}
 
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
-        if: ${{ inputs.envTemplateFile }}
+        if: ${{ inputs.env_template_file }}
 
       - name: Load secret
         uses: 1password/load-secrets-action/configure@v2
-        if: ${{ inputs.envTemplateFile }}
+        if: ${{ inputs.env_template_file }}
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
       - name: Build .env.production
-        run: op inject -i ${{ inputs.envTemplateFile }}.tpl -o ${{ inputs.envTemplateFile }}
-        if: ${{ inputs.envTemplateFile }}
+        run: op inject -i ${{ inputs.env_template_file }}.tpl -o ${{ inputs.env_template_file }}
+        if: ${{ inputs.env_template_file }}
         working-directory: ${{ inputs.working_directory }}
 
       - uses: actions/checkout@v4
