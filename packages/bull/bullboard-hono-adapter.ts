@@ -80,7 +80,7 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
             queues: this.bullBoardQueues as BullBoardQueues,
             params: c.req.param(),
             query: c.req.query(),
-            body: c.req.json(),
+            body: routeMethod !== 'get' ? await c.req.json() : {},
           })
           return c.json(response.body, response.status || 200)
         } catch (e) {
