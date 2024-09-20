@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.1.27
+
+### Patch Changes
+
+- 4968eff: Fix for later hono/bullboard versions
+
 ## 0.1.26
 
 ### Patch Changes
