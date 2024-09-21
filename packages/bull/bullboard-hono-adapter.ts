@@ -76,11 +76,13 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
 
       router[routeMethod](routePath, async (c: Context) => {
         try {
+          const bodyText = await c.req.text()
+          const hasJSONBody = bodyText.includes('{') && bodyText.includes('}')
           const response = await route.handler({
             queues: this.bullBoardQueues as BullBoardQueues,
             params: c.req.param(),
             query: c.req.query(),
-            body: routeMethod !== 'get' ? await c.req.json() : {},
+            body: hasJSONBody ? await c.req.json() : {},
           })
           return c.json(response.body, response.status || 200)
         } catch (e) {
