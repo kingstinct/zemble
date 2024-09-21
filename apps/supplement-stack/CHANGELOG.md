@@ -1,5 +1,12 @@
 # supplement-stack
 
+## 0.0.67
+
+### Patch Changes
+
+- Updated dependencies [daf8371]
+  - @zemble/bull@0.1.28
+
 ## 0.0.66
 
 ### Patch Changes

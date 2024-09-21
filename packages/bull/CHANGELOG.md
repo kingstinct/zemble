@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.1.28
+
+### Patch Changes
+
+- daf8371: Update bullboard to handle non-JSON requests safely
+
 ## 0.1.27
 
 ### Patch Changes
