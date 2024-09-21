@@ -32,7 +32,7 @@
     "zemble",
     "@zemble"
   ],
-  "packageManager": "bun@1.1.15",
+  "packageManager": "bun@1.1.29",
   "repository": {
     "type": "git",
     "url": "https://github.com/kingstinct/zemble"
