@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.2.0
+
+### Minor Changes
+
+- 498d500: Two new jobs in ZembleBullQueue resume and pause. Four new mock functions in ZembleQueueMock, remove, getJob, resume and pause
+
 ## 0.1.28
 
 ### Patch Changes
