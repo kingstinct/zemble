@@ -2,6 +2,7 @@
 /* eslint-disable functional/prefer-readonly-type */
 
 import zembleContext from '@zemble/core/zembleContext'
+import { jest } from 'bun:test'
 
 import type { ZembleQueueBull, ZembleQueueConfig, ZembleWorker } from './ZembleQueueBull'
 import type {
@@ -28,6 +29,14 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
   ) {
     this.#worker = worker
     // this.#config = config
+
+    // wrap all functions with jest.fn to be able to spy on them
+    this.add = jest.fn(this.add.bind(this))
+    this.addBulk = jest.fn(this.addBulk.bind(this))
+    this.remove = jest.fn(this.remove.bind(this))
+    this.getJob = jest.fn(this.getJob.bind(this))
+    this.pause = jest.fn(this.pause.bind(this))
+    this.resume = jest.fn(this.resume.bind(this))
   }
 
   readonly #worker: ZembleWorker
