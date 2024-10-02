@@ -97,5 +97,13 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   async getDelayed(...args: Parameters<Queue<DataType, ReturnType>['getDelayed']>) {
     return this.#queue.getDelayed(...args)
   }
+
+  async pause() {
+    return this.#queue.pause()
+  }
+
+  async resume() {
+    return this.#queue.resume()
+  }
 }
 export default ZembleQueueBull

@@ -2,6 +2,7 @@
 /* eslint-disable functional/prefer-readonly-type */
 
 import zembleContext from '@zemble/core/zembleContext'
+import { jest } from 'bun:test'
 
 import type { ZembleQueueBull, ZembleQueueConfig, ZembleWorker } from './ZembleQueueBull'
 import type {
@@ -11,15 +12,31 @@ import type {
 interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
   readonly add: ZembleQueueBull<DataType, ReturnType>['add']
   readonly addBulk: ZembleQueueBull<DataType, ReturnType>['addBulk']
+  readonly remove: ZembleQueueBull<DataType, ReturnType>['remove']
+  readonly getJob: ZembleQueueBull<DataType, ReturnType>['getJob']
+  readonly resume: ZembleQueueBull<DataType, ReturnType>['resume']
+  readonly pause: ZembleQueueBull<DataType, ReturnType>['pause']
 }
 
 class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZembleQueue<DataType, ReturnType> {
+  private jobs: Array<Job<DataType, ReturnType, string>> = []
+
+  private isPaused = false
+
   constructor(
     readonly worker: ZembleWorker,
     _?: ZembleQueueConfig,
   ) {
     this.#worker = worker
     // this.#config = config
+
+    // wrap all functions with jest.fn to be able to spy on them
+    this.add = jest.fn(this.add.bind(this))
+    this.addBulk = jest.fn(this.addBulk.bind(this))
+    this.remove = jest.fn(this.remove.bind(this))
+    this.getJob = jest.fn(this.getJob.bind(this))
+    this.pause = jest.fn(this.pause.bind(this))
+    this.resume = jest.fn(this.resume.bind(this))
   }
 
   readonly #worker: ZembleWorker
@@ -72,9 +89,33 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
   }
 
   async add(name: string, data: DataType, opts?: JobsOptions | undefined): Promise<Job<DataType, ReturnType, string>> {
+    if (this.isPaused) {
+      throw new Error('Queue is paused')
+    }
+
     const job = this.#createMockJob(name, data, opts)
+    this.jobs.push(job)
     setTimeout(async () => this.#worker(job, { logger: zembleContext.logger }), 0)
     return job
+  }
+
+  async remove(jobId: string) {
+    const initialLength = this.jobs.length
+    this.jobs = this.jobs.filter((job) => job.id !== jobId)
+    const removedCount = initialLength - this.jobs.length
+    return removedCount
+  }
+
+  async getJob(jobId: string): Promise<Job<DataType, ReturnType, string> | undefined> {
+    return this.jobs.find((job) => job.id === jobId)
+  }
+
+  async pause() {
+    this.isPaused = true
+  }
+
+  async resume(): Promise<void> {
+    this.isPaused = false
   }
 }
 
