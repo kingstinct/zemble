@@ -22,6 +22,11 @@ on:
         type: string
         default: pnpm
         description: The package manager to use
+      working_directory:
+        required: false
+        type: string
+        default: "."
+        description: The working directory to run the tests in
       pnpm_version:
         required: false
         type: string
@@ -41,6 +46,10 @@ on:
         required: false
         type: string
         default: pnpm
+      working_directory:
+        required: false
+        type: string
+        default: "."
       pnpm_version:
         required: false
         type: string
@@ -104,7 +113,13 @@ jobs:
 
       - id: set-test-chunks
         name: Set Chunks
+        if: ${{ inputs.package_manager != 'bun' }}
         run: echo "::set-output name=test-chunks::$(npx jest --listTests --json | jq -cM '[_nwise(length / ${{ inputs.parellelism_count }} | ceil)]')"
+
+      - id: set-test-chunks-bun
+        name: Set Chunks
+        if: ${{ inputs.package_manager == 'bun' }}
+        run: echo "::set-output name=test-chunks::$(bunx jest --listTests --json | jq -cM '[_nwise(length / ${{ inputs.parellelism_count }} | ceil)]')"
 
       - id: set-test-chunk-ids
         name: Set Chunk IDs
