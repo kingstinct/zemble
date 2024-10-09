@@ -123,13 +123,7 @@ jobs:
 
       - id: set-test-chunks
         name: Set Chunks
-        if: ${{ inputs.package_manager != 'bun' }}
         run: echo "test-chunks=$(npx jest --listTests --json | jq -cM '[_nwise(length / ${{ inputs.parellelism_count }} | ceil)]')" >> $GITHUB_OUTPUT
-
-      - id: set-test-chunks-bun
-        name: Set Chunks
-        if: ${{ inputs.package_manager == 'bun' }}
-        run: echo "test-chunks=$(bunx jest --listTests --json | jq -cM '[_nwise(length / ${{ inputs.parellelism_count }} | ceil)]')" >> $GITHUB_OUTPUT
 
       - id: set-test-chunk-ids
         name: Set Chunk IDs
