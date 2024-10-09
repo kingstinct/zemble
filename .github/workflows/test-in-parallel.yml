@@ -32,6 +32,10 @@ on:
         type: string
         default: "8"
         description: If using pnpm - which version to use
+      env_file:
+        required: false
+        type: string
+        description: The environment file to use
   workflow_call:
     inputs:
       parellelism_count:
@@ -42,6 +46,10 @@ on:
         required: false
         type: string
         default: npx jest
+      env_file:
+        required: false
+        type: string
+        description: The environment file to use
       package_manager:
         required: false
         type: string
@@ -77,6 +85,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: cardinalby/export-env-action@v2
+        if: ${{ inputs.env_file }}
+        with:
+          envFile: ${{ inputs.env_file }}
+
       - uses: pnpm/action-setup@v3
         if: ${{ inputs.package_manager == 'pnpm' }}
         with:
@@ -84,6 +97,8 @@ jobs:
 
       - uses: oven-sh/setup-bun@v1
         if: ${{ inputs.package_manager == 'bun' }}
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
 
       - uses: actions/setup-node@v4
         if: ${{ env.ACT && inputs.package_manager != 'bun' }}
@@ -96,11 +111,6 @@ jobs:
           node-version-file: .nvmrc
           cache: ${{ inputs.package_manager }}
 
-      - name: Install dependencies (bun)
-        run: ${{ inputs.package_manager }} install --frozen-lockfile
-        if: ${{ inputs.package_manager == 'bun' }}
-        working-directory: ${{ inputs.working_directory }}
-
       - name: Install dependencies (npm)
         run: npm ci
         if: ${{ inputs.package_manager == 'npm' }}
@@ -108,22 +118,22 @@ jobs:
 
       - name: Install dependencies (others)
         run: ${{ inputs.package_manager }} install --frozen-lockfile
-        if: ${{ inputs.package_manager != 'npm' && inputs.package_manager != 'bun' }}
+        if: ${{ inputs.package_manager != 'npm' }}
         working-directory: ${{ inputs.working_directory }}
 
       - id: set-test-chunks
         name: Set Chunks
         if: ${{ inputs.package_manager != 'bun' }}
-        run: echo "::set-output name=test-chunks::$(npx jest --listTests --json | jq -cM '[_nwise(length / ${{ inputs.parellelism_count }} | ceil)]')"
+        run: echo "test-chunks=$(npx jest --listTests --json | jq -cM '[_nwise(length / ${{ inputs.parellelism_count }} | ceil)]')" >> $GITHUB_OUTPUT
 
       - id: set-test-chunks-bun
         name: Set Chunks
         if: ${{ inputs.package_manager == 'bun' }}
-        run: echo "::set-output name=test-chunks::$(bunx jest --listTests --json | jq -cM '[_nwise(length / ${{ inputs.parellelism_count }} | ceil)]')"
+        run: echo "test-chunks=$(bunx jest --listTests --json | jq -cM '[_nwise(length / ${{ inputs.parellelism_count }} | ceil)]')" >> $GITHUB_OUTPUT
 
       - id: set-test-chunk-ids
         name: Set Chunk IDs
-        run: echo "::set-output name=test-chunk-ids::$(echo $CHUNKS | jq -cM 'to_entries | map(.key)')"
+        run: echo "test-chunk-ids=$(echo $CHUNKS | jq -cM 'to_entries | map(.key)')" >> $GITHUB_OUTPUT
         env:
           CHUNKS: ${{ steps['set-test-chunks'].outputs['test-chunks'] }}
   test:
@@ -146,23 +156,28 @@ jobs:
         with:
           version: ${{ inputs.pnpm_version }}
 
+      - uses: cardinalby/export-env-action@v2
+        if: ${{ inputs.env_file }}
+        with:
+          envFile: ${{ inputs.env_file }}
+
+      - uses: oven-sh/setup-bun@v1
+        if: ${{ inputs.package_manager == 'bun' }}
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
       - name: Setup Node
         uses: actions/setup-node@v4
-        if: ${{ env.ACT }}
+        if: ${{ env.ACT && inputs.package_manager != 'bun' }}
         with:
           node-version-file: .nvmrc
 
       - name: Setup Node and Cache
         uses: actions/setup-node@v4
-        if: ${{ !env.ACT }}
+        if: ${{ !env.ACT && inputs.package_manager != 'bun' }}
         with:
           node-version-file: .nvmrc
           cache: ${{ inputs.package_manager }}
-
-      - name: Install dependencies (bun)
-        run: ${{ inputs.package_manager }} install --frozen-lockfile
-        if: ${{ inputs.package_manager == 'bun' }}
-        working-directory: ${{ inputs.working_directory }}
 
       - name: Install dependencies (npm)
         run: npm ci
@@ -171,7 +186,7 @@ jobs:
 
       - name: Install dependencies (others)
         run: ${{ inputs.package_manager }} install --frozen-lockfile
-        if: ${{ inputs.package_manager != 'npm' && inputs.package_manager != 'bun' }}
+        if: ${{ inputs.package_manager != 'npm' }}
         working-directory: ${{ inputs.working_directory }}
 
       - name: Test
