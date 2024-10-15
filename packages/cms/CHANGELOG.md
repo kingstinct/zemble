@@ -1,5 +1,12 @@
 # @zemble/cms
 
+## 0.0.66
+
+### Patch Changes
+
+- Updated dependencies [81c996f]
+  - @zemble/mongodb@0.0.36
+
 ## 0.0.65
 
 ### Patch Changes
