@@ -1,16 +1,21 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
+import MongoDBPlugin from '@zemble/mongodb'
+import { wait } from '@zemble/utils'
 import { MongoClient } from 'mongodb'
 
-import MongoDBPlugin from './plugin'
-
 import type { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server'
+import type { MongoMemoryReplSetOpts } from 'mongodb-memory-server-core/lib/MongoMemoryReplSet'
 
 let mongodb: MongoMemoryServer | MongoMemoryReplSet | null = null
 
-export const startInMemoryInstance = async () => {
+// TODO [2024-11-10] Move this file back to zemble (@zemble/mongodb/test-utils) once we see it is stable!
+
+export const startInMemoryInstance = async ({ options, replicaSetOptions }: { readonly options?: MongoMemoryServer['opts']; readonly replicaSetOptions?: Partial<MongoMemoryReplSetOpts> | true } = {}) => {
   try {
-    const mdb = new ((await import('mongodb-memory-server')).MongoMemoryReplSet)()
+    const MongoMemoryServer = await import('mongodb-memory-server')
+
+    const mdb = replicaSetOptions ? new MongoMemoryServer.MongoMemoryReplSet() : new MongoMemoryServer.MongoMemoryServer(options)
     mongodb = mdb
 
     await mdb.start()
@@ -21,8 +26,8 @@ export const startInMemoryInstance = async () => {
   }
 }
 
-export const startInMemoryInstanceAndConfigurePlugin = async () => {
-  const url = await startInMemoryInstance()
+export const startInMemoryInstanceAndConfigurePlugin = async ({ options, replicaSetOptions }: { readonly options?: MongoMemoryServer['opts']; readonly replicaSetOptions?: Partial<MongoMemoryReplSetOpts> } = {}) => {
+  const url = await startInMemoryInstance({ options, replicaSetOptions })
 
   MongoDBPlugin.configure({
     url,
@@ -39,12 +44,43 @@ export const startInMemoryInstanceAndConfigurePlugin = async () => {
 
 export const closeAndStopInMemoryInstance = async () => {
   const client = MongoDBPlugin.providers.mongodb?.client
-  if (client) {
-    await client.close()
+  try {
+    if (client) {
+      await new Promise<void>((resolve) => {
+        let isClosed = false
+        void client.close(true).then(() => {
+          isClosed = true
+          resolve()
+        })
+        void wait(5000).then(() => {
+          if (!isClosed) {
+            resolve()
+          }
+        })
+      })
+    }
+  } catch (e) {
+    console.error('Error closing in-memory instance', e)
   }
-  if (mongodb) {
-    await mongodb.stop({ doCleanup: true, force: true })
-    mongodb = null
+
+  try {
+    await new Promise<void>((resolve) => {
+      let isStopped = false
+      if (mongodb) {
+        void mongodb.stop({ doCleanup: true, force: true }).then(() => {
+          mongodb = null
+          isStopped = true
+          resolve()
+        })
+      }
+      void wait(5000).then(() => {
+        if (!isStopped) {
+          resolve()
+        }
+      })
+    })
+  } catch (e) {
+    console.error('Error stopping in-memory instance', e)
   }
 }
 
