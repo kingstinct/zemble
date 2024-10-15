@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.2.1
+
+### Patch Changes
+
+- 81c996f: Reuse redis connections with bull, add more configuration options to mongodb test-utils
+
 ## 0.2.0
 
 ### Minor Changes
