@@ -15,6 +15,7 @@ import type {
   Job,
   QueueListener,
 } from 'bullmq'
+import type { Redis } from 'ioredis'
 
 // eslint-disable-next-line functional/prefer-readonly-type
 const queues: Queue[] = []
@@ -58,6 +59,11 @@ const setupQueues = async (
     if (redisUrl || process.env.NODE_ENV === 'test') {
       const filenames = readDir(queuePath)
 
+      const client = redisUrl && process.env.NODE_ENV !== 'test' ? createClient(
+        redisUrl,
+        { redis: config?.redisOptions, logger },
+      ) : {} as Redis
+
       await Promise.all(filenames.map(async (filename) => {
         const fileNameWithoutExtension = filename.substring(0, filename.length - 3)
         const queueConfig = (await import(path.join(queuePath, filename))).default
@@ -65,10 +71,7 @@ const setupQueues = async (
         if (queueConfig instanceof ZembleQueueBull && redisUrl) {
           const { queue, worker } = await queueConfig._initQueue(
             fileNameWithoutExtension,
-            createClient(
-              redisUrl,
-              { redis: config?.redisOptions, logger },
-            ),
+            client,
           )
 
           queuePubber('cleaned', queue)
