@@ -84,6 +84,11 @@ on:
         type: string
         description: The Path to the .env template file
         required: false
+      use_fingerprint:
+        description: Use fingerprinting for runtime version
+        required: false
+        default: false
+        type: boolean
     secrets:
       EXPO_TOKEN:
         description: The Expo token to use for publishing
@@ -195,7 +200,7 @@ jobs:
           expo-cache: true # optional
 
       - name: Get Hash
-        if: ${{ !inputs.always_run }}
+        if: ${{ !inputs.use_fingerprint && !inputs.always_run }}
         run: echo "HASH=`jq -r '.expo.${{ inputs.platform }}.runtimeVersion' app.json`" >> $GITHUB_ENV
         working-directory: ${{ inputs.working_directory }}
 
