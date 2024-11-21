@@ -1,5 +1,11 @@
 # @zemble/auth-apple
 
+## 0.0.63
+
+### Patch Changes
+
+- fb892ed: Fix so sub can be overriden for refreshTokens
+
 ## 0.0.62
 
 ### Patch Changes
