@@ -26,7 +26,7 @@ export const loginWithApple: NonNullable<MutationResolvers['loginWithApple']> = 
 
   const idToken = await validateIdToken(identityToken)
 
-  const bearerToken = await generateBearerTokenFromAppleToken(idToken, {
+  const { bearerToken, sub } = await generateBearerTokenFromAppleToken(idToken, {
     email: email ?? undefined,
     name: fullName ?? undefined,
     authorizationCode,
@@ -36,7 +36,7 @@ export const loginWithApple: NonNullable<MutationResolvers['loginWithApple']> = 
     state: state ?? undefined,
   })
 
-  const refreshToken = await generateRefreshToken(idToken)
+  const refreshToken = await generateRefreshToken({ sub })
 
   if (Auth.config.cookies.isEnabled) {
     setTokenCookies(honoContext, bearerToken, refreshToken)

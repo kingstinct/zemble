@@ -38,5 +38,5 @@ export const generateBearerTokenFromAppleToken = async (
     expiresInSeconds: authPlugin.config.bearerTokenExpiryInSeconds,
   })
 
-  return bearerToken
+  return { bearerToken, sub }
 }
