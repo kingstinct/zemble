@@ -13,7 +13,7 @@ test('Should get apple user id as sub', async () => {
 
   })
 
-  const decodedToken = decodeJwt(encodedToken)
+  const decodedToken = decodeJwt(encodedToken.bearerToken)
 
   expect(decodedToken.sub).toBe('apple-uid')
 })
@@ -26,7 +26,7 @@ test('Should override sub', async () => {
 
   })
 
-  const decodedToken = decodeJwt(encodedToken)
+  const decodedToken = decodeJwt(encodedToken.bearerToken)
 
   expect(decodedToken.sub).toBe('overriden-sub')
 

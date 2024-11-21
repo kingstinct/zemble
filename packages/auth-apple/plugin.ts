@@ -139,7 +139,7 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
 
         // Code to handle user authentication and retrieval using the decoded information
 
-        return ctx.redirect(`${AUTHENTICATED_REDIRECT_URL}?bearerToken=${bearerToken}`)
+        return ctx.redirect(`${AUTHENTICATED_REDIRECT_URL}?bearerToken=${bearerToken.bearerToken}`)
       } catch (error) {
         if (error instanceof Error) {
           self.providers.logger.error('Error:', error.message)
