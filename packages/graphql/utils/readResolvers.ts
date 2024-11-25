@@ -9,7 +9,7 @@ export const readResolvers = async (path: string, logger: IStandardLogger, isRun
     const erroredPaths: Record<string, unknown> = {}
 
     const resolvers = await readdirSync(path).reduce(async (prev, filename) => {
-      if (filename.includes('.test.') || filename.includes('.generated') || filename.endsWith('.graphql') || (!isRunningLocally && filename.includes('.local.'))) {
+      if (filename.includes('.test.') || filename.includes('.generated') || !filename.endsWith('.ts') || (!isRunningLocally && filename.includes('.local.'))) {
         return prev
       }
 
