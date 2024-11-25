@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.57
+
+### Patch Changes
+
+- ce0ec62: Fix so only .ts files are picked up when reading graphql resolvers
+
 ## 0.0.56
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @zemble/sms-twilio
 
+## 0.0.11
+
+### Patch Changes
+
+- Updated dependencies [ce0ec62]
+  - @zemble/graphql@0.0.57
+
 ## 0.0.10
 
 ### Patch Changes
