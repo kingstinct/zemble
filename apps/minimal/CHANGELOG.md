@@ -1,5 +1,19 @@
 # minimal
 
+## 0.0.72
+
+### Patch Changes
+
+- Updated dependencies [ce0ec62]
+  - @zemble/graphql@0.0.57
+  - @zemble/auth@0.0.60
+  - @zemble/auth-otp@0.0.61
+  - @zemble/bull@0.2.2
+  - @zemble/email-resend@0.0.26
+  - @zemble/logger-graphql@0.0.53
+  - @zemble/sms-46elks@0.0.11
+  - @zemble/sms-twilio@0.0.11
+
 ## 0.0.71
 
 ### Patch Changes
