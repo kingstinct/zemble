@@ -1,34 +1,71 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import type { MigrationAdapter, MigrationStatus } from '@zemble/migrations'
+import type { Collection } from 'mongodb'
 import type { JsonValue } from 'type-fest'
 
 type Config = { readonly providers: Zemble.Providers, readonly collectionName?: string }
 
-function getCollection<TProgress extends JsonValue = JsonValue>(config: Config) {
+export async function getCollection<TProgress extends JsonValue = JsonValue>(config: Config) {
   const db = config.providers.mongodb?.db
   if (!db) throw new Error('MongoDB client not provided or initialized')
 
   const collectionName = config.collectionName ?? 'migrations'
 
+  await db.createIndex(collectionName, { name: 1 }, { unique: true })
+
   const collection = db.collection<MigrationStatus<TProgress>>(collectionName)
   return collection
+}
+
+export async function acquireUpLock<TProgress extends JsonValue = JsonValue>(name: string, collection: Collection<MigrationStatus<TProgress>>) {
+  try {
+    await collection.findOneAndUpdate({
+      name,
+      completedAt: { $exists: false },
+    }, {
+      $set: {
+        name,
+        startedAt: new Date(),
+      },
+    }, { upsert: true })
+  } catch (e) {
+    const error = e instanceof Error && e.message.includes('duplicate key error')
+      ? new Error(`Migration "${name}" (up) is already running`)
+      : e
+
+    throw error
+  }
+}
+
+export const acquireDownLock = async <TProgress extends JsonValue = JsonValue>(name: string, collection: Collection<MigrationStatus<TProgress>>) => {
+  try {
+    await collection.findOneAndUpdate({
+      name,
+      startedDownAt: { $exists: false },
+    }, {
+      $set: {
+        name,
+        startedDownAt: new Date(),
+      },
+    }, { upsert: true })
+  } catch (e) {
+    const error = e instanceof Error && e.message.includes('duplicate key error')
+      ? new Error(`Migration "${name}" (down) is already running`)
+      : e
+
+    throw error
+  }
 }
 
 function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: Config): MigrationAdapter<TProgress> {
   return {
     up: async (name, runMigration) => {
-      try {
-        await getCollection(config).findOneAndUpdate({
-          name,
-        }, {
-          $set: {
-            name,
-            startedAt: new Date(),
-          },
-        }, { upsert: true })
+      const collection = await getCollection(config)
+      await acquireUpLock(name, collection)
 
+      try {
         await runMigration()
-        await getCollection(config).findOneAndUpdate({
+        await collection.findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -38,7 +75,7 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
           },
         }, { upsert: true })
       } catch (e) {
-        await getCollection(config).findOneAndUpdate({
+        await collection.findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -50,20 +87,15 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
       }
     },
     down: async (name, runMigration) => {
-      await getCollection(config).findOneAndUpdate({
-        name,
-      }, {
-        $set: {
-          name,
-          startedDownAt: new Date(),
-        },
-      }, { upsert: true })
+      const collection = await getCollection(config)
+
+      await acquireDownLock(name, collection)
 
       try {
         await runMigration()
-        await getCollection(config).deleteOne({ name })
+        await collection.deleteOne({ name })
       } catch (e) {
-        await getCollection(config).findOneAndUpdate({
+        await collection.findOneAndUpdate({
           name,
         }, {
           $set: {
@@ -75,12 +107,14 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
       }
     },
     status: async () => {
-      const res = getCollection<TProgress>(config).find().toArray()
+      const collection = await getCollection<TProgress>(config)
+      const res = await collection.find().toArray()
 
       return res
     },
     progress: async (migrationStatus) => {
-      await getCollection(config).findOneAndUpdate({
+      const collection = await getCollection(config)
+      await collection.findOneAndUpdate({
         name: migrationStatus.name,
       }, {
         $set: {
