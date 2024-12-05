@@ -11,7 +11,7 @@ export const setupBeforeAll = async () => {
   setupEnvOverride({ PUBLIC_KEY: publicKey, PRIVATE_KEY: privateKey })
 
   await startInMemoryInstanceAndConfigurePlugin({
-    replSet: true,
+    replicaSetOptions: {},
   })
 
   await createTestApp(plugin)
