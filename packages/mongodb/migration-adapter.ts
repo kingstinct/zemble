@@ -19,15 +19,10 @@ export async function getCollection<TProgress extends JsonValue = JsonValue>(con
 
 export async function acquireUpLock<TProgress extends JsonValue = JsonValue>(name: string, collection: Collection<MigrationStatus<TProgress>>) {
   try {
-    await collection.findOneAndUpdate({
+    await collection.insertOne({
       name,
-      completedAt: { $exists: false },
-    }, {
-      $set: {
-        name,
-        startedAt: new Date(),
-      },
-    }, { upsert: true })
+      startedAt: new Date(),
+    })
   } catch (e) {
     const error = e instanceof Error && e.message.includes('duplicate key error')
       ? new Error(`Migration "${name}" (up) is already running`)
@@ -39,7 +34,7 @@ export async function acquireUpLock<TProgress extends JsonValue = JsonValue>(nam
 
 export const acquireDownLock = async <TProgress extends JsonValue = JsonValue>(name: string, collection: Collection<MigrationStatus<TProgress>>) => {
   try {
-    await collection.findOneAndUpdate({
+    const result = await collection.updateOne({
       name,
       startedDownAt: { $exists: false },
     }, {
@@ -47,7 +42,10 @@ export const acquireDownLock = async <TProgress extends JsonValue = JsonValue>(n
         name,
         startedDownAt: new Date(),
       },
-    }, { upsert: true })
+    })
+    if (result.matchedCount === 0) {
+      throw new Error(`Migration "${name}" (down) is already running`)
+    }
   } catch (e) {
     const error = e instanceof Error && e.message.includes('duplicate key error')
       ? new Error(`Migration "${name}" (down) is already running`)

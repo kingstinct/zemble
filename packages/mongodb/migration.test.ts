@@ -13,10 +13,6 @@ afterAll(teardownAfterAll)
 
 afterEach(tearDownAfterEach)
 
-/* test('test', async () => {
-  expect(1).toBe(1)
-})
-
 test('run migration', async () => {
   const mongodbPlugin = plugin
   const adapter = MongoMigrationAdapterWithTransaction({
@@ -40,29 +36,6 @@ test('run migration', async () => {
   )
 })
 
-test('run migration again', async () => {
-  const mongodbPlugin = plugin
-  const adapter = MongoMigrationAdapterWithTransaction({
-    providers: mongodbPlugin.providers,
-    collectionName: 'migrations',
-  })
-  await adapter.up('testing', async () => {
-    // empty migration
-  })
-
-  const migrations = await mongodbPlugin.providers.mongodb?.db.collection('migrations').find().toArray()
-  expect(migrations).toHaveLength(1)
-  expect(migrations?.[0]).toStrictEqual(
-    {
-      name: 'testing',
-      startedAt: expect.any(Date),
-      _id: expect.any(ObjectId),
-      completedAt: expect.any(Date),
-      error: null,
-    },
-  )
-}) */
-
 test('run concurrent migrations', async () => {
   const mongodbPlugin = plugin
   const adapter = MongoMigrationAdapterWithTransaction({
@@ -77,7 +50,9 @@ test('run concurrent migrations', async () => {
 
   const migration2 = adapter.up('testing', migrationRunner)
 
-  await Promise.allSettled([migration1, migration2])
+  const migration3 = adapter.up('testing', migrationRunner)
+
+  await Promise.allSettled([migration1, migration2, migration3])
 
   const migrations = await mongodbPlugin.providers.mongodb?.db.collection('migrations').find().toArray()
 
