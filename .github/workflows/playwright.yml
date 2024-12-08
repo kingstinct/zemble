@@ -96,7 +96,7 @@ jobs:
         with:
           envFile: ${{ inputs.env_file }}
 
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
         if: ${{ inputs.package_manager == 'bun' }}
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
