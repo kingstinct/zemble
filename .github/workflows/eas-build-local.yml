@@ -140,7 +140,7 @@ jobs:
         with:
           version: ${{ inputs.pnpm_version }}
 
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
         if: ${{ inputs.package_manager == 'bun' }}
         with:
           bun-version: ${{ inputs.bun_version || env.BUN_VERSION || 'latest'}}
