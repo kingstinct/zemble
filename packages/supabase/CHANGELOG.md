@@ -1,5 +1,13 @@
 # @zemble/supabase
 
+## 0.0.41
+
+### Patch Changes
+
+- Updated dependencies [ce0ec62]
+  - @zemble/graphql@0.0.57
+  - @zemble/auth@0.0.60
+
 ## 0.0.40
 
 ### Patch Changes
