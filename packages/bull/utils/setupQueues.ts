@@ -34,7 +34,7 @@ const setupQueues = async (
     pubSub.publish('jobUpdated', safeStableStringify(job))
   }
 
-  function queuePubber<T extends keyof QueueListener<unknown, unknown, string>>(status: T, queue: Queue) {
+  function queuePubber<T extends keyof QueueListener>(status: T, queue: Queue) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     queue.on(status, (...args: Parameters<QueueListener<unknown, unknown, string>[T]>) => {
