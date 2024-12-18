@@ -3,9 +3,9 @@
   "workspaces": {
     "": {
       "dependencies": {
-        "@changesets/cli": "^2.27.7",
-        "debug": "^4.3.5",
-        "graphql": "^16.9.0",
+        "@changesets/cli": "^2.27.10",
+        "debug": "^4.4.0",
+        "graphql": "^16.10.0",
         "madge": "^7.0.0",
       },
       "devDependencies": {
@@ -16,7 +16,7 @@
         "@types/debug": "^4.1.12",
         "@typescript-eslint/eslint-plugin": "^7.15.0",
         "@typescript-eslint/parser": "^7.15.0",
-        "bun-types": "1.1.18",
+        "bun-types": "1.1.39",
         "check-dependency-version-consistency": "^4.1.0",
         "eslint": "8",
         "eslint-config-airbnb": "^19.0.4",
@@ -34,10 +34,10 @@
         "eslint-plugin-react-native-a11y": "^3.3.0",
         "eslint-plugin-unicorn": "^54.0.0",
         "eslint-plugin-yml": "^1.14.0",
-        "husky": "^9.0.11",
-        "lint-staged": "^15.2.7",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.2.11",
         "pino-pretty": "^11.2.1",
-        "turbo": "^2.0.6",
+        "turbo": "^2.3.3",
         "typescript-json-schema": "^0.64.0",
       },
     },
@@ -66,7 +66,7 @@
         "jwt-decode": "^4.0.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
-        "react-hook-form": "^7.52.1",
+        "react-hook-form": "^7.54.1",
         "react-native": "~0.72.4",
         "react-native-gesture-handler": "^2.14.0",
         "react-native-keyboard-aware-scroll-view": "^0.9.5",
@@ -78,14 +78,14 @@
         "react-native-vector-icons": "^10.0.3",
         "react-native-web": "^0.19.8",
         "recursive": "^0.0.2",
-        "typescript": "^5.5.3",
-        "urql": "4.1",
+        "typescript": "^5.7.2",
+        "urql": "4.2",
       },
       "devDependencies": {
-        "@babel/core": "^7.24.7",
+        "@babel/core": "^7.26.0",
         "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
       },
     },
     "apps/minimal": {
@@ -108,7 +108,7 @@
       },
       "devDependencies": {
         "@tsconfig/node20": "^20.1.4",
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
     },
     "apps/supplement-stack": {
@@ -124,13 +124,13 @@
         "@zemble/graphql": "packages/graphql",
         "@zemble/todo": "packages/todo",
         "@zemble/utils": "packages/utils",
-        "graphql": "^16.9.0",
-        "graphql-scalars": "^1.23.0",
-        "mongodb": "^6.8.0",
+        "graphql": "^16.10.0",
+        "graphql-scalars": "^1.24.0",
+        "mongodb": "^6.12.0",
         "papr": "^15.2.2",
       },
       "devDependencies": {
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
     },
     "apps/todo-app-with-auth": {
@@ -144,15 +144,15 @@
         "@zemble/todo-ui": "packages/todo-ui",
         "expo": "^49.0.21",
         "expo-status-bar": "^1.7.1",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
         "react": "^18.3.1",
         "react-native": "~0.72.4",
         "react-native-web": "^0.19.8",
       },
       "devDependencies": {
-        "@babel/core": "^7.24.7",
+        "@babel/core": "^7.26.0",
         "@types/react": "^18.3.3",
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
     },
     "apps/todo-app-with-auth-backend": {
@@ -170,7 +170,7 @@
         "@zemble/todo": "packages/todo",
       },
       "devDependencies": {
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
     },
     "packages/anonymous-auth-expo": {
@@ -180,17 +180,17 @@
         "@zemble/auth-expo": "packages/auth-expo",
         "@zemble/urql-expo": "packages/urql-expo",
         "expo": "^49.0.21",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
         "react": "^18.3.1",
         "react-native": "~0.72.4",
-        "urql": "4.1",
+        "urql": "4.2",
       },
       "devDependencies": {
-        "@babel/core": "^7.24.7",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
+        "@babel/core": "^7.26.0",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
         "@types/react": "^18.3.3",
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
     },
     "packages/apple-app-site-association": {
@@ -204,31 +204,31 @@
       "name": "@zemble/auth",
       "version": "0.0.59",
       "dependencies": {
-        "@envelop/core": "^5.0.1",
+        "@envelop/core": "^5.0.2",
         "@envelop/generic-auth": "^7.0.0",
-        "@graphql-tools/wrap": "^10.0.5",
+        "@graphql-tools/wrap": "^10.0.26",
         "@zemble/bun": "packages/bun",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/kv": "packages/kv",
-        "graphql": "^16.9.0",
-        "graphql-scalars": "^1.23.0",
-        "hono": "^4.4.12",
-        "jose": "^5.6.3",
+        "graphql": "^16.10.0",
+        "graphql-scalars": "^1.24.0",
+        "hono": "^4.6.14",
+        "jose": "^5.9.6",
       },
     },
     "packages/auth-anonymous": {
       "name": "@zemble/auth-anonymous",
       "version": "0.0.57",
       "dependencies": {
-        "@envelop/core": "^5.0.1",
+        "@envelop/core": "^5.0.2",
         "@envelop/generic-auth": "^7.0.0",
-        "@whatwg-node/server-plugin-cookies": "^1.0.2",
+        "@whatwg-node/server-plugin-cookies": "^1.0.3",
         "@zemble/auth": "packages/auth",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/utils": "packages/utils",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
       },
     },
     "packages/auth-api-token": {
@@ -238,24 +238,24 @@
         "@zemble/auth": "packages/auth",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
-        "graphql": "^16.9.0",
-        "graphql-scalars": "^1.23.0",
-        "hono": "^4.4.12",
-        "jose": "^5.6.3",
+        "graphql": "^16.10.0",
+        "graphql-scalars": "^1.24.0",
+        "hono": "^4.6.14",
+        "jose": "^5.9.6",
       },
     },
     "packages/auth-apple": {
       "name": "@zemble/auth-apple",
       "version": "0.0.63",
       "dependencies": {
-        "@envelop/core": "^5.0.1",
+        "@envelop/core": "^5.0.2",
         "@envelop/generic-auth": "^7.0.0",
-        "@whatwg-node/server-plugin-cookies": "^1.0.2",
+        "@whatwg-node/server-plugin-cookies": "^1.0.3",
         "@zemble/auth": "packages/auth",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
-        "graphql": "^16.9.0",
-        "jose": "^5.6.3",
+        "graphql": "^16.10.0",
+        "jose": "^5.9.6",
       },
     },
     "packages/auth-expo": {
@@ -268,25 +268,25 @@
         "react-native": "~0.72.4",
       },
       "devDependencies": {
-        "@babel/core": "^7.24.7",
+        "@babel/core": "^7.26.0",
         "@types/react": "^18.3.3",
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
     },
     "packages/auth-otp": {
       "name": "@zemble/auth-otp",
       "version": "0.0.60",
       "dependencies": {
-        "@envelop/core": "^5.0.1",
+        "@envelop/core": "^5.0.2",
         "@envelop/generic-auth": "^7.0.0",
-        "@whatwg-node/server-plugin-cookies": "^1.0.2",
+        "@whatwg-node/server-plugin-cookies": "^1.0.3",
         "@zemble/auth": "packages/auth",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/kv": "packages/kv",
         "@zemble/utils": "packages/utils",
-        "graphql": "^16.9.0",
-        "libphonenumber-js": "^1.11.4",
+        "graphql": "^16.10.0",
+        "libphonenumber-js": "^1.11.17",
       },
     },
     "packages/bull": {
@@ -299,13 +299,13 @@
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/utils": "packages/utils",
-        "bullmq": "^5.8.4",
+        "bullmq": "^5.34.2",
         "ejs": "^3.1.10",
-        "graphql": "^16.9.0",
-        "graphql-scalars": "^1.23.0",
-        "hono": "^4.4.12",
+        "graphql": "^16.10.0",
+        "graphql-scalars": "^1.24.0",
+        "hono": "^4.6.14",
         "ioredis": "^5.4.1",
-        "safe-stable-stringify": "^2.4.3",
+        "safe-stable-stringify": "^2.5.0",
       },
       "devDependencies": {
         "@types/bun": "*",
@@ -322,37 +322,37 @@
       "name": "@zemble/cms",
       "version": "0.0.66",
       "dependencies": {
-        "@envelop/core": "^5.0.1",
-        "@envelop/extended-validation": "^4.0.0",
+        "@envelop/core": "^5.0.2",
+        "@envelop/extended-validation": "^4.1.0",
         "@envelop/generic-auth": "^7.0.0",
-        "@graphql-tools/utils": "^10.3.1",
+        "@graphql-tools/utils": "^10.6.4",
         "@zemble/auth": "packages/auth",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/mongodb": "packages/mongodb",
         "@zemble/utils": "packages/utils",
-        "dataloader": "^2.2.2",
-        "graphql": "^16.9.0",
-        "graphql-scalars": "^1.23.0",
-        "hono": "^4.4.12",
-        "jose": "^5.6.3",
-        "memfs": "^4.9.3",
-        "mongodb": "^6.8.0",
+        "dataloader": "^2.2.3",
+        "graphql": "^16.10.0",
+        "graphql-scalars": "^1.24.0",
+        "hono": "^4.6.14",
+        "jose": "^5.9.6",
+        "memfs": "^4.15.0",
+        "mongodb": "^6.12.0",
         "papr": "^15.2.2",
       },
       "devDependencies": {
         "mongodb-memory-server": "9",
-        "type-fest": "^4.21.0",
+        "type-fest": "^4.30.2",
       },
     },
     "packages/cms-users": {
       "name": "@zemble/cms-users",
       "version": "0.0.66",
       "dependencies": {
-        "@envelop/core": "^5.0.1",
-        "@envelop/extended-validation": "^4.0.0",
+        "@envelop/core": "^5.0.2",
+        "@envelop/extended-validation": "^4.1.0",
         "@envelop/generic-auth": "^7.0.0",
-        "@graphql-tools/executor": "^1.2.8",
+        "@graphql-tools/executor": "^1.3.9",
         "@zemble/auth": "packages/auth",
         "@zemble/auth-otp": "packages/auth-otp",
         "@zemble/cms": "packages/cms",
@@ -361,12 +361,12 @@
         "@zemble/kv": "packages/kv",
         "@zemble/mongodb": "packages/mongodb",
         "@zemble/utils": "packages/utils",
-        "dataloader": "^2.2.2",
-        "graphql": "^16.9.0",
-        "graphql-scalars": "^1.23.0",
-        "hono": "^4.4.12",
-        "jose": "^5.6.3",
-        "mongodb": "^6.8.0",
+        "dataloader": "^2.2.3",
+        "graphql": "^16.10.0",
+        "graphql-scalars": "^1.24.0",
+        "hono": "^4.6.14",
+        "jose": "^5.9.6",
+        "mongodb": "^6.12.0",
         "papr": "^15.2.2",
       },
       "devDependencies": {
@@ -378,15 +378,15 @@
       "version": "0.1.21",
       "dependencies": {
         "@zemble/utils": "packages/utils",
-        "debug": "^4.3.5",
-        "dotenv": "^16.4.5",
-        "hono": "^4.4.12",
-        "jose": "^5.6.3",
-        "pino": "^9.2.0",
+        "debug": "^4.4.0",
+        "dotenv": "^16.4.7",
+        "hono": "^4.6.14",
+        "jose": "^5.9.6",
+        "pino": "^9.5.0",
         "pino-debug": "^2.0.0",
       },
       "devDependencies": {
-        "type-fest": "^4.21.0",
+        "type-fest": "^4.30.2",
       },
     },
     "packages/create-zemble-app": {
@@ -427,10 +427,10 @@
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
-        "@graphql-codegen/typescript": "^4.0.9",
-        "@graphql-codegen/typescript-resolvers": "^4.2.1",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
+        "@graphql-codegen/typescript": "^4.1.2",
+        "@graphql-codegen/typescript-resolvers": "^4.4.1",
         "@tsconfig/bun": "^1.0.7",
         "@types/bun": "*",
       },
@@ -444,59 +444,59 @@
       "dependencies": {
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
         "resend": "^3.4.0",
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
       },
     },
     "packages/email-sendgrid": {
       "name": "@zemble/email-sendgrid",
       "version": "0.0.54",
       "dependencies": {
-        "@sendgrid/mail": "^8.1.3",
+        "@sendgrid/mail": "^8.1.4",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
       },
     },
     "packages/eslint": {
       "name": "eslint-config-kingstinct",
       "version": "6.0.1",
       "devDependencies": {
-        "@babel/core": "^7.24.7",
+        "@babel/core": "^7.26.0",
         "@graphql-eslint/eslint-plugin": "^3.20.1",
         "@typescript-eslint/eslint-plugin": "^7.15.0",
         "@typescript-eslint/parser": "^7.15.0",
         "eslint": "8",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-import-resolver-typescript": "^3.6.1",
+        "eslint-import-resolver-typescript": "^3.7.0",
         "eslint-plugin-comment-length": "^1.7.3",
-        "eslint-plugin-eslint-plugin": "^6.2.0",
+        "eslint-plugin-eslint-plugin": "^6.3.2",
         "eslint-plugin-functional": "^6.6.1",
-        "eslint-plugin-import": "^2.29.1",
-        "eslint-plugin-jsonc": "^2.16.0",
-        "eslint-plugin-jsx-a11y": "^6.9.0",
-        "eslint-plugin-react": "7.34.3",
+        "eslint-plugin-import": "^2.31.0",
+        "eslint-plugin-jsonc": "^2.18.2",
+        "eslint-plugin-jsx-a11y": "^6.10.2",
+        "eslint-plugin-react": "7.37.2",
         "eslint-plugin-react-hooks": "^4.6.2",
         "eslint-plugin-react-native": "^4.1.0",
         "eslint-plugin-react-native-a11y": "^3.3.0",
         "eslint-plugin-unicorn": "^54.0.0",
-        "eslint-plugin-yml": "^1.14.0",
+        "eslint-plugin-yml": "^1.16.0",
         "expo": "^49.0.21",
-        "graphql": "^16.9.0",
-        "lint-staged": "^15.2.7",
+        "graphql": "^16.10.0",
+        "lint-staged": "^15.2.11",
         "react": "^18.3.1",
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
       "peerDependencies": {
         "@graphql-eslint/eslint-plugin": ">=3",
@@ -530,10 +530,10 @@
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
-        "@graphql-codegen/typescript": "^4.0.9",
-        "@graphql-codegen/typescript-resolvers": "^4.2.1",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
+        "@graphql-codegen/typescript": "^4.1.2",
+        "@graphql-codegen/typescript-resolvers": "^4.4.1",
         "@tsconfig/bun": "^1.0.7",
         "@types/bun": "*",
       },
@@ -546,35 +546,35 @@
       "version": "0.0.56",
       "dependencies": {
         "@eddeee888/gcg-typescript-resolver-files": "^0.9.4",
-        "@envelop/core": "^5.0.1",
-        "@envelop/on-resolve": "^4.1.0",
-        "@graphql-tools/delegate": "^10.0.13",
-        "@graphql-tools/graphql-file-loader": "^8.0.1",
-        "@graphql-tools/load": "^8.0.2",
-        "@graphql-tools/merge": "^9.0.4",
-        "@graphql-tools/schema": "^10.0.4",
-        "@graphql-tools/utils": "^10.3.1",
-        "@graphql-tools/wrap": "^10.0.5",
+        "@envelop/core": "^5.0.2",
+        "@envelop/on-resolve": "^4.1.1",
+        "@graphql-tools/delegate": "^10.2.8",
+        "@graphql-tools/graphql-file-loader": "^8.0.8",
+        "@graphql-tools/load": "^8.0.9",
+        "@graphql-tools/merge": "^9.0.14",
+        "@graphql-tools/schema": "^10.0.13",
+        "@graphql-tools/utils": "^10.6.4",
+        "@graphql-tools/wrap": "^10.0.26",
         "@zemble/core": "packages/core",
-        "debug": "^4.3.5",
-        "graphql": "^16.9.0",
-        "graphql-scalars": "^1.23.0",
+        "debug": "^4.4.0",
+        "graphql": "^16.10.0",
+        "graphql-scalars": "^1.24.0",
         "graphql-ws": "^5.16.0",
-        "graphql-yoga": "^5.6.0",
-        "hono": "^4.4.12",
+        "graphql-yoga": "^5.10.6",
+        "hono": "^4.6.14",
         "sofa-api": "^0.18.3",
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
-        "@graphql-codegen/typescript": "^4.0.9",
-        "@graphql-codegen/typescript-resolvers": "^4.2.1",
-        "@graphql-yoga/redis-event-target": "^3.0.1",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
+        "@graphql-codegen/typescript": "^4.1.2",
+        "@graphql-codegen/typescript-resolvers": "^4.4.1",
+        "@graphql-yoga/redis-event-target": "^3.0.2",
         "ioredis": "^5.4.1",
       },
       "optionalDependencies": {
-        "@graphql-yoga/redis-event-target": "^3.0.1",
+        "@graphql-yoga/redis-event-target": "^3.0.2",
         "ioredis": "^5.4.1",
         "sofa-api": "^0.18.3",
       },
@@ -593,35 +593,35 @@
       "name": "@zemble/kv",
       "version": "0.0.54",
       "dependencies": {
-        "@envelop/core": "^5.0.1",
+        "@envelop/core": "^5.0.2",
         "@envelop/generic-auth": "^7.0.0",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
-        "graphql-scalars": "^1.23.0",
-        "hono": "^4.4.12",
+        "graphql-scalars": "^1.24.0",
+        "hono": "^4.6.14",
         "ioredis": "^5.4.1",
-        "jose": "^5.6.3",
+        "jose": "^5.9.6",
       },
       "devDependencies": {
-        "@cloudflare/workers-types": "^4.20240620.0",
+        "@cloudflare/workers-types": "^4.20241216.0",
       },
     },
     "packages/logger-graphql": {
       "name": "@zemble/logger-graphql",
       "version": "0.0.52",
       "dependencies": {
-        "@graphql-yoga/plugin-defer-stream": "^3.6.0",
+        "@graphql-yoga/plugin-defer-stream": "^3.10.6",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/pino": "packages/pino",
-        "graphql-yoga": "^5.6.0",
-        "hono": "^4.4.12",
-        "pino": "^9.2.0",
+        "graphql-yoga": "^5.10.6",
+        "hono": "^4.6.14",
+        "pino": "^9.5.0",
       },
       "devDependencies": {
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/typescript": "^4.0.9",
-        "@graphql-codegen/typescript-resolvers": "^4.2.1",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/typescript": "^4.1.2",
+        "@graphql-codegen/typescript-resolvers": "^4.4.1",
         "@urql/core": "5",
       },
     },
@@ -633,10 +633,10 @@
         "@zemble/core": "packages/core",
       },
       "devDependencies": {
-        "type-fest": "^4.21.0",
+        "type-fest": "^4.30.2",
       },
       "optionalDependencies": {
-        "mongodb": "^6.8.0",
+        "mongodb": "^6.12.0",
       },
       "peerDependencies": {
         "typescript": "^5.4.2",
@@ -649,7 +649,7 @@
         "@zemble/bun": "packages/bun",
         "@zemble/core": "packages/core",
         "@zemble/routes": "packages/routes",
-        "mongodb": "^6.8.0",
+        "mongodb": "^6.12.0",
       },
       "devDependencies": {
         "@types/bun": "*",
@@ -664,7 +664,7 @@
       "name": "@zemble/node",
       "version": "0.0.32",
       "dependencies": {
-        "@hono/node-server": "1.12.0",
+        "@hono/node-server": "1.13.7",
         "@zemble/core": "packages/core",
       },
       "devDependencies": {
@@ -677,7 +677,7 @@
       "dependencies": {
         "@zemble/bun": "packages/bun",
         "@zemble/core": "packages/core",
-        "pino": "^9.2.0",
+        "pino": "^9.5.0",
         "pino-debug": "^2.0.0",
       },
       "devDependencies": {
@@ -697,16 +697,16 @@
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/routes": "packages/routes",
-        "fetch-http2": "^1.4.0",
-        "graphql-scalars": "^1.23.0",
-        "jose": "^5.6.3",
+        "fetch-http2": "^1.5.0",
+        "graphql-scalars": "^1.24.0",
+        "jose": "^5.9.6",
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
-        "@graphql-codegen/typescript": "^4.0.9",
-        "@graphql-codegen/typescript-resolvers": "^4.2.1",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
+        "@graphql-codegen/typescript": "^4.1.2",
+        "@graphql-codegen/typescript-resolvers": "^4.4.1",
         "@tsconfig/bun": "^1.0.7",
         "@types/bun": "*",
       },
@@ -726,10 +726,10 @@
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
-        "@graphql-codegen/typescript": "^4.0.9",
-        "@graphql-codegen/typescript-resolvers": "^4.2.1",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
+        "@graphql-codegen/typescript": "^4.1.2",
+        "@graphql-codegen/typescript-resolvers": "^4.4.1",
         "@tsconfig/bun": "^1.0.7",
         "@types/bun": "*",
       },
@@ -742,32 +742,32 @@
       "version": "1.0.14",
       "dependencies": {
         "@gorhom/portal": "^1.0.14",
-        "ts-pattern": "^5.2.0",
-        "urql": "4.1",
+        "ts-pattern": "^5.6.0",
+        "urql": "4.2",
         "zustand": "^4.5.4",
       },
       "devDependencies": {
-        "@babel/core": "^7.24.7",
+        "@babel/core": "^7.26.0",
         "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-        "@babel/preset-env": "^7.24.7",
+        "@babel/preset-env": "^7.26.0",
         "@expo/vector-icons": "^13.0.0",
         "@expo/webpack-config": "^19.0.1",
         "@react-native-async-storage/async-storage": "^1.21.0",
         "@react-native-community/netinfo": "^9.4.1",
         "@react-navigation/native": "^6.1.9",
         "@react-navigation/native-stack": "^6.9.13",
-        "@storybook/addon-actions": "^8.1.11",
-        "@storybook/addon-essentials": "^8.1.11",
-        "@storybook/addon-interactions": "^8.1.11",
-        "@storybook/addon-links": "^8.1.11",
+        "@storybook/addon-actions": "^8.4.7",
+        "@storybook/addon-essentials": "^8.4.7",
+        "@storybook/addon-interactions": "^8.4.7",
+        "@storybook/addon-links": "^8.4.7",
         "@storybook/builder-webpack4": "^6.5.16",
         "@storybook/manager-webpack4": "^6.5.16",
-        "@storybook/react": "^8.1.11",
+        "@storybook/react": "^8.4.7",
         "@storybook/testing-library": "^0.2.2",
         "@testing-library/react-hooks": "^8.0.1",
         "@types/react": "^18.3.3",
         "@types/react-native": "~0.72.8",
-        "babel-loader": "^9.1.3",
+        "babel-loader": "^9.2.1",
         "babel-polyfill": "^6.26.0",
         "expo": "^49.0.21",
         "expo-application": "^5.3.0",
@@ -775,7 +775,7 @@
         "expo-haptics": "^12.6.0",
         "expo-status-bar": "^1.7.1",
         "expo-system-ui": "^2.6.0",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
         "jwt-decode": "^4.0.0",
         "lodash": "^4.17.21",
         "metro-config": "^0.80.9",
@@ -789,7 +789,7 @@
         "react-native-screens": "^3.29.0",
         "react-native-web": "^0.19.8",
         "react-test-renderer": "^18.3.1",
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
       "peerDependencies": {
         "@types/react": "^18.2.54",
@@ -802,7 +802,7 @@
       "version": "0.0.33",
       "dependencies": {
         "@zemble/core": "packages/core",
-        "hono": "^4.4.12",
+        "hono": "^4.6.14",
       },
     },
     "packages/sms-46elks": {
@@ -811,12 +811,12 @@
       "dependencies": {
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
         "@types/bun": "latest",
       },
       "peerDependencies": {
@@ -829,12 +829,12 @@
       "dependencies": {
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
         "@types/bun": "latest",
       },
       "peerDependencies": {
@@ -846,20 +846,20 @@
       "version": "0.0.40",
       "dependencies": {
         "@supabase/ssr": "^0.3.0",
-        "@supabase/supabase-js": "^2.44.2",
+        "@supabase/supabase-js": "^2.47.8",
         "@zemble/auth": "packages/auth",
         "@zemble/bun": "packages/bun",
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/routes": "packages/routes",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
       },
       "devDependencies": {
         "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
-        "@graphql-codegen/typescript": "^4.0.9",
-        "@graphql-codegen/typescript-resolvers": "^4.2.1",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
+        "@graphql-codegen/typescript": "^4.1.2",
+        "@graphql-codegen/typescript-resolvers": "^4.4.1",
         "@tsconfig/bun": "^1.0.7",
         "@types/bun": "*",
         "supabase": "^1.178.2",
@@ -878,9 +878,9 @@
         "@zemble/core": "packages/core",
         "@zemble/graphql": "packages/graphql",
         "@zemble/kv": "packages/kv",
-        "bullmq": "^5.8.4",
-        "graphql": "^16.9.0",
-        "hono": "^4.4.12",
+        "bullmq": "^5.34.2",
+        "graphql": "^16.10.0",
+        "hono": "^4.6.14",
       },
     },
     "packages/todo-ui": {
@@ -892,17 +892,17 @@
         "@zemble/auth-expo": "packages/auth-expo",
         "expo": "^49.0.21",
         "expo-status-bar": "^1.7.1",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
         "react": "^18.3.1",
         "react-native": "~0.72.4",
-        "urql": "4.1",
+        "urql": "4.2",
       },
       "devDependencies": {
-        "@babel/core": "^7.24.7",
-        "@graphql-codegen/cli": "^5.0.2",
-        "@graphql-codegen/client-preset": "^4.3.2",
+        "@babel/core": "^7.26.0",
+        "@graphql-codegen/cli": "^5.0.3",
+        "@graphql-codegen/client-preset": "^4.5.1",
         "@types/react": "^18.3.3",
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
     },
     "packages/urql-expo": {
@@ -911,15 +911,15 @@
       "dependencies": {
         "@zemble/auth-expo": "packages/auth-expo",
         "expo": "^49.0.21",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
         "react": "^18.3.1",
         "react-native": "~0.72.4",
-        "urql": "4.1",
+        "urql": "4.2",
       },
       "devDependencies": {
-        "@babel/core": "^7.24.7",
+        "@babel/core": "^7.26.0",
         "@types/react": "^18.3.3",
-        "typescript": "^5.5.3",
+        "typescript": "^5.7.2",
       },
     },
     "packages/utils": {
@@ -927,19 +927,19 @@
       "version": "0.7.36",
       "dependencies": {
         "fast-safe-stringify": "^2.1.1",
-        "ts-pattern": "^5.2.0",
+        "ts-pattern": "^5.6.0",
       },
       "devDependencies": {
         "@types/bun": "*",
         "@types/graphql-fields": "^1.3.9",
-        "dataloader": "^2.2.2",
-        "dayjs": "^1.11.11",
+        "dataloader": "^2.2.3",
+        "dayjs": "^1.11.13",
         "fastify": "^4.28.1",
         "fastify-plugin": "^4.5.1",
-        "graphql": "^16.9.0",
+        "graphql": "^16.10.0",
         "graphql-fields": "^2.0.3",
-        "mongodb": "^6.8.0",
-        "typescript": "^5.5.3",
+        "mongodb": "^6.12.0",
+        "typescript": "^5.7.2",
       },
     },
   },
@@ -1594,7 +1594,7 @@
 
     "@hapi/topo": ["@hapi/topo@5.1.0", "", { "dependencies": { "@hapi/hoek": "^9.0.0" } }, "sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg=="],
 
-    "@hono/node-server": ["@hono/node-server@1.12.0", "", {}, "sha512-e6oHjNiErRxsZRZBmc2KucuvY3btlO/XPncIpP2X75bRdTilF9GLjm3NHvKKunpJbbJJj31/FoPTksTf8djAVw=="],
+    "@hono/node-server": ["@hono/node-server@1.13.7", "", { "peerDependencies": { "hono": "^4" } }, "sha512-kTfUMsoloVKtRA2fLiGSd9qBddmru9KadNyhJCwgKBxTiNkaAJEwkVN9KV/rS4HtmmNRtUh6P+YpmjRMl0d9vQ=="],
 
     "@humanwhocodes/config-array": ["@humanwhocodes/config-array@0.13.0", "", { "dependencies": { "@humanwhocodes/object-schema": "^2.0.3", "debug": "^4.3.1", "minimatch": "^3.0.5" } }, "sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw=="],
 
@@ -2154,75 +2154,75 @@
 
     "@zemble/apple-app-site-association": ["@zemble/apple-app-site-association@workspace:packages/apple-app-site-association", { "dependencies": { "@zemble/core": "packages/core" } }],
 
-    "@zemble/auth": ["@zemble/auth@workspace:packages/auth", { "dependencies": { "@envelop/core": "^5.0.1", "@envelop/generic-auth": "^7.0.0", "@graphql-tools/wrap": "^10.0.5", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/kv": "packages/kv", "graphql": "^16.9.0", "graphql-scalars": "^1.23.0", "hono": "^4.4.12", "jose": "^5.6.3" }, "bin": { "zemble-generate-keys": "./bin/generate-keys.ts" } }],
+    "@zemble/auth": ["@zemble/auth@workspace:packages/auth", { "dependencies": { "@envelop/core": "^5.0.2", "@envelop/generic-auth": "^7.0.0", "@graphql-tools/wrap": "^10.0.26", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/kv": "packages/kv", "graphql": "^16.10.0", "graphql-scalars": "^1.24.0", "hono": "^4.6.14", "jose": "^5.9.6" }, "bin": { "zemble-generate-keys": "./bin/generate-keys.ts" } }],
 
-    "@zemble/auth-anonymous": ["@zemble/auth-anonymous@workspace:packages/auth-anonymous", { "dependencies": { "@envelop/core": "^5.0.1", "@envelop/generic-auth": "^7.0.0", "@whatwg-node/server-plugin-cookies": "^1.0.2", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/utils": "packages/utils", "graphql": "^16.9.0" } }],
+    "@zemble/auth-anonymous": ["@zemble/auth-anonymous@workspace:packages/auth-anonymous", { "dependencies": { "@envelop/core": "^5.0.2", "@envelop/generic-auth": "^7.0.0", "@whatwg-node/server-plugin-cookies": "^1.0.3", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/utils": "packages/utils", "graphql": "^16.10.0" } }],
 
-    "@zemble/auth-anonymous-expo": ["@zemble/auth-anonymous-expo@workspace:packages/anonymous-auth-expo", { "dependencies": { "@zemble/auth-expo": "packages/auth-expo", "@zemble/urql-expo": "packages/urql-expo", "expo": "^49.0.21", "graphql": "^16.9.0", "react": "^18.3.1", "react-native": "~0.72.4", "urql": "4.1" }, "devDependencies": { "@babel/core": "^7.24.7", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@types/react": "^18.3.3", "typescript": "^5.5.3" } }],
+    "@zemble/auth-anonymous-expo": ["@zemble/auth-anonymous-expo@workspace:packages/anonymous-auth-expo", { "dependencies": { "@zemble/auth-expo": "packages/auth-expo", "@zemble/urql-expo": "packages/urql-expo", "expo": "^49.0.21", "graphql": "^16.10.0", "react": "^18.3.1", "react-native": "~0.72.4", "urql": "4.2" }, "devDependencies": { "@babel/core": "^7.26.0", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@types/react": "^18.3.3", "typescript": "^5.7.2" } }],
 
-    "@zemble/auth-api-token": ["@zemble/auth-api-token@workspace:packages/auth-api-token", { "dependencies": { "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.9.0", "graphql-scalars": "^1.23.0", "hono": "^4.4.12", "jose": "^5.6.3" } }],
+    "@zemble/auth-api-token": ["@zemble/auth-api-token@workspace:packages/auth-api-token", { "dependencies": { "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.10.0", "graphql-scalars": "^1.24.0", "hono": "^4.6.14", "jose": "^5.9.6" } }],
 
-    "@zemble/auth-apple": ["@zemble/auth-apple@workspace:packages/auth-apple", { "dependencies": { "@envelop/core": "^5.0.1", "@envelop/generic-auth": "^7.0.0", "@whatwg-node/server-plugin-cookies": "^1.0.2", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.9.0", "jose": "^5.6.3" } }],
+    "@zemble/auth-apple": ["@zemble/auth-apple@workspace:packages/auth-apple", { "dependencies": { "@envelop/core": "^5.0.2", "@envelop/generic-auth": "^7.0.0", "@whatwg-node/server-plugin-cookies": "^1.0.3", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.10.0", "jose": "^5.9.6" } }],
 
-    "@zemble/auth-expo": ["@zemble/auth-expo@workspace:packages/auth-expo", { "dependencies": { "@react-native-async-storage/async-storage": "^1.21.0", "expo": "^49.0.21", "react": "^18.3.1", "react-native": "~0.72.4" }, "devDependencies": { "@babel/core": "^7.24.7", "@types/react": "^18.3.3", "typescript": "^5.5.3" } }],
+    "@zemble/auth-expo": ["@zemble/auth-expo@workspace:packages/auth-expo", { "dependencies": { "@react-native-async-storage/async-storage": "^1.21.0", "expo": "^49.0.21", "react": "^18.3.1", "react-native": "~0.72.4" }, "devDependencies": { "@babel/core": "^7.26.0", "@types/react": "^18.3.3", "typescript": "^5.7.2" } }],
 
-    "@zemble/auth-otp": ["@zemble/auth-otp@workspace:packages/auth-otp", { "dependencies": { "@envelop/core": "^5.0.1", "@envelop/generic-auth": "^7.0.0", "@whatwg-node/server-plugin-cookies": "^1.0.2", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/kv": "packages/kv", "@zemble/utils": "packages/utils", "graphql": "^16.9.0", "libphonenumber-js": "^1.11.4" } }],
+    "@zemble/auth-otp": ["@zemble/auth-otp@workspace:packages/auth-otp", { "dependencies": { "@envelop/core": "^5.0.2", "@envelop/generic-auth": "^7.0.0", "@whatwg-node/server-plugin-cookies": "^1.0.3", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/kv": "packages/kv", "@zemble/utils": "packages/utils", "graphql": "^16.10.0", "libphonenumber-js": "^1.11.17" } }],
 
-    "@zemble/bull": ["@zemble/bull@workspace:packages/bull", { "dependencies": { "@bull-board/api": "^5.20.5", "@types/ejs": "^3.1.5", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/utils": "packages/utils", "bullmq": "^5.8.4", "ejs": "^3.1.10", "graphql": "^16.9.0", "graphql-scalars": "^1.23.0", "hono": "^4.4.12", "ioredis": "^5.4.1", "safe-stable-stringify": "^2.4.3" }, "devDependencies": { "@types/bun": "*" } }],
+    "@zemble/bull": ["@zemble/bull@workspace:packages/bull", { "dependencies": { "@bull-board/api": "^5.20.5", "@types/ejs": "^3.1.5", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/utils": "packages/utils", "bullmq": "^5.34.2", "ejs": "^3.1.10", "graphql": "^16.10.0", "graphql-scalars": "^1.24.0", "hono": "^4.6.14", "ioredis": "^5.4.1", "safe-stable-stringify": "^2.5.0" }, "devDependencies": { "@types/bun": "*" } }],
 
     "@zemble/bun": ["@zemble/bun@workspace:packages/bun", { "dependencies": { "@zemble/core": "packages/core" }, "bin": { "zemble-dev": "./cli.ts" } }],
 
-    "@zemble/cms": ["@zemble/cms@workspace:packages/cms", { "dependencies": { "@envelop/core": "^5.0.1", "@envelop/extended-validation": "^4.0.0", "@envelop/generic-auth": "^7.0.0", "@graphql-tools/utils": "^10.3.1", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/mongodb": "packages/mongodb", "@zemble/utils": "packages/utils", "dataloader": "^2.2.2", "graphql": "^16.9.0", "graphql-scalars": "^1.23.0", "hono": "^4.4.12", "jose": "^5.6.3", "memfs": "^4.9.3", "mongodb": "^6.8.0", "papr": "^15.2.2" }, "devDependencies": { "mongodb-memory-server": "9", "type-fest": "^4.21.0" } }],
+    "@zemble/cms": ["@zemble/cms@workspace:packages/cms", { "dependencies": { "@envelop/core": "^5.0.2", "@envelop/extended-validation": "^4.1.0", "@envelop/generic-auth": "^7.0.0", "@graphql-tools/utils": "^10.6.4", "@zemble/auth": "packages/auth", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/mongodb": "packages/mongodb", "@zemble/utils": "packages/utils", "dataloader": "^2.2.3", "graphql": "^16.10.0", "graphql-scalars": "^1.24.0", "hono": "^4.6.14", "jose": "^5.9.6", "memfs": "^4.15.0", "mongodb": "^6.12.0", "papr": "^15.2.2" }, "devDependencies": { "mongodb-memory-server": "9", "type-fest": "^4.30.2" } }],
 
-    "@zemble/cms-users": ["@zemble/cms-users@workspace:packages/cms-users", { "dependencies": { "@envelop/core": "^5.0.1", "@envelop/extended-validation": "^4.0.0", "@envelop/generic-auth": "^7.0.0", "@graphql-tools/executor": "^1.2.8", "@zemble/auth": "packages/auth", "@zemble/auth-otp": "packages/auth-otp", "@zemble/cms": "packages/cms", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/kv": "packages/kv", "@zemble/mongodb": "packages/mongodb", "@zemble/utils": "packages/utils", "dataloader": "^2.2.2", "graphql": "^16.9.0", "graphql-scalars": "^1.23.0", "hono": "^4.4.12", "jose": "^5.6.3", "mongodb": "^6.8.0", "papr": "^15.2.2" }, "devDependencies": { "mongodb-memory-server": "9" } }],
+    "@zemble/cms-users": ["@zemble/cms-users@workspace:packages/cms-users", { "dependencies": { "@envelop/core": "^5.0.2", "@envelop/extended-validation": "^4.1.0", "@envelop/generic-auth": "^7.0.0", "@graphql-tools/executor": "^1.3.9", "@zemble/auth": "packages/auth", "@zemble/auth-otp": "packages/auth-otp", "@zemble/cms": "packages/cms", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/kv": "packages/kv", "@zemble/mongodb": "packages/mongodb", "@zemble/utils": "packages/utils", "dataloader": "^2.2.3", "graphql": "^16.10.0", "graphql-scalars": "^1.24.0", "hono": "^4.6.14", "jose": "^5.9.6", "mongodb": "^6.12.0", "papr": "^15.2.2" }, "devDependencies": { "mongodb-memory-server": "9" } }],
 
-    "@zemble/core": ["@zemble/core@workspace:packages/core", { "dependencies": { "@zemble/utils": "packages/utils", "debug": "^4.3.5", "dotenv": "^16.4.5", "hono": "^4.4.12", "jose": "^5.6.3", "pino": "^9.2.0", "pino-debug": "^2.0.0" }, "devDependencies": { "type-fest": "^4.21.0" } }],
+    "@zemble/core": ["@zemble/core@workspace:packages/core", { "dependencies": { "@zemble/utils": "packages/utils", "debug": "^4.4.0", "dotenv": "^16.4.7", "hono": "^4.6.14", "jose": "^5.9.6", "pino": "^9.5.0", "pino-debug": "^2.0.0" }, "devDependencies": { "type-fest": "^4.30.2" } }],
 
-    "@zemble/debug": ["@zemble/debug@workspace:packages/debug", { "dependencies": { "@zemble/auth": "packages/auth", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@graphql-codegen/typescript": "^4.0.9", "@graphql-codegen/typescript-resolvers": "^4.2.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*" }, "peerDependencies": { "typescript": "^5.4.2" } }],
+    "@zemble/debug": ["@zemble/debug@workspace:packages/debug", { "dependencies": { "@zemble/auth": "packages/auth", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@graphql-codegen/typescript": "^4.1.2", "@graphql-codegen/typescript-resolvers": "^4.4.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*" }, "peerDependencies": { "typescript": "^5.4.2" } }],
 
-    "@zemble/email-resend": ["@zemble/email-resend@workspace:packages/email-resend", { "dependencies": { "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.9.0", "resend": "^3.4.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2" } }],
+    "@zemble/email-resend": ["@zemble/email-resend@workspace:packages/email-resend", { "dependencies": { "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.10.0", "resend": "^3.4.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1" } }],
 
-    "@zemble/email-sendgrid": ["@zemble/email-sendgrid@workspace:packages/email-sendgrid", { "dependencies": { "@sendgrid/mail": "^8.1.3", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.9.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2" } }],
+    "@zemble/email-sendgrid": ["@zemble/email-sendgrid@workspace:packages/email-sendgrid", { "dependencies": { "@sendgrid/mail": "^8.1.4", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.10.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1" } }],
 
-    "@zemble/firebase-auth": ["@zemble/firebase-auth@workspace:packages/firebase-auth", { "dependencies": { "@zemble/auth": "packages/auth", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes", "@zemble/utils": "packages/utils", "firebase": "^10.12.3", "firebase-admin": "^12.2.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@graphql-codegen/typescript": "^4.0.9", "@graphql-codegen/typescript-resolvers": "^4.2.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*" }, "peerDependencies": { "typescript": "^5.3.3" } }],
+    "@zemble/firebase-auth": ["@zemble/firebase-auth@workspace:packages/firebase-auth", { "dependencies": { "@zemble/auth": "packages/auth", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes", "@zemble/utils": "packages/utils", "firebase": "^10.12.3", "firebase-admin": "^12.2.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@graphql-codegen/typescript": "^4.1.2", "@graphql-codegen/typescript-resolvers": "^4.4.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*" }, "peerDependencies": { "typescript": "^5.3.3" } }],
 
-    "@zemble/graphql": ["@zemble/graphql@workspace:packages/graphql", { "dependencies": { "@eddeee888/gcg-typescript-resolver-files": "^0.9.4", "@envelop/core": "^5.0.1", "@envelop/on-resolve": "^4.1.0", "@graphql-tools/delegate": "^10.0.13", "@graphql-tools/graphql-file-loader": "^8.0.1", "@graphql-tools/load": "^8.0.2", "@graphql-tools/merge": "^9.0.4", "@graphql-tools/schema": "^10.0.4", "@graphql-tools/utils": "^10.3.1", "@graphql-tools/wrap": "^10.0.5", "@zemble/core": "packages/core", "debug": "^4.3.5", "graphql": "^16.9.0", "graphql-scalars": "^1.23.0", "graphql-ws": "^5.16.0", "graphql-yoga": "^5.6.0", "hono": "^4.4.12", "sofa-api": "^0.18.3" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@graphql-codegen/typescript": "^4.0.9", "@graphql-codegen/typescript-resolvers": "^4.2.1", "@graphql-yoga/redis-event-target": "^3.0.1", "ioredis": "^5.4.1" }, "optionalDependencies": { "@graphql-yoga/redis-event-target": "^3.0.1", "ioredis": "^5.4.1", "sofa-api": "^0.18.3" }, "bin": { "zemble-app-graphql-codegen": "./bin/zemble-app-graphql-codegen.ts" } }],
+    "@zemble/graphql": ["@zemble/graphql@workspace:packages/graphql", { "dependencies": { "@eddeee888/gcg-typescript-resolver-files": "^0.9.4", "@envelop/core": "^5.0.2", "@envelop/on-resolve": "^4.1.1", "@graphql-tools/delegate": "^10.2.8", "@graphql-tools/graphql-file-loader": "^8.0.8", "@graphql-tools/load": "^8.0.9", "@graphql-tools/merge": "^9.0.14", "@graphql-tools/schema": "^10.0.13", "@graphql-tools/utils": "^10.6.4", "@graphql-tools/wrap": "^10.0.26", "@zemble/core": "packages/core", "debug": "^4.4.0", "graphql": "^16.10.0", "graphql-scalars": "^1.24.0", "graphql-ws": "^5.16.0", "graphql-yoga": "^5.10.6", "hono": "^4.6.14", "sofa-api": "^0.18.3" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@graphql-codegen/typescript": "^4.1.2", "@graphql-codegen/typescript-resolvers": "^4.4.1", "@graphql-yoga/redis-event-target": "^3.0.2", "ioredis": "^5.4.1" }, "optionalDependencies": { "@graphql-yoga/redis-event-target": "^3.0.2", "ioredis": "^5.4.1", "sofa-api": "^0.18.3" }, "bin": { "zemble-app-graphql-codegen": "./bin/zemble-app-graphql-codegen.ts" } }],
 
     "@zemble/ignite": ["@zemble/ignite@workspace:packages/ignite", { "dependencies": { "@zemble/bull": "packages/bull", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes" } }],
 
-    "@zemble/kv": ["@zemble/kv@workspace:packages/kv", { "dependencies": { "@envelop/core": "^5.0.1", "@envelop/generic-auth": "^7.0.0", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql-scalars": "^1.23.0", "hono": "^4.4.12", "ioredis": "^5.4.1", "jose": "^5.6.3" }, "devDependencies": { "@cloudflare/workers-types": "^4.20240620.0" } }],
+    "@zemble/kv": ["@zemble/kv@workspace:packages/kv", { "dependencies": { "@envelop/core": "^5.0.2", "@envelop/generic-auth": "^7.0.0", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql-scalars": "^1.24.0", "hono": "^4.6.14", "ioredis": "^5.4.1", "jose": "^5.9.6" }, "devDependencies": { "@cloudflare/workers-types": "^4.20241216.0" } }],
 
-    "@zemble/logger-graphql": ["@zemble/logger-graphql@workspace:packages/logger-graphql", { "dependencies": { "@graphql-yoga/plugin-defer-stream": "^3.6.0", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/pino": "packages/pino", "graphql-yoga": "^5.6.0", "hono": "^4.4.12", "pino": "^9.2.0" }, "devDependencies": { "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/typescript": "^4.0.9", "@graphql-codegen/typescript-resolvers": "^4.2.1", "@urql/core": "5" } }],
+    "@zemble/logger-graphql": ["@zemble/logger-graphql@workspace:packages/logger-graphql", { "dependencies": { "@graphql-yoga/plugin-defer-stream": "^3.10.6", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/pino": "packages/pino", "graphql-yoga": "^5.10.6", "hono": "^4.6.14", "pino": "^9.5.0" }, "devDependencies": { "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/typescript": "^4.1.2", "@graphql-codegen/typescript-resolvers": "^4.4.1", "@urql/core": "5" } }],
 
-    "@zemble/migrations": ["@zemble/migrations@workspace:packages/migrations", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core" }, "devDependencies": { "type-fest": "^4.21.0" }, "optionalDependencies": { "mongodb": "^6.8.0" }, "peerDependencies": { "typescript": "^5.4.2" }, "bin": { "create-migration": "bin/create-migration.ts", "migrate-up": "bin/migrate-up.ts", "migrate-down": "bin/migrate-down.ts" } }],
+    "@zemble/migrations": ["@zemble/migrations@workspace:packages/migrations", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core" }, "devDependencies": { "type-fest": "^4.30.2" }, "optionalDependencies": { "mongodb": "^6.12.0" }, "peerDependencies": { "typescript": "^5.4.2" }, "bin": { "create-migration": "bin/create-migration.ts", "migrate-up": "bin/migrate-up.ts", "migrate-down": "bin/migrate-down.ts" } }],
 
-    "@zemble/mongodb": ["@zemble/mongodb@workspace:packages/mongodb", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/routes": "packages/routes", "mongodb": "^6.8.0" }, "devDependencies": { "@types/bun": "*", "@zemble/migrations": "packages/migrations" }, "peerDependencies": { "@zemble/migrations": "packages/migrations", "typescript": "^5.4.2" } }],
+    "@zemble/mongodb": ["@zemble/mongodb@workspace:packages/mongodb", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/routes": "packages/routes", "mongodb": "^6.12.0" }, "devDependencies": { "@types/bun": "*", "@zemble/migrations": "packages/migrations" }, "peerDependencies": { "@zemble/migrations": "packages/migrations", "typescript": "^5.4.2" } }],
 
-    "@zemble/node": ["@zemble/node@workspace:packages/node", { "dependencies": { "@hono/node-server": "1.12.0", "@zemble/core": "packages/core" }, "devDependencies": { "ts-node-dev": "^2.0.0" }, "bin": { "zemble-node": "cli.ts" } }],
+    "@zemble/node": ["@zemble/node@workspace:packages/node", { "dependencies": { "@hono/node-server": "1.13.7", "@zemble/core": "packages/core" }, "devDependencies": { "ts-node-dev": "^2.0.0" }, "bin": { "zemble-node": "cli.ts" } }],
 
-    "@zemble/pino": ["@zemble/pino@workspace:packages/pino", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "pino": "^9.2.0", "pino-debug": "^2.0.0" }, "devDependencies": { "@tsconfig/bun": "^1.0.7", "@types/bun": "*", "pino-pretty": "^11.2.1" }, "peerDependencies": { "typescript": "^5.4.2" } }],
+    "@zemble/pino": ["@zemble/pino@workspace:packages/pino", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "pino": "^9.5.0", "pino-debug": "^2.0.0" }, "devDependencies": { "@tsconfig/bun": "^1.0.7", "@types/bun": "*", "pino-pretty": "^11.2.1" }, "peerDependencies": { "typescript": "^5.4.2" } }],
 
-    "@zemble/push-apple": ["@zemble/push-apple@workspace:packages/push-apple", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes", "fetch-http2": "^1.4.0", "graphql-scalars": "^1.23.0", "jose": "^5.6.3" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@graphql-codegen/typescript": "^4.0.9", "@graphql-codegen/typescript-resolvers": "^4.2.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*" }, "peerDependencies": { "typescript": "^5.3.3" } }],
+    "@zemble/push-apple": ["@zemble/push-apple@workspace:packages/push-apple", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes", "fetch-http2": "^1.5.0", "graphql-scalars": "^1.24.0", "jose": "^5.9.6" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@graphql-codegen/typescript": "^4.1.2", "@graphql-codegen/typescript-resolvers": "^4.4.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*" }, "peerDependencies": { "typescript": "^5.3.3" } }],
 
-    "@zemble/push-expo": ["@zemble/push-expo@workspace:packages/push-expo", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/utils": "packages/utils", "expo-server-sdk": "^3.10.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@graphql-codegen/typescript": "^4.0.9", "@graphql-codegen/typescript-resolvers": "^4.2.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*" }, "peerDependencies": { "typescript": "^5.3.3" } }],
+    "@zemble/push-expo": ["@zemble/push-expo@workspace:packages/push-expo", { "dependencies": { "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/utils": "packages/utils", "expo-server-sdk": "^3.10.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@graphql-codegen/typescript": "^4.1.2", "@graphql-codegen/typescript-resolvers": "^4.4.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*" }, "peerDependencies": { "typescript": "^5.3.3" } }],
 
-    "@zemble/react": ["@zemble/react@workspace:packages/react", { "dependencies": { "@gorhom/portal": "^1.0.14", "ts-pattern": "^5.2.0", "urql": "4.1", "zustand": "^4.5.4" }, "devDependencies": { "@babel/core": "^7.24.7", "@babel/plugin-proposal-export-namespace-from": "^7.18.9", "@babel/preset-env": "^7.24.7", "@expo/vector-icons": "^13.0.0", "@expo/webpack-config": "^19.0.1", "@react-native-async-storage/async-storage": "^1.21.0", "@react-native-community/netinfo": "^9.4.1", "@react-navigation/native": "^6.1.9", "@react-navigation/native-stack": "^6.9.13", "@storybook/addon-actions": "^8.1.11", "@storybook/addon-essentials": "^8.1.11", "@storybook/addon-interactions": "^8.1.11", "@storybook/addon-links": "^8.1.11", "@storybook/builder-webpack4": "^6.5.16", "@storybook/manager-webpack4": "^6.5.16", "@storybook/react": "^8.1.11", "@storybook/testing-library": "^0.2.2", "@testing-library/react-hooks": "^8.0.1", "@types/react": "^18.3.3", "@types/react-native": "~0.72.8", "babel-loader": "^9.1.3", "babel-polyfill": "^6.26.0", "expo": "^49.0.21", "expo-application": "^5.3.0", "expo-device": "^5.4.0", "expo-haptics": "^12.6.0", "expo-status-bar": "^1.7.1", "expo-system-ui": "^2.6.0", "graphql": "^16.9.0", "jwt-decode": "^4.0.0", "lodash": "^4.17.21", "metro-config": "^0.80.9", "react": "^18.3.1", "react-dom": "^18.3.1", "react-native": "~0.72.4", "react-native-gesture-handler": "^2.14.0", "react-native-paper": "^5.12.3", "react-native-reanimated": "~3.6.1", "react-native-safe-area-context": "^4.8.2", "react-native-screens": "^3.29.0", "react-native-web": "^0.19.8", "react-test-renderer": "^18.3.1", "typescript": "^5.5.3" }, "peerDependencies": { "@types/react": "^18.2.54", "react": "^18.2.0", "react-native-reanimated": "~3.6.1" } }],
+    "@zemble/react": ["@zemble/react@workspace:packages/react", { "dependencies": { "@gorhom/portal": "^1.0.14", "ts-pattern": "^5.6.0", "urql": "4.2", "zustand": "^4.5.4" }, "devDependencies": { "@babel/core": "^7.26.0", "@babel/plugin-proposal-export-namespace-from": "^7.18.9", "@babel/preset-env": "^7.26.0", "@expo/vector-icons": "^13.0.0", "@expo/webpack-config": "^19.0.1", "@react-native-async-storage/async-storage": "^1.21.0", "@react-native-community/netinfo": "^9.4.1", "@react-navigation/native": "^6.1.9", "@react-navigation/native-stack": "^6.9.13", "@storybook/addon-actions": "^8.4.7", "@storybook/addon-essentials": "^8.4.7", "@storybook/addon-interactions": "^8.4.7", "@storybook/addon-links": "^8.4.7", "@storybook/builder-webpack4": "^6.5.16", "@storybook/manager-webpack4": "^6.5.16", "@storybook/react": "^8.4.7", "@storybook/testing-library": "^0.2.2", "@testing-library/react-hooks": "^8.0.1", "@types/react": "^18.3.3", "@types/react-native": "~0.72.8", "babel-loader": "^9.2.1", "babel-polyfill": "^6.26.0", "expo": "^49.0.21", "expo-application": "^5.3.0", "expo-device": "^5.4.0", "expo-haptics": "^12.6.0", "expo-status-bar": "^1.7.1", "expo-system-ui": "^2.6.0", "graphql": "^16.10.0", "jwt-decode": "^4.0.0", "lodash": "^4.17.21", "metro-config": "^0.80.9", "react": "^18.3.1", "react-dom": "^18.3.1", "react-native": "~0.72.4", "react-native-gesture-handler": "^2.14.0", "react-native-paper": "^5.12.3", "react-native-reanimated": "~3.6.1", "react-native-safe-area-context": "^4.8.2", "react-native-screens": "^3.29.0", "react-native-web": "^0.19.8", "react-test-renderer": "^18.3.1", "typescript": "^5.7.2" }, "peerDependencies": { "@types/react": "^18.2.54", "react": "^18.2.0", "react-native-reanimated": "~3.6.1" } }],
 
-    "@zemble/routes": ["@zemble/routes@workspace:packages/routes", { "dependencies": { "@zemble/core": "packages/core", "hono": "^4.4.12" } }],
+    "@zemble/routes": ["@zemble/routes@workspace:packages/routes", { "dependencies": { "@zemble/core": "packages/core", "hono": "^4.6.14" } }],
 
-    "@zemble/sms-46elks": ["@zemble/sms-46elks@workspace:packages/sms-46elks", { "dependencies": { "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.9.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@types/bun": "latest" }, "peerDependencies": { "typescript": "^5.0.0" } }],
+    "@zemble/sms-46elks": ["@zemble/sms-46elks@workspace:packages/sms-46elks", { "dependencies": { "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.10.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@types/bun": "latest" }, "peerDependencies": { "typescript": "^5.0.0" } }],
 
-    "@zemble/sms-twilio": ["@zemble/sms-twilio@workspace:packages/sms-twilio", { "dependencies": { "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.9.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@types/bun": "latest" }, "peerDependencies": { "typescript": "^5.0.0" } }],
+    "@zemble/sms-twilio": ["@zemble/sms-twilio@workspace:packages/sms-twilio", { "dependencies": { "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "graphql": "^16.10.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@types/bun": "latest" }, "peerDependencies": { "typescript": "^5.0.0" } }],
 
-    "@zemble/supabase": ["@zemble/supabase@workspace:packages/supabase", { "dependencies": { "@supabase/ssr": "^0.3.0", "@supabase/supabase-js": "^2.44.2", "@zemble/auth": "packages/auth", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes", "graphql": "^16.9.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@graphql-codegen/typescript": "^4.0.9", "@graphql-codegen/typescript-resolvers": "^4.2.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*", "supabase": "^1.178.2" }, "peerDependencies": { "typescript": "^5.4.2" } }],
+    "@zemble/supabase": ["@zemble/supabase@workspace:packages/supabase", { "dependencies": { "@supabase/ssr": "^0.3.0", "@supabase/supabase-js": "^2.47.8", "@zemble/auth": "packages/auth", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/routes": "packages/routes", "graphql": "^16.10.0" }, "devDependencies": { "@graphql-codegen/add": "^5.0.3", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@graphql-codegen/typescript": "^4.1.2", "@graphql-codegen/typescript-resolvers": "^4.4.1", "@tsconfig/bun": "^1.0.7", "@types/bun": "*", "supabase": "^1.178.2" }, "peerDependencies": { "typescript": "^5.4.2" } }],
 
-    "@zemble/todo": ["@zemble/todo@workspace:packages/todo", { "dependencies": { "@bull-board/api": "^5.20.5", "@zemble/auth": "packages/auth", "@zemble/auth-anonymous": "packages/auth-anonymous", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/kv": "packages/kv", "bullmq": "^5.8.4", "graphql": "^16.9.0", "hono": "^4.4.12" } }],
+    "@zemble/todo": ["@zemble/todo@workspace:packages/todo", { "dependencies": { "@bull-board/api": "^5.20.5", "@zemble/auth": "packages/auth", "@zemble/auth-anonymous": "packages/auth-anonymous", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/kv": "packages/kv", "bullmq": "^5.34.2", "graphql": "^16.10.0", "hono": "^4.6.14" } }],
 
-    "@zemble/todo-ui": ["@zemble/todo-ui@workspace:packages/todo-ui", { "dependencies": { "@react-native-async-storage/async-storage": "^1.21.0", "@zemble/auth-anonymous-expo": "packages/anonymous-auth-expo", "@zemble/auth-expo": "packages/auth-expo", "expo": "^49.0.21", "expo-status-bar": "^1.7.1", "graphql": "^16.9.0", "react": "^18.3.1", "react-native": "~0.72.4", "urql": "4.1" }, "devDependencies": { "@babel/core": "^7.24.7", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2", "@types/react": "^18.3.3", "typescript": "^5.5.3" } }],
+    "@zemble/todo-ui": ["@zemble/todo-ui@workspace:packages/todo-ui", { "dependencies": { "@react-native-async-storage/async-storage": "^1.21.0", "@zemble/auth-anonymous-expo": "packages/anonymous-auth-expo", "@zemble/auth-expo": "packages/auth-expo", "expo": "^49.0.21", "expo-status-bar": "^1.7.1", "graphql": "^16.10.0", "react": "^18.3.1", "react-native": "~0.72.4", "urql": "4.2" }, "devDependencies": { "@babel/core": "^7.26.0", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1", "@types/react": "^18.3.3", "typescript": "^5.7.2" } }],
 
-    "@zemble/urql-expo": ["@zemble/urql-expo@workspace:packages/urql-expo", { "dependencies": { "@zemble/auth-expo": "packages/auth-expo", "expo": "^49.0.21", "graphql": "^16.9.0", "react": "^18.3.1", "react-native": "~0.72.4", "urql": "4.1" }, "devDependencies": { "@babel/core": "^7.24.7", "@types/react": "^18.3.3", "typescript": "^5.5.3" } }],
+    "@zemble/urql-expo": ["@zemble/urql-expo@workspace:packages/urql-expo", { "dependencies": { "@zemble/auth-expo": "packages/auth-expo", "expo": "^49.0.21", "graphql": "^16.10.0", "react": "^18.3.1", "react-native": "~0.72.4", "urql": "4.2" }, "devDependencies": { "@babel/core": "^7.26.0", "@types/react": "^18.3.3", "typescript": "^5.7.2" } }],
 
-    "@zemble/utils": ["@zemble/utils@workspace:packages/utils", { "dependencies": { "fast-safe-stringify": "^2.1.1", "ts-pattern": "^5.2.0" }, "devDependencies": { "@types/bun": "*", "@types/graphql-fields": "^1.3.9", "dataloader": "^2.2.2", "dayjs": "^1.11.11", "fastify": "^4.28.1", "fastify-plugin": "^4.5.1", "graphql": "^16.9.0", "graphql-fields": "^2.0.3", "mongodb": "^6.8.0", "typescript": "^5.5.3" }, "bin": { "ensure-all-dependencies": "./scripts/ensure-all-dependencies.ts", "add-safe": "./scripts/add-safe.ts" } }],
+    "@zemble/utils": ["@zemble/utils@workspace:packages/utils", { "dependencies": { "fast-safe-stringify": "^2.1.1", "ts-pattern": "^5.6.0" }, "devDependencies": { "@types/bun": "*", "@types/graphql-fields": "^1.3.9", "dataloader": "^2.2.3", "dayjs": "^1.11.13", "fastify": "^4.28.1", "fastify-plugin": "^4.5.1", "graphql": "^16.10.0", "graphql-fields": "^2.0.3", "mongodb": "^6.12.0", "typescript": "^5.7.2" }, "bin": { "ensure-all-dependencies": "./scripts/ensure-all-dependencies.ts", "add-safe": "./scripts/add-safe.ts" } }],
 
     "abab": ["abab@2.0.6", "", {}, "sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA=="],
 
@@ -2282,11 +2282,11 @@
 
     "application-config-path": ["application-config-path@0.1.1", "", {}, "sha512-zy9cHePtMP0YhwG+CfHm0bgwdnga2X3gZexpdCwEj//dpb+TKajtiC8REEUJUSq6Ab4f9cgNy2l8ObXzCXFkEw=="],
 
-    "aproba": ["aproba@2.0.0", "", {}, "sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ=="],
+    "aproba": ["aproba@1.2.0", "", {}, "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="],
 
     "are-we-there-yet": ["are-we-there-yet@2.0.0", "", { "dependencies": { "delegates": "^1.0.0", "readable-stream": "^3.6.0" } }, "sha512-Ci/qENmwHnsYo9xKIcUJN5LeDKdJ6R1Z1j9V/J5wyq8nh/mYPEpIKJbBZXtZjG04HiK7zV/p6Vs9952MrMeUIw=="],
 
-    "arg": ["arg@4.1.3", "", {}, "sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA=="],
+    "arg": ["arg@4.1.0", "", {}, "sha512-ZWc51jO3qegGkVh8Hwpv636EkbesNV5ZNQPCtRa+0qytRYPEs9IYT9qITY9buezqUH5uqyzlWLcufrzU2rffdg=="],
 
     "argparse": ["argparse@2.0.1", "", {}, "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="],
 
@@ -2506,7 +2506,7 @@
 
     "bullmq": ["bullmq@5.34.2", "", { "dependencies": { "cron-parser": "^4.6.0", "ioredis": "^5.4.1", "msgpackr": "^1.11.2", "node-abort-controller": "^3.1.1", "semver": "^7.5.4", "tslib": "^2.0.0", "uuid": "^9.0.0" } }, "sha512-eUzeCswrKbQDE1WY8h4ZTBtynOzCU5qx9felFdYOmIJrsy0warDahHKUiCZ6dUCs6ZxYMGtcaciIMcAf1L54yw=="],
 
-    "bun-types": ["bun-types@1.1.18", "", { "dependencies": { "@types/node": "~20.12.8", "@types/ws": "~8.5.10" } }, "sha512-m5GnQrIpQdRyfWRoa5pvwpVAMDiQR1GTgMMZNvBWzJ+k2/fC55NRFZCEsXFE38HLFpM57o/diAjP3rgacdA4Eg=="],
+    "bun-types": ["bun-types@1.1.39", "", { "dependencies": { "@types/node": "~20.12.8", "@types/ws": "~8.5.10" } }, "sha512-8enJ1uad+v5ZRzmSMU2S4/CiF0AerRoVoQlEvYIt9xSbR6p8cjeYj9GAgxZumHWoarIu+WcqZ6NklGCfl9PAkw=="],
 
     "busboy": ["busboy@1.6.0", "", { "dependencies": { "streamsearch": "^1.1.0" } }, "sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA=="],
 
@@ -2594,7 +2594,7 @@
 
     "cmd-shim": ["cmd-shim@7.0.0", "", {}, "sha512-rtpaCbr164TPPh+zFdkWpCyZuKkjpAzODfaZCf/SVJZzJN+4bHQb/LP3Jzq5/+84um3XXY8r548XiWKSborwVw=="],
 
-    "cms-ui": ["cms-ui@workspace:apps/cms-ui", { "dependencies": { "@expo/vector-icons": "^13.0.0", "@gorhom/bottom-sheet": "^4", "@react-native-async-storage/async-storage": "^1.21.0", "@react-native-community/netinfo": "^9.4.1", "@react-navigation/native": "^6.1.9", "@types/react": "^18.3.3", "@urql/core": "5", "@zemble/react": "packages/react", "expo": "^49.0.21", "expo-constants": "~14.4.2", "expo-haptics": "^12.6.0", "expo-linking": "^5.0.2", "expo-modules-core": "^1.5.12", "expo-router": "^2.0.14", "expo-splash-screen": "~0.20.4", "expo-status-bar": "^1.7.1", "expo-system-ui": "^2.6.0", "graphql-ws": "^5.16.0", "jwt-decode": "^4.0.0", "react": "^18.3.1", "react-dom": "^18.3.1", "react-hook-form": "^7.52.1", "react-native": "~0.72.4", "react-native-gesture-handler": "^2.14.0", "react-native-keyboard-aware-scroll-view": "^0.9.5", "react-native-paper": "^5.12.3", "react-native-reanimated": "~3.6.1", "react-native-safe-area-context": "^4.8.2", "react-native-screens": "^3.29.0", "react-native-select-dropdown": "^3.4.0", "react-native-vector-icons": "^10.0.3", "react-native-web": "^0.19.8", "recursive": "^0.0.2", "typescript": "^5.5.3", "urql": "4.1" }, "devDependencies": { "@babel/core": "^7.24.7", "@babel/plugin-proposal-export-namespace-from": "^7.18.9", "@graphql-codegen/cli": "^5.0.2", "@graphql-codegen/client-preset": "^4.3.2" } }],
+    "cms-ui": ["cms-ui@workspace:apps/cms-ui", { "dependencies": { "@expo/vector-icons": "^13.0.0", "@gorhom/bottom-sheet": "^4", "@react-native-async-storage/async-storage": "^1.21.0", "@react-native-community/netinfo": "^9.4.1", "@react-navigation/native": "^6.1.9", "@types/react": "^18.3.3", "@urql/core": "5", "@zemble/react": "packages/react", "expo": "^49.0.21", "expo-constants": "~14.4.2", "expo-haptics": "^12.6.0", "expo-linking": "^5.0.2", "expo-modules-core": "^1.5.12", "expo-router": "^2.0.14", "expo-splash-screen": "~0.20.4", "expo-status-bar": "^1.7.1", "expo-system-ui": "^2.6.0", "graphql-ws": "^5.16.0", "jwt-decode": "^4.0.0", "react": "^18.3.1", "react-dom": "^18.3.1", "react-hook-form": "^7.54.1", "react-native": "~0.72.4", "react-native-gesture-handler": "^2.14.0", "react-native-keyboard-aware-scroll-view": "^0.9.5", "react-native-paper": "^5.12.3", "react-native-reanimated": "~3.6.1", "react-native-safe-area-context": "^4.8.2", "react-native-screens": "^3.29.0", "react-native-select-dropdown": "^3.4.0", "react-native-vector-icons": "^10.0.3", "react-native-web": "^0.19.8", "recursive": "^0.0.2", "typescript": "^5.7.2", "urql": "4.2" }, "devDependencies": { "@babel/core": "^7.26.0", "@babel/plugin-proposal-export-namespace-from": "^7.18.9", "@graphql-codegen/cli": "^5.0.3", "@graphql-codegen/client-preset": "^4.5.1" } }],
 
     "code-block-writer": ["code-block-writer@13.0.3", "", {}, "sha512-Oofo0pq3IKnsFtuHqSF7TqBfr71aeyZDVJ0HpmqB7FBM2qEigL0iPONSCZSO9pE9dZTAxANe5XHG9Uy0YMv8cg=="],
 
@@ -2966,7 +2966,7 @@
 
     "eslint-config-airbnb-base": ["eslint-config-airbnb-base@15.0.0", "", { "dependencies": { "confusing-browser-globals": "^1.0.10", "object.assign": "^4.1.2", "object.entries": "^1.1.5", "semver": "^6.3.0" }, "peerDependencies": { "eslint": "^7.32.0 || ^8.2.0", "eslint-plugin-import": "^2.25.2" } }, "sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig=="],
 
-    "eslint-config-kingstinct": ["eslint-config-kingstinct@workspace:packages/eslint", { "devDependencies": { "@babel/core": "^7.24.7", "@graphql-eslint/eslint-plugin": "^3.20.1", "@typescript-eslint/eslint-plugin": "^7.15.0", "@typescript-eslint/parser": "^7.15.0", "eslint": "8", "eslint-config-airbnb": "^19.0.4", "eslint-config-airbnb-base": "^15.0.0", "eslint-import-resolver-typescript": "^3.6.1", "eslint-plugin-comment-length": "^1.7.3", "eslint-plugin-eslint-plugin": "^6.2.0", "eslint-plugin-functional": "^6.6.1", "eslint-plugin-import": "^2.29.1", "eslint-plugin-jsonc": "^2.16.0", "eslint-plugin-jsx-a11y": "^6.9.0", "eslint-plugin-react": "7.34.3", "eslint-plugin-react-hooks": "^4.6.2", "eslint-plugin-react-native": "^4.1.0", "eslint-plugin-react-native-a11y": "^3.3.0", "eslint-plugin-unicorn": "^54.0.0", "eslint-plugin-yml": "^1.14.0", "expo": "^49.0.21", "graphql": "^16.9.0", "lint-staged": "^15.2.7", "react": "^18.3.1", "typescript": "^5.5.3" }, "peerDependencies": { "@graphql-eslint/eslint-plugin": ">=3", "@typescript-eslint/eslint-plugin": ">=7.7.1", "@typescript-eslint/parser": ">=7.7.1", "eslint": "8", "eslint-config-airbnb-base": ">=15", "eslint-import-resolver-typescript": ">=3.6.1", "eslint-plugin-comment-length": ">=1.7.3", "eslint-plugin-functional": ">=6.4.0", "eslint-plugin-import": ">=2.29.1", "eslint-plugin-jsonc": ">=2.15.0", "eslint-plugin-unicorn": ">=53.0.0", "eslint-plugin-yml": ">=1.14.0", "graphql": ">=16.8.1", "typescript": ">=5.4.2" } }],
+    "eslint-config-kingstinct": ["eslint-config-kingstinct@workspace:packages/eslint", { "devDependencies": { "@babel/core": "^7.26.0", "@graphql-eslint/eslint-plugin": "^3.20.1", "@typescript-eslint/eslint-plugin": "^7.15.0", "@typescript-eslint/parser": "^7.15.0", "eslint": "8", "eslint-config-airbnb": "^19.0.4", "eslint-config-airbnb-base": "^15.0.0", "eslint-import-resolver-typescript": "^3.7.0", "eslint-plugin-comment-length": "^1.7.3", "eslint-plugin-eslint-plugin": "^6.3.2", "eslint-plugin-functional": "^6.6.1", "eslint-plugin-import": "^2.31.0", "eslint-plugin-jsonc": "^2.18.2", "eslint-plugin-jsx-a11y": "^6.10.2", "eslint-plugin-react": "7.37.2", "eslint-plugin-react-hooks": "^4.6.2", "eslint-plugin-react-native": "^4.1.0", "eslint-plugin-react-native-a11y": "^3.3.0", "eslint-plugin-unicorn": "^54.0.0", "eslint-plugin-yml": "^1.16.0", "expo": "^49.0.21", "graphql": "^16.10.0", "lint-staged": "^15.2.11", "react": "^18.3.1", "typescript": "^5.7.2" }, "peerDependencies": { "@graphql-eslint/eslint-plugin": ">=3", "@typescript-eslint/eslint-plugin": ">=7.7.1", "@typescript-eslint/parser": ">=7.7.1", "eslint": "8", "eslint-config-airbnb-base": ">=15", "eslint-import-resolver-typescript": ">=3.6.1", "eslint-plugin-comment-length": ">=1.7.3", "eslint-plugin-functional": ">=6.4.0", "eslint-plugin-import": ">=2.29.1", "eslint-plugin-jsonc": ">=2.15.0", "eslint-plugin-unicorn": ">=53.0.0", "eslint-plugin-yml": ">=1.14.0", "graphql": ">=16.8.1", "typescript": ">=5.4.2" } }],
 
     "eslint-import-resolver-node": ["eslint-import-resolver-node@0.3.9", "", { "dependencies": { "debug": "^3.2.7", "is-core-module": "^2.13.0", "resolve": "^1.22.4" } }, "sha512-WFj2isz22JahUv+B788TlO3N6zL3nNJGU8CcZbPZvVEkBPaJdCV4vy5wyghty5ROFbCRnm132v8BScu5/1BQ8g=="],
 
@@ -3932,7 +3932,7 @@
 
     "mini-css-extract-plugin": ["mini-css-extract-plugin@2.9.2", "", { "dependencies": { "schema-utils": "^4.0.0", "tapable": "^2.2.1" }, "peerDependencies": { "webpack": "^5.0.0" } }, "sha512-GJuACcS//jtq4kCtd5ii/M0SZf7OZRH+BxdqXZHaJfb8TJiVl+NgQRPwiYt2EuqeSkNydn/7vP+bcE27C5mb9w=="],
 
-    "minimal": ["minimal@workspace:apps/minimal", { "dependencies": { "@zemble/auth": "packages/auth", "@zemble/auth-otp": "packages/auth-otp", "@zemble/bull": "packages/bull", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/email-resend": "packages/email-resend", "@zemble/graphql": "packages/graphql", "@zemble/logger-graphql": "packages/logger-graphql", "@zemble/migrations": "packages/migrations", "@zemble/pino": "packages/pino", "@zemble/routes": "packages/routes", "@zemble/sms-46elks": "packages/sms-46elks", "@zemble/sms-twilio": "packages/sms-twilio" }, "devDependencies": { "@tsconfig/node20": "^20.1.4", "typescript": "^5.5.3" } }],
+    "minimal": ["minimal@workspace:apps/minimal", { "dependencies": { "@zemble/auth": "packages/auth", "@zemble/auth-otp": "packages/auth-otp", "@zemble/bull": "packages/bull", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/email-resend": "packages/email-resend", "@zemble/graphql": "packages/graphql", "@zemble/logger-graphql": "packages/logger-graphql", "@zemble/migrations": "packages/migrations", "@zemble/pino": "packages/pino", "@zemble/routes": "packages/routes", "@zemble/sms-46elks": "packages/sms-46elks", "@zemble/sms-twilio": "packages/sms-twilio" }, "devDependencies": { "@tsconfig/node20": "^20.1.4", "typescript": "^5.7.2" } }],
 
     "minimalistic-assert": ["minimalistic-assert@1.0.1", "", {}, "sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A=="],
 
@@ -4814,6 +4814,8 @@
 
     "string.prototype.padstart": ["string.prototype.padstart@3.1.6", "", { "dependencies": { "call-bind": "^1.0.7", "define-properties": "^1.2.1", "es-abstract": "^1.23.0", "es-object-atoms": "^1.0.0" } }, "sha512-1y15lz7otgfRTAVK5qbp3eHIga+w8j7+jIH+7HpUrOfnLVl6n0hbspi4EXf4tR+PNOpBjPstltemkx0SvViOCg=="],
 
+    "string.prototype.repeat": ["string.prototype.repeat@1.0.0", "", { "dependencies": { "define-properties": "^1.1.3", "es-abstract": "^1.17.5" } }, "sha512-0u/TldDbKD8bFCQ/4f5+mNRrXwZ8hg2w7ZR8wa16e8z9XpePWl3eGEcUD0OXpEH/VJH/2G3gjUtR3ZOiBe2S/w=="],
+
     "string.prototype.trim": ["string.prototype.trim@1.2.10", "", { "dependencies": { "call-bind": "^1.0.8", "call-bound": "^1.0.2", "define-data-property": "^1.1.4", "define-properties": "^1.2.1", "es-abstract": "^1.23.5", "es-object-atoms": "^1.0.0", "has-property-descriptors": "^1.0.2" } }, "sha512-Rs66F0P/1kedk5lyYyH9uBzuiI/kNRmwJAR9quK6VOtIpZ2G+hMZd+HQbbv25MgCA6gEffoMZYxlTod4WcdrKA=="],
 
     "string.prototype.trimend": ["string.prototype.trimend@1.0.9", "", { "dependencies": { "call-bind": "^1.0.8", "call-bound": "^1.0.2", "define-properties": "^1.2.1", "es-object-atoms": "^1.0.0" } }, "sha512-G7Ok5C6E/j4SGfyLCloXTrngQIQU3PWtXGst3yM7Bea9FRURf1S42ZHlZZtsNque2FN2PoUhfZXYLNWwEr4dLQ=="],
@@ -4858,7 +4860,7 @@
 
     "supabase": ["supabase@1.226.4", "", { "dependencies": { "bin-links": "^5.0.0", "https-proxy-agent": "^7.0.2", "node-fetch": "^3.3.2", "tar": "7.4.3" }, "bin": { "supabase": "bin/supabase" } }, "sha512-qEzoagrqZs5T7sAlfZzehX3PJ13cSBrJVs2vrh6xC+B0VI0wgOBw2gCNRcsOMJMpSr0V1l0XueCiFBWPm2U03w=="],
 
-    "supplement-stack": ["supplement-stack@workspace:apps/supplement-stack", { "dependencies": { "@envelop/generic-auth": "^7.0.0", "@zemble/apple-app-site-association": "packages/apple-app-site-association", "@zemble/auth-otp": "packages/auth-otp", "@zemble/bull": "packages/bull", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/todo": "packages/todo", "@zemble/utils": "packages/utils", "graphql": "^16.9.0", "graphql-scalars": "^1.23.0", "mongodb": "^6.8.0", "papr": "^15.2.2" }, "devDependencies": { "typescript": "^5.5.3" } }],
+    "supplement-stack": ["supplement-stack@workspace:apps/supplement-stack", { "dependencies": { "@envelop/generic-auth": "^7.0.0", "@zemble/apple-app-site-association": "packages/apple-app-site-association", "@zemble/auth-otp": "packages/auth-otp", "@zemble/bull": "packages/bull", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/todo": "packages/todo", "@zemble/utils": "packages/utils", "graphql": "^16.10.0", "graphql-scalars": "^1.24.0", "mongodb": "^6.12.0", "papr": "^15.2.2" }, "devDependencies": { "typescript": "^5.7.2" } }],
 
     "supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="],
 
@@ -4946,9 +4948,9 @@
 
     "toad-cache": ["toad-cache@3.7.0", "", {}, "sha512-/m8M+2BJUpoJdgAHoG+baCwBT+tf2VraSfkBgl0Y00qIWt41DJ8R5B8nsEw0I58YwF5IZH6z24/2TobDKnqSWw=="],
 
-    "todo-app-with-auth-backend": ["todo-app-with-auth-backend@workspace:apps/todo-app-with-auth-backend", { "dependencies": { "@envelop/generic-auth": "^7.0.0", "@zemble/apple-app-site-association": "packages/apple-app-site-association", "@zemble/auth-anonymous": "packages/auth-anonymous", "@zemble/bull": "packages/bull", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/ignite": "packages/ignite", "@zemble/todo": "packages/todo" }, "devDependencies": { "typescript": "^5.5.3" } }],
+    "todo-app-with-auth-backend": ["todo-app-with-auth-backend@workspace:apps/todo-app-with-auth-backend", { "dependencies": { "@envelop/generic-auth": "^7.0.0", "@zemble/apple-app-site-association": "packages/apple-app-site-association", "@zemble/auth-anonymous": "packages/auth-anonymous", "@zemble/bull": "packages/bull", "@zemble/bun": "packages/bun", "@zemble/core": "packages/core", "@zemble/graphql": "packages/graphql", "@zemble/ignite": "packages/ignite", "@zemble/todo": "packages/todo" }, "devDependencies": { "typescript": "^5.7.2" } }],
 
-    "todoappwithauth": ["todoappwithauth@workspace:apps/todo-app-with-auth", { "dependencies": { "@expo/webpack-config": "^19.0.1", "@urql/storage-rn": "^1.1.0", "@zemble/auth-anonymous-expo": "packages/anonymous-auth-expo", "@zemble/auth-expo": "packages/auth-expo", "@zemble/todo-ui": "packages/todo-ui", "expo": "^49.0.21", "expo-status-bar": "^1.7.1", "graphql": "^16.9.0", "react": "^18.3.1", "react-native": "~0.72.4", "react-native-web": "^0.19.8" }, "devDependencies": { "@babel/core": "^7.24.7", "@types/react": "^18.3.3", "typescript": "^5.5.3" } }],
+    "todoappwithauth": ["todoappwithauth@workspace:apps/todo-app-with-auth", { "dependencies": { "@expo/webpack-config": "^19.0.1", "@urql/storage-rn": "^1.1.0", "@zemble/auth-anonymous-expo": "packages/anonymous-auth-expo", "@zemble/auth-expo": "packages/auth-expo", "@zemble/todo-ui": "packages/todo-ui", "expo": "^49.0.21", "expo-status-bar": "^1.7.1", "graphql": "^16.10.0", "react": "^18.3.1", "react-native": "~0.72.4", "react-native-web": "^0.19.8" }, "devDependencies": { "@babel/core": "^7.26.0", "@types/react": "^18.3.3", "typescript": "^5.7.2" } }],
 
     "toidentifier": ["toidentifier@1.0.1", "", {}, "sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA=="],
 
@@ -5100,7 +5102,7 @@
 
     "urlpattern-polyfill": ["urlpattern-polyfill@10.0.0", "", {}, "sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg=="],
 
-    "urql": ["urql@4.1.0", "", { "dependencies": { "@urql/core": "^5.0.0", "wonka": "^6.3.2" }, "peerDependencies": { "react": ">= 16.8.0" } }, "sha512-NfbfTvxy1sM89EQAJWm89qJZihUWk7BSMfrWgfljFXLOf+e7RK7DtV/Tbg2+82HnCG2x3LcEOJenxiFSYEC+bw=="],
+    "urql": ["urql@4.2.1", "", { "dependencies": { "@urql/core": "^5.0.0", "wonka": "^6.3.2" }, "peerDependencies": { "react": ">= 16.8.0" } }, "sha512-Y/cVi1rsR96kbF3VX6YgfHw1V3kJ287nR1TqpjGzVPyAmXuwRvBvABI+sHY2WOquWCNh+kvFapM/LLYeiC3wig=="],
 
     "use": ["use@3.1.1", "", {}, "sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ=="],
 
@@ -5294,8 +5296,6 @@
 
     "@expo/cli/@urql/core": ["@urql/core@2.3.6", "", { "dependencies": { "@graphql-typed-document-node/core": "^3.1.0", "wonka": "^4.0.14" }, "peerDependencies": { "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0" } }, "sha512-PUxhtBh7/8167HJK6WqBv6Z0piuiaZHQGYbhwpNL9aIQmLROPEdaUYkY4wh45wPQXcTpnd11l0q3Pw+TI11pdw=="],
 
-    "@expo/cli/arg": ["arg@4.1.0", "", {}, "sha512-ZWc51jO3qegGkVh8Hwpv636EkbesNV5ZNQPCtRa+0qytRYPEs9IYT9qITY9buezqUH5uqyzlWLcufrzU2rffdg=="],
-
     "@expo/cli/fs-extra": ["fs-extra@8.1.0", "", { "dependencies": { "graceful-fs": "^4.2.0", "jsonfile": "^4.0.0", "universalify": "^0.1.0" } }, "sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g=="],
 
     "@expo/cli/graphql": ["graphql@15.8.0", "", {}, "sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw=="],
@@ -5326,8 +5326,6 @@
 
     "@expo/dev-server/@expo/osascript": ["@expo/osascript@2.0.33", "", { "dependencies": { "@expo/spawn-async": "^1.5.0", "exec-async": "^2.2.0" } }, "sha512-FQinlwHrTlJbntp8a7NAlCKedVXe06Va/0DSLXRO8lZVtgbEMrYYSUZWQNcOlNtc58c2elNph6z9dMOYwSo3JQ=="],
 
-    "@expo/dev-server/@expo/spawn-async": ["@expo/spawn-async@1.7.2", "", { "dependencies": { "cross-spawn": "^7.0.3" } }, "sha512-QdWi16+CHB9JYP7gma19OVVg0BFkvU8zNj9GjWorYI8Iv8FUxjOCcYRuAmX4s/h91e4e7BPsskc8cSrZYho9Ew=="],
-
     "@expo/dev-server/fs-extra": ["fs-extra@9.0.0", "", { "dependencies": { "at-least-node": "^1.0.0", "graceful-fs": "^4.2.0", "jsonfile": "^6.0.1", "universalify": "^1.0.0" } }, "sha512-pmEYSk3vYsG/bF651KPUXZ+hvjpgWYw/Gc7W9NFUe3ZVLczKKWIij3IKpOrQcdw4TILtibFslZ0UmR8Vvzig4g=="],
 
     "@expo/dev-server/serialize-error": ["serialize-error@6.0.0", "", { "dependencies": { "type-fest": "^0.12.0" } }, "sha512-3vmBkMZLQO+BR4RPHcyRGdE09XCF6cvxzk2N2qn8Er3F91cy8Qt7VvEbZBOpaL53qsBbe2cFOefU6tRY6WDelA=="],
@@ -5355,8 +5353,6 @@
     "@expo/metro-config/postcss": ["postcss@8.4.49", "", { "dependencies": { "nanoid": "^3.3.7", "picocolors": "^1.1.1", "source-map-js": "^1.2.1" } }, "sha512-OCVPnIObs4N29kxTjzLfUryOkvZEq+pf8jTF0lg8E7uETuWHA+v7j3c/xJmiqpX450191LlmZfUKkXxkTry7nA=="],
 
     "@expo/osascript/@expo/spawn-async": ["@expo/spawn-async@1.7.2", "", { "dependencies": { "cross-spawn": "^7.0.3" } }, "sha512-QdWi16+CHB9JYP7gma19OVVg0BFkvU8zNj9GjWorYI8Iv8FUxjOCcYRuAmX4s/h91e4e7BPsskc8cSrZYho9Ew=="],
-
-    "@expo/package-manager/@expo/spawn-async": ["@expo/spawn-async@1.7.2", "", { "dependencies": { "cross-spawn": "^7.0.3" } }, "sha512-QdWi16+CHB9JYP7gma19OVVg0BFkvU8zNj9GjWorYI8Iv8FUxjOCcYRuAmX4s/h91e4e7BPsskc8cSrZYho9Ew=="],
 
     "@expo/package-manager/js-yaml": ["js-yaml@3.14.1", "", { "dependencies": { "argparse": "^1.0.7", "esprima": "^4.0.0" }, "bin": { "js-yaml": "bin/js-yaml.js" } }, "sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g=="],
 
@@ -5566,7 +5562,7 @@
 
     "@react-native-community/cli-doctor/strip-ansi": ["strip-ansi@5.2.0", "", { "dependencies": { "ansi-regex": "^4.1.0" } }, "sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA=="],
 
-    "@react-native-community/cli-doctor/sudo-prompt": ["sudo-prompt@9.1.1", "", {}, "sha512-es33J1g2HjMpyAhz8lOR+ICmXXAqTuKbuXuUWLhOLew20oN9oUCgCJx615U/v7aioZg7IX5lIh9x34vwneu4pA=="],
+    "@react-native-community/cli-doctor/sudo-prompt": ["sudo-prompt@9.2.1", "", {}, "sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw=="],
 
     "@react-native-community/cli-platform-android/execa": ["execa@5.1.1", "", { "dependencies": { "cross-spawn": "^7.0.3", "get-stream": "^6.0.0", "human-signals": "^2.1.0", "is-stream": "^2.0.0", "merge-stream": "^2.0.0", "npm-run-path": "^4.0.1", "onetime": "^5.1.2", "signal-exit": "^3.0.3", "strip-final-newline": "^2.0.0" } }, "sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg=="],
 
@@ -5854,8 +5850,6 @@
 
     "color/color-convert": ["color-convert@1.9.3", "", { "dependencies": { "color-name": "1.1.3" } }, "sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg=="],
 
-    "color-string/color-name": ["color-name@1.1.3", "", {}, "sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw=="],
-
     "compression/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
 
     "compression/negotiator": ["negotiator@0.6.4", "", {}, "sha512-myRT3DiWPHqho5PrJaIRyaMv2kgYf0mUVgBNOYMuCH5Ki1yEiQaf/ZJuQ62nvpc44wL5WDbTX7yGJi1Neevw8w=="],
@@ -5865,8 +5859,6 @@
     "connect/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
 
     "connect/finalhandler": ["finalhandler@1.1.2", "", { "dependencies": { "debug": "2.6.9", "encodeurl": "~1.0.2", "escape-html": "~1.0.3", "on-finished": "~2.3.0", "parseurl": "~1.3.3", "statuses": "~1.5.0", "unpipe": "~1.0.0" } }, "sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA=="],
-
-    "copy-concurrently/aproba": ["aproba@1.2.0", "", {}, "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="],
 
     "copy-webpack-plugin/globby": ["globby@12.2.0", "", { "dependencies": { "array-union": "^3.0.1", "dir-glob": "^3.0.1", "fast-glob": "^3.2.7", "ignore": "^5.1.9", "merge2": "^1.4.1", "slash": "^4.0.0" } }, "sha512-wiSuFQLZ+urS9x2gGPl1H5drc5twabmm4m2gTR27XDFyjUHJUNsS8o/2aKyIF6IoBaR630atdher0XJ5g6OMmA=="],
 
@@ -5933,6 +5925,8 @@
     "escodegen/source-map": ["source-map@0.6.1", "", {}, "sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g=="],
 
     "eslint-config-airbnb-base/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
+
+    "eslint-config-kingstinct/eslint-plugin-react": ["eslint-plugin-react@7.37.2", "", { "dependencies": { "array-includes": "^3.1.8", "array.prototype.findlast": "^1.2.5", "array.prototype.flatmap": "^1.3.2", "array.prototype.tosorted": "^1.1.4", "doctrine": "^2.1.0", "es-iterator-helpers": "^1.1.0", "estraverse": "^5.3.0", "hasown": "^2.0.2", "jsx-ast-utils": "^2.4.1 || ^3.0.0", "minimatch": "^3.1.2", "object.entries": "^1.1.8", "object.fromentries": "^2.0.8", "object.values": "^1.2.0", "prop-types": "^15.8.1", "resolve": "^2.0.0-next.5", "semver": "^6.3.1", "string.prototype.matchall": "^4.0.11", "string.prototype.repeat": "^1.0.0" }, "peerDependencies": { "eslint": "^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7" } }, "sha512-EsTAnj9fLVr/GZleBLFbj/sSuXeWmp1eXIN60ceYnZveqEaUCyW4X+Vh4WTdUhCkW4xutXYqTXCUSyqD4rB75w=="],
 
     "eslint-import-resolver-node/debug": ["debug@3.2.7", "", { "dependencies": { "ms": "^2.1.1" } }, "sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ=="],
 
@@ -6154,7 +6148,7 @@
 
     "lazy-universal-dotenv/dotenv-expand": ["dotenv-expand@5.1.0", "", {}, "sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA=="],
 
-    "light-my-request/cookie": ["cookie@0.7.1", "", {}, "sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w=="],
+    "light-my-request/cookie": ["cookie@0.7.2", "", {}, "sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w=="],
 
     "light-my-request/process-warning": ["process-warning@3.0.0", "", {}, "sha512-mqn0kFRl0EoqhnL0GQ0veqFHyIN1yig9RHh/InzORTUiZHFRAur+aMtRkELNwGs9aNwKS6tg/An4NYBPGwvtzQ=="],
 
@@ -6251,8 +6245,6 @@
     "mongodb-memory-server-core/find-cache-dir": ["find-cache-dir@3.3.2", "", { "dependencies": { "commondir": "^1.0.1", "make-dir": "^3.0.2", "pkg-dir": "^4.1.0" } }, "sha512-wXZV5emFEjrridIgED11OoUKLxiYjAcqot/NJdAkOhlJ+vGzwhOAfcG5OX1jP+S0PcjEn8bdMJv+g2jwQ3Onig=="],
 
     "mongodb-memory-server-core/mongodb": ["mongodb@5.9.2", "", { "dependencies": { "bson": "^5.5.0", "mongodb-connection-string-url": "^2.6.0", "socks": "^2.7.1" }, "optionalDependencies": { "@mongodb-js/saslprep": "^1.1.0" }, "peerDependencies": { "@aws-sdk/credential-providers": "^3.188.0", "@mongodb-js/zstd": "^1.0.0", "kerberos": "^1.0.0 || ^2.0.0", "mongodb-client-encryption": ">=2.3.0 <3", "snappy": "^7.2.2" }, "optionalPeers": ["@aws-sdk/credential-providers", "@mongodb-js/zstd", "kerberos", "mongodb-client-encryption", "snappy"] }, "sha512-H60HecKO4Bc+7dhOv4sJlgvenK4fQNqqUIlXxZYQNbfEWSALGAwGoyJd/0Qwk4TttFXUOHJ2ZJQe/52ScaUwtQ=="],
-
-    "move-concurrently/aproba": ["aproba@1.2.0", "", {}, "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="],
 
     "mv/rimraf": ["rimraf@2.4.5", "", { "dependencies": { "glob": "^6.0.1" }, "bin": { "rimraf": "./bin.js" } }, "sha512-J5xnxTyqaiw06JjMftq7L9ouA448dw/E7dKghkP9WpKNuwmARNNg+Gk8/u5ryb9N/Yo2+z3MCwuqFK/+qPOPfQ=="],
 
@@ -6435,8 +6427,6 @@
     "restore-cursor/onetime": ["onetime@5.1.2", "", { "dependencies": { "mimic-fn": "^2.1.0" } }, "sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg=="],
 
     "restore-cursor/signal-exit": ["signal-exit@3.0.7", "", {}, "sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ=="],
-
-    "run-queue/aproba": ["aproba@1.2.0", "", {}, "sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw=="],
 
     "safe-regex/ret": ["ret@0.1.15", "", {}, "sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg=="],
 
@@ -6659,6 +6649,8 @@
     "@expo/config-plugins/@expo/json-file/write-file-atomic": ["write-file-atomic@2.4.3", "", { "dependencies": { "graceful-fs": "^4.1.11", "imurmurhash": "^0.1.4", "signal-exit": "^3.0.2" } }, "sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ=="],
 
     "@expo/config/semver/lru-cache": ["lru-cache@6.0.0", "", { "dependencies": { "yallist": "^4.0.0" } }, "sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA=="],
+
+    "@expo/dev-server/@expo/osascript/@expo/spawn-async": ["@expo/spawn-async@1.7.2", "", { "dependencies": { "cross-spawn": "^7.0.3" } }, "sha512-QdWi16+CHB9JYP7gma19OVVg0BFkvU8zNj9GjWorYI8Iv8FUxjOCcYRuAmX4s/h91e4e7BPsskc8cSrZYho9Ew=="],
 
     "@expo/dev-server/fs-extra/jsonfile": ["jsonfile@6.1.0", "", { "dependencies": { "universalify": "^2.0.0" }, "optionalDependencies": { "graceful-fs": "^4.1.6" } }, "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ=="],
 
@@ -7325,6 +7317,10 @@
     "detective-typescript/@typescript-eslint/typescript-estree/globby": ["globby@11.1.0", "", { "dependencies": { "array-union": "^2.1.0", "dir-glob": "^3.0.1", "fast-glob": "^3.2.9", "ignore": "^5.2.0", "merge2": "^1.4.1", "slash": "^3.0.0" } }, "sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g=="],
 
     "editorconfig/minimatch/brace-expansion": ["brace-expansion@2.0.1", "", { "dependencies": { "balanced-match": "^1.0.0" } }, "sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA=="],
+
+    "eslint-config-kingstinct/eslint-plugin-react/doctrine": ["doctrine@2.1.0", "", { "dependencies": { "esutils": "^2.0.2" } }, "sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw=="],
+
+    "eslint-config-kingstinct/eslint-plugin-react/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
     "eslint-plugin-comment-length/@typescript-eslint/utils/@typescript-eslint/scope-manager": ["@typescript-eslint/scope-manager@6.21.0", "", { "dependencies": { "@typescript-eslint/types": "6.21.0", "@typescript-eslint/visitor-keys": "6.21.0" } }, "sha512-OwLUIWZJry80O99zvqXVEioyniJMa+d2GrqpUTqi5/v5D5rOrppJVBPa0yKCblcigC0/aYAzxxqQ1B+DS2RYsg=="],
 

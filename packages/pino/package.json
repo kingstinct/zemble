@@ -11,7 +11,7 @@
   "dependencies": {
     "@zemble/bun": "workspace:*",
     "@zemble/core": "workspace:*",
-    "pino": "^9.2.0",
+    "pino": "^9.5.0",
     "pino-debug": "^2.0.0"
   },
   "scripts": {

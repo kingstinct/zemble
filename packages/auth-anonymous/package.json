@@ -21,13 +21,13 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^5.0.1",
+    "@envelop/core": "^5.0.2",
     "@envelop/generic-auth": "^7.0.0",
-    "@whatwg-node/server-plugin-cookies": "^1.0.2",
+    "@whatwg-node/server-plugin-cookies": "^1.0.3",
     "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "graphql": "^16.9.0"
+    "graphql": "^16.10.0"
   }
 }

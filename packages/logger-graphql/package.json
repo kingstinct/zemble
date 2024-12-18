@@ -34,18 +34,18 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@graphql-yoga/plugin-defer-stream": "^3.6.0",
+    "@graphql-yoga/plugin-defer-stream": "^3.10.6",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/pino": "workspace:*",
-    "graphql-yoga": "^5.6.0",
-    "hono": "^4.4.12",
-    "pino": "^9.2.0"
+    "graphql-yoga": "^5.10.6",
+    "hono": "^4.6.14",
+    "pino": "^9.5.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/typescript": "^4.0.9",
-    "@graphql-codegen/typescript-resolvers": "^4.2.1",
+    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/typescript": "^4.1.2",
+    "@graphql-codegen/typescript-resolvers": "^4.4.1",
     "@urql/core": "5"
   }
 }

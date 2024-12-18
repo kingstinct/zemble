@@ -59,7 +59,7 @@
     "@types/debug": "^4.1.12",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
-    "bun-types": "1.1.18",
+    "bun-types": "1.1.39",
     "check-dependency-version-consistency": "^4.1.0",
     "eslint": "8",
     "eslint-config-airbnb": "^19.0.4",
@@ -77,10 +77,10 @@
     "eslint-plugin-react-native-a11y": "^3.3.0",
     "eslint-plugin-unicorn": "^54.0.0",
     "eslint-plugin-yml": "^1.14.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.7",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
     "pino-pretty": "^11.2.1",
-    "turbo": "^2.0.6",
+    "turbo": "^2.3.3",
     "typescript-json-schema": "^0.64.0"
   },
   "workspaces": [
@@ -88,9 +88,9 @@
     "apps/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.27.7",
-    "debug": "^4.3.5",
-    "graphql": "^16.9.0",
+    "@changesets/cli": "^2.27.10",
+    "debug": "^4.4.0",
+    "graphql": "^16.10.0",
     "madge": "^7.0.0"
   }
 }

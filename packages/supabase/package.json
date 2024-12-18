@@ -15,8 +15,8 @@
     "@zemble/routes": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@supabase/ssr": "^0.3.0",
-    "graphql": "^16.9.0",
-    "@supabase/supabase-js": "^2.44.2"
+    "graphql": "^16.10.0",
+    "@supabase/supabase-js": "^2.47.8"
   },
   "scripts": {
     "dev": "zemble-dev plugin.ts",
@@ -29,10 +29,10 @@
     "@types/bun": "*",
     "supabase": "^1.178.2",
     "@graphql-codegen/add": "^5.0.3",
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/client-preset": "^4.3.2",
-    "@graphql-codegen/typescript": "^4.0.9",
-    "@graphql-codegen/typescript-resolvers": "^4.2.1",
+    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/client-preset": "^4.5.1",
+    "@graphql-codegen/typescript": "^4.1.2",
+    "@graphql-codegen/typescript-resolvers": "^4.4.1",
     "@tsconfig/bun": "^1.0.7"
   },
   "peerDependencies": {
