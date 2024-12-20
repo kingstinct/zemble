@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.37
+
+### Patch Changes
+
+- 92dbd7b: Add updateTimeout to timeoutfiy
+
 ## 0.7.36
 
 ### Patch Changes

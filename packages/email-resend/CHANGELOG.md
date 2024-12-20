@@ -1,5 +1,12 @@
 # @zemble/email-resend
 
+## 0.0.27
+
+### Patch Changes
+
+- @zemble/core@0.1.22
+- @zemble/graphql@0.0.58
+
 ## 0.0.26
 
 ### Patch Changes
