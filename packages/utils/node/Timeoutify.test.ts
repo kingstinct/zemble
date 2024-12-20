@@ -12,6 +12,29 @@ describe('Timeoutify', () => {
     expect(timeoutify.abortSignal.aborted).toBe(true)
   })
 
+  test('should update timeout', async () => {
+    const timeoutify = new Timeoutify({ timeoutMS: 10 })
+
+    timeoutify.updateTimeout(100)
+
+    await wait(30)
+    expect(timeoutify.timeLeftMS).toBeGreaterThan(50)
+    expect(timeoutify.timeLeftMS).toBeLessThanOrEqual(70)
+    expect(timeoutify.status).toEqual(TimeoutifyStatus.Running)
+    expect(timeoutify.abortSignal.aborted).toBe(false)
+  })
+
+  test('should update timeout and reset startedAt', async () => {
+    const timeoutify = new Timeoutify({ timeoutMS: 10 })
+    const { startedAt } = timeoutify
+
+    await wait(10)
+
+    timeoutify.updateTimeout(100, true)
+
+    expect(timeoutify.startedAt).toBeGreaterThan(startedAt)
+  })
+
   test('timeLeftMS', () => {
     const timeoutify = new Timeoutify({ timeoutMS: 10 })
     expect(timeoutify.timeLeftMS).toBeLessThanOrEqual(10)

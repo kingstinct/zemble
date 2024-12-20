@@ -11,9 +11,15 @@ export enum TimeoutifyStatus {
 }
 
 export class Timeoutify {
-  readonly startedAt: number
+  // eslint-disable-next-line functional/prefer-readonly-type
+  #startedAt: number
 
-  private readonly timeoutMS: number
+  get startedAt() {
+    return this.#startedAt
+  }
+
+  // eslint-disable-next-line functional/prefer-readonly-type
+  #timeoutMS: number
 
   private readonly abortController: AbortController
 
@@ -24,31 +30,47 @@ export class Timeoutify {
 
   private readonly logger: Pick<Console, 'debug'>
 
-  private readonly handle: ReturnType<typeof setTimeout> | undefined
+  // eslint-disable-next-line functional/prefer-readonly-type
+  private handle: ReturnType<typeof setTimeout> | undefined
 
   constructor({
     timeoutMS,
     logPrefix = LOG_PREFIX,
     logger = console,
   }: { readonly timeoutMS: number; readonly logPrefix?: string; readonly logger?: Pick<Console, 'debug'> }) {
-    this.startedAt = Date.now()
-    this.timeoutMS = timeoutMS
+    this.#startedAt = Date.now()
+    this.#timeoutMS = timeoutMS
     this.abortController = new AbortController()
     this.logPrefix = logPrefix
     this.statusInternal = TimeoutifyStatus.Running
     this.logger = logger
 
+    this.updateTimeout(timeoutMS, true)
+  }
+
+  updateTimeout(timeoutMS: number, resetStartedAt = true) {
+    clearTimeout(this.handle)
+
+    // eslint-disable-next-line functional/immutable-data
+    this.#timeoutMS = timeoutMS
+    if (resetStartedAt) {
+      // eslint-disable-next-line functional/immutable-data
+      this.#startedAt = Date.now()
+    }
+
     if (timeoutMS > 0) {
+      // eslint-disable-next-line functional/immutable-data
       this.handle = setTimeout(() => {
         if (process.env['DEBUG']) {
           this.logger.debug(`${this.logPrefix} setTimeout called`)
         }
 
         if (!this.abortController.signal.aborted) {
+        // eslint-disable-next-line functional/immutable-data
           this.statusInternal = TimeoutifyStatus.TimedOut
           this.abortController.abort()
         }
-      }, timeoutMS)
+      }, timeoutMS - (Date.now() - this.#startedAt))
     }
   }
 
@@ -56,7 +78,7 @@ export class Timeoutify {
    * This is the time left in milliseconds before the timeout is reached. Used for handling MongoDB timeouts.
    */
   get timeLeftMS(): number {
-    return Math.max(this.timeoutMS - (Date.now() - this.startedAt), 0)
+    return Math.max(this.#timeoutMS - (Date.now() - this.startedAt), 0)
   }
 
   /**
@@ -89,6 +111,12 @@ export class Timeoutify {
     return this
   }
 
+  updateTimeoutMS(timeoutMS: number) {
+    // eslint-disable-next-line functional/immutable-data
+    this.#timeoutMS = timeoutMS
+    return this
+  }
+
   /**
    * Call this when the request has finished, to prevent triggering of aborts that you don't want.
    * */
@@ -110,7 +138,7 @@ export class Timeoutify {
       throw new Error(`${this.logPrefix} runMongoOpWithTimeout: AbortSignal already aborted`)
     }
 
-    const isNoop = this.timeoutMS <= 0
+    const isNoop = this.#timeoutMS <= 0
 
     if (isNoop || this.timeLeftMS > 0) {
       return cursor.maxTimeMS(this.timeLeftMS).toArray()
@@ -133,7 +161,10 @@ export class Timeoutify {
   }
 
   static noop() {
-    return new Timeoutify({ timeoutMS: 0, logger: { debug: () => {} } })
+    return new Timeoutify({
+      timeoutMS: 0,
+      logger: { debug: () => {} },
+    })
   }
 }
 
