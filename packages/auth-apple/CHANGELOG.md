@@ -1,5 +1,13 @@
 # @zemble/auth-apple
 
+## 0.0.65
+
+### Patch Changes
+
+- @zemble/core@0.1.22
+- @zemble/auth@0.0.61
+- @zemble/graphql@0.0.58
+
 ## 0.0.64
 
 ### Patch Changes

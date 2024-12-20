@@ -1,5 +1,16 @@
 # @zemble/auth-otp
 
+## 0.0.62
+
+### Patch Changes
+
+- Updated dependencies [92dbd7b]
+  - @zemble/utils@0.7.37
+  - @zemble/core@0.1.22
+  - @zemble/auth@0.0.61
+  - @zemble/graphql@0.0.58
+  - @zemble/kv@0.0.56
+
 ## 0.0.61
 
 ### Patch Changes

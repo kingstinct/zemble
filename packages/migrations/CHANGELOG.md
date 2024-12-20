@@ -1,5 +1,12 @@
 # @zemble/migrations
 
+## 0.0.33
+
+### Patch Changes
+
+- @zemble/core@0.1.22
+- @zemble/bun@0.0.33
+
 ## 0.0.32
 
 ### Patch Changes

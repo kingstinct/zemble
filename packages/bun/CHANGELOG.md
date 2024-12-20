@@ -1,5 +1,11 @@
 # @zemble/bun
 
+## 0.0.33
+
+### Patch Changes
+
+- @zemble/core@0.1.22
+
 ## 0.0.32
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @zemble/ignite
 
+## 0.0.64
+
+### Patch Changes
+
+- @zemble/bull@0.2.3
+- @zemble/core@0.1.22
+- @zemble/graphql@0.0.58
+- @zemble/routes@0.0.34
+
 ## 0.0.63
 
 ### Patch Changes

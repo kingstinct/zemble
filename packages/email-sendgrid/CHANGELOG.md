@@ -1,5 +1,12 @@
 # @zemble/email-sendgrid
 
+## 0.0.56
+
+### Patch Changes
+
+- @zemble/core@0.1.22
+- @zemble/graphql@0.0.58
+
 ## 0.0.55
 
 ### Patch Changes

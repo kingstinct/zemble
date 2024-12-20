@@ -1,5 +1,12 @@
 # @zemble/sms-twilio
 
+## 0.0.12
+
+### Patch Changes
+
+- @zemble/core@0.1.22
+- @zemble/graphql@0.0.58
+
 ## 0.0.11
 
 ### Patch Changes
