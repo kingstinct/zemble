@@ -111,12 +111,6 @@ export class Timeoutify {
     return this
   }
 
-  updateTimeoutMS(timeoutMS: number) {
-    // eslint-disable-next-line functional/immutable-data
-    this.#timeoutMS = timeoutMS
-    return this
-  }
-
   /**
    * Call this when the request has finished, to prevent triggering of aborts that you don't want.
    * */
