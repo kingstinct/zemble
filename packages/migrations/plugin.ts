@@ -2,6 +2,8 @@ import { Plugin } from '@zemble/core'
 import { readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
+import { MigrationLockError } from './MigrationLockError'
+
 import type { IStandardLogger } from '@zemble/core'
 import type { JsonValue } from 'type-fest'
 
@@ -121,44 +123,53 @@ export const migrateDown = async (
   }, Promise.resolve())
 }
 
-// let defaultLoggerInternal: IStandardLogger | undefined
-// const defaultLogger = () => {
-//   defaultLoggerInternal ??= createLogger({ pluginName: '@zemble/migrations' })
-//   return defaultLoggerInternal
-// }
-
 export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
   const { migrateUpCount = Infinity } = opts ?? {}
 
   plugin.debug('migrateUp: %d migrations to process', upMigrationsRemaining.length)
 
-  return upMigrationsRemaining.reduce(async (prev, {
+  const { count } = await upMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, progress, adapter,
   }, index) => {
-    const prevCount = await prev
+    const { count, cancelledBecauseOfLock } = await prev
 
-    if (index >= migrateUpCount) {
-      return prevCount
+    if (index >= migrateUpCount || cancelledBecauseOfLock) {
+      return { count, cancelledBecauseOfLock }
     }
 
     plugin.debug('Migrate up: %s', migrationName)
 
     const { up } = await import(fullPath) as unknown as { readonly up: Up, readonly down?: Down }
     if (up) {
-      await adapter?.up(migrationName, async (context) => up({
+      try {
+        await adapter?.up(migrationName, async (context) => up({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        context: context ?? {},
-        progress,
-        progressCallback: adapter.progress ? async (pgs) => adapter.progress?.({ name: migrationName, progress: pgs }) : undefined,
-      }))
-      return prevCount + 1
+          context: context ?? {},
+          progress,
+          progressCallback: adapter.progress ? async (pgs) => adapter.progress?.({ name: migrationName, progress: pgs }) : undefined,
+        }))
+        return {
+          count: count + 1,
+          cancelledBecauseOfLock: false,
+        }
+      } catch (e) {
+        if (e instanceof MigrationLockError) {
+          plugin.debug('Migration %s is already running, skipping..', migrationName)
+          return {
+            count,
+            cancelledBecauseOfLock: true,
+          }
+        }
+
+        throw e
+      }
     }
 
-    plugin.debug('Migration %s did not have an up function, skipping..', migrationName)
+    throw new Error(`Migration ${migrationName} did not have an up function`)
+  }, Promise.resolve({ count: 0, cancelledBecauseOfLock: false }))
 
-    return prevCount
-  }, Promise.resolve(0))
+  return count
 }
 
 interface MigrationPluginConfig extends Zemble.GlobalConfig, MigrationConfig {

@@ -1,4 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { MigrationLockError } from '@zemble/migrations/MigrationLockError'
+
 import type { MigrationAdapter, MigrationStatus } from '@zemble/migrations'
 import type { Collection } from 'mongodb'
 import type { JsonValue } from 'type-fest'
@@ -25,7 +27,7 @@ export async function acquireUpLock<TProgress extends JsonValue = JsonValue>(nam
     })
   } catch (e) {
     const error = e instanceof Error && e.message.includes('duplicate key error')
-      ? new Error(`Migration "${name}" (up) is already running`)
+      ? new MigrationLockError(`Migration "${name}" (up) is already running`)
       : e
 
     throw error
