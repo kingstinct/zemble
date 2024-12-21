@@ -9,7 +9,7 @@
     "typecheck": "bunx turbo run typecheck --concurrency=100% --continue",
     "codegen": "bunx turbo run codegen",
     "build": "bunx turbo run build",
-    "prepare": "husky install",
+    "prepare": "husky",
     "postinstall": "cp manual-patches/sofa-api/package.json node_modules/sofa-api/",
     "prepush": "bunx turbo run lint test typecheck --continue",
     "generate-cms-json-schema": "typescript-json-schema ./packages/cms/tsconfig.json CmsConfigFile --include ./packages/cms/types.ts --out ./packages/cms/entities-json-schema.json --required --strictNullChecks --rejectDateType",
