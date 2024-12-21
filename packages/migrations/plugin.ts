@@ -132,13 +132,13 @@ export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, read
 
   plugin.debug('migrateUp: %d migrations to process', upMigrationsRemaining.length)
 
-  await upMigrationsRemaining.reduce(async (prev, {
+  return upMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, progress, adapter,
   }, index) => {
-    await prev
+    const prevCount = await prev
 
     if (index >= migrateUpCount) {
-      return
+      return prevCount
     }
 
     plugin.debug('Migrate up: %s', migrationName)
@@ -152,8 +152,13 @@ export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, read
         progress,
         progressCallback: adapter.progress ? async (pgs) => adapter.progress?.({ name: migrationName, progress: pgs }) : undefined,
       }))
+      return prevCount + 1
     }
-  }, Promise.resolve())
+
+    plugin.debug('Migration %s did not have an up function, skipping..', migrationName)
+
+    return prevCount
+  }, Promise.resolve(0))
 }
 
 interface MigrationPluginConfig extends Zemble.GlobalConfig, MigrationConfig {
