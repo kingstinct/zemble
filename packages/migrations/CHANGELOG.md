@@ -1,5 +1,11 @@
 # @zemble/migrations
 
+## 0.0.34
+
+### Patch Changes
+
+- c5fac73: Add lock handling
+
 ## 0.0.33
 
 ### Patch Changes

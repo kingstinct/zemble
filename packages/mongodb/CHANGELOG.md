@@ -1,5 +1,13 @@
 # @zemble/mongodb
 
+## 0.0.38
+
+### Patch Changes
+
+- b39573b: Make migrations atomic
+- Updated dependencies [c5fac73]
+  - @zemble/migrations@0.0.34
+
 ## 0.0.37
 
 ### Patch Changes

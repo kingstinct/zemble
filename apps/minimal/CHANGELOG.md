@@ -1,5 +1,12 @@
 # minimal
 
+## 0.0.74
+
+### Patch Changes
+
+- Updated dependencies [c5fac73]
+  - @zemble/migrations@0.0.34
+
 ## 0.0.73
 
 ### Patch Changes
