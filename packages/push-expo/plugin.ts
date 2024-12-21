@@ -114,6 +114,19 @@ const getClient = () => {
   return expo
 }
 
+const mapSilentContent = (tokenWithMessage: { readonly pushToken: ExpoPushTokenWithMetadata, readonly contents: Record<string, JSON> }) => {
+  const contents = {
+    data: tokenWithMessage.contents,
+    to: tokenWithMessage.pushToken.pushToken,
+    _contentAvailable: true,
+  } satisfies ExpoPushMessage
+
+  return ({
+    ...contents,
+    to: tokenWithMessage.pushToken.pushToken,
+  })
+}
+
 export const sendSilentPush: SendSilentPushProvider = async (pushTokens, contents) => {
   const somePushTokens = pushTokens.filter((token) => token.type === 'EXPO')
 
@@ -121,19 +134,6 @@ export const sendSilentPush: SendSilentPushProvider = async (pushTokens, content
     pushToken,
     contents,
   }))
-
-  const mapSilentContent = (tokenWithMessage: { readonly pushToken: ExpoPushTokenWithMetadata, readonly contents: JSON }) => {
-    const contents = {
-      data: tokenWithMessage.contents as object,
-      to: tokenWithMessage.pushToken.pushToken,
-      // @ts-expect-error https://github.com/expo/expo/issues/13767
-      _contentAvailable: true,
-    } satisfies ExpoPushMessage
-    return ({
-      ...contents,
-      to: tokenWithMessage.pushToken.pushToken,
-    })
-  }
 
   return processPushes(tokensWithMessages, mapSilentContent)
 }
