@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import type { MigrationAdapter, MigrationStatus } from '@zemble/migrations'
+import { acquireDownLock, acquireUpLock, getCollection } from './migration-adapter'
+
+import type { MigrationAdapter } from '@zemble/migrations'
 import type { ClientSession } from 'mongodb'
 import type { JsonValue } from 'type-fest'
 
@@ -20,38 +22,17 @@ const getClient = (config: Config) => {
   return client
 }
 
-const getDb = (config: Config) => {
-  const db = config.providers.mongodb?.db
-  if (!db) throw new Error('MongoDB client not provided or initialized')
-  return db
-}
-
-function getCollection<TProgress extends JsonValue = JsonValue>(config: Config) {
-  const db = getDb(config)
-
-  const collectionName = config.collectionName ?? 'migrations'
-
-  const collection = db.collection<MigrationStatus<TProgress>>(collectionName)
-  return collection
-}
-
 function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = JsonValue>(config: Config): MigrationAdapter<TProgress> {
   return {
     up: async (name, runMigration) => {
+      const collection = await getCollection(config)
+      await acquireUpLock(name, collection)
+
       const session = getClient(config).startSession()
       try {
-        await getCollection(config).findOneAndUpdate({
-          name,
-        }, {
-          $set: {
-            name,
-            startedAt: new Date(),
-          },
-        }, { upsert: true })
-
         await session.withTransaction(async () => {
           await runMigration({ mongoSession: session })
-          await getCollection(config).findOneAndUpdate({
+          await collection.findOneAndUpdate({
             name,
           }, {
             $set: {
@@ -62,56 +43,55 @@ function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = Json
           }, { upsert: true, session })
         })
       } catch (e) {
-        await getCollection(config).findOneAndUpdate({
+        await collection.findOneAndUpdate({
           name,
         }, {
           $set: {
             name,
-            error: JSON.stringify(e),
+            error: e instanceof Error ? e.message : JSON.stringify(e),
             erroredAt: new Date(),
           },
-        }, { upsert: true })
+        }, { upsert: true, session })
+        throw e
       } finally {
         await session.endSession()
       }
     },
     down: async (name, runMigration) => {
-      await getCollection(config).findOneAndUpdate({
-        name,
-      }, {
-        $set: {
-          name,
-          startedDownAt: new Date(),
-        },
-      }, { upsert: true })
+      const collection = await getCollection(config)
+
+      await acquireDownLock(name, collection)
 
       const session = getClient(config).startSession()
       try {
         await session.withTransaction(async () => {
           await runMigration({ mongoSession: session })
-          await getCollection(config).deleteOne({ name }, { session })
+          await collection.deleteOne({ name }, { session })
         })
       } catch (e) {
-        await getCollection(config).findOneAndUpdate({
+        await collection.findOneAndUpdate({
           name,
         }, {
           $set: {
             name,
-            error: JSON.stringify(e),
+            error: e instanceof Error ? e.message : JSON.stringify(e),
             erroredAt: new Date(),
           },
         }, { upsert: true })
+        throw e
       } finally {
         await session.endSession()
       }
     },
     status: async () => {
-      const res = getCollection<TProgress>(config).find().toArray()
+      const collection = await getCollection<TProgress>(config)
+      const res = await collection.find().toArray()
 
       return res
     },
     progress: async (migrationStatus) => {
-      await getCollection(config).findOneAndUpdate({
+      const collection = await getCollection(config)
+      await collection.findOneAndUpdate({
         name: migrationStatus.name,
       }, {
         $set: {
