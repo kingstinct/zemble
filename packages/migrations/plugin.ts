@@ -126,9 +126,11 @@ export const migrateDown = async (
 export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
   const { migrateUpCount = Infinity } = opts ?? {}
 
+  console.log('HEREERERE')
+
   plugin.debug('migrateUp: %d migrations to process', upMigrationsRemaining.length)
 
-  const { count } = await upMigrationsRemaining.reduce(async (prev, {
+  const { count, cancelledBecauseOfLock } = await upMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, progress, adapter,
   }, index) => {
     const { count, cancelledBecauseOfLock } = await prev
@@ -169,7 +171,7 @@ export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, read
     throw new Error(`Migration ${migrationName} did not have an up function`)
   }, Promise.resolve({ count: 0, cancelledBecauseOfLock: false }))
 
-  return count
+  return { count, cancelledBecauseOfLock }
 }
 
 interface MigrationPluginConfig extends Zemble.GlobalConfig, MigrationConfig {
@@ -209,9 +211,33 @@ const plugin = new Plugin<MigrationPluginConfig, typeof defaultConfig>(
           const completer = migrateUp({ logger })
 
           if (config.waitForMigrationsToComplete) {
-            await completer
+            const { cancelledBecauseOfLock } = await completer
+            if (cancelledBecauseOfLock) {
+              const hasMigrationsCompleted = async () => {
+                const migrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.(app))
+                const migrationsToProcess = migrations.filter((migration) => !migration.isMigrated)
+                if (migrationsToProcess.length === 0) {
+                  return true
+                }
+                logger.info({ migrationsToProcess }, `Waiting for ${migrationsToProcess.length} migrations to complete...`)
+                return false
+              }
+
+              const waitForMigrationsToComplete = async () => {
+                const hasCompleted = await hasMigrationsCompleted()
+                if (!hasCompleted) {
+                  await new Promise((resolve) => { setTimeout(resolve, 1000) })
+                  return waitForMigrationsToComplete()
+                }
+                return undefined
+              }
+
+              return waitForMigrationsToComplete()
+            }
           }
         }
+
+        return undefined
       }
     }),
     dependencies: [],

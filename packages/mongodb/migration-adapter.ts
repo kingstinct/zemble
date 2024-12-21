@@ -26,11 +26,16 @@ export async function acquireUpLock<TProgress extends JsonValue = JsonValue>(nam
       startedAt: new Date(),
     })
   } catch (e) {
-    const error = e instanceof Error && e.message.includes('duplicate key error')
-      ? new MigrationLockError(`Migration "${name}" (up) is already running`)
-      : e
-
-    throw error
+    if (e instanceof Error && e.message.includes('duplicate key error')) {
+      const entry = await collection.findOne({ name })
+      const previousError = entry?.error
+      const erroredAt = entry?.erroredAt
+      if (previousError && erroredAt) {
+        throw new Error(`"${name}" failed (at ${erroredAt.toISOString()}) and needs to be handled manually: ${previousError}`)
+      }
+      throw new MigrationLockError(`Migration "${name}" (up) is already running`)
+    }
+    throw e
   }
 }
 
