@@ -48,10 +48,11 @@ function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = Json
         }, {
           $set: {
             name,
-            error: JSON.stringify(e),
+            error: e instanceof Error ? e.message : JSON.stringify(e),
             erroredAt: new Date(),
           },
         }, { upsert: true, session })
+        throw e
       } finally {
         await session.endSession()
       }
@@ -73,10 +74,11 @@ function MongoMigrationAdapterWithTransaction<TProgress extends JsonValue = Json
         }, {
           $set: {
             name,
-            error: JSON.stringify(e),
+            error: e instanceof Error ? e.message : JSON.stringify(e),
             erroredAt: new Date(),
           },
         }, { upsert: true })
+        throw e
       } finally {
         await session.endSession()
       }

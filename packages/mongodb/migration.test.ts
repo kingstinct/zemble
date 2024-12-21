@@ -36,6 +36,29 @@ test('run migration', async () => {
   )
 })
 
+test('fail migration', async () => {
+  const mongodbPlugin = plugin
+  const adapter = MongoMigrationAdapterWithTransaction({
+    providers: mongodbPlugin.providers,
+    collectionName: 'migrations',
+  })
+  expect(adapter.up('testing', async () => {
+    throw new Error('testing error')
+  })).rejects.toThrow('testing error')
+
+  const migrations = await mongodbPlugin.providers.mongodb?.db.collection('migrations').find().toArray()
+  expect(migrations).toHaveLength(1)
+  expect(migrations?.[0]).toStrictEqual(
+    {
+      name: 'testing',
+      startedAt: expect.any(Date),
+      _id: expect.any(ObjectId),
+      erroredAt: expect.any(Date),
+      error: 'testing error',
+    },
+  )
+})
+
 test('run concurrent migrations', async () => {
   const mongodbPlugin = plugin
   const adapter = MongoMigrationAdapterWithTransaction({
