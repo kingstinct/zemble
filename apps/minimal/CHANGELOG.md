@@ -1,5 +1,44 @@
 # minimal
 
+## 0.0.74
+
+### Patch Changes
+
+- Updated dependencies [c5fac73]
+  - @zemble/migrations@0.0.34
+
+## 0.0.73
+
+### Patch Changes
+
+- @zemble/auth-otp@0.0.62
+- @zemble/bull@0.2.3
+- @zemble/core@0.1.22
+- @zemble/auth@0.0.61
+- @zemble/bun@0.0.33
+- @zemble/email-resend@0.0.27
+- @zemble/graphql@0.0.58
+- @zemble/logger-graphql@0.0.54
+- @zemble/migrations@0.0.33
+- @zemble/pino@0.0.23
+- @zemble/routes@0.0.34
+- @zemble/sms-46elks@0.0.12
+- @zemble/sms-twilio@0.0.12
+
+## 0.0.72
+
+### Patch Changes
+
+- Updated dependencies [ce0ec62]
+  - @zemble/graphql@0.0.57
+  - @zemble/auth@0.0.60
+  - @zemble/auth-otp@0.0.61
+  - @zemble/bull@0.2.2
+  - @zemble/email-resend@0.0.26
+  - @zemble/logger-graphql@0.0.53
+  - @zemble/sms-46elks@0.0.11
+  - @zemble/sms-twilio@0.0.11
+
 ## 0.0.71
 
 ### Patch Changes

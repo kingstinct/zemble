@@ -1,0 +1,29 @@
+name: PR Preview
+
+on:
+  pull_request:
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cardinalby/export-env-action@v2
+        with:
+          envFile: .env.github
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
+
+      - uses: actions/cache@v4
+        id: cache-mongodb-binaries
+        name: Cache MongoDB binaries
+        with:
+          key: ${{ runner.os }}-mongodb-${{ inputs.bun-version || env.BUN_VERSION }}-${{ env.MONGOMS_VERSION }}
+          path: ~/.cache/mongodb-binaries
+
+      - run: bun install
+      
+      - run: bunx pkg-pr-new publish './packages/*'

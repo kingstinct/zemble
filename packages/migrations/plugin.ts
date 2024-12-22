@@ -2,6 +2,8 @@ import { Plugin } from '@zemble/core'
 import { readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
+import { MigrationLockError } from './MigrationLockError'
+
 import type { IStandardLogger } from '@zemble/core'
 import type { JsonValue } from 'type-fest'
 
@@ -121,39 +123,55 @@ export const migrateDown = async (
   }, Promise.resolve())
 }
 
-// let defaultLoggerInternal: IStandardLogger | undefined
-// const defaultLogger = () => {
-//   defaultLoggerInternal ??= createLogger({ pluginName: '@zemble/migrations' })
-//   return defaultLoggerInternal
-// }
-
 export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
   const { migrateUpCount = Infinity } = opts ?? {}
 
+  console.log('HEREERERE')
+
   plugin.debug('migrateUp: %d migrations to process', upMigrationsRemaining.length)
 
-  await upMigrationsRemaining.reduce(async (prev, {
+  const { count, cancelledBecauseOfLock } = await upMigrationsRemaining.reduce(async (prev, {
     migrationName, fullPath, progress, adapter,
   }, index) => {
-    await prev
+    const { count, cancelledBecauseOfLock } = await prev
 
-    if (index >= migrateUpCount) {
-      return
+    if (index >= migrateUpCount || cancelledBecauseOfLock) {
+      return { count, cancelledBecauseOfLock }
     }
 
     plugin.debug('Migrate up: %s', migrationName)
 
     const { up } = await import(fullPath) as unknown as { readonly up: Up, readonly down?: Down }
     if (up) {
-      await adapter?.up(migrationName, async (context) => up({
+      try {
+        await adapter?.up(migrationName, async (context) => up({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        context: context ?? {},
-        progress,
-        progressCallback: adapter.progress ? async (pgs) => adapter.progress?.({ name: migrationName, progress: pgs }) : undefined,
-      }))
+          context: context ?? {},
+          progress,
+          progressCallback: adapter.progress ? async (pgs) => adapter.progress?.({ name: migrationName, progress: pgs }) : undefined,
+        }))
+        return {
+          count: count + 1,
+          cancelledBecauseOfLock: false,
+        }
+      } catch (e) {
+        if (e instanceof MigrationLockError) {
+          plugin.debug('Migration %s is already running, skipping..', migrationName)
+          return {
+            count,
+            cancelledBecauseOfLock: true,
+          }
+        }
+
+        throw e
+      }
     }
-  }, Promise.resolve())
+
+    throw new Error(`Migration ${migrationName} did not have an up function`)
+  }, Promise.resolve({ count: 0, cancelledBecauseOfLock: false }))
+
+  return { count, cancelledBecauseOfLock }
 }
 
 interface MigrationPluginConfig extends Zemble.GlobalConfig, MigrationConfig {
@@ -193,9 +211,33 @@ const plugin = new Plugin<MigrationPluginConfig, typeof defaultConfig>(
           const completer = migrateUp({ logger })
 
           if (config.waitForMigrationsToComplete) {
-            await completer
+            const { cancelledBecauseOfLock } = await completer
+            if (cancelledBecauseOfLock) {
+              const hasMigrationsCompleted = async () => {
+                const migrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.(app))
+                const migrationsToProcess = migrations.filter((migration) => !migration.isMigrated)
+                if (migrationsToProcess.length === 0) {
+                  return true
+                }
+                logger.info({ migrationsToProcess }, `Waiting for ${migrationsToProcess.length} migrations to complete...`)
+                return false
+              }
+
+              const waitForMigrationsToComplete = async () => {
+                const hasCompleted = await hasMigrationsCompleted()
+                if (!hasCompleted) {
+                  await new Promise((resolve) => { setTimeout(resolve, 1000) })
+                  return waitForMigrationsToComplete()
+                }
+                return undefined
+              }
+
+              return waitForMigrationsToComplete()
+            }
           }
         }
+
+        return undefined
       }
     }),
     dependencies: [],
