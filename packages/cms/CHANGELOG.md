@@ -1,5 +1,11 @@
 # @zemble/cms
 
+## 0.0.71
+
+### Patch Changes
+
+- @zemble/mongodb@0.0.40
+
 ## 0.0.70
 
 ### Patch Changes
