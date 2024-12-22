@@ -15,8 +15,8 @@
     "@zemble/routes": "workspace:*",
     "@zemble/auth": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "firebase": "^10.12.3",
-    "firebase-admin": "^12.2.0"
+    "firebase": "^11.1.0",
+    "firebase-admin": "^13.0.2"
   },
   "scripts": {
     "test": "bun test",

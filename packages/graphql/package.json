@@ -36,7 +36,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@eddeee888/gcg-typescript-resolver-files": "^0.9.4",
+    "@eddeee888/gcg-typescript-resolver-files": "^0.11.0",
     "@envelop/core": "^5.0.2",
     "@envelop/on-resolve": "^4.1.1",
     "@graphql-tools/delegate": "^10.2.8",
@@ -53,12 +53,12 @@
     "graphql-ws": "^5.16.0",
     "graphql-yoga": "^5.10.6",
     "hono": "^4.6.14",
-    "sofa-api": "^0.18.3"
+    "sofa-api": "^0.18.8"
   },
   "optionalDependencies": {
     "ioredis": "^5.4.2",
     "@graphql-yoga/redis-event-target": "^3.0.2",
-    "sofa-api": "^0.18.3"
+    "sofa-api": "^0.18.8"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.3",

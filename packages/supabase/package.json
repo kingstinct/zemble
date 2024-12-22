@@ -14,7 +14,7 @@
     "@zemble/auth": "workspace:*",
     "@zemble/routes": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "@supabase/ssr": "^0.3.0",
+    "@supabase/ssr": "^0.5.2",
     "graphql": "^16.10.0",
     "@supabase/supabase-js": "^2.47.10"
   },
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/bun": "*",
-    "supabase": "^1.178.2",
+    "supabase": "^2.1.1",
     "@graphql-codegen/add": "^5.0.3",
     "@graphql-codegen/cli": "^5.0.3",
     "@graphql-codegen/client-preset": "^4.5.1",
