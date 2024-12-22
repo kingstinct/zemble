@@ -157,8 +157,8 @@ export type RepeatableJob = {
   readonly id?: Maybe<Scalars['String']['output']>;
   readonly key: Scalars['ID']['output'];
   readonly name: Scalars['String']['output'];
-  readonly next: Scalars['DateTime']['output'];
-  readonly pattern: Scalars['String']['output'];
+  readonly next?: Maybe<Scalars['DateTime']['output']>;
+  readonly pattern?: Maybe<Scalars['String']['output']>;
   readonly tz?: Maybe<Scalars['String']['output']>;
 };
 
@@ -327,8 +327,8 @@ export type RepeatableJobResolvers<ContextType = Zemble.GraphQLContext, ParentTy
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   key?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  next?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  pattern?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  next?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  pattern?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tz?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -496,8 +496,8 @@ export type RepeatableJob = {
   readonly id?: Maybe<Scalars['String']['output']>;
   readonly key: Scalars['ID']['output'];
   readonly name: Scalars['String']['output'];
-  readonly next: Scalars['DateTime']['output'];
-  readonly pattern: Scalars['String']['output'];
+  readonly next?: Maybe<Scalars['DateTime']['output']>;
+  readonly pattern?: Maybe<Scalars['String']['output']>;
   readonly tz?: Maybe<Scalars['String']['output']>;
 };
 
@@ -666,8 +666,8 @@ export type RepeatableJobResolvers<ContextType = Zemble.GraphQLContext, ParentTy
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   key?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  next?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  pattern?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  next?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  pattern?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tz?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

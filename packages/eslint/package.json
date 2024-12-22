@@ -70,7 +70,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-comment-length": "^1.7.3",
-    "eslint-plugin-eslint-plugin": "^6.3.2",
+    "eslint-plugin-eslint-plugin": "^6.4.0",
     "eslint-plugin-functional": "^6.6.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsonc": "^2.18.2",

@@ -43,7 +43,7 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   }
 
   // eslint-disable-next-line functional/prefer-readonly-type
-  #queueInternal: Queue<DataType, ReturnType> | undefined
+  #queueInternal: Queue<DataType, ReturnType, string, DataType, ReturnType, string> | undefined
 
   get #queue() {
     if (!this.#queueInternal) throw new Error('Queue not initialized, something is wrong!')
@@ -51,7 +51,7 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   }
 
   async _initQueue(queueName: string, connection: QueueOptions['connection']) {
-    const queue = new Queue(queueName, {
+    const queue = new Queue<DataType, ReturnType, string, DataType, ReturnType, string>(queueName, {
       connection,
       defaultJobOptions: this.#config?.defaultJobOptions,
       prefix: plugin.config.redisOptions?.keyPrefix,
@@ -78,23 +78,23 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
     return { queue, worker }
   }
 
-  async add(...args: Parameters<Queue<DataType, ReturnType>['add']>) {
+  async add(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['add']>) {
     return this.#queue.add(...args)
   }
 
-  async addBulk(...args: Parameters<Queue<DataType, ReturnType>['addBulk']>) {
+  async addBulk(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['addBulk']>) {
     return this.#queue.addBulk(...args)
   }
 
-  async remove(...args: Parameters<Queue<DataType, ReturnType>['remove']>) {
+  async remove(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['remove']>) {
     return this.#queue.remove(...args)
   }
 
-  async getJob(...args: Parameters<Queue<DataType, ReturnType>['getJob']>) {
+  async getJob(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['getJob']>) {
     return this.#queue.getJob(...args)
   }
 
-  async getDelayed(...args: Parameters<Queue<DataType, ReturnType>['getDelayed']>) {
+  async getDelayed(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['getDelayed']>) {
     return this.#queue.getDelayed(...args)
   }
 

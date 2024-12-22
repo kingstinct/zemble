@@ -16,7 +16,7 @@
     "@zemble/graphql": "workspace:*",
     "@supabase/ssr": "^0.3.0",
     "graphql": "^16.10.0",
-    "@supabase/supabase-js": "^2.47.8"
+    "@supabase/supabase-js": "^2.47.10"
   },
   "scripts": {
     "dev": "zemble-dev plugin.ts",
