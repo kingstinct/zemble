@@ -78,8 +78,8 @@ declare global {
       : Omit<TContext, 'decodedToken'> & {
         readonly decodedToken: DirectiveArgs['match']
         & Record<
-        keyof DirectiveArgs['includes'],
-        ReadonlyArray<DirectiveArgs['includes'][keyof DirectiveArgs['includes']]>
+          keyof DirectiveArgs['includes'],
+          ReadonlyArray<DirectiveArgs['includes'][keyof DirectiveArgs['includes']]>
         > & TokenContents & JWTPayload
       }
   }

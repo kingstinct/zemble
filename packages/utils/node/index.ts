@@ -1,6 +1,6 @@
 export * from './parseEnv'
 export * from './gravatar'
-export * from './types'
+export type * from './types'
 export * from './debugPipeline'
 export * from './Timeoutify'
 export * from './SuperDataLoader'

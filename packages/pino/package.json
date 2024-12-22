@@ -11,7 +11,7 @@
   "dependencies": {
     "@zemble/bun": "workspace:*",
     "@zemble/core": "workspace:*",
-    "pino": "^9.2.0",
+    "pino": "^9.5.0",
     "pino-debug": "^2.0.0"
   },
   "scripts": {
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@tsconfig/bun": "^1.0.7",
     "@types/bun": "*",
-    "pino-pretty": "^11.2.1"
+    "pino-pretty": "^13.0.0"
   },
   "peerDependencies": {
     "typescript": "^5.4.2"

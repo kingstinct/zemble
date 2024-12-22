@@ -34,7 +34,7 @@ const setupQueues = async (
     pubSub.publish('jobUpdated', safeStableStringify(job))
   }
 
-  function queuePubber<T extends keyof QueueListener<unknown, unknown, string>>(status: T, queue: Queue) {
+  function queuePubber<T extends keyof QueueListener>(status: T, queue: Queue) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     queue.on(status, (...args: Parameters<QueueListener<unknown, unknown, string>[T]>) => {
@@ -92,7 +92,7 @@ const setupQueues = async (
 
           // eslint-disable-next-line functional/immutable-data
           queues.push(queue)
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
         } else if (process.env.NODE_ENV === 'test' && queueConfig instanceof require('../ZembleQueueMock').default) {
           await queueConfig._initQueue(fileNameWithoutExtension)
         } else {

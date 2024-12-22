@@ -32,7 +32,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/generic-auth": "^7.0.0",
+    "@envelop/generic-auth": "7",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/auth-anonymous": "workspace:*",
@@ -43,6 +43,6 @@
     "@zemble/bun": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.5.3"
+    "typescript": "^5.7.2"
   }
 }

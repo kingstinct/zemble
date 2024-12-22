@@ -24,7 +24,7 @@ export const validateIdToken = async (idToken: string) => {
     const { payload } = await jose
       .jwtVerify<AppleJwtContents>(idToken, JWKS, {
 
-    })
+      })
 
     if (!payload.email_verified && !plugin.config.skipEmailVerificationRequired) {
       throw new GraphQLError('[@zemble/auth-apple] User email not verified, either set skipEmailVerificationRequired to true or verify the email with Apple.')

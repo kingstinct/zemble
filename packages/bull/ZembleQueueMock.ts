@@ -18,8 +18,8 @@ interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
   readonly pause: ZembleQueueBull<DataType, ReturnType>['pause']
 }
 
-class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZembleQueue<DataType, ReturnType> {
-  private jobs: Array<Job<DataType, ReturnType, string>> = []
+class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZembleQueue<DataType, ResultType> {
+  private jobs: Array<Job<DataType, ResultType, string>> = []
 
   private isPaused = false
 
@@ -43,16 +43,17 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
 
   // readonly #config?: ZembleQueueConfig
 
-  #queueInternal: Queue<DataType, ReturnType, string> | undefined
+  #queueInternal: Queue<DataType, ResultType, string> | undefined
 
-  get #queue(): Queue<DataType, ReturnType, string> {
+  get #queue(): Queue<DataType, ResultType, string> {
     if (!this.#queueInternal) throw new Error('Queue not initialized, something is wrong!')
 
     return this.#queueInternal
   }
 
-  async addBulk(jobs: Parameters<ZembleQueueBull<DataType, ReturnType>['addBulk']>[0]) {
-    const js = jobs.map((job) => this.#createMockJob(job.name, job.data, job.opts))
+  async addBulk(jobs: Parameters<ZembleQueueBull<DataType, ResultType>['addBulk']>[number]) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+    const js = jobs.map((job) => this.#createMockJob(job.name, job.data as any, job.opts))
 
     void js.reduce(async (prev, job) => {
       await prev
@@ -71,10 +72,10 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
     this.#queueInternal = {
       name: queueName,
       qualifiedName: queueName,
-    } as Queue<DataType, ReturnType, string>
+    } as Queue<DataType, ResultType, string>
   }
 
-  #createMockJob(name: string, data: DataType, opts?: JobsOptions | undefined): Job<DataType, ReturnType, string> {
+  #createMockJob(name: string, data: DataType, opts?: JobsOptions): Job<DataType, ResultType, string> {
     const job = {
       queue: this.#queue,
       queueName: this.#queue.name,
@@ -83,12 +84,12 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
       name,
       progress: () => ({}),
       ...(opts || {}),
-    } as unknown as Job<DataType, ReturnType, string>
+    } as unknown as Job<DataType, ResultType, string>
 
     return job
   }
 
-  async add(name: string, data: DataType, opts?: JobsOptions | undefined): Promise<Job<DataType, ReturnType, string>> {
+  async add(name: string, data: DataType, opts?: JobsOptions): Promise<Job<DataType, ResultType, string>> {
     if (this.isPaused) {
       throw new Error('Queue is paused')
     }
@@ -106,8 +107,8 @@ class ZembleQueueMock<DataType = unknown, ReturnType = unknown> implements IZemb
     return removedCount
   }
 
-  async getJob(jobId: string): Promise<Job<DataType, ReturnType, string> | undefined> {
-    return this.jobs.find((job) => job.id === jobId)
+  async getJob(jobId: string) {
+    return this.jobs.find((job) => job.id === jobId) as unknown as ReturnType<ZembleQueueBull<DataType, ResultType>['getJob']>
   }
 
   async pause() {

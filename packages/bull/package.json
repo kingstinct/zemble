@@ -33,19 +33,19 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@bull-board/api": "^5.20.5",
+    "@bull-board/api": "^6.5.3",
     "@types/ejs": "^3.1.5",
     "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "bullmq": "^5.8.4",
+    "bullmq": "^5.34.4",
     "ejs": "^3.1.10",
-    "graphql": "^16.9.0",
-    "graphql-scalars": "^1.23.0",
-    "hono": "^4.4.12",
-    "ioredis": "^5.4.1",
-    "safe-stable-stringify": "^2.4.3"
+    "graphql": "^16.10.0",
+    "graphql-scalars": "^1.24.0",
+    "hono": "^4.6.14",
+    "ioredis": "^5.4.2",
+    "safe-stable-stringify": "^2.5.0"
   },
   "devDependencies": {
     "@types/bun": "*"

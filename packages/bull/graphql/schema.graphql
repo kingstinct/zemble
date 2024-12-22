@@ -28,8 +28,8 @@ type RepeatableJob {
   id: String
   endDate: Float
   tz: String
-  pattern: String!
-  next: DateTime!
+  pattern: String
+  next: DateTime
 }
 
 type BullQueue {

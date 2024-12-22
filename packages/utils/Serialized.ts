@@ -28,10 +28,10 @@ export type Subtract<
   ? never
   : LessThan<I['length'], A> extends true
     ? Subtract<
-    A,
-    B,
-    readonly [...I, any],
-    LessThan<I['length'], B> extends true ? O : readonly [...O, any]
+      A,
+      B,
+      readonly [...I, any],
+      LessThan<I['length'], B> extends true ? O : readonly [...O, any]
     >
     : O['length'];
     type ArrayElement<ArrayType extends readonly any[]> =

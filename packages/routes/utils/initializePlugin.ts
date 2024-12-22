@@ -148,7 +148,8 @@ const initializeRoutes = async (
 
             return stream(context, async (stream) => {
               fileStream.on('data', async (data) => {
-                void stream.write(data)
+                const typedData = typeof data === 'string' ? data : data as unknown as Uint8Array
+                void stream.write(typedData)
               })
               fileStream.on('end', async () => {
                 await stream.close()

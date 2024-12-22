@@ -8,15 +8,16 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.json',
   },
-  plugins: ['@typescript-eslint', 'import', 'functional'],
+  plugins: ['@typescript-eslint', 'import', 'functional', '@stylistic/ts'],
   rules: {
     '@typescript-eslint/consistent-type-exports': 2,
     '@typescript-eslint/consistent-type-imports': 2,
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/no-empty-object-type': 1,
     'indent': 0,
     'dot-notation': 0,
-    '@typescript-eslint/indent': [
+    '@stylistic/ts/indent': [
       'error', 2, {
         VariableDeclarator: { const: 3, let: 2, var: 2 },
         ignoredNodes: ['JSXAttribute', 'JSXSpreadAttribute'],
@@ -41,7 +42,7 @@ module.exports = {
     '@typescript-eslint/prefer-includes': 2,
     '@typescript-eslint/promise-function-async': [2],
     '@typescript-eslint/restrict-template-expressions': 0,
-    '@typescript-eslint/type-annotation-spacing': [2, { after: true, before: false, overrides: { arrow: { after: true, before: true } } }],
+    '@stylistic/ts/type-annotation-spacing': [2, { after: true, before: false, overrides: { arrow: { after: true, before: true } } }],
     '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
   },
 }
