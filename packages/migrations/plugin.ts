@@ -126,8 +126,6 @@ export const migrateDown = async (
 export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
   const { migrateUpCount = Infinity } = opts ?? {}
 
-  console.log('HEREERERE')
-
   plugin.debug('migrateUp: %d migrations to process', upMigrationsRemaining.length)
 
   const { count, cancelledBecauseOfLock } = await upMigrationsRemaining.reduce(async (prev, {

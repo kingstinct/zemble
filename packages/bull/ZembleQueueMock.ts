@@ -152,6 +152,10 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
 
   async waitUntilEmpty() {
     if (!this.#waitUntilFinishedPromise) {
+      if (this.#jobsRemaining === 0) {
+        return Promise.resolve()
+      }
+
       this.#waitUntilFinishedPromise = new Promise((resolve) => {
         this.#waitUntilFinishedResolver = resolve
       })
