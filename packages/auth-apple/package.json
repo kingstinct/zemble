@@ -35,7 +35,7 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/core": "^5.0.2",
-    "@envelop/generic-auth": "^8.0.1",
+    "@envelop/generic-auth": "7",
     "@whatwg-node/server-plugin-cookies": "^1.0.3",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",

@@ -33,7 +33,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/generic-auth": "^8.0.1",
+    "@envelop/generic-auth": "7",
     "@zemble/apple-app-site-association": "workspace:*",
     "@zemble/auth-otp": "workspace:*",
     "@zemble/bull": "workspace:*",

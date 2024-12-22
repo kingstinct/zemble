@@ -38,7 +38,7 @@
   "dependencies": {
     "@envelop/core": "^5.0.2",
     "@envelop/extended-validation": "^4.1.0",
-    "@envelop/generic-auth": "^8.0.1",
+    "@envelop/generic-auth": "7",
     "@graphql-tools/utils": "^10.6.4",
     "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
