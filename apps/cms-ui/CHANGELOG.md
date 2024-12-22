@@ -1,5 +1,13 @@
 # cms-ui
 
+## 0.0.14
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/react@1.0.15
+
 ## 0.0.13
 
 ### Patch Changes

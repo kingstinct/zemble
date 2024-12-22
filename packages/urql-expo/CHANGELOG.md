@@ -1,5 +1,13 @@
 # @zemble/urql-expo
 
+## 0.0.10
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/auth-expo@0.0.10
+
 ## 0.0.9
 
 ### Patch Changes

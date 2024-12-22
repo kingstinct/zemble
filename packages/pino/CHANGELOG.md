@@ -1,5 +1,14 @@
 # @zemble/pino
 
+## 0.0.24
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/core@0.1.23
+  - @zemble/bun@0.0.34
+
 ## 0.0.23
 
 ### Patch Changes

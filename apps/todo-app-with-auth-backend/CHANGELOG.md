@@ -1,5 +1,20 @@
 # todo-app-with-auth-backend
 
+## 0.0.73
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/auth-anonymous@0.0.60
+  - @zemble/graphql@0.0.59
+  - @zemble/bull@0.2.4
+  - @zemble/core@0.1.23
+  - @zemble/todo@0.0.60
+  - @zemble/ignite@0.0.65
+  - @zemble/apple-app-site-association@0.0.39
+  - @zemble/bun@0.0.34
+
 ## 0.0.72
 
 ### Patch Changes

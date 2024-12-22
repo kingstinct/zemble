@@ -1,5 +1,20 @@
 # @zemble/cms-users
 
+## 0.0.70
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/auth-otp@0.0.63
+  - @zemble/graphql@0.0.59
+  - @zemble/mongodb@0.0.39
+  - @zemble/utils@0.7.38
+  - @zemble/auth@0.0.62
+  - @zemble/core@0.1.23
+  - @zemble/cms@0.0.70
+  - @zemble/kv@0.0.57
+
 ## 0.0.69
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @zemble/email-resend
 
+## 0.0.28
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/graphql@0.0.59
+  - @zemble/core@0.1.23
+
 ## 0.0.27
 
 ### Patch Changes

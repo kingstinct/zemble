@@ -1,5 +1,15 @@
 # @zemble/logger-graphql
 
+## 0.0.55
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/graphql@0.0.59
+  - @zemble/core@0.1.23
+  - @zemble/pino@0.0.24
+
 ## 0.0.54
 
 ### Patch Changes

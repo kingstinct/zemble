@@ -1,5 +1,13 @@
 # @zemble/core
 
+## 0.1.23
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/utils@0.7.38
+
 ## 0.1.22
 
 ### Patch Changes

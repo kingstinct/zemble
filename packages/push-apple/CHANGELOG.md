@@ -1,5 +1,16 @@
 # @zemble/push-apple
 
+## 0.0.17
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/graphql@0.0.59
+  - @zemble/routes@0.0.35
+  - @zemble/core@0.1.23
+  - @zemble/bun@0.0.34
+
 ## 0.0.16
 
 ### Patch Changes

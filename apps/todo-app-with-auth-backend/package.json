@@ -1,6 +1,6 @@
 {
   "name": "todo-app-with-auth-backend",
-  "version": "0.0.72",
+  "version": "0.0.73",
   "description": "",
   "private": true,
   "main": "app.ts",

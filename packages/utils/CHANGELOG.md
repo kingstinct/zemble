@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.38
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+
 ## 0.7.37
 
 ### Patch Changes

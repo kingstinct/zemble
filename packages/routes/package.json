@@ -1,6 +1,6 @@
 {
   "name": "@zemble/routes",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "@zemble Plugin for routing and static files",
   "main": "plugin.ts",
   "scripts": {
