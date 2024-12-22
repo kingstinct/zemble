@@ -12,7 +12,7 @@ export function promisify<
       }
       fn(arg, callback as Callback<typeof fn>)
     } catch (e) {
-      reject(e)
+      reject(e as Error)
     }
   })
 }

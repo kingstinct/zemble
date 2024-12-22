@@ -75,7 +75,7 @@ class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZemb
     } as Queue<DataType, ResultType, string>
   }
 
-  #createMockJob(name: string, data: DataType, opts?: JobsOptions | undefined): Job<DataType, ResultType, string> {
+  #createMockJob(name: string, data: DataType, opts?: JobsOptions): Job<DataType, ResultType, string> {
     const job = {
       queue: this.#queue,
       queueName: this.#queue.name,
@@ -89,7 +89,7 @@ class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZemb
     return job
   }
 
-  async add(name: string, data: DataType, opts?: JobsOptions | undefined): Promise<Job<DataType, ResultType, string>> {
+  async add(name: string, data: DataType, opts?: JobsOptions): Promise<Job<DataType, ResultType, string>> {
     if (this.isPaused) {
       throw new Error('Queue is paused')
     }

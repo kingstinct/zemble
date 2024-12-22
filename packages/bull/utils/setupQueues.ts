@@ -92,7 +92,7 @@ const setupQueues = async (
 
           // eslint-disable-next-line functional/immutable-data
           queues.push(queue)
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
         } else if (process.env.NODE_ENV === 'test' && queueConfig instanceof require('../ZembleQueueMock').default) {
           await queueConfig._initQueue(fileNameWithoutExtension)
         } else {
