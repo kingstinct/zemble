@@ -1,5 +1,13 @@
 # todo-app-with-auth-backend
 
+## 0.0.75
+
+### Patch Changes
+
+- Updated dependencies [5d6101d]
+  - @zemble/bull@0.2.6
+  - @zemble/ignite@0.0.67
+
 ## 0.0.74
 
 ### Patch Changes

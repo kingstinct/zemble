@@ -1,5 +1,11 @@
 # @zemble/migrations
 
+## 0.0.36
+
+### Patch Changes
+
+- 5d6101d: Minor fixes
+
 ## 0.0.35
 
 ### Patch Changes
