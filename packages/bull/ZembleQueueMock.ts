@@ -16,9 +16,10 @@ interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
   readonly getJob: ZembleQueueBull<DataType, ReturnType>['getJob']
   readonly resume: ZembleQueueBull<DataType, ReturnType>['resume']
   readonly pause: ZembleQueueBull<DataType, ReturnType>['pause']
+  readonly waitUntilEmpty: ZembleQueueBull<DataType, ReturnType>['waitUntilEmpty']
 }
 
-class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZembleQueue<DataType, ResultType> {
+class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown> = PromiseLike<unknown>> implements IZembleQueue<DataType, ResultType> {
   private jobs: Array<Job<DataType, ResultType, string>> = []
 
   private isPaused = false
@@ -51,6 +52,8 @@ class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZemb
     return this.#queueInternal
   }
 
+  #jobsRemaining = 0
+
   async addBulk(jobs: Parameters<ZembleQueueBull<DataType, ResultType>['addBulk']>[number]) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
     const js = jobs.map((job) => this.#createMockJob(job.name, job.data as any, job.opts))
@@ -58,8 +61,8 @@ class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZemb
     void js.reduce(async (prev, job) => {
       await prev
       await new Promise((resolve) => {
-        setTimeout(() => {
-          void this.#worker(job, { logger: zembleContext.logger })
+        setTimeout(async () => {
+          await this.#executeWorker(job)
           resolve(undefined)
         }, 0)
       })
@@ -89,6 +92,18 @@ class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZemb
     return job
   }
 
+  #executeWorker(job: Job<DataType, ResultType, string>) {
+    try {
+      // eslint-disable-next-line no-plusplus
+      this.#jobsRemaining++
+      return this.#worker(job, { logger: zembleContext.logger })
+    } finally {
+      // eslint-disable-next-line no-plusplus
+      this.#jobsRemaining--
+      this.#triggerWaitUntilFinishedIfNeeded()
+    }
+  }
+
   async add(name: string, data: DataType, opts?: JobsOptions): Promise<Job<DataType, ResultType, string>> {
     if (this.isPaused) {
       throw new Error('Queue is paused')
@@ -96,7 +111,9 @@ class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZemb
 
     const job = this.#createMockJob(name, data, opts)
     this.jobs.push(job)
-    setTimeout(async () => this.#worker(job, { logger: zembleContext.logger }), 0)
+    setTimeout(async () => {
+      this.#executeWorker(job)
+    }, 0)
     return job
   }
 
@@ -117,6 +134,30 @@ class ZembleQueueMock<DataType = unknown, ResultType = unknown> implements IZemb
 
   async resume(): Promise<void> {
     this.isPaused = false
+  }
+
+  #waitUntilFinishedPromise: Promise<void> | undefined
+
+  #waitUntilFinishedResolver: ((value: void | PromiseLike<void>) => void) | undefined
+
+  #triggerWaitUntilFinishedIfNeeded() {
+    if (this.#waitUntilFinishedResolver) {
+      if (this.#jobsRemaining === 0) {
+        this.#waitUntilFinishedResolver()
+        this.#waitUntilFinishedPromise = undefined
+        this.#waitUntilFinishedResolver = undefined
+      }
+    }
+  }
+
+  async waitUntilEmpty() {
+    if (!this.#waitUntilFinishedPromise) {
+      this.#waitUntilFinishedPromise = new Promise((resolve) => {
+        this.#waitUntilFinishedResolver = resolve
+      })
+    }
+
+    return this.#waitUntilFinishedPromise
   }
 }
 

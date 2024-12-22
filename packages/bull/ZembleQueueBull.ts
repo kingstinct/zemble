@@ -1,4 +1,4 @@
-import { Queue, Worker } from 'bullmq'
+import { Queue, QueueEvents, Worker } from 'bullmq'
 
 import plugin from './plugin'
 
@@ -43,6 +43,9 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   }
 
   // eslint-disable-next-line functional/prefer-readonly-type
+  #connection: QueueOptions['connection'] | undefined
+
+  // eslint-disable-next-line functional/prefer-readonly-type
   #queueInternal: Queue<DataType, ReturnType, string, DataType, ReturnType, string> | undefined
 
   get #queue() {
@@ -56,6 +59,9 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
       defaultJobOptions: this.#config?.defaultJobOptions,
       prefix: plugin.config.redisOptions?.keyPrefix,
     })
+
+    // eslint-disable-next-line functional/immutable-data
+    this.#connection = connection
 
     // eslint-disable-next-line functional/immutable-data
     this.#queueInternal = queue
@@ -104,6 +110,30 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
 
   async resume() {
     return this.#queue.resume()
+  }
+
+  async waitUntilEmpty() {
+    const queueEvents = new QueueEvents(this.#queueInternal!.name, { connection: this.#connection! })
+
+    return new Promise((resolve) => {
+      const checkIfQueueIsEmpty = async () => {
+        const waitingCount = await this.#queue.getWaitingCount()
+        const activeCount = await this.#queue.getActiveCount()
+        const delayedCount = await this.#queue.getDelayedCount()
+
+        if (waitingCount === 0 && activeCount === 0 && delayedCount === 0) {
+          queueEvents.removeListener('completed', checkIfQueueIsEmpty)
+          queueEvents.removeListener('failed', checkIfQueueIsEmpty)
+          resolve(true)
+        }
+      }
+
+      queueEvents.on('completed', checkIfQueueIsEmpty)
+      queueEvents.on('failed', checkIfQueueIsEmpty)
+
+      // Initial check in case the queue is already empty
+      void checkIfQueueIsEmpty()
+    })
   }
 }
 export default ZembleQueueBull
