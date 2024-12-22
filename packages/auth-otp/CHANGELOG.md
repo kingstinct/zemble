@@ -1,5 +1,17 @@
 # @zemble/auth-otp
 
+## 0.0.63
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/graphql@0.0.59
+  - @zemble/utils@0.7.38
+  - @zemble/auth@0.0.62
+  - @zemble/core@0.1.23
+  - @zemble/kv@0.0.57
+
 ## 0.0.62
 
 ### Patch Changes

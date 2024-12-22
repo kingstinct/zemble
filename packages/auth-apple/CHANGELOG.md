@@ -1,5 +1,15 @@
 # @zemble/auth-apple
 
+## 0.0.66
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/graphql@0.0.59
+  - @zemble/auth@0.0.62
+  - @zemble/core@0.1.23
+
 ## 0.0.65
 
 ### Patch Changes

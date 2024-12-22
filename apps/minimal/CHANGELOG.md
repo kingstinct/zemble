@@ -1,5 +1,25 @@
 # minimal
 
+## 0.0.75
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/logger-graphql@0.0.55
+  - @zemble/email-resend@0.0.28
+  - @zemble/migrations@0.0.35
+  - @zemble/sms-46elks@0.0.13
+  - @zemble/sms-twilio@0.0.13
+  - @zemble/auth-otp@0.0.63
+  - @zemble/graphql@0.0.59
+  - @zemble/routes@0.0.35
+  - @zemble/auth@0.0.62
+  - @zemble/bull@0.2.4
+  - @zemble/core@0.1.23
+  - @zemble/pino@0.0.24
+  - @zemble/bun@0.0.34
+
 ## 0.0.74
 
 ### Patch Changes

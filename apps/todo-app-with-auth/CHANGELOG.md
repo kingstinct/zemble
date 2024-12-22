@@ -1,5 +1,15 @@
 # todoappwithauth
 
+## 0.0.12
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/auth-anonymous-expo@0.0.11
+  - @zemble/auth-expo@0.0.10
+  - @zemble/todo-ui@0.0.11
+
 ## 0.0.11
 
 ### Patch Changes

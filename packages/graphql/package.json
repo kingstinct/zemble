@@ -1,6 +1,6 @@
 {
   "name": "@zemble/graphql",
-  "version": "0.0.58",
+  "version": "0.0.59",
   "description": "Zemble Plugin providing GraphQL support for your app",
   "main": "plugin.ts",
   "bin": {

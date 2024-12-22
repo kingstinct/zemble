@@ -1,5 +1,11 @@
 # @zemble/auth-expo
 
+## 0.0.10
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+
 ## 0.0.9
 
 ### Patch Changes

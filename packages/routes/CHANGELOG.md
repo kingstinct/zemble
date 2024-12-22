@@ -1,5 +1,13 @@
 # @zemble/routes
 
+## 0.0.35
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/core@0.1.23
+
 ## 0.0.34
 
 ### Patch Changes

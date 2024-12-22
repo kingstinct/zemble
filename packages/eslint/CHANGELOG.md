@@ -1,5 +1,11 @@
 # eslint-config-kingstinct
 
+## 6.0.2
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+
 ## 6.0.1
 
 ### Patch Changes

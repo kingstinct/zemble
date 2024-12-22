@@ -1,5 +1,16 @@
 # @zemble/mongodb
 
+## 0.0.39
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/migrations@0.0.35
+  - @zemble/routes@0.0.35
+  - @zemble/core@0.1.23
+  - @zemble/bun@0.0.34
+
 ## 0.0.38
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @zemble/todo
 
+## 0.0.60
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/auth-anonymous@0.0.60
+  - @zemble/graphql@0.0.59
+  - @zemble/auth@0.0.62
+  - @zemble/core@0.1.23
+  - @zemble/kv@0.0.57
+
 ## 0.0.59
 
 ### Patch Changes

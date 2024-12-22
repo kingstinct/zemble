@@ -1,5 +1,14 @@
 # @zemble/auth-anonymous-expo
 
+## 0.0.11
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/auth-expo@0.0.10
+  - @zemble/urql-expo@0.0.10
+
 ## 0.0.10
 
 ### Patch Changes

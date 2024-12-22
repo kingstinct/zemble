@@ -1,5 +1,11 @@
 ## 1.0.10
 
+## 1.0.15
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+
 ## 1.0.14
 
 ### Patch Changes

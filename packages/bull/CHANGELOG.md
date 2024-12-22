@@ -1,5 +1,16 @@
 # @zemble/bull
 
+## 0.2.4
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/graphql@0.0.59
+  - @zemble/utils@0.7.38
+  - @zemble/auth@0.0.62
+  - @zemble/core@0.1.23
+
 ## 0.2.3
 
 ### Patch Changes

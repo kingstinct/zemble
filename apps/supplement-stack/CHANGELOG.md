@@ -1,5 +1,20 @@
 # supplement-stack
 
+## 0.0.72
+
+### Patch Changes
+
+- cf1637e: Package and eslint bumps
+- Updated dependencies [cf1637e]
+  - @zemble/auth-otp@0.0.63
+  - @zemble/graphql@0.0.59
+  - @zemble/utils@0.7.38
+  - @zemble/bull@0.2.4
+  - @zemble/core@0.1.23
+  - @zemble/todo@0.0.60
+  - @zemble/apple-app-site-association@0.0.39
+  - @zemble/bun@0.0.34
+
 ## 0.0.71
 
 ### Patch Changes
