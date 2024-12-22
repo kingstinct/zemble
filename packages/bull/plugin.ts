@@ -5,7 +5,7 @@ import GraphQL from '@zemble/graphql'
 import { parseEnvBoolean } from '@zemble/utils/node/parseEnv'
 
 import HonoAdapter from './bullboard-hono-adapter'
-import setupQueues from './utils/setupQueues'
+import setupQueues, { getZembleQueues } from './utils/setupQueues'
 import ZembleQueue from './ZembleQueue'
 
 import type { ZembleQueueConfig } from './ZembleQueue'
@@ -63,6 +63,12 @@ const defaults = {
 export type { ZembleQueueConfig }
 
 export { ZembleQueue }
+
+export const waitUntilEmpty = async () => {
+  const queues = getZembleQueues()
+
+  return Promise.all(queues.map(async (queue) => queue.waitUntilEmpty()))
+}
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
 export default new Plugin<BullPluginConfig>(import.meta.dir, {

@@ -20,6 +20,9 @@ import type { Redis } from 'ioredis'
 // eslint-disable-next-line functional/prefer-readonly-type
 const queues: Queue[] = []
 
+// eslint-disable-next-line functional/prefer-readonly-type
+let zembleQueues: ZembleQueueBull[] = []
+
 const setupQueues = async (
   pluginPath: string,
   pubSub: Zemble.PubSubType,
@@ -68,6 +71,9 @@ const setupQueues = async (
         const fileNameWithoutExtension = filename.substring(0, filename.length - 3)
         const queueConfig = (await import(path.join(queuePath, filename))).default
 
+        // eslint-disable-next-line functional/immutable-data
+        zembleQueues = [...zembleQueues, queueConfig]
+
         if (queueConfig instanceof ZembleQueueBull && redisUrl) {
           const { queue, worker } = await queueConfig._initQueue(
             fileNameWithoutExtension,
@@ -107,6 +113,8 @@ const setupQueues = async (
 }
 
 export const getQueues = () => queues
+
+export const getZembleQueues = () => zembleQueues
 
 export const getQueueByName = (name: string) => queues.find((queue) => queue.name === name)
 
