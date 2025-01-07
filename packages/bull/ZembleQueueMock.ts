@@ -138,9 +138,9 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
     this.isPaused = false
   }
 
+  // eslint-disable-next-line class-methods-use-this
   async getDelayed() {
-    const jobs = await Promise.all(this.jobs.filter(async (job) => job.isDelayed()))
-    return jobs as unknown as ReturnType<ZembleQueueBull<DataType, ResultType>['getDelayed']>
+    return []
   }
 
   #waitUntilFinishedPromise: Promise<void> | undefined
