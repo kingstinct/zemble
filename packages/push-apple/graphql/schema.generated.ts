@@ -16,7 +16,6 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSONObject: { input: any; output: any; }
 };
 
@@ -73,7 +72,6 @@ export type MutationRegisterAppleUpdateLiveActivityPushTokenArgs = {
   activityId: Scalars['ID']['input'];
   appBundleId: Scalars['String']['input'];
   isSandbox?: InputMaybe<Scalars['Boolean']['input']>;
-  liveActivityAttributes: Scalars['JSONObject']['input'];
   liveActivityType: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
@@ -218,7 +216,7 @@ export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType ex
   appleLiveActivityStateUpdated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAppleLiveActivityStateUpdatedArgs, 'activityId' | 'liveActivityType' | 'state'>>;
   registerApplePushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterApplePushTokenArgs, 'appBundleId' | 'platform' | 'token'>>;
   registerAppleStartLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleStartLiveActivityPushTokenArgs, 'appBundleId' | 'token'>>;
-  registerAppleUpdateLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleUpdateLiveActivityPushTokenArgs, 'activityId' | 'appBundleId' | 'liveActivityAttributes' | 'liveActivityType' | 'token'>>;
+  registerAppleUpdateLiveActivityPushToken?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRegisterAppleUpdateLiveActivityPushTokenArgs, 'activityId' | 'appBundleId' | 'liveActivityType' | 'token'>>;
   sendPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendPushNotificationArgs, 'body' | 'pushToken'>>;
   sendSilentPushNotification?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSendSilentPushNotificationArgs, 'data' | 'pushToken'>>;
   startLiveActivity?: Resolver<ResolversTypes['StartLiveActivityResponse'], ParentType, ContextType, RequireFields<MutationStartLiveActivityArgs, 'data' | 'liveActivityType' | 'pushToken'>>;

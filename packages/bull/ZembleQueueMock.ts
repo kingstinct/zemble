@@ -17,6 +17,7 @@ interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
   readonly resume: ZembleQueueBull<DataType, ReturnType>['resume']
   readonly pause: ZembleQueueBull<DataType, ReturnType>['pause']
   readonly waitUntilEmpty: ZembleQueueBull<DataType, ReturnType>['waitUntilEmpty']
+  readonly getDelayed: ZembleQueueBull<DataType, ReturnType>['getDelayed']
 }
 
 class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown> = PromiseLike<unknown>> implements IZembleQueue<DataType, ResultType> {
@@ -38,6 +39,7 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
     this.getJob = jest.fn(this.getJob.bind(this))
     this.pause = jest.fn(this.pause.bind(this))
     this.resume = jest.fn(this.resume.bind(this))
+    this.getDelayed = jest.fn(this.getDelayed.bind(this))
   }
 
   readonly #worker: ZembleWorker
@@ -134,6 +136,11 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
 
   async resume(): Promise<void> {
     this.isPaused = false
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async getDelayed() {
+    return []
   }
 
   #waitUntilFinishedPromise: Promise<void> | undefined
