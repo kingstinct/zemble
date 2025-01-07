@@ -1,5 +1,12 @@
 # supplement-stack
 
+## 0.0.75
+
+### Patch Changes
+
+- Updated dependencies [a3561a5]
+  - @zemble/bull@0.2.7
+
 ## 0.0.74
 
 ### Patch Changes

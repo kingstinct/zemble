@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.2.7
+
+### Patch Changes
+
+- a3561a5: added getDelayed to ZembleQueueMock
+
 ## 0.2.6
 
 ### Patch Changes
