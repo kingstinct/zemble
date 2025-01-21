@@ -1,9 +1,6 @@
-import { IStandardKeyValueService, type IStandardLogger } from '@zemble/core'
-
-import createClient from './redis'
+import { IStandardKeyValueService } from '@zemble/core'
 
 import type Redis from 'ioredis'
-import type { RedisOptions } from 'ioredis'
 
 class RedisKeyValue<T> extends IStandardKeyValueService<T> {
   async keys() {
