@@ -1,5 +1,16 @@
 # @zemble/push-expo
 
+## 0.0.16
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/bun@0.0.35
+  - @zemble/core@0.1.24
+  - @zemble/graphql@0.0.60
+  - @zemble/utils@0.7.39
+
 ## 0.0.15
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @zemble/cms-users
 
+## 0.0.73
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/auth@0.0.64
+  - @zemble/auth-otp@0.0.65
+  - @zemble/cms@0.0.73
+  - @zemble/core@0.1.24
+  - @zemble/graphql@0.0.60
+  - @zemble/kv@0.0.59
+  - @zemble/mongodb@0.0.41
+  - @zemble/utils@0.7.39
+
 ## 0.0.72
 
 ### Patch Changes

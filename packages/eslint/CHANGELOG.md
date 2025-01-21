@@ -1,5 +1,11 @@
 # eslint-config-kingstinct
 
+## 6.0.3
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+
 ## 6.0.2
 
 ### Patch Changes

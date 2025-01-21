@@ -1,5 +1,14 @@
 # @zemble/migrations
 
+## 0.0.37
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/bun@0.0.35
+  - @zemble/core@0.1.24
+
 ## 0.0.36
 
 ### Patch Changes

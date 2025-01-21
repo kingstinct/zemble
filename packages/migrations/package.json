@@ -1,7 +1,7 @@
 {
   "name": "@zemble/migrations",
   "description": "@zemble Plugin providing generic migration functionality",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "keywords": [
     "zemble",
     "zemble-plugin",

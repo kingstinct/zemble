@@ -1,5 +1,13 @@
 # @zemble/apple-app-site-association
 
+## 0.0.40
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/core@0.1.24
+
 ## 0.0.39
 
 ### Patch Changes
