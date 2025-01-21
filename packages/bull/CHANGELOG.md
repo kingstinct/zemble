@@ -1,5 +1,16 @@
 # @zemble/bull
 
+## 0.2.10
+
+### Patch Changes
+
+- 69f5f6e: Bumps and type fixes
+- Updated dependencies [69f5f6e]
+  - @zemble/graphql@0.0.61
+  - @zemble/utils@0.7.40
+  - @zemble/auth@0.0.65
+  - @zemble/core@0.1.25
+
 ## 0.2.9
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # eslint-config-kingstinct
 
+## 6.0.4
+
+### Patch Changes
+
+- 69f5f6e: Bumps and type fixes
+
 ## 6.0.3
 
 ### Patch Changes
