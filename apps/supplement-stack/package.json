@@ -48,6 +48,6 @@
     "papr": "^15.2.2"
   },
   "devDependencies": {
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   }
 }

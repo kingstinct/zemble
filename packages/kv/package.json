@@ -33,16 +33,16 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^5.0.2",
+    "@envelop/core": "^5.0.3",
     "@envelop/generic-auth": "7",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "graphql-scalars": "^1.24.0",
-    "hono": "^4.6.14",
+    "hono": "^4.6.17",
     "jose": "^5.9.6",
     "ioredis": "^5.4.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241218.0"
+    "@cloudflare/workers-types": "^4.20250121.0"
   }
 }

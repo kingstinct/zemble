@@ -34,7 +34,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^5.0.2",
+    "@envelop/core": "^5.0.3",
     "@envelop/generic-auth": "7",
     "@whatwg-node/server-plugin-cookies": "^1.0.3",
     "@zemble/auth": "workspace:*",
@@ -43,6 +43,6 @@
     "@zemble/kv": "workspace:*",
     "@zemble/utils": "workspace:*",
     "graphql": "^16.10.0",
-    "libphonenumber-js": "^1.11.17"
+    "libphonenumber-js": "^1.11.18"
   }
 }
