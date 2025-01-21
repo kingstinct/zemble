@@ -7,6 +7,7 @@ import type {
   AppControllerRoute, AppViewRoute, BullBoardQueues, ControllerHandlerReturnType, HTTPMethod, IServerAdapter, UIConfig,
 } from '@bull-board/api/dist/typings/app'
 import type { Context, Env } from 'hono'
+import type { ContentfulStatusCode } from 'hono/utils/http-status'
 
 export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter {
   protected app: Hono<HonoEnv>
@@ -84,7 +85,8 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
             query: c.req.query(),
             body: hasJSONBody ? await c.req.json() : {},
           })
-          return c.json(response.body, response.status || 200)
+          const status = response.status || 200
+          return c.json(response.body, status as ContentfulStatusCode)
         } catch (e) {
           if (!this.errorHandler || !(e instanceof Error)) {
             throw e
@@ -92,9 +94,10 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
 
           const response = this.errorHandler(e)
           if (typeof response.body === 'string') {
-            return c.text(response.body, response.status)
+            const status = response.status || 500
+            return c.text(response.body, status as ContentfulStatusCode)
           }
-          return c.json(response.body, response.status)
+          return c.json(response.body, response.status as ContentfulStatusCode)
         }
       })
     })
