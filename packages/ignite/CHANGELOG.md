@@ -1,5 +1,16 @@
 # @zemble/ignite
 
+## 0.0.70
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/bull@0.2.9
+  - @zemble/core@0.1.24
+  - @zemble/graphql@0.0.60
+  - @zemble/routes@0.0.36
+
 ## 0.0.69
 
 ### Patch Changes

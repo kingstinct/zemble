@@ -1,5 +1,14 @@
 # @zemble/auth-anonymous-expo
 
+## 0.0.12
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/auth-expo@0.0.11
+  - @zemble/urql-expo@0.0.11
+
 ## 0.0.11
 
 ### Patch Changes

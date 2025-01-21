@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.39
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+
 ## 0.7.38
 
 ### Patch Changes

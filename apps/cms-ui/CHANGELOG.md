@@ -1,5 +1,13 @@
 # cms-ui
 
+## 0.0.15
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/react@1.0.16
+
 ## 0.0.14
 
 ### Patch Changes

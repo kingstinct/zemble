@@ -1,5 +1,18 @@
 # @zemble/firebase-auth
 
+## 0.0.21
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/auth@0.0.64
+  - @zemble/bun@0.0.35
+  - @zemble/core@0.1.24
+  - @zemble/graphql@0.0.60
+  - @zemble/routes@0.0.36
+  - @zemble/utils@0.7.39
+
 ## 0.0.20
 
 ### Patch Changes

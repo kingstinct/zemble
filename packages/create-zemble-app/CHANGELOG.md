@@ -1,5 +1,11 @@
 # create-zemble-app
 
+## 0.1.2
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+
 ## 0.1.1
 
 ### Patch Changes

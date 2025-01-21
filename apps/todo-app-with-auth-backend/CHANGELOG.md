@@ -1,5 +1,20 @@
 # todo-app-with-auth-backend
 
+## 0.0.78
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/apple-app-site-association@0.0.40
+  - @zemble/auth-anonymous@0.0.62
+  - @zemble/bull@0.2.9
+  - @zemble/bun@0.0.35
+  - @zemble/core@0.1.24
+  - @zemble/graphql@0.0.60
+  - @zemble/ignite@0.0.70
+  - @zemble/todo@0.0.62
+
 ## 0.0.77
 
 ### Patch Changes

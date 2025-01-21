@@ -1,5 +1,25 @@
 # minimal
 
+## 0.0.80
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/auth@0.0.64
+  - @zemble/auth-otp@0.0.65
+  - @zemble/bull@0.2.9
+  - @zemble/bun@0.0.35
+  - @zemble/core@0.1.24
+  - @zemble/email-resend@0.0.29
+  - @zemble/graphql@0.0.60
+  - @zemble/logger-graphql@0.0.56
+  - @zemble/migrations@0.0.37
+  - @zemble/pino@0.0.25
+  - @zemble/routes@0.0.36
+  - @zemble/sms-46elks@0.0.14
+  - @zemble/sms-twilio@0.0.14
+
 ## 0.0.79
 
 ### Patch Changes

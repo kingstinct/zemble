@@ -1,5 +1,11 @@
 ## 1.0.10
 
+## 1.0.16
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+
 ## 1.0.15
 
 ### Patch Changes

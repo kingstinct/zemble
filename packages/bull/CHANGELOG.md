@@ -1,5 +1,16 @@
 # @zemble/bull
 
+## 0.2.9
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/auth@0.0.64
+  - @zemble/core@0.1.24
+  - @zemble/graphql@0.0.60
+  - @zemble/utils@0.7.39
+
 ## 0.2.8
 
 ### Patch Changes

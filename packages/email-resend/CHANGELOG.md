@@ -1,5 +1,14 @@
 # @zemble/email-resend
 
+## 0.0.29
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/core@0.1.24
+  - @zemble/graphql@0.0.60
+
 ## 0.0.28
 
 ### Patch Changes

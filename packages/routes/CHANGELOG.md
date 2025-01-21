@@ -1,5 +1,13 @@
 # @zemble/routes
 
+## 0.0.36
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/core@0.1.24
+
 ## 0.0.35
 
 ### Patch Changes

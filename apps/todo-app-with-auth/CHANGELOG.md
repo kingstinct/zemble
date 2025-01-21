@@ -1,5 +1,15 @@
 # todoappwithauth
 
+## 0.0.13
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/auth-anonymous-expo@0.0.12
+  - @zemble/auth-expo@0.0.11
+  - @zemble/todo-ui@0.0.12
+
 ## 0.0.12
 
 ### Patch Changes

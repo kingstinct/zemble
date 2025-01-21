@@ -1,5 +1,16 @@
 # @zemble/mongodb
 
+## 0.0.41
+
+### Patch Changes
+
+- e0cb32c: nail package versions
+- Updated dependencies [e0cb32c]
+  - @zemble/bun@0.0.35
+  - @zemble/core@0.1.24
+  - @zemble/migrations@0.0.37
+  - @zemble/routes@0.0.36
+
 ## 0.0.40
 
 ### Patch Changes
