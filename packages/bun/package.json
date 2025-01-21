@@ -1,6 +1,6 @@
 {
   "name": "@zemble/bun",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "@zemble Plugin for running bun",
   "main": "serve.ts",
   "bin": {

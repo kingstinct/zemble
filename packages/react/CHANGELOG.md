@@ -1,5 +1,11 @@
 ## 1.0.10
 
+## 1.0.17
+
+### Patch Changes
+
+- 69f5f6e: Bumps and type fixes
+
 ## 1.0.16
 
 ### Patch Changes

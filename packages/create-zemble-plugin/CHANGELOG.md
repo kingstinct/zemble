@@ -1,5 +1,11 @@
 # create-zemble-plugin
 
+## 0.1.3
+
+### Patch Changes
+
+- 69f5f6e: Bumps and type fixes
+
 ## 0.1.2
 
 ### Patch Changes

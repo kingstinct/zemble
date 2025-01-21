@@ -1,5 +1,13 @@
 # @zemble/sms-46elks
 
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies [69f5f6e]
+  - @zemble/graphql@0.0.61
+  - @zemble/core@0.1.25
+
 ## 0.0.14
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @zemble/todo-ui
 
+## 0.0.13
+
+### Patch Changes
+
+- 69f5f6e: Bumps and type fixes
+- Updated dependencies [69f5f6e]
+  - @zemble/auth-anonymous-expo@0.0.13
+  - @zemble/auth-expo@0.0.12
+
 ## 0.0.12
 
 ### Patch Changes

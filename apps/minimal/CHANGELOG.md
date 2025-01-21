@@ -1,5 +1,25 @@
 # minimal
 
+## 0.0.81
+
+### Patch Changes
+
+- 69f5f6e: Bumps and type fixes
+- Updated dependencies [69f5f6e]
+  - @zemble/logger-graphql@0.0.57
+  - @zemble/email-resend@0.0.30
+  - @zemble/migrations@0.0.38
+  - @zemble/auth-otp@0.0.66
+  - @zemble/graphql@0.0.61
+  - @zemble/routes@0.0.37
+  - @zemble/auth@0.0.65
+  - @zemble/bull@0.2.10
+  - @zemble/core@0.1.25
+  - @zemble/pino@0.0.26
+  - @zemble/sms-46elks@0.0.15
+  - @zemble/sms-twilio@0.0.15
+  - @zemble/bun@0.0.36
+
 ## 0.0.80
 
 ### Patch Changes

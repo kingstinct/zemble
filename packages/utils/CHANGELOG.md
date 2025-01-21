@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.40
+
+### Patch Changes
+
+- 69f5f6e: Bumps and type fixes
+
 ## 0.7.39
 
 ### Patch Changes
