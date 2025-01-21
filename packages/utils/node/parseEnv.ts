@@ -91,9 +91,9 @@ export function parseEnvEnum<
 ): T | TDefault {
   const rawValue = env[prop]
 
-  const enumOrArray = Object.values(validValues)
-  // @ts-expect-error this is contained
-  const isPartOfEnumOrArray = rawValue ? enumOrArray.includes(rawValue) : false
+  const enumOrArray = Object.values(validValues) as readonly T[]
+
+  const isPartOfEnumOrArray = rawValue ? enumOrArray.includes(rawValue as T) : false
 
   if (isPartOfEnumOrArray) {
     return rawValue as T & TDefault
