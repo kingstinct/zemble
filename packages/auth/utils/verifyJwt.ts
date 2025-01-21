@@ -17,7 +17,11 @@ export async function verifyJwt(token: string, publicKey?: string, opts?: jose.J
     return decodedToken.payload
   } catch (e) {
     if (e instanceof jose.errors.JOSEError) {
-      throw new GraphQLError(`Invalid token: ${e.message}`)
+      throw new GraphQLError(`Invalid token: ${e.message}`, {
+        extensions: {
+          code: e.code,
+        },
+      })
     }
     throw e
   }
