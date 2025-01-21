@@ -4,10 +4,10 @@ import fs from 'fs'
 // Find all package.json files (excluding node_modules)
 const packageFilesUnfiltered = new Glob('./**/package.json').scanSync()
 
-const packageFiles = packageFiles.filter((filePath) => !filePath.includes('node_modules'))
+const packageFiles = new Array(...packageFilesUnfiltered).filter((filePath) => !filePath.includes('node_modules'))
 
 // Create a map of package names to their versions
-const packageVersions = {}
+const packageVersions: Record<string, string> = {}
 packageFiles.forEach((filePath) => {
   const pkg = JSON.parse(fs.readFileSync(filePath, 'utf8'))
   if (pkg.name && pkg.version) {
@@ -21,7 +21,7 @@ packageFiles.forEach((filePath) => {
   let modified = false
 
   // Helper function to process dependencies
-  const processDeps = (deps) => {
+  const processDeps = (deps: Record<string, string>) => {
     if (!deps) return deps
     const newDeps = { ...deps }
 
