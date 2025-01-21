@@ -1,5 +1,6 @@
 import { KeyValue, Plugin, setupProvider } from '@zemble/core'
 
+import createClient from './clients/redis'
 import RedisKeyValue from './clients/RedisKeyValue'
 
 import type { IStandardKeyValueService } from '@zemble/core'
@@ -39,6 +40,11 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
         initializeProvider: async (pluginConfig) => {
           const initWithConfig = pluginConfig ?? config
 
+          const redisClient = createClient(
+            initWithConfig.redisUrl!,
+            { redis: initWithConfig.redisOptions, logger },
+          )
+
           return function PrefixWrapper<
             T extends Zemble.KVPrefixes[K],
             K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes
@@ -47,9 +53,7 @@ const plugin = new Plugin<KeyValueConfig & Zemble.GlobalConfig, typeof defaultCo
               if (initWithConfig.redisUrl) {
                 return new RedisKeyValue<T>(
                   prefix as string,
-                  initWithConfig.redisUrl!,
-                  logger,
-                  initWithConfig.redisOptions,
+                  redisClient,
                 )
               }
               logger.warn('redisUrl is required for redis implementation')

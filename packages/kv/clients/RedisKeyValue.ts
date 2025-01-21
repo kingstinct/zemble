@@ -28,13 +28,10 @@ class RedisKeyValue<T> extends IStandardKeyValueService<T> {
 
   private readonly prefix: string
 
-  constructor(prefix: string, redisUrl: string, logger: IStandardLogger, redisOptions?: RedisOptions) {
+  constructor(prefix: string, client: Redis) {
     super()
 
-    this.client = createClient(
-      redisUrl,
-      { redis: redisOptions, logger },
-    )
+    this.client = client
 
     this.prefix = `@zemble/kv:${prefix}`
   }
