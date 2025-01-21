@@ -35,10 +35,10 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^5.0.2",
+    "@envelop/core": "^5.0.3",
     "@envelop/extended-validation": "^4.1.0",
     "@envelop/generic-auth": "7",
-    "@graphql-tools/executor": "^1.3.9",
+    "@graphql-tools/executor": "^1.3.12",
     "@zemble/auth": "workspace:*",
     "@zemble/auth-otp": "workspace:*",
     "@zemble/cms": "workspace:*",
@@ -50,7 +50,7 @@
     "dataloader": "^2.2.3",
     "graphql": "^16.10.0",
     "graphql-scalars": "^1.24.0",
-    "hono": "^4.6.14",
+    "hono": "^4.6.17",
     "jose": "^5.9.6",
     "mongodb": "^6.12.0",
     "papr": "^15.2.2"

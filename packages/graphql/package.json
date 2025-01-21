@@ -37,27 +37,27 @@
   "license": "ISC",
   "dependencies": {
     "@eddeee888/gcg-typescript-resolver-files": "^0.11.0",
-    "@envelop/core": "^5.0.2",
+    "@envelop/core": "^5.0.3",
     "@envelop/on-resolve": "^4.1.1",
-    "@graphql-tools/delegate": "^10.2.8",
-    "@graphql-tools/graphql-file-loader": "^8.0.8",
-    "@graphql-tools/load": "^8.0.9",
-    "@graphql-tools/merge": "^9.0.14",
-    "@graphql-tools/schema": "^10.0.13",
-    "@graphql-tools/utils": "^10.6.4",
-    "@graphql-tools/wrap": "^10.0.26",
+    "@graphql-tools/delegate": "^10.2.10",
+    "@graphql-tools/graphql-file-loader": "^8.0.12",
+    "@graphql-tools/load": "^8.0.12",
+    "@graphql-tools/merge": "^9.0.17",
+    "@graphql-tools/schema": "^10.0.16",
+    "@graphql-tools/utils": "^10.7.2",
+    "@graphql-tools/wrap": "^10.0.28",
     "@zemble/core": "workspace:*",
     "debug": "^4.4.0",
     "graphql": "^16.10.0",
     "graphql-scalars": "^1.24.0",
     "graphql-ws": "^5.16.0",
-    "graphql-yoga": "^5.10.6",
-    "hono": "^4.6.14",
+    "graphql-yoga": "^5.10.10",
+    "hono": "^4.6.17",
     "sofa-api": "^0.18.8"
   },
   "optionalDependencies": {
     "ioredis": "^5.4.2",
-    "@graphql-yoga/redis-event-target": "^3.0.2",
+    "@graphql-yoga/redis-event-target": "^3.0.3",
     "sofa-api": "^0.18.8"
   },
   "devDependencies": {
@@ -67,6 +67,6 @@
     "@graphql-codegen/typescript": "^4.1.2",
     "@graphql-codegen/typescript-resolvers": "^4.4.1",
     "ioredis": "^5.4.2",
-    "@graphql-yoga/redis-event-target": "^3.0.2"
+    "@graphql-yoga/redis-event-target": "^3.0.3"
   }
 }

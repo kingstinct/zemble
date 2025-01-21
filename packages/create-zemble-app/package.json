@@ -8,7 +8,7 @@
     "test": "bun test cli.ts"
   },
   "dependencies": {
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.3.0"
   },
   "module": "index.ts",
   "devDependencies": {
