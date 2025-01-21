@@ -1,5 +1,12 @@
 # @zemble/cms
 
+## 0.0.72
+
+### Patch Changes
+
+- Updated dependencies [6ee8b73]
+  - @zemble/auth@0.0.63
+
 ## 0.0.71
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # supplement-stack
 
+## 0.0.76
+
+### Patch Changes
+
+- @zemble/auth-otp@0.0.64
+- @zemble/bull@0.2.8
+- @zemble/todo@0.0.61
+
 ## 0.0.75
 
 ### Patch Changes

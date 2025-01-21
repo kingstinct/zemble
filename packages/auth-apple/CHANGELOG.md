@@ -1,5 +1,12 @@
 # @zemble/auth-apple
 
+## 0.0.67
+
+### Patch Changes
+
+- Updated dependencies [6ee8b73]
+  - @zemble/auth@0.0.63
+
 ## 0.0.66
 
 ### Patch Changes

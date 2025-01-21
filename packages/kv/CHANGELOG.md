@@ -1,5 +1,11 @@
 # @zemble/kv
 
+## 0.0.58
+
+### Patch Changes
+
+- 6ee8b73: Reuse db connections in KV
+
 ## 0.0.57
 
 ### Patch Changes
