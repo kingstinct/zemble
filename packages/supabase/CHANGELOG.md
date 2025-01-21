@@ -1,5 +1,15 @@
 # @zemble/supabase
 
+## 0.0.47
+
+### Patch Changes
+
+- @zemble/core@0.1.26
+- @zemble/auth@0.0.66
+- @zemble/bun@0.0.37
+- @zemble/graphql@0.0.62
+- @zemble/routes@0.0.38
+
 ## 0.0.46
 
 ### Patch Changes

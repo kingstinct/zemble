@@ -1,5 +1,12 @@
 # @zemble/sms-46elks
 
+## 0.0.16
+
+### Patch Changes
+
+- @zemble/core@0.1.26
+- @zemble/graphql@0.0.62
+
 ## 0.0.15
 
 ### Patch Changes

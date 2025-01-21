@@ -1,5 +1,13 @@
 # @zemble/logger-graphql
 
+## 0.0.58
+
+### Patch Changes
+
+- @zemble/core@0.1.26
+- @zemble/graphql@0.0.62
+- @zemble/pino@0.0.27
+
 ## 0.0.57
 
 ### Patch Changes

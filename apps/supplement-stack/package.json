@@ -1,6 +1,6 @@
 {
   "name": "supplement-stack",
-  "version": "0.0.78",
+  "version": "0.0.79",
   "description": "",
   "main": "app.ts",
   "private": true,

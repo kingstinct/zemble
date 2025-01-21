@@ -1,5 +1,23 @@
 # minimal
 
+## 0.0.82
+
+### Patch Changes
+
+- @zemble/auth-otp@0.0.67
+- @zemble/bull@0.2.11
+- @zemble/core@0.1.26
+- @zemble/auth@0.0.66
+- @zemble/bun@0.0.37
+- @zemble/email-resend@0.0.31
+- @zemble/graphql@0.0.62
+- @zemble/logger-graphql@0.0.58
+- @zemble/migrations@0.0.39
+- @zemble/pino@0.0.27
+- @zemble/routes@0.0.38
+- @zemble/sms-46elks@0.0.16
+- @zemble/sms-twilio@0.0.16
+
 ## 0.0.81
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @zemble/pino
 
+## 0.0.27
+
+### Patch Changes
+
+- @zemble/core@0.1.26
+- @zemble/bun@0.0.37
+
 ## 0.0.26
 
 ### Patch Changes
