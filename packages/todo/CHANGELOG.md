@@ -1,5 +1,14 @@
 # @zemble/todo
 
+## 0.0.61
+
+### Patch Changes
+
+- Updated dependencies [6ee8b73]
+  - @zemble/auth@0.0.63
+  - @zemble/kv@0.0.58
+  - @zemble/auth-anonymous@0.0.61
+
 ## 0.0.60
 
 ### Patch Changes

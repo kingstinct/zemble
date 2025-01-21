@@ -1,5 +1,13 @@
 # @zemble/auth
 
+## 0.0.63
+
+### Patch Changes
+
+- 6ee8b73: Reuse db connections in KV
+- Updated dependencies [6ee8b73]
+  - @zemble/kv@0.0.58
+
 ## 0.0.62
 
 ### Patch Changes
