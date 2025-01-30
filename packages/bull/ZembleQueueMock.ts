@@ -25,6 +25,8 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
 
   private isPaused = false
 
+  private jobsRemaining = 0
+
   constructor(
     readonly worker: ZembleWorker,
     _?: ZembleQueueConfig,
@@ -53,8 +55,6 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
 
     return this.#queueInternal
   }
-
-  #jobsRemaining = 0
 
   async addBulk(jobs: Parameters<ZembleQueueBull<DataType, ResultType>['addBulk']>[number]) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
@@ -94,14 +94,12 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
     return job
   }
 
-  #executeWorker(job: Job<DataType, ResultType, string>) {
+  async #executeWorker(job: Job<DataType, ResultType, string>) {
     try {
-      // eslint-disable-next-line no-plusplus
-      this.#jobsRemaining++
-      return this.#worker(job, { logger: zembleContext.logger })
+      return await this.#worker(job, { logger: zembleContext.logger })
     } finally {
       // eslint-disable-next-line no-plusplus
-      this.#jobsRemaining--
+      this.jobsRemaining--
       this.#triggerWaitUntilFinishedIfNeeded()
     }
   }
@@ -113,8 +111,10 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
 
     const job = this.#createMockJob(name, data, opts)
     this.jobs.push(job)
+    // eslint-disable-next-line no-plusplus
+    this.jobsRemaining++
     setTimeout(async () => {
-      this.#executeWorker(job)
+      await this.#executeWorker(job)
     }, 0)
     return job
   }
@@ -149,7 +149,7 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
 
   #triggerWaitUntilFinishedIfNeeded() {
     if (this.#waitUntilFinishedResolver) {
-      if (this.#jobsRemaining === 0) {
+      if (this.jobsRemaining === 0) {
         this.#waitUntilFinishedResolver()
         this.#waitUntilFinishedPromise = undefined
         this.#waitUntilFinishedResolver = undefined
@@ -159,7 +159,7 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
 
   async waitUntilEmpty() {
     if (!this.#waitUntilFinishedPromise) {
-      if (this.#jobsRemaining === 0) {
+      if (this.jobsRemaining === 0) {
         return Promise.resolve()
       }
 
