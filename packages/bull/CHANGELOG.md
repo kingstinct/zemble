@@ -1,5 +1,11 @@
 # @zemble/bull
 
+## 0.2.12
+
+### Patch Changes
+
+- 9b71567: Fix broken queue mock.
+
 ## 0.2.11
 
 ### Patch Changes
