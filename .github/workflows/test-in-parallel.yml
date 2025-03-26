@@ -25,7 +25,7 @@ on:
       working_directory:
         required: false
         type: string
-        default: "."
+        default: .
         description: The working directory to run the tests in
       pnpm_version:
         required: false
@@ -36,6 +36,10 @@ on:
         required: false
         type: string
         description: The environment file to use
+      op_setup_script:
+        required: false
+        type: string
+        description: The script to setup the test variables
   workflow_call:
     inputs:
       parellelism_count:
@@ -57,12 +61,16 @@ on:
       working_directory:
         required: false
         type: string
-        default: "."
+        default: .
       pnpm_version:
         required: false
         type: string
         default: "8"
         description: If using pnpm - which version to use
+      op_setup_script:
+        required: false
+        type: string
+        description: The script to setup the test variables
     secrets:
       SLACK_WEBHOOK:
         description: The Slack Webhook to use for notifications
@@ -70,7 +78,9 @@ on:
       DISCORD_WEBHOOK:
         description: The Discord Webhook to use for notifications
         required: false
-
+      OP_SERVICE_ACCOUNT_TOKEN:
+        description: The 1Password Service Account Token
+        required: false
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -179,6 +189,18 @@ jobs:
       - name: Install dependencies (others)
         run: ${{ inputs.package_manager }} install --frozen-lockfile
         if: ${{ inputs.package_manager != 'npm' }}
+
+      - name: Install 1Password CLI
+        uses: 1password/install-cli-action@v1
+        if: ${{ inputs.op_setup_script }}
+
+      - name: Load secret
+        uses: 1password/load-secrets-action/configure@v2
+        if: ${{ inputs.op_setup_script }}
+
+      - name: generate env file
+        run: ${{ inputs.op_setup_script }}
+        if: ${{ inputs.op_setup_script }}
 
       - name: Test
         run: echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs ${{ inputs.test_command }}
