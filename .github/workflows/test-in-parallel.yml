@@ -197,12 +197,12 @@ jobs:
       - name: Load secret
         uses: 1password/load-secrets-action/configure@v2
         if: ${{ inputs.op_setup_script }}
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
       - name: generate env file
         run: ${{ inputs.op_setup_script }}
         if: ${{ inputs.op_setup_script }}
-        env:
-          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
       - name: Test
         run: echo $CHUNKS | jq '.[${{ matrix.chunk }}] | .[] | @text' | xargs ${{ inputs.test_command }}
