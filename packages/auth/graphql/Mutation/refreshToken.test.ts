@@ -81,7 +81,7 @@ describe('refreshToken', () => {
     const app = await createTestApp(plugin)
 
     const validBearerToken = await signJwt({ data: { role: 'admin', organisationId: '1' }, sub: '1', expiresInSeconds: -1 })
-    const validRefreshToken = await generateRefreshToken({ sub: '1', expiresInSeconds: 1 })
+    const validRefreshToken = await generateRefreshToken({ sub: '1', expiresInSeconds: 60 })
 
     const response = await app.gqlRequest(
       RefreshTokenMutation,
