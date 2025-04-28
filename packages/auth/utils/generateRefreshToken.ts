@@ -1,8 +1,8 @@
 import { signJwt } from './signJwt'
 import plugin from '../plugin'
 
-export const generateRefreshToken = async ({ sub }: { readonly sub: string }) => signJwt({
+export const generateRefreshToken = async ({ sub, expiresInSeconds }: { readonly sub: string, readonly expiresInSeconds?: number }) => signJwt({
   data: { },
-  expiresInSeconds: plugin.config.refreshTokenExpiryInSeconds,
+  expiresInSeconds: expiresInSeconds ?? plugin.config.refreshTokenExpiryInSeconds,
   sub,
 })
