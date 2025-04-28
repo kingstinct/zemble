@@ -11,7 +11,7 @@ export const refreshTokensFromPrevious = async (bearerToken: string, refreshToke
   const previousBearerToken = await decodeToken(bearerToken, undefined, { currentDate: new Date(0) })
 
   if (!previousBearerToken.sub) {
-    throw new Error('Token doesn\'t contain a sub field, cant reissue')
+    throw new Error('Token doesn\'t contain a sub field, can\'t reissue')
   }
 
   await verifyJwt(refreshToken, undefined, { subject: previousBearerToken.sub })

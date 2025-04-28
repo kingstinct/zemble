@@ -143,15 +143,7 @@ const defaultConfig = {
   invalidateToken: async (sub, token) => {
     await getKv('invalid-tokens').set(`${sub}:${token}`, true)
   },
-  reissueBearerToken: (decodedToken) => {
-    if (process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
-      console.warn('reissueBearerToken not implemented, just reissuing the same token in dev - will crash in production!')
-      return decodedToken
-    }
-
-    throw new Error('reissueBearerToken not implemented')
-  },
+  reissueBearerToken: (decodedToken) => decodedToken,
   cookies: {
     bearerTokenCookieName: 'authorization',
     refreshTokenCookieName: 'refresh',
