@@ -1,14 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { chunk } from 'lodash/fp'
 
-export async function chunkedPromises<T = unknown, TRes = unknown>(
-  data: readonly T[],
-  processor: (element: T) => Promise<TRes> | TRes,
-  chunkSize = 50,
-  maxChunksPerSecond = 100,
-) {
+export async function chunkedPromises<T = unknown, TRes = unknown>(data: readonly T[], processor: (element: T) => Promise<TRes> | TRes, chunkSize = 50, maxChunksPerSecond = 100) {
   const chunks = chunk(chunkSize, data),
-        minTimeBetweenChunks = 1000 / maxChunksPerSecond
+    minTimeBetweenChunks = 1000 / maxChunksPerSecond
 
   const init = Promise.resolve({
     acc: [] as readonly PromiseSettledResult<TRes>[],

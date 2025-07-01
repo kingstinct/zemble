@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
+
+import { describe, expect, it } from 'bun:test'
 import { makeExecutableSchema } from '@graphql-tools/schema'
-import { describe, it, expect } from 'bun:test'
 import DataLoader from 'dataloader'
-import { Source, graphql } from 'graphql'
+import { graphql, Source } from 'graphql'
 import gql from 'graphql-tag'
 
 import { createSuperDataLoader } from './SuperDataLoader'
@@ -13,7 +14,7 @@ import transactionItemsArray from './tst_data/transactionItemsArray.json'
 
 const INSTRUMENTS_BY_ID: Record<string, { readonly _id: string; readonly issuerId: string }> = instruments
 const ISSUER_BY_ID: Record<string, { readonly _id: string }> = issuers
-const TRANSACTION_ITEMS = transactionItemsArray as unknown as ReadonlyArray<{readonly _id: string; readonly instrumentId: string }>
+const TRANSACTION_ITEMS = transactionItemsArray as unknown as ReadonlyArray<{ readonly _id: string; readonly instrumentId: string }>
 
 function instrumentById() {
   return async (keys: readonly string[]) => {
@@ -128,11 +129,11 @@ describe('SuperDataLoader.big', () => {
       },
       TransactionItem: {
         // eslint-disable-next-line @typescript-eslint/no-shadow
-        instrument: async ({ instrumentId }: { readonly instrumentId: string }, _: unknown, { dataloaders }: {readonly dataloaders: DataLoaders}) => dataloaders.instrumentById.load(instrumentId),
+        instrument: async ({ instrumentId }: { readonly instrumentId: string }, _: unknown, { dataloaders }: { readonly dataloaders: DataLoaders }) => dataloaders.instrumentById.load(instrumentId),
       },
       Instrument: {
         // eslint-disable-next-line @typescript-eslint/no-shadow
-        issuer: async ({ issuerId }: { readonly issuerId: string }, _: unknown, { dataloaders }: {readonly dataloaders: DataLoaders}) => (issuerId ? dataloaders.issuerById.load(issuerId) : null),
+        issuer: async ({ issuerId }: { readonly issuerId: string }, _: unknown, { dataloaders }: { readonly dataloaders: DataLoaders }) => (issuerId ? dataloaders.issuerById.load(issuerId) : null),
       },
     }
 

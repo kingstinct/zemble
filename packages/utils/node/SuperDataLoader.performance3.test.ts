@@ -1,12 +1,9 @@
-import {
-  describe, it, expect,
-} from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 /* eslint-disable no-console */
 import DataLoader from 'dataloader'
-
-import createSuperDataLoader from './SuperDataLoader'
 import times from '../times'
 import wait from '../wait'
+import createSuperDataLoader from './SuperDataLoader'
 
 describe('SuperDataLoader.performance', () => {
   it('Should be faster than normal dataloader with loadMany with same keys', async () => {

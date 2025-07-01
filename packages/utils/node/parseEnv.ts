@@ -1,13 +1,6 @@
 import { isNotNullOrUndefined } from '..'
 
-export function parseEnvNumber<
-  T extends number,
-  TDefault extends T | undefined
->(
-  prop: string,
-  defaultValue?: TDefault,
-  env = process.env,
-): T | TDefault {
+export function parseEnvNumber<T extends number, TDefault extends T | undefined>(prop: string, defaultValue?: TDefault, env = process.env): T | TDefault {
   const rawValue = env[prop]
   if (!rawValue) {
     if (isNotNullOrUndefined(defaultValue)) {
@@ -22,14 +15,7 @@ export function parseEnvNumber<
   }
 }
 
-export function parseEnvJSON<
-  T,
-  TDefault extends T | undefined = T | undefined
->(
-  prop: string,
-  defaultValue: TDefault,
-  env = process.env,
-): T | TDefault {
+export function parseEnvJSON<T, TDefault extends T | undefined = T | undefined>(prop: string, defaultValue: TDefault, env = process.env): T | TDefault {
   const rawValue = env[prop]
   if (!rawValue) {
     if (isNotNullOrUndefined(defaultValue)) {
@@ -46,11 +32,7 @@ export function parseEnvJSON<
   }
 }
 
-export function parseEnvBoolean<T extends boolean>(
-  prop: string,
-  defaultValue?: T,
-  env = process.env,
-): T {
+export function parseEnvBoolean<T extends boolean>(prop: string, defaultValue?: T, env = process.env): T {
   const rawValue = env[prop]
   if (!rawValue) {
     if (isNotNullOrUndefined(defaultValue)) {
@@ -78,17 +60,9 @@ export function parseEnvBoolean<T extends boolean>(
   }
 }
 
-type EnumOrArrayOfLiterals<T extends string> = ArrayLike<T> | { readonly [s: string]: T; }
+type EnumOrArrayOfLiterals<T extends string> = ArrayLike<T> | { readonly [s: string]: T }
 
-export function parseEnvEnum<
-  T extends string,
-  TDefault extends T | undefined
->(
-  prop: string,
-  validValues: EnumOrArrayOfLiterals<T>,
-  defaultValue?: TDefault,
-  env = process.env,
-): T | TDefault {
+export function parseEnvEnum<T extends string, TDefault extends T | undefined>(prop: string, validValues: EnumOrArrayOfLiterals<T>, defaultValue?: TDefault, env = process.env): T | TDefault {
   const rawValue = env[prop]
 
   const enumOrArray = Object.values(validValues) as readonly T[]

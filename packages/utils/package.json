@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "bun test",
-    "lint": "eslint .",
+    "lint": "biome check .",
     "typecheck": "bunx tsc --noEmit",
     "act-lint": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/lint.yml --reuse -e act-workflow-run-configs/lint.json",
     "act-typecheck": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/typecheck.yml --reuse -e act-workflow-run-configs/typecheck.json",

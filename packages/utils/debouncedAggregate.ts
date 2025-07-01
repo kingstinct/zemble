@@ -1,6 +1,6 @@
 type Opts = {
-  readonly maxItems?: number,
-  readonly maxMs?: number,
+  readonly maxItems?: number
+  readonly maxMs?: number
 }
 
 function debouncedAggregate<T>(ms: number, fn: (items: readonly T[]) => void, opts?: Opts) {

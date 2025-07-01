@@ -32,7 +32,8 @@ export const UniversalDateTimeRaw = new GraphQLScalarType({
   parseValue(value: string) {
     if (typeof value === 'string' && isValidDateString(value)) {
       return value
-    } if (isValidDateWithTimeString(value)) {
+    }
+    if (isValidDateWithTimeString(value)) {
       return value
     }
     throw new GraphQLError(`${ERROR_MESSAGE}, found: ${value}`)
@@ -46,7 +47,8 @@ export const UniversalDateTimeRaw = new GraphQLScalarType({
 
     if (typeof ast.value === 'string' && isValidDateString(ast.value)) {
       return ast.value
-    } if (isValidDateWithTimeString(ast.value)) {
+    }
+    if (isValidDateWithTimeString(ast.value)) {
       return ast.value
     }
     throw new GraphQLError(`${ERROR_MESSAGE}, found: ${ast.value}`)

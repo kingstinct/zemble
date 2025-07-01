@@ -14,7 +14,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "biome check .",
     "typecheck": "tsc --noEmit"
   },
   "lint-staged": {

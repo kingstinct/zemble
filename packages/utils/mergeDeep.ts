@@ -2,9 +2,9 @@
 import type { PartialDeep } from 'type-fest'
 
 /**
-* Performs a deep merge of objects and returns new object. Does not modify
-* objects (immutable) and merges arrays via concatenation.
-*/
+ * Performs a deep merge of objects and returns new object. Does not modify
+ * objects (immutable) and merges arrays via concatenation.
+ */
 export function mergeDeep<TType extends Record<string, unknown>>(...objects: readonly PartialDeep<TType>[]) {
   // eslint-disable-next-line unicorn/consistent-function-scoping
   function isObject<T>(obj: T) {

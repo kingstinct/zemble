@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test-recursive": "bunx turbo run test --continue -- --timeout 20000",
-    "lint": "bunx turbo run lint --concurrency=100% --continue -- --quiet",
+    "lint": "bunx biome check --write --verbose --diagnostic-level error .",
     "typecheck": "bunx turbo run typecheck --concurrency=100% --continue",
     "codegen": "bunx turbo run codegen",
     "build": "bunx turbo run build",
@@ -52,6 +52,7 @@
   "license": "ISC",
   "private": true,
   "devDependencies": {
+    "@biomejs/biome": "^2.0.6",
     "@graphql-eslint/eslint-plugin": "^4.3.0",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@stylistic/eslint-plugin-ts": "^2.13.0",

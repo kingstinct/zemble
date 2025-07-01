@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
+    "lint": "biome check .",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },

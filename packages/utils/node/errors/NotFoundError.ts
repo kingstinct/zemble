@@ -1,7 +1,7 @@
 export const ERROR_CODE = 'NOT_FOUND'
 
 type Extensions = {
-  readonly code: 'NOT_FOUND';
+  readonly code: 'NOT_FOUND'
 }
 
 class NotFoundError extends Error {

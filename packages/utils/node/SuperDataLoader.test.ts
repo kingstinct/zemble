@@ -1,6 +1,4 @@
-import {
-  describe, it, expect, jest,
-} from 'bun:test'
+import { describe, expect, it, jest } from 'bun:test'
 
 import createSuperDataLoader from './SuperDataLoader'
 
@@ -24,11 +22,7 @@ describe('SuperDataLoader', () => {
     const batchLoadFn = jest.fn((keys) => keys)
     const loader = createSuperDataLoader({ batchLoadFn })
 
-    const [promise1, promise2, promise3] = await Promise.all([
-      loader.load('key1'),
-      loader.load('key2'),
-      loader.load('key3'),
-    ])
+    const [promise1, promise2, promise3] = await Promise.all([loader.load('key1'), loader.load('key2'), loader.load('key3')])
 
     expect(promise1).toBe('key1')
     expect(promise2).toBe('key2')
@@ -41,17 +35,9 @@ describe('SuperDataLoader', () => {
     const batchLoadFn = jest.fn((keys) => keys)
     const loader = createSuperDataLoader({ batchLoadFn })
 
-    await Promise.all([
-      loader.load('key1'),
-      loader.load('key2'),
-      loader.load('key3'),
-    ])
+    await Promise.all([loader.load('key1'), loader.load('key2'), loader.load('key3')])
 
-    const [promise1, promise2, promise3] = await Promise.all([
-      loader.load('key1'),
-      loader.load('key2'),
-      loader.load('key3'),
-    ])
+    const [promise1, promise2, promise3] = await Promise.all([loader.load('key1'), loader.load('key2'), loader.load('key3')])
 
     expect(promise1).toBe('key1')
     expect(promise2).toBe('key2')

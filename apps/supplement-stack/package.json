@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
-    "lint": "eslint .",
+    "lint": "biome check .",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen"
   },

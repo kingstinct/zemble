@@ -7,7 +7,7 @@ export enum TimeoutifyStatus {
   Aborted,
   TimedOut,
   Running,
-  Finished
+  Finished,
 }
 
 export class Timeoutify {
@@ -33,11 +33,7 @@ export class Timeoutify {
   // eslint-disable-next-line functional/prefer-readonly-type
   private handle: ReturnType<typeof setTimeout> | undefined
 
-  constructor({
-    timeoutMS,
-    logPrefix = LOG_PREFIX,
-    logger = console,
-  }: { readonly timeoutMS: number; readonly logPrefix?: string; readonly logger?: Pick<Console, 'debug'> }) {
+  constructor({ timeoutMS, logPrefix = LOG_PREFIX, logger = console }: { readonly timeoutMS: number; readonly logPrefix?: string; readonly logger?: Pick<Console, 'debug'> }) {
     this.#startedAt = Date.now()
     this.#timeoutMS = timeoutMS
     this.abortController = new AbortController()
@@ -60,17 +56,20 @@ export class Timeoutify {
 
     if (timeoutMS > 0) {
       // eslint-disable-next-line functional/immutable-data
-      this.handle = setTimeout(() => {
-        if (process.env['DEBUG']) {
-          this.logger.debug(`${this.logPrefix} setTimeout called`)
-        }
+      this.handle = setTimeout(
+        () => {
+          if (process.env['DEBUG']) {
+            this.logger.debug(`${this.logPrefix} setTimeout called`)
+          }
 
-        if (!this.abortController.signal.aborted) {
-        // eslint-disable-next-line functional/immutable-data
-          this.statusInternal = TimeoutifyStatus.TimedOut
-          this.abortController.abort()
-        }
-      }, timeoutMS - (Date.now() - this.#startedAt))
+          if (!this.abortController.signal.aborted) {
+            // eslint-disable-next-line functional/immutable-data
+            this.statusInternal = TimeoutifyStatus.TimedOut
+            this.abortController.abort()
+          }
+        },
+        timeoutMS - (Date.now() - this.#startedAt),
+      )
     }
   }
 
