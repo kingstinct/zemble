@@ -19,8 +19,7 @@ import {
 } from '../hooks'
 import useAlert from '../hooks/useAlert'
 import useConfirm from '../hooks/useConfirm'
-import Column from '../primitives/Column'
-import Row from '../primitives/Row'
+import { Column, Row } from '../primitives'
 
 import type { SnackbarComponentProps } from '../components/SnackbarComponent'
 
