@@ -10,7 +10,7 @@ export function parseEnvNumber<T extends number, TDefault extends T | undefined>
   }
   try {
     return parseFloat(rawValue) as T
-  } catch (e) {
+  } catch (_e) {
     throw new Error(`Failed to parse environment variable "${prop}", expected number got "${rawValue}"`)
   }
 }
@@ -27,8 +27,8 @@ export function parseEnvJSON<T, TDefault extends T | undefined = T | undefined>(
   }
   try {
     return JSON.parse(rawValue) as T
-  } catch (e) {
-    throw Error(`Failed to parse environment variable "${prop}", expected JSON got "${rawValue}"`)
+  } catch (_e) {
+    throw new Error(`Failed to parse environment variable "${prop}", expected JSON got "${rawValue}"`)
   }
 }
 
@@ -55,7 +55,7 @@ export function parseEnvBoolean<T extends boolean>(prop: string, defaultValue?: 
     }
 
     return defaultValue as T
-  } catch (e) {
+  } catch (_e) {
     throw new Error(`Failed to parse environment variable "${prop}", expected boolean got "${rawValue}"`)
   }
 }

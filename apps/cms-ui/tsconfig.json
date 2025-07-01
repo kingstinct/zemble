@@ -5,12 +5,5 @@
     "strictNullChecks": true
   },
   "extends": "expo/tsconfig.base",
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "!expo-env.d.ts",
-    "*.js",
-    "expo-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "!expo-env.d.ts", "*.js", "expo-env.d.ts"]
 }

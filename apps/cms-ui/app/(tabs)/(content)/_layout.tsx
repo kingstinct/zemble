@@ -1,14 +1,10 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import {
-  Stack, router, useGlobalSearchParams,
-} from 'expo-router'
+import type { HeaderButtonProps } from '@react-navigation/native-stack/src/types'
+import { router, Stack, useGlobalSearchParams } from 'expo-router'
 import { useCallback } from 'react'
 import { Pressable } from 'react-native'
 import { useTheme } from 'react-native-paper'
-
 import { capitalize, singularize } from '../../../utils/text'
-
-import type { HeaderButtonProps } from '@react-navigation/native-stack/src/types'
 
 // eslint-disable-next-line camelcase
 export const unstable_settings = {
@@ -16,16 +12,11 @@ export const unstable_settings = {
   initialRouteName: 'index',
 }
 
-const HeaderRightButton = ({ onPress, tintColor, icon = 'plus' }: HeaderButtonProps & { readonly onPress: () => void, readonly icon?: keyof typeof MaterialCommunityIcons.glyphMap }) => {
+const HeaderRightButton = ({ onPress, tintColor, icon = 'plus' }: HeaderButtonProps & { readonly onPress: () => void; readonly icon?: keyof typeof MaterialCommunityIcons.glyphMap }) => {
   const theme = useTheme()
   return (
     <Pressable accessibilityRole='button' onPress={onPress}>
-      <MaterialCommunityIcons
-        name={icon}
-        size={24}
-        style={{ marginRight: 16 }}
-        color={tintColor ?? theme.colors.onSurface}
-      />
+      <MaterialCommunityIcons name={icon} size={24} style={{ marginRight: 16 }} color={tintColor ?? theme.colors.onSurface} />
     </Pressable>
   )
 }
@@ -33,13 +24,12 @@ const HeaderRightButton = ({ onPress, tintColor, icon = 'plus' }: HeaderButtonPr
 const EntitiesLayout = () => {
   const { entity } = useGlobalSearchParams()
 
-  const headerRightForListView = useCallback((props: HeaderButtonProps) => (
-    <HeaderRightButton {...props} icon='cog' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />
-  ), [entity])
+  const headerRightForListView = useCallback(
+    (props: HeaderButtonProps) => <HeaderRightButton {...props} icon='cog' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />,
+    [entity],
+  )
 
-  const headerRightForSchemaView = useCallback((props: HeaderButtonProps) => (
-    <HeaderRightButton {...props} onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/fields/create`)} />
-  ), [entity])
+  const headerRightForSchemaView = useCallback((props: HeaderButtonProps) => <HeaderRightButton {...props} onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/fields/create`)} />, [entity])
 
   return (
     <Stack

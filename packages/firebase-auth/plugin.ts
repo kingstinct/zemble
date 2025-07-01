@@ -4,10 +4,9 @@ import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import Routes from '@zemble/routes'
 import { parseEnvJSON } from '@zemble/utils/node/parseEnv'
-
+import type { DecodedIdToken } from 'firebase-admin/auth'
 import type firebaseAdmin from './clients/firebase-admin'
 import type { firebaseClient } from './clients/firebase-client'
-import type { DecodedIdToken } from 'firebase-admin/auth'
 
 interface PluginConfig extends Zemble.GlobalConfig {
   readonly generateTokenContents: (idTokenContents: DecodedIdToken) => Promise<Zemble.FirebaseToken> | Zemble.FirebaseToken
@@ -16,7 +15,7 @@ interface PluginConfig extends Zemble.GlobalConfig {
 }
 
 export interface DefaultFirebaseToken {
-  readonly type: '@zemble/auth-firebase',
+  readonly type: '@zemble/auth-firebase'
   // readonly appleUserId: string
   readonly email?: string
 }
@@ -25,9 +24,7 @@ declare global {
   namespace Zemble {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore could maybe be improved
-    interface FirebaseToken extends DefaultFirebaseToken {
-
-    }
+    interface FirebaseToken extends DefaultFirebaseToken {}
 
     interface TokenRegistry {
       readonly AuthFirebase: FirebaseToken
@@ -41,14 +38,7 @@ const defaultConfig = {
   generateTokenContents: (args) => ({ type: '@zemble/auth-firebase', ...args }),
 } satisfies Partial<PluginConfig>
 
-export default new Plugin<PluginConfig, typeof defaultConfig>(
-  import.meta.dir,
-  {
-    dependencies: [
-      { plugin: GraphQL },
-      { plugin: Auth },
-      { plugin: Routes },
-    ],
-    defaultConfig,
-  },
-)
+export default new Plugin<PluginConfig, typeof defaultConfig>(import.meta.dir, {
+  dependencies: [{ plugin: GraphQL }, { plugin: Auth }, { plugin: Routes }],
+  defaultConfig,
+})

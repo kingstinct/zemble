@@ -1,7 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router'
-import {
-  View,
-} from 'react-native'
+import { View } from 'react-native'
 import { Button } from 'react-native-paper'
 import { useQuery } from 'urql'
 

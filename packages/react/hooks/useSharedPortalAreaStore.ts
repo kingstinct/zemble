@@ -1,7 +1,6 @@
+import type { Insets, LayoutRectangle } from 'react-native'
 import { Dimensions } from 'react-native'
 import { create } from 'zustand'
-
-import type { LayoutRectangle, Insets } from 'react-native'
 
 type InsetsWithId = Required<Insets> & { readonly id: string }
 
@@ -35,14 +34,21 @@ function calculateInset(allCustomInsets: SharedPortalAreaStore['allCustomInsets'
 export const useSharedPortalAreaStore = create<SharedPortalAreaStore>((set, get) => ({
   allCustomInsets: [],
   defaultInsets: {
-    top: 0, bottom: 0, left: 0, right: 0,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
-  setDefaultInsets: (defaultInsets: Required<Insets>) => set(() => ({
-    defaultInsets,
-    insets: calculateInset(get().allCustomInsets, defaultInsets),
-  })),
+  setDefaultInsets: (defaultInsets: Required<Insets>) =>
+    set(() => ({
+      defaultInsets,
+      insets: calculateInset(get().allCustomInsets, defaultInsets),
+    })),
   insets: {
-    top: 0, bottom: 0, left: 0, right: 0,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   size: {
     x: 0,
@@ -50,22 +56,24 @@ export const useSharedPortalAreaStore = create<SharedPortalAreaStore>((set, get)
     width: Dimensions.get('window').width,
     height: 0,
   },
-  pushInset: (insets: InsetsWithId) => set((state) => {
-    const allCustomInsets = [...state.allCustomInsets, insets]
+  pushInset: (insets: InsetsWithId) =>
+    set((state) => {
+      const allCustomInsets = [...state.allCustomInsets, insets]
 
-    return {
-      allCustomInsets,
-      insets: calculateInset(allCustomInsets, state.defaultInsets),
-    }
-  }),
-  removeInset: (id: string) => set((state) => {
-    const allCustomInsets = state.allCustomInsets.filter(({ id: prevId }) => prevId !== id)
+      return {
+        allCustomInsets,
+        insets: calculateInset(allCustomInsets, state.defaultInsets),
+      }
+    }),
+  removeInset: (id: string) =>
+    set((state) => {
+      const allCustomInsets = state.allCustomInsets.filter(({ id: prevId }) => prevId !== id)
 
-    return {
-      allCustomInsets,
-      insets: calculateInset(allCustomInsets, state.defaultInsets),
-    }
-  }),
+      return {
+        allCustomInsets,
+        insets: calculateInset(allCustomInsets, state.defaultInsets),
+      }
+    }),
   setSize: (size: LayoutRectangle) => set(() => ({ size })),
 }))
 

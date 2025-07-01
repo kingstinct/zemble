@@ -1,20 +1,15 @@
 // import { requestPolicyExchange } from '@urql/exchange-request-policy'
-import {
-  createClient, errorExchange, fetchExchange, subscriptionExchange,
-} from '@urql/core'
+import { createClient, errorExchange, fetchExchange, subscriptionExchange } from '@urql/core'
+import type { CombinedErrorWithExtensions, CreateUrqlClient } from '@zemble/react/contexts/Urql'
 import { createClient as createWSClient } from 'graphql-ws'
 import { Platform } from 'react-native'
-
-import type { CombinedErrorWithExtensions, CreateUrqlClient } from '@zemble/react/contexts/Urql'
 
 const BACKEND_ROOT_URL = Platform.OS === 'web' ? 'http://localhost:3000' : 'http://robmax.local:3000'
 
 export const CACHE_DATA_KEY = 'graphcache-data'
 export const CACHE_METADATA_KEY = 'graphcache-metadata'
 
-const createClientWithToken: CreateUrqlClient = ({
-  token, onError, clearToken,
-}) => {
+const createClientWithToken: CreateUrqlClient = ({ token, onError, clearToken }) => {
   const endpointUrl = `${BACKEND_ROOT_URL}/graphql`
 
   const wsClient = createWSClient({
@@ -31,10 +26,10 @@ const createClientWithToken: CreateUrqlClient = ({
       headers: { Authorization: token ? `Bearer ${token}` : '' },
     }),
     exchanges: [
-    // dedupExchange,
-    // requestPolicyExchange({
-    //   /* config */
-    // }),
+      // dedupExchange,
+      // requestPolicyExchange({
+      //   /* config */
+      // }),
       errorExchange({
         onError: (e, operation) => {
           const error = e as unknown as CombinedErrorWithExtensions

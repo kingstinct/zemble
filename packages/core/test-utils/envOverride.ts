@@ -1,7 +1,7 @@
 /* eslint-disable functional/immutable-data */
 let originalEnv: NodeJS.ProcessEnv | undefined
 
-export const setupEnvOverride = (overrideEnv: NodeJS.ProcessEnv, clear: (boolean | readonly string[]) = false) => {
+export const setupEnvOverride = (overrideEnv: NodeJS.ProcessEnv, clear: boolean | readonly string[] = false) => {
   if (!originalEnv) {
     originalEnv = process.env
   }

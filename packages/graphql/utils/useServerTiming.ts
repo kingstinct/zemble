@@ -1,6 +1,4 @@
-import {
-  type Plugin as EnvelopPlugin,
-} from '@envelop/core'
+import { type Plugin as EnvelopPlugin } from '@envelop/core'
 import { useOnResolve } from '@envelop/on-resolve'
 import { endTime, startTime } from 'hono/timing'
 

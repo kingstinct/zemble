@@ -1,4 +1,4 @@
-import { setupEnvOverride as setupEnvOverrideOriginal, resetEnv } from '@zemble/core/test-utils'
+import { resetEnv, setupEnvOverride as setupEnvOverrideOriginal } from '@zemble/core/test-utils'
 
 import generateKeys from '../generate-keys'
 

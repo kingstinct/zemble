@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react'
 
-type CallbackFn = () => unknown;
+type CallbackFn = () => unknown
 
-export const useRunIfMounted = (): (cb: CallbackFn) => void => {
+export const useRunIfMounted = (): ((cb: CallbackFn) => void) => {
   const mountedRef = useRef<boolean>(false)
 
   // Basically the same as "useDidMount" because it has no dependencies

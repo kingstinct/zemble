@@ -1,9 +1,7 @@
+import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 import { Button, Text, View } from 'react-native'
-
 import { useAlert, useConfirm } from '../hooks'
-
-import type { StoryFn, Meta } from '@storybook/react'
 
 function SnackbarsStory() {
   const alert = useAlert()

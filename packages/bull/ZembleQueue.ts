@@ -7,7 +7,7 @@ let ZembleQueue = ZembleQueueBull
 
 if (process.env.NODE_ENV === 'test') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-  ZembleQueue = (require('./ZembleQueueMock').default)
+  ZembleQueue = require('./ZembleQueueMock').default
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

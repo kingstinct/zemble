@@ -1,8 +1,9 @@
 /* eslint-disable functional/immutable-data */
-import DefaultSnackbarComponent from '../components/SnackbarComponent'
+
+import type { Meta } from '@storybook/react'
 
 import type { DefaultSnackbarComponentProps } from '../components/SnackbarComponent'
-import type { Meta } from '@storybook/react'
+import DefaultSnackbarComponent from '../components/SnackbarComponent'
 
 export default {
   title: 'Example/Snackbar',
@@ -28,10 +29,10 @@ export const Snickers = Template.bind({})
 Snickers.args = {
   backgroundColor: '#eee',
   textColor: 'purple',
-  textStyle: { },
-  style: { },
+  textStyle: {},
+  style: {},
   buttonColor: 'red',
-  buttonTextStyle: { },
+  buttonTextStyle: {},
   snackbarConfig: { title: 'hello', actions: [{ label: 'ok' }] },
 } as Partial<DefaultSnackbarComponentProps>
 
@@ -39,8 +40,6 @@ Snickers.args = {
 // @ts-expect-error fix later
 Snickers.parameters = {
   controls: {
-    exclude: [
-      'index', 'id', 'doDismiss', 'entering', 'exiting', 'layout',
-    ],
+    exclude: ['index', 'id', 'doDismiss', 'entering', 'exiting', 'layout'],
   },
 }

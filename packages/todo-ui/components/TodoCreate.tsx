@@ -21,13 +21,7 @@ const TodoCreate: React.FC<{ readonly refetch: () => void }> = ({ refetch }) => 
 
   return (
     <View>
-      <TextInput
-        accessibilityLabel='Text input field'
-        placeholder='Add a new todo'
-        value={title}
-        onChangeText={setTitle}
-        accessibilityHint='Enter a title for the todo item'
-      />
+      <TextInput accessibilityLabel='Text input field' placeholder='Add a new todo' value={title} onChangeText={setTitle} accessibilityHint='Enter a title for the todo item' />
       <Button
         title='Add'
         onPress={() => {

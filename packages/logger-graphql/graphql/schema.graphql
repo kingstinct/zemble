@@ -7,12 +7,7 @@ input AuthOr {
   match: JSONObject
 }
 
-directive @auth(
-  match: JSONObject,
-  skip: Boolean
-  includes: JSONObject
-  or: [AuthOr!]
-) on FIELD_DEFINITION
+directive @auth(match: JSONObject, skip: Boolean, includes: JSONObject, or: [AuthOr!]) on FIELD_DEFINITION
 
 enum LogLevel {
   fatal
@@ -26,38 +21,44 @@ enum LogLevel {
 
 type Query {
   # not getting the log streaming to work currently, not quite sure why
-  logs: [LogOutput!]! @auth(or: [
-    { includes: { permissions: "@zemble/logger-graphql" } },
-    { includes: { permissions: "@zemble/logger-graphql:read" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-    { includes: { permissions: "operations:read" } },
-  ]) @stream
-  logLevel: LogLevel! @auth(or: [
-    { includes: { permissions: "@zemble/logger-graphql" } },
-    { includes: { permissions: "@zemble/logger-graphql:read" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-    { includes: { permissions: "operations:read" } },
-  ])
+  logs: [LogOutput!]!
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/logger-graphql" } }
+        { includes: { permissions: "@zemble/logger-graphql:read" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "operations" } }
+        { includes: { permissions: "operations:read" } }
+      ]
+    )
+    @stream
+  logLevel: LogLevel!
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/logger-graphql" } }
+        { includes: { permissions: "@zemble/logger-graphql:read" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "operations" } }
+        { includes: { permissions: "operations:read" } }
+      ]
+    )
 }
 
 type Subscription {
-  logs(minLevel: LogLevel): LogOutput! @auth(or: [
-    { includes: { permissions: "@zemble/logger-graphql" } },
-    { includes: { permissions: "@zemble/logger-graphql:read" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-    { includes: { permissions: "operations:read" } },
-  ])
+  logs(minLevel: LogLevel): LogOutput!
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/logger-graphql" } }
+        { includes: { permissions: "@zemble/logger-graphql:read" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "operations" } }
+        { includes: { permissions: "operations:read" } }
+      ]
+    )
 }
 
 type Mutation {
-  setLogLevel(level: LogLevel!): LogLevel! @auth(or: [
-    { includes: { permissions: "@zemble/logger-graphql" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-  ])
+  setLogLevel(level: LogLevel!): LogLevel! @auth(or: [{ includes: { permissions: "@zemble/logger-graphql" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "operations" } }])
 }
 
 type LogOutput {

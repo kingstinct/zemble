@@ -1,14 +1,14 @@
 #!/usr/bin/env bun
-import zembleContext from '@zemble/core/zembleContext'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+import zembleContext from '@zemble/core/zembleContext'
 
 import generateKeys from '../generate-keys'
 
 await generateKeys().then(async ({ publicKey, privateKey }) => {
   const envPath = path.join(process.cwd(), '.env')
 
-  if (!(fs.existsSync(envPath))) {
+  if (!fs.existsSync(envPath)) {
     fs.writeFileSync(envPath, '')
   }
 

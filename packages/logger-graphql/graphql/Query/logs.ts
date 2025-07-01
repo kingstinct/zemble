@@ -13,7 +13,7 @@ export const logs: NonNullable<QueryResolvers['logs']> = (_, __, { pubsub, logge
 
     const next = async () => {
       const res = await pubsub.subscribe(`logger`).next()
-      const obj = res.value as { readonly severity: string, readonly args: readonly [unknown?, ...readonly unknown[]]}
+      const obj = res.value as { readonly severity: string; readonly args: readonly [unknown?, ...(readonly unknown[])] }
 
       void push({
         severity: obj.severity,

@@ -4,18 +4,14 @@ import * as path from 'node:path'
 import safeStableStringify from 'safe-stable-stringify'
 
 import '@zemble/graphql'
-import readDir from './readDir'
+
+import type { IStandardLogger } from '@zemble/core'
+import type { Job, Queue, QueueListener } from 'bullmq'
+import type { Redis } from 'ioredis'
 import createClient from '../clients/redis'
 import plugin, { type BullPluginConfig } from '../plugin'
 import ZembleQueueBull from '../ZembleQueueBull'
-
-import type { IStandardLogger } from '@zemble/core'
-import type {
-  Queue,
-  Job,
-  QueueListener,
-} from 'bullmq'
-import type { Redis } from 'ioredis'
+import readDir from './readDir'
 
 // eslint-disable-next-line functional/prefer-readonly-type
 const queues: Queue[] = []
@@ -23,12 +19,7 @@ const queues: Queue[] = []
 // eslint-disable-next-line functional/prefer-readonly-type
 let zembleQueues: ZembleQueueBull[] = []
 
-const setupQueues = async (
-  pluginPath: string,
-  pubSub: Zemble.PubSubType,
-  config: BullPluginConfig | undefined,
-  logger: IStandardLogger,
-): Promise<readonly Queue[]> => {
+const setupQueues = async (pluginPath: string, pubSub: Zemble.PubSubType, config: BullPluginConfig | undefined, logger: IStandardLogger): Promise<readonly Queue[]> => {
   const queuePath = path.join(pluginPath, '/queues')
 
   const hasQueues = fs.existsSync(queuePath)
@@ -43,14 +34,11 @@ const setupQueues = async (
     queue.on(status, (...args: Parameters<QueueListener<unknown, unknown, string>[T]>) => {
       const typedArgs = args
 
-      pubSub.publish(
-        'queueUpdated',
-        {
-          args: typedArgs,
-          queue: safeStableStringify(queue),
-          status,
-        },
-      )
+      pubSub.publish('queueUpdated', {
+        args: typedArgs,
+        queue: safeStableStringify(queue),
+        status,
+      })
     })
   }
 
@@ -62,49 +50,45 @@ const setupQueues = async (
     if (redisUrl || process.env.NODE_ENV === 'test') {
       const filenames = readDir(queuePath)
 
-      const client = redisUrl && process.env.NODE_ENV !== 'test' ? createClient(
-        redisUrl,
-        { redis: config?.redisOptions, logger },
-      ) : {} as Redis
+      const client = redisUrl && process.env.NODE_ENV !== 'test' ? createClient(redisUrl, { redis: config?.redisOptions, logger }) : ({} as Redis)
 
-      await Promise.all(filenames.map(async (filename) => {
-        const fileNameWithoutExtension = filename.substring(0, filename.length - 3)
-        const queueConfig = (await import(path.join(queuePath, filename))).default
-
-        // eslint-disable-next-line functional/immutable-data
-        zembleQueues = [...zembleQueues, queueConfig]
-
-        if (queueConfig instanceof ZembleQueueBull && redisUrl) {
-          const { queue, worker } = await queueConfig._initQueue(
-            fileNameWithoutExtension,
-            client,
-          )
-
-          queuePubber('cleaned', queue)
-          queuePubber('error', queue)
-          queuePubber('progress', queue)
-          queuePubber('removed', queue)
-          queuePubber('waiting', queue)
-          queuePubber('paused', queue)
-          queuePubber('resumed', queue)
-
-          if (worker) {
-            worker.on('completed', jobUpdated)
-            worker.on('active', jobUpdated)
-
-            worker.on('progress', jobUpdated)
-            worker.on('failed', (job) => (job ? jobUpdated(job) : null))
-          }
+      await Promise.all(
+        filenames.map(async (filename) => {
+          const fileNameWithoutExtension = filename.substring(0, filename.length - 3)
+          const queueConfig = (await import(path.join(queuePath, filename))).default
 
           // eslint-disable-next-line functional/immutable-data
-          queues.push(queue)
-        // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
-        } else if (process.env.NODE_ENV === 'test' && queueConfig instanceof require('../ZembleQueueMock').default) {
-          await queueConfig._initQueue(fileNameWithoutExtension)
-        } else {
-          throw new Error(`Failed to load queue ${filename}, make sure it exports a ZembleQueue`)
-        }
-      }))
+          zembleQueues = [...zembleQueues, queueConfig]
+
+          if (queueConfig instanceof ZembleQueueBull && redisUrl) {
+            const { queue, worker } = await queueConfig._initQueue(fileNameWithoutExtension, client)
+
+            queuePubber('cleaned', queue)
+            queuePubber('error', queue)
+            queuePubber('progress', queue)
+            queuePubber('removed', queue)
+            queuePubber('waiting', queue)
+            queuePubber('paused', queue)
+            queuePubber('resumed', queue)
+
+            if (worker) {
+              worker.on('completed', jobUpdated)
+              worker.on('active', jobUpdated)
+
+              worker.on('progress', jobUpdated)
+              worker.on('failed', (job) => (job ? jobUpdated(job) : null))
+            }
+
+            // eslint-disable-next-line functional/immutable-data
+            queues.push(queue)
+            // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+          } else if (process.env.NODE_ENV === 'test' && queueConfig instanceof require('../ZembleQueueMock').default) {
+            await queueConfig._initQueue(fileNameWithoutExtension)
+          } else {
+            throw new Error(`Failed to load queue ${filename}, make sure it exports a ZembleQueue`)
+          }
+        }),
+      )
     } else {
       logger.error('[bull-plugin] Failed to initialize. No redisUrl provided for bull plugin, you can specify it directly or with REDIS_URL')
     }

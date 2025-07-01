@@ -4,9 +4,7 @@ import sendTwoFactorCode from '../../utils/sendTwoFactorCode'
 
 import type { MutationResolvers } from '../schema.generated'
 
-export const loginRequestWithEmail: NonNullable<MutationResolvers['loginRequestWithEmail']> = async (_, {
-  email: emailInput,
-}, context) => {
+export const loginRequestWithEmail: NonNullable<MutationResolvers['loginRequestWithEmail']> = async (_, { email: emailInput }, context) => {
   if (!isValidEmail(emailInput)) {
     return { message: 'Not a valid email', __typename: 'EmailNotValidError' }
   }

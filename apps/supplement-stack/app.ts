@@ -1,19 +1,16 @@
 import AuthOTP from '@zemble/auth-otp'
 import bunRunner from '@zemble/bun'
+import type { BaseToken } from '@zemble/core'
 import zembleContext from '@zemble/core/zembleContext'
 import YogaGraphQL from '@zemble/graphql'
-
 import { connect } from './clients/papr'
 import { Users } from './models'
-
-import type { BaseToken } from '@zemble/core'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface OtpToken extends BaseToken {
-      readonly userId: string,
-
+      readonly userId: string
     }
   }
 }
@@ -28,18 +25,22 @@ void bunRunner({
     AuthOTP.configure({
       fromEmail: { email: 'robert@herber.me' },
       generateTokenContents: async ({ email }) => {
-        const user = await Users.findOneAndUpdate({ email }, {
-          $set: {
-            lastLoginAt: new Date(),
+        const user = await Users.findOneAndUpdate(
+          { email },
+          {
+            $set: {
+              lastLoginAt: new Date(),
+            },
+            $setOnInsert: {
+              firstLoginAt: new Date(),
+              email,
+            },
           },
-          $setOnInsert: {
-            firstLoginAt: new Date(),
-            email,
+          {
+            upsert: true,
+            returnDocument: 'after',
           },
-        }, {
-          upsert: true,
-          returnDocument: 'after',
-        })
+        )
 
         const ret = {
           email,

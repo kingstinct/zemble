@@ -43,10 +43,7 @@ const ensureAllDependenciesAreInstalledIn = async (sourcePackageJson: string) =>
       if (prev !== version) {
         if (!hasWrittenTitle) {
           hasWrittenTitle = true
-          console.log(`Updating ${Path.relative(process.cwd(), targetPackageJson)}:`)
         }
-
-        console.log(` - ${pkg}@${version}`)
       }
     })
   }
@@ -63,8 +60,6 @@ const ensureAllDependenciesAreInstalledIn = async (sourcePackageJson: string) =>
 
   targetJson.dependencies = sortedDependencies
 }
-
-console.log({ targetPackageJson })
 
 const rootPackageJson = await readFileJson(Path.join(process.cwd(), './package.json'))
 

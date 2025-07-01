@@ -1,9 +1,7 @@
+import { afterAll, afterEach, beforeAll, beforeEach, expect, test } from 'bun:test'
 import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
 import wait from '@zemble/utils/wait'
-import {
-  beforeEach, test, expect, beforeAll, afterAll, afterEach,
-} from 'bun:test'
 
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
@@ -40,33 +38,45 @@ beforeEach(async () => {
     },
   }
 
-  await app.gqlRequest(CreateEntityMutation, {
-    nameSingular: 'book',
-    namePlural: 'books',
-  }, opts)
+  await app.gqlRequest(
+    CreateEntityMutation,
+    {
+      nameSingular: 'book',
+      namePlural: 'books',
+    },
+    opts,
+  )
 
   await wait(100)
 })
 
 test('should remove a title field', async () => {
-  await app.gqlRequest(AddFieldsToEntityMutation, {
-    namePlural: 'books',
-    fields: [
-      {
-        StringField: {
-          name: 'title',
-          isRequired: true,
+  await app.gqlRequest(
+    AddFieldsToEntityMutation,
+    {
+      namePlural: 'books',
+      fields: [
+        {
+          StringField: {
+            name: 'title',
+            isRequired: true,
+          },
         },
-      },
-    ],
-  }, opts)
+      ],
+    },
+    opts,
+  )
 
   await wait(100)
 
-  const { data } = await app.gqlRequest(RemoveFieldsFromEntityMutation, {
-    namePlural: 'books',
-    fields: ['title'],
-  }, opts)
+  const { data } = await app.gqlRequest(
+    RemoveFieldsFromEntityMutation,
+    {
+      namePlural: 'books',
+      fields: ['title'],
+    },
+    opts,
+  )
 
   expect(data?.removeFieldsFromEntity).toEqual({
     namePlural: 'books',

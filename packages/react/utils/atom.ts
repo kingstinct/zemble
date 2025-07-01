@@ -1,34 +1,25 @@
 /* eslint-disable functional/immutable-data */
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-type JSONValue =
-    | string
-    | number
-    | boolean
-    | JSONObject
-    | JSONArray;
+type JSONValue = string | number | boolean | JSONObject | JSONArray
 
 interface JSONObject {
-  readonly [x: string]: JSONValue;
+  readonly [x: string]: JSONValue
 }
 
-type ToPrimitive<T> =
-  T extends string ? string
-    : T extends number ? number
-      : T extends boolean ? boolean
-        : T;
+type ToPrimitive<T> = T extends string ? string : T extends number ? number : T extends boolean ? boolean : T
 
 export type AtomStorage = {
-  readonly setItem: (key: string, value: string) => void,
+  readonly setItem: (key: string, value: string) => void
   readonly getItem: (key: string) => string | null
 }
 
 export type AtomAsyncStorage = {
-  readonly setItem: (key: string, value: string) => Promise<void>,
+  readonly setItem: (key: string, value: string) => Promise<void>
   readonly getItem: (key: string) => Promise<string | null>
 }
 
-interface JSONArray extends Array<JSONValue> { }
+interface JSONArray extends Array<JSONValue> {}
 
 export class Atom<T extends JSONValue> {
   /* eslint-disable functional/prefer-readonly-type */
@@ -58,7 +49,7 @@ export class Atom<T extends JSONValue> {
     return { remove }
   }
 
-  set(value: (T | ((val: T) => T))) {
+  set(value: T | ((val: T) => T)) {
     const prevValue = this.#value
     this.#value = typeof value === 'function' ? value(this.#value) : value
     if (this.#value !== prevValue) {
@@ -103,9 +94,11 @@ export function persistAtom<T extends JSONValue, TStorage extends AtomStorage | 
   const valueOrPromise = Storage.getItem(key)
 
   const startSubscribing = () => {
-    atom.addListener(debounce(() => {
-      void Storage.setItem(key, JSON.stringify(atom.value))
-    }, opts?.debounce ?? 100))
+    atom.addListener(
+      debounce(() => {
+        void Storage.setItem(key, JSON.stringify(atom.value))
+      }, opts?.debounce ?? 100),
+    )
   }
 
   const handleValue = (value: string | null) => {

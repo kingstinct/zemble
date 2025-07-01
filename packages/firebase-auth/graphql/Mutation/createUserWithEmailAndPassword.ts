@@ -9,11 +9,7 @@ import { generateBearerTokenFromFirebaseToken } from '../../utils/generateBearer
 import type { MutationResolvers } from '../schema.generated'
 
 const createUserWithEmailAndPassword: MutationResolvers['createUserWithEmailAndPassword'] = async (_, { email, password }, { honoContext }) => {
-  const credential = await firebaseAuth.createUserWithEmailAndPassword(
-    firebaseAuth.getAuth(),
-    email,
-    password,
-  )
+  const credential = await firebaseAuth.createUserWithEmailAndPassword(firebaseAuth.getAuth(), email, password)
 
   const idToken = await firebaseAuth.getIdToken(credential.user)
 

@@ -6,73 +6,61 @@ input AuthOr {
   match: JSONObject
 }
 
-directive @auth(
-  match: JSONObject,
-  skip: Boolean
-  includes: JSONObject
-  or: [AuthOr!]
-) on FIELD_DEFINITION
+directive @auth(match: JSONObject, skip: Boolean, includes: JSONObject, or: [AuthOr!]) on FIELD_DEFINITION
 
 scalar Date
 scalar DateTime
 
 type Query {
-  getEntityByNameSingular(name: String!): Entity @auth(or: [
-    { includes: { permissions: "@zemble/cms" } },
-    { includes: { permissions: "@zemble/cms:read" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "developer" } },
-    { includes: { permissions: "developer:read" } },
-    { includes: { permissions: "editor" } },
-    { includes: { permissions: "editor:read" } },
-  ])
-  getEntityByNamePlural(namePlural: String!): Entity @auth(or: [
-    { includes: { permissions: "@zemble/cms" } },
-    { includes: { permissions: "@zemble/cms:read" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "developer" } },
-    { includes: { permissions: "developer:read" } },
-    { includes: { permissions: "editor" } },
-    { includes: { permissions: "editor:read" } },
-  ])
-  getAllEntities: [Entity!]! @auth(or: [
-    { includes: { permissions: "@zemble/cms" } },
-    { includes: { permissions: "@zemble/cms:read" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "developer" } },
-    { includes: { permissions: "developer:read" } },
-    { includes: { permissions: "editor" } },
-    { includes: { permissions: "editor:read" } },
-  ])
+  getEntityByNameSingular(name: String!): Entity
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/cms" } }
+        { includes: { permissions: "@zemble/cms:read" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "developer" } }
+        { includes: { permissions: "developer:read" } }
+        { includes: { permissions: "editor" } }
+        { includes: { permissions: "editor:read" } }
+      ]
+    )
+  getEntityByNamePlural(namePlural: String!): Entity
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/cms" } }
+        { includes: { permissions: "@zemble/cms:read" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "developer" } }
+        { includes: { permissions: "developer:read" } }
+        { includes: { permissions: "editor" } }
+        { includes: { permissions: "editor:read" } }
+      ]
+    )
+  getAllEntities: [Entity!]!
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/cms" } }
+        { includes: { permissions: "@zemble/cms:read" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "developer" } }
+        { includes: { permissions: "developer:read" } }
+        { includes: { permissions: "editor" } }
+        { includes: { permissions: "editor:read" } }
+      ]
+    )
 }
 
 type Mutation {
-  createEntity(nameSingular: String, namePlural: String!, isPublishable: Boolean): Entity! @auth(or: [
-    { includes: { permissions: "@zemble/cms" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "developer" } },
-  ])
-  removeEntity(namePlural: String!): Boolean! @auth(or: [
-    { includes: { permissions: "@zemble/cms" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "developer" } },
-  ])
-  renameEntity(fromNamePlural: String!, toNamePlural: String!, toNameSingular: String): Entity! @auth(or: [
-    { includes: { permissions: "@zemble/cms" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "developer" } },
-  ])
+  createEntity(nameSingular: String, namePlural: String!, isPublishable: Boolean): Entity!
+    @auth(or: [{ includes: { permissions: "@zemble/cms" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "developer" } }])
+  removeEntity(namePlural: String!): Boolean! @auth(or: [{ includes: { permissions: "@zemble/cms" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "developer" } }])
+  renameEntity(fromNamePlural: String!, toNamePlural: String!, toNameSingular: String): Entity!
+    @auth(or: [{ includes: { permissions: "@zemble/cms" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "developer" } }])
 
-  addFieldsToEntity(namePlural: String!, fields: [FieldInput!]!): Entity! @auth(or: [
-    { includes: { permissions: "@zemble/cms" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "developer" } },
-  ])
-  removeFieldsFromEntity(namePlural: String!, fields: [String!]!): Entity! @auth(or: [
-    { includes: { permissions: "@zemble/cms" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "developer" } },
-  ])
+  addFieldsToEntity(namePlural: String!, fields: [FieldInput!]!): Entity!
+    @auth(or: [{ includes: { permissions: "@zemble/cms" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "developer" } }])
+  removeFieldsFromEntity(namePlural: String!, fields: [String!]!): Entity!
+    @auth(or: [{ includes: { permissions: "@zemble/cms" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "developer" } }])
 }
 
 input FieldInput @oneOf {

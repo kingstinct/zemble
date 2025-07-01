@@ -1,14 +1,9 @@
+import { afterAll, afterEach, beforeAll, beforeEach, expect, test } from 'bun:test'
 import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
-import {
-  beforeEach, test, expect, beforeAll, afterAll, afterEach,
-} from 'bun:test'
 
 import plugin from '../../plugin'
-import {
-  setupBeforeAll,
-  tearDownAfterEach, teardownAfterAll,
-} from '../../test-setup'
+import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
 import { readEntities } from '../../utils/fs'
 import { CreateEntityMutation } from '../../utils/testOperations'
 import { graphql } from '../client.generated'
@@ -42,18 +37,26 @@ beforeEach(async () => {
 })
 
 test('should rename an entity', async () => {
-  const res = await app.gqlRequest(CreateEntityMutation, {
-    nameSingular: 'book',
-    namePlural: 'books',
-  }, opts)
+  const res = await app.gqlRequest(
+    CreateEntityMutation,
+    {
+      nameSingular: 'book',
+      namePlural: 'books',
+    },
+    opts,
+  )
 
   expect(res.data?.createEntity.nameSingular).toEqual('book')
 
-  const { data } = await app.gqlRequest(RenameEntityMutation, {
-    fromName: 'books',
-    toName: 'article',
-    namePlural: 'articles',
-  }, opts)
+  const { data } = await app.gqlRequest(
+    RenameEntityMutation,
+    {
+      fromName: 'books',
+      toName: 'article',
+      namePlural: 'articles',
+    },
+    opts,
+  )
 
   expect(data?.renameEntity.nameSingular).toEqual('article')
   expect(data?.renameEntity.namePlural).toEqual('articles')

@@ -42,17 +42,8 @@ type BullQueue {
   failedCount: Int!
   delayedCount: Int!
   isPaused: Boolean!
-  repeatableJobs(
-    start: Int
-    end: Int
-    asc: Boolean
-  ): [RepeatableJob!]!
-  jobs(
-    type: [JobTypeOrState!]
-    start: Int
-    end: Int
-    asc: Boolean
-  ): [BullJob!]!
+  repeatableJobs(start: Int, end: Int, asc: Boolean): [RepeatableJob!]!
+  jobs(type: [JobTypeOrState!], start: Int, end: Int, asc: Boolean): [BullJob!]!
 }
 
 enum JobTypeOrState {

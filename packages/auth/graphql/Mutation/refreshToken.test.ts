@@ -1,5 +1,5 @@
+import { describe, expect, it } from 'bun:test'
 import { createTestApp } from '@zemble/core/test-utils'
-import { expect, describe, it } from 'bun:test'
 
 import plugin from '../../plugin'
 import { generateRefreshToken } from '../../utils/generateRefreshToken'
@@ -24,11 +24,7 @@ describe('refreshToken', () => {
   it('Should fail with invalid tokens', async () => {
     const app = await createTestApp(plugin)
 
-    const response = await app.gqlRequest(
-      RefreshTokenMutation,
-      { bearerToken: '1', refreshToken: '1' },
-      { silenceErrors: true },
-    )
+    const response = await app.gqlRequest(RefreshTokenMutation, { bearerToken: '1', refreshToken: '1' }, { silenceErrors: true })
     expect(response.errors?.[0]?.message).toEqual(`Invalid token: Invalid Compact JWS`)
   })
 
@@ -43,10 +39,7 @@ describe('refreshToken', () => {
     const validBearerToken = await signJwt({ data: { role: 'admin', organisationId: '1' }, sub: '1' })
     const validRefreshToken = await generateRefreshToken({ sub: '1' })
 
-    const response = await app.gqlRequest(
-      RefreshTokenMutation,
-      { bearerToken: validBearerToken, refreshToken: validRefreshToken },
-    )
+    const response = await app.gqlRequest(RefreshTokenMutation, { bearerToken: validBearerToken, refreshToken: validRefreshToken })
 
     expect(response.data?.refreshToken).toHaveProperty('bearerToken', expect.any(String))
     expect(response.data?.refreshToken).toHaveProperty('refreshToken', expect.any(String))
@@ -63,11 +56,7 @@ describe('refreshToken', () => {
     const validBearerToken = await signJwt({ data: { role: 'admin', organisationId: '1' }, sub: '1', expiresInSeconds: -1 })
     const validRefreshToken = await generateRefreshToken({ sub: '1', expiresInSeconds: -1 })
 
-    const response = await app.gqlRequest(
-      RefreshTokenMutation,
-      { bearerToken: validBearerToken, refreshToken: validRefreshToken },
-      { silenceErrors: true },
-    )
+    const response = await app.gqlRequest(RefreshTokenMutation, { bearerToken: validBearerToken, refreshToken: validRefreshToken }, { silenceErrors: true })
 
     expect(response.errors?.[0]?.message).toEqual(`Invalid token: "exp" claim timestamp check failed`)
   })
@@ -83,10 +72,7 @@ describe('refreshToken', () => {
     const validBearerToken = await signJwt({ data: { role: 'admin', organisationId: '1' }, sub: '1', expiresInSeconds: -1 })
     const validRefreshToken = await generateRefreshToken({ sub: '1', expiresInSeconds: 60 })
 
-    const response = await app.gqlRequest(
-      RefreshTokenMutation,
-      { bearerToken: validBearerToken, refreshToken: validRefreshToken },
-    )
+    const response = await app.gqlRequest(RefreshTokenMutation, { bearerToken: validBearerToken, refreshToken: validRefreshToken })
 
     expect(response.data?.refreshToken).toHaveProperty('bearerToken', expect.any(String))
     expect(response.data?.refreshToken).toHaveProperty('refreshToken', expect.any(String))

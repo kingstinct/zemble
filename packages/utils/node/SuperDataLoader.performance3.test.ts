@@ -28,8 +28,6 @@ describe('SuperDataLoader.performance', () => {
     const end = performance.now()
     const dataloaderTime = end - start
 
-    console.log(`[same keys]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
-
     expect(superDataLoaderTime).toBeLessThanOrEqual(dataloaderTime)
   }, 20000)
 
@@ -59,8 +57,6 @@ describe('SuperDataLoader.performance', () => {
     await original.loadMany(hello)
     const end = performance.now()
     const dataloaderTime = end - start
-
-    console.log(`[same keys (async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
 
     expect(superDataLoaderTime).toBeLessThanOrEqual(dataloaderTime)
   }, 20000)

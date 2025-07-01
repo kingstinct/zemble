@@ -1,9 +1,7 @@
 import * as jose from 'jose'
-
+import type { ApnsPushTypes } from './clients/apns'
 import { readP8KeyStringOrFile } from './clients/apns'
 import plugin from './plugin'
-
-import type { ApnsPushTypes } from './clients/apns'
 
 export const mapDefaultPriority: Record<ApnsPushTypes, number> = {
   alert: 10,
@@ -46,10 +44,11 @@ export const getBearerToken = async () => {
   const bearerToken = new jose.SignJWT({
     iss: plugin.config.APPLE_TEAM_ID!,
     iat: Math.floor(Date.now() / 1000),
-  }).setProtectedHeader({
-    alg: 'ES256',
-    kid: plugin.config.APPLE_KEY_ID!,
   })
+    .setProtectedHeader({
+      alg: 'ES256',
+      kid: plugin.config.APPLE_KEY_ID!,
+    })
     .sign(signingKey)
 
   return bearerToken

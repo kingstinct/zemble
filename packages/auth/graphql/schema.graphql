@@ -6,12 +6,7 @@ input AuthOr {
   match: JSONObject
 }
 
-directive @auth(
-  match: JSONObject,
-  skip: Boolean
-  includes: JSONObject
-  or: [AuthOr!]
-) on FIELD_DEFINITION
+directive @auth(match: JSONObject, skip: Boolean, includes: JSONObject, or: [AuthOr!]) on FIELD_DEFINITION
 
 type Query {
   validateJWT(token: String!): Boolean! @auth(skip: true)

@@ -5,9 +5,5 @@ import Routes from '@zemble/routes'
 
 export default new Plugin(import.meta.dir, {
   defaultConfig: {},
-  dependencies: () => [
-    { plugin: Routes },
-    { plugin: GraphQL },
-    { plugin: Bull },
-  ],
+  dependencies: () => [{ plugin: Routes }, { plugin: GraphQL }, { plugin: Bull }],
 })

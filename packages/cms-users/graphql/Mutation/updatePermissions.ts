@@ -11,17 +11,21 @@ export const updatePermissions: NonNullable<MutationResolvers['updatePermissions
     throw new GraphQLError('You cannot remove your own user-admin permission')
   }
 
-  const result = await User.findOneAndUpdate({
-    _id: new ObjectId(userId),
-  }, {
-    $set: {
-      permissions: permissions.map((p) => ({
-        type: p.type as PermissionType,
-      })),
+  const result = await User.findOneAndUpdate(
+    {
+      _id: new ObjectId(userId),
     },
-  }, {
-    returnDocument: 'after',
-  })
+    {
+      $set: {
+        permissions: permissions.map((p) => ({
+          type: p.type as PermissionType,
+        })),
+      },
+    },
+    {
+      returnDocument: 'after',
+    },
+  )
 
   if (!result) throw new GraphQLError('User not found')
 

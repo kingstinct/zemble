@@ -1,11 +1,11 @@
-import getTwoFactorCode from './getTwoFactorCode'
 import { loginRequestKeyValue } from '../clients/loginRequestKeyValue'
 import plugin from '../plugin'
+import getTwoFactorCode from './getTwoFactorCode'
 
 import type { E164PhoneNumber } from './types'
 
 type Context = Omit<Zemble.GraphQLContext, 'decodedToken'> & {
-  readonly decodedToken: never;
+  readonly decodedToken: never
 }
 
 const sendTwoFactorCode = async (emailOrPhoneNumber: string, context: Context, signInMethod: 'email' | 'sms') => {
@@ -13,7 +13,7 @@ const sendTwoFactorCode = async (emailOrPhoneNumber: string, context: Context, s
 
   if (existing?.loginRequestedAt) {
     const { loginRequestedAt } = existing,
-          timeUntilAllowedToSendAnother = new Date(loginRequestedAt).valueOf() + (plugin.config.minTimeBetweenTwoFactorCodeRequestsInSeconds * 1000) - Date.now()
+      timeUntilAllowedToSendAnother = new Date(loginRequestedAt).valueOf() + plugin.config.minTimeBetweenTwoFactorCodeRequestsInSeconds * 1000 - Date.now()
 
     if (timeUntilAllowedToSendAnother > 0) {
       return {
@@ -25,10 +25,14 @@ const sendTwoFactorCode = async (emailOrPhoneNumber: string, context: Context, s
 
   const twoFactorCode = getTwoFactorCode()
 
-  await loginRequestKeyValue().set(emailOrPhoneNumber.toLowerCase(), {
-    loginRequestedAt: new Date().toISOString(),
-    twoFactorCode,
-  }, plugin.config.twoFactorCodeExpiryInSeconds)
+  await loginRequestKeyValue().set(
+    emailOrPhoneNumber.toLowerCase(),
+    {
+      loginRequestedAt: new Date().toISOString(),
+      twoFactorCode,
+    },
+    plugin.config.twoFactorCodeExpiryInSeconds,
+  )
 
   if (signInMethod === 'email') {
     await plugin.config.handleEmailAuthRequest({ email: emailOrPhoneNumber }, twoFactorCode, context)

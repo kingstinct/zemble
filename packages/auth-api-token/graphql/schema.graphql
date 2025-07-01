@@ -1,25 +1,15 @@
 directive @apiAuth on FIELD_DEFINITION
 
 type Mutation {
-  generateAPIKey(apiKeySecret: String!, expiresInSeconds: Int): GenerateAPIKeyResponse! @auth(
-    or: [{
-      includes: {
-        permissions: "api-tokens:issue"
-      }
-    }, {
-      includes: {
-        permissions: "api-tokens"
-      }
-    }, {
-      includes: {
-        permissions: "@zemble/auth-api-token:issue"
-      }
-    }, {
-      includes: {
-        permissions: "@zemble/auth-api-token"
-      }
-    }]
-  )
+  generateAPIKey(apiKeySecret: String!, expiresInSeconds: Int): GenerateAPIKeyResponse!
+    @auth(
+      or: [
+        { includes: { permissions: "api-tokens:issue" } }
+        { includes: { permissions: "api-tokens" } }
+        { includes: { permissions: "@zemble/auth-api-token:issue" } }
+        { includes: { permissions: "@zemble/auth-api-token" } }
+      ]
+    )
 }
 
 type GenerateAPIKeyResponse {

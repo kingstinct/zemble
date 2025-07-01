@@ -1,22 +1,19 @@
+import fs from 'node:fs'
+import path, { join } from 'node:path'
 import { createDefaultExecutor } from '@graphql-tools/delegate'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 import { loadSchema } from '@graphql-tools/load'
 import { addResolversToSchema } from '@graphql-tools/schema'
-import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
-import fs from 'node:fs'
-import path, { join } from 'node:path'
-
-import readResolvers from './readResolvers'
-
 import type { IResolvers } from '@graphql-tools/utils'
+import { defaultCreateProxyingResolver, wrapSchema } from '@graphql-tools/wrap'
 import type { Plugin } from '@zemble/core'
 import type { GraphQLSchema } from 'graphql'
+import readResolvers from './readResolvers'
 
 export type PluginSchema = {
   readonly schema: GraphQLSchema
   readonly schemaWithoutResolvers: GraphQLSchema
   readonly resolvers: IResolvers<unknown, unknown, Record<string, unknown>, unknown>
-
 }
 
 export const createPluginSchema = async (plugin: Plugin): Promise<readonly PluginSchema[]> => {
@@ -30,14 +27,7 @@ export const createPluginSchema = async (plugin: Plugin): Promise<readonly Plugi
   const middlewareConfig = plugin.config.middleware?.['@zemble/graphql']
   const transforms = middlewareConfig?.graphqlSchemaTransforms || []
 
-  const [
-    Query,
-    Mutation,
-    Subscription,
-    types,
-    scalars,
-    typesOnRootLevel,
-  ] = await Promise.all([
+  const [Query, Mutation, Subscription, types, scalars, typesOnRootLevel] = await Promise.all([
     readResolvers(join(graphqlDir, '/Query'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Mutation'), plugin.providers.logger, plugin.isPluginRunLocally),
     readResolvers(join(graphqlDir, '/Subscription'), plugin.providers.logger, plugin.isPluginRunLocally),
@@ -46,9 +36,7 @@ export const createPluginSchema = async (plugin: Plugin): Promise<readonly Plugi
     readResolvers(join(graphqlDir), plugin.providers.logger, plugin.isPluginRunLocally),
   ])
 
-  const graphqlGlob = plugin.isPluginRunLocally
-    ? join(graphqlDir, './**/*.graphql')
-    : join(graphqlDir, './**/!(*.local).graphql')
+  const graphqlGlob = plugin.isPluginRunLocally ? join(graphqlDir, './**/*.graphql') : join(graphqlDir, './**/!(*.local).graphql')
 
   const schemaWithoutResolvers: GraphQLSchema | null = await loadSchema(graphqlGlob, {
     loaders: [new GraphQLFileLoader()],
@@ -80,12 +68,15 @@ export const createPluginSchema = async (plugin: Plugin): Promise<readonly Plugi
   })
 
   // todo [>1]: fix wrapping to work with aliases, something is missing here
-  const schema = transforms.length > 0 ? wrapSchema({
-    schema: internalSchema,
-    executor: createDefaultExecutor(internalSchema),
-    createProxyingResolver: defaultCreateProxyingResolver,
-    transforms,
-  }) : internalSchema
+  const schema =
+    transforms.length > 0
+      ? wrapSchema({
+          schema: internalSchema,
+          executor: createDefaultExecutor(internalSchema),
+          createProxyingResolver: defaultCreateProxyingResolver,
+          transforms,
+        })
+      : internalSchema
 
   return [{ schema, schemaWithoutResolvers, resolvers }]
 }

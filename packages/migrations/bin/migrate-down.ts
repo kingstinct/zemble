@@ -9,7 +9,7 @@ const args = process.argv.slice(2)
 const appFile = args[0] ?? '.'
 
 const appModule = await import(join(process.cwd(), appFile))
-const appOrServe = await appModule.default as Zemble.App | undefined
+const appOrServe = (await appModule.default) as Zemble.App | undefined
 
 if (appOrServe && 'runBeforeServe' in appOrServe) {
   await migrateDown({ logger: appOrServe.providers.logger })

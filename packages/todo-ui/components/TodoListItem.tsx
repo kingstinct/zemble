@@ -15,7 +15,7 @@ const CompleteTodo = graphql(/* GraphQL */ `
   }
 `)
 
-const TodoListItem: React.FC<{ readonly todo: AllTodosQuery['todos'][0], readonly refetch: () => void }> = ({ todo, refetch }) => {
+const TodoListItem: React.FC<{ readonly todo: AllTodosQuery['todos'][0]; readonly refetch: () => void }> = ({ todo, refetch }) => {
   const [, completeTodo] = useMutation(CompleteTodo)
 
   return (

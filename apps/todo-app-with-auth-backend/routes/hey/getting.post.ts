@@ -1,6 +1,7 @@
 import type { Context } from 'hono'
 
-const getter = async (c: Context) => c.html(`<html>
+const getter = async (c: Context) =>
+  c.html(`<html>
     <head>
       <title>yeah it's a get</title>
       <meta name="color-scheme" content="light dark">

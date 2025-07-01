@@ -58,7 +58,7 @@ export class Timeoutify {
       // eslint-disable-next-line functional/immutable-data
       this.handle = setTimeout(
         () => {
-          if (process.env['DEBUG']) {
+          if (process.env.DEBUG) {
             this.logger.debug(`${this.logPrefix} setTimeout called`)
           }
 
@@ -124,7 +124,7 @@ export class Timeoutify {
    * This ensures the MongoDB Operation is never running for longer than the timeout.
    * */
   async runMongoOpWithTimeout<T>(cursor: AbstractCursor<T>): Promise<readonly T[]> {
-    if (process.env['DEBUG']) {
+    if (process.env.DEBUG) {
       this.logger.debug(`${this.logPrefix} runMongoOpWithTimeout called`)
     }
     if (this.status === TimeoutifyStatus.Aborted || this.status === TimeoutifyStatus.TimedOut) {

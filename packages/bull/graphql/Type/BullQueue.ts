@@ -1,5 +1,5 @@
-import type { Resolvers } from '../schema.generated'
 import type { Queue } from 'bullmq'
+import type { Resolvers } from '../schema.generated'
 
 const BullQueueResolvers: Resolvers['BullQueue'] = {
   name: ({ name }) => name,
@@ -10,22 +10,12 @@ const BullQueueResolvers: Resolvers['BullQueue'] = {
   waitingChildrenCount: async (queue) => queue.getWaitingChildrenCount(),
   failedCount: async (queue) => queue.getFailedCount(),
   isPaused: async (queue) => queue.isPaused(),
-  repeatableJobs: async (queue, {
-    start,
-    end,
-    asc,
-  }) => {
-    const repeatableJobs = await queue.getRepeatableJobs(
-      start ?? undefined,
-      end ?? undefined,
-      asc ?? undefined,
-    )
+  repeatableJobs: async (queue, { start, end, asc }) => {
+    const repeatableJobs = await queue.getRepeatableJobs(start ?? undefined, end ?? undefined, asc ?? undefined)
 
     return repeatableJobs
   },
-  jobs: async (queue: Queue, {
-    start, end, asc, type,
-  }) => {
+  jobs: async (queue: Queue, { start, end, asc, type }) => {
     const jobs = await queue.getJobs(
       // @ts-expect-error readonly stuff
       Array.isArray(type) ? [...type] : type,

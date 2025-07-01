@@ -1,8 +1,6 @@
+import { afterAll, afterEach, beforeAll, beforeEach, expect, test } from 'bun:test'
 import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
-import {
-  beforeEach, test, expect, beforeAll, afterAll, afterEach,
-} from 'bun:test'
 
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
@@ -34,10 +32,14 @@ beforeEach(async () => {
     },
   }
 
-  await app.gqlRequest(CreateEntityMutation, {
-    nameSingular: 'book',
-    namePlural: 'books',
-  }, opts)
+  await app.gqlRequest(
+    CreateEntityMutation,
+    {
+      nameSingular: 'book',
+      namePlural: 'books',
+    },
+    opts,
+  )
 })
 
 test('should remove entity', async () => {
@@ -45,9 +47,13 @@ test('should remove entity', async () => {
 
   expect(entititesBefore).toHaveLength(1)
 
-  const removeEntityRes = await app.gqlRequest(RemoveEntityMutation, {
-    namePlural: 'books',
-  }, opts)
+  const removeEntityRes = await app.gqlRequest(
+    RemoveEntityMutation,
+    {
+      namePlural: 'books',
+    },
+    opts,
+  )
 
   expect(removeEntityRes.data?.removeEntity).toEqual(true)
 

@@ -1,12 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {
-  createContext, useCallback, useEffect, useMemo,
-} from 'react'
-
+import type { PropsWithChildren } from 'react'
+import { createContext, useCallback, useEffect, useMemo } from 'react'
 import { TOKEN_KEY } from '../config'
 import getToken from '../utils/getToken'
-
-import type { PropsWithChildren } from 'react'
 
 export const AuthContext = createContext({
   token: null as string | null,
@@ -15,7 +11,7 @@ export const AuthContext = createContext({
 
 export const ReadToken = async (): Promise<string | null> => AsyncStorage.getItem(TOKEN_KEY)
 
-type Props = { readonly token: string | null, readonly setToken: (token: string | null) => void }
+type Props = { readonly token: string | null; readonly setToken: (token: string | null) => void }
 
 export const AuthProvider: React.FC<PropsWithChildren<Props>> = ({ children, token, setToken }) => {
   useEffect(() => {
@@ -28,10 +24,14 @@ export const AuthProvider: React.FC<PropsWithChildren<Props>> = ({ children, tok
   }, [setToken])
 
   return (
-    <AuthContext.Provider value={useMemo(() => ({
-      token,
-      logout,
-    }), [logout, token])}
+    <AuthContext.Provider
+      value={useMemo(
+        () => ({
+          token,
+          logout,
+        }),
+        [logout, token],
+      )}
     >
       {children}
     </AuthContext.Provider>

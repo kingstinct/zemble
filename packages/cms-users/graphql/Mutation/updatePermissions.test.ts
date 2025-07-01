@@ -1,16 +1,11 @@
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'bun:test'
 import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
-import {
-  describe, it, expect,
-  beforeAll, afterAll, afterEach,
-} from 'bun:test'
 import { ObjectId } from 'mongodb'
 
-import {
-  PermissionType, User,
-} from '../../clients/papr'
+import { PermissionType, User } from '../../clients/papr'
 import plugin from '../../plugin'
-import { setupBeforeAll, teardownAfterAll, tearDownAfterEach } from '../../test-setup'
+import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
 import { graphql } from '../client.generated'
 
 export const UpdatePermissionsMutation = graphql(`
@@ -32,11 +27,7 @@ describe('Mutation.updatePermissions', () => {
   it('Should fail without permission', async () => {
     const app = await createTestApp(plugin)
 
-    const { errors } = await app.gqlRequest(
-      UpdatePermissionsMutation,
-      { userId: 'abc', permissions: [{ type: PermissionType.DEVELOPER }] },
-      { silenceErrors: true },
-    )
+    const { errors } = await app.gqlRequest(UpdatePermissionsMutation, { userId: 'abc', permissions: [{ type: PermissionType.DEVELOPER }] }, { silenceErrors: true })
 
     expect(errors?.[0]?.message).toEqual(`Accessing 'Mutation.updatePermissions' requires authentication.`)
   })
@@ -57,14 +48,18 @@ describe('Mutation.updatePermissions', () => {
 
     const token = await signJwt({ data: { permissions: ['manage-users'] }, sub: 'test-id' })
 
-    const { data } = await app.gqlRequest(UpdatePermissionsMutation, {
-      userId: userId.toHexString(),
-      permissions: [{ type: PermissionType.DEVELOPER }],
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const { data } = await app.gqlRequest(
+      UpdatePermissionsMutation,
+      {
+        userId: userId.toHexString(),
+        permissions: [{ type: PermissionType.DEVELOPER }],
       },
-    })
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
 
     expect(data?.updatePermissions.permissions).toEqual([
       {
@@ -80,15 +75,19 @@ describe('Mutation.updatePermissions', () => {
 
     const token = await signJwt({ data: { permissions: ['manage-users'] }, sub: 'test-id' })
 
-    const { errors } = await app.gqlRequest(UpdatePermissionsMutation, {
-      userId,
-      permissions: [{ type: PermissionType.DEVELOPER }],
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const { errors } = await app.gqlRequest(
+      UpdatePermissionsMutation,
+      {
+        userId,
+        permissions: [{ type: PermissionType.DEVELOPER }],
       },
-      silenceErrors: true,
-    })
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        silenceErrors: true,
+      },
+    )
 
     expect(errors?.[0]?.message).toEqual('User not found')
   })
@@ -105,15 +104,19 @@ describe('Mutation.updatePermissions', () => {
     // in again)
     const token = await signJwt({ data: { permissions: [PermissionType.MANAGE_USERS], id: userId }, sub: 'test-id' })
 
-    const { errors } = await app.gqlRequest(UpdatePermissionsMutation, {
-      userId,
-      permissions: [{ type: PermissionType.MANAGE_USERS }],
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const { errors } = await app.gqlRequest(
+      UpdatePermissionsMutation,
+      {
+        userId,
+        permissions: [{ type: PermissionType.MANAGE_USERS }],
       },
-      silenceErrors: true,
-    })
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        silenceErrors: true,
+      },
+    )
 
     expect(errors?.[0]?.message).toEqual('You cannot remove your own user-admin permission')
   })

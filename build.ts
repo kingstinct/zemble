@@ -32,18 +32,21 @@ void Bun.build({
   entrypoints: getTsRecursive(process.cwd()),
   target: 'bun',
   outdir: '.',
-}).then((stdout) => {
-  if (stdout.logs.length > 0) {
-    console.log(stdout.logs)
-  }
-  if (process.env['DEBUG']) {
-    if (stdout.success) {
-      console.log('success!')
+}).then(
+  (stdout) => {
+    if (stdout.logs.length > 0) {
+      console.log(stdout.logs)
     }
-    if (stdout.outputs.length > 0) {
-      console.log(stdout.outputs.map((output) => output.path.replace(process.cwd(), '')).join('\n'))
+    if (process.env['DEBUG']) {
+      if (stdout.success) {
+        console.log('success!')
+      }
+      if (stdout.outputs.length > 0) {
+        console.log(stdout.outputs.map((output) => output.path.replace(process.cwd(), '')).join('\n'))
+      }
     }
-  }
-}, (err) => {
-  console.error(err)
-})
+  },
+  (err) => {
+    console.error(err)
+  },
+)

@@ -5,42 +5,24 @@ input AuthOr {
   match: JSONObject
 }
 
-directive @auth(
-  match: JSONObject,
-  skip: Boolean
-  includes: JSONObject
-  or: [AuthOr!]
-) on FIELD_DEFINITION
+directive @auth(match: JSONObject, skip: Boolean, includes: JSONObject, or: [AuthOr!]) on FIELD_DEFINITION
 
 type Mutation {
-  setEnv(key: String!, value: String!): JSONObject! @auth(or: [
-    { includes: { permissions: "@zemble/debug" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-  ])
-  removeEnv(key: String!): JSONObject! @auth(or: [
-    { includes: { permissions: "@zemble/debug" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-  ])
-  enableDebug(namespaces: String): String! @auth(or: [
-    { includes: { permissions: "@zemble/debug" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-  ])
-  disableDebug: Boolean! @auth(or: [
-    { includes: { permissions: "@zemble/debug" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-  ])
+  setEnv(key: String!, value: String!): JSONObject! @auth(or: [{ includes: { permissions: "@zemble/debug" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "operations" } }])
+  removeEnv(key: String!): JSONObject! @auth(or: [{ includes: { permissions: "@zemble/debug" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "operations" } }])
+  enableDebug(namespaces: String): String! @auth(or: [{ includes: { permissions: "@zemble/debug" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "operations" } }])
+  disableDebug: Boolean! @auth(or: [{ includes: { permissions: "@zemble/debug" } }, { includes: { permissions: "admin" } }, { includes: { permissions: "operations" } }])
 }
 
 type Query {
-  env: JSONObject! @auth(or: [
-    { includes: { permissions: "@zemble/debug:read" } },
-    { includes: { permissions: "@zemble/debug" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "operations" } },
-    { includes: { permissions: "operations:read" } },
-  ])
+  env: JSONObject!
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/debug:read" } }
+        { includes: { permissions: "@zemble/debug" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "operations" } }
+        { includes: { permissions: "operations:read" } }
+      ]
+    )
 }

@@ -4,11 +4,5 @@ input Email {
 }
 
 type Mutation {
-  sendEmail(
-    from: Email!,
-    to: [Email!]!,
-    subject: String!,
-    text: String!,
-    html: String
-  ): Boolean!
+  sendEmail(from: Email!, to: [Email!]!, subject: String!, text: String!, html: String): Boolean!
 }

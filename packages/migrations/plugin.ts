@@ -1,11 +1,9 @@
-import { Plugin } from '@zemble/core'
 import { readdir } from 'node:fs/promises'
 import { join } from 'node:path'
-
-import { MigrationLockError } from './MigrationLockError'
-
 import type { IStandardLogger } from '@zemble/core'
+import { Plugin } from '@zemble/core'
 import type { JsonValue } from 'type-fest'
+import { MigrationLockError } from './MigrationLockError'
 
 export type MigrationStatus<TProgress extends JsonValue = JsonValue> = {
   readonly name: string
@@ -25,9 +23,9 @@ export interface MigrationAdapter<TProgress extends JsonValue = JsonValue> {
 }
 
 export type Up<TProgress extends JsonValue = JsonValue> = (config: {
-  readonly progress: TProgress | undefined,
-  readonly progressCallback: ((progress: TProgress) => void) | undefined,
-  readonly context: Zemble.MigrationContext,
+  readonly progress: TProgress | undefined
+  readonly progressCallback: ((progress: TProgress) => void) | undefined
+  readonly context: Zemble.MigrationContext
 }) => Promise<void>
 export type Down = (context: Zemble.MigrationContext) => Promise<void>
 
@@ -37,7 +35,7 @@ export type Migration = {
 }
 
 interface MigrationConfig extends Zemble.DefaultMiddlewareConfig {
-  readonly createAdapter: (config: { readonly providers: Zemble.Providers}) => Promise<MigrationAdapter> | MigrationAdapter
+  readonly createAdapter: (config: { readonly providers: Zemble.Providers }) => Promise<MigrationAdapter> | MigrationAdapter
   readonly migrationsDir?: string
 }
 
@@ -48,18 +46,16 @@ declare global {
       readonly ['@zemble/migrations']?: MigrationConfig
     }
 
-    interface MigrationContext {
-
-    }
+    interface MigrationContext {}
   }
 }
 
 type MigrationToProcess<T extends JsonValue = JsonValue> = {
-  readonly migrationName: string,
-  readonly fullPath: string,
-  readonly isMigrated: boolean,
-  readonly progress?: T,
-  readonly adapter: MigrationAdapter<T>,
+  readonly migrationName: string
+  readonly fullPath: string
+  readonly isMigrated: boolean
+  readonly progress?: T
+  readonly adapter: MigrationAdapter<T>
 }
 
 const getMigrations = async (migrationsDir: string, adapter: MigrationAdapter | undefined) => {
@@ -96,23 +92,19 @@ const getMigrations = async (migrationsDir: string, adapter: MigrationAdapter | 
 let upMigrationsRemaining = [] as readonly MigrationToProcess[]
 let downMigrationsRemaining = [] as readonly MigrationToProcess[]
 
-export const migrateDown = async (
-  opts?: { readonly migrateDownCount?: number, readonly logger?: IStandardLogger },
-) => {
+export const migrateDown = async (opts?: { readonly migrateDownCount?: number; readonly logger?: IStandardLogger }) => {
   const { migrateDownCount = 1 } = opts ?? {}
 
   plugin.debug('migrateDown: %d migrations to process', upMigrationsRemaining.length)
 
-  await downMigrationsRemaining.reduce(async (prev, {
-    migrationName, fullPath, adapter,
-  }, index) => {
+  await downMigrationsRemaining.reduce(async (prev, { migrationName, fullPath, adapter }, index) => {
     await prev
     if (index >= migrateDownCount) {
       return
     }
 
     plugin.debug('Migrate down: %s', migrationName)
-    const { down } = await import(fullPath) as Migration
+    const { down } = (await import(fullPath)) as Migration
     if (down) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -123,51 +115,54 @@ export const migrateDown = async (
   }, Promise.resolve())
 }
 
-export const migrateUp = async (opts?: { readonly logger?: IStandardLogger, readonly migrateUpCount?: number }) => {
+export const migrateUp = async (opts?: { readonly logger?: IStandardLogger; readonly migrateUpCount?: number }) => {
   const { migrateUpCount = Infinity } = opts ?? {}
 
   plugin.debug('migrateUp: %d migrations to process', upMigrationsRemaining.length)
 
-  const { count, cancelledBecauseOfLock } = await upMigrationsRemaining.reduce(async (prev, {
-    migrationName, fullPath, progress, adapter,
-  }, index) => {
-    const { count, cancelledBecauseOfLock } = await prev
+  const { count, cancelledBecauseOfLock } = await upMigrationsRemaining.reduce(
+    async (prev, { migrationName, fullPath, progress, adapter }, index) => {
+      const { count, cancelledBecauseOfLock } = await prev
 
-    if (index >= migrateUpCount || cancelledBecauseOfLock) {
-      return { count, cancelledBecauseOfLock }
-    }
-
-    plugin.debug('Migrate up: %s', migrationName)
-
-    const { up } = await import(fullPath) as unknown as { readonly up: Up, readonly down?: Down }
-    if (up) {
-      try {
-        await adapter?.up(migrationName, async (context) => up({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-          context: context ?? {},
-          progress,
-          progressCallback: adapter.progress ? async (pgs) => adapter.progress?.({ name: migrationName, progress: pgs }) : undefined,
-        }))
-        return {
-          count: count + 1,
-          cancelledBecauseOfLock: false,
-        }
-      } catch (e) {
-        if (e instanceof MigrationLockError) {
-          plugin.debug('Migration %s is already running, skipping..', migrationName)
-          return {
-            count,
-            cancelledBecauseOfLock: true,
-          }
-        }
-
-        throw e
+      if (index >= migrateUpCount || cancelledBecauseOfLock) {
+        return { count, cancelledBecauseOfLock }
       }
-    }
 
-    throw new Error(`Migration ${migrationName} did not have an up function`)
-  }, Promise.resolve({ count: 0, cancelledBecauseOfLock: false }))
+      plugin.debug('Migrate up: %s', migrationName)
+
+      const { up } = (await import(fullPath)) as unknown as { readonly up: Up; readonly down?: Down }
+      if (up) {
+        try {
+          await adapter?.up(migrationName, async (context) =>
+            up({
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              context: context ?? {},
+              progress,
+              progressCallback: adapter.progress ? async (pgs) => adapter.progress?.({ name: migrationName, progress: pgs }) : undefined,
+            }),
+          )
+          return {
+            count: count + 1,
+            cancelledBecauseOfLock: false,
+          }
+        } catch (e) {
+          if (e instanceof MigrationLockError) {
+            plugin.debug('Migration %s is already running, skipping..', migrationName)
+            return {
+              count,
+              cancelledBecauseOfLock: true,
+            }
+          }
+
+          throw e
+        }
+      }
+
+      throw new Error(`Migration ${migrationName} did not have an up function`)
+    },
+    Promise.resolve({ count: 0, cancelledBecauseOfLock: false }),
+  )
 
   return { count, cancelledBecauseOfLock }
 }
@@ -182,65 +177,64 @@ const defaultConfig = {
   waitForMigrationsToComplete: true,
 } satisfies Omit<MigrationPluginConfig, 'createAdapter'>
 
-const plugin = new Plugin<MigrationPluginConfig, typeof defaultConfig>(
-  import.meta.dir,
-  {
-    middleware: (async ({
-      app, config, logger, self,
-    }) => {
-      const migrationsPathOfApp = join(app.appDir, config.migrationsDir ?? 'migrations')
+const plugin = new Plugin<MigrationPluginConfig, typeof defaultConfig>(import.meta.dir, {
+  middleware: async ({ app, config, logger, self }) => {
+    const migrationsPathOfApp = join(app.appDir, config.migrationsDir ?? 'migrations')
 
-      const appMigrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.(app))
+    const appMigrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.(app))
 
-      const pluginMigrations = await Promise.all(app.plugins.map(async (plugin) => {
+    const pluginMigrations = await Promise.all(
+      app.plugins.map(async (plugin) => {
         const migrationConfig = config.middleware?.['@zemble/migrations'] as MigrationConfig | undefined
 
         const pluginMigrationsPath = join(self.pluginPath, migrationConfig?.migrationsDir ?? 'migrations')
         return getMigrations(pluginMigrationsPath, await migrationConfig?.createAdapter?.(plugin))
-      }))
+      }),
+    )
 
-      const allMigrations = appMigrations.concat(...pluginMigrations.flat())
+    const allMigrations = appMigrations.concat(...pluginMigrations.flat())
 
-      upMigrationsRemaining = allMigrations.filter((migration) => !migration.isMigrated).sort((a, b) => a.migrationName.localeCompare(b.migrationName))
-      downMigrationsRemaining = allMigrations.filter((migration) => migration.isMigrated).sort((a, b) => b.migrationName.localeCompare(a.migrationName))
+    upMigrationsRemaining = allMigrations.filter((migration) => !migration.isMigrated).sort((a, b) => a.migrationName.localeCompare(b.migrationName))
+    downMigrationsRemaining = allMigrations.filter((migration) => migration.isMigrated).sort((a, b) => b.migrationName.localeCompare(a.migrationName))
 
-      return async () => {
-        if (config.runMigrationsOnStart) {
-          const completer = migrateUp({ logger })
+    return async () => {
+      if (config.runMigrationsOnStart) {
+        const completer = migrateUp({ logger })
 
-          if (config.waitForMigrationsToComplete) {
-            const { cancelledBecauseOfLock } = await completer
-            if (cancelledBecauseOfLock) {
-              const hasMigrationsCompleted = async () => {
-                const migrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.(app))
-                const migrationsToProcess = migrations.filter((migration) => !migration.isMigrated)
-                if (migrationsToProcess.length === 0) {
-                  return true
-                }
-                logger.info({ migrationsToProcess }, `Waiting for ${migrationsToProcess.length} migrations to complete...`)
-                return false
+        if (config.waitForMigrationsToComplete) {
+          const { cancelledBecauseOfLock } = await completer
+          if (cancelledBecauseOfLock) {
+            const hasMigrationsCompleted = async () => {
+              const migrations = await getMigrations(migrationsPathOfApp, await config?.createAdapter?.(app))
+              const migrationsToProcess = migrations.filter((migration) => !migration.isMigrated)
+              if (migrationsToProcess.length === 0) {
+                return true
               }
-
-              const waitForMigrationsToComplete = async () => {
-                const hasCompleted = await hasMigrationsCompleted()
-                if (!hasCompleted) {
-                  await new Promise((resolve) => { setTimeout(resolve, 1000) })
-                  return waitForMigrationsToComplete()
-                }
-                return undefined
-              }
-
-              return waitForMigrationsToComplete()
+              logger.info({ migrationsToProcess }, `Waiting for ${migrationsToProcess.length} migrations to complete...`)
+              return false
             }
+
+            const waitForMigrationsToComplete = async () => {
+              const hasCompleted = await hasMigrationsCompleted()
+              if (!hasCompleted) {
+                await new Promise((resolve) => {
+                  setTimeout(resolve, 1000)
+                })
+                return waitForMigrationsToComplete()
+              }
+              return undefined
+            }
+
+            return waitForMigrationsToComplete()
           }
         }
-
-        return undefined
       }
-    }),
-    dependencies: [],
-    defaultConfig,
+
+      return undefined
+    }
   },
-)
+  dependencies: [],
+  defaultConfig,
+})
 
 export default plugin

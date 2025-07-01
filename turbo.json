@@ -2,41 +2,23 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "lint": {
-      "dependsOn": [ "codegen" ],
+      "dependsOn": ["codegen"],
       "outputLogs": "errors-only"
     },
     "test": {
-      "dependsOn": [ "codegen" ],
+      "dependsOn": ["codegen"],
       "outputLogs": "errors-only",
-      "inputs": [
-        "**/*.ts",
-        "**/*.tsx",
-        "**/*.js",
-        "**/*.jsx",
-        "**/tsconfig.json",
-        "**/package.json"
-      ]
+      "inputs": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/tsconfig.json", "**/package.json"]
     },
     "typecheck": {
-      "dependsOn": [ "codegen" ],
+      "dependsOn": ["codegen"],
       "outputLogs": "errors-only",
-      "inputs": [
-        "**/*.ts",
-        "**/*.tsx",
-        "**/*.js",
-        "**/*.jsx",
-        "**/tsconfig.json",
-        "**/package.json"
-      ]
+      "inputs": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/tsconfig.json", "**/package.json"]
     },
     "codegen": {
-      "dependsOn": [ "^codegen" ],
+      "dependsOn": ["^codegen"],
       "outputLogs": "errors-only",
-      "inputs": [
-        "**/*.graphql",
-        "**/codegen.ts",
-        "**/package.json"
-      ]
+      "inputs": ["**/*.graphql", "**/codegen.ts", "**/package.json"]
     }
   }
 }

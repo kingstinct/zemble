@@ -1,10 +1,8 @@
 import { useEffect } from 'react'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
-import useSharedPortalAreaStore from './useSharedPortalAreaStore'
-import generateId from '../utils/generateId'
-
 import type { Insets } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import generateId from '../utils/generateId'
+import useSharedPortalAreaStore from './useSharedPortalAreaStore'
 
 /**
  * Set insets, but with safe area as default
@@ -21,9 +19,7 @@ export const useUpdateSharedPortalSafeAreaInsets = (insets: Insets, enable = tru
       return () => removeInset(id)
     }
     return () => {}
-  }, [
-    safeAreaInsets, insets, enable, pushInset, removeInset,
-  ])
+  }, [safeAreaInsets, insets, enable, pushInset, removeInset])
 }
 
 export default useUpdateSharedPortalSafeAreaInsets

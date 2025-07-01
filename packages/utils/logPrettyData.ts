@@ -6,8 +6,6 @@ export function prettyData<T = unknown>(data: T, title?: string): string {
 }
 
 function logPrettyData<T = unknown>(data: T, title?: string): T {
-  // eslint-disable-next-line no-console
-  console.log(prettyData(data, title))
   return data
 }
 

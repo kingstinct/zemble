@@ -3,25 +3,14 @@
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useState } from 'react'
+import type { Control, FieldValues, Path, RegisterOptions } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
-import {
-  Button, Menu,
-} from 'react-native-paper'
-
-import type {
-  Control, FieldValues, Path, RegisterOptions,
-} from 'react-hook-form'
+import { Button, Menu } from 'react-native-paper'
 
 const FieldTypeMenuItem = ({ onChange, fieldType, value }) => (
   <Menu.Item
     leadingIcon={({ color, size, allowFontScaling }) => (
-      <MaterialCommunityIcons
-        allowFontScaling={allowFontScaling}
-        size={size}
-        name='check'
-        style={{ opacity: value === fieldType ? 1 : 0.3 }}
-        color={color}
-      />
+      <MaterialCommunityIcons allowFontScaling={allowFontScaling} size={size} name='check' style={{ opacity: value === fieldType ? 1 : 0.3 }} color={color} />
     )}
     onPress={() => onChange(fieldType)}
     title={fieldType}
@@ -36,7 +25,13 @@ function SelectOneController<T extends FieldValues>({
   rules,
   buttonStyle,
   options,
-}: { readonly control: Control<T>, readonly name: Path<T>, readonly rules?: RegisterOptions<T>, readonly options: readonly string[], readonly buttonStyle?: ButtonStyle }) {
+}: {
+  readonly control: Control<T>
+  readonly name: Path<T>
+  readonly rules?: RegisterOptions<T>
+  readonly options: readonly string[]
+  readonly buttonStyle?: ButtonStyle
+}) {
   const [visible, setVisible] = useState(false)
   return (
     <Controller
@@ -56,13 +51,15 @@ function SelectOneController<T extends FieldValues>({
               setVisible(false)
               onBlur()
             }}
-            anchor={(
+            anchor={
               <Button style={buttonStyle} mode='outlined' onPress={() => setVisible(true)} icon='chevron-down'>
-                { value }
+                {value}
               </Button>
-            )}
+            }
           >
-            { options.map((option) => <FieldTypeMenuItem key={option} onChange={onChanged} fieldType={option} value={value} />) }
+            {options.map((option) => (
+              <FieldTypeMenuItem key={option} onChange={onChanged} fieldType={option} value={value} />
+            ))}
           </Menu>
         )
       }}
