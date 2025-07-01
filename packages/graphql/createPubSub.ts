@@ -1,10 +1,9 @@
+import type { IStandardLogger } from '@zemble/core'
 import zembleContext from '@zemble/core/zembleContext'
 import { createPubSub as createYogaPubSub } from 'graphql-yoga'
-
-import type { IStandardLogger } from '@zemble/core'
 import type { RedisOptions } from 'ioredis'
 
-const createPubSub = async (redisUrl?: string, options?: { readonly redis?: RedisOptions, readonly logger?: IStandardLogger }) => {
+const createPubSub = async (redisUrl?: string, options?: { readonly redis?: RedisOptions; readonly logger?: IStandardLogger }) => {
   if (redisUrl && process.env.NODE_ENV !== 'test') {
     const optionsWithDefaults = { logger: zembleContext.logger, ...options }
     try {

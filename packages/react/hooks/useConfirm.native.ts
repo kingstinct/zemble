@@ -6,17 +6,21 @@ import StringsContext from '../contexts/Strings'
 export function useConfirm() {
   const { Cancel, OK } = useContext(StringsContext)
 
-  return useCallback(async (title: string, message?: string) => new Promise<boolean>((resolve) => {
-    Alert.alert(
-      title,
-      message,
-      [
-        { text: Cancel, onPress: () => resolve(false), style: 'cancel' },
-        { text: OK, onPress: () => resolve(true) },
-      ],
-      { cancelable: false },
-    )
-  }), [Cancel, OK])
+  return useCallback(
+    async (title: string, message?: string) =>
+      new Promise<boolean>((resolve) => {
+        Alert.alert(
+          title,
+          message,
+          [
+            { text: Cancel, onPress: () => resolve(false), style: 'cancel' },
+            { text: OK, onPress: () => resolve(true) },
+          ],
+          { cancelable: false },
+        )
+      }),
+    [Cancel, OK],
+  )
 }
 
 export default useConfirm

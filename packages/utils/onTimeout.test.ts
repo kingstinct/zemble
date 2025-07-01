@@ -1,6 +1,4 @@
-import {
-  describe, test, expect, jest,
-} from 'bun:test'
+import { describe, expect, jest, test } from 'bun:test'
 
 import onTimeout from './onTimeout'
 
@@ -9,7 +7,9 @@ describe('onTimeout', () => {
     const cb = jest.fn()
     onTimeout(100, cb)
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
     expect(cb).toHaveBeenCalledTimes(1)
   })
@@ -22,7 +22,9 @@ describe('onTimeout', () => {
     const cancel = onTimeout(100, cb)
     cancel()
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
     expect(cb).toHaveBeenCalledTimes(0)
   })

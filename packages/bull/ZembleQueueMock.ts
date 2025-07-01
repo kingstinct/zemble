@@ -1,13 +1,10 @@
 /* eslint-disable functional/immutable-data */
 /* eslint-disable functional/prefer-readonly-type */
 
-import zembleContext from '@zemble/core/zembleContext'
 import { jest } from 'bun:test'
-
+import zembleContext from '@zemble/core/zembleContext'
+import type { Job, JobsOptions, Queue } from 'bullmq'
 import type { ZembleQueueBull, ZembleQueueConfig, ZembleWorker } from './ZembleQueueBull'
-import type {
-  Job, JobsOptions, Queue,
-} from 'bullmq'
 
 interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
   readonly add: ZembleQueueBull<DataType, ReturnType>['add']

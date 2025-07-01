@@ -1,20 +1,14 @@
 import { AuthContext } from '@zemble/react'
-import {
-  useCallback, useContext, useRef, useState,
-} from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
+import type { TextInput as TextInputNative } from 'react-native'
 import { KeyboardAvoidingView, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import {
-  Button, TextInput, Title,
-} from 'react-native-paper'
+import { Button, TextInput, Title } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useMutation } from 'urql'
-
 import { graphql } from '../../gql.generated'
 
-import type { TextInput as TextInputNative } from 'react-native'
-
-type TextInputHandles = Pick<TextInputNative, 'focus' | 'clear' | 'blur' | 'isFocused'>;
+type TextInputHandles = Pick<TextInputNative, 'focus' | 'clear' | 'blur' | 'isFocused'>
 
 export const LoginConfirmMutation = graphql(`
   mutation LoginConfirm($email: String!, $code: String!) {
@@ -58,9 +52,7 @@ const Login = () => {
     if (data?.loginConfirmWithEmail.__typename === 'LoginConfirmSuccessfulResponse') {
       setToken(data.loginConfirmWithEmail.bearerToken)
     }
-  }, [
-    email, code, loginConfirm, setToken,
-  ])
+  }, [email, code, loginConfirm, setToken])
 
   const txtPasswordRef = useRef<TextInputHandles>(null)
 
@@ -101,21 +93,11 @@ const Login = () => {
             />
           ) : null}
           <View style={{ flex: 1 }} />
-          <Button
-            onPress={doRequest}
-            loading={fetchingRequest}
-            disabled={fetchingConfirm || fetchingRequest}
-            mode={requestData ? 'text' : 'contained'}
-          >
+          <Button onPress={doRequest} loading={fetchingRequest} disabled={fetchingConfirm || fetchingRequest} mode={requestData ? 'text' : 'contained'}>
             {requestData ? 'Request code again' : 'Continue'}
           </Button>
           {requestData ? (
-            <Button
-              onPress={doConfirm}
-              loading={fetchingConfirm}
-              disabled={fetchingConfirm || fetchingRequest}
-              mode='contained'
-            >
+            <Button onPress={doConfirm} loading={fetchingConfirm} disabled={fetchingConfirm || fetchingRequest} mode='contained'>
               Continue
             </Button>
           ) : null}

@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import DataLoader from 'dataloader'
-
-import createSuperDataLoader from './SuperDataLoader'
 import times from '../times'
 import wait from '../wait'
+import createSuperDataLoader from './SuperDataLoader'
 
 describe('SuperDataLoader.performance', () => {
   it('Should be faster than normal dataloader with loadMany with different keys', async () => {
@@ -28,8 +27,6 @@ describe('SuperDataLoader.performance', () => {
     await original.loadMany(hello)
     const end = performance.now()
     const dataloaderTime = end - start
-
-    console.log(`[different keys]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
 
     // seems like it's not faster than dataloader for this case on CI
     expect(superDataLoaderTime).toBeLessThanOrEqual(dataloaderTime)
@@ -62,8 +59,6 @@ describe('SuperDataLoader.performance', () => {
     const end = performance.now()
     const dataloaderTime = end - start
 
-    console.log(`[different keys (async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
-
     // seems like it's not faster than dataloader for this case on CI
     expect(superDataLoaderTime).toBeLessThanOrEqual(dataloaderTime)
   }, 20000)
@@ -95,8 +90,6 @@ describe('SuperDataLoader.performance', () => {
     await original.loadMany(hello)
     const end = performance.now()
     const dataloaderTime = end - start
-
-    console.log(`[different keys (async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
 
     // seems like it's not faster than dataloader for this case on CI
     expect(superDataLoaderTime).toBeLessThanOrEqual(dataloaderTime)

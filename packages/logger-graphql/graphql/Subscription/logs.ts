@@ -7,7 +7,7 @@ export const logs: NonNullable<SubscriptionResolvers['logs']> = {
     }, 0)
     return pubsub.subscribe(`logger`)
   },
-  resolve: (payload: { readonly severity: string, readonly args: readonly [unknown?, ...readonly unknown[]]}) => {
+  resolve: (payload: { readonly severity: string; readonly args: readonly [unknown?, ...(readonly unknown[])] }) => {
     const { severity, args } = payload
 
     return {

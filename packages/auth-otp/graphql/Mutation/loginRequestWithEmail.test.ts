@@ -1,5 +1,5 @@
-import { createTestApp } from '@zemble/core/test-utils'
 import { describe, expect, it } from 'bun:test'
+import { createTestApp } from '@zemble/core/test-utils'
 
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'

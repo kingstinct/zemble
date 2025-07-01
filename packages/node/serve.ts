@@ -1,7 +1,6 @@
 import { serve as nodeServer } from '@hono/node-server'
-import { createApp, runBeforeServe } from '@zemble/core'
-
 import type { Configure } from '@zemble/core'
+import { createApp, runBeforeServe } from '@zemble/core'
 
 export const serve = async (config: Configure | Promise<Zemble.App> | Zemble.App) => {
   const app = await ('plugins' in config ? createApp(config) : config)

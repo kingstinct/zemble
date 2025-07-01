@@ -1,11 +1,7 @@
 import { GraphQLError } from 'graphql'
-
-import { readEntities, writeEntities } from '../../utils/fs'
-
 import type { EntitySchemaType } from '../../types'
-import type {
-  MutationResolvers,
-} from '../schema.generated'
+import { readEntities, writeEntities } from '../../utils/fs'
+import type { MutationResolvers } from '../schema.generated'
 
 export const removeFieldsFromEntity: NonNullable<MutationResolvers['removeFieldsFromEntity']> = async (_, { namePlural, fields }, { pubsub }) => {
   const entities = await readEntities()

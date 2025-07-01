@@ -1,10 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
+
+import type { GraphQLScalarTypeConfig } from 'graphql'
 import { GraphQLScalarType } from 'graphql'
 import { GraphQLError } from 'graphql/error'
 import { Kind } from 'graphql/language'
 import { ObjectId } from 'mongodb'
-
-import type { GraphQLScalarTypeConfig } from 'graphql'
 
 const mongodbObjectIdRegex = /^[0-9a-fA-F]+$/
 

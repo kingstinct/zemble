@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
-type Delay = number | null;
-type TimerHandler = (...args: readonly unknown[]) => void;
+type Delay = number | null
+type TimerHandler = (...args: readonly unknown[]) => void
 
 /**
  * Provides a declarative useInterval

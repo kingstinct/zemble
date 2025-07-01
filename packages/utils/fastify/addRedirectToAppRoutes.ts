@@ -1,7 +1,6 @@
+import type { FastifyInstance } from 'fastify'
 import Path from 'path'
 import Url from 'url'
-
-import type { FastifyInstance } from 'fastify'
 
 export const addRedirectToAppRoutes = (app: FastifyInstance) => {
   app.route({
@@ -10,7 +9,7 @@ export const addRedirectToAppRoutes = (app: FastifyInstance) => {
     handler: async (req, res) => {
       const queryStr = req.url.split('?')[1] // could be anything
       const queryStrPart = queryStr ? `?${queryStr}` : ''
-      const params = req.params as {readonly appScheme: string, readonly path: string}
+      const params = req.params as { readonly appScheme: string; readonly path: string }
       const redirectTo = `${params.appScheme}://${params.path}${queryStrPart}`
 
       return res.redirect(redirectTo)
@@ -23,7 +22,7 @@ export const addRedirectToAppRoutes = (app: FastifyInstance) => {
     handler: async (req, res) => {
       const queryStr = req.url.split('?')[1] // could be anything
       const queryStrPart = queryStr ? `?${queryStr}` : ''
-      const params = req.params as {readonly appScheme: string}
+      const params = req.params as { readonly appScheme: string }
       const redirectTo = `${params.appScheme}://${queryStrPart}`
 
       return res.redirect(redirectTo)

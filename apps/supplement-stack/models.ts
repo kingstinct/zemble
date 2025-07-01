@@ -1,10 +1,7 @@
 import { schema, types } from 'papr'
 
 import papr from './clients/papr'
-import {
-  IntakeTime,
-  QuantityType, ServingSizeType,
-} from './graphql/schema.generated'
+import { IntakeTime, QuantityType, ServingSizeType } from './graphql/schema.generated'
 
 const NutrientQuantity = types.object({
   nutrient: types.enum(Object.values(QuantityType), { required: true }),
@@ -37,17 +34,23 @@ const baseEatable = {
   servingSizes: types.array(ServingSize, { required: true }),
 }
 
-export const Ingredient = types.object({
-  __typename: types.string({ required: true }) as `Ingredient`,
-  ...baseEatable,
-  nutrientsPer100g: types.array(NutrientQuantity, { required: true }),
-}, { required: true })
+export const Ingredient = types.object(
+  {
+    __typename: types.string({ required: true }) as `Ingredient`,
+    ...baseEatable,
+    nutrientsPer100g: types.array(NutrientQuantity, { required: true }),
+  },
+  { required: true },
+)
 
-export const Food = types.object({
-  __typename: types.string({ required: true }) as `Food`,
-  ...baseEatable,
-  ingredients: types.array(EatableProportion, { required: true }),
-}, { required: true })
+export const Food = types.object(
+  {
+    __typename: types.string({ required: true }) as `Food`,
+    ...baseEatable,
+    ingredients: types.array(EatableProportion, { required: true }),
+  },
+  { required: true },
+)
 
 export const EatableDbType = schema(
   {
@@ -61,7 +64,7 @@ export const EatableDbType = schema(
   },
 )
 
-export type EatableDbType = typeof EatableDbType[0]
+export type EatableDbType = (typeof EatableDbType)[0]
 
 export const Eatables = papr.model('eatables', EatableDbType)
 
@@ -78,7 +81,7 @@ export const SupplementIntakeDbType = schema(
   },
 )
 
-export type SupplementIntakeDbType = typeof SupplementIntakeDbType[0]
+export type SupplementIntakeDbType = (typeof SupplementIntakeDbType)[0]
 
 export const Supplements = papr.model('supplement-intakes', SupplementIntakeDbType)
 

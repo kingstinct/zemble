@@ -2,11 +2,10 @@ import mergeDeep from '@zemble/utils/mergeDeep'
 import debug from 'debug'
 
 import { createProviderProxy } from './createProvidersProxy'
+import type { Middleware, PluginOpts } from './types'
 import { readPackageJson } from './utils/readPackageJson'
 import setupProvider, { type InitializeProvider } from './utils/setupProvider'
 import { defaultMultiProviders } from './zembleContext'
-
-import type { Middleware, PluginOpts } from './types'
 
 export class Plugin<
   TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
@@ -56,12 +55,11 @@ export class Plugin<
     this.debug = debug(this.#pluginName)
     this.#providers = opts?.providers
 
-    const allDeps = (typeof deps === 'function') ? deps(this) : deps
+    const allDeps = typeof deps === 'function' ? deps(this) : deps
 
     const filteredDeps = allDeps.filter((d) => (this.isPluginRunLocally ? true : d.onlyWhenRunningLocally))
 
-    const resolvedDeps = filteredDeps
-      .map(({ plugin, config }) => plugin.configure(config as Partial<unknown>))
+    const resolvedDeps = filteredDeps.map(({ plugin, config }) => plugin.configure(config as Partial<unknown>))
 
     if (this.isPluginRunLocally) {
       this.configure(this.additionalConfigWhenRunningLocally)
@@ -80,9 +78,7 @@ export class Plugin<
   }
 
   get isPluginRunLocally() {
-    return (
-      process.cwd() === this.pluginPath
-    )
+    return process.cwd() === this.pluginPath
   }
 
   async initializeMiddleware(...args: Parameters<Middleware<TResolvedConfig, Plugin>>) {
@@ -136,9 +132,7 @@ export class Plugin<
   configure(config?: Partial<TConfig & Zemble.GlobalConfig>) {
     if (config) {
       // eslint-disable-next-line functional/immutable-data
-      this.#config = mergeDeep(
-        this.#config as Record<string, unknown>, config as Record<string, unknown>,
-      ) as TResolvedConfig
+      this.#config = mergeDeep(this.#config as Record<string, unknown>, config as Record<string, unknown>) as TResolvedConfig
     }
 
     return this

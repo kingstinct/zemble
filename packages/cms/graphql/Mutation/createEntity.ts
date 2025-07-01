@@ -1,7 +1,6 @@
 import papr from '../../clients/papr'
-import { readEntities, writeEntities } from '../../utils/fs'
-
 import type { EntitySchemaType } from '../../types'
+import { readEntities, writeEntities } from '../../utils/fs'
 import type { MutationResolvers } from '../schema.generated'
 
 export const createEntity: NonNullable<MutationResolvers['createEntity']> = async (_, { nameSingular: nameInput, namePlural: pluralIn, isPublishable }, { pubsub }) => {

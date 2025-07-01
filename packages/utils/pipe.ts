@@ -1,6 +1,6 @@
 declare global {
   interface Object {
-    pipeTo<T, TOut>(this: T, mapper: (value: T) => TOut): TOut;
+    pipeTo<T, TOut>(this: T, mapper: (value: T) => TOut): TOut
   }
 }
 

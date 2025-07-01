@@ -1,12 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies, no-param-reassign, functional/prefer-readonly-type, functional/immutable-data */
+
+import type { AppControllerRoute, AppViewRoute, BullBoardQueues, ControllerHandlerReturnType, HTTPMethod, IServerAdapter, UIConfig } from '@bull-board/api/dist/typings/app'
 import ejs from 'ejs'
+import type { Context, Env } from 'hono'
 import { Hono } from 'hono'
 import { serveStatic } from 'hono/bun'
-
-import type {
-  AppControllerRoute, AppViewRoute, BullBoardQueues, ControllerHandlerReturnType, HTTPMethod, IServerAdapter, UIConfig,
-} from '@bull-board/api/dist/typings/app'
-import type { Context, Env } from 'hono'
 import type { ContentfulStatusCode } from 'hono/utils/http-status'
 
 export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter {
@@ -20,7 +18,7 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
 
   protected uiConfig?: UIConfig
 
-  protected statics: { route?: string, path?: string } = {}
+  protected statics: { route?: string; path?: string } = {}
 
   protected entryRoute?: AppViewRoute
 

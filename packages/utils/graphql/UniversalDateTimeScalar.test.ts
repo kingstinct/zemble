@@ -1,6 +1,4 @@
-import {
-  describe, test, beforeEach, expect,
-} from 'bun:test'
+import { beforeEach, describe, expect, test } from 'bun:test'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
@@ -57,15 +55,11 @@ describe('UniversalDateTime', () => {
   })
 
   test('parseValue should reject garbage dateString', () => {
-    expect(() => parseValue('garbage')).toThrow(
-      new GraphQLError('Require string on format YYYY-MM-DD or iso8601/dayjs valid string, found: garbage'),
-    )
+    expect(() => parseValue('garbage')).toThrow(new GraphQLError('Require string on format YYYY-MM-DD or iso8601/dayjs valid string, found: garbage'))
   })
 
   test('parseLiteral should reject garbage dateString', () => {
-    expect(() => parseLiteral({ value: 'garbage', kind: Kind.STRING }, {})).toThrow(
-      new GraphQLError('Require string on format YYYY-MM-DD or iso8601/dayjs valid string, found: garbage'),
-    )
+    expect(() => parseLiteral({ value: 'garbage', kind: Kind.STRING }, {})).toThrow(new GraphQLError('Require string on format YYYY-MM-DD or iso8601/dayjs valid string, found: garbage'))
   })
 
   test('parseValue should return same as input', () => {

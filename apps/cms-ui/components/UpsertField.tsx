@@ -2,22 +2,16 @@ import BottomSheet from '@gorhom/bottom-sheet'
 import { Styles } from '@zemble/react'
 import { useCallback, useEffect, useRef } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import {
-  View,
-} from 'react-native'
+import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import {
-  Button, DataTable, Divider, Title, useTheme, Text,
-} from 'react-native-paper'
+import { Button, DataTable, Divider, Text, Title, useTheme } from 'react-native-paper'
 import { useMutation } from 'urql'
-
+import { graphql } from '../gql.generated'
+import type { FieldInput, FieldInputWithoutArray } from '../gql.generated/graphql'
+import type { Entity } from '../utils/getSelectionSet'
 import SelectOneController from './SelectOneControl'
 import SwitchControl from './SwitchControl'
 import TextControl, { TextControlInBottomSheet } from './TextControl'
-import { graphql } from '../gql.generated'
-
-import type { FieldInput, FieldInputWithoutArray } from '../gql.generated/graphql'
-import type { Entity } from '../utils/getSelectionSet'
 
 const AddFieldsToEntityMutation = graphql(`
   mutation AddFieldsToEntity($namePlural: String!, $fields: [FieldInput!]!) {
@@ -44,7 +38,7 @@ type FieldType = 'BooleanField' | 'StringField' | 'NumberField' | 'EntityRelatio
 type FieldTypeWithoutArray = Exclude<FieldType, 'ArrayField'>
 
 type Props = {
-  readonly entity: Entity,
+  readonly entity: Entity
   readonly onUpdated?: () => void
   readonly fieldNameToModify?: string
   readonly availableEntityNames: readonly string[]
@@ -57,7 +51,11 @@ type UpsertFieldProps = {
 
 const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField, availableEntityNames }) => {
   const {
-    control, handleSubmit, setValue, formState: { errors }, watch,
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    watch,
   } = useForm({
     defaultValues: {
       fieldName: '',
@@ -68,23 +66,30 @@ const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField, availableEn
 
   const fieldType = watch('fieldType')
 
-  const onSubmit = handleSubmit(useCallback((values) => {
-    const { fieldType } = values
+  const onSubmit = handleSubmit(
+    useCallback(
+      (values) => {
+        const { fieldType } = values
 
-    const field = {
-      [fieldType]: {
-        name: values.fieldName,
-        isRequired: true,
-        isRequiredInput: true,
-        ...fieldType === 'EntityRelationField' ? {
-          entityNamePlural: values.entityNamePlural,
-        } : {},
-      } as FieldInput[FieldType],
-    } as unknown as FieldInput
+        const field = {
+          [fieldType]: {
+            name: values.fieldName,
+            isRequired: true,
+            isRequiredInput: true,
+            ...(fieldType === 'EntityRelationField'
+              ? {
+                  entityNamePlural: values.entityNamePlural,
+                }
+              : {}),
+          } as FieldInput[FieldType],
+        } as unknown as FieldInput
 
-    updateField(field)
-    setValue('fieldName', '')
-  }, [updateField, setValue]))
+        updateField(field)
+        setValue('fieldName', '')
+      },
+      [updateField, setValue],
+    ),
+  )
 
   return (
     <View style={Styles.margin8}>
@@ -101,39 +106,22 @@ const CreateArrayField: React.FC<UpsertFieldProps> = ({ updateField, availableEn
         rules={{ required: true, minLength: 1 }}
         returnKeyType='done'
       />
-      <SelectOneController
-        control={control}
-        name='fieldType'
-        options={[
-          'BooleanField', 'StringField', 'NumberField', 'EntityRelationField',
-        ]}
-        rules={{ required: true }}
-        buttonStyle={Styles.margin8}
-      />
-      {fieldType === 'EntityRelationField' ? (
-        <SelectOneController
-          control={control}
-          name='entityNamePlural'
-          options={availableEntityNames}
-        />
+      <SelectOneController control={control} name='fieldType' options={['BooleanField', 'StringField', 'NumberField', 'EntityRelationField']} rules={{ required: true }} buttonStyle={Styles.margin8} />
+      {fieldType === 'EntityRelationField' ? <SelectOneController control={control} name='entityNamePlural' options={availableEntityNames} /> : null}
+      {Object.keys(errors).map((key) => (
+        <Text key={key} style={{ color: 'red' }}>
+          {JSON.stringify(errors[key])}
+        </Text>
+      ))}
 
-      ) : null}
-      {Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>)}
-
-      <Button
-        onPress={onSubmit}
-        mode='contained'
-        style={Styles.margin8}
-      >
+      <Button onPress={onSubmit} mode='contained' style={Styles.margin8}>
         Save
       </Button>
     </View>
   )
 }
 
-const UpsertField: React.FC<Props> = ({
-  entity, onUpdated, fieldNameToModify, availableEntityNames,
-}) => {
+const UpsertField: React.FC<Props> = ({ entity, onUpdated, fieldNameToModify, availableEntityNames }) => {
   const { namePlural } = entity
   const [, upsertField] = useMutation(AddFieldsToEntityMutation)
   const [, removeField] = useMutation(RemoveFieldsFromEntityMutation)
@@ -162,9 +150,7 @@ const UpsertField: React.FC<Props> = ({
       fields: [fieldNameToModify!],
     })
     onUpdated?.()
-  }, [
-    namePlural, fieldNameToModify, onUpdated, removeField,
-  ])
+  }, [namePlural, fieldNameToModify, onUpdated, removeField])
 
   useEffect(() => {
     if (fieldNameToModify) {
@@ -187,7 +173,10 @@ const UpsertField: React.FC<Props> = ({
           setValue('entityNamePlural', field.entityNamePlural)
         }
         if (field.__typename === 'ArrayField') {
-          setValue('availableFields', field.availableFields.map((f) => ({ [f.__typename]: { name: f.name } } as unknown as FieldInputWithoutArray)))
+          setValue(
+            'availableFields',
+            field.availableFields.map((f) => ({ [f.__typename]: { name: f.name } }) as unknown as FieldInputWithoutArray),
+          )
         }
       }
     }
@@ -198,25 +187,32 @@ const UpsertField: React.FC<Props> = ({
     const { fieldType, defaultValue } = values
 
     const field = {
-      [fieldType]: fieldType === 'EntityRelationField' ? {
-        name: values.fieldName,
-        isRequired: values.isRequired,
-        entityNamePlural: values.entityNamePlural,
-      } : (fieldType === 'ArrayField' ? {
-        name: values.fieldName,
-        isRequired: values.isRequired,
-        isRequiredInput: values.isRequired,
-        availableFields: values.availableFields,
-      } : {
-        name: values.fieldName,
-        isRequired: values.isRequired,
-        isRequiredInput: values.isRequired && !defaultValue,
-        defaultValue,
+      [fieldType]:
+        fieldType === 'EntityRelationField'
+          ? {
+              name: values.fieldName,
+              isRequired: values.isRequired,
+              entityNamePlural: values.entityNamePlural,
+            }
+          : fieldType === 'ArrayField'
+            ? {
+                name: values.fieldName,
+                isRequired: values.isRequired,
+                isRequiredInput: values.isRequired,
+                availableFields: values.availableFields,
+              }
+            : {
+                name: values.fieldName,
+                isRequired: values.isRequired,
+                isRequiredInput: values.isRequired && !defaultValue,
+                defaultValue,
 
-        ...fieldType === 'StringField' ? {
-          isSearchable: values.isSearchable,
-        } : {},
-      }),
+                ...(fieldType === 'StringField'
+                  ? {
+                      isSearchable: values.isSearchable,
+                    }
+                  : {}),
+              },
     } as unknown as FieldInput
 
     const res = await upsertField({
@@ -235,14 +231,7 @@ const UpsertField: React.FC<Props> = ({
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flex: 1, margin: 16 }}>
-        <SelectOneController
-          control={control}
-          name='fieldType'
-          options={[
-            'BooleanField', 'StringField', 'NumberField', 'EntityRelationField', 'ArrayField',
-          ]}
-          rules={{ required: true }}
-        />
+        <SelectOneController control={control} name='fieldType' options={['BooleanField', 'StringField', 'NumberField', 'EntityRelationField', 'ArrayField']} rules={{ required: true }} />
 
         <TextControl
           name='fieldName'
@@ -257,126 +246,85 @@ const UpsertField: React.FC<Props> = ({
         />
 
         {fieldType === 'BooleanField' ? (
-          <SwitchControl
-            control={control}
-            label='Default Value'
-            name='defaultValue'
-          />
-        ) : (fieldType === 'StringField' || fieldType === 'NumberField' ? (
-          <TextControl
-            label='Default Value'
-            control={control}
-            name='defaultValue'
-            keyboardType={fieldType === 'NumberField' ? 'numeric' : 'default'}
-          />
-        ) : null)}
-
-        {fieldType !== 'ArrayField' ? (
-          <SwitchControl
-            control={control}
-            label='Required'
-            name='isRequired'
-          />
+          <SwitchControl control={control} label='Default Value' name='defaultValue' />
+        ) : fieldType === 'StringField' || fieldType === 'NumberField' ? (
+          <TextControl label='Default Value' control={control} name='defaultValue' keyboardType={fieldType === 'NumberField' ? 'numeric' : 'default'} />
         ) : null}
 
-        {fieldType === 'StringField' ? (
-          <SwitchControl
-            control={control}
-            label='Searchable'
-            name='isSearchable'
-          />
+        {fieldType !== 'ArrayField' ? <SwitchControl control={control} label='Required' name='isRequired' /> : null}
+
+        {fieldType === 'StringField' ? <SwitchControl control={control} label='Searchable' name='isSearchable' /> : null}
+
+        {fieldType === 'EntityRelationField' ? <SelectOneController control={control} name='entityNamePlural' options={availableEntityNames} /> : null}
+
+        {fieldType === 'ArrayField' && watch('availableFields').length > 0 ? (
+          <DataTable>
+            <DataTable.Header>
+              <DataTable.Title>Name</DataTable.Title>
+              <DataTable.Title>Type</DataTable.Title>
+            </DataTable.Header>
+            {watch('availableFields').map((field) => {
+              const type = Object.keys(field)[0] as 'BooleanField' | 'StringField' | 'NumberField' | 'EntityRelationField'
+              const value = field[type]!
+              return (
+                <DataTable.Row key={value.name}>
+                  <DataTable.Cell>
+                    <Text>{value.name}</Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                    <Text>{type}</Text>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              )
+            })}
+          </DataTable>
         ) : null}
-
-        {fieldType === 'EntityRelationField' ? (
-          <SelectOneController
-            control={control}
-            name='entityNamePlural'
-            options={availableEntityNames}
-          />
-
-        ) : null}
-
-        {
-          fieldType === 'ArrayField' && watch('availableFields').length > 0 ? (
-            <DataTable>
-              <DataTable.Header>
-                <DataTable.Title>Name</DataTable.Title>
-                <DataTable.Title>Type</DataTable.Title>
-              </DataTable.Header>
-              {watch('availableFields').map((field) => {
-                const type = Object.keys(field)[0] as 'BooleanField' | 'StringField' | 'NumberField' | 'EntityRelationField'
-                const value = field[type]!
-                return (
-                  <DataTable.Row key={value.name}>
-                    <DataTable.Cell><Text>{value.name}</Text></DataTable.Cell>
-                    <DataTable.Cell><Text>{type}</Text></DataTable.Cell>
-                  </DataTable.Row>
-                )
-              })}
-            </DataTable>
-          ) : null
-        }
-        {
-          fieldType === 'ArrayField' ? (
-            <Button mode='outlined' style={Styles.margin16} onPress={() => bottomSheet.current?.expand()}>Add field to array</Button>
-          ) : null
-
-        }
-
-        {Object.keys(errors).map((key) => <Text key={key} style={{ color: 'red' }}>{JSON.stringify(errors[key])}</Text>)}
-        <Button
-          onPress={onSubmit}
-          mode='contained'
-          style={Styles.marginVertical8}
-        >
-          Save
-        </Button>
-        {fieldNameToModify ? (
-          <Button
-            onPress={onDelete}
-            mode='outlined'
-            style={Styles.marginVertical8}
-          >
-            Delete field
+        {fieldType === 'ArrayField' ? (
+          <Button mode='outlined' style={Styles.margin16} onPress={() => bottomSheet.current?.expand()}>
+            Add field to array
           </Button>
         ) : null}
 
+        {Object.keys(errors).map((key) => (
+          <Text key={key} style={{ color: 'red' }}>
+            {JSON.stringify(errors[key])}
+          </Text>
+        ))}
+        <Button onPress={onSubmit} mode='contained' style={Styles.marginVertical8}>
+          Save
+        </Button>
+        {fieldNameToModify ? (
+          <Button onPress={onDelete} mode='outlined' style={Styles.marginVertical8}>
+            Delete field
+          </Button>
+        ) : null}
       </ScrollView>
-      {
-        fieldType === 'ArrayField' ? (
-          <Controller
-            control={control}
-            name='availableFields'
-            rules={{ required: true, minLength: 1 }}
-            render={({ field: { onChange, value } }) => (
-              <BottomSheet
-                backgroundStyle={{ backgroundColor: theme.colors.background }}
-                ref={bottomSheet}
-                snapPoints={[80, 400]}
-                keyboardBehavior='interactive'
-                keyboardBlurBehavior='restore'
-              >
-                <CreateArrayField
-                  availableEntityNames={availableEntityNames}
-                  updateField={(field) => {
-                    bottomSheet.current?.collapse()
-                    onChange([
-                      ...value.filter((a) => {
-                        const f = Object.values(a)[0] as { readonly name: string }
-                        const f2 = Object.values(field)[0] as { readonly name: string }
-                        return f.name !== f2.name
-                      }),
-                      field,
-                    ])
-                  }}
-                />
-              </BottomSheet>
-            )}
-          />
-        ) : null
-      }
+      {fieldType === 'ArrayField' ? (
+        <Controller
+          control={control}
+          name='availableFields'
+          rules={{ required: true, minLength: 1 }}
+          render={({ field: { onChange, value } }) => (
+            <BottomSheet backgroundStyle={{ backgroundColor: theme.colors.background }} ref={bottomSheet} snapPoints={[80, 400]} keyboardBehavior='interactive' keyboardBlurBehavior='restore'>
+              <CreateArrayField
+                availableEntityNames={availableEntityNames}
+                updateField={(field) => {
+                  bottomSheet.current?.collapse()
+                  onChange([
+                    ...value.filter((a) => {
+                      const f = Object.values(a)[0] as { readonly name: string }
+                      const f2 = Object.values(field)[0] as { readonly name: string }
+                      return f.name !== f2.name
+                    }),
+                    field,
+                  ])
+                }}
+              />
+            </BottomSheet>
+          )}
+        />
+      ) : null}
     </View>
-
   )
 }
 

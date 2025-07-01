@@ -1,6 +1,4 @@
-import {
-  describe, it, expect, jest,
-} from 'bun:test'
+import { describe, expect, it, jest } from 'bun:test'
 
 import debouncedAggregate from './debouncedAggregate'
 
@@ -15,7 +13,9 @@ describe('debouncedAggregate', () => {
     debouncer(2)
     debouncer(3)
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
     expect(callback).toHaveBeenCalledWith([1, 2, 3])
   })
@@ -28,7 +28,9 @@ describe('debouncedAggregate', () => {
     debouncer(2)
     debouncer(3)
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
     expect(callback).toHaveBeenCalledWith([1, 2])
     expect(callback).toHaveBeenCalledWith([3])
@@ -40,21 +42,29 @@ describe('debouncedAggregate', () => {
 
     debouncer(1)
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
     debouncer(2)
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
     debouncer(3) // should be called
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
     expect(callback).toHaveBeenCalledWith([1, 2, 3])
 
     debouncer(4)
 
-    await new Promise((resolve) => { setTimeout(resolve, 200) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 200)
+    })
 
     expect(callback).toHaveBeenCalledWith([4])
     expect(callback).toHaveBeenCalledTimes(2)

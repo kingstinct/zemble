@@ -1,7 +1,6 @@
-import { describe, test, expect } from 'bun:test'
-
-import Timeoutify, { TimeoutifyStatus } from './Timeoutify'
+import { describe, expect, test } from 'bun:test'
 import wait from '../wait'
+import Timeoutify, { TimeoutifyStatus } from './Timeoutify'
 
 describe('Timeoutify', () => {
   test('aborted after specified time', async () => {

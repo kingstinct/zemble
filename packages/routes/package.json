@@ -5,7 +5,7 @@
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
+    "lint": "biome check .",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

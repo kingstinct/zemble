@@ -1,14 +1,13 @@
 #!/usr/bin/env bun
 
+import path from 'node:path'
 import { Plugin, type ZembleApp } from '@zemble/core'
 import zembleContext from '@zemble/core/zembleContext'
-import path from 'node:path'
 
 import { absoluteOrRelativeTo, absoluteOrRelativeToCwd, printMergedSchema } from '../middleware'
+import type { GraphQLMiddlewareConfig } from '../plugin'
 import plugin from '../plugin'
 import buildMergedSchema from '../utils/buildMergedSchema'
-
-import type { GraphQLMiddlewareConfig } from '../plugin'
 
 const args = process.argv.slice(2)
 
@@ -22,16 +21,16 @@ if (!pathToApp || pathToApp === '--help' || pathToApp === '-h' || pathToApp === 
 
 const absolutePathToApp = absoluteOrRelativeToCwd(pathToApp)
 
-const codegenMergedSchema = async (
-  app: ZembleApp,
-  config: GraphQLMiddlewareConfig,
-) => {
+const codegenMergedSchema = async (app: ZembleApp, config: GraphQLMiddlewareConfig) => {
   const appDir = path.dirname(absolutePathToApp)
 
-  const mergedSchema = await buildMergedSchema({
-    ...app,
-    appPlugin: new Plugin(appDir),
-  }, config)
+  const mergedSchema = await buildMergedSchema(
+    {
+      ...app,
+      appPlugin: new Plugin(appDir),
+    },
+    config,
+  )
 
   if (config.outputMergedSchemaPath) {
     const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, appDir)
@@ -40,7 +39,7 @@ const codegenMergedSchema = async (
 }
 
 const loadApp = async () => {
-  const module = await import(absolutePathToApp) as { readonly default?: Promise<ZembleApp> }
+  const module = (await import(absolutePathToApp)) as { readonly default?: Promise<ZembleApp> }
 
   if (!module.default) {
     zembleContext.logger.error(`App not exported as default from "${pathToApp}"`)

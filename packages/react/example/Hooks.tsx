@@ -1,9 +1,7 @@
 import useEvent from '../hooks/useEvent'
 
 export const useOnClick = () => {
-  const testing = useEvent(() => {
-
-  })
+  const testing = useEvent(() => {})
 
   return testing
 }
@@ -21,11 +19,14 @@ export const useRender = () => {
 }
 
 export const useOnClickWithPromise = () => {
-  const testing = useEvent(async (a: number) => new Promise<number>((resolve) => {
-    setTimeout(() => {
-      resolve(a)
-    }, 1000)
-  }))
+  const testing = useEvent(
+    async (a: number) =>
+      new Promise<number>((resolve) => {
+        setTimeout(() => {
+          resolve(a)
+        }, 1000)
+      }),
+  )
 
   return testing
 }

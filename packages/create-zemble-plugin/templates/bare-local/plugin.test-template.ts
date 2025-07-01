@@ -1,5 +1,5 @@
+import { expect, test } from 'bun:test'
 import { createTestApp } from '@zemble/core/test-utils'
-import { test, expect } from 'bun:test'
 
 import plugin from './plugin'
 

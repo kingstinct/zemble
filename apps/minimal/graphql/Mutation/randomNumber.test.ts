@@ -1,6 +1,4 @@
-import {
-  it, expect,
-} from 'bun:test'
+import { expect, it } from 'bun:test'
 
 import { graphql } from '../client.generated'
 

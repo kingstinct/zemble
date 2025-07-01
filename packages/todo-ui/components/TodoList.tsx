@@ -1,9 +1,8 @@
 import { View } from 'react-native'
 import { useQuery } from 'urql'
-
+import { graphql } from '../gql.generated'
 import TodoCreate from './TodoCreate'
 import TodoListItem from './TodoListItem'
-import { graphql } from '../gql.generated'
 
 const AllTodos = graphql(/* GraphQL */ `
   query AllTodos {
@@ -24,7 +23,9 @@ const AllTodoList = () => {
   })
   return (
     <View>
-      {data?.todos.map((todo) => <TodoListItem key={todo.id} todo={todo} refetch={refetch} />)}
+      {data?.todos.map((todo) => (
+        <TodoListItem key={todo.id} todo={todo} refetch={refetch} />
+      ))}
       <TodoCreate refetch={refetch} />
     </View>
   )

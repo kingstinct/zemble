@@ -11,7 +11,7 @@
     "web": "cp index.expo.js index.js && expo start --web",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
-    "lint": "eslint .",
+    "lint": "biome check .",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

@@ -16,14 +16,8 @@ const ProfileScreen = () => {
 
   return (
     <View>
-      <Text>
-        { JSON.stringify(decodedToken, null, 2) }
-      </Text>
-      <Button
-        onPress={logout}
-      >
-        Logout
-      </Button>
+      <Text>{JSON.stringify(decodedToken, null, 2)}</Text>
+      <Button onPress={logout}>Logout</Button>
     </View>
   )
 }

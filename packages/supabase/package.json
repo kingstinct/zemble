@@ -20,7 +20,7 @@
   },
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
+    "lint": "biome check .",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen",
     "supabase-codegen": "supabase gen types typescript --project-id \"nptqmmaxmynahsgfuvhn\" --schema public > types/supabase.generated.ts"

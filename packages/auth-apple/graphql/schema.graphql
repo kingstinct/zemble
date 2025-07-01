@@ -5,26 +5,21 @@ input AuthOr {
   match: JSONObject
 }
 
-directive @auth(
-  match: JSONObject,
-  skip: Boolean
-  includes: JSONObject
-  or: [AuthOr!]
-) on FIELD_DEFINITION
+directive @auth(match: JSONObject, skip: Boolean, includes: JSONObject, or: [AuthOr!]) on FIELD_DEFINITION
 
-enum AppleAuthenticationUserDetectionStatus{
-    UNSUPPORTED
-    UNKNOWN
-    LIKELY_REAL
+enum AppleAuthenticationUserDetectionStatus {
+  UNSUPPORTED
+  UNKNOWN
+  LIKELY_REAL
 }
 
 input AppleAuthenticationFullName {
-    familyName: String
-    givenName: String
-    middleName: String
-    namePrefix: String
-    nameSuffix: String
-    nickname: String
+  familyName: String
+  givenName: String
+  middleName: String
+  namePrefix: String
+  nameSuffix: String
+  nickname: String
 }
 
 type AppleLoginResponse {
@@ -34,13 +29,13 @@ type AppleLoginResponse {
 
 type Mutation {
   loginWithApple(
-      authorizationCode: String!
-      email: String
-      fullName: AppleAuthenticationFullName
-      identityToken: String!
-      state: String
-      realUserStatus: AppleAuthenticationUserDetectionStatus!
-      userUUID: String!
+    authorizationCode: String!
+    email: String
+    fullName: AppleAuthenticationFullName
+    identityToken: String!
+    state: String
+    realUserStatus: AppleAuthenticationUserDetectionStatus!
+    userUUID: String!
   ): AppleLoginResponse! @auth(skip: true)
 }
 

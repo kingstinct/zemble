@@ -3,11 +3,11 @@
 const packageJson = require('./package.json')
 
 /**
-  * @param { { config: { expo: ExpoConfig } } }
-  * @returns {{expo: ExpoConfig}}
-  */
+ * @param { { config: { expo: ExpoConfig } } }
+ * @returns {{expo: ExpoConfig}}
+ */
 export default ({ config }) => {
-  const cfg = ({
+  const cfg = {
     ...config,
     expo: {
       ...config.expo,
@@ -15,7 +15,7 @@ export default ({ config }) => {
       slug: packageJson.name,
       version: packageJson.version,
     },
-  })
+  }
 
   return cfg
 }

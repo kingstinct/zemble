@@ -41,14 +41,12 @@ class RedisKeyValue<T> extends IStandardKeyValueService<T> {
     const prefixdKey = this.getPrefixedKey(key)
     const stringValue = JSON.stringify(value)
 
-    await (expireAfterSeconds
-      ? this.client.set(prefixdKey, stringValue, 'EX', expireAfterSeconds)
-      : this.client.set(prefixdKey, stringValue))
+    await (expireAfterSeconds ? this.client.set(prefixdKey, stringValue, 'EX', expireAfterSeconds) : this.client.set(prefixdKey, stringValue))
   }
 
   async get(key: string): Promise<T | null> {
     const value = await this.client.get(this.getPrefixedKey(key))
-    return value ? JSON.parse(value) as T : null
+    return value ? (JSON.parse(value) as T) : null
   }
 
   async has(key: string): Promise<boolean> {

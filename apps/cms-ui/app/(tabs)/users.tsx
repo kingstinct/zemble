@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
@@ -25,13 +25,13 @@ const UserList = () => {
         <DataTable.Header>
           <DataTable.Title>Email</DataTable.Title>
         </DataTable.Header>
-        {
-          data?.users.map((entity) => (
-            <DataTable.Row key={entity.email}>
-              <DataTable.Cell><Text key={entity.email}>{entity.email}</Text></DataTable.Cell>
-            </DataTable.Row>
-          ))
-        }
+        {data?.users.map((entity) => (
+          <DataTable.Row key={entity.email}>
+            <DataTable.Cell>
+              <Text key={entity.email}>{entity.email}</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+        ))}
       </DataTable>
     </ScrollView>
   )

@@ -1,10 +1,8 @@
-import { deleteCookie } from 'hono/cookie'
-
-import plugin from '../../plugin'
-
-import type { MutationResolvers } from '../schema.generated'
 import type { Context } from 'hono'
+import { deleteCookie } from 'hono/cookie'
 import type { JWTPayload } from 'jose'
+import plugin from '../../plugin'
+import type { MutationResolvers } from '../schema.generated'
 
 export const logoutFromAllDevices: NonNullable<MutationResolvers['logoutFromAllDevices']> = async (_parent, _arg, { honoContext, decodedToken }) => {
   if (plugin.config.cookies.isEnabled) {

@@ -1,16 +1,7 @@
-import { renderHook, act } from '@testing-library/react-hooks'
-import {
-  describe, test, expect, jest,
-} from 'bun:test'
-
-import {
-  createAtom, persistAtom, useAtom,
-} from './atom'
-
-import type {
-  AtomAsyncStorage,
-  AtomStorage,
-} from './atom'
+import { describe, expect, jest, test } from 'bun:test'
+import { act, renderHook } from '@testing-library/react-hooks'
+import type { AtomAsyncStorage, AtomStorage } from './atom'
+import { createAtom, persistAtom, useAtom } from './atom'
 
 describe('createAtom', () => {
   test('get initial value', () => {

@@ -1,9 +1,7 @@
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'bun:test'
 import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
 import wait from '@zemble/utils/wait'
-import {
-  beforeEach, test, expect, describe, afterEach, afterAll, beforeAll,
-} from 'bun:test'
 
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
@@ -31,10 +29,14 @@ describe('Mutation.createEntity', () => {
   })
 
   test('should create an entity', async () => {
-    const res = await app.gqlRequest(CreateEntityMutation, {
-      nameSingular: 'book',
-      namePlural: 'books',
-    }, opts)
+    const res = await app.gqlRequest(
+      CreateEntityMutation,
+      {
+        nameSingular: 'book',
+        namePlural: 'books',
+      },
+      opts,
+    )
 
     expect(res.data?.createEntity.nameSingular).toEqual('book')
 
@@ -57,23 +59,33 @@ describe('Mutation.createEntity', () => {
       ],
     })
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
-    const { data } = await app.gqlRequestUntyped<{readonly getAllBooks: readonly unknown[]}, unknown>('query { getAllBooks { id } }', {}, opts)
+    const { data } = await app.gqlRequestUntyped<{ readonly getAllBooks: readonly unknown[] }, unknown>('query { getAllBooks { id } }', {}, opts)
 
     expect(data?.getAllBooks).toEqual([])
   })
 
   test('should create a second entity', async () => {
-    await app.gqlRequest(CreateEntityMutation, {
-      nameSingular: 'book',
-      namePlural: 'books',
-    }, opts)
+    await app.gqlRequest(
+      CreateEntityMutation,
+      {
+        nameSingular: 'book',
+        namePlural: 'books',
+      },
+      opts,
+    )
 
-    const res = await app.gqlRequest(CreateEntityMutation, {
-      nameSingular: 'article',
-      namePlural: 'articles',
-    }, opts)
+    const res = await app.gqlRequest(
+      CreateEntityMutation,
+      {
+        nameSingular: 'article',
+        namePlural: 'articles',
+      },
+      opts,
+    )
 
     expect(res.data?.createEntity.nameSingular).toEqual('article')
 
@@ -96,9 +108,11 @@ describe('Mutation.createEntity', () => {
       ],
     })
 
-    await new Promise((resolve) => { setTimeout(resolve, 100) })
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100)
+    })
 
-    const { data } = await app.gqlRequestUntyped<{readonly getAllArticles: readonly unknown[]}, unknown>('query { getAllArticles { id } }', {}, opts)
+    const { data } = await app.gqlRequestUntyped<{ readonly getAllArticles: readonly unknown[] }, unknown>('query { getAllArticles { id } }', {}, opts)
 
     expect(data?.getAllArticles).toEqual([])
   })

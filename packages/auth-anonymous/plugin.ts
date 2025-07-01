@@ -6,8 +6,8 @@ import { Plugin } from '@zemble/core'
 declare global {
   namespace Zemble {
     interface AnonymousAuthToken {
-      readonly type: 'AnonymousAuth',
-      readonly userId: string,
+      readonly type: 'AnonymousAuth'
+      readonly userId: string
     }
 
     interface TokenRegistry {
@@ -17,8 +17,8 @@ declare global {
 }
 
 interface AnonymousConfig extends Zemble.GlobalConfig {
-  readonly generateTokenContents?: (userId: string) => Zemble.AnonymousAuthToken,
-  readonly generateUserId?: () => string,
+  readonly generateTokenContents?: (userId: string) => Zemble.AnonymousAuthToken
+  readonly generateUserId?: () => string
 }
 
 const defaultConfig = {

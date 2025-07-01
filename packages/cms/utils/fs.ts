@@ -14,7 +14,7 @@ export const readEntities = async (): Promise<readonly EntitySchemaType[]> => {
   }
   try {
     const schemaStr = await fsPromised.readFile(entityFilePath, { encoding: 'utf-8' })
-    const contents = JSON.parse(schemaStr as string) as {readonly entities: readonly EntitySchemaType[]}
+    const contents = JSON.parse(schemaStr as string) as { readonly entities: readonly EntitySchemaType[] }
     if (process.env.NODE_ENV === 'production') {
       fileInMemory = contents
     }
@@ -24,7 +24,7 @@ export const readEntities = async (): Promise<readonly EntitySchemaType[]> => {
   }
 }
 
-export const writeEntities = async (entities: readonly (EntitySchemaType)[]) => {
+export const writeEntities = async (entities: readonly EntitySchemaType[]) => {
   if (process.env.NODE_ENV === 'production') {
     fileInMemory = { ...fileInMemory, entities }
   }

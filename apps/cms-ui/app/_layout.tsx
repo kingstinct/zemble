@@ -1,16 +1,10 @@
-import {
-  ThemeProvider,
-  DarkTheme,
-  DefaultTheme,
-} from '@react-navigation/native'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import AuthProvider, { AuthContext, Status } from '@zemble/react/contexts/Auth'
 import UrqlProvider from '@zemble/react/contexts/Urql'
-import { Stack, router, useSegments } from 'expo-router'
+import { router, Stack, useSegments } from 'expo-router'
 import { useContext, useEffect, useMemo } from 'react'
 import { useColorScheme } from 'react-native'
-import {
-  PaperProvider, MD3DarkTheme, MD3LightTheme,
-} from 'react-native-paper'
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import createClientWithToken from '../clients/urql'
@@ -24,7 +18,8 @@ function useProtectedRoute(token: string | null, status: Status) {
 
       if (
         // If the user is not signed in and the initial segment is not anything in the auth group.
-        !token && !inAuthGroup
+        !token &&
+        !inAuthGroup
       ) {
         // Redirect to the sign-in page.
         router.replace('/login')
@@ -70,17 +65,18 @@ const App = () => {
 export default () => {
   const colorScheme = useColorScheme()
 
-  const navigationTheme = useMemo(() => (colorScheme === 'dark'
-    ? { ...DarkTheme, colors: { ...DarkTheme.colors, primary: MD3DarkTheme.colors.primary } }
-    : { ...DefaultTheme, colors: { ...DefaultTheme.colors, primary: MD3LightTheme.colors.primary } }), [colorScheme])
+  const navigationTheme = useMemo(
+    () =>
+      colorScheme === 'dark'
+        ? { ...DarkTheme, colors: { ...DarkTheme.colors, primary: MD3DarkTheme.colors.primary } }
+        : { ...DefaultTheme, colors: { ...DefaultTheme.colors, primary: MD3LightTheme.colors.primary } },
+    [colorScheme],
+  )
 
   return (
     <ThemeProvider value={navigationTheme}>
       <AuthProvider>
-        <UrqlProvider
-          onError={(error) => alert(error.message)}
-          createClient={createClientWithToken}
-        >
+        <UrqlProvider onError={(error) => alert(error.message)} createClient={createClientWithToken}>
           <PaperProvider>
             <App />
           </PaperProvider>

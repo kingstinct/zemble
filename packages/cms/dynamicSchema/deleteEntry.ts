@@ -1,12 +1,8 @@
-import {
-  GraphQLBoolean, GraphQLID, GraphQLNonNull,
-} from 'graphql'
-import { ObjectId } from 'mongodb'
-
-import papr from '../clients/papr'
-
-import type { EntitySchemaType } from '../types'
 import type { GraphQLFieldConfig } from 'graphql'
+import { GraphQLBoolean, GraphQLID, GraphQLNonNull } from 'graphql'
+import { ObjectId } from 'mongodb'
+import papr from '../clients/papr'
+import type { EntitySchemaType } from '../types'
 
 const createDeleteEntryResolver = (entity: EntitySchemaType) => {
   const deleteEntityEntry: GraphQLFieldConfig<unknown, unknown, { readonly id: string }> = {

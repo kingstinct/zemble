@@ -1,10 +1,6 @@
-import {
-  describe, test, expect, jest,
-} from 'bun:test'
-
-import { timeoutifyPlugin } from './timeoutifyPlugin'
-
+import { describe, expect, jest, test } from 'bun:test'
 import type { onRequestHookHandler } from 'fastify'
+import { timeoutifyPlugin } from './timeoutifyPlugin'
 
 const on = (_: string, handler: () => void) => {
   handler()

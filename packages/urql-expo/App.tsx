@@ -6,7 +6,7 @@ import UrqlProvider from './contexts/UrqlProvider'
 export default function App() {
   return (
     <UrqlProvider>
-      <Text>{ `Will connect to ${GRAPHQL_ENDPOINT}` }</Text>
+      <Text>{`Will connect to ${GRAPHQL_ENDPOINT}`}</Text>
     </UrqlProvider>
   )
 }

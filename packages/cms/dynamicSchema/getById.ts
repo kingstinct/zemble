@@ -1,20 +1,12 @@
-import {
-  GraphQLNonNull, GraphQLID,
-} from 'graphql'
+import type { GraphQLFieldConfig, GraphQLOutputType } from 'graphql'
+import { GraphQLID, GraphQLNonNull } from 'graphql'
 import { ObjectId } from 'mongodb'
-
-import papr, {
-
-} from '../clients/papr'
-
+import papr, {} from '../clients/papr'
 import type { EntitySchemaType } from '../types'
-import type {
-  GraphQLFieldConfig,
-  GraphQLOutputType,
-} from 'graphql'
 
 const createGetByIdResolver = (entity: EntitySchemaType, outputType: GraphQLOutputType) => {
-  const getById: GraphQLFieldConfig<unknown, unknown, {readonly id: string}> = { // "book"
+  const getById: GraphQLFieldConfig<unknown, unknown, { readonly id: string }> = {
+    // "book"
     type: new GraphQLNonNull(outputType),
     args: {
       id: {

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "bunx cli.ts",
-    "lint": "eslint .",
+    "lint": "biome check .",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

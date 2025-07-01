@@ -1,29 +1,29 @@
 import {
-  Plugin, setupProvider,
+  Plugin,
+  type PushMessage,
+  type PushTokenWithContentsAndFailedReason,
+  type PushTokenWithContentsAndTicket,
   type PushTokenWithMetadata,
   type SendPushProvider,
-  type PushTokenWithContentsAndTicket,
-  type TokenContents,
   type SendPushResponse,
-  type PushTokenWithContentsAndFailedReason,
   type SendSilentPushProvider,
-  type PushMessage,
+  setupProvider,
+  type TokenContents,
 } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import { chunkArray } from '@zemble/utils/chunkArray'
-import { Expo, type ExpoPushMessage } from 'expo-server-sdk'
-
 import type { JSON } from '@zemble/utils/JSON'
+import { Expo, type ExpoPushMessage } from 'expo-server-sdk'
 
 interface Config extends Zemble.GlobalConfig {
   readonly EXPO_ACCESS_TOKEN?: string
-  readonly maxConcurrentRequests?: number,
+  readonly maxConcurrentRequests?: number
   readonly useFcmV1?: boolean
   readonly persistPushToken: (decodedToken: TokenContents, pushTokenWithMetadata: ExpoPushTokenWithMetadata) => Promise<void>
 }
 
 export interface ExpoPushTokenWithMetadata {
-  readonly type: 'EXPO',
+  readonly type: 'EXPO'
   readonly platform: 'ios' | 'android' | 'web'
   readonly pushToken: string
 }
@@ -46,13 +46,10 @@ declare global {
   }
 }
 
-type TokenWithSilentMessage = { readonly pushToken: ExpoPushTokenWithMetadata, readonly contents: Record<string, JSON> }
-type TokenWithMessage = { readonly pushToken: ExpoPushTokenWithMetadata, readonly contents: PushMessage }
+type TokenWithSilentMessage = { readonly pushToken: ExpoPushTokenWithMetadata; readonly contents: Record<string, JSON> }
+type TokenWithMessage = { readonly pushToken: ExpoPushTokenWithMetadata; readonly contents: PushMessage }
 
-export async function processPushes<T extends TokenWithSilentMessage | TokenWithMessage>(
-  tokensWithMessages: readonly T[],
-  mapContent: (tokenWithMessage: T) => ExpoPushMessage,
-) {
+export async function processPushes<T extends TokenWithSilentMessage | TokenWithMessage>(tokensWithMessages: readonly T[], mapContent: (tokenWithMessage: T) => ExpoPushMessage) {
   const expo = getClient()
 
   const chunks = chunkArray(tokensWithMessages, Expo.pushNotificationChunkSizeLimit)
@@ -77,7 +74,8 @@ export async function processPushes<T extends TokenWithSilentMessage | TokenWith
           } else if (ticket.details?.error) {
             pushExpoPlugin.providers.logger.error(`${ticket.details.error}: ${ticket.message}`, { ticket, contents, pushToken })
             failedSendsOthers = [
-              ...failedSendsOthers, {
+              ...failedSendsOthers,
+              {
                 contents,
                 pushToken,
                 failedReason: ticket.details.error,
@@ -114,17 +112,17 @@ const getClient = () => {
   return expo
 }
 
-const mapSilentContent = (tokenWithMessage: { readonly pushToken: ExpoPushTokenWithMetadata, readonly contents: Record<string, JSON> }) => {
+const mapSilentContent = (tokenWithMessage: { readonly pushToken: ExpoPushTokenWithMetadata; readonly contents: Record<string, JSON> }) => {
   const contents = {
     data: tokenWithMessage.contents,
     to: tokenWithMessage.pushToken.pushToken,
     _contentAvailable: true,
   } satisfies ExpoPushMessage
 
-  return ({
+  return {
     ...contents,
     to: tokenWithMessage.pushToken.pushToken,
-  })
+  }
 }
 
 export const sendSilentPush: SendSilentPushProvider = async (pushTokens, contents) => {
@@ -141,16 +139,18 @@ export const sendSilentPush: SendSilentPushProvider = async (pushTokens, content
 const mapContent = (tokenWithMessage: TokenWithMessage) => {
   const contents = {
     ...tokenWithMessage.contents,
-    sound: tokenWithMessage.contents.sound ? {
-      ...tokenWithMessage.contents.sound,
-      name: tokenWithMessage.contents.sound.name as 'default' | null | undefined, // not sure how this is dealt with IRL, quite probable that it works with any sound file (since it looks like a more or less straight mapping to APNS)
-    } : undefined,
+    sound: tokenWithMessage.contents.sound
+      ? {
+          ...tokenWithMessage.contents.sound,
+          name: tokenWithMessage.contents.sound.name as 'default' | null | undefined, // not sure how this is dealt with IRL, quite probable that it works with any sound file (since it looks like a more or less straight mapping to APNS)
+        }
+      : undefined,
     to: tokenWithMessage.pushToken.pushToken,
   } satisfies ExpoPushMessage
-  return ({
+  return {
     ...contents,
     to: tokenWithMessage.pushToken.pushToken,
-  })
+  }
 }
 
 export const sendPush: SendPushProvider = async (pushTokens, contents) => {
@@ -164,26 +164,23 @@ export const sendPush: SendPushProvider = async (pushTokens, contents) => {
   return processPushes(tokensWithMessages, mapContent)
 }
 
-const pushExpoPlugin = new Plugin<Config>(
-  import.meta.dir,
-  {
-    middleware: async ({ app }) => {
-      await setupProvider({
-        app,
-        initializeProvider: () => sendPush,
-        providerKey: 'sendPush',
-        middlewareKey: '@zemble/push-expo',
-      })
+const pushExpoPlugin = new Plugin<Config>(import.meta.dir, {
+  middleware: async ({ app }) => {
+    await setupProvider({
+      app,
+      initializeProvider: () => sendPush,
+      providerKey: 'sendPush',
+      middlewareKey: '@zemble/push-expo',
+    })
 
-      await setupProvider({
-        app,
-        initializeProvider: () => sendSilentPush,
-        providerKey: 'sendSilentPush',
-        middlewareKey: '@zemble/push-expo',
-      })
-    },
-    dependencies: [{ plugin: GraphQL }],
+    await setupProvider({
+      app,
+      initializeProvider: () => sendSilentPush,
+      providerKey: 'sendSilentPush',
+      middlewareKey: '@zemble/push-expo',
+    })
   },
-)
+  dependencies: [{ plugin: GraphQL }],
+})
 
 export default pushExpoPlugin

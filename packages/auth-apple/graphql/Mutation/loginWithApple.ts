@@ -8,13 +8,9 @@ import { generateBearerTokenFromAppleToken } from '../../utils/generateToken'
 import { validateIdToken } from '../../utils/validateIdToken'
 import { validateOAuthStateJWT } from '../../utils/validateOAuthStateJWT'
 
-import type {
-  MutationResolvers,
-} from '../schema.generated'
+import type { MutationResolvers } from '../schema.generated'
 
-export const loginWithApple: NonNullable<MutationResolvers['loginWithApple']> = async (_, {
-  authorizationCode, identityToken, realUserStatus, userUUID, email, fullName, state,
-}, { honoContext }) => {
+export const loginWithApple: NonNullable<MutationResolvers['loginWithApple']> = async (_, { authorizationCode, identityToken, realUserStatus, userUUID, email, fullName, state }, { honoContext }) => {
   if (state) {
     const isValid = await validateOAuthStateJWT(state)
     if (!isValid) {

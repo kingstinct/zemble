@@ -1,8 +1,7 @@
 /* eslint-disable functional/immutable-data */
 
-import { capitalize } from '../utils/text'
-
 import type { Entity } from '../utils/getSelectionSet'
+import { capitalize } from '../utils/text'
 
 const fieldToTypeMap: Record<string, string | ((entityName: string, fieldName: string) => string)> = {
   StringField: 'String',
@@ -18,12 +17,14 @@ const buildUpsertEntryMutation = (entity: Entity) => {
 
   const mutationName = `create${capitalize(entity.nameSingular)}`
 
-  const mutationInputVariables = fields.map((f) => {
-    const typeMap = fieldToTypeMap[f.__typename]!
-    const mappedType = typeof typeMap === 'string' ? typeMap : typeMap(entity.nameSingular, f.name)
-    const strParts = `$${f.name}: ${mappedType}${f.isRequired && f.name !== 'id' ? '!' : ''}`
-    return strParts
-  }).join(', ')
+  const mutationInputVariables = fields
+    .map((f) => {
+      const typeMap = fieldToTypeMap[f.__typename]!
+      const mappedType = typeof typeMap === 'string' ? typeMap : typeMap(entity.nameSingular, f.name)
+      const strParts = `$${f.name}: ${mappedType}${f.isRequired && f.name !== 'id' ? '!' : ''}`
+      return strParts
+    })
+    .join(', ')
 
   const mutationVariables = fields.map((f) => `${f.name}: $${f.name}`).join(', ')
 

@@ -66,42 +66,37 @@ export const defaultTestConfig = {
   },
 } satisfies pino.LoggerOptions
 
-export default new Plugin<LoggerConfig>(
-  import.meta.dir,
-  {
-    middleware: async ({
-      app, config, context,
-    }) => {
-      const defaultConfig = process.env.NODE_ENV === 'production' ? defaultProdConfig
-        : (process.env.NODE_ENV === 'test' ? defaultTestConfig
-          : defaultDevConfig)
+export default new Plugin<LoggerConfig>(import.meta.dir, {
+  middleware: async ({ app, config, context }) => {
+    const defaultConfig = process.env.NODE_ENV === 'production' ? defaultProdConfig : process.env.NODE_ENV === 'test' ? defaultTestConfig : defaultDevConfig
 
-      const logger = pino(mergeDeep(defaultConfig, config.logger ?? {}))
+    const logger = pino(mergeDeep(defaultConfig, config.logger ?? {}))
 
-      context.logger = logger
+    context.logger = logger
 
-      pinoDebug(logger)
+    pinoDebug(logger)
 
-      await setupProvider({
-        app,
-        initializeProvider: (_, plugin) => logger.child({
+    await setupProvider({
+      app,
+      initializeProvider: (_, plugin) =>
+        logger.child({
           pluginName: plugin?.pluginName,
           pluginVersion: plugin?.pluginVersion,
         }),
-        middlewareKey: '@zemble/pino',
-        providerKey: 'logger',
-        alwaysCreateForEveryPlugin: true,
-      })
-      await setupProvider({
-        app,
-        initializeProvider: (_, plugin) => logger.child({
+      middlewareKey: '@zemble/pino',
+      providerKey: 'logger',
+      alwaysCreateForEveryPlugin: true,
+    })
+    await setupProvider({
+      app,
+      initializeProvider: (_, plugin) =>
+        logger.child({
           pluginName: plugin?.pluginName,
           pluginVersion: plugin?.pluginVersion,
         }) as pino.Logger,
-        middlewareKey: '@zemble/pino',
-        providerKey: 'pinoLogger',
-        alwaysCreateForEveryPlugin: true,
-      })
-    },
+      middlewareKey: '@zemble/pino',
+      providerKey: 'pinoLogger',
+      alwaysCreateForEveryPlugin: true,
+    })
   },
-)
+})

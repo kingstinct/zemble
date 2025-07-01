@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { RefreshControl } from 'react-native-gesture-handler'
 
-const ManualRefreshControl = ({ fetching, refetch }: { readonly fetching: boolean, readonly refetch: () => void }) => {
+const ManualRefreshControl = ({ fetching, refetch }: { readonly fetching: boolean; readonly refetch: () => void }) => {
   const manualRefresh = useRef(false)
 
   const onRefresh = useCallback(() => {
@@ -15,12 +15,7 @@ const ManualRefreshControl = ({ fetching, refetch }: { readonly fetching: boolea
     }
   }, [fetching])
 
-  return (
-    <RefreshControl
-      refreshing={fetching && manualRefresh.current}
-      onRefresh={onRefresh}
-    />
-  )
+  return <RefreshControl refreshing={fetching && manualRefresh.current} onRefresh={onRefresh} />
 }
 
 export default ManualRefreshControl

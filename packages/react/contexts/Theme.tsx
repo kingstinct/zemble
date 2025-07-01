@@ -1,26 +1,23 @@
 import * as SystemUI from 'expo-system-ui'
-import React, { useEffect, useMemo } from 'react'
-import {
-  Platform, useColorScheme,
-} from 'react-native'
-
 import type { PropsWithChildren } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import { Platform, useColorScheme } from 'react-native'
 
 declare global {
   interface KingstinctTheme {
     readonly colors: {
-      readonly primary: string;
-      readonly background: string;
-      readonly surface: string;
-      readonly accent: string;
-      readonly error: string;
-      readonly text: string;
-      readonly onSurface: string;
-      readonly disabled: string;
-      readonly placeholder: string;
-      readonly backdrop: string;
-      readonly notification: string;
-    };
+      readonly primary: string
+      readonly background: string
+      readonly surface: string
+      readonly accent: string
+      readonly error: string
+      readonly text: string
+      readonly onSurface: string
+      readonly disabled: string
+      readonly placeholder: string
+      readonly backdrop: string
+      readonly notification: string
+    }
   }
 }
 
@@ -51,9 +48,7 @@ type ThemeProviderProps = PropsWithChildren<{
   readonly darkTheme?: KingstinctTheme
 }>
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({
-  children, theme, darkTheme,
-}) => {
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, theme, darkTheme }) => {
   const colorScheme = useColorScheme()
 
   useEffect(() => {
@@ -62,15 +57,14 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     }
   }, [colorScheme, theme])
 
-  const value = useMemo<ThemeContextData>(() => ({
-    theme: colorScheme === 'dark' ? darkTheme || theme : theme,
-  }), [colorScheme, darkTheme, theme])
-
-  return (
-    <ThemeContext.Provider value={value}>
-      { children }
-    </ThemeContext.Provider>
+  const value = useMemo<ThemeContextData>(
+    () => ({
+      theme: colorScheme === 'dark' ? darkTheme || theme : theme,
+    }),
+    [colorScheme, darkTheme, theme],
   )
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
 export default { ThemeProvider }

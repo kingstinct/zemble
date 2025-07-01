@@ -11,15 +11,15 @@ export const refreshTokensFromPrevious = async (bearerToken: string, refreshToke
   const previousBearerToken = await decodeToken(bearerToken, undefined, { currentDate: new Date(0) })
 
   if (!previousBearerToken.sub) {
-    throw new Error('Token doesn\'t contain a sub field, can\'t reissue')
+    throw new Error("Token doesn't contain a sub field, can't reissue")
   }
 
   await verifyJwt(refreshToken, undefined, { subject: previousBearerToken.sub })
 
   // eslint-disable-next-line @typescript-eslint/await-thenable, @typescript-eslint/no-unsafe-argument
   const newBearerTokenData = await plugin.config.reissueBearerToken(previousBearerToken),
-        newBearerToken = await encodeToken(newBearerTokenData as Zemble.TokenRegistry[keyof Zemble.TokenRegistry], previousBearerToken.sub),
-        newRefreshToken = await generateRefreshToken({ sub: previousBearerToken.sub })
+    newBearerToken = await encodeToken(newBearerTokenData as Zemble.TokenRegistry[keyof Zemble.TokenRegistry], previousBearerToken.sub),
+    newRefreshToken = await generateRefreshToken({ sub: previousBearerToken.sub })
 
   return {
     bearerToken: newBearerToken,

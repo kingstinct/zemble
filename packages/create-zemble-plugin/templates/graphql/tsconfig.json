@@ -1,4 +1,4 @@
 {
   "extends": "@tsconfig/bun/tsconfig.json",
-  "exclude": [ "**/*.generated/*.ts" ]
+  "exclude": ["**/*.generated/*.ts"]
 }

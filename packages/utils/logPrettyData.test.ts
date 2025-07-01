@@ -1,6 +1,4 @@
-import {
-  describe, test, expect, jest,
-} from 'bun:test'
+import { describe, expect, jest, test } from 'bun:test'
 
 import logPrettyData, { prettyData } from './logPrettyData'
 

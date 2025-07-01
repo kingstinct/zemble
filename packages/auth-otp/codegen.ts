@@ -1,7 +1,6 @@
+import type { CodegenConfig } from '@graphql-codegen/cli'
 import defaultConfig, { DEFAULT_CLIENT_OUTPUT_DIRECTORY_PATH } from '@zemble/graphql/codegen'
 import mergeDeep from '@zemble/utils/mergeDeep'
-
-import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config = {
   generates: {

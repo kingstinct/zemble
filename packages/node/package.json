@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node cli.js",
     "dev": "ts-node-dev cli.ts",
-    "lint": "eslint .",
+    "lint": "biome check .",
     "typecheck": "tsc --noEmit"
   },
   "repository": {

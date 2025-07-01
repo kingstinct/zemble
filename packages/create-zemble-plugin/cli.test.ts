@@ -1,7 +1,4 @@
-import {
-  afterAll,
-  beforeAll, expect, test,
-} from 'bun:test'
+import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { spawnSync } from 'node:child_process'
 import { join } from 'node:path'
 
@@ -43,20 +40,32 @@ const testTemplate = (template: string) => {
   // expect(typecheckRes.status).toBe(0)
 }
 
-test('test graphql', () => {
-  testTemplate('graphql')
-}, {
-  timeout: 30000,
-})
+test(
+  'test graphql',
+  () => {
+    testTemplate('graphql')
+  },
+  {
+    timeout: 30000,
+  },
+)
 
-test('test bare', () => {
-  testTemplate('bare')
-}, {
-  timeout: 30000,
-})
+test(
+  'test bare',
+  () => {
+    testTemplate('bare')
+  },
+  {
+    timeout: 30000,
+  },
+)
 
-test('test middleware', () => {
-  testTemplate('middleware')
-}, {
-  timeout: 30000,
-})
+test(
+  'test middleware',
+  () => {
+    testTemplate('middleware')
+  },
+  {
+    timeout: 30000,
+  },
+)

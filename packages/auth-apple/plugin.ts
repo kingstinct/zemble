@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-namespace */
 
+import path from 'node:path'
 import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
-import path from 'node:path'
 
 import { generateOAuthStateJWT } from './utils/generateOAuthStateJWT'
-import { generateBearerTokenFromAppleToken, type AppleUserSignupData, type AppleUserSignupDataOnWeb } from './utils/generateToken'
-import { validateIdToken, type AppleJwtContents } from './utils/validateIdToken'
+import { type AppleUserSignupData, type AppleUserSignupDataOnWeb, generateBearerTokenFromAppleToken } from './utils/generateToken'
+import { type AppleJwtContents, validateIdToken } from './utils/validateIdToken'
 import { validateOAuthStateJWT } from './utils/validateOAuthStateJWT'
 
 interface AppleAuthConfig extends Zemble.GlobalConfig {
-  readonly PRIVATE_KEY?: string;
+  readonly PRIVATE_KEY?: string
   readonly generateTokenContents: (jwtContents: AppleJwtContents, signUpUserData: AppleUserSignupData | undefined) => Promise<Zemble.AppleToken> | Zemble.AppleToken
   readonly UNAUTHENTICATED_REDIRECT_URL?: string
   readonly AUTHENTICATED_REDIRECT_URL?: string
@@ -25,7 +25,7 @@ interface AppleAuthConfig extends Zemble.GlobalConfig {
 }
 
 export interface DefaultAppleToken {
-  readonly type: '@zemble/auth-apple',
+  readonly type: '@zemble/auth-apple'
   readonly appleUserId: string
   readonly email?: string
 }
@@ -34,9 +34,7 @@ declare global {
   namespace Zemble {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore could maybe be improved
-    interface AppleToken extends DefaultAppleToken {
-
-    }
+    interface AppleToken extends DefaultAppleToken {}
 
     interface TokenRegistry {
       readonly AuthApple: AppleToken
@@ -79,16 +77,17 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
   middleware: async ({ app, config, self }) => {
     app.hono.get(config.appleAuthInitializePath, async (ctx) => {
       const scope = 'email name',
-            state = await generateOAuthStateJWT(),
-            {
-              APPLE_CLIENT_ID, INTERNAL_URL, appleAuthCallbackPath,
-            } = config,
-            redirectUri = path.join(INTERNAL_URL, appleAuthCallbackPath)
+        state = await generateOAuthStateJWT(),
+        { APPLE_CLIENT_ID, INTERNAL_URL, appleAuthCallbackPath } = config,
+        redirectUri = path.join(INTERNAL_URL, appleAuthCallbackPath)
 
       if (!APPLE_CLIENT_ID) {
-        return ctx.json({
-          error: 'APPLE_CLIENT_ID needs to be set for Apple OAuth flow to work.',
-        }, 500)
+        return ctx.json(
+          {
+            error: 'APPLE_CLIENT_ID needs to be set for Apple OAuth flow to work.',
+          },
+          500,
+        )
       }
 
       const authorizationUri = `https://appleid.apple.com/auth/authorize?response_type=code id_token&client_id=${APPLE_CLIENT_ID}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}&response_mode=form_post`
@@ -98,13 +97,10 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
 
     app.hono.post(config.appleAuthCallbackPath, async (ctx) => {
       const formData = await ctx.req.formData(),
-            idToken = formData.get('id_token')?.toString(),
-            user = formData.get('user')?.toString(),
-            state = formData.get('state')?.toString(),
-            {
-              UNAUTHENTICATED_REDIRECT_URL,
-              AUTHENTICATED_REDIRECT_URL,
-            } = config
+        idToken = formData.get('id_token')?.toString(),
+        user = formData.get('user')?.toString(),
+        state = formData.get('state')?.toString(),
+        { UNAUTHENTICATED_REDIRECT_URL, AUTHENTICATED_REDIRECT_URL } = config
 
       if (state) {
         const isValid = await validateOAuthStateJWT(state)
@@ -124,14 +120,18 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
 
       try {
         const decoded = await validateIdToken(idToken)
-        const userDataOnWeb = user ? JSON.parse(user) as AppleUserSignupDataOnWeb : undefined
-        const userData: AppleUserSignupData | undefined = userDataOnWeb ? {
-          email: userDataOnWeb.email,
-          name: userDataOnWeb.name ? {
-            givenName: userDataOnWeb.name.firstName,
-            familyName: userDataOnWeb.name.lastName,
-          } : undefined,
-        } : undefined
+        const userDataOnWeb = user ? (JSON.parse(user) as AppleUserSignupDataOnWeb) : undefined
+        const userData: AppleUserSignupData | undefined = userDataOnWeb
+          ? {
+              email: userDataOnWeb.email,
+              name: userDataOnWeb.name
+                ? {
+                    givenName: userDataOnWeb.name.firstName,
+                    familyName: userDataOnWeb.name.lastName,
+                  }
+                : undefined,
+            }
+          : undefined
 
         const bearerToken = await generateBearerTokenFromAppleToken(decoded, userData)
 

@@ -1,8 +1,6 @@
-import { test, expect } from 'bun:test'
+import { expect, test } from 'bun:test'
 
-import {
-  parseEnvBoolean, parseEnvEnum, parseEnvJSON, parseEnvNumber,
-} from './parseEnv'
+import { parseEnvBoolean, parseEnvEnum, parseEnvJSON, parseEnvNumber } from './parseEnv'
 
 test('parseEnvBoolean', () => {
   const result = parseEnvBoolean('isSomething', undefined, { isSomething: 'true' })
@@ -11,7 +9,7 @@ test('parseEnvBoolean', () => {
 })
 
 test('parseEnvBoolean default', () => {
-  const result = parseEnvBoolean('isSomething', true, { })
+  const result = parseEnvBoolean('isSomething', true, {})
 
   expect(result).toEqual(true)
 })
@@ -40,12 +38,7 @@ test('parseEnvEnum can be undefined if no default is set', () => {
 })
 
 test('parseEnvEnum should use default value when not in range', () => {
-  const result = parseEnvEnum(
-    'isSomething',
-    ['value1', 'value2'],
-    'value1',
-    { isSomething: 'value3' },
-  )
+  const result = parseEnvEnum('isSomething', ['value1', 'value2'], 'value1', { isSomething: 'value3' })
 
   expect(result).toEqual('value1')
 })
@@ -57,7 +50,7 @@ test('parseEnvNumber', () => {
 })
 
 test('parseEnvJSON', () => {
-  const result = parseEnvJSON('isSomething', { }, { isSomething: '{ "something": "cool" }' })
+  const result = parseEnvJSON('isSomething', {}, { isSomething: '{ "something": "cool" }' })
 
   expect(result).toEqual({ something: 'cool' })
 })
@@ -69,7 +62,7 @@ test('parseEnvJSON return defaultValue when null', () => {
 })
 
 test('parseEnvJSON return actual value', () => {
-  const result = parseEnvJSON<{readonly isValid: boolean}>('envVariableWithJson', { isValid: false }, { envVariableWithJson: '{ "isValid": true }' })
+  const result = parseEnvJSON<{ readonly isValid: boolean }>('envVariableWithJson', { isValid: false }, { envVariableWithJson: '{ "isValid": true }' })
 
   expect(result).toEqual({ isValid: true })
 })

@@ -1,31 +1,64 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/export */
 /* eslint-disable @typescript-eslint/ban-types */
-declare module "expo-router" {
-  import type { LinkProps as OriginalLinkProps } from 'expo-router/build/link/Link';
-  import type { Router as OriginalRouter } from 'expo-router/src/types';
-  export * from 'expo-router/build';
+declare module 'expo-router' {
+  import type { LinkProps as OriginalLinkProps } from 'expo-router/build/link/Link'
+  import type { Router as OriginalRouter } from 'expo-router/src/types'
+  export * from 'expo-router/build'
 
   // prettier-ignore
-  type StaticRoutes = `/` | `/(auth)/login` | `/login` | `/(tabs)/(content)/_layout` | `/_layout` | `/(tabs)/(content)/` | `/(tabs)/(content)` | `/(tabs)/_layout` | `/(tabs)/profile` | `/profile` | `/(tabs)/users` | `/users` | `/.DS_Store`;
+  type StaticRoutes =
+    | `/`
+    | `/(auth)/login`
+    | `/login`
+    | `/(tabs)/(content)/_layout`
+    | `/_layout`
+    | `/(tabs)/(content)/`
+    | `/(tabs)/(content)`
+    | `/(tabs)/_layout`
+    | `/(tabs)/profile`
+    | `/profile`
+    | `/(tabs)/users`
+    | `/users`
+    | `/.DS_Store`
   // prettier-ignore
-  type DynamicRoutes<T extends string> = `/(tabs)/(content)/${SingleRoutePart<T>}/create` | `/${SingleRoutePart<T>}/create` | `/(tabs)/(content)/${SingleRoutePart<T>}/edit/${SingleRoutePart<T>}` | `/${SingleRoutePart<T>}/edit/${SingleRoutePart<T>}` | `/(tabs)/(content)/${SingleRoutePart<T>}/` | `/${SingleRoutePart<T>}/` | `/(tabs)/(content)/${SingleRoutePart<T>}` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/fields/${SingleRoutePart<T>}` | `/${SingleRoutePart<T>}/schema/fields/${SingleRoutePart<T>}` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/fields/create` | `/${SingleRoutePart<T>}/schema/fields/create` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/` | `/${SingleRoutePart<T>}/schema/` | `/(tabs)/(content)/${SingleRoutePart<T>}/schema`;
+  type DynamicRoutes<T extends string> =
+    | `/(tabs)/(content)/${SingleRoutePart<T>}/create`
+    | `/${SingleRoutePart<T>}/create`
+    | `/(tabs)/(content)/${SingleRoutePart<T>}/edit/${SingleRoutePart<T>}`
+    | `/${SingleRoutePart<T>}/edit/${SingleRoutePart<T>}`
+    | `/(tabs)/(content)/${SingleRoutePart<T>}/`
+    | `/${SingleRoutePart<T>}/`
+    | `/(tabs)/(content)/${SingleRoutePart<T>}`
+    | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/fields/${SingleRoutePart<T>}`
+    | `/${SingleRoutePart<T>}/schema/fields/${SingleRoutePart<T>}`
+    | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/fields/create`
+    | `/${SingleRoutePart<T>}/schema/fields/create`
+    | `/(tabs)/(content)/${SingleRoutePart<T>}/schema/`
+    | `/${SingleRoutePart<T>}/schema/`
+    | `/(tabs)/(content)/${SingleRoutePart<T>}/schema`
   // prettier-ignore
-  type DynamicRouteTemplate = `/(tabs)/(content)/[entity]/create` | `/(tabs)/(content)/[entity]/edit/[id]` | `/(tabs)/(content)/[entity]/` | `/(tabs)/(content)/[entity]/schema/fields/[fieldName]` | `/(tabs)/(content)/[entity]/schema/fields/create` | `/(tabs)/(content)/[entity]/schema/`;
+  type DynamicRouteTemplate =
+    | `/(tabs)/(content)/[entity]/create`
+    | `/(tabs)/(content)/[entity]/edit/[id]`
+    | `/(tabs)/(content)/[entity]/`
+    | `/(tabs)/(content)/[entity]/schema/fields/[fieldName]`
+    | `/(tabs)/(content)/[entity]/schema/fields/create`
+    | `/(tabs)/(content)/[entity]/schema/`
 
-  type RelativePathString = `./${string}` | `../${string}` | '..';
-  type AbsoluteRoute = DynamicRouteTemplate | StaticRoutes;
-  type ExternalPathString = `http${string}`;
-  type ExpoRouterRoutes = DynamicRouteTemplate | StaticRoutes | RelativePathString;
-  type AllRoutes = ExpoRouterRoutes | ExternalPathString;
+  type RelativePathString = `./${string}` | `../${string}` | '..'
+  type AbsoluteRoute = DynamicRouteTemplate | StaticRoutes
+  type ExternalPathString = `http${string}`
+  type ExpoRouterRoutes = DynamicRouteTemplate | StaticRoutes | RelativePathString
+  type AllRoutes = ExpoRouterRoutes | ExternalPathString
 
   /****************
    * Route Utils  *
    ****************/
 
-  type SearchOrHash = `?${string}` | `#${string}`;
-  type UnknownInputParams = Record<string, string | number | (string | number)[]>;
-  type UnknownOutputParams = Record<string, string | string[]>;
+  type SearchOrHash = `?${string}` | `#${string}`
+  type UnknownInputParams = Record<string, string | number | (string | number)[]>
+  type UnknownOutputParams = Record<string, string | string[]>
 
   /**
    * Return only the RoutePart of a string. If the string has multiple parts return never
@@ -42,14 +75,14 @@ declare module "expo-router" {
   type SingleRoutePart<S extends string> = S extends `${string}/${string}`
     ? never
     : S extends `${string}${SearchOrHash}`
-    ? never
-    : S extends ''
-    ? never
-    : S extends `(${string})`
-    ? never
-    : S extends `[${string}]`
-    ? never
-    : S;
+      ? never
+      : S extends ''
+        ? never
+        : S extends `(${string})`
+          ? never
+          : S extends `[${string}]`
+            ? never
+            : S
 
   /**
    * Return only the CatchAll router part. If the string has search parameters or a hash return never
@@ -57,12 +90,12 @@ declare module "expo-router" {
   type CatchAllRoutePart<S extends string> = S extends `${string}${SearchOrHash}`
     ? never
     : S extends ''
-    ? never
-    : S extends `${string}(${string})${string}`
-    ? never
-    : S extends `${string}[${string}]${string}`
-    ? never
-    : S;
+      ? never
+      : S extends `${string}(${string})${string}`
+        ? never
+        : S extends `${string}[${string}]${string}`
+          ? never
+          : S
 
   // type OptionalCatchAllRoutePart<S extends string> = S extends `${string}${SearchOrHash}` ? never : S
 
@@ -72,7 +105,7 @@ declare module "expo-router" {
    * 'test'      -> never
    * '[...test]' -> '...test'
    */
-  type IsParameter<Part> = Part extends `[${infer ParamName}]` ? ParamName : never;
+  type IsParameter<Part> = Part extends `[${infer ParamName}]` ? ParamName : never
 
   /**
    * Return a union of all parameter names. If there are no names return never
@@ -80,22 +113,14 @@ declare module "expo-router" {
    * /[test]         -> 'test'
    * /[abc]/[...def] -> 'abc'|'...def'
    */
-  type ParameterNames<Path> = Path extends `${infer PartA}/${infer PartB}`
-    ? IsParameter<PartA> | ParameterNames<PartB>
-    : IsParameter<Path>;
+  type ParameterNames<Path> = Path extends `${infer PartA}/${infer PartB}` ? IsParameter<PartA> | ParameterNames<PartB> : IsParameter<Path>
 
   /**
    * Returns all segements of a route.
    *
    * /(group)/123/abc/[id]/[...rest] -> ['(group)', '123', 'abc', '[id]', '[...rest]'
    */
-  type RouteSegments<Path> = Path extends `${infer PartA}/${infer PartB}`
-    ? PartA extends '' | '.'
-      ? [...RouteSegments<PartB>]
-      : [PartA, ...RouteSegments<PartB>]
-    : Path extends ''
-    ? []
-    : [Path];
+  type RouteSegments<Path> = Path extends `${infer PartA}/${infer PartB}` ? (PartA extends '' | '.' ? [...RouteSegments<PartB>] : [PartA, ...RouteSegments<PartB>]) : Path extends '' ? [] : [Path]
 
   /**
    * Returns a Record of the routes parameters as strings and CatchAll parameters
@@ -107,25 +132,17 @@ declare module "expo-router" {
    * /no-params      -> {}
    */
   type InputRouteParams<Path> = {
-    [Key in ParameterNames<Path> as Key extends `...${infer Name}`
-      ? Name
-      : Key]: Key extends `...${string}` ? (string | number)[] : string | number;
-  } & UnknownInputParams;
+    [Key in ParameterNames<Path> as Key extends `...${infer Name}` ? Name : Key]: Key extends `...${string}` ? (string | number)[] : string | number
+  } & UnknownInputParams
 
   type OutputRouteParams<Path> = {
-    [Key in ParameterNames<Path> as Key extends `...${infer Name}`
-      ? Name
-      : Key]: Key extends `...${string}` ? string[] : string;
-  } & UnknownOutputParams;
+    [Key in ParameterNames<Path> as Key extends `...${infer Name}` ? Name : Key]: Key extends `...${string}` ? string[] : string
+  } & UnknownOutputParams
 
   /**
    * Returns the search parameters for a route.
    */
-  export type SearchParams<T extends AllRoutes> = T extends DynamicRouteTemplate
-    ? OutputRouteParams<T>
-    : T extends StaticRoutes
-    ? never
-    : UnknownOutputParams;
+  export type SearchParams<T extends AllRoutes> = T extends DynamicRouteTemplate ? OutputRouteParams<T> : T extends StaticRoutes ? never : UnknownOutputParams
 
   /**
    * Route is mostly used as part of Href to ensure that a valid route is provided
@@ -143,33 +160,20 @@ declare module "expo-router" {
   export type Route<T> = T extends string
     ? T extends DynamicRouteTemplate
       ? never
-      :
-          | StaticRoutes
-          | RelativePathString
-          | ExternalPathString
-          | (T extends `${infer P}${SearchOrHash}`
-              ? P extends DynamicRoutes<infer _>
-                ? T
-                : never
-              : T extends DynamicRoutes<infer _>
-              ? T
-              : never)
-    : never;
+      : StaticRoutes | RelativePathString | ExternalPathString | (T extends `${infer P}${SearchOrHash}` ? (P extends DynamicRoutes<infer _> ? T : never) : T extends DynamicRoutes<infer _> ? T : never)
+    : never
 
   /*********
    * Href  *
    *********/
 
-  export type Href<T> = T extends Record<'pathname', string> ? HrefObject<T> : Route<T>;
+  export type Href<T> = T extends Record<'pathname', string> ? HrefObject<T> : Route<T>
 
-  export type HrefObject<
-    R extends Record<'pathname', string>,
-    P = R['pathname']
-  > = P extends DynamicRouteTemplate
+  export type HrefObject<R extends Record<'pathname', string>, P = R['pathname']> = P extends DynamicRouteTemplate
     ? { pathname: P; params: InputRouteParams<P> }
     : P extends Route<P>
-    ? { pathname: Route<P> | DynamicRouteTemplate; params?: never | InputRouteParams<never> }
-    : never;
+      ? { pathname: Route<P> | DynamicRouteTemplate; params?: never | InputRouteParams<never> }
+      : never
 
   /***********************
    * Expo Router Exports *
@@ -177,27 +181,27 @@ declare module "expo-router" {
 
   export type Router = Omit<OriginalRouter, 'push' | 'replace' | 'setParams'> & {
     /** Navigate to the provided href. */
-    push: <T>(href: Href<T>) => void;
+    push: <T>(href: Href<T>) => void
     /** Navigate to route without appending to the history. */
-    replace: <T>(href: Href<T>) => void;
+    replace: <T>(href: Href<T>) => void
     /** Update the current route query params. */
-    setParams: <T = ''>(params?: T extends '' ? Record<string, string> : InputRouteParams<T>) => void;
-  };
+    setParams: <T = ''>(params?: T extends '' ? Record<string, string> : InputRouteParams<T>) => void
+  }
 
   /** The imperative router. */
-  export const router: Router;
+  export const router: Router
 
   /************
    * <Link /> *
    ************/
   export interface LinkProps<T> extends OriginalLinkProps {
-    href: Href<T>;
+    href: Href<T>
   }
 
   export interface LinkComponent {
-    <T>(props: React.PropsWithChildren<LinkProps<T>>): JSX.Element;
+    <T>(props: React.PropsWithChildren<LinkProps<T>>): JSX.Element
     /** Helper method to resolve an Href object into a string. */
-    resolveHref: <T>(href: Href<T>) => string;
+    resolveHref: <T>(href: Href<T>) => string
   }
 
   /**
@@ -209,32 +213,22 @@ declare module "expo-router" {
    * @param props.asChild Forward props to child component. Useful for custom buttons.
    * @param props.children Child elements to render the content.
    */
-  export const Link: LinkComponent;
-  
+  export const Link: LinkComponent
+
   /** Redirects to the href as soon as the component is mounted. */
-  export const Redirect: <T>(
-    props: React.PropsWithChildren<{ href: Href<T> }>
-  ) => JSX.Element;
+  export const Redirect: <T>(props: React.PropsWithChildren<{ href: Href<T> }>) => JSX.Element
 
   /************
    * Hooks *
    ************/
-  export function useRouter(): Router;
+  export function useRouter(): Router
 
-  export function useLocalSearchParams<
-    T extends AllRoutes | UnknownOutputParams = UnknownOutputParams
-  >(): T extends AllRoutes ? SearchParams<T> : T;
+  export function useLocalSearchParams<T extends AllRoutes | UnknownOutputParams = UnknownOutputParams>(): T extends AllRoutes ? SearchParams<T> : T
 
   /** @deprecated renamed to `useGlobalSearchParams` */
-  export function useSearchParams<
-    T extends AllRoutes | UnknownOutputParams = UnknownOutputParams
-  >(): T extends AllRoutes ? SearchParams<T> : T;
+  export function useSearchParams<T extends AllRoutes | UnknownOutputParams = UnknownOutputParams>(): T extends AllRoutes ? SearchParams<T> : T
 
-  export function useGlobalSearchParams<
-    T extends AllRoutes | UnknownOutputParams = UnknownOutputParams
-  >(): T extends AllRoutes ? SearchParams<T> : T;
+  export function useGlobalSearchParams<T extends AllRoutes | UnknownOutputParams = UnknownOutputParams>(): T extends AllRoutes ? SearchParams<T> : T
 
-  export function useSegments<
-    T extends AbsoluteRoute | RouteSegments<AbsoluteRoute> | RelativePathString
-  >(): T extends AbsoluteRoute ? RouteSegments<T> : T extends string ? string[] : T;
+  export function useSegments<T extends AbsoluteRoute | RouteSegments<AbsoluteRoute> | RelativePathString>(): T extends AbsoluteRoute ? RouteSegments<T> : T extends string ? string[] : T
 }

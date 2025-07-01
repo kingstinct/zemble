@@ -9,7 +9,4 @@ if (!plugin.config.FIREBASE_CLIENT_CONFIG) {
 
 firebaseClient.initializeApp(plugin.config.FIREBASE_CLIENT_CONFIG)
 
-export {
-  firebaseAuth,
-  firebaseClient,
-}
+export { firebaseAuth, firebaseClient }

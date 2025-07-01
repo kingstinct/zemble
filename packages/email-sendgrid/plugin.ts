@@ -1,20 +1,15 @@
 import sendgrid from '@sendgrid/mail'
+import type { IEmail, IStandardSendEmailService } from '@zemble/core'
 import { Plugin } from '@zemble/core'
 import setupProvider from '@zemble/core/utils/setupProvider'
 import yoga from '@zemble/graphql'
-
-import type { IEmail, IStandardSendEmailService } from '@zemble/core'
 
 interface EmailSendgridConfig extends Zemble.GlobalConfig {
   readonly SENDGRID_API_KEY?: string
   readonly disable?: boolean
 }
 
-export const mapEmail = (email: string | IEmail): IEmail => (
-  typeof email === 'string'
-    ? { email }
-    : email
-)
+export const mapEmail = (email: string | IEmail): IEmail => (typeof email === 'string' ? { email } : email)
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -42,39 +37,44 @@ const defaultConfig = {
 
 // eslint-disable-next-line unicorn/consistent-function-scoping
 const plugin = new Plugin<EmailSendgridConfig, typeof defaultConfig>(import.meta.dir, {
-  middleware: async ({
-    config, app, logger,
-  }) => {
+  middleware: async ({ config, app, logger }) => {
     if (!config.disable) {
-      const initializeProvider = (): IStandardSendEmailService => async ({
-        from, to, html, text, subject, bcc, cc, replyTo,
-      // eslint-disable-next-line unicorn/consistent-function-scoping
-      }) => {
-        if (!config.SENDGRID_API_KEY) {
-          logger.warn('SENDGRID_API_KEY must be set to send email, skipping')
-          return false
-        }
-
-        sendgrid.setApiKey(config.SENDGRID_API_KEY)
-
-        const [response] = await sendgrid.send({
-          // eslint-disable-next-line no-nested-ternary
-          to: typeof to === 'string' ? to
-            : ('email' in to ? { email: to.email, name: to.name ?? undefined }
-              : to.map(mapEmail)),
-          from: mapEmail(from),
-          html: html ?? undefined,
+      const initializeProvider =
+        (): IStandardSendEmailService =>
+        async ({
+          from,
+          to,
+          html,
           text,
           subject,
-          ...cc ? { cc: cc instanceof Array ? cc.map(mapEmail) : mapEmail(cc) } : {},
-          ...bcc ? { bcc: bcc instanceof Array ? bcc.map(mapEmail) : mapEmail(bcc) } : {},
-          ...replyTo ? { replyTo: replyTo instanceof Array ? replyTo.map(mapEmail)[0] : mapEmail(replyTo) } : {},
-        })
+          bcc,
+          cc,
+          replyTo,
+          // eslint-disable-next-line unicorn/consistent-function-scoping
+        }) => {
+          if (!config.SENDGRID_API_KEY) {
+            logger.warn('SENDGRID_API_KEY must be set to send email, skipping')
+            return false
+          }
 
-        const ok = response.statusCode >= 200 && response.statusCode < 300
+          sendgrid.setApiKey(config.SENDGRID_API_KEY)
 
-        return ok
-      }
+          const [response] = await sendgrid.send({
+            // eslint-disable-next-line no-nested-ternary
+            to: typeof to === 'string' ? to : 'email' in to ? { email: to.email, name: to.name ?? undefined } : to.map(mapEmail),
+            from: mapEmail(from),
+            html: html ?? undefined,
+            text,
+            subject,
+            ...(cc ? { cc: cc instanceof Array ? cc.map(mapEmail) : mapEmail(cc) } : {}),
+            ...(bcc ? { bcc: bcc instanceof Array ? bcc.map(mapEmail) : mapEmail(bcc) } : {}),
+            ...(replyTo ? { replyTo: replyTo instanceof Array ? replyTo.map(mapEmail)[0] : mapEmail(replyTo) } : {}),
+          })
+
+          const ok = response.statusCode >= 200 && response.statusCode < 300
+
+          return ok
+        }
       // eslint-disable-next-line functional/immutable-data, no-param-reassign
       await setupProvider({
         app,

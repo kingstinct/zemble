@@ -1,8 +1,6 @@
+import { afterAll, afterEach, beforeAll, beforeEach, expect, test } from 'bun:test'
 import { signJwt } from '@zemble/auth/utils/signJwt'
 import { createTestApp } from '@zemble/core/test-utils'
-import {
-  beforeEach, test, expect, afterAll, afterEach, beforeAll,
-} from 'bun:test'
 
 import plugin from '../../plugin'
 import { setupBeforeAll, tearDownAfterEach, teardownAfterAll } from '../../test-setup'
@@ -29,25 +27,33 @@ beforeEach(async () => {
     },
   }
 
-  await app.gqlRequest(CreateEntityMutation, {
-    nameSingular: 'book',
-    namePlural: 'books',
-  }, opts)
+  await app.gqlRequest(
+    CreateEntityMutation,
+    {
+      nameSingular: 'book',
+      namePlural: 'books',
+    },
+    opts,
+  )
 })
 
 test('should add a title field', async () => {
-  const addFieldsToEntityRes = await app.gqlRequest(AddFieldsToEntityMutation, {
-    namePlural: 'books',
-    fields: [
-      {
-        StringField: {
-          name: 'title',
-          isRequired: true,
-          isRequiredInput: false,
+  const addFieldsToEntityRes = await app.gqlRequest(
+    AddFieldsToEntityMutation,
+    {
+      namePlural: 'books',
+      fields: [
+        {
+          StringField: {
+            name: 'title',
+            isRequired: true,
+            isRequiredInput: false,
+          },
         },
-      },
-    ],
-  }, opts)
+      ],
+    },
+    opts,
+  )
 
   expect(addFieldsToEntityRes.data).toEqual({
     addFieldsToEntity: {

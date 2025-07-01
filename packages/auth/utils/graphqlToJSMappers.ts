@@ -1,21 +1,13 @@
+import type { ExecutionArgs, FieldNode, GraphQLObjectType, ObjectValueNode, ValueNode } from 'graphql'
 import { Kind } from 'graphql'
 
-import type {
-  ExecutionArgs, FieldNode, GraphQLObjectType, ObjectValueNode, ValueNode,
-} from 'graphql'
-
 export const getVariableReferenceSimple = (
-  referenceWithPrefix: string, {
-    fieldNode,
-    objectType,
-    executionArgs,
-  }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
+  referenceWithPrefix: string,
+  { fieldNode, objectType, executionArgs }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
 ) => {
   const variableName = referenceWithPrefix.substring(1)
 
-  const argument = fieldNode.arguments?.find(
-    (arg) => arg.name.value === variableName,
-  )
+  const argument = fieldNode.arguments?.find((arg) => arg.name.value === variableName)
 
   if (!argument) {
     throw new Error(`Could not find argument '${variableName}' in '${objectType.name}.${fieldNode?.name.value}'`)
@@ -24,7 +16,8 @@ export const getVariableReferenceSimple = (
   if ('value' in argument.value) {
     const valueToMatch = argument.value.value
     return valueToMatch
-  } if (argument.value.kind === Kind.VARIABLE) {
+  }
+  if (argument.value.kind === Kind.VARIABLE) {
     const valueFromVariable = executionArgs?.variableValues?.[argument.value.name.value]
 
     return valueFromVariable
@@ -35,11 +28,8 @@ export const getVariableReferenceSimple = (
 }
 
 export const handleValueNode = (
-  value: ValueNode, {
-    fieldNode,
-    objectType,
-    executionArgs,
-  }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
+  value: ValueNode,
+  { fieldNode, objectType, executionArgs }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
 ): unknown => {
   if (value.kind === Kind.STRING) {
     if (value.value.startsWith('$')) {
@@ -75,15 +65,14 @@ export const handleValueNode = (
 
 export const transformObjectNode = (
   objectNode: ObjectValueNode,
-  {
-    fieldNode,
-    objectType,
-    executionArgs,
-  }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
+  { fieldNode, objectType, executionArgs }: { readonly fieldNode: FieldNode; readonly objectType: GraphQLObjectType; readonly executionArgs: ExecutionArgs },
 ): Record<string, unknown> => {
   const { fields } = objectNode
-  return fields.reduce((acc, field) => ({
-    ...acc,
-    [field.name.value]: handleValueNode(field.value, { executionArgs, fieldNode, objectType }),
-  }), {})
+  return fields.reduce(
+    (acc, field) => ({
+      ...acc,
+      [field.name.value]: handleValueNode(field.value, { executionArgs, fieldNode, objectType }),
+    }),
+    {},
+  )
 }

@@ -1,5 +1,5 @@
+import { expect, test } from 'bun:test'
 import { createApp } from '@zemble/core'
-import { test, expect } from 'bun:test'
 
 import config from './config'
 

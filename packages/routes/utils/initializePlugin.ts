@@ -1,16 +1,12 @@
-import { stream } from 'hono/streaming'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-
-import readRoutes from './readRoutes'
-
-import type { RoutesGlobalConfig } from '../plugin'
 import type { IStandardLogger } from '@zemble/core'
 import type { MiddlewareHandler } from 'hono'
+import { stream } from 'hono/streaming'
+import type { RoutesGlobalConfig } from '../plugin'
+import readRoutes from './readRoutes'
 
-const httpVerbs = [
-  'get', 'post', 'put', 'delete', 'patch',
-] as const
+const httpVerbs = ['get', 'post', 'put', 'delete', 'patch'] as const
 
 const fileExtensionToMimeType: Record<string, string> = {
   '.aac': 'audio/aac',
@@ -89,12 +85,7 @@ const fileExtensionToMimeType: Record<string, string> = {
   '.7z': 'application/x-7z-compressed',
 }
 
-const initializeRoutes = async (
-  routePath: string,
-  app: Pick<Zemble.App, 'hono'>,
-  config: Omit<RoutesGlobalConfig, 'disable'>,
-  logger: IStandardLogger,
-) => {
+const initializeRoutes = async (routePath: string, app: Pick<Zemble.App, 'hono'>, config: Omit<RoutesGlobalConfig, 'disable'>, logger: IStandardLogger) => {
   const hasRoutes = fs.existsSync(routePath)
   const { hono } = app
 
@@ -148,7 +139,7 @@ const initializeRoutes = async (
 
             return stream(context, async (stream) => {
               fileStream.on('data', async (data) => {
-                const typedData = typeof data === 'string' ? data : data as unknown as Uint8Array
+                const typedData = typeof data === 'string' ? data : (data as unknown as Uint8Array)
                 void stream.write(typedData)
               })
               fileStream.on('end', async () => {
@@ -179,19 +170,17 @@ const initializeRoutes = async (
   }
 }
 
-export async function initializePlugin(
-  {
-    pluginPath,
-    app,
-    config,
-    logger,
-  }: {
-    readonly pluginPath: string;
-    readonly app: Pick<Zemble.App, 'hono'>
-    readonly config: Omit<RoutesGlobalConfig, 'disable'>;
-    readonly logger: IStandardLogger;
-  },
-) {
+export async function initializePlugin({
+  pluginPath,
+  app,
+  config,
+  logger,
+}: {
+  readonly pluginPath: string
+  readonly app: Pick<Zemble.App, 'hono'>
+  readonly config: Omit<RoutesGlobalConfig, 'disable'>
+  readonly logger: IStandardLogger
+}) {
   const routePath = path.join(pluginPath, config.rootPath ?? 'routes')
   await initializeRoutes(routePath, app, config, logger)
 }

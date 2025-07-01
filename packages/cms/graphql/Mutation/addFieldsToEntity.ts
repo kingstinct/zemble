@@ -1,38 +1,38 @@
 import { GraphQLError } from 'graphql'
-
+import type { IndexDescription } from 'mongodb'
 import papr from '../../clients/papr'
-import { readEntities, writeEntities } from '../../utils/fs'
 
 import type { EntitySchemaType } from '../../types'
-import type {
-  FieldInput,
-  MutationResolvers,
-} from '../schema.generated'
-import type { IndexDescription } from 'mongodb'
+import { readEntities, writeEntities } from '../../utils/fs'
+import type { FieldInput, MutationResolvers } from '../schema.generated'
 
 type Field = EntitySchemaType['fields'][0]
 
 const mapInputToField = (input: FieldInput): Field => {
-  const fieldConfig = ({
+  const fieldConfig = {
     ...input.NumberField,
     ...input.StringField,
     ...input.BooleanField,
     ...input.EntityRelationField,
     ...input.ArrayField,
     __typename: Object.keys(input)[0] as 'BooleanField' | 'StringField' | 'NumberField' | 'EntityRelationField' | 'ArrayField',
-  })
+  }
 
   // @ts-expect-error fix sometime
   return {
     ...fieldConfig,
     isRequired: fieldConfig.isRequired ?? false,
     isRequiredInput: fieldConfig.isRequiredInput ?? false,
-    ...input.ArrayField ? {
-      availableFields: input.ArrayField.availableFields.map(mapInputToField),
-    } : {},
-    ...input.StringField ? {
-      isSearchable: fieldConfig.isSearchable ?? false,
-    } : {},
+    ...(input.ArrayField
+      ? {
+          availableFields: input.ArrayField.availableFields.map(mapInputToField),
+        }
+      : {}),
+    ...(input.StringField
+      ? {
+          isSearchable: fieldConfig.isSearchable ?? false,
+        }
+      : {}),
   }
 }
 
@@ -83,17 +83,17 @@ export const addFieldsToEntity: NonNullable<MutationResolvers['addFieldsToEntity
     const fieldsRequiringValidation = all.filter(Boolean) as readonly string[]
     if (fieldsRequiringValidation.length > 1) {
       const collection = await papr.contentCollection(entityToUpdate.namePlural)
-      const failingDocs = await collection.find(fieldsRequiringValidation.reduce((acc, fieldName) => ({
-        ...acc,
-        $or: [
-          { [fieldName]: { $exists: false } },
-          { [fieldName]: { $eq: null } },
-        ],
-      }), {}))
+      const failingDocs = await collection.find(
+        fieldsRequiringValidation.reduce(
+          (acc, fieldName) => ({
+            ...acc,
+            $or: [{ [fieldName]: { $exists: false } }, { [fieldName]: { $eq: null } }],
+          }),
+          {},
+        ),
+      )
 
-      const fieldsFailingValidation = fieldsRequiringValidation.filter((
-        fieldName,
-      ) => failingDocs.some((doc) => !doc[fieldName] && doc[fieldName] !== false))
+      const fieldsFailingValidation = fieldsRequiringValidation.filter((fieldName) => failingDocs.some((doc) => !doc[fieldName] && doc[fieldName] !== false))
 
       if (failingDocs.length > 0) {
         throw new GraphQLError(`Cannot require ${fieldsFailingValidation.join(', ')} on entity ${namePlural}. Either provide a default value or add it without requiring these fields.`)
@@ -106,10 +106,7 @@ export const addFieldsToEntity: NonNullable<MutationResolvers['addFieldsToEntity
 
   const updatedEntity = {
     ...entityToUpdate,
-    fields: [
-      ...entityToUpdate.fields.filter((field) => !fields.some((f) => f.name === field.name)),
-      ...fields,
-    ],
+    fields: [...entityToUpdate.fields.filter((field) => !fields.some((f) => f.name === field.name)), ...fields],
   }
 
   const updatedEntities = entities.map((e) => (e.namePlural === namePlural ? updatedEntity : e))
@@ -132,21 +129,27 @@ export const addFieldsToEntity: NonNullable<MutationResolvers['addFieldsToEntity
     await collection.dropIndex(`search_index`)
   }
   if (searchableFields.length > 0) {
-    const index = searchableFields.reduce((acc, field) => ({
-      ...acc,
-      [field.name]: 'text',
-    }), {})
+    const index = searchableFields.reduce(
+      (acc, field) => ({
+        ...acc,
+        [field.name]: 'text',
+      }),
+      {},
+    )
     await collection.createIndex(index, {
       name: 'search_index',
     })
 
-    await collection.createIndexes(searchableFields.map<IndexDescription>((s) => ({
-      key: {
-        [s.name]: 1,
+    await collection.createIndexes(
+      searchableFields.map<IndexDescription>((s) => ({
+        key: {
+          [s.name]: 1,
+        },
+      })),
+      {
+        sparse: true,
       },
-    })), {
-      sparse: true,
-    })
+    )
   }
 
   pubsub.publish('reload-schema', {})

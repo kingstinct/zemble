@@ -1,8 +1,7 @@
+import type { Configure } from '@zemble/core'
 import { createApp } from '@zemble/core'
 import { runBeforeServe } from '@zemble/core/runBeforeServe'
 import Bun from 'bun'
-
-import type { Configure } from '@zemble/core'
 
 export const serve = async (config: Configure | Promise<Zemble.App> | Zemble.App) => {
   const app = await ('plugins' in config ? createApp(config) : config)
@@ -10,7 +9,7 @@ export const serve = async (config: Configure | Promise<Zemble.App> | Zemble.App
 
   const bunServer = Bun.serve({
     fetch: async (request, server) => {
-    // Upgrade the request to a WebSocket
+      // Upgrade the request to a WebSocket
       if (server.upgrade(request)) {
         return new Response()
       }

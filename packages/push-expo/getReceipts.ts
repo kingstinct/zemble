@@ -22,7 +22,7 @@ export const getReceipts = async (receiptIds: readonly string[]) => {
     })
 
     // eslint-disable-next-line no-await-in-loop
-    const resData = await response.json() as GetReceiptsResponse
+    const resData = (await response.json()) as GetReceiptsResponse
 
     receipts = { ...receipts, ...resData.data }
   }

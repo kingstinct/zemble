@@ -1,13 +1,9 @@
-import {
-  GraphQLID, GraphQLInputObjectType, GraphQLList, GraphQLNonNull,
-} from 'graphql'
-
-import { fieldToInputType } from './utils'
-import papr from '../clients/papr'
-import { capitalize } from '../utils'
-
-import type { EntitySchemaType } from '../types'
 import type { GraphQLFieldConfig, GraphQLObjectType } from 'graphql'
+import { GraphQLID, GraphQLInputObjectType, GraphQLList, GraphQLNonNull } from 'graphql'
+import papr from '../clients/papr'
+import type { EntitySchemaType } from '../types'
+import { capitalize } from '../utils'
+import { fieldToInputType } from './utils'
 
 const createFilterResolver = (entity: EntitySchemaType, obj: GraphQLObjectType) => {
   const args = entity.fields.reduce((prev, field) => {
@@ -18,7 +14,7 @@ const createFilterResolver = (entity: EntitySchemaType, obj: GraphQLObjectType) 
       return prev
     }
 
-    return ({
+    return {
       ...prev,
       [field.name]: {
         type: new GraphQLInputObjectType({
@@ -27,29 +23,37 @@ const createFilterResolver = (entity: EntitySchemaType, obj: GraphQLObjectType) 
             eq: {
               type: field.__typename === 'EntityRelationField' ? GraphQLID : baseType,
             },
-            ...field.__typename === 'NumberField' ? {
-              gt: { type: baseType },
-              gte: { type: baseType },
-              lt: { type: baseType },
-              lte: { type: baseType },
-            } : {},
+            ...(field.__typename === 'NumberField'
+              ? {
+                  gt: { type: baseType },
+                  gte: { type: baseType },
+                  lt: { type: baseType },
+                  lte: { type: baseType },
+                }
+              : {}),
           },
         }),
       },
-    })
+    }
   }, {})
 
   const filter: GraphQLFieldConfig<unknown, unknown, Record<string, unknown>> = {
     type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
     args,
     resolve: async (_, matchers) => {
-      const filter = Object.entries(matchers).reduce((prev, [key, value]) => ({
-        ...prev,
-        [key]: Object.entries(value as object).reduce((prev, [op, val]) => ({
+      const filter = Object.entries(matchers).reduce(
+        (prev, [key, value]) => ({
           ...prev,
-          [`$${op}`]: val,
-        }), {}),
-      }), {})
+          [key]: Object.entries(value as object).reduce(
+            (prev, [op, val]) => ({
+              ...prev,
+              [`$${op}`]: val,
+            }),
+            {},
+          ),
+        }),
+        {},
+      )
 
       return (await papr.contentCollection(entity.namePlural)).find(filter)
     },

@@ -1,28 +1,22 @@
 import authOtp from '@zemble/auth-otp'
 import cms from '@zemble/cms'
 import papr from '@zemble/cms/clients/papr'
+import type { BaseToken, DependenciesResolver } from '@zemble/core'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import mongodb from '@zemble/mongodb'
+import { connect, PermissionType, User } from './clients/papr'
 
-import { PermissionType, User, connect } from './clients/papr'
+interface CmsConfig extends Zemble.GlobalConfig {}
 
-import type { DependenciesResolver, BaseToken } from '@zemble/core'
-
-interface CmsConfig extends Zemble.GlobalConfig {
-
-}
-
-const defaultConfig = {
-
-} satisfies CmsConfig
+const defaultConfig = {} satisfies CmsConfig
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface OtpToken extends BaseToken {
       readonly permissions: readonly {
-        readonly type: PermissionType,
+        readonly type: PermissionType
       }[]
     }
   }
@@ -40,64 +34,64 @@ const isFirstUser = async (): Promise<boolean> => {
   return isFirstUserInternal
 }
 
-const plugin = new Plugin(import.meta.dir,
-  {
-    middleware: async ({ logger }) => {
-      await Promise.all([connect({ logger }), papr.connect({ logger })])
-    },
-    dependencies: () => {
-      const deps: DependenciesResolver<Plugin> = [
-        {
-          plugin: mongodb,
-        },
-        {
-          plugin: cms,
-        },
-        {
-          plugin: GraphQL,
-        },
-        {
-          plugin: authOtp.configure({
-            fromEmail: {
-              email: 'noreply@cmsexample.com',
-            },
-            generateTokenContents: async ({ email }) => {
-              if (!email) {
-                throw new Error('Email is required')
-              }
-              const user = await User.findOneAndUpdate({
+const plugin = new Plugin(import.meta.dir, {
+  middleware: async ({ logger }) => {
+    await Promise.all([connect({ logger }), papr.connect({ logger })])
+  },
+  dependencies: () => {
+    const deps: DependenciesResolver<Plugin> = [
+      {
+        plugin: mongodb,
+      },
+      {
+        plugin: cms,
+      },
+      {
+        plugin: GraphQL,
+      },
+      {
+        plugin: authOtp.configure({
+          fromEmail: {
+            email: 'noreply@cmsexample.com',
+          },
+          generateTokenContents: async ({ email }) => {
+            if (!email) {
+              throw new Error('Email is required')
+            }
+            const user = await User.findOneAndUpdate(
+              {
                 email,
-              }, {
+              },
+              {
                 $setOnInsert: {
                   email,
-                  permissions: await isFirstUser() ? [
-                    { type: PermissionType.DEVELOPER },
-                    { type: PermissionType.MANAGE_USERS },
-                  ] : [],
+                  permissions: (await isFirstUser()) ? [{ type: PermissionType.DEVELOPER }, { type: PermissionType.MANAGE_USERS }] : [],
                 },
                 $set: {
                   lastLoginAt: new Date(),
                 },
-              }, {
+              },
+              {
                 returnDocument: 'after',
                 upsert: true,
-              })
+              },
+            )
 
-              return {
-                email: user!.email,
-                id: user!._id.toHexString(),
-                type: 'cms-user',
-                permissions: user!.permissions,
-                sub: user!._id.toHexString(),
-              }
-            },
-          }),
-        },
-      ]
+            return {
+              email: user!.email,
+              id: user!._id.toHexString(),
+              type: 'cms-user',
+              permissions: user!.permissions,
+              sub: user!._id.toHexString(),
+            }
+          },
+        }),
+      },
+    ]
 
-      return deps
-    },
-    defaultConfig,
-  })
+    return deps
+  },
+  defaultConfig,
+})
 
 export default plugin

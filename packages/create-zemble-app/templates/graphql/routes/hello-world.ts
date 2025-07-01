@@ -1,3 +1,4 @@
-export default (ctx: Zemble.RouteContext) => ctx.json({
-  message: 'Hello, world!',
-})
+export default (ctx: Zemble.RouteContext) =>
+  ctx.json({
+    message: 'Hello, world!',
+  })
