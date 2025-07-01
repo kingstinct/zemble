@@ -1,9 +1,7 @@
-import createThemedStylesHook from './createThemedStylesHook'
 import Styles from './Styles'
 
-export * from './randomHexColor'
+// randomHexColor and createThemedStylesHook are now exported via primitives
 
 export {
-  createThemedStylesHook,
   Styles,
 }

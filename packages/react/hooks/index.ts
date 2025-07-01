@@ -22,7 +22,7 @@ export * from './useSharedPortalAreaSize'
 export * from './useSnackbarSettings'
 export * from './useSnackbarsToShow'
 export * from './useSnackbarWasPresented'
-export * from './useTheme'
+// useTheme is now exported via primitives
 export * from './useToggle'
 export * from './useToggleWithHaptics'
 export * from './useWillKeyboardBeShown'
