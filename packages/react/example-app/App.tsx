@@ -8,21 +8,20 @@ import { ActivityIndicator, Switch } from 'react-native-paper'
 import Animated, { CurvedTransition } from 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { SnackbarPresentationView } from '../components'
+import { SnackbarPresentationView, DefaultSnackbarComponent, useAddSnackbar, useSnackbarSettings } from '@zemble/react-snackbar'
 import NativePortal from '../components/NativePortal'
 import SharedPortalAreaProvider from '../components/SharedPortalAreaProvider'
 import SharedPortalPresentationArea from '../components/SharedPortalPresentationArea'
-import DefaultSnackbarComponent from '../components/SnackbarComponent'
 import { StringsProvider } from '../contexts/Strings'
 import {
-  useAddSnackbar, useIsKeyboardShown, useKeyboardHeight, useWillKeyboardBeShown, useSnackbarSettings, useSharedPortalAreaInsets, useSharedPortalAreaSize,
+  useIsKeyboardShown, useKeyboardHeight, useWillKeyboardBeShown, useSharedPortalAreaInsets, useSharedPortalAreaSize,
 } from '../hooks'
 import useAlert from '../hooks/useAlert'
 import useConfirm from '../hooks/useConfirm'
 import Column from '../primitives/Column'
 import Row from '../primitives/Row'
 
-import type { SnackbarComponentProps } from '../components/SnackbarComponent'
+import type { SnackbarComponentProps } from '@zemble/react-snackbar'
 
 const CustomSnackbarComponent: React.FC<SnackbarComponentProps> = (props) => (
   <DefaultSnackbarComponent
