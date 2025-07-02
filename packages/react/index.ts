@@ -1,4 +1,4 @@
-export * from './primitives'
+export * from '@zemble/primitives'
 export * from './hooks'
 export * from './utils'
 export * from './contexts'
