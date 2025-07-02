@@ -4,6 +4,9 @@ This is a monorepo with apps/* for apps and packages/* for packages. It's a mix 
 
 It's main purpose is to make it easy to publish utils and plugins we can reuse across our apps in other repos.
 
+## Environment Setup
+Always make sure to have [Bun](https://bun.sh) installed as this is the package manager, script runner, test runner and build tool we use.
+
 ## Key Libraries & Documentation
 - [Jotai](https://jotai.org) - Atomic state management for React
 - [Expo Router](https://docs.expo.dev/router/introduction/) - File-based navigation
