@@ -1,5 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { Text } from '@zemble/primitives'
 import React, {
   useContext,
   useEffect, useMemo, useState,
@@ -12,7 +13,6 @@ import { match } from 'ts-pattern'
 import StringsContext from '../contexts/Strings'
 import useEvent from '../hooks/useEvent'
 import useIsOnline from '../hooks/useIsOnline'
-import { Text } from '../primitives'
 
 import type { CombinedError } from 'urql'
 
