@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import { NavigationContainer } from '@react-navigation/native'
+import { Column, Row } from '@zemble/primitives'
 import { StatusBar } from 'expo-status-bar'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Button, Text, TextInput } from 'react-native'
@@ -19,7 +20,6 @@ import {
 } from '../hooks'
 import useAlert from '../hooks/useAlert'
 import useConfirm from '../hooks/useConfirm'
-import { Column, Row } from '../primitives'
 
 import type { SnackbarComponentProps } from '../components/SnackbarComponent'
 

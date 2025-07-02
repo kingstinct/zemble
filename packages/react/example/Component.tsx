@@ -1,5 +1,6 @@
+import { Row, Text } from '@zemble/primitives'
+
 import { createThemedStylesHook } from '..'
-import { Row, Text } from '../primitives'
 
 const useStyles = createThemedStylesHook(({ theme }) => ({
   container: {
