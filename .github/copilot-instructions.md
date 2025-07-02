@@ -7,6 +7,8 @@ It's main purpose is to make it easy to publish utils and plugins we can reuse a
 ## Environment Setup
 Always make sure to have [Bun](https://bun.sh) installed as this is the package manager, script runner, test runner and build tool we use.
 
+Also make sure to run `bun install` in the root of the monorepo to install all dependencies before running any commands.
+
 ## Key Libraries & Documentation
 - [Jotai](https://jotai.org) - Atomic state management for React
 - [Expo Router](https://docs.expo.dev/router/introduction/) - File-based navigation
