@@ -98,8 +98,11 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(import.meta.dir
 
     app.hono.post(config.appleAuthCallbackPath, async (ctx) => {
       const formData = await ctx.req.formData(),
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
             idToken = formData.get('id_token')?.toString(),
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
             user = formData.get('user')?.toString(),
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
             state = formData.get('state')?.toString(),
             {
               UNAUTHENTICATED_REDIRECT_URL,

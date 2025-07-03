@@ -40,8 +40,7 @@
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.3",
     "@graphql-codegen/cli": "^5.0.3",
-    "@graphql-codegen/client-preset": "^4.5.1",
-    "@types/bun": "latest"
+    "@graphql-codegen/client-preset": "^4.5.1"
   },
   "peerDependencies": {}
 }

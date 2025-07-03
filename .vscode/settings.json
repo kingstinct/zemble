@@ -42,6 +42,7 @@
     "fastify",
     "fileprovider",
     "JWKS",
+    "kingstinct",
     "liveactivity",
     "Onesignal",
     "papr",

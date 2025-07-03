@@ -11,9 +11,6 @@
     "fs-extra": "^11.3.0"
   },
   "module": "index.ts",
-  "devDependencies": {
-    "@types/bun": "*"
-  },
   "peerDependencies": {},
   "repository": {
     "type": "git",
@@ -27,7 +24,5 @@
   "bugs": {
     "url": "https://github.com/kingstinct/zemble/issues"
   },
-  "keywords": [
-    "zemble"
-  ]
+  "keywords": ["zemble"]
 }

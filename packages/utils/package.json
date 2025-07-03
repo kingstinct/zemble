@@ -20,7 +20,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@types/bun": "*",
+    
     "@types/graphql-fields": "^1.3.9",
     "@types/lodash": "^4.17.14",
     "dataloader": "^2.2.3",
