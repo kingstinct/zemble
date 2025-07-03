@@ -42,7 +42,5 @@
     "@zemble/ignite": "workspace:*",
     "@zemble/bun": "workspace:*"
   },
-  "devDependencies": {
-    "typescript": "^5.7.3"
-  }
+  "devDependencies": {}
 }

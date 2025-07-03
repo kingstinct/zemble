@@ -15,7 +15,6 @@ describe('onTimeout', () => {
   })
 
   test('Should cancel timeout', async () => {
-    // @ts-expect-error broken bun types
     jest.useFakeTimers()
 
     const cb = jest.fn()

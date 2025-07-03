@@ -14,9 +14,7 @@
   "devDependencies": {
     "@types/bun": "*"
   },
-  "peerDependencies": {
-    "typescript": "^5.4.2"
-  },
+  "peerDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/kingstinct/zemble",

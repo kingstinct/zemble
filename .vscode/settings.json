@@ -36,6 +36,7 @@
   "editor.formatOnSave": true,
   "cSpell.words": [
     "bullmq",
+    "codegen",
     "composability",
     "dataloaders",
     "fastify",
@@ -53,6 +54,7 @@
     "SENDGRID",
     "supabase",
     "tldr",
+    "urql",
     "zemble"
   ],
   "eslint.probe": [

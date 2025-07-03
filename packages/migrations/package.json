@@ -36,9 +36,7 @@
   "devDependencies": {
     "type-fest": "^4.33.0"
   },
-  "peerDependencies": {
-    "typescript": "^5.4.2"
-  },
+  "peerDependencies": {},
   "optionalDependencies": {
     "mongodb": "^6.12.0"
   },

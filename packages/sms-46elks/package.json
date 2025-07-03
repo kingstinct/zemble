@@ -43,7 +43,5 @@
     "@graphql-codegen/client-preset": "^4.5.1",
     "@types/bun": "latest"
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  }
+  "peerDependencies": {}
 }
