@@ -21,12 +21,10 @@
   },
   "devDependencies": {
     "@tsconfig/bun": "^1.0.7",
-    "@types/bun": "*",
+    
     "pino-pretty": "^13.0.0"
   },
-  "peerDependencies": {
-    "typescript": "^5.4.2"
-  },
+  "peerDependencies": {},
   "module": "plugin.ts",
   "main": "plugin.ts"
 }

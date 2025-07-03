@@ -61,8 +61,7 @@
     "react-native-safe-area-context": "^4.8.2",
     "react-native-screens": "^3.29.0",
     "react-native-web": "^0.19.8",
-    "react-test-renderer": "^18.3.1",
-    "typescript": "^5.7.3"
+    "react-test-renderer": "^18.3.1"
   },
   "peerDependencies": {
     "@types/react": "^18.2.54",

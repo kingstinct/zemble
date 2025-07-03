@@ -12,7 +12,6 @@ describe('logPrettyData', () => {
       c: 3,
     }
     const title = 'test'
-    // @ts-expect-error broken bun types
     const spy = jest.spyOn(console, 'log')
     logPrettyData(data, title)
     expect(spy).toHaveBeenCalledWith(`test: {

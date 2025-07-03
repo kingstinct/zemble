@@ -51,7 +51,6 @@
     "@zemble/sms-twilio": "workspace:*"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
-    "typescript": "^5.7.3"
+    "@tsconfig/node20": "^20.1.4"
   }
 }

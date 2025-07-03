@@ -18,7 +18,9 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: { input: any; output: any; }
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: { input: any; output: any; }
   JSONObject: { input: any; output: any; }
 };
@@ -174,6 +176,10 @@ export type EntityRelationFieldInput = {
   readonly name: Scalars['String']['input'];
 };
 
+export type Error = {
+  readonly message: Scalars['String']['output'];
+};
+
 export type Field = {
   readonly isRequired: Scalars['Boolean']['output'];
   readonly isRequiredInput: Scalars['Boolean']['output'];
@@ -208,6 +214,9 @@ export type Mutation = {
   readonly createEntity: Entity;
   readonly deleteAuthor: Scalars['Boolean']['output'];
   readonly deleteBook: Scalars['Boolean']['output'];
+  readonly logout: Scalars['DateTime']['output'];
+  readonly logoutFromAllDevices: Scalars['DateTime']['output'];
+  readonly refreshToken: NewTokenResponse;
   readonly removeEntity: Scalars['Boolean']['output'];
   readonly removeFieldsFromEntity: Entity;
   readonly renameEntity: Entity;
@@ -254,6 +263,12 @@ export type MutationDeleteBookArgs = {
 };
 
 
+export type MutationRefreshTokenArgs = {
+  bearerToken: Scalars['String']['input'];
+  refreshToken: Scalars['String']['input'];
+};
+
+
 export type MutationRemoveEntityArgs = {
   namePlural: Scalars['String']['input'];
 };
@@ -269,6 +284,14 @@ export type MutationRenameEntityArgs = {
   fromNamePlural: Scalars['String']['input'];
   toNamePlural: Scalars['String']['input'];
   toNameSingular?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
+
+export type NewTokenSuccessResponse = {
+  readonly __typename?: 'NewTokenSuccessResponse';
+  readonly bearerToken: Scalars['String']['output'];
+  readonly refreshToken: Scalars['String']['output'];
 };
 
 export type NumberField = Field & {
@@ -303,8 +326,11 @@ export type Query = {
   readonly getBooksById: ReadonlyArray<Book>;
   readonly getEntityByNamePlural?: Maybe<Entity>;
   readonly getEntityByNameSingular?: Maybe<Entity>;
+  readonly publicKey?: Maybe<Scalars['String']['output']>;
+  readonly readJWT: Scalars['JSONObject']['output'];
   readonly searchAuthors: ReadonlyArray<Author>;
   readonly searchBooks: ReadonlyArray<Book>;
+  readonly validateJWT: Scalars['Boolean']['output'];
 };
 
 
@@ -354,6 +380,11 @@ export type QueryGetEntityByNameSingularArgs = {
 };
 
 
+export type QueryReadJwtArgs = {
+  token: Scalars['String']['input'];
+};
+
+
 export type QuerySearchAuthorsArgs = {
   caseSensitive?: InputMaybe<Scalars['Boolean']['input']>;
   diacriticSensitive?: InputMaybe<Scalars['Boolean']['input']>;
@@ -367,6 +398,16 @@ export type QuerySearchBooksArgs = {
   diacriticSensitive?: InputMaybe<Scalars['Boolean']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
   query: Scalars['String']['input'];
+};
+
+
+export type QueryValidateJwtArgs = {
+  token: Scalars['String']['input'];
+};
+
+export type RefreshTokenInvalidError = {
+  readonly __typename?: 'RefreshTokenInvalidError';
+  readonly message: Scalars['String']['output'];
 };
 
 export type StringField = Field & {
@@ -461,10 +502,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping of union types */
 export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
   BookContributorsUnion: ( BookContributorsAuthor ) | ( BookContributorsEditor );
+  NewTokenResponse: ( NewTokenSuccessResponse ) | ( RefreshTokenInvalidError );
 }>;
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
+  Error: never;
   Field: ( Omit<ArrayField, 'availableFields'> & { availableFields: ReadonlyArray<_RefType['Field']> } ) | ( BooleanField ) | ( Omit<EntityRelationField, 'entity'> & { entity: _RefType['Entity'] } ) | ( IdField ) | ( NumberField ) | ( StringField );
 }>;
 
@@ -497,6 +540,7 @@ export type ResolversTypes = ResolversObject<{
   EntityPermission: ResolverTypeWrapper<EntityPermission>;
   EntityRelationField: ResolverTypeWrapper<Omit<EntityRelationField, 'entity'> & { entity: ResolversTypes['Entity'] }>;
   EntityRelationFieldInput: EntityRelationFieldInput;
+  Error: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Error']>;
   Field: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Field']>;
   FieldInput: FieldInput;
   FieldInputWithoutArray: FieldInputWithoutArray;
@@ -506,9 +550,12 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
+  NewTokenResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['NewTokenResponse']>;
+  NewTokenSuccessResponse: ResolverTypeWrapper<NewTokenSuccessResponse>;
   NumberField: ResolverTypeWrapper<NumberField>;
   NumberFieldInput: NumberFieldInput;
   Query: ResolverTypeWrapper<{}>;
+  RefreshTokenInvalidError: ResolverTypeWrapper<RefreshTokenInvalidError>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringField: ResolverTypeWrapper<StringField>;
   StringFieldInput: StringFieldInput;
@@ -543,6 +590,7 @@ export type ResolversParentTypes = ResolversObject<{
   EntityPermission: EntityPermission;
   EntityRelationField: Omit<EntityRelationField, 'entity'> & { entity: ResolversParentTypes['Entity'] };
   EntityRelationFieldInput: EntityRelationFieldInput;
+  Error: ResolversInterfaceTypes<ResolversParentTypes>['Error'];
   Field: ResolversInterfaceTypes<ResolversParentTypes>['Field'];
   FieldInput: FieldInput;
   FieldInputWithoutArray: FieldInputWithoutArray;
@@ -552,9 +600,12 @@ export type ResolversParentTypes = ResolversObject<{
   Int: Scalars['Int']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Mutation: {};
+  NewTokenResponse: ResolversUnionTypes<ResolversParentTypes>['NewTokenResponse'];
+  NewTokenSuccessResponse: NewTokenSuccessResponse;
   NumberField: NumberField;
   NumberFieldInput: NumberFieldInput;
   Query: {};
+  RefreshTokenInvalidError: RefreshTokenInvalidError;
   String: Scalars['String']['output'];
   StringField: StringField;
   StringFieldInput: StringFieldInput;
@@ -666,6 +717,11 @@ export type EntityRelationFieldResolvers<ContextType = Zemble.GraphQLContext, Pa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
+  __resolveType: TypeResolveFn<null, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+}>;
+
 export type FieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Field'] = ResolversParentTypes['Field']> = ResolversObject<{
   __resolveType: TypeResolveFn<'ArrayField' | 'BooleanField' | 'EntityRelationField' | 'IDField' | 'NumberField' | 'StringField', ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -691,9 +747,22 @@ export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType ex
   createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationCreateEntityArgs, 'namePlural'>>;
   deleteAuthor?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAuthorArgs, 'id'>>;
   deleteBook?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'id'>>;
+  logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  logoutFromAllDevices?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  refreshToken?: Resolver<ResolversTypes['NewTokenResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRefreshTokenArgs, 'bearerToken' | 'refreshToken'>>;
   removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveEntityArgs, 'namePlural'>>;
   removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'fields' | 'namePlural'>>;
   renameEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRenameEntityArgs, 'fromNamePlural' | 'toNamePlural'>>;
+}>;
+
+export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'NewTokenSuccessResponse' | 'RefreshTokenInvalidError', ParentType, ContextType>;
+}>;
+
+export type NewTokenSuccessResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenSuccessResponse'] = ResolversParentTypes['NewTokenSuccessResponse']> = ResolversObject<{
+  bearerToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  refreshToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type NumberFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NumberField'] = ResolversParentTypes['NumberField']> = ResolversObject<{
@@ -718,8 +787,16 @@ export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
   getBooksById?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryGetBooksByIdArgs, 'ids'>>;
   getEntityByNamePlural?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryGetEntityByNamePluralArgs, 'namePlural'>>;
   getEntityByNameSingular?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryGetEntityByNameSingularArgs, 'name'>>;
+  publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
   searchAuthors?: Resolver<ReadonlyArray<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<QuerySearchAuthorsArgs, 'query'>>;
   searchBooks?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'query'>>;
+  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
+}>;
+
+export type RefreshTokenInvalidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RefreshTokenInvalidError'] = ResolversParentTypes['RefreshTokenInvalidError']> = ResolversObject<{
+  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type StringFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['StringField'] = ResolversParentTypes['StringField']> = ResolversObject<{
@@ -747,12 +824,16 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   Entity?: EntityResolvers<ContextType>;
   EntityPermission?: EntityPermissionResolvers<ContextType>;
   EntityRelationField?: EntityRelationFieldResolvers<ContextType>;
+  Error?: ErrorResolvers<ContextType>;
   Field?: FieldResolvers<ContextType>;
   IDField?: IdFieldResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
+  NewTokenResponse?: NewTokenResponseResolvers<ContextType>;
+  NewTokenSuccessResponse?: NewTokenSuccessResponseResolvers<ContextType>;
   NumberField?: NumberFieldResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RefreshTokenInvalidError?: RefreshTokenInvalidErrorResolvers<ContextType>;
   StringField?: StringFieldResolvers<ContextType>;
 }>;
 
@@ -767,7 +848,9 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: { input: any; output: any; }
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: { input: any; output: any; }
   JSONObject: { input: any; output: any; }
 };
@@ -923,6 +1006,10 @@ export type EntityRelationFieldInput = {
   readonly name: Scalars['String']['input'];
 };
 
+export type Error = {
+  readonly message: Scalars['String']['output'];
+};
+
 export type Field = {
   readonly isRequired: Scalars['Boolean']['output'];
   readonly isRequiredInput: Scalars['Boolean']['output'];
@@ -957,6 +1044,9 @@ export type Mutation = {
   readonly createEntity: Entity;
   readonly deleteAuthor: Scalars['Boolean']['output'];
   readonly deleteBook: Scalars['Boolean']['output'];
+  readonly logout: Scalars['DateTime']['output'];
+  readonly logoutFromAllDevices: Scalars['DateTime']['output'];
+  readonly refreshToken: NewTokenResponse;
   readonly removeEntity: Scalars['Boolean']['output'];
   readonly removeFieldsFromEntity: Entity;
   readonly renameEntity: Entity;
@@ -1003,6 +1093,12 @@ export type MutationDeleteBookArgs = {
 };
 
 
+export type MutationRefreshTokenArgs = {
+  bearerToken: Scalars['String']['input'];
+  refreshToken: Scalars['String']['input'];
+};
+
+
 export type MutationRemoveEntityArgs = {
   namePlural: Scalars['String']['input'];
 };
@@ -1018,6 +1114,14 @@ export type MutationRenameEntityArgs = {
   fromNamePlural: Scalars['String']['input'];
   toNamePlural: Scalars['String']['input'];
   toNameSingular?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
+
+export type NewTokenSuccessResponse = {
+  readonly __typename?: 'NewTokenSuccessResponse';
+  readonly bearerToken: Scalars['String']['output'];
+  readonly refreshToken: Scalars['String']['output'];
 };
 
 export type NumberField = Field & {
@@ -1052,8 +1156,11 @@ export type Query = {
   readonly getBooksById: ReadonlyArray<Book>;
   readonly getEntityByNamePlural?: Maybe<Entity>;
   readonly getEntityByNameSingular?: Maybe<Entity>;
+  readonly publicKey?: Maybe<Scalars['String']['output']>;
+  readonly readJWT: Scalars['JSONObject']['output'];
   readonly searchAuthors: ReadonlyArray<Author>;
   readonly searchBooks: ReadonlyArray<Book>;
+  readonly validateJWT: Scalars['Boolean']['output'];
 };
 
 
@@ -1103,6 +1210,11 @@ export type QueryGetEntityByNameSingularArgs = {
 };
 
 
+export type QueryReadJwtArgs = {
+  token: Scalars['String']['input'];
+};
+
+
 export type QuerySearchAuthorsArgs = {
   caseSensitive?: InputMaybe<Scalars['Boolean']['input']>;
   diacriticSensitive?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1116,6 +1228,16 @@ export type QuerySearchBooksArgs = {
   diacriticSensitive?: InputMaybe<Scalars['Boolean']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
   query: Scalars['String']['input'];
+};
+
+
+export type QueryValidateJwtArgs = {
+  token: Scalars['String']['input'];
+};
+
+export type RefreshTokenInvalidError = {
+  readonly __typename?: 'RefreshTokenInvalidError';
+  readonly message: Scalars['String']['output'];
 };
 
 export type StringField = Field & {
@@ -1210,10 +1332,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping of union types */
 export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
   BookContributorsUnion: ( BookContributorsAuthor ) | ( BookContributorsEditor );
+  NewTokenResponse: ( NewTokenSuccessResponse ) | ( RefreshTokenInvalidError );
 }>;
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = ResolversObject<{
+  Error: never;
   Field: ( Omit<ArrayField, 'availableFields'> & { availableFields: ReadonlyArray<_RefType['Field']> } ) | ( BooleanField ) | ( Omit<EntityRelationField, 'entity'> & { entity: _RefType['Entity'] } ) | ( IdField ) | ( NumberField ) | ( StringField );
 }>;
 
@@ -1246,6 +1370,7 @@ export type ResolversTypes = ResolversObject<{
   EntityPermission: ResolverTypeWrapper<EntityPermission>;
   EntityRelationField: ResolverTypeWrapper<Omit<EntityRelationField, 'entity'> & { entity: ResolversTypes['Entity'] }>;
   EntityRelationFieldInput: EntityRelationFieldInput;
+  Error: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Error']>;
   Field: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Field']>;
   FieldInput: FieldInput;
   FieldInputWithoutArray: FieldInputWithoutArray;
@@ -1255,9 +1380,12 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
+  NewTokenResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['NewTokenResponse']>;
+  NewTokenSuccessResponse: ResolverTypeWrapper<NewTokenSuccessResponse>;
   NumberField: ResolverTypeWrapper<NumberField>;
   NumberFieldInput: NumberFieldInput;
   Query: ResolverTypeWrapper<{}>;
+  RefreshTokenInvalidError: ResolverTypeWrapper<RefreshTokenInvalidError>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringField: ResolverTypeWrapper<StringField>;
   StringFieldInput: StringFieldInput;
@@ -1292,6 +1420,7 @@ export type ResolversParentTypes = ResolversObject<{
   EntityPermission: EntityPermission;
   EntityRelationField: Omit<EntityRelationField, 'entity'> & { entity: ResolversParentTypes['Entity'] };
   EntityRelationFieldInput: EntityRelationFieldInput;
+  Error: ResolversInterfaceTypes<ResolversParentTypes>['Error'];
   Field: ResolversInterfaceTypes<ResolversParentTypes>['Field'];
   FieldInput: FieldInput;
   FieldInputWithoutArray: FieldInputWithoutArray;
@@ -1301,9 +1430,12 @@ export type ResolversParentTypes = ResolversObject<{
   Int: Scalars['Int']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Mutation: {};
+  NewTokenResponse: ResolversUnionTypes<ResolversParentTypes>['NewTokenResponse'];
+  NewTokenSuccessResponse: NewTokenSuccessResponse;
   NumberField: NumberField;
   NumberFieldInput: NumberFieldInput;
   Query: {};
+  RefreshTokenInvalidError: RefreshTokenInvalidError;
   String: Scalars['String']['output'];
   StringField: StringField;
   StringFieldInput: StringFieldInput;
@@ -1415,6 +1547,11 @@ export type EntityRelationFieldResolvers<ContextType = Zemble.GraphQLContext, Pa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = ResolversObject<{
+  __resolveType: TypeResolveFn<null, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+}>;
+
 export type FieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Field'] = ResolversParentTypes['Field']> = ResolversObject<{
   __resolveType: TypeResolveFn<'ArrayField' | 'BooleanField' | 'EntityRelationField' | 'IDField' | 'NumberField' | 'StringField', ParentType, ContextType>;
   isRequired?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -1440,9 +1577,22 @@ export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType ex
   createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationCreateEntityArgs, 'namePlural'>>;
   deleteAuthor?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAuthorArgs, 'id'>>;
   deleteBook?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'id'>>;
+  logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  logoutFromAllDevices?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  refreshToken?: Resolver<ResolversTypes['NewTokenResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRefreshTokenArgs, 'bearerToken' | 'refreshToken'>>;
   removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveEntityArgs, 'namePlural'>>;
   removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'fields' | 'namePlural'>>;
   renameEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRenameEntityArgs, 'fromNamePlural' | 'toNamePlural'>>;
+}>;
+
+export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{
+  __resolveType: TypeResolveFn<'NewTokenSuccessResponse' | 'RefreshTokenInvalidError', ParentType, ContextType>;
+}>;
+
+export type NewTokenSuccessResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenSuccessResponse'] = ResolversParentTypes['NewTokenSuccessResponse']> = ResolversObject<{
+  bearerToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  refreshToken?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type NumberFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NumberField'] = ResolversParentTypes['NumberField']> = ResolversObject<{
@@ -1467,8 +1617,16 @@ export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
   getBooksById?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryGetBooksByIdArgs, 'ids'>>;
   getEntityByNamePlural?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryGetEntityByNamePluralArgs, 'namePlural'>>;
   getEntityByNameSingular?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryGetEntityByNameSingularArgs, 'name'>>;
+  publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
   searchAuthors?: Resolver<ReadonlyArray<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<QuerySearchAuthorsArgs, 'query'>>;
   searchBooks?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'query'>>;
+  validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
+}>;
+
+export type RefreshTokenInvalidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RefreshTokenInvalidError'] = ResolversParentTypes['RefreshTokenInvalidError']> = ResolversObject<{
+  message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type StringFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['StringField'] = ResolversParentTypes['StringField']> = ResolversObject<{
@@ -1496,12 +1654,16 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   Entity?: EntityResolvers<ContextType>;
   EntityPermission?: EntityPermissionResolvers<ContextType>;
   EntityRelationField?: EntityRelationFieldResolvers<ContextType>;
+  Error?: ErrorResolvers<ContextType>;
   Field?: FieldResolvers<ContextType>;
   IDField?: IdFieldResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
+  NewTokenResponse?: NewTokenResponseResolvers<ContextType>;
+  NewTokenSuccessResponse?: NewTokenSuccessResponseResolvers<ContextType>;
   NumberField?: NumberFieldResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RefreshTokenInvalidError?: RefreshTokenInvalidErrorResolvers<ContextType>;
   StringField?: StringFieldResolvers<ContextType>;
 }>;
 

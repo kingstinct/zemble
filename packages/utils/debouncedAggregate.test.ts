@@ -6,7 +6,6 @@ import debouncedAggregate from './debouncedAggregate'
 
 describe('debouncedAggregate', () => {
   it('Should work', async () => {
-    // @ts-expect-error broken bun types
     jest.useFakeTimers()
     const callback = jest.fn()
     const debouncer = debouncedAggregate(100, callback)

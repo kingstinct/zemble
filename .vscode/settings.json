@@ -36,13 +36,14 @@
   "editor.formatOnSave": true,
   "cSpell.words": [
     "bullmq",
+    "codegen",
     "composability",
     "dataloaders",
     "fastify",
     "fileprovider",
     "JWKS",
+    "kingstinct",
     "liveactivity",
-    "lockb",
     "Onesignal",
     "papr",
     "pino",
@@ -54,6 +55,7 @@
     "SENDGRID",
     "supabase",
     "tldr",
+    "urql",
     "zemble"
   ],
   "eslint.probe": [
