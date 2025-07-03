@@ -1,4 +1,4 @@
 export * from './Auth'
 export * from './Strings'
-export * from './Theme'
+// Theme is now exported via primitives
 export * from './Urql'

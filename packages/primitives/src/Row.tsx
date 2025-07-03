@@ -22,46 +22,60 @@ examples:
       </Row>
 */
 
-import React, { useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { match } from 'ts-pattern'
 
-import randomHexColor from '../utils/randomHexColor'
+import { createThemedView } from './utils/createThemedStylesHook'
+import randomHexColor from './utils/randomHexColor'
 
 import type { PrimitiveViewProps } from './types'
-import type { StyleProp, ViewStyle } from 'react-native'
 
-type OverlayProps = Omit<PrimitiveViewProps, 'backgroundColor'>
+export type RowProps = PrimitiveViewProps & {
+  readonly wrap?: boolean
+}
 
-export const Overlay: React.FC<OverlayProps> = ({
-  center, spaceBetween, spaceAround, spaceEvenly, centerY, centerX, fill, colorize, marginX, marginY, paddingY, paddingX, style, children, colorizeBorder, ...props
-}) => {
-  const internalStyle = useMemo<StyleProp<ViewStyle>>(() => ({
-    alignItems: center || centerX ? 'center' : undefined,
-    backgroundColor: colorize ? randomHexColor() : undefined,
+export const Row = createThemedView(({
+  center,
+  spaceBetween,
+  spaceAround,
+  spaceEvenly,
+  centerY,
+  centerX,
+  fill,
+  colorize,
+  marginX,
+  marginY,
+  backgroundColor,
+  paddingY,
+  colorizeBorder,
+  paddingX,
+  wrap,
+  style,
+  ...props
+}: RowProps) => ([
+  {
+    alignItems: center || centerY ? 'center' : undefined,
+    backgroundColor: backgroundColor || (colorize ? randomHexColor() : undefined),
+    flex: fill ? 1 : undefined,
     borderColor: colorizeBorder ? randomHexColor() : props.borderColor,
     borderWidth: colorizeBorder ? StyleSheet.hairlineWidth : props.borderWidth,
-    flex: fill ? 1 : undefined,
+    flexDirection: 'row',
+    flexWrap: wrap ? 'wrap' : undefined,
     justifyContent: match({
-      spaceBetween, spaceAround, spaceEvenly, center, centerY,
+      spaceBetween, spaceAround, spaceEvenly, center, centerX,
     })
       .with({ spaceBetween: true }, () => 'space-between' as const)
       .with({ spaceAround: true }, () => 'space-around' as const)
       .with({ spaceEvenly: true }, () => 'space-evenly' as const)
       .with({ center: true }, () => 'center' as const)
-      .with({ centerY: true }, () => 'center' as const)
+      .with({ centerX: true }, () => 'center' as const)
       .otherwise(() => undefined),
     marginHorizontal: marginX,
     marginVertical: marginY,
     paddingHorizontal: paddingX,
     paddingVertical: paddingY,
-    ...StyleSheet.absoluteFillObject,
     ...props,
-  }), [
-    center, centerX, centerY, colorize, colorizeBorder, fill, marginX, marginY, paddingX, paddingY, props, spaceAround, spaceBetween, spaceEvenly,
-  ])
+  }, style,
+]))
 
-  return <View pointerEvents='box-none' style={[internalStyle, style]}>{children}</View>
-}
-
-export default Overlay
+export default Row

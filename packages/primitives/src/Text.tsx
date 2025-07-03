@@ -22,11 +22,11 @@ examples:
       </Row>
 */
 
-import { createThemedText } from '../utils/createThemedStylesHook'
-import randomHexColor from '../utils/randomHexColor'
+import { createThemedText } from './utils/createThemedStylesHook'
+import randomHexColor from './utils/randomHexColor'
 
 import type { TextProps } from './types'
-import type { FactoryProps } from '../utils/createThemedStylesHook'
+import type { FactoryProps } from './utils/createThemedStylesHook'
 
 export const Text = createThemedText(({
   center,

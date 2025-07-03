@@ -25,50 +25,37 @@ examples:
 import { StyleSheet } from 'react-native'
 import { match } from 'ts-pattern'
 
-import { createThemedView } from '../utils/createThemedStylesHook'
-import randomHexColor from '../utils/randomHexColor'
+import { createThemedView } from './utils/createThemedStylesHook'
+import randomHexColor from './utils/randomHexColor'
 
 import type { PrimitiveViewProps } from './types'
 
-export type RowProps = PrimitiveViewProps & {
-  readonly wrap?: boolean
-}
-
-export const Row = createThemedView(({
+export const Column = createThemedView(({
   center,
   spaceBetween,
-  spaceAround,
-  spaceEvenly,
-  centerY,
-  centerX,
-  fill,
-  colorize,
-  marginX,
-  marginY,
-  backgroundColor,
-  paddingY,
+  spaceAround, spaceEvenly,
+  centerY, centerX, fill,
+  colorize, marginX, marginY, paddingY,
   colorizeBorder,
-  paddingX,
-  wrap,
-  style,
+  paddingX, style,
+  backgroundColor,
   ...props
-}: RowProps) => ([
+}: PrimitiveViewProps) => ([
   {
-    alignItems: center || centerY ? 'center' : undefined,
+    alignItems: center || centerX ? 'center' : undefined,
     backgroundColor: backgroundColor || (colorize ? randomHexColor() : undefined),
     flex: fill ? 1 : undefined,
     borderColor: colorizeBorder ? randomHexColor() : props.borderColor,
     borderWidth: colorizeBorder ? StyleSheet.hairlineWidth : props.borderWidth,
-    flexDirection: 'row',
-    flexWrap: wrap ? 'wrap' : undefined,
+    // eslint-disable-next-line no-nested-ternary
     justifyContent: match({
-      spaceBetween, spaceAround, spaceEvenly, center, centerX,
+      spaceBetween, spaceAround, spaceEvenly, center, centerY,
     })
       .with({ spaceBetween: true }, () => 'space-between' as const)
       .with({ spaceAround: true }, () => 'space-around' as const)
       .with({ spaceEvenly: true }, () => 'space-evenly' as const)
       .with({ center: true }, () => 'center' as const)
-      .with({ centerX: true }, () => 'center' as const)
+      .with({ centerY: true }, () => 'center' as const)
       .otherwise(() => undefined),
     marginHorizontal: marginX,
     marginVertical: marginY,
@@ -78,4 +65,4 @@ export const Row = createThemedView(({
   }, style,
 ]))
 
-export default Row
+export default Column

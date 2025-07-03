@@ -25,37 +25,46 @@ examples:
 import { StyleSheet } from 'react-native'
 import { match } from 'ts-pattern'
 
-import { createThemedView } from '../utils/createThemedStylesHook'
-import randomHexColor from '../utils/randomHexColor'
+import { createThemedView } from './utils/createThemedStylesHook'
+import randomHexColor from './utils/randomHexColor'
 
 import type { PrimitiveViewProps } from './types'
 
-export const Column = createThemedView(({
+export const Grid = createThemedView(({
   center,
   spaceBetween,
-  spaceAround, spaceEvenly,
-  centerY, centerX, fill,
-  colorize, marginX, marginY, paddingY,
-  colorizeBorder,
-  paddingX, style,
+  spaceAround,
+  spaceEvenly,
+  centerY,
+  centerX,
+  fill,
+  colorize,
+  marginX,
+  marginY,
+  paddingY,
+  paddingX,
   backgroundColor,
+  colorizeBorder,
+  style,
   ...props
 }: PrimitiveViewProps) => ([
   {
-    alignItems: center || centerX ? 'center' : undefined,
+    alignItems: center || centerY ? 'center' : undefined,
     backgroundColor: backgroundColor || (colorize ? randomHexColor() : undefined),
     flex: fill ? 1 : undefined,
+    flexDirection: 'row',
     borderColor: colorizeBorder ? randomHexColor() : props.borderColor,
     borderWidth: colorizeBorder ? StyleSheet.hairlineWidth : props.borderWidth,
+    flexWrap: 'wrap',
     // eslint-disable-next-line no-nested-ternary
     justifyContent: match({
-      spaceBetween, spaceAround, spaceEvenly, center, centerY,
+      spaceBetween, spaceAround, spaceEvenly, center, centerX,
     })
       .with({ spaceBetween: true }, () => 'space-between' as const)
       .with({ spaceAround: true }, () => 'space-around' as const)
       .with({ spaceEvenly: true }, () => 'space-evenly' as const)
       .with({ center: true }, () => 'center' as const)
-      .with({ centerY: true }, () => 'center' as const)
+      .with({ centerX: true }, () => 'center' as const)
       .otherwise(() => undefined),
     marginHorizontal: marginX,
     marginVertical: marginY,
@@ -65,4 +74,4 @@ export const Column = createThemedView(({
   }, style,
 ]))
 
-export default Column
+export default Grid
