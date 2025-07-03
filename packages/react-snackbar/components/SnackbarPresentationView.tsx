@@ -1,3 +1,4 @@
+import { randomHexColorAlpha } from '@zemble/primitives'
 import React, { useEffect } from 'react'
 import { View } from 'react-native'
 
@@ -5,7 +6,6 @@ import DefaultSnackbarComponent from './SnackbarComponent'
 import useRemoveSnackbar from '../hooks/useRemoveSnackbar'
 import useSnackbarsToShow from '../hooks/useSnackbarsToShow'
 import useSnackbarWasPresented from '../hooks/useSnackbarWasPresented'
-import randomHexColorAlpha from '../utils/randomHexColor'
 
 import type { SnackbarComponentProps } from './SnackbarComponent'
 import type { StyleProp, ViewStyle } from 'react-native'

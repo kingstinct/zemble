@@ -1,6 +1,12 @@
 /* eslint-disable import/no-unresolved */
 import { NavigationContainer } from '@react-navigation/native'
 import { Column, Row } from '@zemble/primitives'
+import {
+  SnackbarPresentationView,
+  useAddSnackbar,
+  useSnackbarSettings,
+  DefaultSnackbarComponent,
+} from '@zemble/react-snackbar'
 import { StatusBar } from 'expo-status-bar'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Button, Text, TextInput } from 'react-native'
@@ -9,19 +15,17 @@ import { ActivityIndicator, Switch } from 'react-native-paper'
 import Animated, { CurvedTransition } from 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { SnackbarPresentationView } from '../components'
 import NativePortal from '../components/NativePortal'
 import SharedPortalAreaProvider from '../components/SharedPortalAreaProvider'
 import SharedPortalPresentationArea from '../components/SharedPortalPresentationArea'
-import DefaultSnackbarComponent from '../components/SnackbarComponent'
 import { StringsProvider } from '../contexts/Strings'
 import {
-  useAddSnackbar, useIsKeyboardShown, useKeyboardHeight, useWillKeyboardBeShown, useSnackbarSettings, useSharedPortalAreaInsets, useSharedPortalAreaSize,
+  useIsKeyboardShown, useKeyboardHeight, useWillKeyboardBeShown, useSharedPortalAreaInsets, useSharedPortalAreaSize,
 } from '../hooks'
 import useAlert from '../hooks/useAlert'
 import useConfirm from '../hooks/useConfirm'
 
-import type { SnackbarComponentProps } from '../components/SnackbarComponent'
+import type { SnackbarComponentProps } from '@zemble/react-snackbar'
 
 const CustomSnackbarComponent: React.FC<SnackbarComponentProps> = (props) => (
   <DefaultSnackbarComponent

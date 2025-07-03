@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "extends": ["../../.eslintrc"],
+  "env": {
+    "node": true
+  },
+  "ignorePatterns": [
+    "dist",
+    "node_modules"
+  ]
+}

@@ -1,4 +1,5 @@
 export * from '@zemble/primitives'
+export * from '@zemble/react-snackbar'
 export * from './hooks'
 export * from './utils'
 export * from './contexts'
