@@ -28,7 +28,7 @@ describe('Timeoutify', () => {
     const timeoutify = new Timeoutify({ timeoutMS: 10 })
     const { startedAt } = timeoutify
 
-    await wait(10)
+    await wait(20)
 
     timeoutify.updateTimeout(100, true)
 
