@@ -93,8 +93,11 @@
   ],
   "dependencies": {
     "@changesets/cli": "^2.27.11",
+    "@graphql-tools/schema": "^10.0.23",
     "debug": "^4.4.0",
     "graphql": "^16.10.0",
-    "madge": "^8.0.0"
+    "graphql-tag": "^2.12.6",
+    "madge": "^8.0.0",
+    "type-fest": "^4.41.0"
   }
 }

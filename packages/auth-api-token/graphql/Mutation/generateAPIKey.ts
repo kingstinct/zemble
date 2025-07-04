@@ -7,7 +7,13 @@ import type { MutationResolvers } from '../schema.generated'
 
 const { API_KEY_SECRET } = plugin.config
 
-export const generateAPIKey: NonNullable<MutationResolvers['generateAPIKey']> = async (_: unknown, { expiresInSeconds, apiKeySecret }, { decodedToken }) => {
+export const generateAPIKey: NonNullable<
+  MutationResolvers['generateAPIKey']
+> = async (
+  _: unknown,
+  { expiresInSeconds, apiKeySecret },
+  { decodedToken },
+) => {
   if (apiKeySecret !== API_KEY_SECRET) {
     throw new GraphQLError('Invalid apiKeySecret')
   }

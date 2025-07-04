@@ -4,5 +4,5 @@
     "module": "NodeNext",
     "target": "ESNext"
   },
-  "exclude": [ "**/*.test.ts" ]
+  "exclude": ["**/*.test.ts"]
 }

@@ -19,7 +19,10 @@ config.watchFolders = [
 config.resolver.nodeModulesPaths = [path.resolve('..', '..', 'node_modules')]
 
 config.resolver.sourceExts = [...config.resolver.sourceExts, 'mjs', 'cjs']
-config.resolver.resolverMainFields = ['sbmodern', ...config.resolver.resolverMainFields]
+config.resolver.resolverMainFields = [
+  'sbmodern',
+  ...config.resolver.resolverMainFields,
+]
 config.resolver.assetExts = [...config.resolver.assetExts, 'ttf', 'otf']
 config.resolver.unstable_enableSymlinks = true
 config.resolver.disableHierarchicalLookup = true

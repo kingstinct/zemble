@@ -1,9 +1,6 @@
 {
-  "extends": [
-    "./base.js",
-    "plugin:eslint-plugin/recommended"
-  ],
-  "plugins": [ "eslint-plugin" ],
+  "extends": ["./base.js", "plugin:eslint-plugin/recommended"],
+  "plugins": ["eslint-plugin"],
   "overrides": [
     {
       "files": [

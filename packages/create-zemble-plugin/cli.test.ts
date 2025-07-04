@@ -1,7 +1,4 @@
-import {
-  afterAll,
-  beforeAll, expect, test,
-} from 'bun:test'
+import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { spawnSync } from 'node:child_process'
 import { join } from 'node:path'
 
@@ -21,7 +18,9 @@ afterAll(() => {
 const testTemplate = (template: string) => {
   const name = `${template}-test`
 
-  const createRes = spawnSync('bun', [binPath, name, template], { cwd: testDirectory })
+  const createRes = spawnSync('bun', [binPath, name, template], {
+    cwd: testDirectory,
+  })
   if (createRes.error) {
     console.error(createRes.error.message)
   }
@@ -30,7 +29,9 @@ const testTemplate = (template: string) => {
   }
   expect(createRes.status).toBe(0)
 
-  const testRes = spawnSync('bun', ['run', 'test'], { cwd: join(testDirectory, name) })
+  const testRes = spawnSync('bun', ['run', 'test'], {
+    cwd: join(testDirectory, name),
+  })
   if (testRes.error) {
     console.error(testRes.error.message)
   }
@@ -43,20 +44,32 @@ const testTemplate = (template: string) => {
   // expect(typecheckRes.status).toBe(0)
 }
 
-test('test graphql', () => {
-  testTemplate('graphql')
-}, {
-  timeout: 30000,
-})
+test(
+  'test graphql',
+  () => {
+    testTemplate('graphql')
+  },
+  {
+    timeout: 30000,
+  },
+)
 
-test('test bare', () => {
-  testTemplate('bare')
-}, {
-  timeout: 30000,
-})
+test(
+  'test bare',
+  () => {
+    testTemplate('bare')
+  },
+  {
+    timeout: 30000,
+  },
+)
 
-test('test middleware', () => {
-  testTemplate('middleware')
-}, {
-  timeout: 30000,
-})
+test(
+  'test middleware',
+  () => {
+    testTemplate('middleware')
+  },
+  {
+    timeout: 30000,
+  },
+)

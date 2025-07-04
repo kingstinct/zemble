@@ -22,44 +22,46 @@ examples:
       </Row>
 */
 
+import type { TextProps } from './types'
+import type { FactoryProps } from './utils/createThemedStylesHook'
 import { createThemedText } from './utils/createThemedStylesHook'
 import randomHexColor from './utils/randomHexColor'
 
-import type { TextProps } from './types'
-import type { FactoryProps } from './utils/createThemedStylesHook'
-
-export const Text = createThemedText(({
-  center,
-  centerY,
-  centerX,
-  fill,
-  colorize,
-  marginX,
-  marginY,
-  paddingY,
-  paddingX,
-  theme,
-  fontWeight,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  size,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  insets,
-  style,
-  ...props
-}: FactoryProps<TextProps>) => ([
-  {
-    backgroundColor: colorize ? randomHexColor() : undefined,
-    color: theme.colors.text,
-    flex: fill ? 1 : undefined,
+export const Text = createThemedText(
+  ({
+    center,
+    centerY,
+    centerX,
+    fill,
+    colorize,
+    marginX,
+    marginY,
+    paddingY,
+    paddingX,
+    theme,
     fontWeight,
-    marginHorizontal: marginX,
-    marginVertical: marginY,
-    paddingHorizontal: paddingX,
-    paddingVertical: paddingY,
-    textAlign: center || centerX ? 'center' : undefined,
-    textAlignVertical: centerY || center ? 'center' : undefined,
-    ...props,
-  }, style,
-]))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    size,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    insets,
+    style,
+    ...props
+  }: FactoryProps<TextProps>) => [
+    {
+      backgroundColor: colorize ? randomHexColor() : undefined,
+      color: theme.colors.text,
+      flex: fill ? 1 : undefined,
+      fontWeight,
+      marginHorizontal: marginX,
+      marginVertical: marginY,
+      paddingHorizontal: paddingX,
+      paddingVertical: paddingY,
+      textAlign: center || centerX ? 'center' : undefined,
+      textAlignVertical: centerY || center ? 'center' : undefined,
+      ...props,
+    },
+    style,
+  ],
+)
 
 export default Text

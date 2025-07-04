@@ -15,7 +15,10 @@ const CompleteTodo = graphql(/* GraphQL */ `
   }
 `)
 
-const TodoListItem: React.FC<{ readonly todo: AllTodosQuery['todos'][0], readonly refetch: () => void }> = ({ todo, refetch }) => {
+const TodoListItem: React.FC<{
+  readonly todo: AllTodosQuery['todos'][0]
+  readonly refetch: () => void
+}> = ({ todo, refetch }) => {
   const [, completeTodo] = useMutation(CompleteTodo)
 
   return (
@@ -25,9 +28,11 @@ const TodoListItem: React.FC<{ readonly todo: AllTodosQuery['todos'][0], readonl
         key={todo.id}
         title={todo.completed ? 'Completed' : 'Not completed'}
         onPress={() => {
-          void completeTodo({ id: todo.id, completed: !todo.completed }).then(() => {
-            refetch()
-          })
+          void completeTodo({ id: todo.id, completed: !todo.completed }).then(
+            () => {
+              refetch()
+            },
+          )
         }}
       />
     </View>

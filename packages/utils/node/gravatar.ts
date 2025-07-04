@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 
-export const gravatarUrlForHash = (gravatarHash: string) => `https://www.gravatar.com/avatar/${gravatarHash}?d=404`
+export const gravatarUrlForHash = (gravatarHash: string) =>
+  `https://www.gravatar.com/avatar/${gravatarHash}?d=404`
 
 export const gravatarHashForEmail = (email: string) => {
   const hash = crypto.createHash('md5').update(email).digest('hex')

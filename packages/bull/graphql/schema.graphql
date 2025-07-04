@@ -42,17 +42,8 @@ type BullQueue {
   failedCount: Int!
   delayedCount: Int!
   isPaused: Boolean!
-  repeatableJobs(
-    start: Int
-    end: Int
-    asc: Boolean
-  ): [RepeatableJob!]!
-  jobs(
-    type: [JobTypeOrState!]
-    start: Int
-    end: Int
-    asc: Boolean
-  ): [BullJob!]!
+  repeatableJobs(start: Int, end: Int, asc: Boolean): [RepeatableJob!]!
+  jobs(type: [JobTypeOrState!], start: Int, end: Int, asc: Boolean): [BullJob!]!
 }
 
 enum JobTypeOrState {
@@ -74,10 +65,20 @@ type Query {
 
 type Mutation {
   addJob(queue: String!, data: JSON, jobId: ID): BullJob!
-  addRepeatableJob(queue: String!, data: JSON, repeatJobKey: ID, pattern: String!): BullJob!
+  addRepeatableJob(
+    queue: String!
+    data: JSON
+    repeatJobKey: ID
+    pattern: String!
+  ): BullJob!
   removeRepeatableJob(queue: String!, repeatJobKey: ID!): Boolean!
   drainQueue(queue: String!, delayed: Boolean): Boolean!
-  cleanQueue(queue: String!, grace: Int!, type: CleanQueueType, limit: Int!): [ID!]!
+  cleanQueue(
+    queue: String!
+    grace: Int!
+    type: CleanQueueType
+    limit: Int!
+  ): [ID!]!
   removeJob(queue: String!, jobId: ID!): Boolean!
 }
 

@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
+
+import { describe, expect, it } from 'bun:test'
 import { makeExecutableSchema } from '@graphql-tools/schema'
-import { describe, it, expect } from 'bun:test'
 import DataLoader from 'dataloader'
-import { Source, graphql } from 'graphql'
+import { graphql, Source } from 'graphql'
 import gql from 'graphql-tag'
 
 import { createSuperDataLoader } from './SuperDataLoader'
@@ -11,9 +12,15 @@ import instruments from './tst_data/instruments.json'
 import issuers from './tst_data/issuers.json'
 import transactionItemsArray from './tst_data/transactionItemsArray.json'
 
-const INSTRUMENTS_BY_ID: Record<string, { readonly _id: string; readonly issuerId: string }> = instruments
+const INSTRUMENTS_BY_ID: Record<
+  string,
+  { readonly _id: string; readonly issuerId: string }
+> = instruments
 const ISSUER_BY_ID: Record<string, { readonly _id: string }> = issuers
-const TRANSACTION_ITEMS = transactionItemsArray as unknown as ReadonlyArray<{readonly _id: string; readonly instrumentId: string }>
+const TRANSACTION_ITEMS = transactionItemsArray as unknown as ReadonlyArray<{
+  readonly _id: string
+  readonly instrumentId: string
+}>
 
 function instrumentById() {
   return async (keys: readonly string[]) => {
@@ -36,15 +43,25 @@ type DataLoaders = {
 
 function initDataLoaders() {
   const dls: DataLoaders = {
-    instrumentById: new DataLoader(instrumentById(), { cacheKeyFn: (_id) => _id.toString() }),
-    issuerById: new DataLoader(issuerById(), { cacheKeyFn: (_id) => _id.toString() }),
+    instrumentById: new DataLoader(instrumentById(), {
+      cacheKeyFn: (_id) => _id.toString(),
+    }),
+    issuerById: new DataLoader(issuerById(), {
+      cacheKeyFn: (_id) => _id.toString(),
+    }),
   }
   return dls
 }
 
 function initSuperDataLoaders() {
-  const instrumentLoader = createSuperDataLoader({ batchLoadFn: instrumentById(), cacheKeyFn: (_id) => _id.toString() })
-  const issuerLoader = createSuperDataLoader({ batchLoadFn: issuerById(), cacheKeyFn: (_id) => _id.toString() })
+  const instrumentLoader = createSuperDataLoader({
+    batchLoadFn: instrumentById(),
+    cacheKeyFn: (_id) => _id.toString(),
+  })
+  const issuerLoader = createSuperDataLoader({
+    batchLoadFn: issuerById(),
+    cacheKeyFn: (_id) => _id.toString(),
+  })
 
   const dls = {
     instrumentById: instrumentLoader,
@@ -57,14 +74,18 @@ describe('SuperDataLoader.big', () => {
   it('trivial', async () => {
     const dataloaders = initDataLoaders()
 
-    const instrument = await dataloaders['instrumentById']?.load('558ba89433d865236cb94bda')
+    const instrument = await dataloaders['instrumentById']?.load(
+      '558ba89433d865236cb94bda',
+    )
 
     expect(instrument).toStrictEqual({
       _id: '558ba89433d865236cb94bda',
       issuerId: '5c4700e90a40e1000171e371',
     })
 
-    const issuer = await dataloaders['issuerById']?.load('561a62f35548753344e7252f')
+    const issuer = await dataloaders['issuerById']?.load(
+      '561a62f35548753344e7252f',
+    )
 
     expect(issuer).toStrictEqual({
       _id: '561a62f35548753344e7252f',
@@ -74,10 +95,13 @@ describe('SuperDataLoader.big', () => {
   it('expand', async () => {
     const dataloaders = initDataLoaders()
 
-    const instrumentIds: readonly string[] = TRANSACTION_ITEMS.map((item) => item.instrumentId)
+    const instrumentIds: readonly string[] = TRANSACTION_ITEMS.map(
+      (item) => item.instrumentId,
+    )
 
     const startDataLoader = performance.now()
-    const loadedInstruments = await dataloaders['instrumentById']?.loadMany(instrumentIds)
+    const loadedInstruments =
+      await dataloaders['instrumentById']?.loadMany(instrumentIds)
     const endDataLoader = performance.now()
 
     expect(loadedInstruments).toHaveLength(95022)
@@ -85,13 +109,16 @@ describe('SuperDataLoader.big', () => {
     const superDataLoaders = initSuperDataLoaders()
 
     const startSuperDataLoader = performance.now()
-    const loadedInstruments2 = await superDataLoaders.instrumentById?.loadMany(instrumentIds)
+    const loadedInstruments2 =
+      await superDataLoaders.instrumentById?.loadMany(instrumentIds)
     const endSuperDataLoader = performance.now()
 
     const dataloaderTime = endDataLoader - startDataLoader
     const superDataLoaderTime = endSuperDataLoader - startSuperDataLoader
 
-    console.log(`[(async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
+    console.log(
+      `[(async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`,
+    )
 
     expect(loadedInstruments2).toHaveLength(95022)
   }, 20000)
@@ -128,15 +155,26 @@ describe('SuperDataLoader.big', () => {
       },
       TransactionItem: {
         // eslint-disable-next-line @typescript-eslint/no-shadow
-        instrument: async ({ instrumentId }: { readonly instrumentId: string }, _: unknown, { dataloaders }: {readonly dataloaders: DataLoaders}) => dataloaders.instrumentById.load(instrumentId),
+        instrument: async (
+          { instrumentId }: { readonly instrumentId: string },
+          _: unknown,
+          { dataloaders }: { readonly dataloaders: DataLoaders },
+        ) => dataloaders.instrumentById.load(instrumentId),
       },
       Instrument: {
         // eslint-disable-next-line @typescript-eslint/no-shadow
-        issuer: async ({ issuerId }: { readonly issuerId: string }, _: unknown, { dataloaders }: {readonly dataloaders: DataLoaders}) => (issuerId ? dataloaders.issuerById.load(issuerId) : null),
+        issuer: async (
+          { issuerId }: { readonly issuerId: string },
+          _: unknown,
+          { dataloaders }: { readonly dataloaders: DataLoaders },
+        ) => (issuerId ? dataloaders.issuerById.load(issuerId) : null),
       },
     }
 
-    const schema = makeExecutableSchema({ typeDefs: typeDefinition, resolvers: resolverObject })
+    const schema = makeExecutableSchema({
+      typeDefs: typeDefinition,
+      resolvers: resolverObject,
+    })
 
     const query = gql`
       query {
@@ -195,6 +233,8 @@ describe('SuperDataLoader.big', () => {
     const dataloaderTime = endDataLoader - startDataLoader
     const superDataLoaderTime = endSuperDataLoader - startSuperDataLoader
 
-    console.log(`[(async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
+    console.log(
+      `[(async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`,
+    )
   }, 20000)
 })

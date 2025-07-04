@@ -1,6 +1,6 @@
+import { expect, mock, test } from 'bun:test'
 import { runBeforeServe } from '@zemble/core'
 import { createTestApp } from '@zemble/core/test-utils'
-import { mock, test, expect } from 'bun:test'
 
 import plugin, { migrateUp } from './plugin'
 
@@ -13,9 +13,7 @@ test('Should return world!', async () => {
 
 test('migrateUp', async () => {
   await createTestApp(plugin)
-  const { count } = await migrateUp({
-
-  })
+  const { count } = await migrateUp({})
   expect(count).toBe(0)
 })
 

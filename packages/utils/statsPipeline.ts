@@ -1,24 +1,31 @@
+import type {
+  Collection,
+  Join,
+  NestedPaths,
+  StrictFilter,
+  WithId,
+} from 'mongodb'
 import { match } from 'ts-pattern'
-
-import {
-  getNumericPercentile, getNumericTop, isPercentile, isTop,
-} from './statHelpers'
 
 import type { Timeoutify } from './node'
 import type { Statistic } from './statHelpers'
-import type {
-  Collection, Join, NestedPaths, StrictFilter, WithId,
-} from 'mongodb'
+import {
+  getNumericPercentile,
+  getNumericTop,
+  isPercentile,
+  isTop,
+} from './statHelpers'
 
-type Result = Record<`p${number}`, number> & Record<`top${number}`, number> & {
-  readonly max: number,
-  readonly min: number,
-  readonly avg: number,
-  readonly sum: number,
-  readonly count: number,
-  readonly stdDevPop: number,
-  readonly stdDevSamp: number,
-}
+type Result = Record<`p${number}`, number> &
+  Record<`top${number}`, number> & {
+    readonly max: number
+    readonly min: number
+    readonly avg: number
+    readonly sum: number
+    readonly count: number
+    readonly stdDevPop: number
+    readonly stdDevSamp: number
+  }
 
 export class StatsPipeline<
   T extends Record<string, unknown>,
@@ -27,7 +34,10 @@ export class StatsPipeline<
   TGroupBy extends Record<string, `$${Join<NestedPaths<WithId<T>, []>, '.'>}`>,
   TRes extends Record<keyof TGroupBy, unknown> & Result,
   // eslint-disable-next-line functional/prefer-readonly-type
-  TKey extends Join<NestedPaths<WithId<T>, []>, '.'> = Join<NestedPaths<WithId<T>, []>, '.'>
+  TKey extends Join<NestedPaths<WithId<T>, []>, '.'> = Join<
+    NestedPaths<WithId<T>, []>,
+    '.'
+  >,
 > {
   readonly stats: readonly TS[]
 
@@ -39,7 +49,13 @@ export class StatsPipeline<
 
   readonly groupBy: TGroupBy
 
-  constructor(collection: Collection<T>, stats: readonly TS[], prop: TKey, groupBy: TGroupBy, preGroupStages?: readonly Record<string, unknown>[]) {
+  constructor(
+    collection: Collection<T>,
+    stats: readonly TS[],
+    prop: TKey,
+    groupBy: TGroupBy,
+    preGroupStages?: readonly Record<string, unknown>[],
+  ) {
     this.stats = stats
     this.collection = collection
     this.prop = prop
@@ -49,49 +65,58 @@ export class StatsPipeline<
 
   get statisticsGroupStage() {
     return {
-      $group: this.stats.reduce((prev, stat) => ({
-        ...prev,
-        ...match(stat as Statistic)
-          .with('COUNT', () => ({ count: { $sum: 1 } }))
-          .with('MAX', () => ({ max: { $max: `$${this.prop}` } }))
-          .with('MIN', () => ({ min: { $min: `$${this.prop}` } }))
-          .with('SUM', () => ({ sum: { $sum: `$${this.prop}` } }))
-          .with('STD_DEV_POP', () => ({ stdDevPop: { $stdDevPop: `$${this.prop}` } }))
-          .with('STD_DEV_SAMPLE', () => ({ stdDevSamp: { $stdDevSamp: `$${this.prop}` } }))
-          .with('AVG', () => ({ avg: { $avg: `$${this.prop}` } }))
-          .otherwise((stat) => {
-            // just for typechecking that we have all cases covered
-            if (stat === 'TOP_3_AVG') {
-              // looks good
-            } else if (isTop(stat)) {
-              getNumericTop(stat)
-            } else {
-              getNumericPercentile(stat)
-            }
+      $group: this.stats.reduce(
+        (prev, stat) => ({
+          ...prev,
+          ...match(stat as Statistic)
+            .with('COUNT', () => ({ count: { $sum: 1 } }))
+            .with('MAX', () => ({ max: { $max: `$${this.prop}` } }))
+            .with('MIN', () => ({ min: { $min: `$${this.prop}` } }))
+            .with('SUM', () => ({ sum: { $sum: `$${this.prop}` } }))
+            .with('STD_DEV_POP', () => ({
+              stdDevPop: { $stdDevPop: `$${this.prop}` },
+            }))
+            .with('STD_DEV_SAMPLE', () => ({
+              stdDevSamp: { $stdDevSamp: `$${this.prop}` },
+            }))
+            .with('AVG', () => ({ avg: { $avg: `$${this.prop}` } }))
+            .otherwise((stat) => {
+              // just for typechecking that we have all cases covered
+              if (stat === 'TOP_3_AVG') {
+                // looks good
+              } else if (isTop(stat)) {
+                getNumericTop(stat)
+              } else {
+                getNumericPercentile(stat)
+              }
 
-            return ({
-              rawValue: {
-                $push: `$${this.prop}`,
-              },
-            })
-          }),
-      }), { _id: this.groupBy } as Record<string, unknown>),
+              return {
+                rawValue: {
+                  $push: `$${this.prop}`,
+                },
+              }
+            }),
+        }),
+        { _id: this.groupBy } as Record<string, unknown>,
+      ),
     }
   }
 
   get percentileSetStage() {
-    return this.stats.some(isPercentile) ? [
-      {
-        $set: {
-          rawValue: {
-            $sortArray: {
-              input: '$rawValue',
-              sortBy: -1,
+    return this.stats.some(isPercentile)
+      ? [
+          {
+            $set: {
+              rawValue: {
+                $sortArray: {
+                  input: '$rawValue',
+                  sortBy: -1,
+                },
+              },
             },
           },
-        },
-      },
-    ] : []
+        ]
+      : []
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -106,50 +131,65 @@ export class StatsPipeline<
       $project: {
         _id: 0,
         // @ts-expect-error we know that we have all the stats
-        ...this.stats.includes('MAX') ? { max: 1 } : {},
+        ...(this.stats.includes('MAX') ? { max: 1 } : {}),
         // @ts-expect-error we know that we have all the stats
-        ...this.stats.includes('MIN') ? { min: 1 } : {},
+        ...(this.stats.includes('MIN') ? { min: 1 } : {}),
         // @ts-expect-error we know that we have all the stats
-        ...this.stats.includes('AVG') ? { avg: 1 } : {},
+        ...(this.stats.includes('AVG') ? { avg: 1 } : {}),
         // @ts-expect-error we know that we have all the stats
-        ...this.stats.includes('SUM') ? { sum: 1 } : {},
+        ...(this.stats.includes('SUM') ? { sum: 1 } : {}),
         // @ts-expect-error we know that we have all the stats
-        ...this.stats.includes('COUNT') ? { count: 1 } : {},
+        ...(this.stats.includes('COUNT') ? { count: 1 } : {}),
         // @ts-expect-error we know that we have all the stats
-        ...this.stats.includes('STD_DEV_POP') ? { stdDevPop: 1 } : {},
+        ...(this.stats.includes('STD_DEV_POP') ? { stdDevPop: 1 } : {}),
         // @ts-expect-error we know that we have all the stats
-        ...this.stats.includes('STD_DEV_SAMPLE') ? { stdDevSamp: 1 } : {},
-        ...Object.keys(this.groupBy).reduce((prev, key) => ({
-          ...prev,
-          [key]: `$_id.${key}`,
-        }), {} as Record<string, unknown>),
+        ...(this.stats.includes('STD_DEV_SAMPLE') ? { stdDevSamp: 1 } : {}),
+        ...Object.keys(this.groupBy).reduce(
+          (prev, key) => ({
+            ...prev,
+            [key]: `$_id.${key}`,
+          }),
+          {} as Record<string, unknown>,
+        ),
         // @ts-expect-error we know that we have all the stats
-        ...this.stats.includes('TOP_3_AVG') ? { top1: 1, top2: 1, top3: 1 } : {},
-        ...this.stats.reduce((prev, stat) => ({
-          ...prev,
-          ...isPercentile(stat) ? {
-            [`p${getNumericPercentile(stat)}`]: {
-              $arrayElemAt: [
-                '$rawValue', {
-                  $floor: {
-                    $multiply: [
-                      1 - (getNumericPercentile(stat) / 100), {
-                        $size: '$rawValue',
+        ...(this.stats.includes('TOP_3_AVG')
+          ? { top1: 1, top2: 1, top3: 1 }
+          : {}),
+        ...this.stats.reduce(
+          (prev, stat) => ({
+            ...prev,
+            ...(isPercentile(stat)
+              ? {
+                  [`p${getNumericPercentile(stat)}`]: {
+                    $arrayElemAt: [
+                      '$rawValue',
+                      {
+                        $floor: {
+                          $multiply: [
+                            1 - getNumericPercentile(stat) / 100,
+                            {
+                              $size: '$rawValue',
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
-                },
-              ],
-            },
-          } : {},
-          ...isTop(stat) ? {
-            [`top${getNumericTop(stat)}`]: [
-              '$rawValue', {
-                $arrayElemAt: getNumericTop(stat) - 1,
-              },
-            ],
-          } : {},
-        }), {} as Record<string, unknown>),
+                }
+              : {}),
+            ...(isTop(stat)
+              ? {
+                  [`top${getNumericTop(stat)}`]: [
+                    '$rawValue',
+                    {
+                      $arrayElemAt: getNumericTop(stat) - 1,
+                    },
+                  ],
+                }
+              : {}),
+          }),
+          {} as Record<string, unknown>,
+        ),
       },
     }
   }
@@ -198,7 +238,9 @@ export class StatsPipeline<
   async executeWithMatch($match: StrictFilter<T>, timeoutify: Timeoutify) {
     // eslint-disable-next-line functional/prefer-readonly-type
     return timeoutify.runMongoOpWithTimeout(
-      this.collection.aggregate(this.getPipeline($match), { allowDiskUse: true }),
+      this.collection.aggregate(this.getPipeline($match), {
+        allowDiskUse: true,
+      }),
     ) as Promise<readonly TRes[]>
   }
 

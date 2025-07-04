@@ -1,7 +1,5 @@
+import { expect, it } from 'bun:test'
 import { createApp } from '@zemble/core'
-import {
-  it, expect,
-} from 'bun:test'
 
 import config from '../../config'
 import { graphql } from '../client.generated'

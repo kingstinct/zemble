@@ -1,10 +1,15 @@
 import papr from '../../clients/papr'
-import { readEntities, writeEntities } from '../../utils/fs'
-
 import type { EntitySchemaType } from '../../types'
+import { readEntities, writeEntities } from '../../utils/fs'
 import type { MutationResolvers } from '../schema.generated'
 
-export const renameEntity: NonNullable<MutationResolvers['renameEntity']> = async (_, { fromNamePlural, toNameSingular, toNamePlural: pluralIn }, { pubsub }) => {
+export const renameEntity: NonNullable<
+  MutationResolvers['renameEntity']
+> = async (
+  _,
+  { fromNamePlural, toNameSingular, toNamePlural: pluralIn },
+  { pubsub },
+) => {
   const namePlural = pluralIn.trim()
 
   const nameSingular = toNameSingular?.trim() ?? namePlural.replace(/s$/, '')

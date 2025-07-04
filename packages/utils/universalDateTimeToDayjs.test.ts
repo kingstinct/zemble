@@ -1,7 +1,10 @@
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import dayjs from 'dayjs'
 
-import { universalDateTimeToDate, universalDateTimeToDateString } from './universalDateTimeToDayjs'
+import {
+  universalDateTimeToDate,
+  universalDateTimeToDateString,
+} from './universalDateTimeToDayjs'
 
 describe('universalDateTimeToDayjs', () => {
   it('convert dateString to date', () => {

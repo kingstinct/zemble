@@ -2,12 +2,12 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "lint": {
-      "dependsOn": [ "codegen" ],
+      "dependsOn": ["codegen"],
       "passThroughEnv": ["ESLINT_USE_FLAT_CONFIG"],
       "outputLogs": "errors-only"
     },
     "test": {
-      "dependsOn": [ "codegen" ],
+      "dependsOn": ["codegen"],
       "outputLogs": "errors-only",
       "inputs": [
         "**/*.ts",
@@ -19,7 +19,7 @@
       ]
     },
     "typecheck": {
-      "dependsOn": [ "codegen" ],
+      "dependsOn": ["codegen"],
       "outputLogs": "errors-only",
       "inputs": [
         "**/*.ts",
@@ -31,13 +31,9 @@
       ]
     },
     "codegen": {
-      "dependsOn": [ "^codegen" ],
+      "dependsOn": ["^codegen"],
       "outputLogs": "errors-only",
-      "inputs": [
-        "**/*.graphql",
-        "**/codegen.ts",
-        "**/package.json"
-      ]
+      "inputs": ["**/*.graphql", "**/codegen.ts", "**/package.json"]
     }
   }
 }

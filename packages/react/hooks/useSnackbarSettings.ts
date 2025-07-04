@@ -10,15 +10,21 @@ interface SnackbarSettings {
 }
 
 export const useSnackbarSettings = (settings: SnackbarSettings) => {
-  const setDefaultTimeoutMs = useSnackbarStore((state) => state.setDefaultTimeoutMs)
-  const setSnackbarsToShowAtSameTime = useSnackbarStore((state) => state.setSnackbarsToShowAtSameTime)
+  const setDefaultTimeoutMs = useSnackbarStore(
+    (state) => state.setDefaultTimeoutMs,
+  )
+  const setSnackbarsToShowAtSameTime = useSnackbarStore(
+    (state) => state.setSnackbarsToShowAtSameTime,
+  )
 
   useEffect(() => {
-    if (settings.defaultTimeoutMs != null) setDefaultTimeoutMs(settings.defaultTimeoutMs)
+    if (settings.defaultTimeoutMs != null)
+      setDefaultTimeoutMs(settings.defaultTimeoutMs)
   }, [setDefaultTimeoutMs, settings.defaultTimeoutMs])
 
   useEffect(() => {
-    if (settings.snackbarsToShowAtSameTime != null) setSnackbarsToShowAtSameTime(settings.snackbarsToShowAtSameTime)
+    if (settings.snackbarsToShowAtSameTime != null)
+      setSnackbarsToShowAtSameTime(settings.snackbarsToShowAtSameTime)
   }, [setSnackbarsToShowAtSameTime, settings.snackbarsToShowAtSameTime])
 }
 

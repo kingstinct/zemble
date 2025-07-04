@@ -8,30 +8,31 @@ import { generateBearerTokenFromFirebaseToken } from '../../utils/generateBearer
 
 import type { MutationResolvers } from '../schema.generated'
 
-const signInWithEmailAndPassword: MutationResolvers['signInWithEmailAndPassword'] = async (_, { email, password }, { honoContext }) => {
-  const credential = await firebaseAuth.signInWithEmailAndPassword(
-    firebaseAuth.getAuth(),
-    email,
-    password,
-  )
+const signInWithEmailAndPassword: MutationResolvers['signInWithEmailAndPassword'] =
+  async (_, { email, password }, { honoContext }) => {
+    const credential = await firebaseAuth.signInWithEmailAndPassword(
+      firebaseAuth.getAuth(),
+      email,
+      password,
+    )
 
-  const idToken = await firebaseAuth.getIdToken(credential.user)
+    const idToken = await firebaseAuth.getIdToken(credential.user)
 
-  const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
 
-  const bearerToken = await generateBearerTokenFromFirebaseToken(decodedToken)
+    const bearerToken = await generateBearerTokenFromFirebaseToken(decodedToken)
 
-  const refreshToken = await generateRefreshToken(decodedToken)
+    const refreshToken = await generateRefreshToken(decodedToken)
 
-  if (plugin.config.cookies.isEnabled) {
-    setTokenCookies(honoContext, bearerToken, refreshToken)
+    if (plugin.config.cookies.isEnabled) {
+      setTokenCookies(honoContext, bearerToken, refreshToken)
+    }
+
+    return {
+      __typename: 'AuthResponse',
+      bearerToken,
+      refreshToken,
+    }
   }
-
-  return {
-    __typename: 'AuthResponse',
-    bearerToken,
-    refreshToken,
-  }
-}
 
 export default signInWithEmailAndPassword

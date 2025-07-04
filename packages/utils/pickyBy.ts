@@ -1,4 +1,7 @@
-export function pickBy<T extends Record<string, unknown>, TKey extends keyof T>(object: T, predicate: (value: T[TKey], key: TKey) => boolean): Partial<T> {
+export function pickBy<T extends Record<string, unknown>, TKey extends keyof T>(
+  object: T,
+  predicate: (value: T[TKey], key: TKey) => boolean,
+): Partial<T> {
   const obj = { ...object }
   // eslint-disable-next-line no-restricted-syntax
   for (const key in obj) {

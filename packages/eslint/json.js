@@ -10,10 +10,7 @@ module.exports = {
         multiline: true,
       },
     ],
-    'jsonc/array-bracket-spacing': [
-      'error',
-      'always',
-    ],
+    'jsonc/array-bracket-spacing': ['error', 'always'],
     'jsonc/array-element-newline': ['error', 'always'],
     'jsonc/indent': ['error', 2],
     'jsonc/object-curly-newline': [
@@ -25,7 +22,8 @@ module.exports = {
     ],
     'jsonc/object-curly-spacing': ['error', 'always'],
     'jsonc/object-property-newline': [
-      'error', {
+      'error',
+      {
         allowAllPropertiesOnSameLine: false,
       },
     ],

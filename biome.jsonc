@@ -215,7 +215,7 @@
         "noPrototypeBuiltins": "error",
         "noRedeclare": "error",
         "noSelfCompare": "error",
-        "noShadowRestrictedNames": "error",
+        "noShadowRestrictedNames": "warn",
         "noSparseArray": "error",
         "noTemplateCurlyInString": "error",
         "noUnsafeNegation": "error",
@@ -224,7 +224,7 @@
         "useAwait": "off",
         "useDefaultSwitchClauseLast": "error",
         "useGetterReturn": "error",
-        "useGuardForIn": "error",
+        "useGuardForIn": "warn",
       },
     },
     "includes": [
@@ -243,7 +243,7 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
-      "jsxQuoteStyle": "double",
+      "jsxQuoteStyle": "single",
       "semicolons": "asNeeded",
       "bracketSpacing": true,
       "expand": "auto",
@@ -256,7 +256,7 @@
   },
   "overrides": [
     {
-      "includes": ["**/*.jsonc", ".vscode/*.json"],
+      "includes": ["**/*.jsonc", "**/.vscode/*.json"],
       "json": {
         "parser": {
           "allowComments": true,

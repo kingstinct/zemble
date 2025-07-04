@@ -1,4 +1,7 @@
-export function omitBy<T extends Record<string, unknown>, TKey extends keyof T>(object: T, predicate: (value: T[TKey], key: TKey) => boolean): Partial<T> {
+export function omitBy<T extends Record<string, unknown>, TKey extends keyof T>(
+  object: T,
+  predicate: (value: T[TKey], key: TKey) => boolean,
+): Partial<T> {
   // eslint-disable-next-line no-restricted-syntax
   for (const key in object) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

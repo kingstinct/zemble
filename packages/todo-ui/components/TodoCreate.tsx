@@ -14,7 +14,9 @@ const CreateTodo = graphql(/* GraphQL */ `
   }
 `)
 
-const TodoCreate: React.FC<{ readonly refetch: () => void }> = ({ refetch }) => {
+const TodoCreate: React.FC<{ readonly refetch: () => void }> = ({
+  refetch,
+}) => {
   // const { token } = useContext(AuthContext)
   const [title, setTitle] = useState('')
   const [, createTodo] = useMutation(CreateTodo)

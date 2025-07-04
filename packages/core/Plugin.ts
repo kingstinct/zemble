@@ -2,11 +2,10 @@ import mergeDeep from '@zemble/utils/mergeDeep'
 import debug from 'debug'
 
 import { createProviderProxy } from './createProvidersProxy'
+import type { Middleware, PluginOpts } from './types'
 import { readPackageJson } from './utils/readPackageJson'
 import setupProvider, { type InitializeProvider } from './utils/setupProvider'
 import { defaultMultiProviders } from './zembleContext'
-
-import type { Middleware, PluginOpts } from './types'
 
 export class Plugin<
   TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
@@ -37,7 +36,10 @@ export class Plugin<
 
   readonly #providers?: Partial<{
     // @ts-expect-error fix later
-    readonly [key in keyof Zemble.Providers]: InitializeProvider<Zemble.Providers[key], unknown>
+    readonly [key in keyof Zemble.Providers]: InitializeProvider<
+      Zemble.Providers[key],
+      unknown
+    >
   }>
 
   /**
@@ -45,10 +47,19 @@ export class Plugin<
    * @param __dirname This should be the directory of the plugin (usually import.meta.dir), usually containing subdirectories like /routes and /graphql for automatic bootstrapping
    * @param opts
    */
-  constructor(__dirname: string, opts?: PluginOpts<Plugin<TConfig, TDefaultConfig, TResolvedConfig>, TConfig, TDefaultConfig, TResolvedConfig>) {
+  constructor(
+    __dirname: string,
+    opts?: PluginOpts<
+      Plugin<TConfig, TDefaultConfig, TResolvedConfig>,
+      TConfig,
+      TDefaultConfig,
+      TResolvedConfig
+    >,
+  ) {
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
-    this.additionalConfigWhenRunningLocally = opts?.additionalConfigWhenRunningLocally
+    this.additionalConfigWhenRunningLocally =
+      opts?.additionalConfigWhenRunningLocally
     this.#pluginName = opts?.name ?? this.pluginName
     this.#pluginVersion = opts?.version ?? this.pluginVersion
     const deps = opts?.dependencies ?? []
@@ -56,12 +67,15 @@ export class Plugin<
     this.debug = debug(this.#pluginName)
     this.#providers = opts?.providers
 
-    const allDeps = (typeof deps === 'function') ? deps(this) : deps
+    const allDeps = typeof deps === 'function' ? deps(this) : deps
 
-    const filteredDeps = allDeps.filter((d) => (this.isPluginRunLocally ? true : d.onlyWhenRunningLocally))
+    const filteredDeps = allDeps.filter((d) =>
+      this.isPluginRunLocally ? true : d.onlyWhenRunningLocally,
+    )
 
-    const resolvedDeps = filteredDeps
-      .map(({ plugin, config }) => plugin.configure(config as Partial<unknown>))
+    const resolvedDeps = filteredDeps.map(({ plugin, config }) =>
+      plugin.configure(config as Partial<unknown>),
+    )
 
     if (this.isPluginRunLocally) {
       this.configure(this.additionalConfigWhenRunningLocally)
@@ -80,12 +94,12 @@ export class Plugin<
   }
 
   get isPluginRunLocally() {
-    return (
-      process.cwd() === this.pluginPath
-    )
+    return process.cwd() === this.pluginPath
   }
 
-  async initializeMiddleware(...args: Parameters<Middleware<TResolvedConfig, Plugin>>) {
+  async initializeMiddleware(
+    ...args: Parameters<Middleware<TResolvedConfig, Plugin>>
+  ) {
     const providers = this.#providers
     if (providers) {
       Object.keys(providers).forEach((key) => {
@@ -137,7 +151,8 @@ export class Plugin<
     if (config) {
       // eslint-disable-next-line functional/immutable-data
       this.#config = mergeDeep(
-        this.#config as Record<string, unknown>, config as Record<string, unknown>,
+        this.#config as Record<string, unknown>,
+        config as Record<string, unknown>,
       ) as TResolvedConfig
     }
 

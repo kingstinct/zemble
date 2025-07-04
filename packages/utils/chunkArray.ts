@@ -1,4 +1,7 @@
-export function chunkArray<T>(array: readonly T[], chunkSize: number): readonly (readonly T[])[] {
+export function chunkArray<T>(
+  array: readonly T[],
+  chunkSize: number,
+): readonly (readonly T[])[] {
   const arrayLength = array.length
   const chunksCount = Math.ceil(arrayLength / chunkSize)
   const tempArray = new Array(chunksCount)

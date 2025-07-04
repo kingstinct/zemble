@@ -33,6 +33,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@zemble/core": "workspace:*"
+    "@zemble/core": "workspace:*",
+    "hono": "^4.8.4"
   }
 }

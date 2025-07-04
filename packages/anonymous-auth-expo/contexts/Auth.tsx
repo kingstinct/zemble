@@ -1,7 +1,5 @@
 import { AuthProvider } from '@zemble/auth-expo/contexts/Auth'
-import {
-  createContext, useEffect, useMemo, useState,
-} from 'react'
+import { createContext, useEffect, useMemo, useState } from 'react'
 import { useMutation } from 'urql'
 
 import { graphql } from '../gql.generated'
@@ -15,10 +13,12 @@ const Login = graphql(/* GraphQL */ `
 `)
 
 export const SimpleAnonymousAuthContext = createContext({
-  login: () => { },
+  login: () => {},
 })
 
-export const SimpleAnonymousAuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const SimpleAnonymousAuthProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [token, setToken] = useState<string | null>(null)
 
   const [response, login] = useMutation(Login)
@@ -33,11 +33,15 @@ export const SimpleAnonymousAuthProvider: React.FC<React.PropsWithChildren> = ({
 
   return (
     <AuthProvider setToken={setToken} token={token}>
-      <SimpleAnonymousAuthContext.Provider value={useMemo(() => ({
-        login: () => {
-          void login({})
-        },
-      }), [login])}
+      <SimpleAnonymousAuthContext.Provider
+        value={useMemo(
+          () => ({
+            login: () => {
+              void login({})
+            },
+          }),
+          [login],
+        )}
       >
         {children}
       </SimpleAnonymousAuthContext.Provider>

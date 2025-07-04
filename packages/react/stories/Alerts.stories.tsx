@@ -1,9 +1,7 @@
+import type { Meta, StoryFn } from '@storybook/react'
 import { useState } from 'react'
 import { Button, Text, View } from 'react-native'
-
 import { useAlert, useConfirm } from '../hooks'
-
-import type { StoryFn, Meta } from '@storybook/react'
 
 function SnackbarsStory() {
   const alert = useAlert()
@@ -12,11 +10,24 @@ function SnackbarsStory() {
 
   return (
     <View>
-      <Button title='Open an alert' onPress={async () => alert('This is an alert', 'This is the message')} />
+      <Button
+        title='Open an alert'
+        onPress={async () => alert('This is an alert', 'This is the message')}
+      />
 
       <View style={{ height: 16 }} />
 
-      <Button title='Open a confirmation dialog' onPress={async () => setConfirmResponse(await confirm('This is a confirmation dialog', 'This is the message'))} />
+      <Button
+        title='Open a confirmation dialog'
+        onPress={async () =>
+          setConfirmResponse(
+            await confirm(
+              'This is a confirmation dialog',
+              'This is the message',
+            ),
+          )
+        }
+      />
       <Text>
         Response from confirmation dialog:
         {JSON.stringify(confirmResponse)}

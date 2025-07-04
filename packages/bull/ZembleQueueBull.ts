@@ -1,11 +1,13 @@
-import { Queue, QueueEvents, Worker } from 'bullmq'
-
-import plugin from './plugin'
-
 import type { IStandardLogger } from '@zemble/core'
 import type {
-  Job, JobsOptions, QueueOptions, RedisOptions, RepeatOptions,
+  Job,
+  JobsOptions,
+  QueueOptions,
+  RedisOptions,
+  RepeatOptions,
 } from 'bullmq'
+import { Queue, QueueEvents, Worker } from 'bullmq'
+import plugin from './plugin'
 
 export interface BullPluginConfig extends Zemble.GlobalConfig {
   /**
@@ -13,8 +15,8 @@ export interface BullPluginConfig extends Zemble.GlobalConfig {
    */
   readonly redisUrl?: string
   /**
-  * Redis config to use for pubsub
-  */
+   * Redis config to use for pubsub
+   */
   readonly redisOptions?: RedisOptions
 }
 
@@ -27,7 +29,10 @@ export type ZembleJobOpts = {
   readonly logger: IStandardLogger
 }
 
-export type ZembleWorker<DataType = unknown, ReturnType = unknown> = (job: Job<DataType, ReturnType>, opts: ZembleJobOpts) => Promise<ReturnType> | ReturnType
+export type ZembleWorker<DataType = unknown, ReturnType = unknown> = (
+  job: Job<DataType, ReturnType>,
+  opts: ZembleJobOpts,
+) => Promise<ReturnType> | ReturnType
 
 export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   readonly #worker: ZembleWorker<DataType, ReturnType>
@@ -46,15 +51,25 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   #connection: QueueOptions['connection'] | undefined
 
   // eslint-disable-next-line functional/prefer-readonly-type
-  #queueInternal: Queue<DataType, ReturnType, string, DataType, ReturnType, string> | undefined
+  #queueInternal:
+    | Queue<DataType, ReturnType, string, DataType, ReturnType, string>
+    | undefined
 
   get #queue() {
-    if (!this.#queueInternal) throw new Error('Queue not initialized, something is wrong!')
+    if (!this.#queueInternal)
+      throw new Error('Queue not initialized, something is wrong!')
     return this.#queueInternal
   }
 
   async _initQueue(queueName: string, connection: QueueOptions['connection']) {
-    const queue = new Queue<DataType, ReturnType, string, DataType, ReturnType, string>(queueName, {
+    const queue = new Queue<
+      DataType,
+      ReturnType,
+      string,
+      DataType,
+      ReturnType,
+      string
+    >(queueName, {
       connection,
       defaultJobOptions: this.#config?.defaultJobOptions,
       prefix: plugin.config.redisOptions?.keyPrefix,
@@ -76,31 +91,81 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
     }
 
     // @ts-expect-error if this cannot be a promise I'm not sure how stuff will work
-    const worker = plugin.config.DISABLE_QUEUE_WORKERS ? null : new Worker(queueName, this.#worker, {
-      connection,
-      prefix: plugin.config.redisOptions?.keyPrefix,
-    })
+    const worker = plugin.config.DISABLE_QUEUE_WORKERS
+      ? null
+      : new Worker(queueName, this.#worker, {
+          connection,
+          prefix: plugin.config.redisOptions?.keyPrefix,
+        })
 
     return { queue, worker }
   }
 
-  async add(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['add']>) {
+  async add(
+    ...args: Parameters<
+      Queue<DataType, ReturnType, string, DataType, ReturnType, string>['add']
+    >
+  ) {
     return this.#queue.add(...args)
   }
 
-  async addBulk(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['addBulk']>) {
+  async addBulk(
+    ...args: Parameters<
+      Queue<
+        DataType,
+        ReturnType,
+        string,
+        DataType,
+        ReturnType,
+        string
+      >['addBulk']
+    >
+  ) {
     return this.#queue.addBulk(...args)
   }
 
-  async remove(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['remove']>) {
+  async remove(
+    ...args: Parameters<
+      Queue<
+        DataType,
+        ReturnType,
+        string,
+        DataType,
+        ReturnType,
+        string
+      >['remove']
+    >
+  ) {
     return this.#queue.remove(...args)
   }
 
-  async getJob(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['getJob']>) {
+  async getJob(
+    ...args: Parameters<
+      Queue<
+        DataType,
+        ReturnType,
+        string,
+        DataType,
+        ReturnType,
+        string
+      >['getJob']
+    >
+  ) {
     return this.#queue.getJob(...args)
   }
 
-  async getDelayed(...args: Parameters<Queue<DataType, ReturnType, string, DataType, ReturnType, string>['getDelayed']>) {
+  async getDelayed(
+    ...args: Parameters<
+      Queue<
+        DataType,
+        ReturnType,
+        string,
+        DataType,
+        ReturnType,
+        string
+      >['getDelayed']
+    >
+  ) {
     return this.#queue.getDelayed(...args)
   }
 
@@ -113,7 +178,9 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
   }
 
   async waitUntilEmpty() {
-    const queueEvents = new QueueEvents(this.#queueInternal!.name, { connection: this.#connection! })
+    const queueEvents = new QueueEvents(this.#queueInternal!.name, {
+      connection: this.#connection!,
+    })
 
     return new Promise((resolve) => {
       const checkIfQueueIsEmpty = async () => {

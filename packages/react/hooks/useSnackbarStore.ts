@@ -11,7 +11,10 @@ export interface Action {
   readonly onPress?: (action: Action) => void
 }
 
-export interface SnackbarConfig<TMap extends Record<string, unknown> = Record<string, unknown>, T extends keyof TMap = keyof TMap> {
+export interface SnackbarConfig<
+  TMap extends Record<string, unknown> = Record<string, unknown>,
+  T extends keyof TMap = keyof TMap,
+> {
   readonly id?: string // unique id for the snackbar, to never show duplicates and
   readonly title: string
   readonly timeout?: number
@@ -26,7 +29,12 @@ export interface SnackbarWithId {
   readonly id: string
 }
 
-export type AddSnackbarFn = <TMap extends Record<string, unknown> = Record<string, unknown>, T extends keyof TMap = keyof TMap>(snackbarConfig: SnackbarConfig<TMap, T>) => void
+export type AddSnackbarFn = <
+  TMap extends Record<string, unknown> = Record<string, unknown>,
+  T extends keyof TMap = keyof TMap,
+>(
+  snackbarConfig: SnackbarConfig<TMap, T>,
+) => void
 
 interface SnackbarStore {
   readonly defaultTimeoutMs: number
@@ -57,68 +65,80 @@ const timeouts = new Map<string, number>()
  */
 const useSnackbarStore = create<SnackbarStore>((set) => ({
   defaultTimeoutMs: DEFAULT_SNACKBAR_TIMOUT_MS,
-  setDefaultTimeoutMs: (timeout) => set(() => ({ defaultTimeoutMs: timeout ?? DEFAULT_SNACKBAR_TIMOUT_MS })),
+  setDefaultTimeoutMs: (timeout) =>
+    set(() => ({ defaultTimeoutMs: timeout ?? DEFAULT_SNACKBAR_TIMOUT_MS })),
   snackbarsToShowAtSameTime: DEFAULT_SNACKBARS_TO_SHOW_AT_SAME_TIME,
-  setSnackbarsToShowAtSameTime: (value) => set((state) => {
-    const snackbarsToShowAtSameTime = value ?? DEFAULT_SNACKBARS_TO_SHOW_AT_SAME_TIME
+  setSnackbarsToShowAtSameTime: (value) =>
+    set((state) => {
+      const snackbarsToShowAtSameTime =
+        value ?? DEFAULT_SNACKBARS_TO_SHOW_AT_SAME_TIME
 
-    return {
-      snackbarsToShow: state.snackbars.slice(0, snackbarsToShowAtSameTime),
-      snackbarsToShowAtSameTime,
-    }
-  }),
+      return {
+        snackbarsToShow: state.snackbars.slice(0, snackbarsToShowAtSameTime),
+        snackbarsToShowAtSameTime,
+      }
+    }),
   snackbars: [],
   snackbarsToShow: [],
-  addSnackbar: (snackbarConfig) => set((state) => {
-    const id = snackbarConfig.id || getRandomID()
-    const snackbars = [
-      ...state.snackbars.filter((s) => s.id !== id),
-      {
-        snackbarConfig: {
-          ...snackbarConfig,
-          type: snackbarConfig.type as never, // here is where type safety ends
-          data: snackbarConfig.data as never,
+  addSnackbar: (snackbarConfig) =>
+    set((state) => {
+      const id = snackbarConfig.id || getRandomID()
+      const snackbars = [
+        ...state.snackbars.filter((s) => s.id !== id),
+        {
+          snackbarConfig: {
+            ...snackbarConfig,
+            type: snackbarConfig.type as never, // here is where type safety ends
+            data: snackbarConfig.data as never,
+          },
+          id,
         },
-        id,
-      },
-    ]
+      ]
 
-    return {
-      snackbars,
-      snackbarsToShow: snackbars.slice(0, state.snackbarsToShowAtSameTime),
-    }
-  }),
-  removeSnackbar: (id: string) => set((state) => {
-    const snackbars = state.snackbars.filter((s) => s.id !== id)
+      return {
+        snackbars,
+        snackbarsToShow: snackbars.slice(0, state.snackbarsToShowAtSameTime),
+      }
+    }),
+  removeSnackbar: (id: string) =>
+    set((state) => {
+      const snackbars = state.snackbars.filter((s) => s.id !== id)
 
-    return {
-      snackbars,
-      snackbarsToShow: snackbars.slice(0, state.snackbarsToShowAtSameTime),
-    }
-  }),
-  snackbarWasPresented: (id: string) => set((state) => {
-    const snackbar = state.snackbars.find((s) => s.id === id)
+      return {
+        snackbars,
+        snackbarsToShow: snackbars.slice(0, state.snackbarsToShowAtSameTime),
+      }
+    }),
+  snackbarWasPresented: (id: string) =>
+    set((state) => {
+      const snackbar = state.snackbars.find((s) => s.id === id)
 
-    if (!timeouts.has(id)) {
-      snackbar?.snackbarConfig.onShow?.()
-      timeouts.set(id, setTimeout(() => {
-        state.removeSnackbar(id)
-        timeouts.delete(id)
-      }, snackbar?.snackbarConfig.timeout || state.defaultTimeoutMs) as unknown as number)
-    }
+      if (!timeouts.has(id)) {
+        snackbar?.snackbarConfig.onShow?.()
+        timeouts.set(
+          id,
+          setTimeout(() => {
+            state.removeSnackbar(id)
+            timeouts.delete(id)
+          }, snackbar?.snackbarConfig.timeout ||
+            state.defaultTimeoutMs) as unknown as number,
+        )
+      }
 
-    if (!hasWarned) {
-      setTimeout(() => {
-        if (timeouts.size === 0) {
-          // eslint-disable-next-line no-console
-          console.warn('[@zemble/react] Snackbar added but not shown, make sure SnackbarView is present (or that you\'re calling snackbarWasPresented if rolling your own).')
-          hasWarned = true
-        }
-      }, 0)
-    }
+      if (!hasWarned) {
+        setTimeout(() => {
+          if (timeouts.size === 0) {
+            // eslint-disable-next-line no-console
+            console.warn(
+              "[@zemble/react] Snackbar added but not shown, make sure SnackbarView is present (or that you're calling snackbarWasPresented if rolling your own).",
+            )
+            hasWarned = true
+          }
+        }, 0)
+      }
 
-    return {}
-  }),
+      return {}
+    }),
 }))
 
 export default useSnackbarStore

@@ -7,7 +7,7 @@ export enum TimeoutifyStatus {
   Aborted,
   TimedOut,
   Running,
-  Finished
+  Finished,
 }
 
 export class Timeoutify {
@@ -37,7 +37,11 @@ export class Timeoutify {
     timeoutMS,
     logPrefix = LOG_PREFIX,
     logger = console,
-  }: { readonly timeoutMS: number; readonly logPrefix?: string; readonly logger?: Pick<Console, 'debug'> }) {
+  }: {
+    readonly timeoutMS: number
+    readonly logPrefix?: string
+    readonly logger?: Pick<Console, 'debug'>
+  }) {
     this.#startedAt = Date.now()
     this.#timeoutMS = timeoutMS
     this.abortController = new AbortController()
@@ -60,17 +64,20 @@ export class Timeoutify {
 
     if (timeoutMS > 0) {
       // eslint-disable-next-line functional/immutable-data
-      this.handle = setTimeout(() => {
-        if (process.env['DEBUG']) {
-          this.logger.debug(`${this.logPrefix} setTimeout called`)
-        }
+      this.handle = setTimeout(
+        () => {
+          if (process.env['DEBUG']) {
+            this.logger.debug(`${this.logPrefix} setTimeout called`)
+          }
 
-        if (!this.abortController.signal.aborted) {
-        // eslint-disable-next-line functional/immutable-data
-          this.statusInternal = TimeoutifyStatus.TimedOut
-          this.abortController.abort()
-        }
-      }, timeoutMS - (Date.now() - this.#startedAt))
+          if (!this.abortController.signal.aborted) {
+            // eslint-disable-next-line functional/immutable-data
+            this.statusInternal = TimeoutifyStatus.TimedOut
+            this.abortController.abort()
+          }
+        },
+        timeoutMS - (Date.now() - this.#startedAt),
+      )
     }
   }
 
@@ -124,12 +131,19 @@ export class Timeoutify {
   /**
    * This ensures the MongoDB Operation is never running for longer than the timeout.
    * */
-  async runMongoOpWithTimeout<T>(cursor: AbstractCursor<T>): Promise<readonly T[]> {
+  async runMongoOpWithTimeout<T>(
+    cursor: AbstractCursor<T>,
+  ): Promise<readonly T[]> {
     if (process.env['DEBUG']) {
       this.logger.debug(`${this.logPrefix} runMongoOpWithTimeout called`)
     }
-    if (this.status === TimeoutifyStatus.Aborted || this.status === TimeoutifyStatus.TimedOut) {
-      throw new Error(`${this.logPrefix} runMongoOpWithTimeout: AbortSignal already aborted`)
+    if (
+      this.status === TimeoutifyStatus.Aborted ||
+      this.status === TimeoutifyStatus.TimedOut
+    ) {
+      throw new Error(
+        `${this.logPrefix} runMongoOpWithTimeout: AbortSignal already aborted`,
+      )
     }
 
     const isNoop = this.#timeoutMS <= 0
@@ -138,16 +152,22 @@ export class Timeoutify {
       return cursor.maxTimeMS(this.timeLeftMS).toArray()
     }
 
-    throw new Error(`${this.logPrefix} runMongoOpWithTimeout: Timed out before query started`)
+    throw new Error(
+      `${this.logPrefix} runMongoOpWithTimeout: Timed out before query started`,
+    )
   }
 
   static patchMongoCursorWithTimeout<T>(maxTimeMs: number) {
     /* @ts-expect-error  This is a hack to get around the fact that the type definitions for MongoDB are wrong. */
     // eslint-disable-next-line functional/immutable-data, no-underscore-dangle
-    AbstractCursor.prototype._toArray = AbstractCursor.prototype.toArray.bind(AbstractCursor.prototype)
+    AbstractCursor.prototype._toArray = AbstractCursor.prototype.toArray.bind(
+      AbstractCursor.prototype,
+    )
 
     // eslint-disable-next-line functional/immutable-data, @typescript-eslint/require-await
-    AbstractCursor.prototype.toArray = async function toArrayWithTimeoutify(this: AbstractCursor<T>) {
+    AbstractCursor.prototype.toArray = async function toArrayWithTimeoutify(
+      this: AbstractCursor<T>,
+    ) {
       // @ts-expect-error dfgdfg
       // eslint-disable-next-line no-underscore-dangle
       return this.maxTimeMS(maxTimeMs)._toArray()

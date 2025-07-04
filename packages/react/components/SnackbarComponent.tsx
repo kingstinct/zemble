@@ -1,18 +1,19 @@
+import type { PropsWithChildren } from 'react'
 import React, { useCallback } from 'react'
+import type { ColorValue, StyleProp, TextStyle, ViewStyle } from 'react-native'
 import {
-  Platform, StyleSheet, Text, TouchableOpacity, View,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
-
 import type { Action, SnackbarConfig } from '../hooks/useSnackbarStore'
-import type { PropsWithChildren } from 'react'
-import type {
-  StyleProp, ViewStyle, ColorValue, TextStyle,
-} from 'react-native'
 
 const DEFAULT_BACKGROUND_COLOR = '#323232',
-      DEFAULT_BUTTON_TEXT_COLOR = '#B28FF0',
-      DEFAULT_TEXT_COLOR = '#CDCDCD'
+  DEFAULT_BUTTON_TEXT_COLOR = '#B28FF0',
+  DEFAULT_TEXT_COLOR = '#CDCDCD'
 
 export const styles = StyleSheet.create({
   snackbarContent: {
@@ -57,26 +58,29 @@ export const styles = StyleSheet.create({
   },
 })
 
-export type SnackbarComponentProps<TMap extends Record<string, unknown> = Record<string, unknown>, T extends keyof TMap = keyof TMap> = {
-  readonly snackbarConfig: SnackbarConfig<TMap, T>,
-  readonly index: number,
-  readonly doDismiss: (snackbarId: string) => void,
-  readonly id: string,
+export type SnackbarComponentProps<
+  TMap extends Record<string, unknown> = Record<string, unknown>,
+  T extends keyof TMap = keyof TMap,
+> = {
+  readonly snackbarConfig: SnackbarConfig<TMap, T>
+  readonly index: number
+  readonly doDismiss: (snackbarId: string) => void
+  readonly id: string
 }
 
 export type DefaultSnackbarWrapperProps = SnackbarComponentProps & {
-  readonly backgroundColor?: ColorValue,
-  readonly buttonColor?: ColorValue,
-  readonly buttonTextStyle?: StyleProp<TextStyle>,
-  readonly style?: StyleProp<ViewStyle>,
-  readonly entering?: typeof FadeIn | null,
-  readonly exiting?: typeof FadeOut | null,
-  readonly contentStyle?: StyleProp<ViewStyle>,
+  readonly backgroundColor?: ColorValue
+  readonly buttonColor?: ColorValue
+  readonly buttonTextStyle?: StyleProp<TextStyle>
+  readonly style?: StyleProp<ViewStyle>
+  readonly entering?: typeof FadeIn | null
+  readonly exiting?: typeof FadeOut | null
+  readonly contentStyle?: StyleProp<ViewStyle>
 }
 
 export type DefaultSnackbarComponentProps = DefaultSnackbarWrapperProps & {
-  readonly textColor?: ColorValue,
-  readonly textStyle?: StyleProp<TextStyle>,
+  readonly textColor?: ColorValue
+  readonly textStyle?: StyleProp<TextStyle>
 }
 
 const DEFAULT_ANIMATION_DURATION = 500
@@ -84,63 +88,83 @@ const DEFAULT_ANIMATION_DURATION = 500
 export const DEFAULT_ENTERING = FadeIn.duration(DEFAULT_ANIMATION_DURATION)
 export const DEFAULT_EXITING = FadeOut.duration(DEFAULT_ANIMATION_DURATION)
 
-export const DefaultSnackbarComponent: React.FC<DefaultSnackbarComponentProps> = React.memo(({
-  snackbarConfig,
-  textColor,
-  textStyle,
-  ...wrapperProps
-}) => (
-  <DefaultSnackbarWrapper {...wrapperProps} snackbarConfig={snackbarConfig}>
-    <Text style={[styles.snackbarText, textStyle, textColor ? { color: textColor } : null]}>{snackbarConfig.title}</Text>
-  </DefaultSnackbarWrapper>
-))
-
-export const DefaultSnackbarWrapper: React.FC<PropsWithChildren<DefaultSnackbarWrapperProps>> = React.memo(({
-  snackbarConfig,
-  doDismiss, backgroundColor, buttonColor, buttonTextStyle, id, style, entering, exiting,
-  children,
-  contentStyle,
-}) => {
-  const renderButton = useCallback((a: Action, index: number) => (
-    <TouchableOpacity
-      accessibilityRole='button'
-      key={a.key || a.label}
-      onPress={() => {
-        doDismiss(id)
-        a.onPress?.(a)
-      }}
-    >
-      <Text style={[
-        styles.buttonText,
-        buttonTextStyle,
-        buttonColor ? { color: buttonColor } : null,
-        index === 0 ? null : styles.nonFirstButton,
-      ]}
+export const DefaultSnackbarComponent: React.FC<DefaultSnackbarComponentProps> =
+  React.memo(({ snackbarConfig, textColor, textStyle, ...wrapperProps }) => (
+    <DefaultSnackbarWrapper {...wrapperProps} snackbarConfig={snackbarConfig}>
+      <Text
+        style={[
+          styles.snackbarText,
+          textStyle,
+          textColor ? { color: textColor } : null,
+        ]}
       >
-        {a.label}
+        {snackbarConfig.title}
       </Text>
-    </TouchableOpacity>
-  ), [
-    buttonColor, buttonTextStyle, doDismiss, id,
-  ])
+    </DefaultSnackbarWrapper>
+  ))
 
-  return (
-    <Animated.View
-      entering={entering ?? DEFAULT_ENTERING}
-      // layout={layout ?? DEFAULT_LAYOUT} // 2x duration since it's is over a longer distance
-      exiting={exiting ?? DEFAULT_EXITING}
-    >
+export const DefaultSnackbarWrapper: React.FC<
+  PropsWithChildren<DefaultSnackbarWrapperProps>
+> = React.memo(
+  ({
+    snackbarConfig,
+    doDismiss,
+    backgroundColor,
+    buttonColor,
+    buttonTextStyle,
+    id,
+    style,
+    entering,
+    exiting,
+    children,
+    contentStyle,
+  }) => {
+    const renderButton = useCallback(
+      (a: Action, index: number) => (
+        <TouchableOpacity
+          accessibilityRole='button'
+          key={a.key || a.label}
+          onPress={() => {
+            doDismiss(id)
+            a.onPress?.(a)
+          }}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              buttonTextStyle,
+              buttonColor ? { color: buttonColor } : null,
+              index === 0 ? null : styles.nonFirstButton,
+            ]}
+          >
+            {a.label}
+          </Text>
+        </TouchableOpacity>
+      ),
+      [buttonColor, buttonTextStyle, doDismiss, id],
+    )
 
-      <View style={[styles.snackbar, style, backgroundColor ? { backgroundColor } : null]}>
-        <View style={[styles.snackbarContent, contentStyle]}>
-          { children }
+    return (
+      <Animated.View
+        entering={entering ?? DEFAULT_ENTERING}
+        // layout={layout ?? DEFAULT_LAYOUT} // 2x duration since it's is over a longer distance
+        exiting={exiting ?? DEFAULT_EXITING}
+      >
+        <View
+          style={[
+            styles.snackbar,
+            style,
+            backgroundColor ? { backgroundColor } : null,
+          ]}
+        >
+          <View style={[styles.snackbarContent, contentStyle]}>{children}</View>
+          <View style={styles.snackbarButtonWrapper}>
+            {snackbarConfig.actions?.map(renderButton)}
+          </View>
         </View>
-        <View style={styles.snackbarButtonWrapper}>
-          { snackbarConfig.actions?.map(renderButton) }
-        </View>
-      </View>
-    </Animated.View>
-  )
-})
+      </Animated.View>
+    )
+  },
+)
 
 export default DefaultSnackbarComponent

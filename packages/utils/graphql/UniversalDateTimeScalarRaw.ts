@@ -8,11 +8,13 @@ import { isValidDateWithTimeString } from '../date/isValidDateWithTimeString'
 
 export const REGEX_TIMEZONE_OFFSET_FORMAT = /^.*([+-]\d{2}:?\d{2}|[+-]\d{2}|Z)$/
 
-const ERROR_MESSAGE = 'Require string on format YYYY-MM-DD or iso8601/dayjs valid string with timezone'
+const ERROR_MESSAGE =
+  'Require string on format YYYY-MM-DD or iso8601/dayjs valid string with timezone'
 
 export const UniversalDateTimeRaw = new GraphQLScalarType({
   name: 'UniversalDateTime',
-  description: 'UniversalDateTime accepts a YYYY-MM-DD or iso8601 string timestamp, only validation, returns same format as input',
+  description:
+    'UniversalDateTime accepts a YYYY-MM-DD or iso8601 string timestamp, only validation, returns same format as input',
 
   // @ts-expect-error hard to get this 100% internally
   // from database towards client
@@ -32,7 +34,8 @@ export const UniversalDateTimeRaw = new GraphQLScalarType({
   parseValue(value: string) {
     if (typeof value === 'string' && isValidDateString(value)) {
       return value
-    } if (isValidDateWithTimeString(value)) {
+    }
+    if (isValidDateWithTimeString(value)) {
       return value
     }
     throw new GraphQLError(`${ERROR_MESSAGE}, found: ${value}`)
@@ -46,7 +49,8 @@ export const UniversalDateTimeRaw = new GraphQLScalarType({
 
     if (typeof ast.value === 'string' && isValidDateString(ast.value)) {
       return ast.value
-    } if (isValidDateWithTimeString(ast.value)) {
+    }
+    if (isValidDateWithTimeString(ast.value)) {
       return ast.value
     }
     throw new GraphQLError(`${ERROR_MESSAGE}, found: ${ast.value}`)

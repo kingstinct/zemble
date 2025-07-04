@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
-type Delay = number | null;
-type TimerHandler = (...args: readonly unknown[]) => void;
+type Delay = number | null
+type TimerHandler = (...args: readonly unknown[]) => void
 
 /**
  * Provides a declarative useInterval
@@ -18,7 +18,8 @@ export const useInterval = (callback: TimerHandler, delay: Delay) => {
   }, [callback])
 
   useEffect(() => {
-    const handler = (...args: readonly unknown[]) => savedCallbackRef.current?.(...args)
+    const handler = (...args: readonly unknown[]) =>
+      savedCallbackRef.current?.(...args)
 
     if (delay !== null) {
       const intervalId = setInterval(handler, delay)

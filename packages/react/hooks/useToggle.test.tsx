@@ -1,5 +1,5 @@
-import { renderHook, act } from '@testing-library/react-hooks'
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
+import { act, renderHook } from '@testing-library/react-hooks'
 
 import useToggle from './useToggle'
 

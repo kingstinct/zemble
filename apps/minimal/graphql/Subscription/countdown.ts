@@ -14,7 +14,8 @@ export const countdown: NonNullable<SubscriptionResolvers['countdown']> = {
       yield { countdown: i }
     }
   },
-  resolve: (payload: unknown) => (payload as { readonly countdown: number}).countdown,
+  resolve: (payload: unknown) =>
+    (payload as { readonly countdown: number }).countdown,
 }
 
 export default countdown

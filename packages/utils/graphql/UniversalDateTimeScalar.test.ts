@@ -1,6 +1,4 @@
-import {
-  describe, test, beforeEach, expect,
-} from 'bun:test'
+import { beforeEach, describe, expect, test } from 'bun:test'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
@@ -58,13 +56,19 @@ describe('UniversalDateTime', () => {
 
   test('parseValue should reject garbage dateString', () => {
     expect(() => parseValue('garbage')).toThrow(
-      new GraphQLError('Require string on format YYYY-MM-DD or iso8601/dayjs valid string, found: garbage'),
+      new GraphQLError(
+        'Require string on format YYYY-MM-DD or iso8601/dayjs valid string, found: garbage',
+      ),
     )
   })
 
   test('parseLiteral should reject garbage dateString', () => {
-    expect(() => parseLiteral({ value: 'garbage', kind: Kind.STRING }, {})).toThrow(
-      new GraphQLError('Require string on format YYYY-MM-DD or iso8601/dayjs valid string, found: garbage'),
+    expect(() =>
+      parseLiteral({ value: 'garbage', kind: Kind.STRING }, {}),
+    ).toThrow(
+      new GraphQLError(
+        'Require string on format YYYY-MM-DD or iso8601/dayjs valid string, found: garbage',
+      ),
     )
   })
 
@@ -91,7 +95,10 @@ describe('UniversalDateTime', () => {
 
   test('parseLiteral should return dayjs', () => {
     const expected = '2019-11-01T11:00:00Z'
-    const date = parseLiteral({ value: expected, kind: Kind.STRING }, {}) as dayjs.Dayjs
+    const date = parseLiteral(
+      { value: expected, kind: Kind.STRING },
+      {},
+    ) as dayjs.Dayjs
 
     expect(date.valueOf()).toBe(new Date(expected).valueOf())
     expect(date.isValid()).toBe(true)
