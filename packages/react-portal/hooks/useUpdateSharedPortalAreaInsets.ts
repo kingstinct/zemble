@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import useSharedPortalAreaStore from './useSharedPortalAreaStore'
-import generateId from '../utils/generateId'
+import generateId from '@zemble/react/utils/generateId'
 
 import type { Insets } from 'react-native'
 

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import getRandomID from '../utils/getRandomID'
+import getRandomID from '@zemble/react/utils/getRandomID'
 
 export const DEFAULT_SNACKBAR_TIMOUT_MS = 5000
 export const DEFAULT_SNACKBARS_TO_SHOW_AT_SAME_TIME = 1

@@ -2,7 +2,7 @@ import { Portal } from '@gorhom/portal'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import randomHexColorAlpha from '../utils/randomHexColor'
+import randomHexColorAlpha from '@zemble/react/utils/randomHexColor'
 
 import type { Props } from './NativePortal.types'
 import type { StyleProp, ViewStyle } from 'react-native'

@@ -9,19 +9,28 @@ import { ActivityIndicator, Switch } from 'react-native-paper'
 import Animated, { CurvedTransition } from 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { SnackbarPresentationView } from '../components'
-import NativePortal from '../components/NativePortal'
-import SharedPortalAreaProvider from '../components/SharedPortalAreaProvider'
-import SharedPortalPresentationArea from '../components/SharedPortalPresentationArea'
-import DefaultSnackbarComponent from '../components/SnackbarComponent'
-import { StringsProvider } from '../contexts/Strings'
+import { SnackbarPresentationView, DefaultSnackbarComponent } from '@zemble/react-snackbar'
 import {
-  useAddSnackbar, useIsKeyboardShown, useKeyboardHeight, useWillKeyboardBeShown, useSnackbarSettings, useSharedPortalAreaInsets, useSharedPortalAreaSize,
-} from '../hooks'
+  NativePortal,
+  SharedPortalAreaProvider,
+  SharedPortalPresentationArea,
+  useSharedPortalAreaInsets,
+  useSharedPortalAreaSize,
+} from '@zemble/react-portal'
+import { StringsProvider } from '@zemble/react-network'
+import {
+  useAddSnackbar,
+  useSnackbarSettings,
+} from '@zemble/react-snackbar'
+import {
+  useIsKeyboardShown,
+  useKeyboardHeight,
+  useWillKeyboardBeShown,
+} from '@zemble/react-keyboard'
 import useAlert from '../hooks/useAlert'
 import useConfirm from '../hooks/useConfirm'
 
-import type { SnackbarComponentProps } from '../components/SnackbarComponent'
+import type { SnackbarComponentProps } from '@zemble/react-snackbar'
 
 const CustomSnackbarComponent: React.FC<SnackbarComponentProps> = (props) => (
   <DefaultSnackbarComponent

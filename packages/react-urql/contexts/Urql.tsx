@@ -3,7 +3,7 @@ import {
 } from 'react'
 import { Provider } from 'urql'
 
-import { AuthContext } from './Auth'
+import { AuthContext } from '@zemble/react-auth'
 
 import type { GraphQLError, GraphQLErrorExtensions } from 'graphql'
 import type { PropsWithChildren } from 'react'
