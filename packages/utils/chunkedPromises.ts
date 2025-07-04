@@ -8,7 +8,7 @@ export async function chunkedPromises<T = unknown, TRes = unknown>(
   maxChunksPerSecond = 100,
 ) {
   const chunks = chunk(chunkSize, data),
-        minTimeBetweenChunks = 1000 / maxChunksPerSecond
+    minTimeBetweenChunks = 1000 / maxChunksPerSecond
 
   const init = Promise.resolve({
     acc: [] as readonly PromiseSettledResult<TRes>[],

@@ -3,7 +3,10 @@
  (providing some value even before we've set up graphql config etc). */
 
 module.exports = {
-  extends: ['plugin:@graphql-eslint/schema-recommended', 'plugin:@graphql-eslint/operations-recommended'],
+  extends: [
+    'plugin:@graphql-eslint/schema-recommended',
+    'plugin:@graphql-eslint/operations-recommended',
+  ],
   parser: '@graphql-eslint/eslint-plugin',
   plugins: ['@graphql-eslint'],
   rules: {
@@ -16,8 +19,15 @@ module.exports = {
     '@graphql-eslint/known-type-names': 0,
     '@graphql-eslint/lone-anonymous-operation': 0,
     '@graphql-eslint/naming-convention': [
-      2, {
-        FieldDefinition: 'camelCase', FragmentDefinition: { forbiddenSuffixes: ['Fragment'], style: 'PascalCase' }, allowLeadingUnderscore: true, types: 'PascalCase',
+      2,
+      {
+        FieldDefinition: 'camelCase',
+        FragmentDefinition: {
+          forbiddenSuffixes: ['Fragment'],
+          style: 'PascalCase',
+        },
+        allowLeadingUnderscore: true,
+        types: 'PascalCase',
       },
     ],
     '@graphql-eslint/no-deprecated': 0,

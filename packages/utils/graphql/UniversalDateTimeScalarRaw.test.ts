@@ -1,6 +1,4 @@
-import {
-  describe, test, expect,
-} from 'bun:test'
+import { describe, expect, test } from 'bun:test'
 import { GraphQLError } from 'graphql/error'
 import { Kind } from 'graphql/language'
 
@@ -27,13 +25,19 @@ describe('UniversalDateTimeRaw', () => {
 
   test('parseValue should reject garbage dateString', () => {
     expect(() => parseValue('garbage')).toThrow(
-      new GraphQLError('Require string on format YYYY-MM-DD or iso8601/dayjs valid string with timezone, found: garbage'),
+      new GraphQLError(
+        'Require string on format YYYY-MM-DD or iso8601/dayjs valid string with timezone, found: garbage',
+      ),
     )
   })
 
   test('parseLiteral should reject garbage dateString', () => {
-    expect(() => parseLiteral({ value: 'garbage', kind: Kind.STRING }, {})).toThrow(
-      new GraphQLError('Require string on format YYYY-MM-DD or iso8601/dayjs valid string with timezone, found: garbage'),
+    expect(() =>
+      parseLiteral({ value: 'garbage', kind: Kind.STRING }, {}),
+    ).toThrow(
+      new GraphQLError(
+        'Require string on format YYYY-MM-DD or iso8601/dayjs valid string with timezone, found: garbage',
+      ),
     )
   })
 
@@ -61,8 +65,12 @@ describe('UniversalDateTimeRaw', () => {
   test('fail with time with no timezone', () => {
     const dateStr = '2019-11-01T11:00:00'
 
-    expect(() => parseLiteral({ value: dateStr, kind: Kind.STRING }, {})).toThrow(
-      new GraphQLError(`Require string on format YYYY-MM-DD or iso8601/dayjs valid string with timezone, found: ${dateStr}`),
+    expect(() =>
+      parseLiteral({ value: dateStr, kind: Kind.STRING }, {}),
+    ).toThrow(
+      new GraphQLError(
+        `Require string on format YYYY-MM-DD or iso8601/dayjs valid string with timezone, found: ${dateStr}`,
+      ),
     )
   })
 })

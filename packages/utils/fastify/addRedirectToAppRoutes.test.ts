@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'bun:test'
+import { describe, expect, test } from 'bun:test'
 
 import { getRedirectUrl } from './addRedirectToAppRoutes'
 
@@ -26,7 +26,9 @@ describe('googleFitOAuthUrl', () => {
     const appSchemeWithPath = `${appScheme}://${path}`
     const redirectUrl = getRedirectUrl(BASE_URL, appSchemeWithPath)
 
-    expect(redirectUrl).toEqual(`${BASE_URL}/redirect-to-app/${appScheme}/${path}`)
+    expect(redirectUrl).toEqual(
+      `${BASE_URL}/redirect-to-app/${appScheme}/${path}`,
+    )
   })
 
   test('should just return redirect url for non-app URL', () => {

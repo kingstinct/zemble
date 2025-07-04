@@ -7,7 +7,9 @@ if (!plugin.config.FIREBASE_ADMIN_SERVICE_ACCOUNT) {
 }
 
 firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(plugin.config.FIREBASE_ADMIN_SERVICE_ACCOUNT),
+  credential: firebaseAdmin.credential.cert(
+    plugin.config.FIREBASE_ADMIN_SERVICE_ACCOUNT,
+  ),
 })
 
 export default firebaseAdmin

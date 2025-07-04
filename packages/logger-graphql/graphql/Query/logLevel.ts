@@ -1,6 +1,5 @@
-import { LogLevel, type QueryResolvers } from '../schema.generated'
-
 import type { LevelWithSilentOrString } from 'pino'
+import { LogLevel, type QueryResolvers } from '../schema.generated'
 
 const mapLogLevel: Record<LevelWithSilentOrString, LogLevel> = {
   silent: LogLevel.Silent,
@@ -12,6 +11,10 @@ const mapLogLevel: Record<LevelWithSilentOrString, LogLevel> = {
   info: LogLevel.Info,
 }
 
-export const logLevel: NonNullable<QueryResolvers['logLevel']> = (_, __, { logger }) => mapLogLevel[logger.level]!
+export const logLevel: NonNullable<QueryResolvers['logLevel']> = (
+  _,
+  __,
+  { logger },
+) => mapLogLevel[logger.level]!
 
 export default logLevel

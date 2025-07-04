@@ -1,26 +1,36 @@
 /* eslint-disable import/no-extraneous-dependencies, no-param-reassign, functional/prefer-readonly-type, functional/immutable-data */
-import ejs from 'ejs'
-import { Hono } from 'hono'
-import { serveStatic } from 'hono/bun'
 
 import type {
-  AppControllerRoute, AppViewRoute, BullBoardQueues, ControllerHandlerReturnType, HTTPMethod, IServerAdapter, UIConfig,
+  AppControllerRoute,
+  AppViewRoute,
+  BullBoardQueues,
+  ControllerHandlerReturnType,
+  HTTPMethod,
+  IServerAdapter,
+  UIConfig,
 } from '@bull-board/api/dist/typings/app'
+import ejs from 'ejs'
 import type { Context, Env } from 'hono'
+import { Hono } from 'hono'
+import { serveStatic } from 'hono/bun'
 import type { ContentfulStatusCode } from 'hono/utils/http-status'
 
-export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter {
+export default class HonoAdapter<HonoEnv extends Env>
+  implements IServerAdapter
+{
   protected app: Hono<HonoEnv>
 
   protected basePath: string
 
   protected bullBoardQueues: BullBoardQueues | undefined
 
-  protected errorHandler: ((error: Error) => ControllerHandlerReturnType) | undefined
+  protected errorHandler:
+    | ((error: Error) => ControllerHandlerReturnType)
+    | undefined
 
   protected uiConfig?: UIConfig
 
-  protected statics: { route?: string, path?: string } = {}
+  protected statics: { route?: string; path?: string } = {}
 
   protected entryRoute?: AppViewRoute
 
@@ -47,8 +57,14 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
     return this
   }
 
-  setStaticPath(staticsRoute: string, staticsPath: string): HonoAdapter<HonoEnv> {
-    staticsPath = staticsPath.replaceAll(/\/.*\/node_modules/gm, '/node_modules')
+  setStaticPath(
+    staticsRoute: string,
+    staticsPath: string,
+  ): HonoAdapter<HonoEnv> {
+    staticsPath = staticsPath.replaceAll(
+      /\/.*\/node_modules/gm,
+      '/node_modules',
+    )
     this.statics = { route: staticsRoute, path: staticsPath }
     return this
   }
@@ -58,14 +74,18 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
     return this
   }
 
-  setErrorHandler(handler: (error: Error) => ControllerHandlerReturnType): this {
+  setErrorHandler(
+    handler: (error: Error) => ControllerHandlerReturnType,
+  ): this {
     this.errorHandler = handler
     return this
   }
 
   setApiRoutes(routes: readonly AppControllerRoute[]): HonoAdapter<HonoEnv> {
     if (!this.errorHandler) {
-      throw new Error(`Please call 'setErrorHandler' before using 'registerPlugin'`)
+      throw new Error(
+        `Please call 'setErrorHandler' before using 'registerPlugin'`,
+      )
     } else if (!this.bullBoardQueues) {
       throw new Error(`Please call 'setQueues' before using 'registerPlugin'`)
     }
@@ -127,17 +147,27 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
 
   registerPlugin() {
     if (!this.statics.path || !this.statics.route) {
-      throw new Error(`Please call 'setStaticPath' before using 'registerPlugin'`)
+      throw new Error(
+        `Please call 'setStaticPath' before using 'registerPlugin'`,
+      )
     } else if (!this.entryRoute) {
-      throw new Error(`Please call 'setEntryRoute' before using 'registerPlugin'`)
+      throw new Error(
+        `Please call 'setEntryRoute' before using 'registerPlugin'`,
+      )
     } else if (!this.viewPath) {
-      throw new Error(`Please call 'setViewsPath' before using 'registerPlugin'`)
+      throw new Error(
+        `Please call 'setViewsPath' before using 'registerPlugin'`,
+      )
     } else if (!this.apiRoutes) {
-      throw new Error(`Please call 'setApiRoutes' before using 'registerPlugin'`)
+      throw new Error(
+        `Please call 'setApiRoutes' before using 'registerPlugin'`,
+      )
     } else if (!this.bullBoardQueues) {
       throw new Error(`Please call 'setQueues' before using 'registerPlugin'`)
     } else if (!this.errorHandler) {
-      throw new Error(`Please call 'setErrorHandler' before using 'registerPlugin'`)
+      throw new Error(
+        `Please call 'setErrorHandler' before using 'registerPlugin'`,
+      )
     }
 
     this.app.basePath(this.basePath).get(
@@ -145,7 +175,10 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
       serveStatic({
         root: this.nodeModulesRootPath, // needs to be adjusted for monorepos with node_modules at another level
         rewriteRequestPath: (path) => {
-          const newPath = path.replace([this.basePath, this.statics.route].join(''), this.statics.path as string)
+          const newPath = path.replace(
+            [this.basePath, this.statics.route].join(''),
+            this.statics.path as string,
+          )
           return newPath
         },
       }),
@@ -159,8 +192,14 @@ export default class HonoAdapter<HonoEnv extends Env> implements IServerAdapter 
     routes.forEach((route) => {
       this.app.basePath(this.basePath)[method](route, async (c: Context) => {
         // eslint-disable-next-line @typescript-eslint/await-thenable
-        const { name: fileName, params } = await handler({ basePath: this.basePath, uiConfig: this.uiConfig || {} })
-        const template = await ejs.renderFile(`${this.viewPath}/${fileName}`, params)
+        const { name: fileName, params } = await handler({
+          basePath: this.basePath,
+          uiConfig: this.uiConfig || {},
+        })
+        const template = await ejs.renderFile(
+          `${this.viewPath}/${fileName}`,
+          params,
+        )
         return c.html(template)
       })
     })

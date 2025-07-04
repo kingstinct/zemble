@@ -7,5 +7,5 @@ type Hey {
 }
 
 type Yo {
-  sdf:sdf
+  sdf: sdf
 }

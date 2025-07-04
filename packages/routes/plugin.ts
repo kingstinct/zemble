@@ -17,15 +17,11 @@ declare global {
   }
 }
 
-export interface RoutesConfig extends Zemble.GlobalConfig {
+export interface RoutesConfig extends Zemble.GlobalConfig {}
 
-}
+const defaultConfig = {} satisfies RoutesConfig
 
-const defaultConfig = {
-
-} satisfies RoutesConfig
-
-export default new Plugin<RoutesConfig>(
-  import.meta.dir,
-  { defaultConfig, middleware },
-)
+export default new Plugin<RoutesConfig>(import.meta.dir, {
+  defaultConfig,
+  middleware,
+})

@@ -4,7 +4,9 @@ import fs from 'fs'
 // Find all package.json files (excluding node_modules)
 const packageFilesUnfiltered = new Glob('./**/package.json').scanSync()
 
-const packageFiles = new Array(...packageFilesUnfiltered).filter((filePath) => !filePath.includes('node_modules'))
+const packageFiles = [...packageFilesUnfiltered].filter(
+  (filePath) => !filePath.includes('node_modules'),
+)
 
 // Create a map of package names to their versions
 const packageVersions: Record<string, string> = {}
@@ -27,9 +29,10 @@ packageFiles.forEach((filePath) => {
 
     Object.entries(deps).forEach(([name, version]) => {
       if (version.startsWith('workspace:')) {
-        const actualVersion = version === 'workspace:*'
-          ? packageVersions[name]
-          : version.replace('workspace:', '')
+        const actualVersion =
+          version === 'workspace:*'
+            ? packageVersions[name]
+            : version.replace('workspace:', '')
 
         if (actualVersion) {
           newDeps[name] = actualVersion

@@ -1,6 +1,6 @@
 declare global {
   interface Object {
-    map<T, TOut>(this: T, mapper: (value: T) => TOut): TOut;
+    map<T, TOut>(this: T, mapper: (value: T) => TOut): TOut
   }
 }
 

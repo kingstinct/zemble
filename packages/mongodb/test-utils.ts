@@ -4,29 +4,48 @@ import MongoDBPlugin from '@zemble/mongodb'
 import { wait } from '@zemble/utils'
 import { MongoClient } from 'mongodb'
 
-import type { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server'
+import type {
+  MongoMemoryReplSet,
+  MongoMemoryServer,
+} from 'mongodb-memory-server'
 import type { MongoMemoryReplSetOpts } from 'mongodb-memory-server-core/lib/MongoMemoryReplSet'
 
 let mongodb: MongoMemoryServer | MongoMemoryReplSet | null = null
 
 // TODO [2024-11-10] Move this file back to zemble (@zemble/mongodb/test-utils) once we see it is stable!
 
-export const startInMemoryInstance = async ({ options, replicaSetOptions }: { readonly options?: MongoMemoryServer['opts']; readonly replicaSetOptions?: Partial<MongoMemoryReplSetOpts> | true } = {}) => {
+export const startInMemoryInstance = async ({
+  options,
+  replicaSetOptions,
+}: {
+  readonly options?: MongoMemoryServer['opts']
+  readonly replicaSetOptions?: Partial<MongoMemoryReplSetOpts> | true
+} = {}) => {
   try {
     const MongoMemoryServer = await import('mongodb-memory-server')
 
-    const mdb = replicaSetOptions ? new MongoMemoryServer.MongoMemoryReplSet() : new MongoMemoryServer.MongoMemoryServer(options)
+    const mdb = replicaSetOptions
+      ? new MongoMemoryServer.MongoMemoryReplSet()
+      : new MongoMemoryServer.MongoMemoryServer(options)
     mongodb = mdb
 
     await mdb.start()
 
     return mdb.getUri()
   } catch (e) {
-    throw new Error(`[@zemble/mongodb] setupAndConfigure failed, maybe you need to install mongodb-memory-server? ${e}`)
+    throw new Error(
+      `[@zemble/mongodb] setupAndConfigure failed, maybe you need to install mongodb-memory-server? ${e}`,
+    )
   }
 }
 
-export const startInMemoryInstanceAndConfigurePlugin = async ({ options, replicaSetOptions }: { readonly options?: MongoMemoryServer['opts']; readonly replicaSetOptions?: Partial<MongoMemoryReplSetOpts> } = {}) => {
+export const startInMemoryInstanceAndConfigurePlugin = async ({
+  options,
+  replicaSetOptions,
+}: {
+  readonly options?: MongoMemoryServer['opts']
+  readonly replicaSetOptions?: Partial<MongoMemoryReplSetOpts>
+} = {}) => {
   const url = await startInMemoryInstance({ options, replicaSetOptions })
 
   MongoDBPlugin.configure({
@@ -89,8 +108,10 @@ export const emptyAllCollections = async () => {
   if (db) {
     const allCollections = await db.collections()
 
-    await Promise.all(allCollections?.map(async (c) => {
-      await c.deleteMany({})
-    }) ?? [])
+    await Promise.all(
+      allCollections?.map(async (c) => {
+        await c.deleteMany({})
+      }) ?? [],
+    )
   }
 }

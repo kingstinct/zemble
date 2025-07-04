@@ -6,11 +6,8 @@
     "verbatimModuleSyntax": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "noPropertyAccessFromIndexSignature":true,
-    "types": [ "bun-types" ]
+    "noPropertyAccessFromIndexSignature": true,
+    "types": ["bun-types"]
   },
-  "exclude": [
-    "**/*.generated/*.ts",
-    "**/*.generated.ts"
-  ]
+  "exclude": ["**/*.generated/*.ts", "**/*.generated.ts"]
 }

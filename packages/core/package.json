@@ -35,12 +35,14 @@
     "@zemble/utils": "workspace:*",
     "debug": "^4.4.0",
     "dotenv": "^16.4.7",
+    "graphql": "^16.11.0",
     "hono": "^4.6.17",
     "jose": "^5.9.6",
     "pino": "^9.6.0",
     "pino-debug": "^2.0.0"
   },
   "devDependencies": {
+    "graphql-yoga": "^5.14.0",
     "type-fest": "^4.33.0"
   }
 }

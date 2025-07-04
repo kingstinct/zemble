@@ -1,19 +1,22 @@
-import Papr, { schema, types } from 'papr'
-
-import plugin from '../plugin'
-
 import type { IStandardLogger } from '@zemble/core'
 import type { MongoClient } from 'mongodb'
+import Papr, { schema, types } from 'papr'
+import plugin from '../plugin'
 
 // eslint-disable-next-line import/no-mutable-exports
 export let client: MongoClient | undefined
 
 const papr = new Papr()
 
-export async function connect({ logger }: {readonly logger: IStandardLogger}) {
+export async function connect({
+  logger,
+}: {
+  readonly logger: IStandardLogger
+}) {
   const db = plugin.providers.mongodb?.db
 
-  if (db === undefined) throw new Error('MongoDB client not provided or initialized')
+  if (db === undefined)
+    throw new Error('MongoDB client not provided or initialized')
 
   papr.initialize(db)
 
@@ -48,7 +51,9 @@ const UserSchemaObject = {
   _id: types.objectId({ required: true }),
   email: types.string({ required: true }),
   lastLoginAt: types.date({ required: true }),
-  permissions: types.array(types.object(PermissionSchemaObject), { required: true }),
+  permissions: types.array(types.object(PermissionSchemaObject), {
+    required: true,
+  }),
 }
 
 export const UserSchema = schema(UserSchemaObject, {

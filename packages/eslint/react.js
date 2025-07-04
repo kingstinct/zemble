@@ -1,23 +1,20 @@
 module.exports = {
-  extends: [
-    'airbnb',
-    'airbnb/hooks',
-    './base.js',
-    'plugin:react/recommended',
-  ],
+  extends: ['airbnb', 'airbnb/hooks', './base.js', 'plugin:react/recommended'],
   globals: {
     fetch: true,
     window: true,
   },
-  plugins: [
-    'react',
-    'jsx-a11y',
-    'react-hooks',
-  ],
+  plugins: ['react', 'jsx-a11y', 'react-hooks'],
   rules: {
     'react-hooks/exhaustive-deps': 'error',
     'react-hooks/rules-of-hooks': 'error',
-    'react/boolean-prop-naming': [1, { propTypeNames: ['bool', 'mutuallyExclusiveTrueProps'], rule: '^(is|has)[A-Z]([A-Za-z0-9]?)+' }],
+    'react/boolean-prop-naming': [
+      1,
+      {
+        propTypeNames: ['bool', 'mutuallyExclusiveTrueProps'],
+        rule: '^(is|has)[A-Z]([A-Za-z0-9]?)+',
+      },
+    ],
     'react/display-name': 0,
     'react/function-component-definition': 0,
     'react/jsx-closing-tag-location': 0,
@@ -34,17 +31,13 @@ module.exports = {
     'react/sort-comp': 0,
   },
   settings: {
-    'import/resolver': { // to allow for libraries with only .ios.js and .android.js exports without plain .js export
+    'import/resolver': {
+      // to allow for libraries with only .ios.js and .android.js exports without plain .js export
       node: {
-        extensions: [
-          '.js',
-          '.jsx',
-          '.ts',
-          '.tsx',
-        ],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
-    'react': {
+    react: {
       version: 'detect',
     },
   },

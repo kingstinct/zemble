@@ -1,12 +1,9 @@
+import { beforeEach, describe, expect, it } from 'bun:test'
 import { createTestApp } from '@zemble/core/test-utils'
-import {
-  describe, beforeEach, it, expect,
-} from 'bun:test'
-
-import { LoginRequestMutation } from './loginRequestWithEmail.test'
 import { loginRequestKeyValue } from '../../clients/loginRequestKeyValue'
 import plugin from '../../plugin'
 import { graphql } from '../client.generated'
+import { LoginRequestMutation } from './loginRequestWithEmail.test'
 
 const LoginConfirmMutation = graphql(`
   mutation LoginConfirm($email: String!, $code: String!) {
@@ -34,7 +31,10 @@ describe('Mutation.loginConfirm', () => {
 
     await app.gqlRequest(LoginRequestMutation, { email })
 
-    const response = await app.gqlRequest(LoginConfirmMutation, { email, code: '000000' })
+    const response = await app.gqlRequest(LoginConfirmMutation, {
+      email,
+      code: '000000',
+    })
     expect(response.data).toEqual({
       loginConfirmWithEmail: {
         __typename: 'LoginConfirmSuccessfulResponse',
@@ -48,7 +48,10 @@ describe('Mutation.loginConfirm', () => {
 
     const email = 'test@example.com'
 
-    const response = await app.gqlRequest(LoginConfirmMutation, { email, code: '000000' })
+    const response = await app.gqlRequest(LoginConfirmMutation, {
+      email,
+      code: '000000',
+    })
     expect(response.data).toEqual({
       loginConfirmWithEmail: {
         __typename: 'CodeNotValidError',

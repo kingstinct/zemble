@@ -9,10 +9,14 @@
     "@zemble"
   ],
   "dependencies": {
+    "@graphql-codegen/cli": "^5.0.7",
     "@zemble/bun": "workspace:*",
     "@zemble/core": "workspace:*",
     "pino": "^9.6.0",
-    "pino-debug": "^2.0.0"
+    "pino-debug": "^2.0.0",
+    "pino-pretty": "^13.0.0",
+    "@zemble/utils": "workspace:*",
+    "@zemble/graphql": "workspace:*"
   },
   "scripts": {
     "test": "bun test",
@@ -20,9 +24,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@tsconfig/bun": "^1.0.7",
-    
-    "pino-pretty": "^13.0.0"
+    "@tsconfig/bun": "^1.0.7"
   },
   "peerDependencies": {},
   "module": "plugin.ts",

@@ -1,19 +1,25 @@
-import {
-  GraphQLBoolean, GraphQLList, GraphQLNonNull, GraphQLString,
-} from 'graphql'
-
-import papr, { } from '../clients/papr'
-
-import type { EntitySchemaType } from '../types'
 import type { GraphQLFieldConfig, GraphQLObjectType } from 'graphql'
+import {
+  GraphQLBoolean,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLString,
+} from 'graphql'
+import papr, {} from '../clients/papr'
+import type { EntitySchemaType } from '../types'
 
 const createSearch = (entity: EntitySchemaType, obj: GraphQLObjectType) => {
-  const search: GraphQLFieldConfig<unknown, unknown, {
-    readonly query: string,
-    readonly caseSensitive?: boolean,
-    readonly diacriticSensitive?: boolean,
-    readonly language?: string,
-  }> = { // "books"
+  const search: GraphQLFieldConfig<
+    unknown,
+    unknown,
+    {
+      readonly query: string
+      readonly caseSensitive?: boolean
+      readonly diacriticSensitive?: boolean
+      readonly language?: string
+    }
+  > = {
+    // "books"
     type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(obj))),
     args: {
       query: { type: new GraphQLNonNull(GraphQLString) },
@@ -21,12 +27,15 @@ const createSearch = (entity: EntitySchemaType, obj: GraphQLObjectType) => {
       diacriticSensitive: { type: GraphQLBoolean },
       language: { type: GraphQLString },
     },
-    resolve: async (_, {
-      query, caseSensitive, diacriticSensitive, language,
-    }) => {
+    resolve: async (
+      _,
+      { query, caseSensitive, diacriticSensitive, language },
+    ) => {
       const collection = await papr.contentCollection(entity.namePlural)
 
-      const searchableFields = Object.values(entity.fields ?? []).filter((e) => e.__typename === 'StringField' && e.isSearchable)
+      const searchableFields = Object.values(entity.fields ?? []).filter(
+        (e) => e.__typename === 'StringField' && e.isSearchable,
+      )
 
       const $or = [
         ...searchableFields.map((s) => ({

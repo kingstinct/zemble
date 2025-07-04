@@ -2,10 +2,15 @@ import { useEffect, useRef, useState } from 'react'
 
 import type { AppStateStatus } from 'react-native'
 
-const isPrefixed = !document.hasOwnProperty('hidden') && document.hasOwnProperty('webkitHidden') // eslint-disable-line no-prototype-builtins
+const isPrefixed =
+  !Object.hasOwn(document, 'hidden') && Object.hasOwn(document, 'webkitHidden') // eslint-disable-line no-prototype-builtins
 
-const VISIBILITY_CHANGE_EVENT = isPrefixed ? 'webkitvisibilitychange' : 'visibilitychange'
-const VISIBILITY_STATE_PROPERTY = isPrefixed ? 'webkitVisibilityState' : 'visibilityState'
+const VISIBILITY_CHANGE_EVENT = isPrefixed
+  ? 'webkitvisibilitychange'
+  : 'visibilitychange'
+const VISIBILITY_STATE_PROPERTY = isPrefixed
+  ? 'webkitVisibilityState'
+  : 'visibilityState'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -34,17 +39,19 @@ export const useAppState = () => {
 
   useEffect(() => {
     const onUpdate = () => setAppState(getCurrentState(isFocused.current))
-    const onBlur = () => { isFocused.current = false; onUpdate() }
-    const onFocus = () => { isFocused.current = true; onUpdate() }
+    const onBlur = () => {
+      isFocused.current = false
+      onUpdate()
+    }
+    const onFocus = () => {
+      isFocused.current = true
+      onUpdate()
+    }
 
     window.addEventListener('blur', onBlur)
     window.addEventListener('focus', onFocus)
 
-    window.addEventListener(
-      VISIBILITY_CHANGE_EVENT,
-      onUpdate,
-      false,
-    )
+    window.addEventListener(VISIBILITY_CHANGE_EVENT, onUpdate, false)
 
     return () => {
       window.removeEventListener('blur', onBlur)

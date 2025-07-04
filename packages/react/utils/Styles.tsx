@@ -4,20 +4,44 @@ const Styles = {
   alignItemsCenter: { alignItems: 'center' } as ViewStyle,
   alignSelfCenter: { alignSelf: 'center' } as ViewStyle,
   bold: { fontWeight: 'bold' } as TextStyle,
-  borderBottomRadius16: { borderBottomLRightadius: 16, borderBottomLeftRadius: 16 } as ViewStyle,
+  borderBottomRadius16: {
+    borderBottomLRightadius: 16,
+    borderBottomLeftRadius: 16,
+  } as ViewStyle,
 
-  borderBottomRadius32: { borderBottomLRightadius: 32, borderBottomLeftRadius: 32 } as ViewStyle,
-  borderBottomRadius4: { borderBottomLeftRadius: 4, borderBottomRightRadius: 4 } as ViewStyle,
-  borderBottomRadius8: { borderBottomLeftRadius: 8, borderBottomRightRadius: 8 } as ViewStyle,
+  borderBottomRadius32: {
+    borderBottomLRightadius: 32,
+    borderBottomLeftRadius: 32,
+  } as ViewStyle,
+  borderBottomRadius4: {
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+  } as ViewStyle,
+  borderBottomRadius8: {
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+  } as ViewStyle,
   borderRadius16: { borderRadius: 16 } as ViewStyle,
   borderRadius32: { borderRadius: 32 } as ViewStyle,
   borderRadius4: { borderRadius: 4 } as ViewStyle,
 
   borderRadius8: { borderRadius: 8 } as ViewStyle,
-  borderTopRadius16: { borderTopLRightadius: 16, borderTopLeftRadius: 16 } as ViewStyle,
-  borderTopRadius32: { borderTopLRightadius: 32, borderTopLeftRadius: 32 } as ViewStyle,
-  borderTopRadius4: { borderTopLeftRadius: 4, borderTopRightRadius: 4 } as ViewStyle,
-  borderTopRadius8: { borderTopLeftRadius: 8, borderTopRightRadius: 8 } as ViewStyle,
+  borderTopRadius16: {
+    borderTopLRightadius: 16,
+    borderTopLeftRadius: 16,
+  } as ViewStyle,
+  borderTopRadius32: {
+    borderTopLRightadius: 32,
+    borderTopLeftRadius: 32,
+  } as ViewStyle,
+  borderTopRadius4: {
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+  } as ViewStyle,
+  borderTopRadius8: {
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+  } as ViewStyle,
   flexOne: { flex: 1 } as ViewStyle,
 
   flexRow: { flexDirection: 'row' } as ViewStyle,

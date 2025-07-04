@@ -1,6 +1,4 @@
-import {
-  describe, it, expect, jest,
-} from 'bun:test'
+import { describe, expect, it, jest } from 'bun:test'
 
 import createSuperDataLoader from './SuperDataLoader'
 

@@ -18,7 +18,10 @@ export default function App() {
         </ShowForAuthenticated>
         <ShowForUnauthenticated>
           <Text>Not logged in</Text>
-          <Button title='Log in' onPress={() => setToken('a-very-real-token')} />
+          <Button
+            title='Log in'
+            onPress={() => setToken('a-very-real-token')}
+          />
         </ShowForUnauthenticated>
       </AuthProvider>
     </SafeAreaView>

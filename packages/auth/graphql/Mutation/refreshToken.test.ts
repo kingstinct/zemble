@@ -1,5 +1,5 @@
+import { describe, expect, it } from 'bun:test'
 import { createTestApp } from '@zemble/core/test-utils'
-import { expect, describe, it } from 'bun:test'
 
 import plugin from '../../plugin'
 import { generateRefreshToken } from '../../utils/generateRefreshToken'
@@ -29,7 +29,9 @@ describe('refreshToken', () => {
       { bearerToken: '1', refreshToken: '1' },
       { silenceErrors: true },
     )
-    expect(response.errors?.[0]?.message).toEqual(`Invalid token: Invalid Compact JWS`)
+    expect(response.errors?.[0]?.message).toEqual(
+      `Invalid token: Invalid Compact JWS`,
+    )
   })
 
   it('Should succeed with valid tokens', async () => {
@@ -40,16 +42,25 @@ describe('refreshToken', () => {
     })
     const app = await createTestApp(plugin)
 
-    const validBearerToken = await signJwt({ data: { role: 'admin', organisationId: '1' }, sub: '1' })
+    const validBearerToken = await signJwt({
+      data: { role: 'admin', organisationId: '1' },
+      sub: '1',
+    })
     const validRefreshToken = await generateRefreshToken({ sub: '1' })
 
-    const response = await app.gqlRequest(
-      RefreshTokenMutation,
-      { bearerToken: validBearerToken, refreshToken: validRefreshToken },
-    )
+    const response = await app.gqlRequest(RefreshTokenMutation, {
+      bearerToken: validBearerToken,
+      refreshToken: validRefreshToken,
+    })
 
-    expect(response.data?.refreshToken).toHaveProperty('bearerToken', expect.any(String))
-    expect(response.data?.refreshToken).toHaveProperty('refreshToken', expect.any(String))
+    expect(response.data?.refreshToken).toHaveProperty(
+      'bearerToken',
+      expect.any(String),
+    )
+    expect(response.data?.refreshToken).toHaveProperty(
+      'refreshToken',
+      expect.any(String),
+    )
   })
 
   it('Should fail if refresh token is expired', async () => {
@@ -60,8 +71,15 @@ describe('refreshToken', () => {
     })
     const app = await createTestApp(plugin)
 
-    const validBearerToken = await signJwt({ data: { role: 'admin', organisationId: '1' }, sub: '1', expiresInSeconds: -1 })
-    const validRefreshToken = await generateRefreshToken({ sub: '1', expiresInSeconds: -1 })
+    const validBearerToken = await signJwt({
+      data: { role: 'admin', organisationId: '1' },
+      sub: '1',
+      expiresInSeconds: -1,
+    })
+    const validRefreshToken = await generateRefreshToken({
+      sub: '1',
+      expiresInSeconds: -1,
+    })
 
     const response = await app.gqlRequest(
       RefreshTokenMutation,
@@ -69,7 +87,9 @@ describe('refreshToken', () => {
       { silenceErrors: true },
     )
 
-    expect(response.errors?.[0]?.message).toEqual(`Invalid token: "exp" claim timestamp check failed`)
+    expect(response.errors?.[0]?.message).toEqual(
+      `Invalid token: "exp" claim timestamp check failed`,
+    )
   })
 
   it('Should succeed when bearer token is expired, but refresh token is still valid', async () => {
@@ -80,15 +100,28 @@ describe('refreshToken', () => {
     })
     const app = await createTestApp(plugin)
 
-    const validBearerToken = await signJwt({ data: { role: 'admin', organisationId: '1' }, sub: '1', expiresInSeconds: -1 })
-    const validRefreshToken = await generateRefreshToken({ sub: '1', expiresInSeconds: 60 })
+    const validBearerToken = await signJwt({
+      data: { role: 'admin', organisationId: '1' },
+      sub: '1',
+      expiresInSeconds: -1,
+    })
+    const validRefreshToken = await generateRefreshToken({
+      sub: '1',
+      expiresInSeconds: 60,
+    })
 
-    const response = await app.gqlRequest(
-      RefreshTokenMutation,
-      { bearerToken: validBearerToken, refreshToken: validRefreshToken },
+    const response = await app.gqlRequest(RefreshTokenMutation, {
+      bearerToken: validBearerToken,
+      refreshToken: validRefreshToken,
+    })
+
+    expect(response.data?.refreshToken).toHaveProperty(
+      'bearerToken',
+      expect.any(String),
     )
-
-    expect(response.data?.refreshToken).toHaveProperty('bearerToken', expect.any(String))
-    expect(response.data?.refreshToken).toHaveProperty('refreshToken', expect.any(String))
+    expect(response.data?.refreshToken).toHaveProperty(
+      'refreshToken',
+      expect.any(String),
+    )
   })
 })

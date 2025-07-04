@@ -1,10 +1,7 @@
-import zembleContext from '@zemble/core/zembleContext'
-import {
-  afterAll,
-  beforeAll, expect, test,
-} from 'bun:test'
+import { afterAll, beforeAll, expect, test } from 'bun:test'
 import { spawnSync } from 'node:child_process'
 import { join } from 'node:path'
+import zembleContext from '@zemble/core/zembleContext'
 
 const testDirectory = join(import.meta.dir, 'test-output')
 
@@ -22,7 +19,9 @@ afterAll(() => {
 const testTemplate = (template: string) => {
   const name = `${template}-test`
 
-  const createRes = spawnSync('bun', [binPath, name, template], { cwd: testDirectory })
+  const createRes = spawnSync('bun', [binPath, name, template], {
+    cwd: testDirectory,
+  })
   if (createRes.error) {
     zembleContext.logger.error(createRes.error.message)
   }
@@ -31,7 +30,9 @@ const testTemplate = (template: string) => {
   }
   expect(createRes.status).toBe(0)
 
-  const testRes = spawnSync('bun', ['run', 'test'], { cwd: join(testDirectory, name) })
+  const testRes = spawnSync('bun', ['run', 'test'], {
+    cwd: join(testDirectory, name),
+  })
   if (testRes.error) {
     zembleContext.logger.error(testRes.error.message)
   }
@@ -44,14 +45,22 @@ const testTemplate = (template: string) => {
   // expect(typecheckRes.status).toBe(0)
 }
 
-test('test graphql', () => {
-  testTemplate('graphql')
-}, {
-  timeout: 30000,
-})
+test(
+  'test graphql',
+  () => {
+    testTemplate('graphql')
+  },
+  {
+    timeout: 30000,
+  },
+)
 
-test('test bare', () => {
-  testTemplate('bare')
-}, {
-  timeout: 30000,
-})
+test(
+  'test bare',
+  () => {
+    testTemplate('bare')
+  },
+  {
+    timeout: 30000,
+  },
+)

@@ -1,13 +1,18 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { MigrationLockError } from '@zemble/migrations/MigrationLockError'
 
 import type { MigrationAdapter, MigrationStatus } from '@zemble/migrations'
+import { MigrationLockError } from '@zemble/migrations/MigrationLockError'
 import type { Collection } from 'mongodb'
 import type { JsonValue } from 'type-fest'
 
-type Config = { readonly providers: Zemble.Providers, readonly collectionName?: string }
+type Config = {
+  readonly providers: Zemble.Providers
+  readonly collectionName?: string
+}
 
-export async function getCollection<TProgress extends JsonValue = JsonValue>(config: Config) {
+export async function getCollection<TProgress extends JsonValue = JsonValue>(
+  config: Config,
+) {
   const db = config.providers.mongodb?.db
   if (!db) throw new Error('MongoDB client not provided or initialized')
 
@@ -19,7 +24,10 @@ export async function getCollection<TProgress extends JsonValue = JsonValue>(con
   return collection
 }
 
-export async function acquireUpLock<TProgress extends JsonValue = JsonValue>(name: string, collection: Collection<MigrationStatus<TProgress>>) {
+export async function acquireUpLock<TProgress extends JsonValue = JsonValue>(
+  name: string,
+  collection: Collection<MigrationStatus<TProgress>>,
+) {
   try {
     await collection.insertOne({
       name,
@@ -31,38 +39,51 @@ export async function acquireUpLock<TProgress extends JsonValue = JsonValue>(nam
       const previousError = entry?.error
       const erroredAt = entry?.erroredAt
       if (previousError && erroredAt) {
-        throw new Error(`"${name}" failed (at ${erroredAt.toISOString()}) and needs to be handled manually: ${previousError}`)
+        throw new Error(
+          `"${name}" failed (at ${erroredAt.toISOString()}) and needs to be handled manually: ${previousError}`,
+        )
       }
-      throw new MigrationLockError(`Migration "${name}" (up) is already running`)
+      throw new MigrationLockError(
+        `Migration "${name}" (up) is already running`,
+      )
     }
     throw e
   }
 }
 
-export const acquireDownLock = async <TProgress extends JsonValue = JsonValue>(name: string, collection: Collection<MigrationStatus<TProgress>>) => {
+export const acquireDownLock = async <TProgress extends JsonValue = JsonValue>(
+  name: string,
+  collection: Collection<MigrationStatus<TProgress>>,
+) => {
   try {
-    const result = await collection.updateOne({
-      name,
-      startedDownAt: { $exists: false },
-    }, {
-      $set: {
+    const result = await collection.updateOne(
+      {
         name,
-        startedDownAt: new Date(),
+        startedDownAt: { $exists: false },
       },
-    })
+      {
+        $set: {
+          name,
+          startedDownAt: new Date(),
+        },
+      },
+    )
     if (result.matchedCount === 0) {
       throw new Error(`Migration "${name}" (down) is already running`)
     }
   } catch (e) {
-    const error = e instanceof Error && e.message.includes('duplicate key error')
-      ? new Error(`Migration "${name}" (down) is already running`)
-      : e
+    const error =
+      e instanceof Error && e.message.includes('duplicate key error')
+        ? new Error(`Migration "${name}" (down) is already running`)
+        : e
 
     throw error
   }
 }
 
-function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: Config): MigrationAdapter<TProgress> {
+function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(
+  config: Config,
+): MigrationAdapter<TProgress> {
   return {
     up: async (name, runMigration) => {
       const collection = await getCollection(config)
@@ -70,25 +91,33 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
 
       try {
         await runMigration()
-        await collection.findOneAndUpdate({
-          name,
-        }, {
-          $set: {
+        await collection.findOneAndUpdate(
+          {
             name,
-            completedAt: new Date(),
-            error: null,
           },
-        }, { upsert: true })
+          {
+            $set: {
+              name,
+              completedAt: new Date(),
+              error: null,
+            },
+          },
+          { upsert: true },
+        )
       } catch (e) {
-        await collection.findOneAndUpdate({
-          name,
-        }, {
-          $set: {
+        await collection.findOneAndUpdate(
+          {
             name,
-            error: JSON.stringify(e),
-            erroredAt: new Date(),
           },
-        }, { upsert: true })
+          {
+            $set: {
+              name,
+              error: JSON.stringify(e),
+              erroredAt: new Date(),
+            },
+          },
+          { upsert: true },
+        )
       }
     },
     down: async (name, runMigration) => {
@@ -100,15 +129,19 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
         await runMigration()
         await collection.deleteOne({ name })
       } catch (e) {
-        await collection.findOneAndUpdate({
-          name,
-        }, {
-          $set: {
+        await collection.findOneAndUpdate(
+          {
             name,
-            error: JSON.stringify(e),
-            erroredAt: new Date(),
           },
-        }, { upsert: true })
+          {
+            $set: {
+              name,
+              error: JSON.stringify(e),
+              erroredAt: new Date(),
+            },
+          },
+          { upsert: true },
+        )
       }
     },
     status: async () => {
@@ -119,14 +152,18 @@ function MongoMigrationAdapter<TProgress extends JsonValue = JsonValue>(config: 
     },
     progress: async (migrationStatus) => {
       const collection = await getCollection(config)
-      await collection.findOneAndUpdate({
-        name: migrationStatus.name,
-      }, {
-        $set: {
+      await collection.findOneAndUpdate(
+        {
           name: migrationStatus.name,
-          progress: migrationStatus.progress,
         },
-      }, { upsert: true })
+        {
+          $set: {
+            name: migrationStatus.name,
+            progress: migrationStatus.progress,
+          },
+        },
+        { upsert: true },
+      )
     },
   }
 }

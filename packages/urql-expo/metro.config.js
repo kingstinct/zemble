@@ -20,7 +20,10 @@ config.resolver.nodeModulesPaths = [
 ]
 
 config.resolver.sourceExts = [...config.resolver.sourceExts, 'mjs', 'cjs']
-config.resolver.resolverMainFields = ['sbmodern', ...config.resolver.resolverMainFields]
+config.resolver.resolverMainFields = [
+  'sbmodern',
+  ...config.resolver.resolverMainFields,
+]
 config.resolver.unstable_enableSymlinks = true
 
 // eslint-disable-next-line no-underscore-dangle

@@ -8,6 +8,7 @@
     "test": "bun test cli.ts"
   },
   "dependencies": {
+    "@zemble/core": "^0.1.26",
     "fs-extra": "^11.3.0"
   },
   "module": "index.ts",
@@ -24,5 +25,7 @@
   "bugs": {
     "url": "https://github.com/kingstinct/zemble/issues"
   },
-  "keywords": ["zemble"]
+  "keywords": [
+    "zemble"
+  ]
 }

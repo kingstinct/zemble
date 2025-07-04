@@ -20,20 +20,31 @@ module.exports = {
   overrides: [
     {
       extends: ['./typescript'],
-      files: [
-        '*.ts', '*.js', '*.tsx', '*.jsx',
-      ],
+      files: ['*.ts', '*.js', '*.tsx', '*.jsx'],
     },
     {
       extends: ['./test.js'],
       files: [
-        '**/test/**', '**/tests/**', '**/__tests__/**', 'test/**', '**/*.test.ts', '**/*.test.tsx', '**/*.test.js', '**/*.test.jsx', '**/jest.setup.ts', '**/jest.setup.js',
+        '**/test/**',
+        '**/tests/**',
+        '**/__tests__/**',
+        'test/**',
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.test.js',
+        '**/*.test.jsx',
+        '**/jest.setup.ts',
+        '**/jest.setup.js',
       ],
     },
     {
       // disable some rules for common config and script files
       files: [
-        'scripts/*', '*.config.js', '*.config.ts', 'jest.setup.ts', 'jest.setup.js',
+        'scripts/*',
+        '*.config.js',
+        '*.config.ts',
+        'jest.setup.ts',
+        'jest.setup.js',
       ],
       extends: ['./scripts-and-configs.js'],
     },
@@ -47,20 +58,16 @@ module.exports = {
     },
     {
       extends: ['./json.js'],
-      files: [
-        '*.json', '*.json5', '*.jsonc', '.eslintrc',
-      ],
+      files: ['*.json', '*.json5', '*.jsonc', '.eslintrc'],
     },
     {
       extends: ['./json.js'],
-      files: [
-        'package.json'
-      ],
+      files: ['package.json'],
       rules: {
         'eol-last': 0,
         'jsonc/array-element-newline': 0,
-        'jsonc/array-bracket-spacing': 0
-      }
+        'jsonc/array-bracket-spacing': 0,
+      },
     },
     {
       files: 'app.json',
@@ -72,7 +79,8 @@ module.exports = {
   plugins: ['import', 'functional', 'unicorn'],
   rules: {
     'array-element-newline': [
-      'error', {
+      'error',
+      {
         ArrayExpression: 'consistent',
         ArrayPattern: { minItems: 4, multiline: true },
       },
@@ -81,7 +89,10 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'function-call-argument-newline': ['error', 'consistent'],
     'function-paren-newline': ['error', 'consistent'],
-    'functional/immutable-data': ['error', { ignoreAccessorPattern: '**.current' }],
+    'functional/immutable-data': [
+      'error',
+      { ignoreAccessorPattern: '**.current' },
+    ],
     'functional/prefer-readonly-type': 'error',
     'functional/prefer-tacit': 'error',
     'global-require': 0,
@@ -109,18 +120,39 @@ module.exports = {
     'unicorn/no-nested-ternary': 'error',
     'unicorn/consistent-function-scoping': 'error',
     'object-curly-newline': [
-      'error', {
-        ObjectExpression: { multiline: true, minProperties: 4, consistent: true },
+      'error',
+      {
+        ObjectExpression: {
+          multiline: true,
+          minProperties: 4,
+          consistent: true,
+        },
         ObjectPattern: { multiline: true, minProperties: 4, consistent: true },
-        ImportDeclaration: { multiline: true, minProperties: 4, consistent: true },
-        ExportDeclaration: { multiline: true, minProperties: 4, consistent: true },
+        ImportDeclaration: {
+          multiline: true,
+          minProperties: 4,
+          consistent: true,
+        },
+        ExportDeclaration: {
+          multiline: true,
+          minProperties: 4,
+          consistent: true,
+        },
       },
     ],
-    'object-property-newline': ['error', { allowAllPropertiesOnSameLine: true }],
+    'object-property-newline': [
+      'error',
+      { allowAllPropertiesOnSameLine: true },
+    ],
     'import/order': [
-      'error', {
-        'alphabetize': { caseInsensitive: true, order: 'asc' },
-        'groups': [['builtin', 'external'], ['parent', 'sibling', 'index'], ['type']],
+      'error',
+      {
+        alphabetize: { caseInsensitive: true, order: 'asc' },
+        groups: [
+          ['builtin', 'external'],
+          ['parent', 'sibling', 'index'],
+          ['type'],
+        ],
         'newlines-between': 'always',
       },
     ],
@@ -128,7 +160,8 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-single'],
     'linebreak-style': ['error', 'unix'],
     'max-len': [
-      1, {
+      1,
+      {
         code: 200,
         ignoreStrings: true,
         ignoreRegExpLiterals: true,
@@ -159,7 +192,11 @@ module.exports = {
     'one-var': 0,
     'prefer-arrow-callback': ['error', { allowNamedFunctions: true }],
     'quote-props': ['error', 'consistent-as-needed'],
-    'quotes': ['error', 'single', { allowTemplateLiterals: true, avoidEscape: true }],
-    'semi': ['error', 'never'],
+    quotes: [
+      'error',
+      'single',
+      { allowTemplateLiterals: true, avoidEscape: true },
+    ],
+    semi: ['error', 'never'],
   },
 }

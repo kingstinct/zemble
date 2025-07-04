@@ -2,10 +2,7 @@ module.exports = {
   env: {
     'react-native/react-native': true,
   },
-  extends: [
-    './react.js',
-    'plugin:react-native-a11y/all',
-  ],
+  extends: ['./react.js', 'plugin:react-native-a11y/all'],
   plugins: ['react-native'],
   rules: {
     'react-native/no-color-literals': 0,
@@ -14,7 +11,8 @@ module.exports = {
     'react-native/split-platform-components': 1,
   },
   settings: {
-    'import/resolver': { // to allow for libraries with only .ios.js and .android.js exports without plain .js export
+    'import/resolver': {
+      // to allow for libraries with only .ios.js and .android.js exports without plain .js export
       node: {
         extensions: [
           '.js',

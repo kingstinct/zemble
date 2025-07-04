@@ -1,13 +1,14 @@
 /* eslint-disable functional/immutable-data */
 /* eslint-disable functional/prefer-readonly-type */
 
-import zembleContext from '@zemble/core/zembleContext'
 import { jest } from 'bun:test'
-
-import type { ZembleQueueBull, ZembleQueueConfig, ZembleWorker } from './ZembleQueueBull'
+import zembleContext from '@zemble/core/zembleContext'
+import type { Job, JobsOptions, Queue } from 'bullmq'
 import type {
-  Job, JobsOptions, Queue,
-} from 'bullmq'
+  ZembleQueueBull,
+  ZembleQueueConfig,
+  ZembleWorker,
+} from './ZembleQueueBull'
 
 interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
   readonly add: ZembleQueueBull<DataType, ReturnType>['add']
@@ -16,11 +17,18 @@ interface IZembleQueue<DataType = unknown, ReturnType = unknown> {
   readonly getJob: ZembleQueueBull<DataType, ReturnType>['getJob']
   readonly resume: ZembleQueueBull<DataType, ReturnType>['resume']
   readonly pause: ZembleQueueBull<DataType, ReturnType>['pause']
-  readonly waitUntilEmpty: ZembleQueueBull<DataType, ReturnType>['waitUntilEmpty']
+  readonly waitUntilEmpty: ZembleQueueBull<
+    DataType,
+    ReturnType
+  >['waitUntilEmpty']
   readonly getDelayed: ZembleQueueBull<DataType, ReturnType>['getDelayed']
 }
 
-class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown> = PromiseLike<unknown>> implements IZembleQueue<DataType, ResultType> {
+class ZembleQueueMock<
+  DataType = unknown,
+  ResultType extends PromiseLike<unknown> = PromiseLike<unknown>,
+> implements IZembleQueue<DataType, ResultType>
+{
   private jobs: Array<Job<DataType, ResultType, string>> = []
 
   private isPaused = false
@@ -51,14 +59,19 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
   #queueInternal: Queue<DataType, ResultType, string> | undefined
 
   get #queue(): Queue<DataType, ResultType, string> {
-    if (!this.#queueInternal) throw new Error('Queue not initialized, something is wrong!')
+    if (!this.#queueInternal)
+      throw new Error('Queue not initialized, something is wrong!')
 
     return this.#queueInternal
   }
 
-  async addBulk(jobs: Parameters<ZembleQueueBull<DataType, ResultType>['addBulk']>[number]) {
+  async addBulk(
+    jobs: Parameters<ZembleQueueBull<DataType, ResultType>['addBulk']>[number],
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-    const js = jobs.map((job) => this.#createMockJob(job.name, job.data as any, job.opts))
+    const js = jobs.map((job) =>
+      this.#createMockJob(job.name, job.data as any, job.opts),
+    )
 
     void js.reduce(async (prev, job) => {
       await prev
@@ -80,7 +93,11 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
     } as Queue<DataType, ResultType, string>
   }
 
-  #createMockJob(name: string, data: DataType, opts?: JobsOptions): Job<DataType, ResultType, string> {
+  #createMockJob(
+    name: string,
+    data: DataType,
+    opts?: JobsOptions,
+  ): Job<DataType, ResultType, string> {
     const job = {
       queue: this.#queue,
       queueName: this.#queue.name,
@@ -104,7 +121,11 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
     }
   }
 
-  async add(name: string, data: DataType, opts?: JobsOptions): Promise<Job<DataType, ResultType, string>> {
+  async add(
+    name: string,
+    data: DataType,
+    opts?: JobsOptions,
+  ): Promise<Job<DataType, ResultType, string>> {
     if (this.isPaused) {
       throw new Error('Queue is paused')
     }
@@ -127,7 +148,9 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
   }
 
   async getJob(jobId: string) {
-    return this.jobs.find((job) => job.id === jobId) as unknown as ReturnType<ZembleQueueBull<DataType, ResultType>['getJob']>
+    return this.jobs.find((job) => job.id === jobId) as unknown as ReturnType<
+      ZembleQueueBull<DataType, ResultType>['getJob']
+    >
   }
 
   async pause() {
@@ -145,7 +168,9 @@ class ZembleQueueMock<DataType = unknown, ResultType extends PromiseLike<unknown
 
   #waitUntilFinishedPromise: Promise<void> | undefined
 
-  #waitUntilFinishedResolver: ((value: void | PromiseLike<void>) => void) | undefined
+  #waitUntilFinishedResolver:
+    | ((value: void | PromiseLike<void>) => void)
+    | undefined
 
   #triggerWaitUntilFinishedIfNeeded() {
     if (this.#waitUntilFinishedResolver) {

@@ -49,23 +49,32 @@ const EntityList = () => {
   }, [createEntityMutation, refetch])
 
   return (
-    <ScrollView refreshControl={<RefreshControl onRefresh={refetch} refreshing={fetching} />}>
-      {
-        data?.getAllEntities.map((entity) => (
-          <View key={entity.nameSingular} style={Styles.margin16}>
-            <Button
-              onPress={() => {
-                // @ts-expect-error fix later
-                router.push(`/${entity.namePlural}`)
-              }}
-              mode='contained'
-            >
-              {capitalize(pluralize(entity.nameSingular))}
-            </Button>
-          </View>
-        ))
+    <ScrollView
+      refreshControl={
+        <RefreshControl onRefresh={refetch} refreshing={fetching} />
       }
-      <Button mode='outlined' icon='plus' style={Styles.margin16} onPress={onAddEntity}>Add content type</Button>
+    >
+      {data?.getAllEntities.map((entity) => (
+        <View key={entity.nameSingular} style={Styles.margin16}>
+          <Button
+            onPress={() => {
+              // @ts-expect-error fix later
+              router.push(`/${entity.namePlural}`)
+            }}
+            mode='contained'
+          >
+            {capitalize(pluralize(entity.nameSingular))}
+          </Button>
+        </View>
+      ))}
+      <Button
+        mode='outlined'
+        icon='plus'
+        style={Styles.margin16}
+        onPress={onAddEntity}
+      >
+        Add content type
+      </Button>
     </ScrollView>
   )
 }

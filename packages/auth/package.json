@@ -48,5 +48,8 @@
     "hono": "^4.6.17",
     "jose": "^5.9.6",
     "@zemble/kv": "workspace:*"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.7"
   }
 }

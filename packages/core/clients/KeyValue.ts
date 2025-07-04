@@ -3,9 +3,7 @@
 
 import { IStandardKeyValueService } from '..'
 
-const inMemoryMaps: Record<string, Map<string, unknown>> = {
-
-}
+const inMemoryMaps: Record<string, Map<string, unknown>> = {}
 
 class KeyValue<T> extends IStandardKeyValueService<T> {
   keys(): readonly string[] {

@@ -1,20 +1,17 @@
 import { AuthContext } from '@zemble/react'
-import {
-  useCallback, useContext, useRef, useState,
-} from 'react'
+import { useCallback, useContext, useRef, useState } from 'react'
+import type { TextInput as TextInputNative } from 'react-native'
 import { KeyboardAvoidingView, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import {
-  Button, TextInput, Title,
-} from 'react-native-paper'
+import { Button, TextInput, Title } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useMutation } from 'urql'
-
 import { graphql } from '../../gql.generated'
 
-import type { TextInput as TextInputNative } from 'react-native'
-
-type TextInputHandles = Pick<TextInputNative, 'focus' | 'clear' | 'blur' | 'isFocused'>;
+type TextInputHandles = Pick<
+  TextInputNative,
+  'focus' | 'clear' | 'blur' | 'isFocused'
+>
 
 export const LoginConfirmMutation = graphql(`
   mutation LoginConfirm($email: String!, $code: String!) {
@@ -46,8 +43,10 @@ const Login = () => {
 
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
-  const [{ data: requestData, fetching: fetchingRequest }, loginRequest] = useMutation(LoginRequestMutation)
-  const [{ fetching: fetchingConfirm }, loginConfirm] = useMutation(LoginConfirmMutation)
+  const [{ data: requestData, fetching: fetchingRequest }, loginRequest] =
+    useMutation(LoginRequestMutation)
+  const [{ fetching: fetchingConfirm }, loginConfirm] =
+    useMutation(LoginConfirmMutation)
   const doRequest = useCallback(async () => {
     await loginRequest({ email })
     txtPasswordRef.current?.focus()
@@ -55,18 +54,24 @@ const Login = () => {
   const doConfirm = useCallback(async () => {
     const { data } = await loginConfirm({ email, code })
 
-    if (data?.loginConfirmWithEmail.__typename === 'LoginConfirmSuccessfulResponse') {
+    if (
+      data?.loginConfirmWithEmail.__typename ===
+      'LoginConfirmSuccessfulResponse'
+    ) {
       setToken(data.loginConfirmWithEmail.bearerToken)
     }
-  }, [
-    email, code, loginConfirm, setToken,
-  ])
+  }, [email, code, loginConfirm, setToken])
 
   const txtPasswordRef = useRef<TextInputHandles>(null)
 
   return (
     <SafeAreaView style={{ padding: 16, flex: 1 }}>
-      <KeyboardAwareScrollView keyboardDismissMode='interactive' keyboardShouldPersistTaps='handled' style={{}} contentContainerStyle={{ flex: 1 }}>
+      <KeyboardAwareScrollView
+        keyboardDismissMode='interactive'
+        keyboardShouldPersistTaps='handled'
+        style={{}}
+        contentContainerStyle={{ flex: 1 }}
+      >
         <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
           <Title>Login to CMS Admin</Title>
           <TextInput

@@ -9,11 +9,12 @@
     "@zemble"
   ],
   "dependencies": {
-    "@zemble/core": "workspace:*",
-    "@zemble/bun": "workspace:*",
-    "@zemble/routes": "workspace:*",
     "@zemble/auth": "workspace:*",
-    "@zemble/graphql": "workspace:*"
+    "@zemble/bun": "workspace:*",
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
+    "@zemble/routes": "workspace:*",
+    "debug": "^4.4.1"
   },
   "scripts": {
     "test": "bun test",
@@ -22,7 +23,6 @@
     "codegen": "graphql-codegen"
   },
   "devDependencies": {
-    
     "@graphql-codegen/add": "^5.0.3",
     "@graphql-codegen/cli": "^5.0.3",
     "@graphql-codegen/client-preset": "^4.5.1",

@@ -14,14 +14,13 @@ export const createWebsocketHandler = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     subscribe: (args: any) => args.rootValue.subscribe(args),
     onSubscribe: async (ctx, msg) => {
-      const {
-        schema, execute, subscribe, contextFactory, parse, validate,
-      } = yoga.getEnveloped({
-        ...ctx,
-        req: ctx.extra['request'],
-        socket: ctx.extra.socket,
-        params: msg.payload,
-      })
+      const { schema, execute, subscribe, contextFactory, parse, validate } =
+        yoga.getEnveloped({
+          ...ctx,
+          req: ctx.extra['request'],
+          socket: ctx.extra.socket,
+          params: msg.payload,
+        })
 
       const args = {
         schema,

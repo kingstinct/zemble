@@ -1,8 +1,8 @@
 import { Plugin } from '@zemble/core'
 
 export interface AppDetails {
-  readonly appID: string;
-  readonly paths: readonly string[];
+  readonly appID: string
+  readonly paths: readonly string[]
 }
 
 /**
@@ -10,9 +10,9 @@ export interface AppDetails {
  */
 export interface AASAFile extends Zemble.GlobalConfig {
   readonly applinks: {
-    readonly apps: readonly string[];
-    readonly details: readonly AppDetails[];
-  };
+    readonly apps: readonly string[]
+    readonly details: readonly AppDetails[]
+  }
 }
 
 const defaultConfig = {

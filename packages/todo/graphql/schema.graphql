@@ -9,8 +9,8 @@ type Query {
 }
 
 type Mutation {
-  createTodo(title:String!): Todo!
-  updateTodoStatus(id:ID!, completed: Boolean!): Todo
+  createTodo(title: String!): Todo!
+  updateTodoStatus(id: ID!, completed: Boolean!): Todo
 }
 
 type Subscription {

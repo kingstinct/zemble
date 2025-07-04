@@ -1,10 +1,13 @@
-import Redis from 'ioredis'
-
 import type { IStandardLogger } from '@zemble/core'
 import type { RedisOptions } from 'ioredis'
+import Redis from 'ioredis'
 
-export const createClient = (redisUrl: string, options: { readonly redis?: RedisOptions, readonly logger: IStandardLogger }): Redis => {
-  if (process.env.NODE_ENV === 'test') { // this is currently just to avoid connection to the real Redis cluster
+export const createClient = (
+  redisUrl: string,
+  options: { readonly redis?: RedisOptions; readonly logger: IStandardLogger },
+): Redis => {
+  if (process.env.NODE_ENV === 'test') {
+    // this is currently just to avoid connection to the real Redis cluster
     return {} as Redis
     // throw new Error('Redis client is not available in test environment');
   }

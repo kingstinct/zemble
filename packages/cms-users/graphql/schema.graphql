@@ -7,7 +7,7 @@ input AuthOr {
 }
 
 directive @auth(
-  match: JSONObject,
+  match: JSONObject
   skip: Boolean
   includes: JSONObject
   or: [AuthOr!]
@@ -27,27 +27,30 @@ input PermissionInput {
 type User {
   email: String!
   id: ID!
-  lastLoginAt: DateTime!,
-  permissions: [Permission!]!,
+  lastLoginAt: DateTime!
+  permissions: [Permission!]!
 }
 
 type Query {
-  users: [User!]! @auth(or: [
-    { includes: { permissions: "@zemble/cms-users" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "manage-users:read" } },
-    { includes: { permissions: "manage-users" } },
-  ])
+  users: [User!]!
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/cms-users" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "manage-users:read" } }
+        { includes: { permissions: "manage-users" } }
+      ]
+    )
 }
 
 type Mutation {
-  updatePermissions(
-    userId: ID!,
-    permissions: [PermissionInput!]!
-  ): User! @auth(or: [
-    { includes: { permissions: "@zemble/cms-users" } },
-    { includes: { permissions: "admin" } },
-    { includes: { permissions: "manage-users:write" } },
-    { includes: { permissions: "manage-users" } },
-  ])
+  updatePermissions(userId: ID!, permissions: [PermissionInput!]!): User!
+    @auth(
+      or: [
+        { includes: { permissions: "@zemble/cms-users" } }
+        { includes: { permissions: "admin" } }
+        { includes: { permissions: "manage-users:write" } }
+        { includes: { permissions: "manage-users" } }
+      ]
+    )
 }

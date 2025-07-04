@@ -1,12 +1,9 @@
-import {
-  describe, it, expect,
-} from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 /* eslint-disable no-console */
 import DataLoader from 'dataloader'
-
-import createSuperDataLoader from './SuperDataLoader'
 import times from '../times'
 import wait from '../wait'
+import createSuperDataLoader from './SuperDataLoader'
 
 describe('SuperDataLoader.performance', () => {
   it('Should be faster than normal dataloader with loadMany with same keys', async () => {
@@ -15,7 +12,9 @@ describe('SuperDataLoader.performance', () => {
     const batchLoadFn = (keys: readonly string[]) => keys
     const loader = createSuperDataLoader({ batchLoadFn })
 
-    const original = new DataLoader(async (keys: readonly string[]) => Promise.resolve(batchLoadFn(keys)))
+    const original = new DataLoader(async (keys: readonly string[]) =>
+      Promise.resolve(batchLoadFn(keys)),
+    )
 
     await wait(100)
 
@@ -31,7 +30,9 @@ describe('SuperDataLoader.performance', () => {
     const end = performance.now()
     const dataloaderTime = end - start
 
-    console.log(`[same keys]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
+    console.log(
+      `[same keys]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`,
+    )
 
     expect(superDataLoaderTime).toBeLessThanOrEqual(dataloaderTime)
   }, 20000)
@@ -63,7 +64,9 @@ describe('SuperDataLoader.performance', () => {
     const end = performance.now()
     const dataloaderTime = end - start
 
-    console.log(`[same keys (async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`)
+    console.log(
+      `[same keys (async)]:\n[SuperDataLoader]: ${superDataLoaderTime}\n[DataLoader]: ${dataloaderTime}\n${dataloaderTime / superDataLoaderTime}x) faster}`,
+    )
 
     expect(superDataLoaderTime).toBeLessThanOrEqual(dataloaderTime)
   }, 20000)

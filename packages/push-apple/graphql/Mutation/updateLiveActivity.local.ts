@@ -1,19 +1,23 @@
 import plugin, { updateLiveActivity } from '../../plugin'
 import { ApplePushPlatform, type MutationResolvers } from '../schema.generated'
 
-const updateLiveActivityResolver: MutationResolvers['updateLiveActivity'] = async (_, { data }) => {
-  await updateLiveActivity([
-    {
-      platform: ApplePushPlatform.Ios,
-      appBundleId: plugin.config.DEFAULT_TOPIC!,
-      pushToken: process.env['LIVE_ACTIVITY_TOKEN']!,
-      type: 'APPLE_UPDATE_LIVE_ACTIVITY',
-      activityId: 'activity-id',
-      liveActivityType: 'live-activity-type',
-    },
-  ], { contentState: data, event: 'update' })
+const updateLiveActivityResolver: MutationResolvers['updateLiveActivity'] =
+  async (_, { data }) => {
+    await updateLiveActivity(
+      [
+        {
+          platform: ApplePushPlatform.Ios,
+          appBundleId: plugin.config.DEFAULT_TOPIC!,
+          pushToken: process.env['LIVE_ACTIVITY_TOKEN']!,
+          type: 'APPLE_UPDATE_LIVE_ACTIVITY',
+          activityId: 'activity-id',
+          liveActivityType: 'live-activity-type',
+        },
+      ],
+      { contentState: data, event: 'update' },
+    )
 
-  return true
-}
+    return true
+  }
 
 export default updateLiveActivityResolver

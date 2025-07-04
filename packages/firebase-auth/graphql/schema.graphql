@@ -6,7 +6,7 @@ input AuthOr {
 }
 
 directive @auth(
-  match: JSONObject,
+  match: JSONObject
   skip: Boolean
   includes: JSONObject
   or: [AuthOr!]
@@ -33,6 +33,10 @@ type AuthResponse {
 }
 
 type Mutation {
-  signInWithEmailAndPassword(email: String!, password: String!): AuthResponse! @auth(skip: true)
-  createUserWithEmailAndPassword(email: String!, password: String!): AuthResponse! @auth(skip: true)
+  signInWithEmailAndPassword(email: String!, password: String!): AuthResponse!
+    @auth(skip: true)
+  createUserWithEmailAndPassword(
+    email: String!
+    password: String!
+  ): AuthResponse! @auth(skip: true)
 }

@@ -1,17 +1,21 @@
-import NetInfo from '@react-native-community/netinfo'
-import { useState, useEffect } from 'react'
-
-import useRunIfMounted from './useRunIfMounted'
-
 import type { NetInfoChangeHandler } from '@react-native-community/netinfo'
+import NetInfo from '@react-native-community/netinfo'
+import { useEffect, useState } from 'react'
+import useRunIfMounted from './useRunIfMounted'
 
 export const useIsOnline = (): boolean => {
   const [isOnline, setIsOnline] = useState(false),
-        runIfMounted = useRunIfMounted()
+    runIfMounted = useRunIfMounted()
 
   useEffect(() => {
     const updateNetwork: NetInfoChangeHandler = (networkState) => {
-      runIfMounted(() => setIsOnline((networkState.isConnected && networkState.isInternetReachable !== false) || false))
+      runIfMounted(() =>
+        setIsOnline(
+          (networkState.isConnected &&
+            networkState.isInternetReachable !== false) ||
+            false,
+        ),
+      )
     }
 
     const endNetworkSubscription = NetInfo.addEventListener(updateNetwork)

@@ -1,10 +1,15 @@
 export type DataLoaderWithKeyFunction<T, TKey> = {
-  readonly batchLoadFn: (keys: readonly TKey[]) => Promise<readonly T[]> | readonly T[],
-  readonly cacheKeyFn?: (key: TKey) => string,
+  readonly batchLoadFn: (
+    keys: readonly TKey[],
+  ) => Promise<readonly T[]> | readonly T[]
+  readonly cacheKeyFn?: (key: TKey) => string
   readonly chunkSize?: number
 }
 
-function optimizedMapWithForLoop<TData, TReturn>(data: readonly TData[], mapFn: (data: TData) => TReturn) {
+function optimizedMapWithForLoop<TData, TReturn>(
+  data: readonly TData[],
+  mapFn: (data: TData) => TReturn,
+) {
   // eslint-disable-next-line functional/prefer-readonly-type
   const result: TReturn[] = new Array<TReturn>(data.length)
 
@@ -18,34 +23,37 @@ function optimizedMapWithForLoop<TData, TReturn>(data: readonly TData[], mapFn: 
 }
 
 async function dealWithKeys<T, TKey = string>(
-  keys: readonly ((readonly [TKey, string]))[],
+  keys: readonly (readonly [TKey, string])[],
   batchLoadFn: (keys: readonly TKey[]) => Promise<readonly T[]> | readonly T[],
   // eslint-disable-next-line functional/prefer-readonly-type
   dataCache: Map<string, unknown>,
 ) {
-  const originalKeys = optimizedMapWithForLoop(keys, ([originalKey]) => originalKey!)
-  const results = await batchLoadFn(
-    originalKeys,
+  const originalKeys = optimizedMapWithForLoop(
+    keys,
+    ([originalKey]) => originalKey!,
   )
+  const results = await batchLoadFn(originalKeys)
 
   if (results.length !== keys.length) {
-    throw new Error('batchLoadFn error: returned array length has to be the same length as the keys length')
+    throw new Error(
+      'batchLoadFn error: returned array length has to be the same length as the keys length',
+    )
   }
 
   // eslint-disable-next-line no-plusplus
   for (let index = 0; index < results.length; index++) {
     const value = results[index]!
     const [, keyStr] = keys[index]!
-    dataCache.set(
-      keyStr!,
-      value,
-    )
+    dataCache.set(keyStr!, value)
   }
 }
 
-function optimizedFilterWithForLoop<TData>(data: readonly TData[], filterFn: (data: TData) => boolean) {
+function optimizedFilterWithForLoop<TData>(
+  data: readonly TData[],
+  filterFn: (data: TData) => boolean,
+) {
   // eslint-disable-next-line functional/prefer-readonly-type
-  const result: TData[] = new Array<TData>()
+  const result: TData[] = [] as TData[]
 
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < data.length; i++) {
@@ -69,38 +77,40 @@ export function createSuperDataLoader<T, TKey = string>({
   let onNextTick: Promise<void> | undefined
 
   // eslint-disable-next-line @typescript-eslint/promise-function-async
-  const prepareNextTick = () => new Promise<void>((resolve) => {
-    process.nextTick(async () => {
-      const shouldChunk = chunkSize && keysToResolveOnNextTick.size > chunkSize
-      const keys = Array.from(keysToResolveOnNextTick.entries())
+  const prepareNextTick = () =>
+    new Promise<void>((resolve) => {
+      process.nextTick(async () => {
+        const shouldChunk =
+          chunkSize && keysToResolveOnNextTick.size > chunkSize
+        const keys = Array.from(keysToResolveOnNextTick.entries())
 
-      if (shouldChunk) {
-        // eslint-disable-next-line no-plusplus
-        while (keys.length > 0) {
-        // eslint-disable-next-line functional/immutable-data
-          const nextKeys = keys.splice(0, chunkSize)
-          // eslint-disable-next-line no-await-in-loop
+        if (shouldChunk) {
+          // eslint-disable-next-line no-plusplus
+          while (keys.length > 0) {
+            // eslint-disable-next-line functional/immutable-data
+            const nextKeys = keys.splice(0, chunkSize)
+            // eslint-disable-next-line no-await-in-loop
+            await dealWithKeys(
+              // @ts-expect-error sdf sdf
+              nextKeys,
+              batchLoadFn,
+              dataCache,
+            )
+          }
+        } else {
           await dealWithKeys(
             // @ts-expect-error sdf sdf
-            nextKeys,
+            keys,
             batchLoadFn,
             dataCache,
           )
         }
-      } else {
-        await dealWithKeys(
-          // @ts-expect-error sdf sdf
-          keys,
-          batchLoadFn,
-          dataCache,
-        )
-      }
 
-      keysToResolveOnNextTick.clear()
+        keysToResolveOnNextTick.clear()
 
-      resolve()
+        resolve()
+      })
     })
-  })
 
   const defaultCacheKeyFn = (key: TKey) => key as string
 
@@ -111,7 +121,7 @@ export function createSuperDataLoader<T, TKey = string>({
   }
 
   type KeyWithOriginal = {
-    readonly cacheKey: string,
+    readonly cacheKey: string
     readonly originalKey: TKey
   }
 
@@ -121,13 +131,18 @@ export function createSuperDataLoader<T, TKey = string>({
     return { cacheKey, originalKey: key }
   }
 
-  const doesNotHaveKeyWithOriginal = (keyWithOriginal: KeyWithOriginal) => !dataCache.has(keyWithOriginal.cacheKey)
-  const dataFromCacheWithOriginal = (keyWithOriginal: KeyWithOriginal) => dataCache.get(keyWithOriginal.cacheKey)
+  const doesNotHaveKeyWithOriginal = (keyWithOriginal: KeyWithOriginal) =>
+    !dataCache.has(keyWithOriginal.cacheKey)
+  const dataFromCacheWithOriginal = (keyWithOriginal: KeyWithOriginal) =>
+    dataCache.get(keyWithOriginal.cacheKey)
 
   // eslint-disable-next-line @typescript-eslint/promise-function-async
   const loadMany = (keys: readonly TKey[]) => {
     const cacheKeys = optimizedMapWithForLoop(keys, getKeyWithOriginal)
-    const keysWithoutCache = optimizedFilterWithForLoop(cacheKeys, doesNotHaveKeyWithOriginal)
+    const keysWithoutCache = optimizedFilterWithForLoop(
+      cacheKeys,
+      doesNotHaveKeyWithOriginal,
+    )
 
     if (keysWithoutCache.length === 0) {
       return optimizedMapWithForLoop(cacheKeys, dataFromCacheWithOriginal)
@@ -144,7 +159,9 @@ export function createSuperDataLoader<T, TKey = string>({
       keysToResolveOnNextTick.set(keyStr, originalKey)
     }
 
-    return onNextTick!.then(() => optimizedMapWithForLoop(cacheKeys, dataFromCacheWithOriginal))
+    return onNextTick!.then(() =>
+      optimizedMapWithForLoop(cacheKeys, dataFromCacheWithOriginal),
+    )
   }
 
   // eslint-disable-next-line @typescript-eslint/promise-function-async
@@ -181,7 +198,11 @@ export function createSuperDataLoader<T, TKey = string>({
   }
 
   return {
-    load, loadMany, clear, clearAll, prime,
+    load,
+    loadMany,
+    clear,
+    clearAll,
+    prime,
   }
 }
 

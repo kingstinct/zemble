@@ -8,10 +8,15 @@
     "@zemble"
   ],
   "dependencies": {
-    "@zemble/core": "workspace:*",
+    "@zemble/auth": "workspace:*",
     "@zemble/bun": "workspace:*",
+    "@zemble/core": "workspace:*",
     "@zemble/routes": "workspace:*",
-    "mongodb": "^6.12.0"
+    "@zemble/utils": "workspace:*",
+    "mongodb": "^6.12.0",
+    "mongodb-memory-server": "^10.1.4",
+    "mongodb-memory-server-core": "^10.1.4",
+    "type-fest": "^4.41.0"
   },
   "scripts": {
     "test": "bun test",
@@ -19,7 +24,6 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    
     "@zemble/migrations": "workspace:*"
   },
   "peerDependencies": {
