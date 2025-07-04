@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import useSharedPortalAreaStore from './useSharedPortalAreaStore'
-import generateId from '../utils/generateId'
+import generateId from '@zemble/react/utils/generateId'
 
 import type { Insets } from 'react-native'
 

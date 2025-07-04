@@ -730,11 +730,7 @@
       "name": "@zemble/react",
       "version": "1.0.17",
       "dependencies": {
-        "@gorhom/portal": "^1.0.14",
         "@zemble/primitives": "workspace:*",
-        "ts-pattern": "^5.6.2",
-        "urql": "4.2",
-        "zustand": "^5.0.3",
       },
       "devDependencies": {
         "@babel/core": "^7.26.0",
@@ -742,8 +738,6 @@
         "@babel/preset-env": "^7.26.0",
         "@expo/vector-icons": "^13.0.0",
         "@expo/webpack-config": "^19.0.1",
-        "@react-native-async-storage/async-storage": "^1.21.0",
-        "@react-native-community/netinfo": "^9.4.1",
         "@react-navigation/native": "^6.1.9",
         "@react-navigation/native-stack": "^6.9.13",
         "@storybook/addon-actions": "^8.5.0",
@@ -766,7 +760,6 @@
         "expo-status-bar": "^1.7.1",
         "expo-system-ui": "^2.6.0",
         "graphql": "^16.10.0",
-        "jwt-decode": "^4.0.0",
         "lodash": "^4.17.21",
         "metro-config": "^0.80.9",
         "react": "^18.3.1",
@@ -784,6 +777,108 @@
         "@types/react": "^18.2.54",
         "react": "^18.2.0",
         "react-native-reanimated": "~3.6.1",
+      },
+    },
+    "packages/react-auth": {
+      "name": "@zemble/react-auth",
+      "version": "1.0.0",
+      "dependencies": {
+        "@react-native-async-storage/async-storage": "^1.21.0",
+        "jwt-decode": "^4.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-native": "~0.72.8",
+      },
+      "peerDependencies": {
+        "@types/react": "^18.2.54",
+        "react": "^18.2.0",
+        "react-native": "^0.72.4",
+      },
+    },
+    "packages/react-keyboard": {
+      "name": "@zemble/react-keyboard",
+      "version": "1.0.0",
+      "dependencies": {
+        "zustand": "^5.0.3",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-native": "~0.72.8",
+      },
+      "peerDependencies": {
+        "@types/react": "^18.2.54",
+        "react": "^18.2.0",
+        "react-native": "^0.72.4",
+      },
+    },
+    "packages/react-network": {
+      "name": "@zemble/react-network",
+      "version": "1.0.0",
+      "dependencies": {
+        "@react-native-community/netinfo": "^9.4.1",
+        "ts-pattern": "^5.6.2",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-native": "~0.72.8",
+      },
+      "peerDependencies": {
+        "@types/react": "^18.2.54",
+        "react": "^18.2.0",
+        "react-native": "^0.72.4",
+      },
+    },
+    "packages/react-portal": {
+      "name": "@zemble/react-portal",
+      "version": "1.0.0",
+      "dependencies": {
+        "@gorhom/portal": "^1.0.14",
+        "zustand": "^5.0.3",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-native": "~0.72.8",
+      },
+      "peerDependencies": {
+        "@types/react": "^18.2.54",
+        "react": "^18.2.0",
+        "react-native": "^0.72.4",
+        "react-native-reanimated": "~3.6.1",
+      },
+    },
+    "packages/react-snackbar": {
+      "name": "@zemble/react-snackbar",
+      "version": "1.0.0",
+      "dependencies": {
+        "zustand": "^5.0.3",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-native": "~0.72.8",
+      },
+      "peerDependencies": {
+        "@types/react": "^18.2.54",
+        "react": "^18.2.0",
+        "react-native": "^0.72.4",
+        "react-native-reanimated": "~3.6.1",
+      },
+    },
+    "packages/react-urql": {
+      "name": "@zemble/react-urql",
+      "version": "1.0.0",
+      "dependencies": {
+        "@zemble/react-auth": "workspace:*",
+        "urql": "4.2",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.3",
+        "@types/react-native": "~0.72.8",
+      },
+      "peerDependencies": {
+        "@types/react": "^18.2.54",
+        "react": "^18.2.0",
+        "react-native": "^0.72.4",
       },
     },
     "packages/react-use-app-state": {
@@ -2254,6 +2349,18 @@
     "@zemble/push-expo": ["@zemble/push-expo@workspace:packages/push-expo"],
 
     "@zemble/react": ["@zemble/react@workspace:packages/react"],
+
+    "@zemble/react-auth": ["@zemble/react-auth@workspace:packages/react-auth"],
+
+    "@zemble/react-keyboard": ["@zemble/react-keyboard@workspace:packages/react-keyboard"],
+
+    "@zemble/react-network": ["@zemble/react-network@workspace:packages/react-network"],
+
+    "@zemble/react-portal": ["@zemble/react-portal@workspace:packages/react-portal"],
+
+    "@zemble/react-snackbar": ["@zemble/react-snackbar@workspace:packages/react-snackbar"],
+
+    "@zemble/react-urql": ["@zemble/react-urql@workspace:packages/react-urql"],
 
     "@zemble/react-use-app-state": ["@zemble/react-use-app-state@workspace:packages/react-use-app-state"],
 

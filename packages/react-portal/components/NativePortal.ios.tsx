@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { FullWindowOverlay } from 'react-native-screens'
 
-import randomHexColorAlpha from '../utils/randomHexColor'
+import randomHexColorAlpha from '@zemble/react/utils/randomHexColor'
 
 import type { Props } from './NativePortal.types'
 import type { StyleProp, ViewStyle } from 'react-native'

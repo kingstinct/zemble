@@ -11,7 +11,7 @@ import {
 import { match } from 'ts-pattern'
 
 import StringsContext from '../contexts/Strings'
-import useEvent from '../hooks/useEvent'
+import useEvent from '@zemble/react/hooks/useEvent'
 import useIsOnline from '../hooks/useIsOnline'
 
 import type { CombinedError } from 'urql'

@@ -1,0 +1,31 @@
+{
+  "name": "@zemble/react-urql",
+  "version": "1.0.0",
+  "description": "URQL helpers for Zemble React apps",
+  "author": "Robert Herber",
+  "license": "MIT",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "lint": "eslint ."
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "index.ts",
+  "types": "index.ts",
+  "peerDependencies": {
+    "@types/react": "^18.2.54",
+    "react": "^18.2.0",
+    "react-native": "^0.72.4"
+  },
+  "dependencies": {
+    "urql": "4.2",
+    "@zemble/react-auth": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-native": "~0.72.8"
+  }
+}

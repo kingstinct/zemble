@@ -1,7 +1,7 @@
 import NetInfo from '@react-native-community/netinfo'
 import { useState, useEffect } from 'react'
 
-import useRunIfMounted from './useRunIfMounted'
+import useRunIfMounted from '@zemble/react/hooks/useRunIfMounted'
 
 import type { NetInfoChangeHandler } from '@react-native-community/netinfo'
 

@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
 import { Alert } from 'react-native'
 
-import StringsContext from '../contexts/Strings'
+import StringsContext from '@zemble/react-network/contexts/Strings'
 
 export function useAlert() {
   const { OK } = useContext(StringsContext)
