@@ -14,24 +14,10 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.enable": false,
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ],
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.defaultFormatter": "biomejs.biome",
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "never",
-    "source.fixAll.eslint": "explicit"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll.biome": "explicit"
   },
   "editor.formatOnSave": true,
   "cSpell.words": [
@@ -57,27 +43,5 @@
     "tldr",
     "urql",
     "zemble"
-  ],
-  "eslint.probe": [
-    "javascript",
-    "javascriptreact",
-    "yaml",
-    "json",
-    "typescript",
-    "typescriptreact",
-    "JSON",
-    "graphql",
-    "jsonc"
-  ],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "yaml",
-    "json",
-    "typescript",
-    "typescriptreact",
-    "JSON",
-    "graphql",
-    "jsonc"
-  ],
+  ]
 }
