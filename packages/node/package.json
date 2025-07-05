@@ -37,7 +37,7 @@
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*",
-    "@hono/node-server": "1.13.7"
+    "@hono/node-server": "1.15.0"
   },
   "devDependencies": {
     "ts-node-dev": "^2.0.0"

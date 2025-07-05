@@ -51,6 +51,6 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.7",
-    "@tsconfig/node20": "^20.1.4"
+    "@tsconfig/node20": "^20.1.6"
   }
 }

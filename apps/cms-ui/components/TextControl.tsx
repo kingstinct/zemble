@@ -50,7 +50,6 @@ export function TextControl<T extends FieldValues>({
       }
 
       return (
-        // @ts-expect-error will fix with upgrade
         <TextInput
           accessibilityHint={
             labelOrPlaceholder +
