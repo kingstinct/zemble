@@ -48,5 +48,4 @@ export default {
 const Template: StoryFn<typeof SnackbarsStory> = () => <SnackbarsStory />
 
 export const Alerts = Template.bind({})
-// eslint-disable-next-line functional/immutable-data
 Alerts.args = {}

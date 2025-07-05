@@ -1,10 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import type { GraphQLResolveInfo } from 'graphql'
 import graphqlFields from 'graphql-fields'
 import type { Document, ObjectId, StrictFilter } from 'mongodb'
 
-// eslint-disable-next-line functional/prefer-readonly-type
 export type Projection<T> = {
   [K in keyof StrictFilter<T>]?: 0 | 1
 }
@@ -70,7 +67,6 @@ export function removeDeepFields<DBType extends DbType>(
     )
 
     if (foundShorter) {
-      // eslint-disable-next-line no-param-reassign, func-names, functional/immutable-data
       delete newProj[field]
     }
   })
@@ -84,15 +80,11 @@ function build<
 >(fieldsAskedFor: Record<GQLPath, object>, prependKey = '') {
   let localFields = {}
   Object.keys(fieldsAskedFor).forEach((key) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (Object.keys(fieldsAskedFor[key] as object).length === 0) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      // eslint-disable-next-line no-param-reassign, func-names, functional/immutable-data
       localFields[prependKey + key] = 1
     } else {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       localFields = {
         ...localFields,
@@ -116,19 +108,15 @@ export function handleExtraFields<
     allFields = Object.keys(fields)
 
   Object.keys(dependencies).forEach((path) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const ifAnyOfTheseExist = dependencies[path] as readonly string[]
     const setAndDeleteDependency = () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      // eslint-disable-next-line no-param-reassign, func-names, functional/immutable-data
       updatedFields[path] = 1
       /* ifAnyOfTheseExist.forEach((resolverName) => {
         delete updatedFields[resolverName];
       }); */
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (dependencies[path].length === 0) {
       setAndDeleteDependency()
@@ -162,7 +150,6 @@ function projectionFromGraphQLInfo<
     return null as TInfo extends GraphQLResolveInfo ? Projection<DbType> : null
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const fieldsAskedFor = graphqlFields(info, undefined, undefined) as Record<
     GQLPath,
@@ -175,14 +162,10 @@ function projectionFromGraphQLInfo<
       const matchingPrefix = prefixes.find((prefix) => field.startsWith(prefix))
       if (matchingPrefix) {
         const newPropName = field.replace(matchingPrefix, '')
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        // eslint-disable-next-line no-param-reassign, func-names, functional/immutable-data
         fields[newPropName] = 1
       }
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      // eslint-disable-next-line no-param-reassign, func-names, functional/immutable-data
       delete fields[field]
     })
   }

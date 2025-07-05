@@ -17,7 +17,6 @@ export const useServerTiming = (): EnvelopPlugin<
 
             const { fieldName } = info
 
-            // eslint-disable-next-line functional/immutable-data
             opCounts[fieldName] = opCounts[fieldName]
               ? opCounts[fieldName]! + 1
               : 1

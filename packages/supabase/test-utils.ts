@@ -1,5 +1,3 @@
-/* eslint-disable functional/immutable-data */
-
 import { createClient } from '@supabase/supabase-js'
 
 import plugin from './plugin'

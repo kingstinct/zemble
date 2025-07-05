@@ -12,7 +12,6 @@ interface CmsConfig extends Zemble.GlobalConfig {}
 const defaultConfig = {} satisfies CmsConfig
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface OtpToken extends BaseToken {
       readonly permissions: readonly {

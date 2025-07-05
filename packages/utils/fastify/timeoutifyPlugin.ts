@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import type {
   FastifyInstance,
   FastifyPluginCallback,
@@ -10,7 +8,6 @@ import { LOG_PREFIX, Timeoutify, TimeoutifyStatus } from '../node/Timeoutify'
 
 declare module 'fastify' {
   interface FastifyRequest {
-    // eslint-disable-next-line functional/prefer-readonly-type
     timeoutify: Timeoutify
   }
 }
@@ -23,7 +20,6 @@ export const timeoutifyPlugin = fastifyPlugin(
   ) => {
     server.addHook('onRequest', function timeoutifyRequest(req, reply, done) {
       const logPrefix = `${LOG_PREFIX} [${req.id}]`
-      // eslint-disable-next-line functional/immutable-data
       req.timeoutify = new Timeoutify({
         timeoutMS,
         logPrefix,
@@ -61,7 +57,6 @@ export const timeoutifyPlugin = fastifyPlugin(
               errors: [errorText],
             })
 
-          // eslint-disable-next-line functional/immutable-data, no-param-reassign
           reply.send = () => reply
         }
       })

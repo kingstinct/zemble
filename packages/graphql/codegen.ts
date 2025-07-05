@@ -95,7 +95,7 @@ const createServerOutputConfigWithResolverGeneration = (
       {},
     ),
     hooks: {
-      afterOneFileWrite: ['eslint --fix'],
+      afterOneFileWrite: ['bunx biome check --fix --files-ignore-unknown=true'],
     },
   }) satisfies Types.ConfiguredOutput
 
@@ -111,7 +111,6 @@ export function createServerConfig<
   readonly resolverGeneration?: TypedPresetConfig | boolean
 }) {
   if (resolverGeneration === undefined) {
-    // eslint-disable-next-line no-param-reassign
     resolverGeneration = !!(
       process.env['GENERATE'] && JSON.stringify(process.env['GENERATE'])
     )
@@ -121,7 +120,6 @@ export function createServerConfig<
     serverOutputSchemaPathOverride ?? DEFAULT_SERVER_OUTPUT_SCHEMA_PATH
 
   const pathToServerOutputSchemaPathas = serverOutputSchemaPath.split('/')
-  // eslint-disable-next-line functional/immutable-data
   pathToServerOutputSchemaPathas.pop()
   const pathToServerOutputSchemaPath = `${pathToServerOutputSchemaPathas.join('/')}/`
 

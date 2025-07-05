@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies, no-param-reassign, functional/prefer-readonly-type, functional/immutable-data */
-
 import type {
   AppControllerRoute,
   AppViewRoute,
@@ -186,12 +184,10 @@ export default class HonoAdapter<HonoEnv extends Env>
 
     this.app.basePath(this.basePath).route('/', this.apiRoutes)
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     const { method, handler } = this.entryRoute
     const routes = this.entryRoute.route as readonly string[]
     routes.forEach((route) => {
       this.app.basePath(this.basePath)[method](route, async (c: Context) => {
-        // eslint-disable-next-line @typescript-eslint/await-thenable
         const { name: fileName, params } = await handler({
           basePath: this.basePath,
           uiConfig: this.uiConfig || {},

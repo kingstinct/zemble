@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import authPlugin from '@zemble/auth'
 import { encodeToken } from '@zemble/auth/utils/encodeToken'
 import { generateRefreshToken } from '@zemble/auth/utils/generateRefreshToken'

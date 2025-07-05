@@ -43,7 +43,6 @@ describe('Timeoutify', () => {
 
   test('runMongoOpWithTimeout', () => {
     const timeoutify = new Timeoutify({ timeoutMS: 10 })
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(timeoutify.runMongoOpWithTimeout).toBeDefined()
     timeoutify.finished()
   })

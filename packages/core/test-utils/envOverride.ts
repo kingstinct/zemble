@@ -1,4 +1,3 @@
-/* eslint-disable functional/immutable-data */
 let originalEnv: NodeJS.ProcessEnv | undefined
 
 export const setupEnvOverride = (

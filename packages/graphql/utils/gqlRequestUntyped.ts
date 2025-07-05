@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable functional/immutable-data */
 import zembleContext from '@zemble/core/zembleContext'
 import { type GraphQLFormattedError } from 'graphql'
 

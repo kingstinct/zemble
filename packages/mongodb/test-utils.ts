@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import MongoDBPlugin from '@zemble/mongodb'
 import { wait } from '@zemble/utils'
 import { MongoClient } from 'mongodb'
@@ -54,7 +52,6 @@ export const startInMemoryInstanceAndConfigurePlugin = async ({
 
   const client = await MongoClient.connect(url)
 
-  // eslint-disable-next-line functional/immutable-data
   MongoDBPlugin.multiProviders.mongodb = {
     ...MongoDBPlugin.multiProviders.mongodb,
     '@zemble/mongodb': { client, db: client.db() },

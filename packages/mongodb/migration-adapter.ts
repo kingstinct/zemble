@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-
 import type { MigrationAdapter, MigrationStatus } from '@zemble/migrations'
 import { MigrationLockError } from '@zemble/migrations/MigrationLockError'
 import type { Collection } from 'mongodb'

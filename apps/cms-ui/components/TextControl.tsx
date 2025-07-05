@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable functional/immutable-data */
-
 import { useBottomSheetInternal } from '@gorhom/bottom-sheet'
 import { useCallback } from 'react'
 import type {
@@ -33,7 +30,6 @@ export function TextControl<T extends FieldValues>({
   rules,
   ...textInputProps
 }: Props<T>) {
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const labelOrPlaceholder =
     (textInputProps.label
       ? textInputProps.label.toString()

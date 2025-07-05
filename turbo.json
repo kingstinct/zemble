@@ -1,11 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
-    "lint": {
-      "dependsOn": ["codegen"],
-      "passThroughEnv": ["ESLINT_USE_FLAT_CONFIG"],
-      "outputLogs": "errors-only"
-    },
     "test": {
       "dependsOn": ["codegen"],
       "outputLogs": "errors-only",

@@ -1,6 +1,3 @@
-/* eslint-disable functional/immutable-data */
-/* eslint-disable functional/prefer-readonly-type */
-
 import { jest } from 'bun:test'
 import zembleContext from '@zemble/core/zembleContext'
 import type { Job, JobsOptions, Queue } from 'bullmq'
@@ -68,7 +65,6 @@ class ZembleQueueMock<
   async addBulk(
     jobs: Parameters<ZembleQueueBull<DataType, ResultType>['addBulk']>[number],
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
     const js = jobs.map((job) =>
       this.#createMockJob(job.name, job.data as any, job.opts),
     )
@@ -115,7 +111,6 @@ class ZembleQueueMock<
     try {
       return await this.#worker(job, { logger: zembleContext.logger })
     } finally {
-      // eslint-disable-next-line no-plusplus
       this.jobsRemaining--
       this.#triggerWaitUntilFinishedIfNeeded()
     }
@@ -132,7 +127,6 @@ class ZembleQueueMock<
 
     const job = this.#createMockJob(name, data, opts)
     this.jobs.push(job)
-    // eslint-disable-next-line no-plusplus
     this.jobsRemaining++
     setTimeout(async () => {
       await this.#executeWorker(job)
@@ -161,7 +155,6 @@ class ZembleQueueMock<
     this.isPaused = false
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async getDelayed() {
     return []
   }

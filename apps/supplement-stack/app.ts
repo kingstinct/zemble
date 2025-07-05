@@ -7,7 +7,6 @@ import { connect } from './clients/papr'
 import { Users } from './models'
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface OtpToken extends BaseToken {
       readonly userId: string

@@ -1,8 +1,5 @@
 #!/usr/bin/env bun
 
-/* eslint-disable no-console */
-/* eslint-disable functional/prefer-readonly-type, functional/immutable-data */
-
 import Path from 'node:path'
 import { readdir } from 'fs/promises'
 

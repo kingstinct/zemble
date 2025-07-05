@@ -1,7 +1,7 @@
 // @ts-nocheck
 import '@zemble/core'
-import type { Job, Queue } from 'bullmq';
 import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import type { Job, Queue } from 'bullmq';
 export type Maybe<T> = T | null | undefined;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };

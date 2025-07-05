@@ -1,4 +1,3 @@
-/* eslint-disable functional/immutable-data */
 import { Styles } from '@zemble/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { UseFormProps } from 'react-hook-form'
@@ -45,7 +44,6 @@ const UpsertEntry: React.FC<{
     () =>
       fields.reduce(
         (acc, field) => {
-          // eslint-disable-next-line no-nested-ternary, functional/immutable-data, unicorn/no-nested-ternary
           // @ts-expect-error fix later
           acc[field.name as unknown as string] =
             getDefaultValueFromEntityField(field)

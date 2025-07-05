@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable functional/immutable-data */
-
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useState } from 'react'
 import type {
@@ -50,8 +47,8 @@ function SelectOneController<T extends FieldValues>({
       name={name}
       rules={rules}
       render={({ field: { onChange, onBlur, value } }) => {
-        const onChanged = (value: string) => {
-          onChange(value)
+        const onChanged = (newValue: string) => {
+          onChange(newValue)
           setVisible(false)
         }
 

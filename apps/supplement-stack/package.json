@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "dev": "MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
-    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen"
   },
@@ -42,7 +41,7 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/todo": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "graphql": "^16.10.0",
+    "graphql": "^16.11.0",
     "graphql-scalars": "^1.24.0",
     "mongodb": "^6.12.0",
     "papr": "^15.2.2"

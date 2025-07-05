@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable functional/immutable-data */
 import { mergeSchemas } from '@graphql-tools/schema'
 import type { GraphQLSchemaWithContext } from 'graphql-yoga'
 
@@ -16,7 +14,6 @@ export const buildMergedSchema = async (
       ...(appPlugin
         ? (await createPluginSchema(appPlugin)).map((p) => p.schema)
         : []),
-      // eslint-disable-next-line no-nested-ternary
       ...(config.extendSchema
         ? typeof config.extendSchema === 'function'
           ? await config.extendSchema()
@@ -48,7 +45,6 @@ export const buildMergedSchema = async (
   }, Promise.resolve(selfSchemas))
 
   const mergedSchema = mergeSchemas({
-    // eslint-disable-next-line functional/prefer-readonly-type
     schemas:
       graphQLSchemas as unknown as GraphQLSchemaWithContext<Zemble.GraphQLContext>[],
     resolvers: pluginSchemas.map((p) => p.resolvers),

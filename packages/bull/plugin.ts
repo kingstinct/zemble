@@ -11,7 +11,6 @@ import type { ZembleQueueConfig } from './ZembleQueue'
 import ZembleQueue from './ZembleQueue'
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
       readonly ['@zemble/bull']?: {
@@ -67,7 +66,6 @@ export const waitUntilEmpty = async () => {
   return Promise.all(queues.map(async (queue) => queue.waitUntilEmpty()))
 }
 
-// eslint-disable-next-line unicorn/consistent-function-scoping
 export default new Plugin<BullPluginConfig>(import.meta.dir, {
   defaultConfig: defaults,
   middleware: async ({ context: { pubsub }, config, app, logger }) => {

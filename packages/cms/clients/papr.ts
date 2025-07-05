@@ -1,5 +1,3 @@
-/* eslint-disable functional/immutable-data, functional/prefer-readonly-type, no-multi-assign */
-
 import type { IStandardLogger } from '@zemble/core'
 import type { Db } from 'mongodb'
 import type { Model } from 'papr'

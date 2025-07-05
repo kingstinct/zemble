@@ -34,7 +34,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "type-fest": "^4.33.0"
+    "type-fest": "^4.41.0"
   },
   "peerDependencies": {},
   "optionalDependencies": {

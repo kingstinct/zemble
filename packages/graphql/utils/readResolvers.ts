@@ -49,7 +49,6 @@ export const readResolvers = async (
             item[fileNameWithoutExtension] || item.default,
         }
       } catch (error) {
-        // eslint-disable-next-line functional/immutable-data
         erroredPaths[route] = error
         return prev
       }

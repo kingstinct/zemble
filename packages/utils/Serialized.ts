@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type GreaterThan<
   A extends number,
   B extends number,

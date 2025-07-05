@@ -5,7 +5,6 @@ export const setLogLevel: NonNullable<MutationResolvers['setLogLevel']> = (
   { level },
   { logger },
 ) => {
-  // eslint-disable-next-line functional/immutable-data, no-param-reassign
   logger.level = level
 
   return level

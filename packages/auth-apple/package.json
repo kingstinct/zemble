@@ -6,7 +6,6 @@
   "scripts": {
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen"
   },
@@ -39,8 +38,8 @@
     "@whatwg-node/server-plugin-cookies": "^1.0.3",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "graphql": "^16.10.0",
-    "jose": "^5.9.6",
+    "graphql": "^16.11.0",
+    "jose": "^6.0.11",
     "@zemble/auth": "workspace:*"
   }
 }

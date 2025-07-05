@@ -1,5 +1,3 @@
-/* eslint-disable functional/immutable-data */
-
 import type { Meta } from '@storybook/react'
 
 import type { DefaultSnackbarComponentProps } from '../components/SnackbarComponent'
@@ -24,7 +22,6 @@ const Template = DefaultSnackbarComponent
 
 export const Snickers = Template.bind({})
 
-// eslint-disable-next-line functional/immutable-data
 // @ts-expect-error fix later
 Snickers.args = {
   backgroundColor: '#eee',
@@ -36,7 +33,6 @@ Snickers.args = {
   snackbarConfig: { title: 'hello', actions: [{ label: 'ok' }] },
 } as Partial<DefaultSnackbarComponentProps>
 
-// eslint-disable-next-line functional/immutable-data
 // @ts-expect-error fix later
 Snickers.parameters = {
   controls: {

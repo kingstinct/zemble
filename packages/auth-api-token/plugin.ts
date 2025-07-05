@@ -15,7 +15,6 @@ interface AuthConfig extends Zemble.GlobalConfig {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface TokenRegistry {
       readonly AuthApiToken: {

@@ -8,7 +8,6 @@ export function onPubSub<TKey extends keyof Zemble.PubSubTopics>(
   let listening = true
 
   const listen = async () => {
-    // eslint-disable-next-line no-restricted-syntax
     for await (const message of repeater) {
       if (!listening) {
         break

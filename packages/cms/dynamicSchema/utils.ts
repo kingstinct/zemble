@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import type {
   GraphQLInputObjectTypeConfig,
   GraphQLOutputType,
@@ -32,7 +30,6 @@ function typeDeduper<T extends GraphQLUnionType | GraphQLObjectType>(
   if (types[type.name]) {
     return types[type.name] as T
   }
-  // eslint-disable-next-line functional/immutable-data
   types[type.name] = type
   return type
 }
@@ -54,7 +51,6 @@ export const fieldToOutputType = (
     case 'IDField':
       return GraphQLID
     case 'ArrayField': {
-      // eslint-disable-next-line no-case-declarations
       const availableFields = field.availableFields.map((f) => {
         const resolvedType = fieldToOutputType(
           typePrefix,
@@ -74,7 +70,6 @@ export const fieldToOutputType = (
         )
       })
 
-      // eslint-disable-next-line no-case-declarations
       const union = typeDeduper(
         new GraphQLUnionType({
           name: `${capitalize(typePrefix)}${capitalize(field.name)}Union`,
@@ -84,7 +79,6 @@ export const fieldToOutputType = (
       return new GraphQLList(union)
     }
     case 'EntityRelationField': {
-      // eslint-disable-next-line no-case-declarations
       const relatedType = relationTypes[field.entityNamePlural]
 
       // just fallback to something if there is no type, for now
@@ -112,7 +106,6 @@ export const fieldToInputType = (
     case 'EntityRelationField':
       return GraphQLID
     case 'ArrayField': {
-      // eslint-disable-next-line no-case-declarations
       const availableFields =
         field.availableFields.reduce<GraphQLInputObjectTypeConfig>(
           (prev, f) => ({
@@ -188,7 +181,6 @@ export const createTraverser = (entity: EntitySchemaType) => {
       ),
   }
 
-  // eslint-disable-next-line arrow-body-style
   const fieldValueMapper = (key: string, data: Record<string, unknown>) => {
     return Array.isArray(data[key])
       ? mapArrayFields(

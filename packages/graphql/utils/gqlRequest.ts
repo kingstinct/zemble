@@ -1,6 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable functional/immutable-data */
-
 import type {
   ResultOf,
   TypedDocumentNode,

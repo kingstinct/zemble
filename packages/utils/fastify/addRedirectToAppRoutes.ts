@@ -48,7 +48,6 @@ export const getRedirectUrl = (
   if (scheme?.startsWith('http')) {
     return redirectUrlToAppOrWeb
   }
-  // eslint-disable-next-line functional/immutable-data
   url.pathname = Path.join('redirect-to-app', scheme, path || '')
   return url.toString()
 }

@@ -49,9 +49,9 @@ const createClientWithToken: CreateUrqlClient = ({
           onError(error, operation)
           if (error.graphQLErrors) {
             const authError = error.graphQLErrors.find(
-              (e) =>
-                e.extensions?.code === 'UNAUTHENTICATED' ||
-                e.message.includes('requires authentication'),
+              (gqlError) =>
+                gqlError.extensions?.code === 'UNAUTHENTICATED' ||
+                gqlError.message.includes('requires authentication'),
             )
 
             if (authError) {

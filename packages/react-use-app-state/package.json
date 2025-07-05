@@ -6,8 +6,7 @@
   "license": "MIT",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "bun test",
-    "lint": "eslint ."
+    "test": "bun test"
   },
   "publishConfig": {
     "access": "public",

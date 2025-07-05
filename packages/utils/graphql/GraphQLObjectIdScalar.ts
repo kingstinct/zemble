@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import type { GraphQLScalarTypeConfig } from 'graphql'
 import { GraphQLScalarType } from 'graphql'
 import { GraphQLError } from 'graphql/error'

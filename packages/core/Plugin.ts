@@ -12,7 +12,6 @@ export class Plugin<
   TDefaultConfig extends Partial<TConfig> = TConfig,
   TResolvedConfig extends TConfig & TDefaultConfig = TConfig & TDefaultConfig,
 > {
-  // eslint-disable-next-line functional/prefer-readonly-type
   #config: TResolvedConfig
 
   readonly additionalConfigWhenRunningLocally?: Partial<TConfig>
@@ -23,24 +22,24 @@ export class Plugin<
 
   readonly #middleware?: Middleware<TResolvedConfig, Plugin>
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   multiProviders = defaultMultiProviders as unknown as Zemble.MultiProviders
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   #pluginName: string | undefined
 
   readonly debug: debug.Debugger
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   #providerStrategies: Zemble.ProviderStrategies = {}
 
-  readonly #providers?: Partial<{
-    // @ts-expect-error fix later
-    readonly [key in keyof Zemble.Providers]: InitializeProvider<
-      Zemble.Providers[key],
-      unknown
-    >
-  }>
+  readonly #providers?: Zemble.Providers extends Record<string, never>
+    ? undefined
+    : Partial<{
+        readonly [key in keyof Zemble.Providers]: InitializeProvider<
+          Zemble.Providers[key],
+          keyof Zemble.MiddlewareConfig extends never
+            ? never
+            : keyof Zemble.MiddlewareConfig
+        >
+      }>
 
   /**
    *
@@ -85,7 +84,6 @@ export class Plugin<
   }
 
   setProviderStrategies(providerStrategies: Zemble.ProviderStrategies) {
-    // eslint-disable-next-line functional/immutable-data
     this.#providerStrategies = providerStrategies
   }
 
@@ -118,14 +116,11 @@ export class Plugin<
     return this.#middleware?.(...args)
   }
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   #pluginVersion: string | undefined
 
   #readPackageJson() {
     const pkgJson = readPackageJson(this.pluginPath)
-    // eslint-disable-next-line functional/immutable-data
     this.#pluginVersion = pkgJson.version
-    // eslint-disable-next-line functional/immutable-data
     this.#pluginName = pkgJson.name
 
     return pkgJson
@@ -149,7 +144,6 @@ export class Plugin<
 
   configure(config?: Partial<TConfig & Zemble.GlobalConfig>) {
     if (config) {
-      // eslint-disable-next-line functional/immutable-data
       this.#config = mergeDeep(
         this.#config as Record<string, unknown>,
         config as Record<string, unknown>,

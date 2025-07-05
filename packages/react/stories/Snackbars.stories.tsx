@@ -1,5 +1,3 @@
-/* eslint-disable import/no-unresolved */
-
 import type { Meta, StoryFn } from '@storybook/react'
 import React, { useEffect, useRef } from 'react'
 import { View } from 'react-native'
@@ -57,7 +55,6 @@ const CustomSnackbar: React.FC<
   />
 )
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function SnackbarsStory(props: any) {
   return (
     <View>
@@ -95,5 +92,4 @@ const Template: StoryFn<typeof SnackbarsStory> = (props) => (
 )
 
 export const Snackbars = Template.bind({})
-// eslint-disable-next-line functional/immutable-data
 Snackbars.args = {}

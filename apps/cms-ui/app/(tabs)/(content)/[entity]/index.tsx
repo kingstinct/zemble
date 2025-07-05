@@ -50,7 +50,7 @@ export const GetEntityByNamePluralQuery = graphql(`
 const EntityDetails = () => {
   const { entity } = useLocalSearchParams()
 
-  const [{ data }, refetch] = useQuery({
+  const [{ data }, _refetch] = useQuery({
     query: GetEntityByNamePluralQuery,
     variables: { namePlural: entity },
     pause: !entity,

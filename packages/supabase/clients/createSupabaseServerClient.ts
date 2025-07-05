@@ -1,5 +1,3 @@
-/* eslint-disable functional/immutable-data */
-
 import type { CookieOptions } from '@supabase/ssr'
 import { createServerClient } from '@supabase/ssr'
 import type { SupabaseClient } from '@supabase/supabase-js'
@@ -15,7 +13,6 @@ const testConfig = {
   supabaseAnonKey: testSupabaseAnonKey,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createSupabaseServerClient = (): SupabaseClient<
   any,
   'public',

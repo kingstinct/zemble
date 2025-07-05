@@ -128,7 +128,6 @@ const useSnackbarStore = create<SnackbarStore>((set) => ({
       if (!hasWarned) {
         setTimeout(() => {
           if (timeouts.size === 0) {
-            // eslint-disable-next-line no-console
             console.warn(
               "[@zemble/react] Snackbar added but not shown, make sure SnackbarView is present (or that you're calling snackbarWasPresented if rolling your own).",
             )

@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import { describe, expect, it } from 'bun:test'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import DataLoader from 'dataloader'
@@ -154,7 +152,6 @@ describe('SuperDataLoader.big', () => {
         transactionItems: () => TRANSACTION_ITEMS,
       },
       TransactionItem: {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         instrument: async (
           { instrumentId }: { readonly instrumentId: string },
           _: unknown,
@@ -162,7 +159,6 @@ describe('SuperDataLoader.big', () => {
         ) => dataloaders.instrumentById.load(instrumentId),
       },
       Instrument: {
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         issuer: async (
           { issuerId }: { readonly issuerId: string },
           _: unknown,
@@ -208,7 +204,6 @@ describe('SuperDataLoader.big', () => {
     expect(transactionItems).toBeDefined()
     expect(transactionItems).toHaveLength(95022)
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(transactionItems).toEqual((expanded as any).transactionItems)
 
     const startSuperDataLoader = performance.now()
@@ -227,7 +222,6 @@ describe('SuperDataLoader.big', () => {
     expect(transactionItems).toBeDefined()
     expect(transactionItems).toHaveLength(95022)
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(transactionItems).toEqual((expanded as any).transactionItems)
 
     const dataloaderTime = endDataLoader - startDataLoader

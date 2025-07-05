@@ -15,12 +15,11 @@
     "@zemble/routes": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@supabase/ssr": "^0.5.2",
-    "graphql": "^16.10.0",
+    "graphql": "^16.11.0",
     "@supabase/supabase-js": "^2.48.0"
   },
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen",
     "supabase-codegen": "supabase gen types typescript --project-id \"nptqmmaxmynahsgfuvhn\" --schema public > types/supabase.generated.ts"
@@ -28,7 +27,7 @@
   "devDependencies": {
     "supabase": "^2.6.8",
     "@graphql-codegen/add": "^5.0.3",
-    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/client-preset": "^4.5.1",
     "@graphql-codegen/typescript": "^4.1.2",
     "@graphql-codegen/typescript-resolvers": "^4.4.1",

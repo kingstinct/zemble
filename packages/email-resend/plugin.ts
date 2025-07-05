@@ -17,14 +17,12 @@ export const mapEmail = (email: string | IEmail): string => {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
       readonly ['@zemble/email-resend']?: Zemble.DefaultMiddlewareConfig
     }
 
     interface Providers {
-      // eslint-disable-next-line functional/prefer-readonly-type
       sendEmail: IStandardSendEmailService
     }
   }
@@ -40,7 +38,6 @@ const defaultConfig = {
   },
 } satisfies Partial<EmailResendConfig>
 
-// eslint-disable-next-line unicorn/consistent-function-scoping
 const plugin = new Plugin<EmailResendConfig, typeof defaultConfig>(
   import.meta.dir,
   {
@@ -48,17 +45,7 @@ const plugin = new Plugin<EmailResendConfig, typeof defaultConfig>(
       if (!config.disable) {
         const initializeProvider =
           (): IStandardSendEmailService =>
-          async ({
-            from,
-            to,
-            html,
-            text,
-            subject,
-            replyTo,
-            cc,
-            bcc,
-            // eslint-disable-next-line unicorn/consistent-function-scoping
-          }) => {
+          async ({ from, to, html, text, subject, replyTo, cc, bcc }) => {
             if (!config.RESEND_API_KEY) {
               logger.warn('RESEND_API_KEY must be set to send email, skipping')
               return false
@@ -95,7 +82,6 @@ const plugin = new Plugin<EmailResendConfig, typeof defaultConfig>(
 
             return ok
           }
-        // eslint-disable-next-line functional/immutable-data, no-param-reassign
         await setupProvider({
           app,
           initializeProvider,

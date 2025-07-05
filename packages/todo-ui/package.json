@@ -7,7 +7,6 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint .",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
@@ -15,7 +14,7 @@
     "@react-native-async-storage/async-storage": "^1.21.0",
     "expo": "^49.0.21",
     "expo-status-bar": "^1.7.1",
-    "graphql": "^16.10.0",
+    "graphql": "^16.11.0",
     "react": "^18.3.1",
     "react-native": "~0.72.4",
     "@zemble/auth-anonymous-expo": "workspace:*",
@@ -24,7 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
-    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/client-preset": "^4.5.1",
     "@types/react": "^18.3.3"
   },

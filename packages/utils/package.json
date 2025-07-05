@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "test": "bun test",
-    "lint": "eslint .",
     "typecheck": "bunx tsc --noEmit",
     "act-lint": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/lint.yml --reuse -e act-workflow-run-configs/lint.json",
     "act-typecheck": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/typecheck.yml --reuse -e act-workflow-run-configs/typecheck.json",
@@ -26,7 +25,7 @@
     "dayjs": "^1.11.13",
     "fastify": "^5.2.1",
     "fastify-plugin": "^5.0.1",
-    "graphql": "^16.10.0",
+    "graphql": "^16.11.0",
     "graphql-fields": "^2.0.3",
     "lodash": "^4.17.21",
     "mongodb": "^6.12.0"

@@ -6,7 +6,6 @@ import { Pressable } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { capitalize, singularize } from '../../../utils/text'
 
-// eslint-disable-next-line camelcase
 export const unstable_settings = {
   // Ensure any route can link back to `/`
   initialRouteName: 'index',
@@ -70,7 +69,6 @@ const EntitiesLayout = () => {
     >
       <Stack.Screen
         name='index'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: 'Content',
@@ -78,7 +76,6 @@ const EntitiesLayout = () => {
       />
       {/* <Stack.Screen
         name='[entity]'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={{
           headerShown: false,
@@ -86,7 +83,6 @@ const EntitiesLayout = () => {
       /> */}
       <Stack.Screen
         name='[entity]/index'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: route.params?.entity ? capitalize(route.params.entity) : null,
@@ -95,7 +91,6 @@ const EntitiesLayout = () => {
       />
       <Stack.Screen
         name='[entity]/create'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: route.params?.entity
@@ -107,7 +102,6 @@ const EntitiesLayout = () => {
       />
       <Stack.Screen
         name='[entity]/edit/[id]'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: route.params?.entity
@@ -119,7 +113,6 @@ const EntitiesLayout = () => {
       />
       <Stack.Screen
         name='[entity]/schema/index'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: route.params?.entity
@@ -131,7 +124,6 @@ const EntitiesLayout = () => {
 
       <Stack.Screen
         name='[entity]/schema/fields/create'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: 'Add field',
@@ -141,7 +133,6 @@ const EntitiesLayout = () => {
 
       <Stack.Screen
         name='[entity]/schema/fields/[fieldName]'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: `Update field ${route.params?.fieldName}`,

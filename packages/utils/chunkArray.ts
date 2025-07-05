@@ -8,7 +8,6 @@ export function chunkArray<T>(
 
   for (let index = 0; index < arrayLength; index += chunkSize) {
     const chunk = array.slice(index, index + chunkSize)
-    // eslint-disable-next-line functional/immutable-data
     tempArray[index / chunkSize] = chunk
   }
 

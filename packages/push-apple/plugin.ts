@@ -29,7 +29,6 @@ import type {
 import { convertDateToSecondsSinceEpoch } from './utils'
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface Providers {
       readonly sendPush: SendPushProvider

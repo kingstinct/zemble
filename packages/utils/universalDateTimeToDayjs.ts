@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import tz from 'dayjs/plugin/timezone'

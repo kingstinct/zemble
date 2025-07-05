@@ -30,10 +30,8 @@ type Result = Record<`p${number}`, number> &
 export class StatsPipeline<
   T extends Record<string, unknown>,
   TS extends Statistic,
-  // eslint-disable-next-line functional/prefer-readonly-type
   TGroupBy extends Record<string, `$${Join<NestedPaths<WithId<T>, []>, '.'>}`>,
   TRes extends Record<keyof TGroupBy, unknown> & Result,
-  // eslint-disable-next-line functional/prefer-readonly-type
   TKey extends Join<NestedPaths<WithId<T>, []>, '.'> = Join<
     NestedPaths<WithId<T>, []>,
     '.'
@@ -80,14 +78,14 @@ export class StatsPipeline<
               stdDevSamp: { $stdDevSamp: `$${this.prop}` },
             }))
             .with('AVG', () => ({ avg: { $avg: `$${this.prop}` } }))
-            .otherwise((stat) => {
+            .otherwise((statType) => {
               // just for typechecking that we have all cases covered
-              if (stat === 'TOP_3_AVG') {
+              if (statType === 'TOP_3_AVG') {
                 // looks good
-              } else if (isTop(stat)) {
-                getNumericTop(stat)
+              } else if (isTop(statType)) {
+                getNumericTop(statType)
               } else {
-                getNumericPercentile(stat)
+                getNumericPercentile(statType)
               }
 
               return {
@@ -119,7 +117,6 @@ export class StatsPipeline<
       : []
   }
 
-  // eslint-disable-next-line class-methods-use-this
   matchStage($match: StrictFilter<T>) {
     return {
       $match,
@@ -194,11 +191,10 @@ export class StatsPipeline<
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getScalarValue(entry: Result | null | undefined, stat: TS): number | null {
     const val = match(stat as Statistic)
       .with('AVG', () => entry?.avg ?? null)
-      .with('MEDIAN', () => entry?.['p50'] ?? null)
+      .with('MEDIAN', () => entry?.p50 ?? null)
       .with('COUNT', () => entry?.count ?? null)
       .with('MAX', () => entry?.max ?? null)
       .with('MIN', () => entry?.min ?? null)
@@ -206,37 +202,34 @@ export class StatsPipeline<
       .with('STD_DEV_POP', () => entry?.stdDevPop ?? null)
       .with('STD_DEV_SAMPLE', () => entry?.stdDevSamp ?? null)
       .with('TOP_3_AVG', () => {
-        const top1 = entry?.['top1'] ?? null
-        const top2 = entry?.['top2'] ?? null
-        const top3 = entry?.['top3'] ?? null
+        const top1 = entry?.top1 ?? null
+        const top2 = entry?.top2 ?? null
+        const top3 = entry?.top3 ?? null
 
         if (top1 !== null && top2 !== null && top3 !== null) {
           return (top1 + top2 + top3) / 3
         }
         return null
       })
-      .otherwise((stat) => {
-        if (isPercentile(stat)) {
-          const percentile = getNumericPercentile(stat)
+      .otherwise((statType) => {
+        if (isPercentile(statType)) {
+          const percentile = getNumericPercentile(statType)
           return entry?.[`p${percentile}`] ?? null
         }
 
-        return entry?.[`top${getNumericTop(stat)}`] ?? null
+        return entry?.[`top${getNumericTop(statType)}`] ?? null
       })
 
     return val
   }
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   async execute(pipe: Record<string, unknown>[], timeoutify: Timeoutify) {
-    // eslint-disable-next-line functional/prefer-readonly-type
     return timeoutify.runMongoOpWithTimeout(
       this.collection.aggregate(pipe),
     ) as Promise<readonly TRes[]>
   }
 
   async executeWithMatch($match: StrictFilter<T>, timeoutify: Timeoutify) {
-    // eslint-disable-next-line functional/prefer-readonly-type
     return timeoutify.runMongoOpWithTimeout(
       this.collection.aggregate(this.getPipeline($match), {
         allowDiskUse: true,
@@ -255,7 +248,6 @@ export class StatsPipeline<
   }
 
   async executeWithMatchAndExplain($match: StrictFilter<T>) {
-    // eslint-disable-next-line functional/prefer-readonly-type
     return this.collection.aggregate(this.getPipeline($match)).explain()
   }
 }

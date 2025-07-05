@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign, functional/immutable-data */
 import type { PartialDeep } from 'type-fest'
 
 /**
@@ -8,7 +7,6 @@ import type { PartialDeep } from 'type-fest'
 export function mergeDeep<TType extends Record<string, unknown>>(
   ...objects: readonly PartialDeep<TType>[]
 ) {
-  // eslint-disable-next-line unicorn/consistent-function-scoping
   function isObject<T>(obj: T) {
     return obj && typeof obj === 'object'
   }

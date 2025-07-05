@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { AbstractCursor } from 'mongodb'
 
 export const LOG_PREFIX = '[Timeoutify]'
@@ -11,26 +10,22 @@ export enum TimeoutifyStatus {
 }
 
 export class Timeoutify {
-  // eslint-disable-next-line functional/prefer-readonly-type
   #startedAt: number
 
   get startedAt() {
     return this.#startedAt
   }
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   #timeoutMS: number
 
   private readonly abortController: AbortController
 
   private readonly logPrefix: string
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   private statusInternal: TimeoutifyStatus
 
   private readonly logger: Pick<Console, 'debug'>
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   private handle: ReturnType<typeof setTimeout> | undefined
 
   constructor({
@@ -55,15 +50,12 @@ export class Timeoutify {
   updateTimeout(timeoutMS: number, resetStartedAt = true) {
     clearTimeout(this.handle)
 
-    // eslint-disable-next-line functional/immutable-data
     this.#timeoutMS = timeoutMS
     if (resetStartedAt) {
-      // eslint-disable-next-line functional/immutable-data
       this.#startedAt = Date.now()
     }
 
     if (timeoutMS > 0) {
-      // eslint-disable-next-line functional/immutable-data
       this.handle = setTimeout(
         () => {
           if (process.env['DEBUG']) {
@@ -71,7 +63,6 @@ export class Timeoutify {
           }
 
           if (!this.abortController.signal.aborted) {
-            // eslint-disable-next-line functional/immutable-data
             this.statusInternal = TimeoutifyStatus.TimedOut
             this.abortController.abort()
           }
@@ -108,7 +99,6 @@ export class Timeoutify {
    * */
   abort() {
     if (this.statusInternal === TimeoutifyStatus.Running) {
-      // eslint-disable-next-line functional/immutable-data
       this.statusInternal = TimeoutifyStatus.Aborted
     }
     clearTimeout(this.handle)
@@ -122,7 +112,6 @@ export class Timeoutify {
    * Call this when the request has finished, to prevent triggering of aborts that you don't want.
    * */
   finished() {
-    // eslint-disable-next-line functional/immutable-data
     this.statusInternal = TimeoutifyStatus.Finished
     clearTimeout(this.handle)
     return this
@@ -159,17 +148,14 @@ export class Timeoutify {
 
   static patchMongoCursorWithTimeout<T>(maxTimeMs: number) {
     /* @ts-expect-error  This is a hack to get around the fact that the type definitions for MongoDB are wrong. */
-    // eslint-disable-next-line functional/immutable-data, no-underscore-dangle
     AbstractCursor.prototype._toArray = AbstractCursor.prototype.toArray.bind(
       AbstractCursor.prototype,
     )
 
-    // eslint-disable-next-line functional/immutable-data, @typescript-eslint/require-await
     AbstractCursor.prototype.toArray = async function toArrayWithTimeoutify(
       this: AbstractCursor<T>,
     ) {
       // @ts-expect-error dfgdfg
-      // eslint-disable-next-line no-underscore-dangle
       return this.maxTimeMS(maxTimeMs)._toArray()
     }
   }

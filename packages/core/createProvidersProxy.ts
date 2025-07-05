@@ -6,17 +6,15 @@ export const createProviderProxy = (
 ) =>
   new Proxy({} as Zemble.Providers, {
     get: (_, providerKey) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore asdf as
       const multiProvidersForType = multiProviders[providerKey]
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore asdf as
       const providers = Object.values(multiProvidersForType)
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       const strategy =
-        providerStrategiesPerProvider[providerKey.toString()] ?? 'last'
+        providerStrategiesPerProvider[
+          providerKey as keyof Zemble.ProviderStrategies
+        ] ?? 'last'
 
       if (strategy === 'last') {
         const lastProvider = providers.at(-1)
@@ -34,7 +32,6 @@ export const createProviderProxy = (
           )
         }
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const callAllProviders = async (...args: readonly unknown[]) =>
           Promise.all(providers.map((p) => p(...args)))
@@ -76,7 +73,6 @@ export const createProviderProxy = (
             return tryToExecute(attempt + 1, ...args)
           }
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return async (args: readonly unknown[]) => tryToExecute(0, ...args)
       }
       throw new Error(`No provider found for ${String(providerKey)}`)

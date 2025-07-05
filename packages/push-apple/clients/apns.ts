@@ -467,7 +467,6 @@ export const makeRequest = async (
           apnsUniqueId = headers.get('apns-unique-id') as string | undefined
 
         try {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data = JSON.parse(rawBody) as any
           const reason = data.reason as APNSError['error']
           resolve({
@@ -494,7 +493,6 @@ export const makeRequest = async (
         }
       })
       .on('response', (h) => {
-        // eslint-disable-next-line no-restricted-syntax, guard-for-in
         for (const name in h) {
           const value = h[name]
           if (typeof value === 'string' || typeof value === 'number') {

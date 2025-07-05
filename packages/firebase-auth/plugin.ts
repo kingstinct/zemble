@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
@@ -24,7 +23,6 @@ export interface DefaultFirebaseToken {
 
 declare global {
   namespace Zemble {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore could maybe be improved
     interface FirebaseToken extends DefaultFirebaseToken {}
 

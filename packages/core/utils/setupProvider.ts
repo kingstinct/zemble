@@ -14,8 +14,6 @@ export type InitializeProvider<
   plugin: Plugin | undefined,
 ) => Promise<T> | T
 
-/* eslint-disable no-param-reassign */
-/* eslint-disable functional/immutable-data */
 export type SetupProviderArgs<
   T extends Zemble.Providers[Key],
   Key extends keyof Zemble.Providers,
@@ -42,7 +40,6 @@ export async function setupProvider<
   const defaultProvider = await initializeProvider(undefined, undefined)
 
   app.multiProviders[providerKey] = app.multiProviders[providerKey] || {}
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore hard to fix, and might boil up later
   app.multiProviders[providerKey][middlewareKey] = defaultProvider
 
@@ -50,7 +47,6 @@ export async function setupProvider<
     app.plugins.map(async (p) => {
       const middlewareConfig =
         middlewareKey && p.config.middleware?.[middlewareKey]
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const isDisabled = !!middlewareConfig?.disable
       if (!isDisabled) {
@@ -62,7 +58,6 @@ export async function setupProvider<
             : app.providers[providerKey]
 
         p.multiProviders[providerKey] = p.multiProviders[providerKey] || {}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore hard to fix, and might boil up later
         p.multiProviders[providerKey][middlewareKey] = defaultOrCustomProvider
       }

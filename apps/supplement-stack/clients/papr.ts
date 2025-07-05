@@ -2,7 +2,6 @@ import type { IStandardLogger } from '@zemble/core'
 import { MongoClient } from 'mongodb'
 import Papr from 'papr'
 
-// eslint-disable-next-line import/no-mutable-exports
 export let client: MongoClient | undefined
 
 const papr = new Papr()

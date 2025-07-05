@@ -40,9 +40,7 @@ export const Text = createThemedText(
     paddingX,
     theme,
     fontWeight,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     size,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     insets,
     style,
     ...props

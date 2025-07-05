@@ -1,4 +1,3 @@
-/* eslint-disable functional/immutable-data */
 import { Styles } from '@zemble/react'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -94,7 +93,6 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({
                 keyboardType='numeric'
                 onSubmitEditing={onSubmit}
                 // todo [>1]: should probably introduce an id here
-                // eslint-disable-next-line react/no-array-index-key
                 key={name}
               />
             )
@@ -107,7 +105,6 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({
                 label={label}
                 switchProps={{ onValueChange: async () => onSubmit() }}
                 // todo [>1]: should probably introduce an id here
-                // eslint-disable-next-line react/no-array-index-key
                 key={name}
               />
             )
@@ -141,7 +138,6 @@ const ArrayFieldComponent: React.FC<ArrayFieldComponentProps> = ({
               label={label}
               onSubmitEditing={onSubmit}
               // todo [>1]: should probably introduce an id here
-              // eslint-disable-next-line react/no-array-index-key
               key={name}
             />
           )

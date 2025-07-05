@@ -4,7 +4,6 @@ declare global {
   }
 }
 
-// eslint-disable-next-line functional/immutable-data, no-extend-native
 Object.defineProperty(Object.prototype, 'map', {
   value(mapper: (value: unknown) => unknown) {
     return mapper(this)

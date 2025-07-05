@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { describe, expect, it } from 'bun:test'
 import DataLoader from 'dataloader'
 import times from '../times'
@@ -8,7 +7,6 @@ import createSuperDataLoader from './SuperDataLoader'
 describe('SuperDataLoader.performance', () => {
   it('Should be faster than normal dataloader with loadMany with different keys', async () => {
     const hello = times(1000000, (i) => `hello${i}`)
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const batchLoadFn = (keys: readonly string[]) => keys
     const loader = createSuperDataLoader({ batchLoadFn })
 
@@ -40,7 +38,6 @@ describe('SuperDataLoader.performance', () => {
 
   it('Should be faster than normal dataloader with loadMany with different keys (async)', async () => {
     const hello = times(1000000, (i) => `hello${i}`)
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const batchLoadFn = async (keys: readonly string[]) => {
       await wait(10)
       return keys
@@ -75,7 +72,6 @@ describe('SuperDataLoader.performance', () => {
 
   it('Should be faster than normal dataloader with loadMany with different keys (async) - chunks of 10', async () => {
     const hello = times(1000000, (i) => `hello${i}`)
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const batchLoadFn = async (keys: readonly string[]) => {
       await wait(10)
       return keys
