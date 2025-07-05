@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import type { AppStateStatus } from 'react-native'
 
 const isPrefixed =
-  !Object.hasOwn(document, 'hidden') && Object.hasOwn(document, 'webkitHidden')
+  // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
+  !document.hasOwnProperty('hidden') && document.hasOwnProperty('webkitHidden')
 
 const VISIBILITY_CHANGE_EVENT = isPrefixed
   ? 'webkitvisibilitychange'

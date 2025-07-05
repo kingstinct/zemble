@@ -43,7 +43,6 @@ const EntityList = () => {
   const onAddEntity = useCallback(async () => {
     if (entityName.trim()) {
       await createEntityMutation({ namePlural: entityName.trim() })
-      // @ts-expect-error fix later
       router.push(`/${entityName.trim()}`)
       refetch()
       setEntityName('')
@@ -67,7 +66,6 @@ const EntityList = () => {
         <View key={entity.nameSingular} style={Styles.margin16}>
           <Button
             onPress={() => {
-              // @ts-expect-error fix later
               router.push(`/${entity.namePlural}`)
             }}
             mode='contained'

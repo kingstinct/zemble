@@ -31,9 +31,9 @@ const setupQueues = async (
   }
 
   function queuePubber<T extends keyof QueueListener>(status: T, queue: Queue) {
-    // @ts-ignore
     queue.on(
       status,
+      // @ts-ignore
       (...args: Parameters<QueueListener<unknown, unknown, string>[T]>) => {
         const typedArgs = args
 

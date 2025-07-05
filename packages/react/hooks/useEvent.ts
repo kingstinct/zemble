@@ -13,8 +13,8 @@ export function useEvent<
     handlerRef.current = handler
   })
 
-  // @ts-ignore
   return useCallback<(...args: T) => TRet>(
+    // @ts-ignore
     (...args) => handlerRef.current?.apply(null, args),
     [],
   )
