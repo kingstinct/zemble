@@ -1,5 +1,21 @@
 # @zemble/cms
 
+## 0.0.76
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [4849540]
+- Updated dependencies [c04679e]
+- Updated dependencies [3177fc2]
+- Updated dependencies [7cee002]
+  - @zemble/auth@0.0.67
+  - @zemble/utils@0.7.42
+  - @zemble/graphql@0.0.63
+  - @zemble/mongodb@0.0.44
+  - @zemble/core@0.1.27
+
 ## 0.0.75
 
 ### Patch Changes

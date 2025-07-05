@@ -1,5 +1,18 @@
 # @zemble/auth-apple
 
+## 0.0.71
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [4849540]
+- Updated dependencies [3177fc2]
+- Updated dependencies [7cee002]
+  - @zemble/auth@0.0.67
+  - @zemble/graphql@0.0.63
+  - @zemble/core@0.1.27
+
 ## 0.0.70
 
 ### Patch Changes

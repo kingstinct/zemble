@@ -1,5 +1,14 @@
 # @zemble/core
 
+## 0.1.27
+
+### Patch Changes
+
+- 7cee002: replace eslint with biome
+- Updated dependencies [c04679e]
+- Updated dependencies [7cee002]
+  - @zemble/utils@0.7.42
+
 ## 0.1.26
 
 ### Patch Changes

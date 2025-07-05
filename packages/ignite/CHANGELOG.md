@@ -1,5 +1,16 @@
 # @zemble/ignite
 
+## 0.0.74
+
+### Patch Changes
+
+- 7cee002: replace eslint with biome
+- Updated dependencies [7cee002]
+  - @zemble/graphql@0.0.63
+  - @zemble/routes@0.0.39
+  - @zemble/bull@0.2.13
+  - @zemble/core@0.1.27
+
 ## 0.0.73
 
 ### Patch Changes
