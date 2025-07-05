@@ -55,7 +55,6 @@ interface MigrationConfig extends Zemble.DefaultMiddlewareConfig {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
       readonly ['@zemble/migrations']?: MigrationConfig
@@ -137,7 +136,6 @@ export const migrateDown = async (opts?: {
       plugin.debug('Migrate down: %s', migrationName)
       const { down } = (await import(fullPath)) as Migration
       if (down) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         await adapter?.down(migrationName, async (context) =>
           down(context ?? {}),
@@ -182,7 +180,6 @@ export const migrateUp = async (opts?: {
         try {
           await adapter?.up(migrationName, async (context) =>
             up({
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               context: context ?? {},
               progress,

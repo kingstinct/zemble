@@ -37,10 +37,8 @@ export type Statistic =
   | 'TOP_3_AVG'
   | 'TOP_3'
 
-// eslint-disable-next-line functional/prefer-readonly-type, functional/immutable-data
 export const asc = (arr: number[]) => arr.sort((a, b) => a - b)
 
-// eslint-disable-next-line functional/prefer-readonly-type, functional/immutable-data
 export const desc = (arr: number[]) => arr.sort((a, b) => b - a)
 
 export const sum = (arr: readonly number[]) => arr.reduce((a, b) => a + b, 0)

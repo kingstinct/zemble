@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import type { IStandardSendSmsService } from '@zemble/core'
 import { Plugin, setupProvider } from '@zemble/core'
 import yoga from '@zemble/graphql'
@@ -38,14 +36,12 @@ interface Sms46ElksConfig extends Zemble.GlobalConfig {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
       readonly ['@zemble/sms-46elks']?: Zemble.DefaultMiddlewareConfig
     }
 
     interface Providers {
-      // eslint-disable-next-line functional/prefer-readonly-type
       sendSms: IStandardSendSmsService
     }
   }
@@ -62,13 +58,11 @@ const defaultConfig = {
   },
 } satisfies Partial<Sms46ElksConfig>
 
-// eslint-disable-next-line unicorn/consistent-function-scoping
 const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(
   import.meta.dir,
   {
     middleware: async ({ config, app, logger }) => {
       if (!config.disable) {
-        // eslint-disable-next-line unicorn/consistent-function-scoping
         const initializeProvider =
           (): IStandardSendSmsService => async (data) => {
             if (!config.ELKS_USERNAME || !config.ELKS_PASSWORD) {

@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import { createSupabaseServerClient } from '../../clients/createSupabaseServerClient'
 
 // this flow has not been tested:
@@ -11,7 +9,6 @@ export const get = async function confirm(ctx: Zemble.RouteContext) {
 
   if (token_hash && type) {
     const { error } = await createSupabaseServerClient().auth.verifyOtp({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       type,
       token_hash,

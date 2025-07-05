@@ -13,7 +13,6 @@ const createPubSub = async (
   if (redisUrl && process.env.NODE_ENV !== 'test') {
     const optionsWithDefaults = { logger: zembleContext.logger, ...options }
     try {
-      // eslint-disable-next-line import/no-extraneous-dependencies
       const { createRedisEventTarget } = await import(
         '@graphql-yoga/redis-event-target'
       )

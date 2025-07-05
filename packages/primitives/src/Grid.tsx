@@ -58,7 +58,6 @@ export const Grid = createThemedView(
         ? StyleSheet.hairlineWidth
         : props.borderWidth,
       flexWrap: 'wrap',
-      // eslint-disable-next-line no-nested-ternary
       justifyContent: match({
         spaceBetween,
         spaceAround,

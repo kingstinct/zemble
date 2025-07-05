@@ -6,7 +6,6 @@
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

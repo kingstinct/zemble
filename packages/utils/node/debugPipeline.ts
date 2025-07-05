@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { Collection, Document } from 'mongodb'
 
 // Be aware of issues

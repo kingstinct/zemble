@@ -27,7 +27,6 @@ config.resolver.assetExts = [...config.resolver.assetExts, 'ttf', 'otf']
 config.resolver.unstable_enableSymlinks = true
 config.resolver.disableHierarchicalLookup = true
 
-// eslint-disable-next-line no-underscore-dangle
 // if (process.env.NODE_ENV === 'development') {
 //   config.cacheStores = ({ FileStore }) => [
 //     new FileStore({

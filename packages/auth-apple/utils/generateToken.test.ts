@@ -6,8 +6,6 @@ import { generateBearerTokenFromAppleToken } from './generateToken'
 import type { AppleJwtContents } from './validateIdToken'
 
 test('Should get apple user id as sub', async () => {
-  // eslint-disable-next-line functional/immutable-data
-
   const encodedToken = await generateBearerTokenFromAppleToken(
     { sub: 'apple-uid' } as AppleJwtContents,
     {},
@@ -20,7 +18,6 @@ test('Should get apple user id as sub', async () => {
 
 test('Should override sub', async () => {
   const defaultGenerateTokenContents = plugin.config.generateTokenContents
-  // eslint-disable-next-line functional/immutable-data
   plugin.config.generateTokenContents = () =>
     ({
       sub: 'overriden-sub',
@@ -36,6 +33,5 @@ test('Should override sub', async () => {
 
   expect(decodedToken.sub).toBe('overriden-sub')
 
-  // eslint-disable-next-line functional/immutable-data
   plugin.config.generateTokenContents = defaultGenerateTokenContents
 })

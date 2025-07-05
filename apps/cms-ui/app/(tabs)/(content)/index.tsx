@@ -1,9 +1,9 @@
 import { Styles } from '@zemble/react'
 import { router } from 'expo-router'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { RefreshControl, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Button } from 'react-native-paper'
+import { Button, Dialog, Portal, TextInput } from 'react-native-paper'
 import { useMutation, useQuery } from 'urql'
 
 import { graphql } from '../../../gql.generated'
@@ -37,16 +37,25 @@ const EntityList = () => {
   })
 
   const [, createEntityMutation] = useMutation(CreateEntityMutation)
+  const [dialogVisible, setDialogVisible] = useState(false)
+  const [entityName, setEntityName] = useState('')
 
   const onAddEntity = useCallback(async () => {
-    const namePlural = prompt('Create new entity, give it a name (plural):', '')
-    if (namePlural) {
-      await createEntityMutation({ namePlural })
+    if (entityName.trim()) {
+      await createEntityMutation({ namePlural: entityName.trim() })
       // @ts-expect-error fix later
-      router.push(`/${namePlural}`)
+      router.push(`/${entityName.trim()}`)
       refetch()
+      setEntityName('')
+      setDialogVisible(false)
     }
-  }, [createEntityMutation, refetch])
+  }, [createEntityMutation, refetch, entityName])
+
+  const showDialog = useCallback(() => setDialogVisible(true), [])
+  const hideDialog = useCallback(() => {
+    setDialogVisible(false)
+    setEntityName('')
+  }, [])
 
   return (
     <ScrollView
@@ -71,10 +80,30 @@ const EntityList = () => {
         mode='outlined'
         icon='plus'
         style={Styles.margin16}
-        onPress={onAddEntity}
+        onPress={showDialog}
       >
         Add content type
       </Button>
+      <Portal>
+        <Dialog visible={dialogVisible} onDismiss={hideDialog}>
+          <Dialog.Title>Create New Entity</Dialog.Title>
+          <Dialog.Content>
+            <TextInput
+              label='Entity name (plural)'
+              value={entityName}
+              onChangeText={setEntityName}
+              placeholder='e.g., posts, users, products'
+              autoFocus
+            />
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={hideDialog}>Cancel</Button>
+            <Button onPress={onAddEntity} mode='contained'>
+              Create
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </ScrollView>
   )
 }

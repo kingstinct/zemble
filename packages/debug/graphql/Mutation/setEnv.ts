@@ -4,7 +4,6 @@ export const setEnv: NonNullable<MutationResolvers['setEnv']> = (
   _,
   { key, value },
 ) => {
-  // eslint-disable-next-line functional/immutable-data
   process.env[key] = value
 
   return process.env

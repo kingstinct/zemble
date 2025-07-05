@@ -1,5 +1,3 @@
-/* eslint-disable functional/immutable-data, import/no-extraneous-dependencies */
-
 import generateKeys from '@zemble/auth/generate-keys'
 import {
   createTestApp,

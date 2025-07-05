@@ -19,7 +19,6 @@ function calculateInset(
   allCustomInsets: SharedPortalAreaStore['allCustomInsets'],
   defaultInsets: SharedPortalAreaStore['defaultInsets'],
 ) {
-  // eslint-disable-next-line unicorn/prefer-at
   const lastInset = allCustomInsets[allCustomInsets.length - 1]
   return lastInset ? { ...defaultInsets, ...lastInset } : defaultInsets
 }

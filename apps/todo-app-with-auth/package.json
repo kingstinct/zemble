@@ -7,7 +7,6 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -18,7 +17,7 @@
     "@zemble/todo-ui": "workspace:*",
     "expo": "^49.0.21",
     "expo-status-bar": "^1.7.1",
-    "graphql": "^16.10.0",
+    "graphql": "^16.11.0",
     "hono": "^4.8.4",
     "react": "^18.3.1",
     "react-native": "~0.72.4",

@@ -17,7 +17,6 @@ export const createClient = (
   logger.info(`Connecting to Redis at ${redisUrl}`)
 
   const redisOptions = { ...options.redis }
-  // eslint-disable-next-line functional/immutable-data
   delete redisOptions.keyPrefix
 
   const redis = new Redis(redisUrl, {

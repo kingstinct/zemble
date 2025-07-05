@@ -93,7 +93,7 @@ export default () => {
     <ThemeProvider value={navigationTheme}>
       <AuthProvider>
         <UrqlProvider
-          onError={(error) => alert(error.message)}
+          onError={(error) => console.error('GraphQL Error:', error.message)}
           createClient={createClientWithToken}
         >
           <PaperProvider>

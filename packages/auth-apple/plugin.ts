@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-namespace */
-
 import path from 'node:path'
 import Auth from '@zemble/auth'
 import { Plugin } from '@zemble/core'
@@ -39,7 +37,6 @@ export interface DefaultAppleToken {
 
 declare global {
   namespace Zemble {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore could maybe be improved
     interface AppleToken extends DefaultAppleToken {}
 
@@ -52,7 +49,6 @@ declare global {
 function generateTokenContents(
   jwtContents: AppleJwtContents,
 ): Zemble.AppleToken {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - this is a default implementation
   return {
     type: '@zemble/auth-apple',
@@ -110,11 +106,8 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(
 
       app.hono.post(config.appleAuthCallbackPath, async (ctx) => {
         const formData = await ctx.req.formData(),
-          // eslint-disable-next-line @typescript-eslint/no-base-to-string
           idToken = formData.get('id_token')?.toString(),
-          // eslint-disable-next-line @typescript-eslint/no-base-to-string
           user = formData.get('user')?.toString(),
-          // eslint-disable-next-line @typescript-eslint/no-base-to-string
           state = formData.get('state')?.toString(),
           { UNAUTHENTICATED_REDIRECT_URL, AUTHENTICATED_REDIRECT_URL } = config
 

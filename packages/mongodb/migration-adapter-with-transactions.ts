@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-
 import type { MigrationAdapter } from '@zemble/migrations'
 import type { ClientSession } from 'mongodb'
 import type { JsonValue } from 'type-fest'
@@ -10,7 +8,6 @@ import {
 } from './migration-adapter'
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MigrationContext {
       readonly mongoSession: ClientSession

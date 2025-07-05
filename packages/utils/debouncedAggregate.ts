@@ -10,7 +10,6 @@ function debouncedAggregate<T>(
 ) {
   let timeout: ReturnType<typeof setTimeout> | undefined
   let lastInit: number | undefined
-  // eslint-disable-next-line functional/prefer-readonly-type
   let items: T[] = []
 
   const executeAndReset = () => {
@@ -24,7 +23,6 @@ function debouncedAggregate<T>(
       lastInit = Date.now()
     }
     clearTimeout(timeout)
-    // eslint-disable-next-line functional/immutable-data
     items.push(item)
 
     const timeSinceStart = Date.now() - lastInit

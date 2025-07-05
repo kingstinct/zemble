@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import * as fs from 'node:fs'
 import { printSchemaWithDirectives } from '@graphql-tools/utils'
 import type { IStandardLogger } from '@zemble/core'
@@ -43,8 +41,7 @@ const fieldResolver = (
   }
   if (field.name === 'displayName') {
     return displayNameField && parent[displayNameField]
-      ? // eslint-disable-next-line @typescript-eslint/no-base-to-string
-        parent[displayNameField].toString()
+      ? parent[displayNameField].toString()
       : parent._id.toHexString()
   }
 

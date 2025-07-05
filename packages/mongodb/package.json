@@ -14,7 +14,7 @@
     "@zemble/routes": "workspace:*",
     "@zemble/utils": "workspace:*",
     "mongodb": "^6.12.0",
-    "mongodb-memory-server": "^10.1.4",
+    "mongodb-memory-server": "10",
     "mongodb-memory-server-core": "^10.1.4",
     "type-fest": "^4.41.0"
   },

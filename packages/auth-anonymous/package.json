@@ -5,7 +5,6 @@
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen"
   },
@@ -28,7 +27,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "graphql": "^16.10.0"
+    "graphql": "^16.11.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.7"

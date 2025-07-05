@@ -56,7 +56,6 @@ export const Column = createThemedView(
       borderWidth: colorizeBorder
         ? StyleSheet.hairlineWidth
         : props.borderWidth,
-      // eslint-disable-next-line no-nested-ternary
       justifyContent: match({
         spaceBetween,
         spaceAround,

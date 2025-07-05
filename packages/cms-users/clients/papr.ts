@@ -3,7 +3,6 @@ import type { MongoClient } from 'mongodb'
 import Papr, { schema, types } from 'papr'
 import plugin from '../plugin'
 
-// eslint-disable-next-line import/no-mutable-exports
 export let client: MongoClient | undefined
 
 const papr = new Papr()

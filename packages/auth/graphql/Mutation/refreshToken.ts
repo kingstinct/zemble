@@ -21,7 +21,6 @@ export const refreshTokensFromPrevious = async (
 
   await verifyJwt(refreshToken, undefined, { subject: previousBearerToken.sub })
 
-  // eslint-disable-next-line @typescript-eslint/await-thenable, @typescript-eslint/no-unsafe-argument
   const newBearerTokenData =
       await plugin.config.reissueBearerToken(previousBearerToken),
     newBearerToken = await encodeToken(

@@ -8,7 +8,6 @@
   "scripts": {
     "start": "bun serve.ts",
     "dev": "bun --hot serve.ts",
-    "lint": "eslint .",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen"

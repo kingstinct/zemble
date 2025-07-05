@@ -1,4 +1,3 @@
-/* eslint-disable functional/immutable-data */
 import { useEffect, useState } from 'react'
 
 type JSONValue = string | number | boolean | JSONObject | JSONArray
@@ -28,10 +27,8 @@ export type AtomAsyncStorage = {
 interface JSONArray extends Array<JSONValue> {}
 
 export class Atom<T extends JSONValue> {
-  /* eslint-disable functional/prefer-readonly-type */
   #value: T
 
-  /* eslint-disable functional/prefer-readonly-type */
   #subscribers: readonly ((newVal: T, prevVal: T) => void)[]
 
   constructor(initialValue: T) {

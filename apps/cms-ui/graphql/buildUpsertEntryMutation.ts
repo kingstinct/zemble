@@ -1,5 +1,3 @@
-/* eslint-disable functional/immutable-data */
-
 import type { Entity } from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
 

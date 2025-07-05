@@ -32,7 +32,6 @@ export interface ExpoPushTokenWithMetadata {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface Providers {
       readonly sendPush: SendPushProvider
@@ -79,13 +78,10 @@ export async function processPushes<
   // Send the chunks to the Expo push notification service. There are
   // different strategies you could use. A simple one is to send one chunk at a
   // time, which nicely spreads the load out over time:
-  // eslint-disable-next-line no-restricted-syntax
   for (const chunk of chunks) {
-    // eslint-disable-next-line no-await-in-loop
     const ticketChunk = await expo.sendPushNotificationsAsync(
       chunk.map(mapContent),
     )
-    // eslint-disable-next-line no-loop-func
     chunk.forEach(({ contents, pushToken }, index) => {
       const ticket = ticketChunk[index]
       if (ticket) {

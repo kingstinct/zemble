@@ -35,9 +35,9 @@ function SwitchControl<T extends FieldValues>({
       readonly fieldState: ControllerFieldState
       readonly formState: UseFormStateReturn<T>
     }) => {
-      const onChangeInternal = (value: boolean) => {
-        onChangeForm(value)
-        void switchProps?.onValueChange?.(value)
+      const onChangeInternal = (newValue: boolean) => {
+        onChangeForm(newValue)
+        void switchProps?.onValueChange?.(newValue)
       }
 
       return (

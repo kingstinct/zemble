@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Text } from '@zemble/primitives'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
@@ -62,13 +61,11 @@ export const GenericError: React.FC<GenericErrorProps> = ({
     }
   })
 
-  // eslint-disable-next-line no-nested-ternary
   const message = useMemo(
     () =>
       customMessage ||
       match({ error, hasBeenOffline })
         .with({ hasBeenOffline: true }, () => strings['You are offline'])
-        // eslint-disable-next-line @typescript-eslint/no-shadow
         .when(
           ({ error }) => !!error?.networkError,
           () => strings['Network request failed'],

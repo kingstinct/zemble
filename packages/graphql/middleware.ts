@@ -1,6 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable functional/immutable-data */
-
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { printSchemaWithDirectives } from '@graphql-tools/utils'
@@ -91,7 +88,6 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async ({
       ctx.pubsub = pubsub
       return ctx
     }
-    // eslint-disable-next-line no-unused-expressions
     context.pubsub = pubsub
 
     return context
@@ -123,13 +119,11 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async ({
           ...(typeof resolved === 'boolean' ? {} : resolved),
         }
       },
-      // eslint-disable-next-line no-nested-ternary
       context: getGlobalContext(),
     },
   )
 
   // if (config.sofa) {
-  //   // eslint-disable-next-line import/no-extraneous-dependencies
   //   const { useSofa } = await import('sofa-api')
 
   //   const urlPath = config.sofa.basePath ?? '/api'

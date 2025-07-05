@@ -118,7 +118,6 @@ const validateIncludes = (
             v != null
           ) {
             return Object.entries(value).every(([key, val]) => {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               const isPropValid = v[key] === val
 
@@ -265,12 +264,9 @@ const resolveTokens = async ({ config, context }: ResolveTokensArgs) => {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface HonoVariables {
-      // eslint-disable-next-line functional/prefer-readonly-type
       token: string | undefined
-      // eslint-disable-next-line functional/prefer-readonly-type
       decodedToken: TokenContents | undefined
     }
   }
@@ -329,7 +325,6 @@ const plugin = new Plugin<AuthConfig, typeof defaultConfig>(import.meta.dir, {
             Zemble.GraphQLContext
           >({
             resolveUserFn: async (context) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const { decodedToken } = context as any
 
               if (!decodedToken) {

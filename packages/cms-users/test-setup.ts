@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { resetEnv, setupEnvOverride } from '@zemble/auth/test-utils'
 import cmsPapr from '@zemble/cms/clients/papr'
 import { createTestApp } from '@zemble/core/test-utils'

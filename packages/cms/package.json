@@ -8,7 +8,6 @@
   "scripts": {
     "test": "bun test",
     "dev": "docker-compose up -d && bunx zemble-generate-keys && MONGO_URL=mongodb://localhost:27017/test-db zemble-dev plugin.ts",
-    "lint": "eslint .",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
@@ -46,10 +45,10 @@
     "@zemble/mongodb": "workspace:*",
     "@zemble/utils": "workspace:*",
     "dataloader": "^2.2.3",
-    "graphql": "^16.10.0",
+    "graphql": "^16.11.0",
     "graphql-scalars": "^1.24.0",
-    "hono": "^4.6.17",
-    "jose": "^5.9.6",
+    "hono": "^4.8.4",
+    "jose": "^6.0.11",
     "memfs": "^4.17.0",
     "mongodb": "^6.12.0",
     "papr": "^15.2.2"
@@ -57,6 +56,6 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.7",
     "mongodb-memory-server": "10",
-    "type-fest": "^4.33.0"
+    "type-fest": "^4.41.0"
   }
 }

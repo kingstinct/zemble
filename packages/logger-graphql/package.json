@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
@@ -38,12 +37,12 @@
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/pino": "workspace:*",
-    "graphql-yoga": "^5.10.10",
-    "hono": "^4.6.17",
+    "graphql-yoga": "^5.14.0",
+    "hono": "^4.8.4",
     "pino": "^9.6.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.3",
+    "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/typescript": "^4.1.2",
     "@graphql-codegen/typescript-resolvers": "^4.4.1",
     "@urql/core": "5"

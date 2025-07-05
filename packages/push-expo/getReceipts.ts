@@ -13,9 +13,7 @@ export const getReceipts = async (receiptIds: readonly string[]) => {
 
   let receipts: GetReceiptsResponse['data'] = {}
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const chunk of chunks) {
-    // eslint-disable-next-line no-await-in-loop
     const response = await fetch(
       'https://exp.host/--/api/v2/push/getReceipts',
       {
@@ -27,7 +25,6 @@ export const getReceipts = async (receiptIds: readonly string[]) => {
       },
     )
 
-    // eslint-disable-next-line no-await-in-loop
     const resData = (await response.json()) as GetReceiptsResponse
 
     receipts = { ...receipts, ...resData.data }

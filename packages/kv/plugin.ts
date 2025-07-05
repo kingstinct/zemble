@@ -15,7 +15,6 @@ const defaultConfig = {
 } satisfies KeyValueConfig
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
       readonly '@zemble/kv'?: {

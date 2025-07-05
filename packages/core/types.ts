@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 import type { JSON } from '@zemble/utils/JSON'
 import type { WebSocketHandler } from 'bun'
@@ -173,9 +171,7 @@ declare global {
     interface PushTokenUpdateLiveActivityRegistry {}
 
     interface HonoBindings extends Record<string, unknown> {
-      // eslint-disable-next-line functional/prefer-readonly-type
       logger: IStandardLogger
-      // eslint-disable-next-line functional/prefer-readonly-type
       kv: <
         T extends Zemble.KVPrefixes[K],
         K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes,
@@ -190,11 +186,8 @@ declare global {
     }
 
     interface DefaultProviders {
-      // eslint-disable-next-line functional/prefer-readonly-type
       sendEmail?: IStandardSendEmailService
-      // eslint-disable-next-line functional/prefer-readonly-type
       sendSms?: IStandardSendSmsService
-      // eslint-disable-next-line functional/prefer-readonly-type
       kv: <
         T extends Zemble.KVPrefixes[K],
         K extends keyof Zemble.KVPrefixes = keyof Zemble.KVPrefixes,
@@ -202,7 +195,6 @@ declare global {
         prefix: K,
       ) => IStandardKeyValueService<T>
 
-      // eslint-disable-next-line functional/prefer-readonly-type
       logger: IStandardLogger
     }
 
@@ -210,9 +202,7 @@ declare global {
 
     interface RouteContext extends HonoContext<HonoEnv> {}
 
-    // eslint-disable-next-line functional/prefer-readonly-type
     type MultiProviders = {
-      // eslint-disable-next-line functional/prefer-readonly-type
       [key in keyof Providers]: {
         [middlewareKey in keyof MiddlewareConfig]: Providers[key]
       }
@@ -226,19 +216,15 @@ declare global {
       readonly hono: Hono<HonoEnv>
       readonly appDir: string
 
-      // eslint-disable-next-line functional/prefer-readonly-type
       providers: Providers
-      // eslint-disable-next-line functional/prefer-readonly-type
       multiProviders: MultiProviders
 
-      // eslint-disable-next-line functional/prefer-readonly-type
       providerStrategies: ProviderStrategies
 
       readonly runBeforeServe: readonly RunBeforeServeFn[]
 
       readonly plugins: readonly Plugin[]
       readonly appPlugin?: Plugin
-      // eslint-disable-next-line functional/prefer-readonly-type
       websocketHandler?: WebSocketHandler
     }
 
@@ -258,14 +244,12 @@ declare global {
     interface BaseStandardContext {}
 
     interface GlobalContext extends BaseStandardContext {
-      // eslint-disable-next-line functional/prefer-readonly-type
       logger: IStandardLogger
     }
 
     interface RequestContext extends GlobalContext, HonoContext {}
 
     interface PubSubTopics {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       readonly [key: string]: any
     }
 
@@ -284,7 +268,6 @@ export interface BaseToken extends JWTPayload {
   readonly sub: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export type TokenContents =
   | (Zemble.TokenRegistry[keyof Zemble.TokenRegistry] & BaseToken)
   | BaseToken
@@ -294,14 +277,12 @@ export type PushTokenForStartingLiveActivityWithMetadata =
   Zemble.PushTokenStartLiveActivityRegistry[keyof Zemble.PushTokenStartLiveActivityRegistry]
 export type PushTokenForUpdatingLiveActivityWithMetadata =
   Zemble.PushTokenUpdateLiveActivityRegistry[keyof Zemble.PushTokenUpdateLiveActivityRegistry]
-// eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents, @typescript-eslint/no-redundant-type-constituents
 export type AnyPushTokenWithMetadata =
   | PushTokenWithMetadata
   | PushTokenForStartingLiveActivityWithMetadata
   | PushTokenForUpdatingLiveActivityWithMetadata
 
 export type Dependency = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly plugin: Plugin<any, any, any>
   readonly config?: unknown
   /**
@@ -316,7 +297,6 @@ export type DependenciesResolver<TSelf> =
   | ((self: TSelf) => readonly Dependency[])
 
 export type PluginOpts<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TSelf extends Plugin<any, any, any>,
   TConfig extends Zemble.GlobalConfig = Zemble.GlobalConfig,
   TDefaultConfig extends Partial<TConfig> = TConfig,
@@ -335,13 +315,16 @@ export type PluginOpts<
   readonly dependencies?: DependenciesResolver<TSelf>
 
   readonly additionalConfigWhenRunningLocally?: Partial<TConfig>
-  readonly providers?: Partial<{
-    // @ts-expect-error fix later
-    readonly [key in keyof Zemble.Providers]: InitializeProvider<
-      Zemble.Providers[key],
-      unknown
-    >
-  }>
+  readonly providers?: Zemble.Providers extends Record<string, never>
+    ? undefined
+    : Partial<{
+        readonly [key in keyof Zemble.Providers]: InitializeProvider<
+          Zemble.Providers[key],
+          keyof Zemble.MiddlewareConfig extends never
+            ? never
+            : keyof Zemble.MiddlewareConfig
+        >
+      }>
 
   readonly name?: string
   readonly version?: string

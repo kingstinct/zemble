@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { type LevelWithSilentOrString } from 'pino'
 
 interface LogFn {

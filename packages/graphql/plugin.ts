@@ -24,7 +24,6 @@ interface GraphQLMiddlewareGlobalConfig {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface App {
       readonly gqlRequest: <TQuery, TVars>(
@@ -57,7 +56,6 @@ declare global {
     }
 
     interface GlobalContext {
-      // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
     }
 
@@ -76,7 +74,6 @@ declare global {
     }
 
     interface HonoBindings extends Record<string, unknown> {
-      // eslint-disable-next-line functional/prefer-readonly-type
       pubsub: PubSubType
     }
 

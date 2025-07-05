@@ -15,7 +15,6 @@ interface MongodbClientConfigRequired {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
       readonly '@zemble/mongodb'?: {
@@ -25,7 +24,6 @@ declare global {
     }
 
     interface Providers {
-      // eslint-disable-next-line functional/prefer-readonly-type
       mongodb:
         | {
             readonly client: MongoClient

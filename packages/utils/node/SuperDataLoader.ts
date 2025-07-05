@@ -10,12 +10,9 @@ function optimizedMapWithForLoop<TData, TReturn>(
   data: readonly TData[],
   mapFn: (data: TData) => TReturn,
 ) {
-  // eslint-disable-next-line functional/prefer-readonly-type
   const result: TReturn[] = new Array<TReturn>(data.length)
 
-  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < data.length; i++) {
-    // eslint-disable-next-line functional/immutable-data
     result[i] = mapFn(data[i]!)
   }
 
@@ -25,7 +22,6 @@ function optimizedMapWithForLoop<TData, TReturn>(
 async function dealWithKeys<T, TKey = string>(
   keys: readonly (readonly [TKey, string])[],
   batchLoadFn: (keys: readonly TKey[]) => Promise<readonly T[]> | readonly T[],
-  // eslint-disable-next-line functional/prefer-readonly-type
   dataCache: Map<string, unknown>,
 ) {
   const originalKeys = optimizedMapWithForLoop(
@@ -40,7 +36,6 @@ async function dealWithKeys<T, TKey = string>(
     )
   }
 
-  // eslint-disable-next-line no-plusplus
   for (let index = 0; index < results.length; index++) {
     const value = results[index]!
     const [, keyStr] = keys[index]!
@@ -52,14 +47,11 @@ function optimizedFilterWithForLoop<TData>(
   data: readonly TData[],
   filterFn: (data: TData) => boolean,
 ) {
-  // eslint-disable-next-line functional/prefer-readonly-type
   const result: TData[] = [] as TData[]
 
-  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < data.length; i++) {
     const value = data[i]!
     if (filterFn(value)) {
-      // eslint-disable-next-line functional/immutable-data
       result.concat(value)
     }
   }
@@ -76,7 +68,6 @@ export function createSuperDataLoader<T, TKey = string>({
   const keysToResolveOnNextTick = new Map<string, TKey>()
   let onNextTick: Promise<void> | undefined
 
-  // eslint-disable-next-line @typescript-eslint/promise-function-async
   const prepareNextTick = () =>
     new Promise<void>((resolve) => {
       process.nextTick(async () => {
@@ -85,11 +76,8 @@ export function createSuperDataLoader<T, TKey = string>({
         const keys = Array.from(keysToResolveOnNextTick.entries())
 
         if (shouldChunk) {
-          // eslint-disable-next-line no-plusplus
           while (keys.length > 0) {
-            // eslint-disable-next-line functional/immutable-data
             const nextKeys = keys.splice(0, chunkSize)
-            // eslint-disable-next-line no-await-in-loop
             await dealWithKeys(
               // @ts-expect-error sdf sdf
               nextKeys,
@@ -136,7 +124,6 @@ export function createSuperDataLoader<T, TKey = string>({
   const dataFromCacheWithOriginal = (keyWithOriginal: KeyWithOriginal) =>
     dataCache.get(keyWithOriginal.cacheKey)
 
-  // eslint-disable-next-line @typescript-eslint/promise-function-async
   const loadMany = (keys: readonly TKey[]) => {
     const cacheKeys = optimizedMapWithForLoop(keys, getKeyWithOriginal)
     const keysWithoutCache = optimizedFilterWithForLoop(
@@ -152,7 +139,6 @@ export function createSuperDataLoader<T, TKey = string>({
       onNextTick = prepareNextTick()
     }
 
-    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < keysWithoutCache.length; i++) {
       const { cacheKey: keyStr, originalKey } = keysWithoutCache[i]!
 
@@ -164,7 +150,6 @@ export function createSuperDataLoader<T, TKey = string>({
     )
   }
 
-  // eslint-disable-next-line @typescript-eslint/promise-function-async
   const load = (key: TKey) => {
     const keyStr = getKey(key)
 

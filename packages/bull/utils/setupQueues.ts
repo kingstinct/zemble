@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import safeStableStringify from 'safe-stable-stringify'
@@ -13,10 +12,8 @@ import plugin, { type BullPluginConfig } from '../plugin'
 import ZembleQueueBull from '../ZembleQueueBull'
 import readDir from './readDir'
 
-// eslint-disable-next-line functional/prefer-readonly-type
 const queues: Queue[] = []
 
-// eslint-disable-next-line functional/prefer-readonly-type
 let zembleQueues: ZembleQueueBull[] = []
 
 const setupQueues = async (
@@ -34,7 +31,6 @@ const setupQueues = async (
   }
 
   function queuePubber<T extends keyof QueueListener>(status: T, queue: Queue) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     queue.on(
       status,
@@ -72,7 +68,6 @@ const setupQueues = async (
           const queueConfig = (await import(path.join(queuePath, filename)))
             .default
 
-          // eslint-disable-next-line functional/immutable-data
           zembleQueues = [...zembleQueues, queueConfig]
 
           if (queueConfig instanceof ZembleQueueBull && redisUrl) {
@@ -97,9 +92,7 @@ const setupQueues = async (
               worker.on('failed', (job) => (job ? jobUpdated(job) : null))
             }
 
-            // eslint-disable-next-line functional/immutable-data
             queues.push(queue)
-            // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
           } else if (
             process.env.NODE_ENV === 'test' &&
             queueConfig instanceof require('../ZembleQueueMock').default

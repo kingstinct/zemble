@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-
 import type { IStandardLogger } from '@zemble/core'
 import type { RedisOptions } from 'ioredis'
 import Redis from 'ioredis'

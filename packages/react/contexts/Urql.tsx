@@ -51,7 +51,6 @@ function UrqlProvider<T extends GraphQLErrorExtensions>({
   const { token, clearToken } = useContext(AuthContext)
   const [reloadClientAt, setReloadClientAt] = useState(Date.now())
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const client = useMemo(
     () => createClient({ token, clearToken, onError }),
     [token, clearToken, onError, createClient, reloadClientAt],

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { NavigationContainer } from '@react-navigation/native'
 import { Column, Row } from '@zemble/primitives'
 import { StatusBar } from 'expo-status-bar'

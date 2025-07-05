@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import type { IStandardSendSmsService } from '@zemble/core'
 import { Plugin, setupProvider } from '@zemble/core'
 import yoga from '@zemble/graphql'
@@ -11,14 +9,12 @@ interface SmsTwilioConfig extends Zemble.GlobalConfig {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
       readonly ['@zemble/sms-twilio']?: Zemble.DefaultMiddlewareConfig
     }
 
     interface Providers {
-      // eslint-disable-next-line functional/prefer-readonly-type
       sendSms: IStandardSendSmsService
     }
   }
@@ -35,13 +31,11 @@ const defaultConfig = {
   },
 } satisfies Partial<SmsTwilioConfig>
 
-// eslint-disable-next-line unicorn/consistent-function-scoping
 const plugin = new Plugin<SmsTwilioConfig, typeof defaultConfig>(
   import.meta.dir,
   {
     middleware: async ({ config, app, logger }) => {
       if (!config.disable) {
-        // eslint-disable-next-line unicorn/consistent-function-scoping
         const initializeProvider =
           (): IStandardSendSmsService =>
           async ({ to, message, from }) => {

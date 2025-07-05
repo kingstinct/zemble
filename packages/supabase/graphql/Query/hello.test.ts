@@ -1,5 +1,3 @@
-/* eslint-disable functional/immutable-data */
-
 import { afterAll, beforeAll, expect, it } from 'bun:test'
 import { createTestApp } from '@zemble/core/test-utils'
 

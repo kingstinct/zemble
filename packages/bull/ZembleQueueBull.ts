@@ -47,10 +47,8 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
     this.#config = config
   }
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   #connection: QueueOptions['connection'] | undefined
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   #queueInternal:
     | Queue<DataType, ReturnType, string, DataType, ReturnType, string>
     | undefined
@@ -75,10 +73,8 @@ export class ZembleQueueBull<DataType = unknown, ReturnType = unknown> {
       prefix: plugin.config.redisOptions?.keyPrefix,
     })
 
-    // eslint-disable-next-line functional/immutable-data
     this.#connection = connection
 
-    // eslint-disable-next-line functional/immutable-data
     this.#queueInternal = queue
 
     const repeatJobKey = `@zemble/bull-repeat-${queue.name}`

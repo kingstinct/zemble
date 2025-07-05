@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await, @typescript-eslint/no-namespace */
-
 import Auth from '@zemble/auth'
 import type { IEmail, TokenContents } from '@zemble/core'
 import { Plugin } from '@zemble/core'
@@ -99,7 +97,6 @@ function generateTokenContents({
   email,
   phoneNumber,
 }: GenerateTokenContentArgs): Zemble.OtpToken {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - this is a default implementation
   return {
     email,

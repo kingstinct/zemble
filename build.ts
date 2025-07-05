@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -10,10 +9,8 @@ if (process.env['DEBUG']) {
 const getTsRecursive = (path: string) => {
   const files = readdirSync(path)
 
-  // eslint-disable-next-line functional/prefer-readonly-type
   let tsFiles: string[] = []
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const file of files) {
     const filepath = join(path, file)
     const tat = statSync(filepath)

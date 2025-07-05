@@ -28,7 +28,6 @@ export function parseEnvJSON<T, TDefault extends T | undefined = T | undefined>(
   const rawValue = env[prop]
   if (!rawValue) {
     if (isNotNullOrUndefined(defaultValue)) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return defaultValue as NonNullable<T>
     }

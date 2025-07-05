@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { AppStateStatus } from 'react-native'
 
 const isPrefixed =
-  !Object.hasOwn(document, 'hidden') && Object.hasOwn(document, 'webkitHidden') // eslint-disable-line no-prototype-builtins
+  !Object.hasOwn(document, 'hidden') && Object.hasOwn(document, 'webkitHidden')
 
 const VISIBILITY_CHANGE_EVENT = isPrefixed
   ? 'webkitvisibilitychange'
@@ -12,7 +12,6 @@ const VISIBILITY_STATE_PROPERTY = isPrefixed
   ? 'webkitVisibilityState'
   : 'visibilityState'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const isAvailable = document[VISIBILITY_STATE_PROPERTY]
 
@@ -21,7 +20,6 @@ export const getCurrentState = (isFocused: boolean): AppStateStatus => {
     return isFocused ? 'active' : 'inactive'
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   switch (document[VISIBILITY_STATE_PROPERTY]) {
     case 'hidden':

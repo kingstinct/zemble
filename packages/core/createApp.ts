@@ -12,7 +12,6 @@ import context, { defaultMultiProviders } from './zembleContext'
 const packageJson = readPackageJson()
 
 export type Configure = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly plugins: readonly Plugin<any, any, any>[]
   readonly providerStrategies?: Zemble.ProviderStrategies
   readonly appDir?: string
@@ -54,11 +53,9 @@ export const createApp = async ({
   }
 
   hono.use('*', async (ctx, next) => {
-    // eslint-disable-next-line functional/immutable-data
     ctx.env = {
       ...(ctx.env ?? {}),
       ...{
-        // eslint-disable-next-line @typescript-eslint/unbound-method
         kv: context.kv.bind(context.kv),
         logger: context.logger,
       },
@@ -126,7 +123,6 @@ export const createApp = async ({
   }
 
   plugins.forEach((plugin) => {
-    // eslint-disable-next-line functional/immutable-data, no-param-reassign
     plugin.multiProviders =
       defaultMultiProviders as unknown as Zemble.MultiProviders
 
@@ -164,7 +160,6 @@ export const createApp = async ({
 
       const ret = await pluginWithMiddleware.initializeMiddleware?.({
         app: preInitApp,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         context,
         config: pluginWithMiddleware.config,
@@ -183,7 +178,6 @@ export const createApp = async ({
     Promise.resolve([] as readonly RunBeforeServeFn[]),
   )
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const zembleApp: Zemble.App = {
     ...preInitApp,

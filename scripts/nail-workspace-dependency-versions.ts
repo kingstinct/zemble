@@ -24,7 +24,9 @@ packageFiles.forEach((filePath) => {
 
   // Helper function to process dependencies
   const processDeps = (deps: Record<string, string>) => {
-    if (!deps) return deps
+    if (!deps) {
+      return deps
+    }
     const newDeps = { ...deps }
 
     Object.entries(deps).forEach(([name, version]) => {

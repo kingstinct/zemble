@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import { verifyJwt } from '@zemble/auth/utils/verifyJwt'
 
 import plugin from '../plugin'
