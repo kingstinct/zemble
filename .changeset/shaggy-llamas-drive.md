@@ -8,7 +8,6 @@
 "create-zemble-app": patch
 "create-zemble-plugin": patch
 "@zemble/debug": patch
-"eslint-config-kingstinct": patch
 "@zemble/firebase-auth": patch
 "@zemble/migrations": patch
 "cms-ui": patch
