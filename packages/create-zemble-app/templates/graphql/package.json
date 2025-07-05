@@ -4,10 +4,10 @@
   "description": "",
   "type": "module",
   "dependencies": {
-    "@zemble/core": "workspace:*",
-    "@zemble/bun": "workspace:*",
-    "@zemble/routes": "workspace:*",
-    "@zemble/graphql": "workspace:*"
+    "@zemble/core": "latest",
+    "@zemble/bun": "latest",
+    "@zemble/routes": "latest",
+    "@zemble/graphql": "latest"
   },
   "scripts": {
     "start": "bun serve.ts",

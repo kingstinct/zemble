@@ -19,7 +19,6 @@
     "@zemble/graphql": "workspace:*"
   },
   "scripts": {
-    "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit"
   },

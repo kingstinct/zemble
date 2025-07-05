@@ -99,7 +99,7 @@ const isZembleMonorepo = isInZembleMonorepo()
 
 copy(templatePath, targetDir).then(async () => {
   const packageJsonPath = join(targetDir, 'package.json')
-  const packageJsonStr = readFileSync(packageJsonPath)
+  const packageJsonStr = readFileSync(packageJsonPath, { encoding: 'utf-8' })
   const packageJson = JSON.parse(
     isZembleMonorepo
       ? packageJsonStr
