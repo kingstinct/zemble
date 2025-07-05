@@ -27,7 +27,7 @@
     "@zemble/migrations": "workspace:*"
   },
   "peerDependencies": {
-    "@zemble/migrations": "workspace:*"
+    "@zemble/migrations": "0.0.39"
   },
   "module": "plugin.ts",
   "main": "plugin.ts"

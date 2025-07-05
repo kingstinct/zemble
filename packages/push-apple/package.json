@@ -13,7 +13,7 @@
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/routes": "workspace:*",
-    "@zemble/utils": "^0.7.41",
+    "@zemble/utils": "workspace:*",
     "fetch-http2": "^1.5.0",
     "graphql-scalars": "^1.24.0",
     "jose": "^6.0.11"
