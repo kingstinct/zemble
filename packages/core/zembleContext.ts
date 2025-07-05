@@ -1,5 +1,6 @@
-import { type IStandardKeyValueService, KeyValue } from '.'
+import { KeyValue } from './clients/KeyValue'
 import createLogger from './createLogger'
+import { type IStandardKeyValueService } from './types'
 
 // @ts-ignore
 class ContextInstance implements Zemble.GlobalContext {

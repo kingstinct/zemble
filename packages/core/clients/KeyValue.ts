@@ -1,4 +1,4 @@
-import { IStandardKeyValueService } from '..'
+import { IStandardKeyValueService } from '../types'
 
 const inMemoryMaps: Record<string, Map<string, unknown>> = {}
 

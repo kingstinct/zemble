@@ -126,7 +126,8 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
 }
 
 const logFn = (eventName: string, ...args: readonly unknown[]) => {
-  plugin.providers.logger.debug(eventName, ...args)
+  // Use console debug for now - this will be replaced after plugin initialization
+  console.debug(eventName, ...args)
 }
 
 const defaultConfig = {

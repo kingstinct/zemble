@@ -93,11 +93,17 @@ copy(templatePath, targetDir).then(async () => {
   const packageJsonPath = join(targetDir, 'package.json')
   if (existsSync(packageJsonPath)) {
     const packageJsonStr = readFileSync(packageJsonPath)
-    const packageJson = JSON.parse(
-      isInZembleMonorepo
-        ? packageJsonStr
-        : packageJsonStr.replace('"workspace:*"', '"*"'),
-    )
+    let packageJsonContent = packageJsonStr.toString()
+
+    if (!isInZembleMonorepo()) {
+      // Replace workspace dependencies with latest versions when outside monorepo
+      packageJsonContent = packageJsonContent.replace(
+        /"workspace:\*"/g,
+        '"latest"',
+      )
+    }
+
+    const packageJson = JSON.parse(packageJsonContent)
     packageJson.name = name
     writeFileSync(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`)
   }
