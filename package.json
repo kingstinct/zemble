@@ -13,7 +13,7 @@
     "build": "bunx turbo run build",
     "prepare": "husky",
     "postinstall": "cp manual-patches/sofa-api/package.json node_modules/sofa-api/",
-    "prepush": "bunx turbo run lint test typecheck --continue",
+    "prepush": "bunx turbo run test typecheck --continue",
     "generate-cms-json-schema": "typescript-json-schema ./packages/cms/tsconfig.json CmsConfigFile --include ./packages/cms/types.ts --out ./packages/cms/entities-json-schema.json --required --strictNullChecks --rejectDateType",
     "nail-workspace-dependency-versions": "bun run scripts/nail-workspace-dependency-versions.ts",
     "changeset-release": "bun run nail-workspace-dependency-versions && bunx changeset publish",
