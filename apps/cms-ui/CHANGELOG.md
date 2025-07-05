@@ -1,5 +1,15 @@
 # cms-ui
 
+## 0.0.17
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [2f322b9]
+- Updated dependencies [7cee002]
+  - @zemble/react@1.0.18
+
 ## 0.0.16
 
 ### Patch Changes

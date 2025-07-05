@@ -1,5 +1,13 @@
 # @zemble/routes
 
+## 0.0.39
+
+### Patch Changes
+
+- 7cee002: replace eslint with biome
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+
 ## 0.0.38
 
 ### Patch Changes

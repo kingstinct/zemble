@@ -1,5 +1,14 @@
 # @zemble/sms-46elks
 
+## 0.0.17
+
+### Patch Changes
+
+- 7cee002: replace eslint with biome
+- Updated dependencies [7cee002]
+  - @zemble/graphql@0.0.63
+  - @zemble/core@0.1.27
+
 ## 0.0.16
 
 ### Patch Changes

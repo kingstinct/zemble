@@ -1,5 +1,14 @@
 # @zemble/urql-expo
 
+## 0.0.13
+
+### Patch Changes
+
+- 7cee002: replace eslint with biome
+- Updated dependencies [3177fc2]
+- Updated dependencies [7cee002]
+  - @zemble/auth-expo@0.0.13
+
 ## 0.0.12
 
 ### Patch Changes

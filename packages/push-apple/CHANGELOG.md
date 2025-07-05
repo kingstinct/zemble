@@ -1,5 +1,18 @@
 # @zemble/push-apple
 
+## 0.0.21
+
+### Patch Changes
+
+- 7cee002: replace eslint with biome
+- Updated dependencies [c04679e]
+- Updated dependencies [7cee002]
+  - @zemble/utils@0.7.42
+  - @zemble/graphql@0.0.63
+  - @zemble/routes@0.0.39
+  - @zemble/core@0.1.27
+  - @zemble/bun@0.0.38
+
 ## 0.0.20
 
 ### Patch Changes

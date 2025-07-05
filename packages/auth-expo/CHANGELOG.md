@@ -1,5 +1,12 @@
 # @zemble/auth-expo
 
+## 0.0.13
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+
 ## 0.0.12
 
 ### Patch Changes
