@@ -150,7 +150,7 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --ignore-scripts
+      - run: bun install --ignore-scripts --frozen-lockfile
 
       - name: Typecheck
         run: bun run typecheck
@@ -176,10 +176,10 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --ignore-scripts
+      - run: bun install --ignore-scripts --frozen-lockfile
 
       - name: Lint
-        run: bun run lint --quiet
+        run: bun run lint-quiet
 
   codegen:
     # The type of runner that the job will run on
@@ -201,6 +201,6 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - run: bun install --ignore-scripts
+      - run: bun install --ignore-scripts --frozen-lockfile
 
       - run: bun run codegen
