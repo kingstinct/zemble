@@ -44,7 +44,7 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/logger-graphql": "workspace:*",
     "@zemble/migrations": "workspace:*",
-    "@zemble/pino": "workspace:*",
+    "@logtape/logtape": "^1.0.2",
     "@zemble/routes": "workspace:*",
     "@zemble/sms-46elks": "workspace:*",
     "@zemble/sms-twilio": "workspace:*"

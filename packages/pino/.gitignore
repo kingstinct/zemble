@@ -1,6 +1,0 @@
-.DS_Store
-node_modules
-*.generated.ts
-*.generated
-.env
-*.log

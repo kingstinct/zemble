@@ -17,7 +17,6 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   DateTime: { input: any; output: any; }
-  JSON: { input: any; output: any; }
   JSONObject: { input: any; output: any; }
 };
 
@@ -53,24 +52,10 @@ export type Error = {
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
-  readonly clear: Scalars['Boolean']['output'];
-  readonly delete: Scalars['Boolean']['output'];
   readonly loginWithApple: AppleLoginResponse;
   readonly logout: Scalars['DateTime']['output'];
   readonly logoutFromAllDevices: Scalars['DateTime']['output'];
   readonly refreshToken: NewTokenResponse;
-  readonly set: Scalars['Boolean']['output'];
-};
-
-
-export type MutationClearArgs = {
-  prefix: Scalars['String']['input'];
-};
-
-
-export type MutationDeleteArgs = {
-  key: Scalars['String']['input'];
-  prefix: Scalars['String']['input'];
 };
 
 
@@ -90,14 +75,6 @@ export type MutationRefreshTokenArgs = {
   refreshToken: Scalars['String']['input'];
 };
 
-
-export type MutationSetArgs = {
-  expireAfterSeconds?: InputMaybe<Scalars['Int']['input']>;
-  key: Scalars['String']['input'];
-  prefix: Scalars['String']['input'];
-  value: Scalars['JSON']['input'];
-};
-
 export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
 
 export type NewTokenSuccessResponse = {
@@ -108,38 +85,10 @@ export type NewTokenSuccessResponse = {
 
 export type Query = {
   readonly __typename?: 'Query';
-  readonly entries: ReadonlyArray<Scalars['JSON']['output']>;
-  readonly get?: Maybe<Scalars['JSON']['output']>;
-  readonly has: Scalars['Boolean']['output'];
-  readonly keys: ReadonlyArray<Scalars['String']['output']>;
   readonly publicKey?: Maybe<Scalars['String']['output']>;
   readonly readJWT: Scalars['JSONObject']['output'];
-  readonly size: Scalars['Int']['output'];
   readonly state: Scalars['String']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
-  readonly values: ReadonlyArray<Scalars['JSON']['output']>;
-};
-
-
-export type QueryEntriesArgs = {
-  prefix: Scalars['String']['input'];
-};
-
-
-export type QueryGetArgs = {
-  key: Scalars['String']['input'];
-  prefix: Scalars['String']['input'];
-};
-
-
-export type QueryHasArgs = {
-  key: Scalars['String']['input'];
-  prefix: Scalars['String']['input'];
-};
-
-
-export type QueryKeysArgs = {
-  prefix: Scalars['String']['input'];
 };
 
 
@@ -148,18 +97,8 @@ export type QueryReadJwtArgs = {
 };
 
 
-export type QuerySizeArgs = {
-  prefix: Scalars['String']['input'];
-};
-
-
 export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
-};
-
-
-export type QueryValuesArgs = {
-  prefix: Scalars['String']['input'];
 };
 
 export type RefreshTokenInvalidError = {
@@ -254,8 +193,6 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Error: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Error']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   NewTokenResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['NewTokenResponse']>;
@@ -273,8 +210,6 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']['output'];
   DateTime: Scalars['DateTime']['output'];
   Error: ResolversInterfaceTypes<ResolversParentTypes>['Error'];
-  Int: Scalars['Int']['output'];
-  JSON: Scalars['JSON']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Mutation: {};
   NewTokenResponse: ResolversUnionTypes<ResolversParentTypes>['NewTokenResponse'];
@@ -308,22 +243,15 @@ export type ErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
   message?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
 }>;
 
-export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
-  name: 'JSON';
-}
-
 export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
   name: 'JSONObject';
 }
 
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  clear?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationClearArgs, 'prefix'>>;
-  delete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteArgs, 'key' | 'prefix'>>;
   loginWithApple?: Resolver<ResolversTypes['AppleLoginResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationLoginWithAppleArgs, 'authorizationCode' | 'identityToken' | 'realUserStatus' | 'userUUID'>>;
   logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   logoutFromAllDevices?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   refreshToken?: Resolver<ResolversTypes['NewTokenResponse'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRefreshTokenArgs, 'bearerToken' | 'refreshToken'>>;
-  set?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetArgs, 'key' | 'prefix' | 'value'>>;
 }>;
 
 export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{
@@ -337,16 +265,10 @@ export type NewTokenSuccessResponseResolvers<ContextType = Zemble.GraphQLContext
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  entries?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryEntriesArgs, 'prefix'>>;
-  get?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryGetArgs, 'key' | 'prefix'>>;
-  has?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryHasArgs, 'key' | 'prefix'>>;
-  keys?: Resolver<ReadonlyArray<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryKeysArgs, 'prefix'>>;
   publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
   readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
-  size?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QuerySizeArgs, 'prefix'>>;
   state?: Resolver<ResolversTypes['String'], ParentType, Zemble.AuthContextWithToken<ContextType>>;
   validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
-  values?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryValuesArgs, 'prefix'>>;
 }>;
 
 export type RefreshTokenInvalidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RefreshTokenInvalidError'] = ResolversParentTypes['RefreshTokenInvalidError']> = ResolversObject<{
@@ -358,7 +280,6 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   AppleLoginResponse?: AppleLoginResponseResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Error?: ErrorResolvers<ContextType>;
-  JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   NewTokenResponse?: NewTokenResponseResolvers<ContextType>;
