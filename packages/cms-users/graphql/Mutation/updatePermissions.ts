@@ -9,6 +9,7 @@ export const updatePermissions: NonNullable<
   MutationResolvers['updatePermissions']
 > = async (_, { userId, permissions }, { decodedToken }) => {
   if (
+    // @ts-ignore
     userId === decodedToken.sub &&
     permissions.some((p) => p.type === PermissionType.MANAGE_USERS)
   ) {

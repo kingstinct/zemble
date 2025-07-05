@@ -16,7 +16,7 @@
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/netinfo": "^9.4.1",
     "@react-navigation/native": "^6.1.9",
-    "@react-navigation/native-stack": "^7.3.21",
+    "@react-navigation/native-stack": "6",
     "@types/react": "^18.3.3",
     "@urql/core": "5",
     "@zemble/react": "workspace:*",

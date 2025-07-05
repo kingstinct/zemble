@@ -73,8 +73,8 @@ describe('projectionFromGraphQLInfo', () => {
   })
 
   test('Should add extra fields if dependency is requested', () => {
-    // @ts-expect-error lets fix this later
     const projection = handleExtraFields<ResolverType, DbType>(
+      // @ts-expect-error lets fix this later
       { 'b.very.deep.property': 1 },
       {
         'a.very.deep.property': ['b.very.deep.property'],

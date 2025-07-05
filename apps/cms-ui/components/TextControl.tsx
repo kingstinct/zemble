@@ -48,7 +48,9 @@ export function TextControl<T extends FieldValues>({
         onBlur()
         textInputProps.onBlur?.(e)
       }
+
       return (
+        // @ts-expect-error will fix with upgrade
         <TextInput
           accessibilityHint={
             labelOrPlaceholder +

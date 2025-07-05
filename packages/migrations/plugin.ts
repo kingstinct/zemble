@@ -136,8 +136,8 @@ export const migrateDown = async (opts?: {
       plugin.debug('Migrate down: %s', migrationName)
       const { down } = (await import(fullPath)) as Migration
       if (down) {
-        // @ts-ignore
         await adapter?.down(migrationName, async (context) =>
+          // @ts-ignore
           down(context ?? {}),
         )
       } else {

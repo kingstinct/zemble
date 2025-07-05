@@ -27,7 +27,7 @@
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/netinfo": "^9.4.1",
     "@react-navigation/native": "^6.1.9",
-    "@react-navigation/native-stack": "^7.3.21",
+    "@react-navigation/native-stack": "6",
     "@storybook/addon-actions": "^8.5.0",
     "@storybook/addon-essentials": "^8.5.0",
     "@storybook/addon-interactions": "^8.5.0",

@@ -85,9 +85,9 @@ function build<
       // @ts-ignore
       localFields[prependKey + key] = 1
     } else {
-      // @ts-ignore
       localFields = {
         ...localFields,
+        // @ts-ignore
         ...build(fieldsAskedFor[key] as object, `${prependKey}${key}.`),
       }
     }
