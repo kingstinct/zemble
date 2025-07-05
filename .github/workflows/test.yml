@@ -179,7 +179,7 @@ jobs:
       - run: bun install --ignore-scripts --frozen-lockfile
 
       - name: Lint
-        run: bun run lint-quiet
+        run: bunx biome check --diagnostic-level error
 
   codegen:
     # The type of runner that the job will run on
