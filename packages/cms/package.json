@@ -55,7 +55,6 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.7",
-    "mongodb-memory-server": "10",
-    "type-fest": "^4.41.0"
+    "mongodb-memory-server": "10"
   }
 }

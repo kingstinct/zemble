@@ -55,7 +55,6 @@
   "private": true,
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
-    "@graphql-typed-document-node/core": "^3.2.0",
     "@tsconfig/bun": "^1.0.8",
     "@types/bun": "^1.2.18",
     "@types/debug": "^4.1.12",
@@ -73,12 +72,6 @@
     "apps/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.29.5",
-    "@graphql-tools/schema": "^10.0.23",
-    "debug": "^4.4.1",
-    "graphql": "^16.11.0",
-    "graphql-tag": "^2.12.6",
-    "madge": "^8.0.0",
-    "type-fest": "^4.41.0"
+    "@changesets/cli": "^2.29.5"
   }
 }
