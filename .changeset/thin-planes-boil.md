@@ -37,7 +37,6 @@
 "@zemble/bull": patch
 "@zemble/core": patch
 "@zemble/node": patch
-"@zemble/pino": patch
 "@zemble/todo": patch
 "minimal": patch
 "@zemble/bun": patch

@@ -5,7 +5,6 @@ import type { PromiseOrValue } from 'graphql/jsutils/PromiseOrValue'
 import type { PubSub } from 'graphql-yoga'
 import type { Hono, Context as HonoContext } from 'hono'
 import type { JWTPayload } from 'jose'
-import type pino from 'pino'
 import type { InitializeProvider, Plugin } from '.'
 
 export interface IEmail {
@@ -64,7 +63,18 @@ export abstract class IStandardKeyValueService<T = unknown> {
     | readonly (readonly [string, T])[]
 }
 
-export interface IStandardLogger extends pino.BaseLogger {
+interface LogFn {
+  (obj: unknown, msg?: string, ...args: readonly unknown[]): void
+  (msg: string, ...args: readonly unknown[]): void
+}
+
+export interface IStandardLogger {
+  readonly fatal: LogFn
+  readonly error: LogFn
+  readonly warn: LogFn
+  readonly info: LogFn
+  readonly debug: LogFn
+  readonly trace: LogFn
   readonly child: (bindings: Record<string, unknown>) => IStandardLogger
 }
 

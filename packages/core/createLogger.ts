@@ -1,71 +1,61 @@
-import { type LevelWithSilentOrString } from 'pino'
+import { getLogger } from '@logtape/logtape'
+import type { IStandardLogger } from './types'
 
 interface LogFn {
   (obj: unknown, msg?: string, ...args: readonly unknown[]): void
   (msg: string, ...args: readonly unknown[]): void
 }
 
-const severitiesInOrder: readonly LevelWithSilentOrString[] = [
-  'fatal',
-  'error',
-  'warn',
-  'info',
-  'debug',
-  'trace',
-  'silent',
-]
+const createLogger = (extraData?: object): IStandardLogger => {
+  const logger = getLogger()
 
-const defaultDebugLevel = 'info'
+  const createLogFunction = (
+    level: 'fatal' | 'error' | 'warning' | 'info' | 'debug',
+  ): LogFn => {
+    return ((objOrMsg: unknown, msg?: string, ...args: readonly unknown[]) => {
+      const properties: Record<string, unknown> = extraData
+        ? { ...extraData }
+        : {}
 
-const logFn =
-  (
-    levelToLog: LevelWithSilentOrString,
-    minLevelToLog: LevelWithSilentOrString,
-    extraData?: object,
-  ): LogFn =>
-  (...args) => {
-    if (minLevelToLog === 'silent') {
-      return
-    }
-
-    const shouldLog =
-      severitiesInOrder.indexOf(levelToLog) <=
-      severitiesInOrder.indexOf(minLevelToLog)
-    if (shouldLog) {
-      const logFn = (console[levelToLog as keyof typeof console] ??
-        (levelToLog === 'fatal'
-          ? console.error
-          : console.log)) as (typeof console)['log']
-
-      if (extraData) {
-        if (typeof args[0] === 'string') {
-          logFn(`${args[0]} ${JSON.stringify(extraData)}`, ...args.slice(1))
-        } else if (typeof args[0] === 'object') {
-          logFn({ ...extraData, ...args[0] }, ...args.slice(1))
-        } else {
-          logFn(JSON.stringify(extraData), ...args)
+      if (typeof objOrMsg === 'string' && msg === undefined) {
+        // String message format: (msg: string, ...args: readonly unknown[])
+        if (args.length > 0) {
+          properties.args = args
         }
+        logger[level](objOrMsg, properties)
+      } else if (msg !== undefined) {
+        // Object format: (obj: unknown, msg?: string, ...args: readonly unknown[])
+        if (objOrMsg && typeof objOrMsg === 'object') {
+          Object.assign(properties, objOrMsg as Record<string, unknown>)
+        }
+        if (args.length > 0) {
+          properties.args = args
+        }
+        logger[level](msg, properties)
+      } else if (objOrMsg && typeof objOrMsg === 'object') {
+        // Just an object
+        Object.assign(properties, objOrMsg as Record<string, unknown>)
+        logger[level](JSON.stringify(objOrMsg), properties)
       } else {
-        logFn(...args)
+        logger[level](String(objOrMsg), properties)
       }
-    }
+    }) as LogFn
   }
 
-const createLogger = (extraData?: object) => {
-  let obj = {
-    level: defaultDebugLevel,
+  // Create a logger that implements the expected interface
+  const createdLogger = {
+    fatal: createLogFunction('fatal'),
+    error: createLogFunction('error'),
+    warn: createLogFunction('warning'),
+    info: createLogFunction('info'),
+    debug: createLogFunction('debug'),
+    trace: createLogFunction('debug'), // LogTape doesn't have trace, map to debug
     child: (moreData?: object) =>
       createLogger(moreData ? { ...extraData, ...moreData } : extraData),
   }
 
-  severitiesInOrder.forEach((level) => {
-    obj = {
-      ...obj,
-      [level]: logFn(level, obj.level, extraData),
-    }
-  })
-
-  return obj as unknown as Zemble.GlobalContext['logger']
+  // Add any additional methods from LogTape Logger that might be needed
+  return createdLogger as IStandardLogger
 }
 
 export default createLogger
