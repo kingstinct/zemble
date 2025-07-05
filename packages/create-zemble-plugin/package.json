@@ -5,7 +5,7 @@
   "bin": "./bin/create-zemble-plugin.js",
   "type": "module",
   "scripts": {
-    "test": "bun test cli.ts"
+    "test": "bun test cli.test.ts"
   },
   "dependencies": {
     "@zemble/core": "workspace:*",

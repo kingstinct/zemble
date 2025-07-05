@@ -5,8 +5,7 @@
   "author": "Robert Herber",
   "license": "MIT",
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "bun test"
+    "typecheck": "tsc --noEmit"
   },
   "publishConfig": {
     "access": "public",

@@ -5,7 +5,7 @@
   "bin": "./bin/create-zemble-app.js",
   "type": "module",
   "scripts": {
-    "test": "bun test cli.ts"
+    "test": "bun test cli.test.ts"
   },
   "dependencies": {
     "fs-extra": "^11.3.0",

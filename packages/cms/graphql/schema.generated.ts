@@ -22,6 +22,7 @@ export type Scalars = {
   Date: { input: any; output: any; }
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: { input: any; output: any; }
+  JSON: { input: any; output: any; }
   JSONObject: { input: any; output: any; }
 };
 
@@ -209,9 +210,11 @@ export type IdField = Field & {
 export type Mutation = {
   readonly __typename?: 'Mutation';
   readonly addFieldsToEntity: Entity;
+  readonly clear: Scalars['Boolean']['output'];
   readonly createAuthor?: Maybe<Author>;
   readonly createBook?: Maybe<Book>;
   readonly createEntity: Entity;
+  readonly delete: Scalars['Boolean']['output'];
   readonly deleteAuthor: Scalars['Boolean']['output'];
   readonly deleteBook: Scalars['Boolean']['output'];
   readonly logout: Scalars['DateTime']['output'];
@@ -220,12 +223,18 @@ export type Mutation = {
   readonly removeEntity: Scalars['Boolean']['output'];
   readonly removeFieldsFromEntity: Entity;
   readonly renameEntity: Entity;
+  readonly set: Scalars['Boolean']['output'];
 };
 
 
 export type MutationAddFieldsToEntityArgs = {
   fields: ReadonlyArray<FieldInput>;
   namePlural: Scalars['String']['input'];
+};
+
+
+export type MutationClearArgs = {
+  prefix: Scalars['String']['input'];
 };
 
 
@@ -250,6 +259,12 @@ export type MutationCreateEntityArgs = {
   isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
   namePlural: Scalars['String']['input'];
   nameSingular?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationDeleteArgs = {
+  key: Scalars['String']['input'];
+  prefix: Scalars['String']['input'];
 };
 
 
@@ -286,6 +301,14 @@ export type MutationRenameEntityArgs = {
   toNameSingular?: InputMaybe<Scalars['String']['input']>;
 };
 
+
+export type MutationSetArgs = {
+  expireAfterSeconds?: InputMaybe<Scalars['Int']['input']>;
+  key: Scalars['String']['input'];
+  prefix: Scalars['String']['input'];
+  value: Scalars['JSON']['input'];
+};
+
 export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
 
 export type NewTokenSuccessResponse = {
@@ -315,8 +338,10 @@ export type NumberFieldInput = {
 
 export type Query = {
   readonly __typename?: 'Query';
+  readonly entries: ReadonlyArray<Scalars['JSON']['output']>;
   readonly filterAuthors: ReadonlyArray<Author>;
   readonly filterBooks: ReadonlyArray<Book>;
+  readonly get?: Maybe<Scalars['JSON']['output']>;
   readonly getAllAuthors: ReadonlyArray<Author>;
   readonly getAllBooks: ReadonlyArray<Book>;
   readonly getAllEntities: ReadonlyArray<Entity>;
@@ -326,11 +351,20 @@ export type Query = {
   readonly getBooksById: ReadonlyArray<Book>;
   readonly getEntityByNamePlural?: Maybe<Entity>;
   readonly getEntityByNameSingular?: Maybe<Entity>;
+  readonly has: Scalars['Boolean']['output'];
+  readonly keys: ReadonlyArray<Scalars['String']['output']>;
   readonly publicKey?: Maybe<Scalars['String']['output']>;
   readonly readJWT: Scalars['JSONObject']['output'];
   readonly searchAuthors: ReadonlyArray<Author>;
   readonly searchBooks: ReadonlyArray<Book>;
+  readonly size: Scalars['Int']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
+  readonly values: ReadonlyArray<Scalars['JSON']['output']>;
+};
+
+
+export type QueryEntriesArgs = {
+  prefix: Scalars['String']['input'];
 };
 
 
@@ -347,6 +381,12 @@ export type QueryFilterBooksArgs = {
   id?: InputMaybe<BookIdFilter>;
   title?: InputMaybe<BookTitleFilter>;
   yo?: InputMaybe<BookYoFilter>;
+};
+
+
+export type QueryGetArgs = {
+  key: Scalars['String']['input'];
+  prefix: Scalars['String']['input'];
 };
 
 
@@ -380,6 +420,17 @@ export type QueryGetEntityByNameSingularArgs = {
 };
 
 
+export type QueryHasArgs = {
+  key: Scalars['String']['input'];
+  prefix: Scalars['String']['input'];
+};
+
+
+export type QueryKeysArgs = {
+  prefix: Scalars['String']['input'];
+};
+
+
 export type QueryReadJwtArgs = {
   token: Scalars['String']['input'];
 };
@@ -401,8 +452,18 @@ export type QuerySearchBooksArgs = {
 };
 
 
+export type QuerySizeArgs = {
+  prefix: Scalars['String']['input'];
+};
+
+
 export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
+};
+
+
+export type QueryValuesArgs = {
+  prefix: Scalars['String']['input'];
 };
 
 export type RefreshTokenInvalidError = {
@@ -548,6 +609,7 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   IDField: ResolverTypeWrapper<IdField>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   NewTokenResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['NewTokenResponse']>;
@@ -598,6 +660,7 @@ export type ResolversParentTypes = ResolversObject<{
   ID: Scalars['ID']['output'];
   IDField: IdField;
   Int: Scalars['Int']['output'];
+  JSON: Scalars['JSON']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Mutation: {};
   NewTokenResponse: ResolversUnionTypes<ResolversParentTypes>['NewTokenResponse'];
@@ -736,15 +799,21 @@ export type IdFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
 export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
   name: 'JSONObject';
 }
 
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationAddFieldsToEntityArgs, 'fields' | 'namePlural'>>;
+  clear?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationClearArgs, 'prefix'>>;
   createAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, Partial<MutationCreateAuthorArgs>>;
   createBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, Partial<MutationCreateBookArgs>>;
   createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationCreateEntityArgs, 'namePlural'>>;
+  delete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteArgs, 'key' | 'prefix'>>;
   deleteAuthor?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAuthorArgs, 'id'>>;
   deleteBook?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'id'>>;
   logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -753,6 +822,7 @@ export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType ex
   removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveEntityArgs, 'namePlural'>>;
   removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'fields' | 'namePlural'>>;
   renameEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRenameEntityArgs, 'fromNamePlural' | 'toNamePlural'>>;
+  set?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetArgs, 'key' | 'prefix' | 'value'>>;
 }>;
 
 export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{
@@ -776,8 +846,10 @@ export type NumberFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  entries?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryEntriesArgs, 'prefix'>>;
   filterAuthors?: Resolver<ReadonlyArray<ResolversTypes['Author']>, ParentType, ContextType, Partial<QueryFilterAuthorsArgs>>;
   filterBooks?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, Partial<QueryFilterBooksArgs>>;
+  get?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryGetArgs, 'key' | 'prefix'>>;
   getAllAuthors?: Resolver<ReadonlyArray<ResolversTypes['Author']>, ParentType, ContextType>;
   getAllBooks?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType>;
   getAllEntities?: Resolver<ReadonlyArray<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
@@ -787,11 +859,15 @@ export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
   getBooksById?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryGetBooksByIdArgs, 'ids'>>;
   getEntityByNamePlural?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryGetEntityByNamePluralArgs, 'namePlural'>>;
   getEntityByNameSingular?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryGetEntityByNameSingularArgs, 'name'>>;
+  has?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryHasArgs, 'key' | 'prefix'>>;
+  keys?: Resolver<ReadonlyArray<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryKeysArgs, 'prefix'>>;
   publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
   readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
   searchAuthors?: Resolver<ReadonlyArray<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<QuerySearchAuthorsArgs, 'query'>>;
   searchBooks?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'query'>>;
+  size?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QuerySizeArgs, 'prefix'>>;
   validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
+  values?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryValuesArgs, 'prefix'>>;
 }>;
 
 export type RefreshTokenInvalidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RefreshTokenInvalidError'] = ResolversParentTypes['RefreshTokenInvalidError']> = ResolversObject<{
@@ -827,6 +903,7 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   Error?: ErrorResolvers<ContextType>;
   Field?: FieldResolvers<ContextType>;
   IDField?: IdFieldResolvers<ContextType>;
+  JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   NewTokenResponse?: NewTokenResponseResolvers<ContextType>;
@@ -852,6 +929,7 @@ export type Scalars = {
   Date: { input: any; output: any; }
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: { input: any; output: any; }
+  JSON: { input: any; output: any; }
   JSONObject: { input: any; output: any; }
 };
 
@@ -1039,9 +1117,11 @@ export type IdField = Field & {
 export type Mutation = {
   readonly __typename?: 'Mutation';
   readonly addFieldsToEntity: Entity;
+  readonly clear: Scalars['Boolean']['output'];
   readonly createAuthor?: Maybe<Author>;
   readonly createBook?: Maybe<Book>;
   readonly createEntity: Entity;
+  readonly delete: Scalars['Boolean']['output'];
   readonly deleteAuthor: Scalars['Boolean']['output'];
   readonly deleteBook: Scalars['Boolean']['output'];
   readonly logout: Scalars['DateTime']['output'];
@@ -1050,12 +1130,18 @@ export type Mutation = {
   readonly removeEntity: Scalars['Boolean']['output'];
   readonly removeFieldsFromEntity: Entity;
   readonly renameEntity: Entity;
+  readonly set: Scalars['Boolean']['output'];
 };
 
 
 export type MutationAddFieldsToEntityArgs = {
   fields: ReadonlyArray<FieldInput>;
   namePlural: Scalars['String']['input'];
+};
+
+
+export type MutationClearArgs = {
+  prefix: Scalars['String']['input'];
 };
 
 
@@ -1080,6 +1166,12 @@ export type MutationCreateEntityArgs = {
   isPublishable?: InputMaybe<Scalars['Boolean']['input']>;
   namePlural: Scalars['String']['input'];
   nameSingular?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationDeleteArgs = {
+  key: Scalars['String']['input'];
+  prefix: Scalars['String']['input'];
 };
 
 
@@ -1116,6 +1208,14 @@ export type MutationRenameEntityArgs = {
   toNameSingular?: InputMaybe<Scalars['String']['input']>;
 };
 
+
+export type MutationSetArgs = {
+  expireAfterSeconds?: InputMaybe<Scalars['Int']['input']>;
+  key: Scalars['String']['input'];
+  prefix: Scalars['String']['input'];
+  value: Scalars['JSON']['input'];
+};
+
 export type NewTokenResponse = NewTokenSuccessResponse | RefreshTokenInvalidError;
 
 export type NewTokenSuccessResponse = {
@@ -1145,8 +1245,10 @@ export type NumberFieldInput = {
 
 export type Query = {
   readonly __typename?: 'Query';
+  readonly entries: ReadonlyArray<Scalars['JSON']['output']>;
   readonly filterAuthors: ReadonlyArray<Author>;
   readonly filterBooks: ReadonlyArray<Book>;
+  readonly get?: Maybe<Scalars['JSON']['output']>;
   readonly getAllAuthors: ReadonlyArray<Author>;
   readonly getAllBooks: ReadonlyArray<Book>;
   readonly getAllEntities: ReadonlyArray<Entity>;
@@ -1156,11 +1258,20 @@ export type Query = {
   readonly getBooksById: ReadonlyArray<Book>;
   readonly getEntityByNamePlural?: Maybe<Entity>;
   readonly getEntityByNameSingular?: Maybe<Entity>;
+  readonly has: Scalars['Boolean']['output'];
+  readonly keys: ReadonlyArray<Scalars['String']['output']>;
   readonly publicKey?: Maybe<Scalars['String']['output']>;
   readonly readJWT: Scalars['JSONObject']['output'];
   readonly searchAuthors: ReadonlyArray<Author>;
   readonly searchBooks: ReadonlyArray<Book>;
+  readonly size: Scalars['Int']['output'];
   readonly validateJWT: Scalars['Boolean']['output'];
+  readonly values: ReadonlyArray<Scalars['JSON']['output']>;
+};
+
+
+export type QueryEntriesArgs = {
+  prefix: Scalars['String']['input'];
 };
 
 
@@ -1177,6 +1288,12 @@ export type QueryFilterBooksArgs = {
   id?: InputMaybe<BookIdFilter>;
   title?: InputMaybe<BookTitleFilter>;
   yo?: InputMaybe<BookYoFilter>;
+};
+
+
+export type QueryGetArgs = {
+  key: Scalars['String']['input'];
+  prefix: Scalars['String']['input'];
 };
 
 
@@ -1210,6 +1327,17 @@ export type QueryGetEntityByNameSingularArgs = {
 };
 
 
+export type QueryHasArgs = {
+  key: Scalars['String']['input'];
+  prefix: Scalars['String']['input'];
+};
+
+
+export type QueryKeysArgs = {
+  prefix: Scalars['String']['input'];
+};
+
+
 export type QueryReadJwtArgs = {
   token: Scalars['String']['input'];
 };
@@ -1231,8 +1359,18 @@ export type QuerySearchBooksArgs = {
 };
 
 
+export type QuerySizeArgs = {
+  prefix: Scalars['String']['input'];
+};
+
+
 export type QueryValidateJwtArgs = {
   token: Scalars['String']['input'];
+};
+
+
+export type QueryValuesArgs = {
+  prefix: Scalars['String']['input'];
 };
 
 export type RefreshTokenInvalidError = {
@@ -1378,6 +1516,7 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   IDField: ResolverTypeWrapper<IdField>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   NewTokenResponse: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['NewTokenResponse']>;
@@ -1428,6 +1567,7 @@ export type ResolversParentTypes = ResolversObject<{
   ID: Scalars['ID']['output'];
   IDField: IdField;
   Int: Scalars['Int']['output'];
+  JSON: Scalars['JSON']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Mutation: {};
   NewTokenResponse: ResolversUnionTypes<ResolversParentTypes>['NewTokenResponse'];
@@ -1566,15 +1706,21 @@ export type IdFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
 export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
   name: 'JSONObject';
 }
 
 export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addFieldsToEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationAddFieldsToEntityArgs, 'fields' | 'namePlural'>>;
+  clear?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationClearArgs, 'prefix'>>;
   createAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, Partial<MutationCreateAuthorArgs>>;
   createBook?: Resolver<Maybe<ResolversTypes['Book']>, ParentType, ContextType, Partial<MutationCreateBookArgs>>;
   createEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationCreateEntityArgs, 'namePlural'>>;
+  delete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteArgs, 'key' | 'prefix'>>;
   deleteAuthor?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteAuthorArgs, 'id'>>;
   deleteBook?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteBookArgs, 'id'>>;
   logout?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -1583,6 +1729,7 @@ export type MutationResolvers<ContextType = Zemble.GraphQLContext, ParentType ex
   removeEntity?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveEntityArgs, 'namePlural'>>;
   removeFieldsFromEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRemoveFieldsFromEntityArgs, 'fields' | 'namePlural'>>;
   renameEntity?: Resolver<ResolversTypes['Entity'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<MutationRenameEntityArgs, 'fromNamePlural' | 'toNamePlural'>>;
+  set?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetArgs, 'key' | 'prefix' | 'value'>>;
 }>;
 
 export type NewTokenResponseResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['NewTokenResponse'] = ResolversParentTypes['NewTokenResponse']> = ResolversObject<{
@@ -1606,8 +1753,10 @@ export type NumberFieldResolvers<ContextType = Zemble.GraphQLContext, ParentType
 }>;
 
 export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  entries?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryEntriesArgs, 'prefix'>>;
   filterAuthors?: Resolver<ReadonlyArray<ResolversTypes['Author']>, ParentType, ContextType, Partial<QueryFilterAuthorsArgs>>;
   filterBooks?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, Partial<QueryFilterBooksArgs>>;
+  get?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryGetArgs, 'key' | 'prefix'>>;
   getAllAuthors?: Resolver<ReadonlyArray<ResolversTypes['Author']>, ParentType, ContextType>;
   getAllBooks?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType>;
   getAllEntities?: Resolver<ReadonlyArray<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
@@ -1617,11 +1766,15 @@ export type QueryResolvers<ContextType = Zemble.GraphQLContext, ParentType exten
   getBooksById?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QueryGetBooksByIdArgs, 'ids'>>;
   getEntityByNamePlural?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryGetEntityByNamePluralArgs, 'namePlural'>>;
   getEntityByNameSingular?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryGetEntityByNameSingularArgs, 'name'>>;
+  has?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryHasArgs, 'key' | 'prefix'>>;
+  keys?: Resolver<ReadonlyArray<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryKeysArgs, 'prefix'>>;
   publicKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, Zemble.AuthContextWithToken<ContextType>>;
   readJWT?: Resolver<ResolversTypes['JSONObject'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryReadJwtArgs, 'token'>>;
   searchAuthors?: Resolver<ReadonlyArray<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<QuerySearchAuthorsArgs, 'query'>>;
   searchBooks?: Resolver<ReadonlyArray<ResolversTypes['Book']>, ParentType, ContextType, RequireFields<QuerySearchBooksArgs, 'query'>>;
+  size?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QuerySizeArgs, 'prefix'>>;
   validateJWT?: Resolver<ResolversTypes['Boolean'], ParentType, Zemble.AuthContextWithToken<ContextType>, RequireFields<QueryValidateJwtArgs, 'token'>>;
+  values?: Resolver<ReadonlyArray<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryValuesArgs, 'prefix'>>;
 }>;
 
 export type RefreshTokenInvalidErrorResolvers<ContextType = Zemble.GraphQLContext, ParentType extends ResolversParentTypes['RefreshTokenInvalidError'] = ResolversParentTypes['RefreshTokenInvalidError']> = ResolversObject<{
@@ -1657,6 +1810,7 @@ export type Resolvers<ContextType = Zemble.GraphQLContext> = ResolversObject<{
   Error?: ErrorResolvers<ContextType>;
   Field?: FieldResolvers<ContextType>;
   IDField?: IdFieldResolvers<ContextType>;
+  JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   NewTokenResponse?: NewTokenResponseResolvers<ContextType>;
