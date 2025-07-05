@@ -56,16 +56,15 @@
   "devDependencies": {
     "@biomejs/biome": "2.0.6",
     "@graphql-typed-document-node/core": "^3.2.0",
-    "@tsconfig/bun": "^1.0.7",
-    "@types/bun": "*",
+    "@tsconfig/bun": "^1.0.8",
+    "@types/bun": "^1.2.18",
     "@types/debug": "^4.1.12",
     "@types/glob": "^9.0.0",
     "@types/minimatch": "^6.0.0",
-    "bun-types": "1.2.17",
     "husky": "^9.1.7",
-    "pkg-pr-new": "^0.0.39",
+    "pkg-pr-new": "^0.0.54",
     "syncpack": "^14.0.0-alpha.18",
-    "turbo": "^2.3.3",
+    "turbo": "^2.5.4",
     "typescript": "^5.8.3",
     "typescript-json-schema": "^0.65.1"
   },
@@ -74,7 +73,7 @@
     "apps/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.27.11",
+    "@changesets/cli": "^2.29.5",
     "@graphql-tools/schema": "^10.0.23",
     "debug": "^4.4.1",
     "graphql": "^16.11.0",
