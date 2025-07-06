@@ -47,11 +47,11 @@ export const createApp = async ({
     hono.use(
       '*',
       logger((...args) => {
-        const [first, ...rest] = args
+        const [first, ...data] = args
         if (typeof first === 'string') {
-          context.logger.info(first, ...rest)
+          context.logger.info(first, { data })
         } else {
-          context.logger.info(first, ...rest)
+          context.logger.with({ args })
         }
       }),
     )

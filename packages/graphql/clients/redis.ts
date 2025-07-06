@@ -24,7 +24,7 @@ export const createClient = (
   redis.setMaxListeners(30)
 
   redis.on('error', (error) => {
-    logger.error(error, 'Redis error')
+    logger.error('Redis error', { error })
   })
 
   redis.on('connect', () => {

@@ -78,9 +78,7 @@ const plugin = new Plugin<SmsTwilioConfig, typeof defaultConfig>(
 
               return true
             } catch (error) {
-              if (error instanceof Error) {
-                logger.error('Error sending sms', error.message)
-              }
+              logger.error('Error sending sms', { error })
 
               return false
             }

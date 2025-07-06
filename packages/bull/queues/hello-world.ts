@@ -2,7 +2,7 @@ import { ZembleQueue } from '../ZembleQueue'
 
 export default new ZembleQueue(
   (job, { logger }) => {
-    logger.info(job.data)
+    logger.info({ job })
   },
   {
     repeat: {

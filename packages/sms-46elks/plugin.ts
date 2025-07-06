@@ -106,7 +106,9 @@ const plugin = new Plugin<Sms46ElksConfig, typeof defaultConfig>(
               return true
             } catch (error) {
               if (error instanceof Error) {
-                logger.error('Error sending sms', error.message)
+                logger.error(`Error sending sms: ${error.message}`, { error })
+              } else {
+                logger.error('Error sending sms', { error })
               }
               return false
             }

@@ -35,7 +35,7 @@ export async function gqlRequest<TQuery, TVars>(
   }
 
   if (errors && !options?.silenceErrors) {
-    zembleContext.logger.error(errors)
+    zembleContext.logger.error({ errors })
   }
 
   return { errors, data, response }

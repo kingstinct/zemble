@@ -57,7 +57,7 @@ export const readResolvers = async (
     Object.keys(erroredPaths).forEach((route) => {
       if (!resolvedPaths.has(route)) {
         const error = erroredPaths[route]
-        logger.error(error)
+        logger.error({ error })
       }
     })
 

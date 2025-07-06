@@ -46,8 +46,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
     middleware: async ({ app, config, logger }) => {
       if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
         logger.info(
-          'Connecting to MongoDB',
-          config.url.replace(regexToHidePassword, '***'),
+          `Connecting to MongoDB${config.url.replace(regexToHidePassword, '***')}`,
         )
       }
 
@@ -56,7 +55,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
       const defaultClient = new MongoClient(config.url, config.options)
 
       defaultClient.on('error', (error) => {
-        logger.error('MongoDB error', error)
+        logger.error('MongoDB error', { error })
       })
 
       if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
@@ -74,7 +73,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
             const customClient = new MongoClient(config.url, config.options)
 
             customClient.on('error', (error) => {
-              logger.error('MongoDB error', error)
+              logger.error('MongoDB error', { error })
             })
 
             await customClient.connect()
