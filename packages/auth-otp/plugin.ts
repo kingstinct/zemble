@@ -212,10 +212,16 @@ const plugin = new Plugin<OtpAuthConfig, typeof defaultConfig>(
     defaultConfig,
     additionalConfigWhenRunningLocally: {
       handleEmailAuthRequest: ({ email }, code, { logger }) => {
-        logger.info(`handleAuthRequest for ${email}`, code)
+        logger.info(`handleAuthRequest for ${email} with code ${code}`, {
+          code,
+          email,
+        })
       },
       handleSmsAuthRequest: (to, code, { logger }) => {
-        logger.info(`handleAuthRequest for ${to}`, code)
+        logger.info(`handleAuthRequest for ${to} with code ${code}`, {
+          code,
+          to,
+        })
       },
       generateTokenContents,
       fromEmail: { email: 'noreply@zemble.com' },

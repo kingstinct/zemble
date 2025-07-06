@@ -15,7 +15,7 @@
     },
     "typecheck": {
       "dependsOn": ["codegen"],
-      "outputLogs": "errors-only",
+      "outputLogs": "full",
       "inputs": [
         "**/*.ts",
         "**/*.tsx",

@@ -16,20 +16,20 @@ export async function connect({
   if (!mongoUrl) throw new Error('MONGO_URL not set')
 
   if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
-    logger.info('Connecting to MongoDB...', mongoUrl)
+    logger.info(`Connecting to MongoDB @ ${mongoUrl}`)
   }
 
   client = await MongoClient.connect(mongoUrl)
 
-  if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
-    logger.info('Connected to MongoDB!')
+  if (process.env.NODE_ENV !== 'test' || process.env.DEBUG) {
+    logger.info(`Connected to MongoDB @ ${mongoUrl}`)
   }
 
   const db = client.db()
 
   papr.initialize(db)
 
-  if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
+  if (process.env.NODE_ENV !== 'test' || process.env.DEBUG) {
     logger.info(`Registering ${papr.models.size} models...`)
   }
 

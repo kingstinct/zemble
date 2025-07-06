@@ -29,7 +29,7 @@ const createPubSub = async (
     } catch (error) {
       optionsWithDefaults.logger.error(
         'Error initializing pubsub, maybe you need to install ioredis or @graphql-yoga/redis-event-target?',
-        error,
+        { error },
       )
     }
   }

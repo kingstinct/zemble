@@ -4,7 +4,7 @@ import { type IStandardKeyValueService } from './types'
 
 // @ts-ignore
 class ContextInstance implements Zemble.GlobalContext {
-  logger = createLogger()
+  logger = createLogger({ categories: ['zemble'] })
 
   kv<
     T extends Zemble.KVPrefixes[K],

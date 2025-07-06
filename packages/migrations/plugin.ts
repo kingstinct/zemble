@@ -286,8 +286,8 @@ const plugin = new Plugin<MigrationPluginConfig, typeof defaultConfig>(
                   return true
                 }
                 logger.info(
-                  { migrationsToProcess },
                   `Waiting for ${migrationsToProcess.length} migrations to complete...`,
+                  { migrationsToProcess },
                 )
                 return false
               }

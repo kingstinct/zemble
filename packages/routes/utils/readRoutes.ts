@@ -37,7 +37,17 @@ export const readRoutes = async (
 
         return newRoutes
       } catch (error) {
-        logger.info(error)
+        if (error instanceof Error) {
+          logger.error(`Error reading route ${route}: ${error.message}`, {
+            error,
+            route,
+          })
+        } else {
+          logger.error(`Error reading route ${route}: ${error}`, {
+            route,
+            error,
+          })
+        }
 
         return prev
       }

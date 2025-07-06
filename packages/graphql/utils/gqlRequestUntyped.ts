@@ -30,7 +30,7 @@ export async function gqlRequestUntyped<TRes, TVars>(
   }
 
   if (errors && !options?.silenceErrors) {
-    zembleContext.logger.error(errors)
+    zembleContext.logger.error({ errors })
   }
 
   return { data, errors, response }

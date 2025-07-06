@@ -290,19 +290,19 @@ const defaultConfig: PushApplePluginOptions = {
   persistPushToken: async (_, pushTokenInfo) => {
     plugin.providers.logger.error(
       '[@zemble/push-apple] persistPushToken not configured',
-      pushTokenInfo,
+      { pushTokenInfo },
     )
   },
   handleExpiredPushTokens: async (tokens) => {
     plugin.providers.logger.error(
       '[@zemble/push-apple] handleExpiredPushTokens not configured',
-      tokens,
+      { tokens },
     )
   },
   handlePushTokenErrors: async (tokens) => {
     plugin.providers.logger.error(
       "[@zemble/push-apple] handleBadPushTokens not configured, got bad tokens, maybe they're sandbox tokens?",
-      tokens,
+      { tokens },
     )
   },
 }

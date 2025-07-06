@@ -162,9 +162,9 @@ const plugin = new Plugin<AppleAuthConfig, typeof defaultConfig>(
           )
         } catch (error) {
           if (error instanceof Error) {
-            self.providers.logger.error('Error:', error.message)
+            self.providers.logger.error(`Error: ${error.message}`, { error })
           } else {
-            self.providers.logger.error('Error:', error)
+            self.providers.logger.error(`Error: ${error}`, { error })
           }
 
           return ctx.redirect(UNAUTHENTICATED_REDIRECT_URL)
