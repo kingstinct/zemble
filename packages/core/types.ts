@@ -1,3 +1,4 @@
+import type { Logger } from '@logtape/logtape'
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 import type { JSON } from '@zemble/utils/JSON'
 import type { WebSocketHandler } from 'bun'
@@ -63,20 +64,7 @@ export abstract class IStandardKeyValueService<T = unknown> {
     | readonly (readonly [string, T])[]
 }
 
-interface LogFn {
-  (obj: unknown, msg?: string, ...args: readonly unknown[]): void
-  (msg: string, ...args: readonly unknown[]): void
-}
-
-export interface IStandardLogger {
-  readonly fatal: LogFn
-  readonly error: LogFn
-  readonly warn: LogFn
-  readonly info: LogFn
-  readonly debug: LogFn
-  readonly trace: LogFn
-  readonly child: (bindings: Record<string, unknown>) => IStandardLogger
-}
+export interface IStandardLogger extends Logger {}
 
 export interface PushMessage {
   readonly data?: Record<string, JSON>

@@ -169,10 +169,9 @@ export const createApp = async ({
         context,
         config: pluginWithMiddleware.config,
         self: pluginWithMiddleware,
-        logger: pluginWithMiddleware.providers.logger.child({
-          middlewarePluginName: pluginWithMiddleware.pluginName,
-          middlewarePluginVersion: pluginWithMiddleware.pluginVersion,
-        }),
+        logger: pluginWithMiddleware.providers.logger.getChild(
+          `${pluginWithMiddleware.pluginName}@${pluginWithMiddleware.pluginVersion}`,
+        ),
       })
 
       if (typeof ret === 'function') {
