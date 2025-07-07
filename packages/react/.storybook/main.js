@@ -1,4 +1,3 @@
-const merge = require('lodash').merge;
 const webpack = require('webpack');
 
 module.exports = {
