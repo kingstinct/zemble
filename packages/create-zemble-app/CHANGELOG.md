@@ -1,5 +1,15 @@
 # create-zemble-app
 
+## 0.1.4
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+
 ## 0.1.3
 
 ### Patch Changes

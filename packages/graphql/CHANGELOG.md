@@ -1,5 +1,14 @@
 # @zemble/graphql
 
+## 0.0.63
+
+### Patch Changes
+
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+
 ## 0.0.62
 
 ### Patch Changes

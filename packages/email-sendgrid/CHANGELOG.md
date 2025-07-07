@@ -1,5 +1,15 @@
 # @zemble/email-sendgrid
 
+## 0.0.61
+
+### Patch Changes
+
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+  - @zemble/graphql@0.0.63
+
 ## 0.0.60
 
 ### Patch Changes

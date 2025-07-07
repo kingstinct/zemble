@@ -1,5 +1,15 @@
 ## 1.0.10
 
+## 1.0.18
+
+### Patch Changes
+
+- 2f322b9: [WIP] break out the useAppState hook into it's separate package
+- 7cee002: replace eslint with biome
+- Updated dependencies [6ba64d8]
+- Updated dependencies [7cee002]
+  - @zemble/primitives@1.0.1
+
 ## 1.0.17
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @zemble/logger-graphql
 
+## 0.0.59
+
+### Patch Changes
+
+- 257fab1: go logtape
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+  - @zemble/graphql@0.0.63
+
 ## 0.0.58
 
 ### Patch Changes

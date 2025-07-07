@@ -1,5 +1,22 @@
 # todo-app-with-auth-backend
 
+## 0.0.82
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+  - @zemble/apple-app-site-association@0.0.43
+  - @zemble/auth-anonymous@0.0.65
+  - @zemble/graphql@0.0.63
+  - @zemble/ignite@0.0.74
+  - @zemble/bull@0.2.13
+  - @zemble/todo@0.0.65
+  - @zemble/bun@0.0.38
+
 ## 0.0.81
 
 ### Patch Changes

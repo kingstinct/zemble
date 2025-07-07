@@ -1,6 +1,6 @@
 {
   "name": "@zemble/react-snackbar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Snackbar components and hooks",
   "author": "Robert Herber",
   "license": "MIT",

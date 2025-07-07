@@ -1,5 +1,16 @@
 # @zemble/migrations
 
+## 0.0.40
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+  - @zemble/bun@0.0.38
+
 ## 0.0.39
 
 ### Patch Changes
