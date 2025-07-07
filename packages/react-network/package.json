@@ -5,9 +5,7 @@
   "author": "Robert Herber",
   "license": "MIT",
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "bun test",
-    "lint": "eslint ."
+    "typecheck": "tsc --noEmit"
   },
   "publishConfig": {
     "access": "public",
@@ -16,20 +14,20 @@
   "main": "index.ts",
   "types": "index.ts",
   "peerDependencies": {
-    "@types/react": "^18.2.54",
-    "react": "^18.2.0",
-    "react-native": "^0.72.4"
+    "@types/react": "^18.3.23",
+    "react": "^18.3.1",
+    "react-native": "~0.80.1"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
-    "@react-native-community/netinfo": "^9.4.1",
+    "@react-native-community/netinfo": "^9.5.0",
     "@zemble/react": "workspace:*",
     "@zemble/primitives": "workspace:*",
-    "ts-pattern": "^5.6.2",
-    "urql": "^4.2.2"
+    "ts-pattern": "^5.7.1",
+    "urql": "4.2"
   },
   "devDependencies": {
-    "@types/react": "^18.3.3",
-    "@types/react-native": "~0.72.8"
+    "@types/react": "^18.3.23",
+    "@types/react-native": "~0.73.0"
   }
 }
