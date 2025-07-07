@@ -1,5 +1,22 @@
 # @zemble/auth-otp
 
+## 0.0.68
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [4849540]
+- Updated dependencies [c04679e]
+- Updated dependencies [3177fc2]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+  - @zemble/auth@0.0.67
+  - @zemble/utils@0.7.42
+  - @zemble/graphql@0.0.63
+  - @zemble/kv@0.0.62
+
 ## 0.0.67
 
 ### Patch Changes

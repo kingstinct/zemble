@@ -1,5 +1,19 @@
 # @zemble/auth
 
+## 0.0.67
+
+### Patch Changes
+
+- 4849540: add tests for refresh token
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+  - @zemble/graphql@0.0.63
+  - @zemble/bun@0.0.38
+  - @zemble/kv@0.0.62
+
 ## 0.0.66
 
 ### Patch Changes

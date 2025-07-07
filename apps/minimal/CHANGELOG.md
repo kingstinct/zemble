@@ -1,5 +1,29 @@
 # minimal
 
+## 0.0.84
+
+### Patch Changes
+
+- 257fab1: go logtape
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [4849540]
+- Updated dependencies [3177fc2]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+  - @zemble/logger-graphql@0.0.59
+  - @zemble/auth@0.0.67
+  - @zemble/auth-otp@0.0.68
+  - @zemble/migrations@0.0.40
+  - @zemble/email-resend@0.0.32
+  - @zemble/sms-46elks@0.0.17
+  - @zemble/sms-twilio@0.0.17
+  - @zemble/graphql@0.0.63
+  - @zemble/routes@0.0.39
+  - @zemble/bull@0.2.13
+  - @zemble/bun@0.0.38
+
 ## 0.0.83
 
 ### Patch Changes

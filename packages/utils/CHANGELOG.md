@@ -1,5 +1,12 @@
 # @zemble/utils
 
+## 0.7.42
+
+### Patch Changes
+
+- c04679e: Add compactMap utilities
+- 7cee002: replace eslint with biome
+
 ## 0.7.41
 
 ### Patch Changes

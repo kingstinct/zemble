@@ -1,5 +1,24 @@
 # supplement-stack
 
+## 0.0.81
+
+### Patch Changes
+
+- 3177fc2: Move to text based lockfile
+- 7cee002: replace eslint with biome
+- Updated dependencies [257fab1]
+- Updated dependencies [c04679e]
+- Updated dependencies [3177fc2]
+- Updated dependencies [7cee002]
+  - @zemble/core@0.1.27
+  - @zemble/utils@0.7.42
+  - @zemble/auth-otp@0.0.68
+  - @zemble/apple-app-site-association@0.0.43
+  - @zemble/graphql@0.0.63
+  - @zemble/bull@0.2.13
+  - @zemble/todo@0.0.65
+  - @zemble/bun@0.0.38
+
 ## 0.0.80
 
 ### Patch Changes
