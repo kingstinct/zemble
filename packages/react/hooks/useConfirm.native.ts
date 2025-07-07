@@ -1,6 +1,5 @@
 import { useCallback, useContext } from 'react'
 import { Alert } from 'react-native'
-
 import StringsContext from '../contexts/Strings'
 
 export function useConfirm() {

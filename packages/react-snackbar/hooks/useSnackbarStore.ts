@@ -1,8 +1,7 @@
+import { generateId } from '@zemble/utils'
 import { create } from 'zustand'
 
-import getRandomID from '../utils/getRandomID'
-
-export const DEFAULT_SNACKBAR_TIMOUT_MS = 5000
+export const DEFAULT_SNACKBAR_TIMEOUT_MS = 5000
 export const DEFAULT_SNACKBARS_TO_SHOW_AT_SAME_TIME = 1
 
 export interface Action {
@@ -64,9 +63,9 @@ const timeouts = new Map<string, number>()
  * over this directly.
  */
 const useSnackbarStore = create<SnackbarStore>((set) => ({
-  defaultTimeoutMs: DEFAULT_SNACKBAR_TIMOUT_MS,
+  defaultTimeoutMs: DEFAULT_SNACKBAR_TIMEOUT_MS,
   setDefaultTimeoutMs: (timeout) =>
-    set(() => ({ defaultTimeoutMs: timeout ?? DEFAULT_SNACKBAR_TIMOUT_MS })),
+    set(() => ({ defaultTimeoutMs: timeout ?? DEFAULT_SNACKBAR_TIMEOUT_MS })),
   snackbarsToShowAtSameTime: DEFAULT_SNACKBARS_TO_SHOW_AT_SAME_TIME,
   setSnackbarsToShowAtSameTime: (value) =>
     set((state) => {
@@ -82,7 +81,7 @@ const useSnackbarStore = create<SnackbarStore>((set) => ({
   snackbarsToShow: [],
   addSnackbar: (snackbarConfig) =>
     set((state) => {
-      const id = snackbarConfig.id || getRandomID()
+      const id = snackbarConfig.id || generateId()
       const snackbars = [
         ...state.snackbars.filter((s) => s.id !== id),
         {

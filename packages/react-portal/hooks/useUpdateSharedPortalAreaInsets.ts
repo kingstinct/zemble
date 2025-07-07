@@ -1,6 +1,6 @@
+import { generateId } from '@zemble/utils'
 import { useEffect } from 'react'
 import type { Insets } from 'react-native'
-import generateId from '../utils/generateId'
 import useSharedPortalAreaStore from './useSharedPortalAreaStore'
 
 export const useUpdateSharedPortalAreaInsets = (

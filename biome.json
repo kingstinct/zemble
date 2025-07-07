@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": false },
   "files": { "ignoreUnknown": false },
   "formatter": {
     "enabled": true,
@@ -27,8 +27,8 @@
       "!**/*.generated.*",
       "!**/*.generated/**/*.ts",
       "!**/expo-env.d.ts",
-      "!.turbo/cache/**/*",
-    ],
+      "!.turbo/cache/**/*"
+    ]
   },
   "json": { "formatter": { "bracketSpacing": true } },
   "root": true,
@@ -54,7 +54,7 @@
         "useDateNow": "error",
         "useLiteralKeys": "warn",
         "useNumericLiterals": "error",
-        "useRegexLiterals": "error",
+        "useRegexLiterals": "error"
       },
       "correctness": {
         "noConstAssign": "error",
@@ -84,7 +84,7 @@
         "useIsNan": "error",
         "useValidForDirection": "error",
         "useValidTypeof": "error",
-        "useYield": "error",
+        "useYield": "error"
       },
       "nursery": {
         "noAwaitInLoop": "warn",
@@ -99,7 +99,7 @@
         "useIterableCallbackReturn": "error",
         "useObjectSpread": "error",
         "useParseIntRadix": "error",
-        "useSymbolDescription": "error",
+        "useSymbolDescription": "error"
       },
       "security": { "noGlobalEval": "error" },
       "style": {
@@ -172,9 +172,9 @@
               "isNaN": "Use Number.isNaN instead https://github.com/airbnb/javascript#standard-library--isnan",
               "close": "TODO: Add a custom message here.",
               "open": "TODO: Add a custom message here.",
-              "print": "TODO: Add a custom message here.",
-            },
-          },
+              "print": "TODO: Add a custom message here."
+            }
+          }
         },
         "noRestrictedImports": "off",
         "noYodaExpression": "error",
@@ -187,7 +187,7 @@
         "useExponentiationOperator": "error",
         "useShorthandAssign": "error",
         "useSingleVarDeclarator": "off",
-        "useTemplate": "error",
+        "useTemplate": "error"
       },
       "suspicious": {
         "noAlert": "warn",
@@ -225,8 +225,8 @@
         "useAwait": "off",
         "useDefaultSwitchClauseLast": "error",
         "useGetterReturn": "error",
-        "useGuardForIn": "warn",
-      },
+        "useGuardForIn": "warn"
+      }
     },
     "includes": [
       "**",
@@ -239,8 +239,8 @@
       "!**/*.generated.*",
       "!**/*.generated/**/*.ts",
       "!**/expo-env.d.ts",
-      "!.turbo/cache/**/*",
-    ],
+      "!.turbo/cache/**/*"
+    ]
   },
   "javascript": {
     "formatter": {
@@ -248,9 +248,9 @@
       "jsxQuoteStyle": "single",
       "semicolons": "asNeeded",
       "bracketSpacing": true,
-      "expand": "auto",
+      "expand": "auto"
     },
-    "globals": ["fetch", "window", "__DEV__", "Bun"],
+    "globals": ["fetch", "window", "__DEV__", "Bun"]
   },
   "assist": {
     "enabled": true,
@@ -275,8 +275,8 @@
       "!**/*.generated.*",
       "!**/*.generated/**/*.ts",
       "!**/expo-env.d.ts",
-      "!.turbo/cache/**/*",
-    ],
+      "!.turbo/cache/**/*"
+    ]
   },
   "overrides": [
     {
@@ -284,12 +284,12 @@
       "json": {
         "parser": {
           "allowComments": true,
-          "allowTrailingCommas": true,
+          "allowTrailingCommas": true
         },
         "formatter": {
-          "trailingCommas": "all",
-        },
-      },
-    },
-  ],
+          "trailingCommas": "all"
+        }
+      }
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-import { AuthContext } from '@zemble/react'
+import { AuthContext } from '@zemble/react-auth'
 import { useCallback, useContext, useRef, useState } from 'react'
 import type { TextInput as TextInputNative } from 'react-native'
 import { KeyboardAvoidingView, View } from 'react-native'

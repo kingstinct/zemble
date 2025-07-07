@@ -8,7 +8,7 @@ import {
 import type {
   CombinedErrorWithExtensions,
   CreateUrqlClient,
-} from '@zemble/react/contexts/Urql'
+} from '@zemble/react-urql/contexts/Urql'
 import { createClient as createWSClient } from 'graphql-ws'
 import { Platform } from 'react-native'
 

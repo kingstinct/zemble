@@ -1,29 +1,39 @@
+/** biome-ignore-all lint/correctness/noUndeclaredDependencies: intended */
 import { NavigationContainer } from '@react-navigation/native'
 import { Column, Row } from '@zemble/primitives'
-import { StatusBar } from 'expo-status-bar'
-import React, { useCallback, useMemo, useState } from 'react'
-import { Button, Text, TextInput } from 'react-native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { ActivityIndicator, Switch } from 'react-native-paper'
-import Animated, { CurvedTransition } from 'react-native-reanimated'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-
-import { SnackbarPresentationView } from '../components'
-import NativePortal from '../components/NativePortal'
-import SharedPortalAreaProvider from '../components/SharedPortalAreaProvider'
-import SharedPortalPresentationArea from '../components/SharedPortalPresentationArea'
-import type { SnackbarComponentProps } from '../components/SnackbarComponent'
-import DefaultSnackbarComponent from '../components/SnackbarComponent'
-import { StringsProvider } from '../contexts/Strings'
 import {
-  useAddSnackbar,
   useIsKeyboardShown,
   useKeyboardHeight,
+  useWillKeyboardBeShown,
+} from '@zemble/react-keyboard'
+import { StringsProvider } from '@zemble/react-network'
+import {
+  NativePortal,
+  SharedPortalAreaProvider,
+  SharedPortalPresentationArea,
   useSharedPortalAreaInsets,
   useSharedPortalAreaSize,
+} from '@zemble/react-portal'
+import type { SnackbarComponentProps } from '@zemble/react-snackbar'
+import {
+  DefaultSnackbarComponent,
+  SnackbarPresentationView,
+  useAddSnackbar,
   useSnackbarSettings,
-  useWillKeyboardBeShown,
-} from '../hooks'
+} from '@zemble/react-snackbar'
+import { StatusBar } from 'expo-status-bar'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import {
+  ActivityIndicator,
+  Button,
+  Switch,
+  Text,
+  TextInput,
+} from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import Animated, { CurvedTransition } from 'react-native-reanimated'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import useAlert from '../hooks/useAlert'
 import useConfirm from '../hooks/useConfirm'
 

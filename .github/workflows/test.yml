@@ -85,7 +85,7 @@ jobs:
       - run: bun install
 
       - name: Test
-        run: bun run test-recursive
+        run: bun run test
         env:
           PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
           PUBLIC_KEY: ${{ secrets.TEST_PUBLIC_KEY }}

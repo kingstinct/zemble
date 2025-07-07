@@ -1,9 +1,9 @@
 import { Portal } from '@gorhom/portal'
+import randomHexColorAlpha from '@zemble/utils/randomHexColor'
 import React, { useMemo } from 'react'
+
 import type { StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, View } from 'react-native'
-import { FullWindowOverlay } from 'react-native-screens'
-import randomHexColorAlpha from '../utils/randomHexColor'
 import type { Props } from './NativePortal.types'
 
 export const NativePortal: React.FC<Props> = ({
@@ -24,11 +24,9 @@ export const NativePortal: React.FC<Props> = ({
 
   return (
     <Portal>
-      <FullWindowOverlay>
-        <View pointerEvents={pointerEvents} style={style}>
-          {children}
-        </View>
-      </FullWindowOverlay>
+      <View pointerEvents={pointerEvents} style={style}>
+        {children}
+      </View>
     </Portal>
   )
 }

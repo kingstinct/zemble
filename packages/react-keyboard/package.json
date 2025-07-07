@@ -1,7 +1,7 @@
 {
-  "name": "@zemble/primitives",
+  "name": "@zemble/react-keyboard",
   "version": "1.0.0",
-  "description": "Zemble React Native Primitives",
+  "description": "Keyboard related hooks",
   "author": "Robert Herber",
   "license": "MIT",
   "scripts": {
@@ -11,14 +11,18 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
+  "main": "index.ts",
+  "types": "index.ts",
   "peerDependencies": {
     "@types/react": "^18.3.23",
     "react": "^18.3.1",
-    "react-native": "~0.80.1",
-    "react-native-safe-area-context": "^5.5.1"
+    "react-native": "~0.80.1"
   },
   "dependencies": {
-    "expo-system-ui": "^2.9.4",
-    "ts-pattern": "^5.7.1"
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.23",
+    "@types/react-native": "~0.73.0"
   }
 }

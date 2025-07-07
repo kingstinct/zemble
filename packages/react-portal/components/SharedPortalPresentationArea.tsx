@@ -27,6 +27,7 @@ export const SharedPortalPresentationArea: React.FC<
     <NativePortal insets={insets} colorize={colorize}>
       <Animated.View
         layout={CurvedTransition.duration(500)}
+        // @ts-ignore
         onLayout={onLayout}
         style={style}
         pointerEvents='box-none'

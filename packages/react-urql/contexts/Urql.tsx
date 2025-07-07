@@ -1,9 +1,9 @@
+import { AuthContext } from '@zemble/react-auth'
 import type { GraphQLError, GraphQLErrorExtensions } from 'graphql'
 import type { PropsWithChildren } from 'react'
 import { createContext, useContext, useMemo, useState } from 'react'
 import type { Client, CombinedError, Operation } from 'urql'
 import { Provider } from 'urql'
-import { AuthContext } from './Auth'
 
 const DEFAULT_VALUE = {
   reloadClient: () => {},

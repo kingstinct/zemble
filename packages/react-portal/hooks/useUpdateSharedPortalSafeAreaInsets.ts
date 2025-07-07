@@ -1,7 +1,7 @@
+import generateId from '@zemble/utils/generateId'
 import { useEffect } from 'react'
 import type { Insets } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import generateId from '../utils/generateId'
 import useSharedPortalAreaStore from './useSharedPortalAreaStore'
 
 /**

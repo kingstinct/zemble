@@ -3,8 +3,11 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native'
-import AuthProvider, { AuthContext, Status } from '@zemble/react/contexts/Auth'
-import UrqlProvider from '@zemble/react/contexts/Urql'
+import AuthProvider, {
+  AuthContext,
+  Status,
+} from '@zemble/react-auth/contexts/Auth'
+import UrqlProvider from '@zemble/react-urql/contexts/Urql'
 import { router, Stack, useSegments } from 'expo-router'
 import { useContext, useEffect, useMemo } from 'react'
 import { useColorScheme } from 'react-native'

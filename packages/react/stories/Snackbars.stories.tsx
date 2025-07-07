@@ -1,10 +1,12 @@
+/** biome-ignore-all lint/correctness/noUndeclaredDependencies: intended */
 import type { Meta, StoryFn } from '@storybook/react'
+import type { SnackbarComponentProps } from '@zemble/react-snackbar/components/SnackbarComponent'
+import { DefaultSnackbarComponent } from '@zemble/react-snackbar/components/SnackbarComponent'
+import { SnackbarPresentationView } from '@zemble/react-snackbar/components/SnackbarPresentationView'
+
+import { useAddSnackbar } from '@zemble/react-snackbar/hooks/useAddSnackbar'
 import React, { useEffect, useRef } from 'react'
 import { View } from 'react-native'
-import { SnackbarPresentationView } from '../components'
-import type { SnackbarComponentProps } from '../components/SnackbarComponent'
-import { DefaultSnackbarComponent } from '../components/SnackbarComponent'
-import { useAddSnackbar } from '../hooks'
 
 type MyData = {
   readonly yo: string

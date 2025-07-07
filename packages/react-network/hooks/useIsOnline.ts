@@ -1,7 +1,7 @@
 import type { NetInfoChangeHandler } from '@react-native-community/netinfo'
 import NetInfo from '@react-native-community/netinfo'
+import useRunIfMounted from '@zemble/react/hooks/useRunIfMounted'
 import { useEffect, useState } from 'react'
-import useRunIfMounted from './useRunIfMounted'
 
 export const useIsOnline = (): boolean => {
   const [isOnline, setIsOnline] = useState(false),

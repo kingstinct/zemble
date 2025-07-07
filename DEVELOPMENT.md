@@ -9,7 +9,7 @@ bun install
 
 To run all tests
 ```bash
-bun test-recursive
+bun run test
 ```
 To run specific tests
 ```bash

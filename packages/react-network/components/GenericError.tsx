@@ -1,11 +1,11 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Text } from '@zemble/primitives'
+import StringsContext from '@zemble/react/contexts/Strings'
+import useEvent from '@zemble/react/hooks/useEvent'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { ActivityIndicator, Button, StyleSheet, View } from 'react-native'
 import { match } from 'ts-pattern'
 import type { CombinedError } from 'urql'
-import StringsContext from '../contexts/Strings'
-import useEvent from '../hooks/useEvent'
 import useIsOnline from '../hooks/useIsOnline'
 
 const styles = StyleSheet.create({

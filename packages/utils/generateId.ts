@@ -1,4 +1,4 @@
-export default function generateId(length = 10) {
+export function generateId(length = 10) {
   const characters =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   let result = ''
@@ -10,3 +10,5 @@ export default function generateId(length = 10) {
 
   return result
 }
+
+export default generateId

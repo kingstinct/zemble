@@ -1,4 +1,3 @@
-export * from './Auth'
+// Contexts moved to other packages
+
 export * from './Strings'
-// Theme is now exported via primitives
-export * from './Urql'

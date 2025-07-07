@@ -1,6 +1,5 @@
+import { AuthContext } from '@zemble/react-auth'
 import { useContext } from 'react'
-
-import { AuthContext } from '../contexts/Auth'
 
 export const useIsLoggedIn = () => {
   const { hasToken } = useContext(AuthContext)

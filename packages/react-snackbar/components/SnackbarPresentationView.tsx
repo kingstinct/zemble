@@ -1,10 +1,10 @@
+import randomHexColorAlpha from '@zemble/utils/randomHexColor'
 import React, { useEffect } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
 import { View } from 'react-native'
 import useRemoveSnackbar from '../hooks/useRemoveSnackbar'
 import useSnackbarsToShow from '../hooks/useSnackbarsToShow'
 import useSnackbarWasPresented from '../hooks/useSnackbarWasPresented'
-import randomHexColorAlpha from '../utils/randomHexColor'
 
 import type { SnackbarComponentProps } from './SnackbarComponent'
 import DefaultSnackbarComponent from './SnackbarComponent'

@@ -1,7 +1,8 @@
+/** biome-ignore-all lint/correctness/noUndeclaredDependencies: intended */
 import type { Meta } from '@storybook/react'
 
-import type { DefaultSnackbarComponentProps } from '../components/SnackbarComponent'
-import DefaultSnackbarComponent from '../components/SnackbarComponent'
+import type { DefaultSnackbarComponentProps } from '@zemble/react-snackbar/components/SnackbarComponent'
+import DefaultSnackbarComponent from '@zemble/react-snackbar/components/SnackbarComponent'
 
 export default {
   title: 'Example/Snackbar',

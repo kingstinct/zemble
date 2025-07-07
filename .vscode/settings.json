@@ -11,8 +11,12 @@
       "runIn": "terminal"
     }
   ],
+  "biome.enabled": true,
+  "biome.lsp.bin": "node_modules/@biomejs/biome/bin/biome",
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.enable": false,
+  "biome.configurationPath": "../biome.json",
+  "biome.lsp.trace.server": "messages",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.defaultFormatter": "biomejs.biome",
   "editor.codeActionsOnSave": {
@@ -32,6 +36,7 @@
     "kingstinct",
     "liveactivity",
     "logtape",
+    "netinfo",
     "Onesignal",
     "papr",
     "prepush",
