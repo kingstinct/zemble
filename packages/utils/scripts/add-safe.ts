@@ -1,5 +1,4 @@
 #!/usr/bin/env bun
-/* eslint-disable no-unused-expressions */
 import { $ } from 'bun'
 
 const args = process.argv.slice(2)

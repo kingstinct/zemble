@@ -1,17 +1,22 @@
-import { test, expect } from 'bun:test'
+import { expect, test } from 'bun:test'
 
 import {
-  parseEnvBoolean, parseEnvEnum, parseEnvJSON, parseEnvNumber,
+  parseEnvBoolean,
+  parseEnvEnum,
+  parseEnvJSON,
+  parseEnvNumber,
 } from './parseEnv'
 
 test('parseEnvBoolean', () => {
-  const result = parseEnvBoolean('isSomething', undefined, { isSomething: 'true' })
+  const result = parseEnvBoolean('isSomething', undefined, {
+    isSomething: 'true',
+  })
 
   expect(result).toEqual(true)
 })
 
 test('parseEnvBoolean default', () => {
-  const result = parseEnvBoolean('isSomething', true, { })
+  const result = parseEnvBoolean('isSomething', true, {})
 
   expect(result).toEqual(true)
 })
@@ -29,23 +34,24 @@ test('parseEnvBoolean handle 0 gracefully', () => {
 })
 
 test('parseEnvEnum should return the value set in process.env', () => {
-  const result = parseEnvEnum('isSomething', ['value1', 'value2'], undefined, { isSomething: 'value1' })
+  const result = parseEnvEnum('isSomething', ['value1', 'value2'], undefined, {
+    isSomething: 'value1',
+  })
 
   expect(result).toEqual('value1')
 })
 
 test('parseEnvEnum can be undefined if no default is set', () => {
-  const res = parseEnvEnum('isSomething', ['value1', 'value2'], undefined, { isSomething: 'value3' })
+  const res = parseEnvEnum('isSomething', ['value1', 'value2'], undefined, {
+    isSomething: 'value3',
+  })
   expect(res).toBeUndefined()
 })
 
 test('parseEnvEnum should use default value when not in range', () => {
-  const result = parseEnvEnum(
-    'isSomething',
-    ['value1', 'value2'],
-    'value1',
-    { isSomething: 'value3' },
-  )
+  const result = parseEnvEnum('isSomething', ['value1', 'value2'], 'value1', {
+    isSomething: 'value3',
+  })
 
   expect(result).toEqual('value1')
 })
@@ -57,19 +63,31 @@ test('parseEnvNumber', () => {
 })
 
 test('parseEnvJSON', () => {
-  const result = parseEnvJSON('isSomething', { }, { isSomething: '{ "something": "cool" }' })
+  const result = parseEnvJSON(
+    'isSomething',
+    {},
+    { isSomething: '{ "something": "cool" }' },
+  )
 
   expect(result).toEqual({ something: 'cool' })
 })
 
 test('parseEnvJSON return defaultValue when null', () => {
-  const result = parseEnvJSON('isSomething', { defaultish: true }, { isSomething: undefined })
+  const result = parseEnvJSON(
+    'isSomething',
+    { defaultish: true },
+    { isSomething: undefined },
+  )
 
   expect(result).toEqual({ defaultish: true })
 })
 
 test('parseEnvJSON return actual value', () => {
-  const result = parseEnvJSON<{readonly isValid: boolean}>('envVariableWithJson', { isValid: false }, { envVariableWithJson: '{ "isValid": true }' })
+  const result = parseEnvJSON<{ readonly isValid: boolean }>(
+    'envVariableWithJson',
+    { isValid: false },
+    { envVariableWithJson: '{ "isValid": true }' },
+  )
 
   expect(result).toEqual({ isValid: true })
 })

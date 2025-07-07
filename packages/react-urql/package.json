@@ -21,8 +21,10 @@
     "react-native": "^0.72.4"
   },
   "dependencies": {
-    "urql": "4.2",
-    "@zemble/react-auth": "workspace:*"
+    "@zemble/react-auth": "workspace:*",
+    "@zemble/utils": "workspace:*",
+    "graphql": "^16.11.0",
+    "urql": "4.2"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

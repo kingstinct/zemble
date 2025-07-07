@@ -6,53 +6,68 @@ input AuthOr {
 }
 
 directive @auth(
-  match: JSONObject,
+  match: JSONObject
   skip: Boolean
   includes: JSONObject
   or: [AuthOr!]
 ) on FIELD_DEFINITION
 
 type Mutation {
-  loginRequestWithEmail(email: String!): LoginRequestWithEmailResponse! @auth(skip: true)
-  loginConfirmWithEmail(email: String!, code: String!): LoginConfirmWithEmailResponse! @auth(skip: true)
-  loginRequestWithSms(phoneNumberWithCountryCode: String!): LoginRequestWithSmsResponse! @auth(skip: true)
-  loginConfirmWithSms(phoneNumberWithCountryCode: String!, code: String!): LoginConfirmWithSmsResponse! @auth(skip: true)
+  loginRequestWithEmail(email: String!): LoginRequestWithEmailResponse!
+    @auth(skip: true)
+  loginConfirmWithEmail(
+    email: String!
+    code: String!
+  ): LoginConfirmWithEmailResponse! @auth(skip: true)
+  loginRequestWithSms(
+    phoneNumberWithCountryCode: String!
+  ): LoginRequestWithSmsResponse! @auth(skip: true)
+  loginConfirmWithSms(
+    phoneNumberWithCountryCode: String!
+    code: String!
+  ): LoginConfirmWithSmsResponse! @auth(skip: true)
 }
 
 type LoginRequestSuccessResponse {
-    success: Boolean! @auth(skip: true)
+  success: Boolean! @auth(skip: true)
 }
 
 type EmailNotValidError implements Error {
-    message: String! @auth(skip: true)
+  message: String! @auth(skip: true)
 }
 
 type PhoneNumNotValidError implements Error {
-    message: String! @auth(skip: true)
+  message: String! @auth(skip: true)
 }
 
 type CodeNotValidError implements Error {
-    message: String! @auth(skip: true)
+  message: String! @auth(skip: true)
 }
 
 type LoginFailedError implements Error {
-    message: String! @auth(skip: true)
+  message: String! @auth(skip: true)
 }
 
-union LoginRequestWithEmailResponse = LoginRequestSuccessResponse | EmailNotValidError
-union LoginRequestWithSmsResponse = LoginRequestSuccessResponse | PhoneNumNotValidError
+union LoginRequestWithEmailResponse =
+  | LoginRequestSuccessResponse
+  | EmailNotValidError
+union LoginRequestWithSmsResponse =
+  | LoginRequestSuccessResponse
+  | PhoneNumNotValidError
 
 type LoginConfirmSuccessfulResponse {
-    bearerToken: String! @auth(skip: true)
-    refreshToken: String! @auth(skip: true)
+  bearerToken: String! @auth(skip: true)
+  refreshToken: String! @auth(skip: true)
 }
 
-union LoginConfirmWithEmailResponse = LoginConfirmSuccessfulResponse
+union LoginConfirmWithEmailResponse =
+  | LoginConfirmSuccessfulResponse
   | EmailNotValidError
   | CodeNotValidError
   | LoginFailedError
 
-union LoginConfirmWithSmsResponse = LoginConfirmSuccessfulResponse
+union LoginConfirmWithSmsResponse =
+  | LoginConfirmSuccessfulResponse
   | PhoneNumNotValidError
   | CodeNotValidError
   | LoginFailedError

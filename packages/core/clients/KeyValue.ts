@@ -1,11 +1,6 @@
-/* eslint-disable functional/prefer-readonly-type */
-/* eslint-disable @typescript-eslint/require-await */
+import { IStandardKeyValueService } from '../types'
 
-import { IStandardKeyValueService } from '..'
-
-const inMemoryMaps: Record<string, Map<string, unknown>> = {
-
-}
+const inMemoryMaps: Record<string, Map<string, unknown>> = {}
 
 class KeyValue<T> extends IStandardKeyValueService<T> {
   keys(): readonly string[] {

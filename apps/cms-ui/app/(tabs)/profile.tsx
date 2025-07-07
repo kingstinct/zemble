@@ -1,4 +1,4 @@
-import { AuthContext, useDecodedToken } from '@zemble/react'
+import { AuthContext, useDecodedToken } from '@zemble/react-auth'
 import { router } from 'expo-router'
 import { useCallback, useContext } from 'react'
 import { View } from 'react-native'
@@ -16,14 +16,8 @@ const ProfileScreen = () => {
 
   return (
     <View>
-      <Text>
-        { JSON.stringify(decodedToken, null, 2) }
-      </Text>
-      <Button
-        onPress={logout}
-      >
-        Logout
-      </Button>
+      <Text>{JSON.stringify(decodedToken, null, 2)}</Text>
+      <Button onPress={logout}>Logout</Button>
     </View>
   )
 }

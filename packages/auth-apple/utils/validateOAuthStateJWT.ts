@@ -2,7 +2,9 @@ import { verifyJwt } from '@zemble/auth/utils/verifyJwt'
 
 import plugin from '../plugin'
 
-export const validateOAuthStateJWT = async (state: string): Promise<boolean> => {
+export const validateOAuthStateJWT = async (
+  state: string,
+): Promise<boolean> => {
   try {
     await verifyJwt(state, plugin.config.PUBLIC_KEY)
 

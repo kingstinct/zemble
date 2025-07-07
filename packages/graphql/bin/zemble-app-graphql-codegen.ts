@@ -1,20 +1,28 @@
 #!/usr/bin/env bun
 
+import path from 'node:path'
 import { Plugin, type ZembleApp } from '@zemble/core'
 import zembleContext from '@zemble/core/zembleContext'
-import path from 'node:path'
 
-import { absoluteOrRelativeTo, absoluteOrRelativeToCwd, printMergedSchema } from '../middleware'
+import {
+  absoluteOrRelativeTo,
+  absoluteOrRelativeToCwd,
+  printMergedSchema,
+} from '../middleware'
+import type { GraphQLMiddlewareConfig } from '../plugin'
 import plugin from '../plugin'
 import buildMergedSchema from '../utils/buildMergedSchema'
-
-import type { GraphQLMiddlewareConfig } from '../plugin'
 
 const args = process.argv.slice(2)
 
 const pathToApp = args[0]
 
-if (!pathToApp || pathToApp === '--help' || pathToApp === '-h' || pathToApp === 'help') {
+if (
+  !pathToApp ||
+  pathToApp === '--help' ||
+  pathToApp === '-h' ||
+  pathToApp === 'help'
+) {
   zembleContext.logger.info('Usage: zemble-app-graphql-codegen <path-to-app>')
 
   process.exit(0)
@@ -28,22 +36,32 @@ const codegenMergedSchema = async (
 ) => {
   const appDir = path.dirname(absolutePathToApp)
 
-  const mergedSchema = await buildMergedSchema({
-    ...app,
-    appPlugin: new Plugin(appDir),
-  }, config)
+  const mergedSchema = await buildMergedSchema(
+    {
+      ...app,
+      appPlugin: new Plugin(appDir),
+    },
+    config,
+  )
 
   if (config.outputMergedSchemaPath) {
-    const pathRelativeToApp = absoluteOrRelativeTo(config.outputMergedSchemaPath, appDir)
+    const pathRelativeToApp = absoluteOrRelativeTo(
+      config.outputMergedSchemaPath,
+      appDir,
+    )
     await printMergedSchema(mergedSchema, pathRelativeToApp)
   }
 }
 
 const loadApp = async () => {
-  const module = await import(absolutePathToApp) as { readonly default?: Promise<ZembleApp> }
+  const module = (await import(absolutePathToApp)) as {
+    readonly default?: Promise<ZembleApp>
+  }
 
   if (!module.default) {
-    zembleContext.logger.error(`App not exported as default from "${pathToApp}"`)
+    zembleContext.logger.error(
+      `App not exported as default from "${pathToApp}"`,
+    )
     process.exit(1)
   }
 
@@ -58,6 +76,8 @@ zembleContext.logger.info('Loaded app, proceeding with codegen..')
 
 await codegenMergedSchema(app, plugin.config)
 
-zembleContext.logger.info(`Successfully generated merged schema at ${plugin.config.outputMergedSchemaPath}`)
+zembleContext.logger.info(
+  `Successfully generated merged schema at ${plugin.config.outputMergedSchemaPath}`,
+)
 
 process.exit(0)

@@ -1,10 +1,7 @@
 {
-  "extends": "./packages/eslint/tsconfig.base.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "types": [ "bun-types" ]
+    "types": ["bun-types"]
   },
-  "exclude": [
-    "**/*.generated/*.ts",
-    "**/*.generated.ts"
-  ]
+  "exclude": ["**/*.generated/*.ts", "**/*.generated.ts"]
 }

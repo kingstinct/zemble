@@ -1,21 +1,16 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable functional/immutable-data */
-
-import { printSchemaWithDirectives } from '@graphql-tools/utils'
-import { timing } from 'hono/timing'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-
+import { printSchemaWithDirectives } from '@graphql-tools/utils'
+import type { Plugin } from '@zemble/core'
+import type { Middleware } from '@zemble/core/types'
+import type { GraphQLSchema } from 'graphql'
+import { timing } from 'hono/timing'
 import createPubSub from './createPubSub'
+import type { GraphQLMiddlewareConfig } from './plugin'
 import buildMergedSchema from './utils/buildMergedSchema'
 import gqlRequest from './utils/gqlRequest'
 import gqlRequestUntyped from './utils/gqlRequestUntyped'
 import handleYoga from './utils/handleYoga'
-
-import type { GraphQLMiddlewareConfig } from './plugin'
-import type { Plugin } from '@zemble/core'
-import type { Middleware } from '@zemble/core/types'
-import type { GraphQLSchema } from 'graphql'
 
 export const absoluteOrRelativeToCwd = (pathTo: string) => {
   if (path.isAbsolute(pathTo)) {
@@ -40,22 +35,23 @@ export const printMergedSchema = async (
   if (outputMergedSchemaPath) {
     const resolvedPath = absoluteOrRelativeToCwd(outputMergedSchemaPath)
 
-    await fs.promises.writeFile(resolvedPath, `${printSchemaWithDirectives(mergedSchema)}\n`)
+    await fs.promises.writeFile(
+      resolvedPath,
+      `${printSchemaWithDirectives(mergedSchema)}\n`,
+    )
   }
 }
 
-export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
-  {
-    config, app, context, logger,
-  },
-) => {
-  const pubsub = await createPubSub(
-    config.redisUrl,
-    {
-      logger,
-      redis: config.redisOptions,
-    },
-  )
+export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async ({
+  config,
+  app,
+  context,
+  logger,
+}) => {
+  const pubsub = await createPubSub(config.redisUrl, {
+    logger,
+    redis: config.redisOptions,
+  })
 
   const { hono } = app
 
@@ -85,13 +81,13 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
 
   const getGlobalContext = () => {
     if (config.yoga?.context) {
-      const ctx = typeof config.yoga.context === 'function'
-        ? config.yoga.context(context)
-        : { ...context, ...(config.yoga.context as object) }
+      const ctx =
+        typeof config.yoga.context === 'function'
+          ? config.yoga.context(context)
+          : { ...context, ...(config.yoga.context as object) }
       ctx.pubsub = pubsub
       return ctx
     }
-    // eslint-disable-next-line no-unused-expressions
     context.pubsub = pubsub
 
     return context
@@ -112,22 +108,22 @@ export const middleware: Middleware<GraphQLMiddlewareConfig, Plugin> = async (
     {
       ...config.yoga,
       graphiql: async (req, context) => {
-        const resolved = (typeof config.yoga?.graphiql === 'function'
-          ? await config.yoga?.graphiql?.(req, context)
-          : (config.yoga?.graphiql ?? {}))
-        return ({
+        const resolved =
+          typeof config.yoga?.graphiql === 'function'
+            ? await config.yoga?.graphiql?.(req, context)
+            : (config.yoga?.graphiql ?? {})
+        return {
           credentials: 'include',
-          subscriptionsProtocol: config.subscriptionTransport === 'ws' ? 'WS' : 'SSE',
-          ...typeof resolved === 'boolean' ? {} : resolved,
-        })
+          subscriptionsProtocol:
+            config.subscriptionTransport === 'ws' ? 'WS' : 'SSE',
+          ...(typeof resolved === 'boolean' ? {} : resolved),
+        }
       },
-      // eslint-disable-next-line no-nested-ternary
       context: getGlobalContext(),
     },
   )
 
   // if (config.sofa) {
-  //   // eslint-disable-next-line import/no-extraneous-dependencies
   //   const { useSofa } = await import('sofa-api')
 
   //   const urlPath = config.sofa.basePath ?? '/api'

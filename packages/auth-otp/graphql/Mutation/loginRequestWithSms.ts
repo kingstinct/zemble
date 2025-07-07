@@ -6,17 +6,20 @@ import sendTwoFactorCode from '../../utils/sendTwoFactorCode'
 
 import type { MutationResolvers } from '../schema.generated'
 
-export const loginRequestWithSms: NonNullable<MutationResolvers['loginRequestWithSms']> = async (_, {
-  phoneNumberWithCountryCode: phoneNumIn,
-}, context) => {
+export const loginRequestWithSms: NonNullable<
+  MutationResolvers['loginRequestWithSms']
+> = async (_, { phoneNumberWithCountryCode: phoneNumIn }, context) => {
   const phoneNumberWithCountryCode = phoneNumIn.trim()
 
   if (!isValidE164Number(phoneNumberWithCountryCode)) {
-    return { message: 'Not a valid phone number', __typename: 'PhoneNumNotValidError' }
+    return {
+      message: 'Not a valid phone number',
+      __typename: 'PhoneNumNotValidError',
+    }
   }
 
   const { country } = parsePhoneNumber(phoneNumberWithCountryCode),
-        { WHITELISTED_COUNTRY_CODES } = plugin.config
+    { WHITELISTED_COUNTRY_CODES } = plugin.config
 
   if (WHITELISTED_COUNTRY_CODES && WHITELISTED_COUNTRY_CODES.length) {
     if (!country || !WHITELISTED_COUNTRY_CODES.includes(country)) {

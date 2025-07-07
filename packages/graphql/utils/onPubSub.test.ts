@@ -1,7 +1,6 @@
-import { test, expect } from 'bun:test'
-
-import { onPubSub } from './onPubSub'
+import { expect, test } from 'bun:test'
 import createPubSub from '../createPubSub'
+import { onPubSub } from './onPubSub'
 
 test('should subscribe', async () => {
   const pubsub = await createPubSub()
@@ -14,7 +13,9 @@ test('should subscribe', async () => {
 
   pubsub.publish('todoUpdated', { titile: 'sdf' })
 
-  await new Promise((resolve) => { setTimeout(resolve, 1) })
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1)
+  })
 
   expect(calls).toEqual([{ titile: 'sdf' }])
 })
@@ -35,10 +36,11 @@ test('should unsubscribe', async () => {
   pubsub.publish('todoUpdated', { titile: 'sdf' })
   pubsub.publish('todoUpdated', { titile: 'sdf' })
 
-  await new Promise((resolve) => { setTimeout(resolve, 1) })
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1)
+  })
 
   expect(calls).toEqual([])
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   expect(res).toEqual({ done: true })
 })
@@ -55,20 +57,20 @@ test('should unsubscribe in the middle', async () => {
   pubsub.publish('todoUpdated', { titile: 'call 1' })
   pubsub.publish('todoUpdated', { titile: 'call 2' })
 
-  await new Promise((resolve) => { setTimeout(resolve, 1) })
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1)
+  })
 
   const res = await unsubscribe()
 
   pubsub.publish('todoUpdated', { titile: 'call 3' })
   pubsub.publish('todoUpdated', { titile: 'call 4' })
 
-  await new Promise((resolve) => { setTimeout(resolve, 1) })
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1)
+  })
 
-  expect(calls).toEqual([
-    { titile: 'call 1' },
-    { titile: 'call 2' },
-  ])
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  expect(calls).toEqual([{ titile: 'call 1' }, { titile: 'call 2' }])
   // @ts-ignore
   expect(res).toEqual({ done: true })
 })

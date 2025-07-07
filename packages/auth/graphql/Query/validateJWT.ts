@@ -2,7 +2,10 @@ import { verifyJwt } from '../../utils/verifyJwt'
 
 import type { QueryResolvers } from '../schema.generated'
 
-export const validateJWT: NonNullable<QueryResolvers['validateJWT']> = async (_: unknown, { token }: {readonly token: string}) => {
+export const validateJWT: NonNullable<QueryResolvers['validateJWT']> = async (
+  _: unknown,
+  { token }: { readonly token: string },
+) => {
   try {
     await verifyJwt(token)
     return true

@@ -1,16 +1,13 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable functional/immutable-data */
-
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useState } from 'react'
-import { Controller } from 'react-hook-form'
-import {
-  Button, Menu,
-} from 'react-native-paper'
-
 import type {
-  Control, FieldValues, Path, RegisterOptions,
+  Control,
+  FieldValues,
+  Path,
+  RegisterOptions,
 } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
+import { Button, Menu } from 'react-native-paper'
 
 const FieldTypeMenuItem = ({ onChange, fieldType, value }) => (
   <Menu.Item
@@ -36,7 +33,13 @@ function SelectOneController<T extends FieldValues>({
   rules,
   buttonStyle,
   options,
-}: { readonly control: Control<T>, readonly name: Path<T>, readonly rules?: RegisterOptions<T>, readonly options: readonly string[], readonly buttonStyle?: ButtonStyle }) {
+}: {
+  readonly control: Control<T>
+  readonly name: Path<T>
+  readonly rules?: RegisterOptions<T>
+  readonly options: readonly string[]
+  readonly buttonStyle?: ButtonStyle
+}) {
   const [visible, setVisible] = useState(false)
   return (
     <Controller
@@ -44,8 +47,8 @@ function SelectOneController<T extends FieldValues>({
       name={name}
       rules={rules}
       render={({ field: { onChange, onBlur, value } }) => {
-        const onChanged = (value: string) => {
-          onChange(value)
+        const onChanged = (newValue: string) => {
+          onChange(newValue)
           setVisible(false)
         }
 
@@ -56,13 +59,25 @@ function SelectOneController<T extends FieldValues>({
               setVisible(false)
               onBlur()
             }}
-            anchor={(
-              <Button style={buttonStyle} mode='outlined' onPress={() => setVisible(true)} icon='chevron-down'>
-                { value }
+            anchor={
+              <Button
+                style={buttonStyle}
+                mode='outlined'
+                onPress={() => setVisible(true)}
+                icon='chevron-down'
+              >
+                {value}
               </Button>
-            )}
+            }
           >
-            { options.map((option) => <FieldTypeMenuItem key={option} onChange={onChanged} fieldType={option} value={value} />) }
+            {options.map((option) => (
+              <FieldTypeMenuItem
+                key={option}
+                onChange={onChanged}
+                fieldType={option}
+                value={value}
+              />
+            ))}
           </Menu>
         )
       }}

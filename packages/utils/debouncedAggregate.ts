@@ -1,12 +1,15 @@
 type Opts = {
-  readonly maxItems?: number,
-  readonly maxMs?: number,
+  readonly maxItems?: number
+  readonly maxMs?: number
 }
 
-function debouncedAggregate<T>(ms: number, fn: (items: readonly T[]) => void, opts?: Opts) {
+function debouncedAggregate<T>(
+  ms: number,
+  fn: (items: readonly T[]) => void,
+  opts?: Opts,
+) {
   let timeout: ReturnType<typeof setTimeout> | undefined
   let lastInit: number | undefined
-  // eslint-disable-next-line functional/prefer-readonly-type
   let items: T[] = []
 
   const executeAndReset = () => {
@@ -20,7 +23,6 @@ function debouncedAggregate<T>(ms: number, fn: (items: readonly T[]) => void, op
       lastInit = Date.now()
     }
     clearTimeout(timeout)
-    // eslint-disable-next-line functional/immutable-data
     items.push(item)
 
     const timeSinceStart = Date.now() - lastInit
@@ -30,7 +32,9 @@ function debouncedAggregate<T>(ms: number, fn: (items: readonly T[]) => void, op
     } else if (opts?.maxMs && timeSinceStart >= opts.maxMs) {
       executeAndReset()
     } else {
-      const actualMs = opts?.maxMs ? Math.min(ms, opts.maxMs - timeSinceStart) : ms
+      const actualMs = opts?.maxMs
+        ? Math.min(ms, opts.maxMs - timeSinceStart)
+        : ms
 
       timeout = setTimeout(executeAndReset, actualMs)
     }

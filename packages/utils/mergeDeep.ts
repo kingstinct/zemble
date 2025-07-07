@@ -1,12 +1,12 @@
-/* eslint-disable no-param-reassign, functional/immutable-data */
 import type { PartialDeep } from 'type-fest'
 
 /**
-* Performs a deep merge of objects and returns new object. Does not modify
-* objects (immutable) and merges arrays via concatenation.
-*/
-export function mergeDeep<TType extends Record<string, unknown>>(...objects: readonly PartialDeep<TType>[]) {
-  // eslint-disable-next-line unicorn/consistent-function-scoping
+ * Performs a deep merge of objects and returns new object. Does not modify
+ * objects (immutable) and merges arrays via concatenation.
+ */
+export function mergeDeep<TType extends Record<string, unknown>>(
+  ...objects: readonly PartialDeep<TType>[]
+) {
   function isObject<T>(obj: T) {
     return obj && typeof obj === 'object'
   }
@@ -23,7 +23,10 @@ export function mergeDeep<TType extends Record<string, unknown>>(...objects: rea
         prev[key] = pVal.concat(...oVal)
       } else if (isObject(pVal) && isObject(oVal)) {
         // @ts-expect-error - this is a valid assignment
-        prev[key] = mergeDeep(pVal as PartialDeep<TType>, oVal as PartialDeep<TType>)
+        prev[key] = mergeDeep(
+          pVal as PartialDeep<TType>,
+          oVal as PartialDeep<TType>,
+        )
       } else {
         // @ts-expect-error - this is a valid assignment
         prev[key] = oVal

@@ -1,5 +1,5 @@
-import type { SubscriptionResolvers } from '../schema.generated'
 import type { Job } from 'bullmq'
+import type { SubscriptionResolvers } from '../schema.generated'
 
 export const jobUpdated: NonNullable<SubscriptionResolvers['jobUpdated']> = {
   // subscribe to the jobUpdated event

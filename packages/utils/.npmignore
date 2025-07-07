@@ -7,6 +7,4 @@ src
 Dockerfile.web
 tsconfig.json
 tsconfig.build.json
-.eslintrc
-.eslintignore
 .nvmrc

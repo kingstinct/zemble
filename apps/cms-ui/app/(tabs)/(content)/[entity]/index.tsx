@@ -1,7 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router'
-import {
-  View,
-} from 'react-native'
+import { View } from 'react-native'
 import { Button } from 'react-native-paper'
 import { useQuery } from 'urql'
 
@@ -52,7 +50,7 @@ export const GetEntityByNamePluralQuery = graphql(`
 const EntityDetails = () => {
   const { entity } = useLocalSearchParams()
 
-  const [{ data }, refetch] = useQuery({
+  const [{ data }, _refetch] = useQuery({
     query: GetEntityByNamePluralQuery,
     variables: { namePlural: entity },
     pause: !entity,
@@ -60,7 +58,13 @@ const EntityDetails = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Button mode='contained' style={{ margin: 16 }} onPress={() => router.push(`/(tabs)/(content)/${entity as string}/create`)}>{`Create ${data?.getEntityByNamePlural?.nameSingular}`}</Button>
+      <Button
+        mode='contained'
+        style={{ margin: 16 }}
+        onPress={() =>
+          router.push(`/(tabs)/(content)/${entity as string}/create`)
+        }
+      >{`Create ${data?.getEntityByNamePlural?.nameSingular}`}</Button>
       {data?.getEntityByNamePlural ? (
         <ListOfEntries
           entity={data.getEntityByNamePlural}

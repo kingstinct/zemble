@@ -1,5 +1,5 @@
+import { describe, expect, it } from 'bun:test'
 import { createTestApp } from '@zemble/core/test-utils'
-import { expect, describe, it } from 'bun:test'
 
 import plugin from '../../plugin'
 import { signJwt } from '../../utils/signJwt'
@@ -21,7 +21,9 @@ describe('advancedWithOr', () => {
       { silenceErrors: true },
     )
 
-    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.advancedWithOr' requires authentication.`)
+    expect(response.errors?.[0]?.message).toEqual(
+      `Accessing 'Query.advancedWithOr' requires authentication.`,
+    )
   })
 
   it('Should fail without array', async () => {
@@ -29,41 +31,66 @@ describe('advancedWithOr', () => {
 
     const token = await signJwt({ data: { type: 'user-token' }, sub: '1' })
 
-    const response = await app.gqlRequest(AdvancedWithOrQuery, { organisationId: '123' }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await app.gqlRequest(
+      AdvancedWithOrQuery,
+      { organisationId: '123' },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        silenceErrors: true,
       },
-      silenceErrors: true,
-    })
+    )
 
-    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
+    expect(response.errors?.[0]?.message).toEqual(
+      `Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`,
+    )
   })
 
   it('Should fail when roles array doesnt include the right role', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { type: 'user-token', roles: [] }, sub: '1' })
-
-    const response = await app.gqlRequest(AdvancedWithOrQuery, { organisationId: '123' }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      silenceErrors: true,
+    const token = await signJwt({
+      data: { type: 'user-token', roles: [] },
+      sub: '1',
     })
 
-    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
+    const response = await app.gqlRequest(
+      AdvancedWithOrQuery,
+      { organisationId: '123' },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        silenceErrors: true,
+      },
+    )
+
+    expect(response.errors?.[0]?.message).toEqual(
+      `Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`,
+    )
   })
 
   it('Should succeed when the role includes admin role', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { type: 'user-token', roles: [{ role: 'admin', organisationId: '123' }] }, sub: '1' })
-
-    const response = await app.gqlRequest(AdvancedWithOrQuery, { organisationId: '123' }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const token = await signJwt({
+      data: {
+        type: 'user-token',
+        roles: [{ role: 'admin', organisationId: '123' }],
       },
+      sub: '1',
     })
+
+    const response = await app.gqlRequest(
+      AdvancedWithOrQuery,
+      { organisationId: '123' },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
 
     expect(response.data?.advancedWithOr).toEqual(`private shit`)
   })
@@ -71,13 +98,23 @@ describe('advancedWithOr', () => {
   it('Should succeed when the role includes superadmin role', async () => {
     const app = await createTestApp(plugin)
 
-    const token = await signJwt({ data: { type: 'user-token', roles: [{ role: 'admin', organisationId: '123' }] }, sub: '1' })
-
-    const response = await app.gqlRequest(AdvancedWithOrQuery, { organisationId: '123' }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const token = await signJwt({
+      data: {
+        type: 'user-token',
+        roles: [{ role: 'admin', organisationId: '123' }],
       },
+      sub: '1',
     })
+
+    const response = await app.gqlRequest(
+      AdvancedWithOrQuery,
+      { organisationId: '123' },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
 
     expect(response.data?.advancedWithOr).toEqual(`private shit`)
   })
@@ -88,16 +125,23 @@ describe('advancedWithOr', () => {
     const token = await signJwt({
       data: {
         type: 'user-token',
-        roles: [{ role: 'admin', organisationId: '123' }, { role: 'superadmin', organisationId: '123' }],
+        roles: [
+          { role: 'admin', organisationId: '123' },
+          { role: 'superadmin', organisationId: '123' },
+        ],
       },
       sub: '1',
     })
 
-    const response = await app.gqlRequest(AdvancedWithOrQuery, { organisationId: '123' }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await app.gqlRequest(
+      AdvancedWithOrQuery,
+      { organisationId: '123' },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    })
+    )
 
     expect(response.data?.advancedWithOr).toEqual(`private shit`)
   })
@@ -108,16 +152,23 @@ describe('advancedWithOr', () => {
     const token = await signJwt({
       data: {
         type: 'user-token',
-        roles: [{ role: 'admin', organisationId: '123' }, { role: 'superadmin', organisationId: '1234' }],
+        roles: [
+          { role: 'admin', organisationId: '123' },
+          { role: 'superadmin', organisationId: '1234' },
+        ],
       },
       sub: '1',
     })
 
-    const response = await app.gqlRequest(AdvancedWithOrQuery, { organisationId: '123' }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await app.gqlRequest(
+      AdvancedWithOrQuery,
+      { organisationId: '123' },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    })
+    )
 
     expect(response.data?.advancedWithOr).toEqual(`private shit`)
   })
@@ -126,8 +177,7 @@ describe('advancedWithOr', () => {
     const app = await createTestApp(plugin)
 
     const token = await signJwt({
-      data:
-      {
+      data: {
         type: 'user-token',
         roles: [
           { role: 'admin', organisationId: '1234' },
@@ -137,13 +187,19 @@ describe('advancedWithOr', () => {
       sub: '1',
     })
 
-    const response = await app.gqlRequest(AdvancedWithOrQuery, { organisationId: '123' }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await app.gqlRequest(
+      AdvancedWithOrQuery,
+      { organisationId: '123' },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        silenceErrors: true,
       },
-      silenceErrors: true,
-    })
+    )
 
-    expect(response.errors?.[0]?.message).toEqual(`Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`)
+    expect(response.errors?.[0]?.message).toEqual(
+      `Accessing 'Query.advancedWithOr' requires token including arrays matching one of [{"includes":{"roles":{"role":"admin","organisationId":"123"}}},{"includes":{"roles":{"role":"superadmin","organisationId":"123"}}}].`,
+    )
   })
 })

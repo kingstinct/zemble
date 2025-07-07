@@ -9,7 +9,6 @@ export interface RoutesGlobalConfig {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
     interface MiddlewareConfig {
       readonly ['@zemble/routes']?: RoutesGlobalConfig
@@ -17,15 +16,11 @@ declare global {
   }
 }
 
-export interface RoutesConfig extends Zemble.GlobalConfig {
+export interface RoutesConfig extends Zemble.GlobalConfig {}
 
-}
+const defaultConfig = {} satisfies RoutesConfig
 
-const defaultConfig = {
-
-} satisfies RoutesConfig
-
-export default new Plugin<RoutesConfig>(
-  import.meta.dir,
-  { defaultConfig, middleware },
-)
+export default new Plugin<RoutesConfig>(import.meta.dir, {
+  defaultConfig,
+  middleware,
+})

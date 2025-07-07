@@ -6,7 +6,6 @@
   "main": "app.ts",
   "scripts": {
     "dev": "bun --hot app.ts",
-    "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
@@ -33,14 +32,15 @@
   "license": "ISC",
   "dependencies": {
     "@envelop/generic-auth": "7",
+    "@zemble/apple-app-site-association": "workspace:*",
+    "@zemble/auth-anonymous": "workspace:*",
+    "@zemble/bull": "workspace:*",
+    "@zemble/bun": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "@zemble/auth-anonymous": "workspace:*",
-    "@zemble/apple-app-site-association": "workspace:*",
-    "@zemble/bull": "workspace:*",
-    "@zemble/todo": "workspace:*",
     "@zemble/ignite": "workspace:*",
-    "@zemble/bun": "workspace:*"
+    "@zemble/todo": "workspace:*",
+    "hono": "^4.8.4"
   },
   "devDependencies": {}
 }

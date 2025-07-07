@@ -1,6 +1,5 @@
-import { IStandardKeyValueService } from '@zemble/core'
-
 import type { KVNamespace } from '@cloudflare/workers-types'
+import { IStandardKeyValueService } from '@zemble/core'
 
 class CloudflareKeyValue<T> extends IStandardKeyValueService<T> {
   async keys() {
@@ -10,18 +9,22 @@ class CloudflareKeyValue<T> extends IStandardKeyValueService<T> {
 
   async values() {
     const all = await this.namespace.list({ prefix: this.prefix })
-    return Promise.all(all.keys.map(async (key) => {
-      const val = await this.namespace.get<T>(key.name, 'json')
-      return val as T
-    }))
+    return Promise.all(
+      all.keys.map(async (key) => {
+        const val = await this.namespace.get<T>(key.name, 'json')
+        return val as T
+      }),
+    )
   }
 
   async entries() {
     const all = await this.namespace.list({ prefix: this.prefix })
-    return Promise.all(all.keys.map(async (key) => {
-      const val = await this.namespace.get<T>(key.name, 'json')
-      return [key.name, val as T] as const
-    }))
+    return Promise.all(
+      all.keys.map(async (key) => {
+        const val = await this.namespace.get<T>(key.name, 'json')
+        return [key.name, val as T] as const
+      }),
+    )
   }
 
   async size(): Promise<number> {
@@ -32,7 +35,9 @@ class CloudflareKeyValue<T> extends IStandardKeyValueService<T> {
   async clear(): Promise<void> {
     const all = await this.namespace.list({ prefix: this.prefix })
     if (all.keys.length > 0) {
-      await Promise.all(all.keys.map(async (key) => this.namespace.delete(key.name)))
+      await Promise.all(
+        all.keys.map(async (key) => this.namespace.delete(key.name)),
+      )
     }
   }
 
@@ -54,7 +59,11 @@ class CloudflareKeyValue<T> extends IStandardKeyValueService<T> {
     const prefixedKey = this.getPrefixedKey(key)
     const stringValue = JSON.stringify(value)
 
-    await (expireAfterSeconds ? this.namespace.put(prefixedKey, stringValue, { expirationTtl: expireAfterSeconds }) : this.namespace.put(prefixedKey, stringValue))
+    await (expireAfterSeconds
+      ? this.namespace.put(prefixedKey, stringValue, {
+          expirationTtl: expireAfterSeconds,
+        })
+      : this.namespace.put(prefixedKey, stringValue))
   }
 
   async get(key: string): Promise<T | null> {

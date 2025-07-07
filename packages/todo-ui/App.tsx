@@ -1,4 +1,3 @@
-/* eslint-disable react/style-prop-object */
 import LoginButton from '@zemble/auth-anonymous-expo/components/LoginButton'
 import { SimpleAnonymousAuthProvider } from '@zemble/auth-anonymous-expo/contexts/Auth'
 import { StatusBar } from 'expo-status-bar'

@@ -1,9 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
+import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import tz from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
-
-import type { Dayjs } from 'dayjs'
 
 dayjs.extend(utc)
 dayjs.extend(tz)
@@ -16,9 +14,10 @@ export const universalDateTimeToDayjs = (
 ) => {
   if (typeof universalDateTime === 'string') {
     const dayInDefaultTimezone = dayjs(universalDateTime).tz()
-    const startOrEndOfDay = interpretDate === 'endOfDay'
-      ? dayInDefaultTimezone.endOf('day')
-      : dayInDefaultTimezone.startOf('day')
+    const startOrEndOfDay =
+      interpretDate === 'endOfDay'
+        ? dayInDefaultTimezone.endOf('day')
+        : dayInDefaultTimezone.startOf('day')
 
     return startOrEndOfDay
   }

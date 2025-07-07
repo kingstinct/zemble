@@ -5,10 +5,11 @@
   "bin": "./bin/create-zemble-app.js",
   "type": "module",
   "scripts": {
-    "test": "bun test cli.ts"
+    "test": "bun test cli.test.ts"
   },
   "dependencies": {
-    "fs-extra": "^11.3.0"
+    "fs-extra": "^11.3.0",
+    "@zemble/core": "workspace:*"
   },
   "module": "index.ts",
   "repository": {
@@ -23,5 +24,7 @@
   "bugs": {
     "url": "https://github.com/kingstinct/zemble/issues"
   },
-  "keywords": ["zemble"]
+  "keywords": [
+    "zemble"
+  ]
 }

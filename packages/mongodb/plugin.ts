@@ -1,9 +1,8 @@
 import { Plugin } from '@zemble/core'
 import { setupProvider } from '@zemble/core/utils/setupProvider'
 import Routes from '@zemble/routes'
-import { MongoClient } from 'mongodb'
-
 import type { Db, MongoClientOptions } from 'mongodb'
+import { MongoClient } from 'mongodb'
 
 interface MongodbClientConfig extends Zemble.GlobalConfig {
   readonly url?: string
@@ -16,22 +15,21 @@ interface MongodbClientConfigRequired {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Zemble {
-
     interface MiddlewareConfig {
       readonly '@zemble/mongodb'?: {
-        readonly disable?: boolean,
-        readonly config?: MongodbClientConfigRequired,
+        readonly disable?: boolean
+        readonly config?: MongodbClientConfigRequired
       }
     }
 
     interface Providers {
-      // eslint-disable-next-line functional/prefer-readonly-type
-      'mongodb': {
-        readonly client: MongoClient
-        readonly db: Db
-      } | undefined
+      mongodb:
+        | {
+            readonly client: MongoClient
+            readonly db: Db
+          }
+        | undefined
     }
   }
 }
@@ -45,11 +43,11 @@ const regexToHidePassword = /(?<=mongodb\+srv:\/\/[^:]+:)[^@]+/
 export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
   import.meta.dir,
   {
-    middleware: async ({
-      app, config, logger,
-    }) => {
+    middleware: async ({ app, config, logger }) => {
       if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
-        logger.info('Connecting to MongoDB', config.url.replace(regexToHidePassword, '***'))
+        logger.info(
+          `Connecting to MongoDB${config.url.replace(regexToHidePassword, '***')}`,
+        )
       }
 
       // we create a global mongodb client for the app, which is also used for all plugins that don't have a custom
@@ -57,7 +55,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
       const defaultClient = new MongoClient(config.url, config.options)
 
       defaultClient.on('error', (error) => {
-        logger.error('MongoDB error', error)
+        logger.error('MongoDB error', { error })
       })
 
       if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
@@ -75,7 +73,7 @@ export default new Plugin<MongodbClientConfig, typeof defaultConfig>(
             const customClient = new MongoClient(config.url, config.options)
 
             customClient.on('error', (error) => {
-              logger.error('MongoDB error', error)
+              logger.error('MongoDB error', { error })
             })
 
             await customClient.connect()

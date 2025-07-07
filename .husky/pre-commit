@@ -1,0 +1,1 @@
+bunx biome check --diagnostic-level error --fix --no-errors-on-unmatched --staged

@@ -1,10 +1,9 @@
 import { router, useLocalSearchParams } from 'expo-router'
 import { PaperProvider } from 'react-native-paper'
 import { useQuery } from 'urql'
-
-import { GetEntityByNamePluralQuery } from '../..'
 import CreateField from '../../../../../../components/UpsertField'
 import { GetEntitiesDocument } from '../../../../../../gql.generated/graphql'
+import { GetEntityByNamePluralQuery } from '../..'
 
 const AddField = () => {
   const { entity, fieldName } = useLocalSearchParams()
@@ -26,7 +25,9 @@ const AddField = () => {
       <CreateField
         entity={data.getEntityByNamePlural}
         fieldNameToModify={fieldName as string}
-        availableEntityNames={entitiesData?.getAllEntities.map((e) => e.namePlural) ?? []}
+        availableEntityNames={
+          entitiesData?.getAllEntities.map((e) => e.namePlural) ?? []
+        }
         onUpdated={() => {
           refetch()
           router.back()

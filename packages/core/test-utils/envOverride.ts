@@ -1,7 +1,9 @@
-/* eslint-disable functional/immutable-data */
 let originalEnv: NodeJS.ProcessEnv | undefined
 
-export const setupEnvOverride = (overrideEnv: NodeJS.ProcessEnv, clear: (boolean | readonly string[]) = false) => {
+export const setupEnvOverride = (
+  overrideEnv: NodeJS.ProcessEnv,
+  clear: boolean | readonly string[] = false,
+) => {
   if (!originalEnv) {
     originalEnv = process.env
   }
@@ -11,7 +13,9 @@ export const setupEnvOverride = (overrideEnv: NodeJS.ProcessEnv, clear: (boolean
   } else {
     process.env = { ...originalEnv, ...overrideEnv }
     if (Array.isArray(clear)) {
-      clear.forEach((key) => delete process.env[key])
+      clear.forEach((key) => {
+        delete process.env[key]
+      })
     }
   }
 }

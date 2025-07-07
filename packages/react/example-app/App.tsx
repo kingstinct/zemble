@@ -1,14 +1,12 @@
-/* eslint-disable import/no-unresolved */
+/** biome-ignore-all lint/correctness/noUndeclaredDependencies: intended */
 import { NavigationContainer } from '@react-navigation/native'
 import { Column, Row } from '@zemble/primitives'
-import { StatusBar } from 'expo-status-bar'
-import React, { useCallback, useMemo, useState } from 'react'
-import { ActivityIndicator, Button, Switch, Text, TextInput } from 'react-native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import Animated, { CurvedTransition } from 'react-native-reanimated'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-
-import { SnackbarPresentationView, DefaultSnackbarComponent } from '@zemble/react-snackbar'
+import {
+  useIsKeyboardShown,
+  useKeyboardHeight,
+  useWillKeyboardBeShown,
+} from '@zemble/react-keyboard'
+import { StringsProvider } from '@zemble/react-network'
 import {
   NativePortal,
   SharedPortalAreaProvider,
@@ -16,20 +14,28 @@ import {
   useSharedPortalAreaInsets,
   useSharedPortalAreaSize,
 } from '@zemble/react-portal'
-import { StringsProvider } from '@zemble/react-network'
+import type { SnackbarComponentProps } from '@zemble/react-snackbar'
 import {
+  DefaultSnackbarComponent,
+  SnackbarPresentationView,
   useAddSnackbar,
   useSnackbarSettings,
 } from '@zemble/react-snackbar'
+import { StatusBar } from 'expo-status-bar'
+import type React from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
-  useIsKeyboardShown,
-  useKeyboardHeight,
-  useWillKeyboardBeShown,
-} from '@zemble/react-keyboard'
+  ActivityIndicator,
+  Button,
+  Switch,
+  Text,
+  TextInput,
+} from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import Animated, { CurvedTransition } from 'react-native-reanimated'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import useAlert from '../hooks/useAlert'
 import useConfirm from '../hooks/useConfirm'
-
-import type { SnackbarComponentProps } from '@zemble/react-snackbar'
 
 const CustomSnackbarComponent: React.FC<SnackbarComponentProps> = (props) => (
   <DefaultSnackbarComponent
@@ -44,7 +50,8 @@ const Body: React.FC = () => {
   const insets = useSharedPortalAreaInsets()
   const size = useSharedPortalAreaSize()
   const [hasCustomSnackbar, setHasCustomSnackbar] = useState(false)
-  const [confirmationDialogResponse, setConfirmationDialogResponse] = useState<boolean>()
+  const [confirmationDialogResponse, setConfirmationDialogResponse] =
+    useState<boolean>()
   const addSnackbar = useAddSnackbar()
   const alert = useAlert()
   const confirm = useConfirm()
@@ -54,10 +61,9 @@ const Body: React.FC = () => {
   const willKeyboardBeShown = useWillKeyboardBeShown()
 
   const addShortSnackbar = useCallback(() => {
-    addSnackbar(
-      'This is a short snackbar title',
-      { actions: [{ label: 'ok' }, { label: 'cancel' }] },
-    )
+    addSnackbar('This is a short snackbar title', {
+      actions: [{ label: 'ok' }, { label: 'cancel' }],
+    })
   }, [addSnackbar])
 
   const addVerboseSnackbar = useCallback(() => {
@@ -67,7 +73,11 @@ const Body: React.FC = () => {
     )
   }, [addSnackbar])
 
-  const SnackbarComponent = useMemo(() => (hasCustomSnackbar ? CustomSnackbarComponent : DefaultSnackbarComponent), [hasCustomSnackbar])
+  const SnackbarComponent = useMemo(
+    () =>
+      hasCustomSnackbar ? CustomSnackbarComponent : DefaultSnackbarComponent,
+    [hasCustomSnackbar],
+  )
 
   return (
     <SafeAreaProvider>
@@ -82,29 +92,49 @@ const Body: React.FC = () => {
           placeholder='This is a text input'
         />
 
-        <Row style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Row
+          style={{
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
           <Text>Use custom snackbar</Text>
-          <Switch onChange={() => setHasCustomSnackbar((v) => !v)} value={hasCustomSnackbar} />
+          <Switch
+            onChange={() => setHasCustomSnackbar((v) => !v)}
+            value={hasCustomSnackbar}
+          />
         </Row>
 
         <Button
           title='Add snackbar'
           onPress={() => {
-            addSnackbar(
-              'Click to add another snackbar that is different',
-              { actions: [{ label: 'Short', onPress: addShortSnackbar }, { label: 'Verbose', onPress: addVerboseSnackbar }] },
-            )
+            addSnackbar('Click to add another snackbar that is different', {
+              actions: [
+                { label: 'Short', onPress: addShortSnackbar },
+                { label: 'Verbose', onPress: addVerboseSnackbar },
+              ],
+            })
           }}
         />
 
         <Button
           title='Show alert dialog'
-          onPress={() => { void alert('This is an alert dialog', 'This is the message') }}
+          onPress={() => {
+            void alert('This is an alert dialog', 'This is the message')
+          }}
         />
 
         <Button
           title='Show confirmation dialog'
-          onPress={async () => setConfirmationDialogResponse(await confirm('This is a confirmation dialog', 'This is the message'))}
+          onPress={async () =>
+            setConfirmationDialogResponse(
+              await confirm(
+                'This is a confirmation dialog',
+                'This is the message',
+              ),
+            )
+          }
         />
 
         <Text>
@@ -112,8 +142,11 @@ const Body: React.FC = () => {
           {confirmationDialogResponse?.toString()}
         </Text>
       </Column>
-      <NativePortal pointerEvents='none' insets={{ bottom: insets.bottom + size.height, right: 10, left: 360 }}>
-        <Animated.View layout={CurvedTransition} style={{ }}>
+      <NativePortal
+        pointerEvents='none'
+        insets={{ bottom: insets.bottom + size.height, right: 10, left: 360 }}
+      >
+        <Animated.View layout={CurvedTransition} style={{}}>
           <ActivityIndicator />
         </Animated.View>
       </NativePortal>

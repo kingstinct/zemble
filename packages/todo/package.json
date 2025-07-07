@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
@@ -34,14 +33,16 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@bull-board/api": "^6.7.1",
-    "@zemble/core": "workspace:*",
-    "@zemble/graphql": "workspace:*",
-    "bullmq": "^5.34.10",
-    "graphql": "^16.10.0",
-    "hono": "^4.6.17",
+    "@bull-board/api": "^6.11.0",
+    "@graphql-codegen/cli": "^5.0.7",
     "@zemble/auth": "workspace:*",
     "@zemble/auth-anonymous": "workspace:*",
-    "@zemble/kv": "workspace:*"
+    "@zemble/core": "workspace:*",
+    "@zemble/graphql": "workspace:*",
+    "@zemble/kv": "workspace:*",
+    "@zemble/utils": "workspace:*",
+    "bullmq": "^5.56.1",
+    "graphql": "^16.11.0",
+    "hono": "^4.8.4"
   }
 }

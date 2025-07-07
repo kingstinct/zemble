@@ -21,8 +21,12 @@
     "react-native": "^0.72.4"
   },
   "dependencies": {
+    "@expo/vector-icons": "^14.1.0",
     "@react-native-community/netinfo": "^9.4.1",
-    "ts-pattern": "^5.6.2"
+    "@zemble/react": "workspace:*",
+    "@zemble/primitives": "workspace:*",
+    "ts-pattern": "^5.6.2",
+    "urql": "^4.2.2"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

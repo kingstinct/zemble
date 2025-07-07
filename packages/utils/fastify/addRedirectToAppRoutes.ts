@@ -1,7 +1,6 @@
+import type { FastifyInstance } from 'fastify'
 import Path from 'path'
 import Url from 'url'
-
-import type { FastifyInstance } from 'fastify'
 
 export const addRedirectToAppRoutes = (app: FastifyInstance) => {
   app.route({
@@ -10,7 +9,10 @@ export const addRedirectToAppRoutes = (app: FastifyInstance) => {
     handler: async (req, res) => {
       const queryStr = req.url.split('?')[1] // could be anything
       const queryStrPart = queryStr ? `?${queryStr}` : ''
-      const params = req.params as {readonly appScheme: string, readonly path: string}
+      const params = req.params as {
+        readonly appScheme: string
+        readonly path: string
+      }
       const redirectTo = `${params.appScheme}://${params.path}${queryStrPart}`
 
       return res.redirect(redirectTo)
@@ -23,7 +25,7 @@ export const addRedirectToAppRoutes = (app: FastifyInstance) => {
     handler: async (req, res) => {
       const queryStr = req.url.split('?')[1] // could be anything
       const queryStrPart = queryStr ? `?${queryStr}` : ''
-      const params = req.params as {readonly appScheme: string}
+      const params = req.params as { readonly appScheme: string }
       const redirectTo = `${params.appScheme}://${queryStrPart}`
 
       return res.redirect(redirectTo)
@@ -31,7 +33,10 @@ export const addRedirectToAppRoutes = (app: FastifyInstance) => {
   })
 }
 
-export const getRedirectUrl = (baseUrlToSelf: string, redirectUrlToAppOrWeb: string) => {
+export const getRedirectUrl = (
+  baseUrlToSelf: string,
+  redirectUrlToAppOrWeb: string,
+) => {
   const url = new Url.URL(baseUrlToSelf)
 
   const [scheme, path] = redirectUrlToAppOrWeb.split('://')
@@ -43,7 +48,6 @@ export const getRedirectUrl = (baseUrlToSelf: string, redirectUrlToAppOrWeb: str
   if (scheme?.startsWith('http')) {
     return redirectUrlToAppOrWeb
   }
-  // eslint-disable-next-line functional/immutable-data
   url.pathname = Path.join('redirect-to-app', scheme, path || '')
   return url.toString()
 }

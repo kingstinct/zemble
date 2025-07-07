@@ -5,7 +5,6 @@
   "main": "plugin.ts",
   "scripts": {
     "dev": "docker-compose up -d && REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
-    "lint": "eslint .",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
@@ -33,21 +32,22 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@bull-board/api": "^6.7.1",
+    "@bull-board/api": "^6.11.0",
     "@types/ejs": "^3.1.5",
     "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "bullmq": "^5.34.10",
+    "bullmq": "^5.56.1",
     "ejs": "^3.1.10",
-    "graphql": "^16.10.0",
-    "graphql-scalars": "^1.24.0",
-    "hono": "^4.6.17",
-    "ioredis": "^5.4.2",
+    "graphql": "^16.11.0",
+    "graphql-scalars": "^1.24.2",
+    "hono": "^4.8.4",
+    "ioredis": "^5.6.1",
     "safe-stable-stringify": "^2.5.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.7",
     "@types/bun": "*"
   }
 }

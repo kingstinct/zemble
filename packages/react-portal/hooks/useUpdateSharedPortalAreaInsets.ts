@@ -1,11 +1,12 @@
+import { generateId } from '@zemble/utils'
 import { useEffect } from 'react'
-
-import useSharedPortalAreaStore from './useSharedPortalAreaStore'
-import generateId from '@zemble/react/utils/generateId'
-
 import type { Insets } from 'react-native'
+import useSharedPortalAreaStore from './useSharedPortalAreaStore'
 
-export const useUpdateSharedPortalAreaInsets = (insets: Required<Insets>, enable = true) => {
+export const useUpdateSharedPortalAreaInsets = (
+  insets: Required<Insets>,
+  enable = true,
+) => {
   const pushInset = useSharedPortalAreaStore((state) => state.pushInset)
 
   const removeInset = useSharedPortalAreaStore((state) => state.removeInset)
@@ -17,9 +18,7 @@ export const useUpdateSharedPortalAreaInsets = (insets: Required<Insets>, enable
       return () => removeInset(id)
     }
     return () => {}
-  }, [
-    enable, insets, pushInset, removeInset,
-  ])
+  }, [enable, insets, pushInset, removeInset])
 }
 
 export default useUpdateSharedPortalAreaInsets

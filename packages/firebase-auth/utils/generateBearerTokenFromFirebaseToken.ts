@@ -1,9 +1,7 @@
 import authPlugin from '@zemble/auth'
 import { signJwt } from '@zemble/auth/utils/signJwt'
-
-import plugin from '..'
-
 import type { DecodedIdToken } from 'firebase-admin/auth'
+import plugin from '..'
 
 export const generateBearerTokenFromFirebaseToken = async (
   jwtContents: DecodedIdToken,

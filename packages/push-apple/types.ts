@@ -1,5 +1,12 @@
-import type { ApplePushPlatform, MutationAppleLiveActivityStateUpdatedArgs } from './graphql/schema.generated'
-import type { AnyPushTokenWithMetadata, PushTokenWithContentsAndFailedReason, TokenContents } from '@zemble/core'
+import type {
+  AnyPushTokenWithMetadata,
+  PushTokenWithContentsAndFailedReason,
+  TokenContents,
+} from '@zemble/core'
+import type {
+  ApplePushPlatform,
+  MutationAppleLiveActivityStateUpdatedArgs,
+} from './graphql/schema.generated'
 
 export interface ApplePushOptions extends Zemble.GlobalConfig {
   readonly APPLE_TEAM_ID?: string
@@ -24,7 +31,7 @@ export interface ApplePushOptions extends Zemble.GlobalConfig {
 }
 
 export type ApplePushTokenWithMetadata = {
-  readonly type: 'APPLE',
+  readonly type: 'APPLE'
   readonly platform: ApplePushPlatform
   readonly pushToken: string
   readonly appBundleId: string
@@ -32,7 +39,7 @@ export type ApplePushTokenWithMetadata = {
 }
 
 export type AppleStartLiveActivityPushTokenWithMetadata = {
-  readonly type: 'APPLE_START_LIVE_ACTIVITY',
+  readonly type: 'APPLE_START_LIVE_ACTIVITY'
   readonly platform: ApplePushPlatform
   readonly pushToken: string
   readonly appBundleId: string
@@ -40,7 +47,7 @@ export type AppleStartLiveActivityPushTokenWithMetadata = {
 }
 
 export type AppleUpdateLiveActivityPushTokenWithMetadata = {
-  readonly type: 'APPLE_UPDATE_LIVE_ACTIVITY',
+  readonly type: 'APPLE_UPDATE_LIVE_ACTIVITY'
   readonly platform: ApplePushPlatform
   readonly pushToken: string
   readonly appBundleId: string

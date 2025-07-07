@@ -2,7 +2,9 @@ import { readEntities } from '../../utils/fs'
 
 import type { QueryResolvers } from '../schema.generated'
 
-export const getEntityByNameSingular: NonNullable<QueryResolvers['getEntityByNameSingular']> = async (_, { name }) => {
+export const getEntityByNameSingular: NonNullable<
+  QueryResolvers['getEntityByNameSingular']
+> = async (_, { name }) => {
   const entities = await readEntities()
   const result = entities.find((entity) => entity.nameSingular === name)
 

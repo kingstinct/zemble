@@ -1,16 +1,12 @@
-import { stream } from 'hono/streaming'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-
-import readRoutes from './readRoutes'
-
-import type { RoutesGlobalConfig } from '../plugin'
 import type { IStandardLogger } from '@zemble/core'
 import type { MiddlewareHandler } from 'hono'
+import { stream } from 'hono/streaming'
+import type { RoutesGlobalConfig } from '../plugin'
+import readRoutes from './readRoutes'
 
-const httpVerbs = [
-  'get', 'post', 'put', 'delete', 'patch',
-] as const
+const httpVerbs = ['get', 'post', 'put', 'delete', 'patch'] as const
 
 const fileExtensionToMimeType: Record<string, string> = {
   '.aac': 'audio/aac',
@@ -26,7 +22,8 @@ const fileExtensionToMimeType: Record<string, string> = {
   '.css': 'text/css',
   '.csv': 'text/csv',
   '.doc': 'application/msword',
-  '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  '.docx':
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   '.eot': 'application/vnd.ms-fontobject',
   '.epub': 'application/epub+zip',
   '.gz': 'application/gzip',
@@ -59,7 +56,8 @@ const fileExtensionToMimeType: Record<string, string> = {
   '.pdf': 'application/pdf',
   '.php': 'application/x-httpd-php',
   '.ppt': 'application/vnd.ms-powerpoint',
-  '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  '.pptx':
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   '.rar': 'application/vnd.rar',
   '.rtf': 'application/rtf',
   '.sh': 'application/x-sh',
@@ -103,19 +101,33 @@ const initializeRoutes = async (
 
     const routePromises = Object.keys(routesAndFilenames).map(async (route) => {
       const val = routesAndFilenames[route]!
-      const relativePath = path.join(config.rootUrl ?? '', val.relativePath.toLowerCase())
+      const relativePath = path.join(
+        config.rootUrl ?? '',
+        val.relativePath.toLowerCase(),
+      )
       const filename = val.filename.toLowerCase()
 
       const is404 = filename.startsWith('404')
 
-      if (relativePath.endsWith('.js') || relativePath.endsWith('.ts') || relativePath.endsWith('.jsx') || relativePath.endsWith('.tsx')) {
+      if (
+        relativePath.endsWith('.js') ||
+        relativePath.endsWith('.ts') ||
+        relativePath.endsWith('.jsx') ||
+        relativePath.endsWith('.tsx')
+      ) {
         const code = await import(route)
-        const relativePathNoExt = relativePath.substring(0, relativePath.length - 3)
+        const relativePathNoExt = relativePath.substring(
+          0,
+          relativePath.length - 3,
+        )
 
         if (code.default) {
           const foundVerb = httpVerbs.some((verb) => {
             if (relativePathNoExt.endsWith(`.${verb}`)) {
-              hono[verb](relativePathNoExt.replace(new RegExp(`\\.${verb}$`), ''), code.default)
+              hono[verb](
+                relativePathNoExt.replace(new RegExp(`\\.${verb}$`), ''),
+                code.default,
+              )
               return true
             }
 
@@ -142,13 +154,19 @@ const initializeRoutes = async (
             const conentType = fileExtensionToMimeType[path.extname(route)]
 
             context.header('X-Content-Type-Options', 'nosniff')
-            context.header('Content-Length', fileStream.readableLength.toString())
+            context.header(
+              'Content-Length',
+              fileStream.readableLength.toString(),
+            )
             context.header('Transfer-Encoding', 'chunked')
             context.header('Content-Type', conentType!)
 
             return stream(context, async (stream) => {
               fileStream.on('data', async (data) => {
-                const typedData = typeof data === 'string' ? data : data as unknown as Uint8Array
+                const typedData =
+                  typeof data === 'string'
+                    ? data
+                    : (data as unknown as Uint8Array)
                 void stream.write(typedData)
               })
               fileStream.on('end', async () => {
@@ -179,19 +197,17 @@ const initializeRoutes = async (
   }
 }
 
-export async function initializePlugin(
-  {
-    pluginPath,
-    app,
-    config,
-    logger,
-  }: {
-    readonly pluginPath: string;
-    readonly app: Pick<Zemble.App, 'hono'>
-    readonly config: Omit<RoutesGlobalConfig, 'disable'>;
-    readonly logger: IStandardLogger;
-  },
-) {
+export async function initializePlugin({
+  pluginPath,
+  app,
+  config,
+  logger,
+}: {
+  readonly pluginPath: string
+  readonly app: Pick<Zemble.App, 'hono'>
+  readonly config: Omit<RoutesGlobalConfig, 'disable'>
+  readonly logger: IStandardLogger
+}) {
   const routePath = path.join(pluginPath, config.rootPath ?? 'routes')
   await initializeRoutes(routePath, app, config, logger)
 }

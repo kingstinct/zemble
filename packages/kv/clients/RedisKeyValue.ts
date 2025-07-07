@@ -18,7 +18,9 @@ class RedisKeyValue<T> extends IStandardKeyValueService<T> {
   async entries() {
     const keys = await this.keys()
     const values = await this.client.mget(...keys)
-    return keys.map((key, index) => [key, JSON.parse(values[index]!) as T] as const)
+    return keys.map(
+      (key, index) => [key, JSON.parse(values[index]!) as T] as const,
+    )
   }
 
   private readonly client: Redis
@@ -48,7 +50,7 @@ class RedisKeyValue<T> extends IStandardKeyValueService<T> {
 
   async get(key: string): Promise<T | null> {
     const value = await this.client.get(this.getPrefixedKey(key))
-    return value ? JSON.parse(value) as T : null
+    return value ? (JSON.parse(value) as T) : null
   }
 
   async has(key: string): Promise<boolean> {

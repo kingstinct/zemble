@@ -1,20 +1,18 @@
 import { useFocusEffect } from 'expo-router'
 import { useCallback } from 'react'
-import {
-  Text,
-} from 'react-native'
+import { Text } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'
-
-import ManualRefreshControl from './ManualRefreshControl'
+import type { Entity } from '../utils/getSelectionSet'
 import getSelectionSet from '../utils/getSelectionSet'
 import { capitalize } from '../utils/text'
-
-import type { Entity } from '../utils/getSelectionSet'
+import ManualRefreshControl from './ManualRefreshControl'
 
 type ListOfEntriesProps = {
-  readonly onSelected: (s: Record<string, unknown> & { readonly id: string }) => void
+  readonly onSelected: (
+    s: Record<string, unknown> & { readonly id: string },
+  ) => void
   readonly entity: Entity
 }
 
@@ -39,18 +37,25 @@ const formatFieldValue = (value: unknown): string => {
     return value.displayName as string
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   return value.toString()
 }
 
 type ListOfEntriesTableProps = {
-  readonly fields: readonly {readonly name: string, readonly __typename: string, readonly availableFields?: readonly {readonly name: string}[]}[],
-  readonly onSelected: (s: Record<string, unknown> & { readonly id: string }) => void
-  readonly entries: Record<string, unknown> & readonly {readonly id: string}[]
+  readonly fields: readonly {
+    readonly name: string
+    readonly __typename: string
+    readonly availableFields?: readonly { readonly name: string }[]
+  }[]
+  readonly onSelected: (
+    s: Record<string, unknown> & { readonly id: string },
+  ) => void
+  readonly entries: Record<string, unknown> & readonly { readonly id: string }[]
 }
 
 const ListOfEntriesTable: React.FC<ListOfEntriesTableProps> = ({
-  fields, entries, onSelected,
+  fields,
+  entries,
+  onSelected,
 }) => {
   const fieldsExceptId = fields.filter((f) => f.name !== 'id')
   const fieldNamesExceptId = fieldsExceptId.map((f) => f.name)
@@ -58,33 +63,26 @@ const ListOfEntriesTable: React.FC<ListOfEntriesTableProps> = ({
   return (
     <DataTable>
       <DataTable.Header>
-        { fieldNamesExceptId.map((fieldName) => (
-          <DataTable.Title
-            key={fieldName}
-          >
-            { fieldName }
-          </DataTable.Title>
-        )) }
+        {fieldNamesExceptId.map((fieldName) => (
+          <DataTable.Title key={fieldName}>{fieldName}</DataTable.Title>
+        ))}
       </DataTable.Header>
-      {
-        entries?.map((entry) => (
-          <DataTable.Row key={entry.id} onPress={() => onSelected(entry)}>
-            { fieldsExceptId.map((field) => (
-              <DataTable.Cell key={field.name}>
-                <Text>
-                  {formatFieldValue(entry[field.name])}
-                </Text>
-              </DataTable.Cell>
-            )) }
-          </DataTable.Row>
-        ))
-      }
+      {entries?.map((entry) => (
+        <DataTable.Row key={entry.id} onPress={() => onSelected(entry)}>
+          {fieldsExceptId.map((field) => (
+            <DataTable.Cell key={field.name}>
+              <Text>{formatFieldValue(entry[field.name])}</Text>
+            </DataTable.Cell>
+          ))}
+        </DataTable.Row>
+      ))}
     </DataTable>
   )
 }
 
 const ListOfEntries: React.FC<ListOfEntriesProps> = ({
-  entity, onSelected,
+  entity,
+  onSelected,
 }) => {
   const { namePlural, fields } = entity
   const selectionSet = getSelectionSet(entity)
@@ -96,41 +94,46 @@ const ListOfEntries: React.FC<ListOfEntriesProps> = ({
     variables: {},
   })
 
-  const entries = data?.[queryName] as Record<string, unknown> & readonly {readonly id: string}[] | undefined
+  const entries = data?.[queryName] as
+    | (Record<string, unknown> & readonly { readonly id: string }[])
+    | undefined
 
-  useFocusEffect(useCallback(() => {
-    refetch()
-  }, [refetch]))
+  useFocusEffect(
+    useCallback(() => {
+      refetch()
+    }, [refetch]),
+  )
 
   return (
     <ScrollView
-      refreshControl={(
-        <ManualRefreshControl
-          fetching={fetching}
-          refetch={refetch}
-        />
-      )}
+      refreshControl={
+        <ManualRefreshControl fetching={fetching} refetch={refetch} />
+      }
       contentContainerStyle={{ flex: 1 }}
     >
-      { entries ? (
+      {entries ? (
         <ListOfEntriesTable
           entries={entries}
           fields={fields}
           onSelected={onSelected}
         />
-      ) : null }
+      ) : null}
     </ScrollView>
   )
 }
 
 type SearchEntriesProps = {
-  readonly onSelected: (s: Record<string, unknown> & { readonly id: string }) => void
+  readonly onSelected: (
+    s: Record<string, unknown> & { readonly id: string },
+  ) => void
   readonly query: string
   readonly entity: Entity
 }
 
 export const SearchEntries: React.FC<SearchEntriesProps> = ({
-  onSelected, query, entity,
+  onSelected,
+  query,
+  entity,
 }) => {
   const selectionSet = getSelectionSet(entity)
 
@@ -142,29 +145,32 @@ export const SearchEntries: React.FC<SearchEntriesProps> = ({
     pause: query.length < 3,
   })
 
-  const entries = data?.[queryName] as Record<string, unknown> & readonly {readonly id: string}[] | undefined
+  const entries = data?.[queryName] as
+    | (Record<string, unknown> & readonly { readonly id: string }[])
+    | undefined
 
-  useFocusEffect(useCallback(() => {
-    refetch()
-  }, [refetch]))
+  useFocusEffect(
+    useCallback(() => {
+      refetch()
+    }, [refetch]),
+  )
 
   return (
     <ScrollView
-      refreshControl={(
-        <ManualRefreshControl
-          fetching={fetching}
-          refetch={refetch}
-        />
-      )}
+      refreshControl={
+        <ManualRefreshControl fetching={fetching} refetch={refetch} />
+      }
       contentContainerStyle={{ flex: 1 }}
     >
-      { entries ? (
+      {entries ? (
         <ListOfEntriesTable
           entries={entries}
           fields={entity.fields}
           onSelected={onSelected}
         />
-      ) : (query.length < 3 ? <Text>Type at least 3 characters to search</Text> : null) }
+      ) : query.length < 3 ? (
+        <Text>Type at least 3 characters to search</Text>
+      ) : null}
     </ScrollView>
   )
 }

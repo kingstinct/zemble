@@ -1,9 +1,0 @@
-{
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "noUncheckedIndexedAccess": true,
-    "strictNullChecks": true,
-    "strict": true
-  },
-  "exclude": [ "node_modules" ]
-}

@@ -1,3 +1,3 @@
-export * from './hooks/useIsOnline'
-export * from './contexts/Strings'
+export * from '@zemble/react/contexts/Strings'
 export * from './components/GenericError'
+export * from './hooks/useIsOnline'

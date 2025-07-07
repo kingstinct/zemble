@@ -11,31 +11,22 @@
       "runIn": "terminal"
     }
   ],
+  "biome.enabled": true,
+  "biome.lsp.bin": "node_modules/@biomejs/biome/bin/biome",
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.enable": false,
+  "biome.configurationPath": "../biome.json",
+  "biome.lsp.trace.server": "messages",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ],
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.defaultFormatter": "biomejs.biome",
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "never",
-    "source.fixAll.eslint": "explicit"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "source.organizeImports.biome": "explicit",
+    "source.fixAll.biome": "explicit"
   },
   "editor.formatOnSave": true,
   "cSpell.words": [
     "bullmq",
+    "bunx",
     "codegen",
     "composability",
     "dataloaders",
@@ -44,40 +35,24 @@
     "JWKS",
     "kingstinct",
     "liveactivity",
+    "logtape",
+    "netinfo",
     "Onesignal",
     "papr",
-    "pino",
     "prepush",
     "Proxying",
+    "Pubber",
     "pucelle",
     "pushkit",
     "pushtotalk",
     "SENDGRID",
+    "snackbars",
     "supabase",
+    "syncpack",
+    "Timeoutify",
     "tldr",
     "urql",
+    "webkitvisibilitychange",
     "zemble"
-  ],
-  "eslint.probe": [
-    "javascript",
-    "javascriptreact",
-    "yaml",
-    "json",
-    "typescript",
-    "typescriptreact",
-    "JSON",
-    "graphql",
-    "jsonc"
-  ],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "yaml",
-    "json",
-    "typescript",
-    "typescriptreact",
-    "JSON",
-    "graphql",
-    "jsonc"
-  ],
+  ]
 }

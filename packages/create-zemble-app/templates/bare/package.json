@@ -4,8 +4,8 @@
   "description": "",
   "type": "module",
   "dependencies": {
-    "@zemble/core": "workspace:*",
-    "@zemble/bun": "workspace:*"
+    "@zemble/core": "latest",
+    "@zemble/bun": "latest"
   },
   "scripts": {
     "start": "bun serve.ts",

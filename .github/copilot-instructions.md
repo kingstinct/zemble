@@ -19,9 +19,9 @@ Also make sure to run `bun install` in the root of the monorepo to install all d
 The following can usually be run on either the root level (using turborepo) or in the individual packages.
 
 #### lint
-Generally run it from the root of the monorepo:
+To lint preferably run it with the `--fix` flag to automatically fix as many issues as possible, preferably as granular as possible when using the `--fix` flag:
 ```bash
-bun run lint
+bunx biome check --fix --diagnostic-level error modified-file.ts
 ```
 
 #### typecheck

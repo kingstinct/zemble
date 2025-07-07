@@ -5,7 +5,6 @@
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "lint": "eslint .",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
@@ -33,16 +32,17 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^5.0.3",
+    "@envelop/core": "^5.3.0",
     "@envelop/generic-auth": "7",
+    "@graphql-codegen/cli": "^5.0.7",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "graphql-scalars": "^1.24.0",
-    "hono": "^4.6.17",
-    "jose": "^5.9.6",
-    "ioredis": "^5.4.2"
+    "graphql-scalars": "^1.24.2",
+    "hono": "^4.8.4",
+    "ioredis": "^5.6.1",
+    "jose": "^6.0.11"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250121.0"
+    "@cloudflare/workers-types": "^4.20250705.0"
   }
 }

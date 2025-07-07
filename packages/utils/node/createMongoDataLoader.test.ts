@@ -6,17 +6,21 @@ import { cacheKeyFn, getOptimalProjection } from './createMongoDataLoader'
 describe('MongoDataLoader', () => {
   test('cacheKeyFn should handle null projections', () => {
     const objectId = new ObjectId()
-    expect(cacheKeyFn({ _id: objectId, projection: null })).toEqual(`${objectId.toHexString()}#null`)
+    expect(cacheKeyFn({ _id: objectId, projection: null })).toEqual(
+      `${objectId.toHexString()}#null`,
+    )
   })
 
   test('cacheKeyFn should handle projections', () => {
     const objectId = new ObjectId()
-    expect(cacheKeyFn<{ readonly _id: ObjectId, readonly myProjection: 1 }>({
-      _id: objectId,
-      projection: {
-        myProjection: 1,
-      },
-    })).toEqual(`${objectId.toHexString()}#{"myProjection":1}`)
+    expect(
+      cacheKeyFn<{ readonly _id: ObjectId; readonly myProjection: 1 }>({
+        _id: objectId,
+        projection: {
+          myProjection: 1,
+        },
+      }),
+    ).toEqual(`${objectId.toHexString()}#{"myProjection":1}`)
   })
 
   test('Should include all projection properties', () => {
@@ -42,12 +46,7 @@ describe('MongoDataLoader', () => {
       { _id: objectId4, projection: null },
     ])
 
-    expect($in).toEqual([
-      objectId,
-      objectId2,
-      objectId3,
-      objectId4,
-    ])
+    expect($in).toEqual([objectId, objectId2, objectId3, objectId4])
   })
 
   test('Should set null if there is a missing projection', () => {

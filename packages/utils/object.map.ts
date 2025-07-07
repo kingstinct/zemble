@@ -1,10 +1,9 @@
 declare global {
   interface Object {
-    map<T, TOut>(this: T, mapper: (value: T) => TOut): TOut;
+    map<T, TOut>(this: T, mapper: (value: T) => TOut): TOut
   }
 }
 
-// eslint-disable-next-line functional/immutable-data, no-extend-native
 Object.defineProperty(Object.prototype, 'map', {
   value(mapper: (value: unknown) => unknown) {
     return mapper(this)

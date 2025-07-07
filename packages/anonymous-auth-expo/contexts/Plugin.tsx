@@ -1,14 +1,10 @@
 import UrqlProvider from '@zemble/urql-expo/contexts/UrqlProvider'
-
-import { SimpleAnonymousAuthProvider } from './Auth'
-
 import type { PropsWithChildren } from 'react'
+import { SimpleAnonymousAuthProvider } from './Auth'
 
 const PluginProvider: React.FC<PropsWithChildren> = ({ children }) => (
   <UrqlProvider>
-    <SimpleAnonymousAuthProvider>
-      {children}
-    </SimpleAnonymousAuthProvider>
+    <SimpleAnonymousAuthProvider>{children}</SimpleAnonymousAuthProvider>
   </UrqlProvider>
 )
 

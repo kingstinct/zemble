@@ -1,7 +1,6 @@
-import { describe, test, expect } from 'bun:test'
-
-import Timeoutify, { TimeoutifyStatus } from './Timeoutify'
+import { describe, expect, test } from 'bun:test'
 import wait from '../wait'
+import Timeoutify, { TimeoutifyStatus } from './Timeoutify'
 
 describe('Timeoutify', () => {
   test('aborted after specified time', async () => {
@@ -44,7 +43,6 @@ describe('Timeoutify', () => {
 
   test('runMongoOpWithTimeout', () => {
     const timeoutify = new Timeoutify({ timeoutMS: 10 })
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(timeoutify.runMongoOpWithTimeout).toBeDefined()
     timeoutify.finished()
   })

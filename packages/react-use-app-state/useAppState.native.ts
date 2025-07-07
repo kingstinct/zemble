@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { AppState } from 'react-native'
-
 import type { AppStateStatus } from 'react-native'
+import { AppState } from 'react-native'
 
 export const getCurrentState = (): AppStateStatus => AppState.currentState
 

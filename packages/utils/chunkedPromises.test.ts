@@ -1,5 +1,5 @@
 // test for chunkedPromises
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 
 import { chunkedPromises } from './chunkedPromises'
 
@@ -7,7 +7,9 @@ describe('chunkedPromises', () => {
   it('should work', async () => {
     const data = Array.from({ length: 100 }, (_, i) => i)
     const result = await chunkedPromises(data, (i) => i * 2)
-    expect(result).toEqual(data.map((i) => ({ value: i * 2, status: 'fulfilled' })))
+    expect(result).toEqual(
+      data.map((i) => ({ value: i * 2, status: 'fulfilled' })),
+    )
   })
 
   it('should hamdle errors', async () => {

@@ -1,3 +1,7 @@
 type Mutation {
-  sendPushNotification(pushToken: String!, title: String!, body: String!): Boolean!
+  sendPushNotification(
+    pushToken: String!
+    title: String!
+    body: String!
+  ): Boolean!
 }

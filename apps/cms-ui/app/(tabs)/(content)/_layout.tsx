@@ -1,22 +1,24 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import {
-  Stack, router, useGlobalSearchParams,
-} from 'expo-router'
+import type { HeaderButtonProps } from '@react-navigation/native-stack/src/types'
+import { router, Stack, useGlobalSearchParams } from 'expo-router'
 import { useCallback } from 'react'
 import { Pressable } from 'react-native'
 import { useTheme } from 'react-native-paper'
-
 import { capitalize, singularize } from '../../../utils/text'
 
-import type { HeaderButtonProps } from '@react-navigation/native-stack/src/types'
-
-// eslint-disable-next-line camelcase
 export const unstable_settings = {
   // Ensure any route can link back to `/`
   initialRouteName: 'index',
 }
 
-const HeaderRightButton = ({ onPress, tintColor, icon = 'plus' }: HeaderButtonProps & { readonly onPress: () => void, readonly icon?: keyof typeof MaterialCommunityIcons.glyphMap }) => {
+const HeaderRightButton = ({
+  onPress,
+  tintColor,
+  icon = 'plus',
+}: HeaderButtonProps & {
+  readonly onPress: () => void
+  readonly icon?: keyof typeof MaterialCommunityIcons.glyphMap
+}) => {
   const theme = useTheme()
   return (
     <Pressable accessibilityRole='button' onPress={onPress}>
@@ -33,13 +35,30 @@ const HeaderRightButton = ({ onPress, tintColor, icon = 'plus' }: HeaderButtonPr
 const EntitiesLayout = () => {
   const { entity } = useGlobalSearchParams()
 
-  const headerRightForListView = useCallback((props: HeaderButtonProps) => (
-    <HeaderRightButton {...props} icon='cog' onPress={() => router.push(`/(tabs)/(content)/${entity as string}/schema`)} />
-  ), [entity])
+  const headerRightForListView = useCallback(
+    (props: HeaderButtonProps) => (
+      <HeaderRightButton
+        {...props}
+        icon='cog'
+        onPress={() =>
+          router.push(`/(tabs)/(content)/${entity as string}/schema`)
+        }
+      />
+    ),
+    [entity],
+  )
 
-  const headerRightForSchemaView = useCallback((props: HeaderButtonProps) => (
-    <HeaderRightButton {...props} onPress={() => router.push(`/(tabs)/(content)/${entity}/schema/fields/create`)} />
-  ), [entity])
+  const headerRightForSchemaView = useCallback(
+    (props: HeaderButtonProps) => (
+      <HeaderRightButton
+        {...props}
+        onPress={() =>
+          router.push(`/(tabs)/(content)/${entity}/schema/fields/create`)
+        }
+      />
+    ),
+    [entity],
+  )
 
   return (
     <Stack
@@ -50,7 +69,6 @@ const EntitiesLayout = () => {
     >
       <Stack.Screen
         name='index'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: 'Content',
@@ -58,7 +76,6 @@ const EntitiesLayout = () => {
       />
       {/* <Stack.Screen
         name='[entity]'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={{
           headerShown: false,
@@ -66,7 +83,6 @@ const EntitiesLayout = () => {
       /> */}
       <Stack.Screen
         name='[entity]/index'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: route.params?.entity ? capitalize(route.params.entity) : null,
@@ -75,37 +91,39 @@ const EntitiesLayout = () => {
       />
       <Stack.Screen
         name='[entity]/create'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
-          title: route.params?.entity ? `Create ${singularize(route.params.entity)}` : null,
+          title: route.params?.entity
+            ? `Create ${singularize(route.params.entity)}`
+            : null,
           presentation: 'modal',
           headerRight: undefined,
         })}
       />
       <Stack.Screen
         name='[entity]/edit/[id]'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
-          title: route.params?.entity ? `Edit ${singularize(route.params.entity)}` : null,
+          title: route.params?.entity
+            ? `Edit ${singularize(route.params.entity)}`
+            : null,
           presentation: 'modal',
           headerRight: undefined,
         })}
       />
       <Stack.Screen
         name='[entity]/schema/index'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
-          title: route.params?.entity ? `${singularize(capitalize(route.params.entity))} Schema` : null,
+          title: route.params?.entity
+            ? `${singularize(capitalize(route.params.entity))} Schema`
+            : null,
           headerRight: headerRightForSchemaView,
         })}
       />
 
       <Stack.Screen
         name='[entity]/schema/fields/create'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: 'Add field',
@@ -115,7 +133,6 @@ const EntitiesLayout = () => {
 
       <Stack.Screen
         name='[entity]/schema/fields/[fieldName]'
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         options={({ route }) => ({
           title: `Update field ${route.params?.fieldName}`,

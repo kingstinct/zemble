@@ -1,10 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
+import type { GraphQLScalarTypeConfig } from 'graphql'
 import { GraphQLScalarType } from 'graphql'
 import { GraphQLError } from 'graphql/error'
 import { Kind } from 'graphql/language'
 import { ObjectId } from 'mongodb'
-
-import type { GraphQLScalarTypeConfig } from 'graphql'
 
 const mongodbObjectIdRegex = /^[0-9a-fA-F]+$/
 
@@ -30,7 +28,9 @@ const config: GraphQLScalarTypeConfig<ObjectId, string> = {
     const value = v as ObjectId
     const result = value.toString()
     if (!isValidMongoDBObjectID(result)) {
-      throw new GraphQLError(`serialize: value: ${value.toString()} is not valid ObjectId`)
+      throw new GraphQLError(
+        `serialize: value: ${value.toString()} is not valid ObjectId`,
+      )
     }
 
     return result
@@ -40,7 +40,9 @@ const config: GraphQLScalarTypeConfig<ObjectId, string> = {
   parseValue(v: unknown): ObjectId {
     const value = v as string
     if (!isValidMongoDBObjectID(value)) {
-      throw new GraphQLError(`serialize: not a valid ObjectId, require a string with 12 or 24 hex chars, found: ${value}`)
+      throw new GraphQLError(
+        `serialize: not a valid ObjectId, require a string with 12 or 24 hex chars, found: ${value}`,
+      )
     }
 
     return new ObjectId(value)
@@ -49,7 +51,10 @@ const config: GraphQLScalarTypeConfig<ObjectId, string> = {
   // AST from client towards database
   parseLiteral(ast): ObjectId {
     if (ast.kind !== Kind.STRING) {
-      throw new GraphQLError(`parseLiteral: not a valid ObjectId, require a string with 12 or 24 hex chars, found: ${ast.kind}`, [ast])
+      throw new GraphQLError(
+        `parseLiteral: not a valid ObjectId, require a string with 12 or 24 hex chars, found: ${ast.kind}`,
+        [ast],
+      )
     }
 
     const value = ast.value.toString()

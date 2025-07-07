@@ -1,6 +1,8 @@
 import type { Entity } from './getSelectionSet'
 
-export const getDefaultValueFromEntityField = (field: Entity['fields'][number]) => {
+export const getDefaultValueFromEntityField = (
+  field: Entity['fields'][number],
+) => {
   if (field.__typename === 'ArrayField') {
     return []
   }

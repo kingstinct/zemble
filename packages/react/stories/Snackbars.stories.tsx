@@ -1,22 +1,16 @@
-/* eslint-disable import/no-unresolved */
+/** biome-ignore-all lint/correctness/noUndeclaredDependencies: intended */
+import type { Meta, StoryFn } from '@storybook/react'
+import type { SnackbarComponentProps } from '@zemble/react-snackbar/components/SnackbarComponent'
+import { DefaultSnackbarComponent } from '@zemble/react-snackbar/components/SnackbarComponent'
+import { SnackbarPresentationView } from '@zemble/react-snackbar/components/SnackbarPresentationView'
 
-import React, {
-  useEffect, useRef,
-} from 'react'
-import {
-  View,
-} from 'react-native'
-
-import { SnackbarPresentationView } from '../components'
-import { DefaultSnackbarComponent } from '../components/SnackbarComponent'
-import { useAddSnackbar } from '../hooks'
-
-import type { SnackbarComponentProps } from '../components/SnackbarComponent'
-import type { StoryFn, Meta } from '@storybook/react'
+import { useAddSnackbar } from '@zemble/react-snackbar/hooks/useAddSnackbar'
+import React, { useEffect, useRef } from 'react'
+import { View } from 'react-native'
 
 type MyData = {
-  readonly 'yo': string
-  readonly 'yo2': number
+  readonly yo: string
+  readonly yo2: number
 }
 
 const Inner = () => {
@@ -26,34 +20,35 @@ const Inner = () => {
   useEffect(() => {
     const ref = setInterval(() => {
       counter.current += 1
-      addSnackbar(counter.current % 2 === 0 ? `${counter.current} shortie` : `${counter.current} yo a very long sdfgsdfg lhsdf.gl nsd  flghjdslfgjh sdlfgh jsdlkfhjg lsdfjhg lsdjfhg sldfhjg sdlfhgj sdlfjgh sdlfgh`, {
-        type: 'yo2',
-        data: 1,
-        actions: [
-          {
-            label: 'ok',
-            onPress: () => {
-
+      addSnackbar(
+        counter.current % 2 === 0
+          ? `${counter.current} shortie`
+          : `${counter.current} yo a very long sdfgsdfg lhsdf.gl nsd  flghjdslfgjh sdlfgh jsdlkfhjg lsdfjhg lsdjfhg sldfhjg sdlfhgj sdlfjgh sdlfgh`,
+        {
+          type: 'yo2',
+          data: 1,
+          actions: [
+            {
+              label: 'ok',
+              onPress: () => {},
             },
-          },
-          {
-            label: 'cancel',
-            onPress: () => {
-
+            {
+              label: 'cancel',
+              onPress: () => {},
             },
-          },
-        ],
-      })
+          ],
+        },
+      )
     }, 2000)
     return () => clearInterval(ref)
   }, [addSnackbar])
 
-  return (
-    <View />
-  )
+  return <View />
 }
 
-const CustomSnackbar: React.FC<SnackbarComponentProps<MyData> & {readonly backgroundColor: string}> = ({ backgroundColor, ...props }) => (
+const CustomSnackbar: React.FC<
+  SnackbarComponentProps<MyData> & { readonly backgroundColor: string }
+> = ({ backgroundColor, ...props }) => (
   <DefaultSnackbarComponent
     {...props}
     style={{ backgroundColor: backgroundColor ?? 'red' }}
@@ -62,7 +57,6 @@ const CustomSnackbar: React.FC<SnackbarComponentProps<MyData> & {readonly backgr
   />
 )
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function SnackbarsStory(props: any) {
   return (
     <View>
@@ -70,10 +64,7 @@ function SnackbarsStory(props: any) {
 
       <SnackbarPresentationView
         Component={(innerProps) => (
-          <CustomSnackbar
-            {...innerProps}
-            {...props}
-          />
+          <CustomSnackbar {...innerProps} {...props} />
         )}
         style={{ paddingBottom: 200 }}
       />
@@ -98,8 +89,9 @@ export default {
   },
 } as Meta<typeof SnackbarsStory>
 
-const Template: StoryFn<typeof SnackbarsStory> = (props) => <SnackbarsStory {...props} />
+const Template: StoryFn<typeof SnackbarsStory> = (props) => (
+  <SnackbarsStory {...props} />
+)
 
 export const Snackbars = Template.bind({})
-// eslint-disable-next-line functional/immutable-data
 Snackbars.args = {}

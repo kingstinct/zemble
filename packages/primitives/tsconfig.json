@@ -11,13 +11,6 @@
     "skipLibCheck": true,
     "strict": true
   },
-  "include": [
-    "src/**/*",
-    "index.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.*"
-  ]
+  "include": ["src/**/*", "index.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.*"]
 }
