@@ -10,7 +10,7 @@
     "lint-fix": "biome check --fix --unsafe",
     "typecheck": "bunx turbo run typecheck --concurrency=100% --continue",
     "codegen": "bunx turbo run codegen",
-    "build": "bunx turbo run build",
+    "build": "bun scripts/build-all.ts",
     "prepare": "husky",
     "postinstall": "cp manual-patches/sofa-api/package.json node_modules/sofa-api/",
     "prepush": "bunx turbo run test typecheck --continue",
@@ -63,6 +63,7 @@
     "husky": "^9.1.7",
     "pkg-pr-new": "^0.0.54",
     "syncpack": "^14.0.0-alpha.18",
+    "tsup": "^8.5.0",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
     "typescript-json-schema": "^0.65.1"
