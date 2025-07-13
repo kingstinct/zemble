@@ -2,7 +2,6 @@
   "name": "@zemble/debug",
   "version": "0.0.28",
   "description": "",
-  "type": "module",
   "keywords": [
     "zemble",
     "zemble-plugin",

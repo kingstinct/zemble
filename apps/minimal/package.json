@@ -4,7 +4,6 @@
   "description": "A minimal example app",
   "private": true,
   "main": "app.ts",
-  "type": "module",
   "scripts": {
     "start": "bun serve.ts",
     "dev": "bun --hot serve.ts",

@@ -3,7 +3,6 @@
   "description": "CLI for creating a new Zemble app in a zap",
   "version": "0.1.4",
   "bin": "./bin/create-zemble-app.js",
-  "type": "module",
   "scripts": {
     "test": "bun test cli.test.ts"
   },

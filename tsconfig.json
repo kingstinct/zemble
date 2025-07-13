@@ -1,7 +1,8 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "types": ["bun-types"]
+    "types": ["bun-types"],
+    "outDir": "."
   },
   "exclude": ["**/*.generated/*.ts", "**/*.generated.ts"]
 }
