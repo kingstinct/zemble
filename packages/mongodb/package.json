@@ -30,12 +30,5 @@
     "@zemble/migrations": "0.0.40"
   },
   "module": "plugin.ts",
-  "main": "plugin.ts",
-  "exclude": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cts",
-    "**/*.mts",
-    "node_modules"
-  ]
+  "main": "plugin.ts"
 }

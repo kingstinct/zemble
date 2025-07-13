@@ -41,12 +41,5 @@
   },
   "devDependencies": {
     "ts-node-dev": "^2.0.0"
-  },
-  "exclude": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cts",
-    "**/*.mts",
-    "node_modules"
-  ]
+  }
 }

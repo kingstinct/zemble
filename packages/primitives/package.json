@@ -20,12 +20,5 @@
   "dependencies": {
     "expo-system-ui": "^2.9.4",
     "ts-pattern": "^5.7.1"
-  },
-  "exclude": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cts",
-    "**/*.mts",
-    "node_modules"
-  ]
+  }
 }

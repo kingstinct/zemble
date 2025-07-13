@@ -49,12 +49,5 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.7",
     "@types/bun": "*"
-  },
-  "exclude": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cts",
-    "**/*.mts",
-    "node_modules"
-  ]
+  }
 }

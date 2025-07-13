@@ -41,12 +41,5 @@
     "graphql": "^16.11.0",
     "jose": "^6.0.11",
     "@zemble/auth": "workspace:*"
-  },
-  "exclude": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cts",
-    "**/*.mts",
-    "node_modules"
-  ]
+  }
 }
