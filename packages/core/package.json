@@ -41,5 +41,12 @@
   },
   "devDependencies": {
     "graphql-yoga": "^5.14.0"
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

@@ -34,5 +34,12 @@
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*"
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

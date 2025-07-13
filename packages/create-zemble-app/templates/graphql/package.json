@@ -26,5 +26,12 @@
   },
   "peerDependencies": {},
   "module": "serve.ts",
-  "main": "serve.ts"
+  "main": "serve.ts",
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

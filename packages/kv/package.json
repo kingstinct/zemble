@@ -44,5 +44,12 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250705.0"
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

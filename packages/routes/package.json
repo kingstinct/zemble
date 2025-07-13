@@ -33,5 +33,12 @@
   "dependencies": {
     "@zemble/core": "workspace:*",
     "hono": "^4.8.4"
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

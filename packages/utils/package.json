@@ -43,5 +43,12 @@
   "bin": {
     "ensure-all-dependencies": "./scripts/ensure-all-dependencies.ts",
     "add-safe": "./scripts/add-safe.ts"
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

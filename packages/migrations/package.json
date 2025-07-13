@@ -40,5 +40,12 @@
   "optionalDependencies": {
     "mongodb": "^6.12.0"
   },
-  "main": "plugin.ts"
+  "main": "plugin.ts",
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

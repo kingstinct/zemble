@@ -33,5 +33,12 @@
   },
   "peerDependencies": {},
   "module": "plugin.ts",
-  "main": "plugin.ts"
+  "main": "plugin.ts",
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }
