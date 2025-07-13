@@ -2,5 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "."
-  }
+  },
+  "exclude": [
+    "graphql/client-generated.gql.ts",
+    "dist",
+    "build",
+    "coverage",
+    "test-output",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }

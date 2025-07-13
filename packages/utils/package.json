@@ -13,7 +13,7 @@
     "act-test-in-parallel": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/test-in-parallel.yml --reuse -e act-workflow-run-configs/test-in-parallel.json",
     "act-build-for-heroku": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/build-for-heroku.yml --reuse -e act-workflow-run-configs/build-for-heroku.json --secret-file .secrets",
     "act-deploy-to-heroku": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/deploy-to-heroku.yml --reuse -e act-workflow-run-configs/deploy-to-heroku.json --secret-file .secrets",
-    "build": "(zshy || true) && node -e \"const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('./package.json'));if(pkg.exports){Object.keys(pkg.exports).forEach(key=>{['require','import','types'].forEach(type=>{if(pkg.exports[key][type]&&!fs.existsSync(pkg.exports[key][type].replace('./',''))){delete pkg.exports[key][type]}})});fs.writeFileSync('./package.json',JSON.stringify(pkg,null,2)+String.fromCharCode(10))}\""
+    "build": "zshy"
   },
   "publishConfig": {
     "access": "public",
@@ -47,59 +47,16 @@
   },
   "zshy": {
     "exports": {
-      "./EMPTY": "./EMPTY.ts",
-      "./JSON": "./JSON.ts",
-      "./MapWithPartialMatch.test": "./MapWithPartialMatch.test.ts",
-      "./MapWithPartialMatch": "./MapWithPartialMatch.ts",
-      "./Serialized": "./Serialized.ts",
-      "./asSerialized": "./asSerialized.ts",
-      "./chunkArray": "./chunkArray.ts",
-      "./chunkedPromises.test": "./chunkedPromises.test.ts",
-      "./chunkedPromises": "./chunkedPromises.ts",
-      "./compactFlatMap.test": "./compactFlatMap.test.ts",
-      "./compactFlatMap": "./compactFlatMap.ts",
-      "./compactMap.test": "./compactMap.test.ts",
-      "./compactMap": "./compactMap.ts",
-      "./createKeyMap": "./createKeyMap.ts",
-      "./dateRange": "./dateRange.ts",
-      "./debouncedAggregate.test": "./debouncedAggregate.test.ts",
-      "./debouncedAggregate": "./debouncedAggregate.ts",
-      "./generateId": "./generateId.ts",
-      "./index": "./index.ts",
-      "./isNotNullOrUndefined": "./isNotNullOrUndefined.ts",
-      "./logPrettyData.test": "./logPrettyData.test.ts",
-      "./logPrettyData": "./logPrettyData.ts",
-      "./logPrettyTable": "./logPrettyTable.ts",
-      "./mergeDeep.test": "./mergeDeep.test.ts",
-      "./mergeDeep": "./mergeDeep.ts",
-      "./object.map": "./object.map.ts",
-      "./omitBy": "./omitBy.ts",
-      "./onTimeout.test": "./onTimeout.test.ts",
-      "./onTimeout": "./onTimeout.ts",
-      "./partition": "./partition.ts",
-      "./pick": "./pick.ts",
-      "./pickyBy": "./pickyBy.ts",
-      "./pipe": "./pipe.ts",
-      "./promisify": "./promisify.ts",
-      "./randomHexColor": "./randomHexColor.ts",
-      "./sample": "./sample.ts",
-      "./statHelpers.test": "./statHelpers.test.ts",
-      "./statHelpers": "./statHelpers.ts",
-      "./statsPipeline": "./statsPipeline.ts",
-      "./times": "./times.ts",
-      "./types": "./types.ts",
-      "./universalDateTimeToDayjs.test": "./universalDateTimeToDayjs.test.ts",
-      "./universalDateTimeToDayjs": "./universalDateTimeToDayjs.ts",
-      "./wait": "./wait.ts",
-      "./date/*": "./date/**/*",
-      "./fastify/*": "./fastify/**/*",
-      "./graphql/*": "./graphql/**/*",
-      "./node/*": "./node/**/*",
-      "./scripts/*": "./scripts/**/*"
+      "./*": "./*",
+      "./date": "./date/**/*",
+      "./fastify": "./fastify/**/*",
+      "./graphql": "./graphql/**/*",
+      "./node": "./node/**/*"
     }
   },
   "exclude": [
     "**/*.ts",
+    "**/*.test.ts",
     "**/*.tsx",
     "**/*.cts",
     "**/*.mts",
@@ -109,142 +66,30 @@
     "*"
   ],
   "exports": {
-    "./EMPTY": {
-      "import": "./EMPTY.js"
+    "./*": {
+      "types": "./*",
+      "import": "./*",
+      "require": "./*"
     },
-    "./JSON": {
-      "import": "./JSON.js"
+    "./date": {
+      "types": "./date/*",
+      "import": "./date/*",
+      "require": "./date/*"
     },
-    "./MapWithPartialMatch.test": {
-      "import": "./MapWithPartialMatch.test.js"
+    "./fastify": {
+      "types": "./fastify/*",
+      "import": "./fastify/*",
+      "require": "./fastify/*"
     },
-    "./MapWithPartialMatch": {
-      "import": "./MapWithPartialMatch.js"
+    "./graphql": {
+      "types": "./graphql/*",
+      "import": "./graphql/*",
+      "require": "./graphql/*"
     },
-    "./Serialized": {
-      "import": "./Serialized.js"
-    },
-    "./asSerialized": {
-      "import": "./asSerialized.js"
-    },
-    "./chunkArray": {
-      "import": "./chunkArray.js"
-    },
-    "./chunkedPromises.test": {
-      "import": "./chunkedPromises.test.js"
-    },
-    "./chunkedPromises": {
-      "import": "./chunkedPromises.js"
-    },
-    "./compactFlatMap.test": {
-      "import": "./compactFlatMap.test.js"
-    },
-    "./compactFlatMap": {
-      "import": "./compactFlatMap.js"
-    },
-    "./compactMap.test": {
-      "import": "./compactMap.test.js"
-    },
-    "./compactMap": {
-      "import": "./compactMap.js"
-    },
-    "./createKeyMap": {
-      "import": "./createKeyMap.js"
-    },
-    "./dateRange": {
-      "import": "./dateRange.js"
-    },
-    "./debouncedAggregate.test": {
-      "import": "./debouncedAggregate.test.js"
-    },
-    "./debouncedAggregate": {
-      "import": "./debouncedAggregate.js"
-    },
-    "./generateId": {
-      "import": "./generateId.js"
-    },
-    "./index": {
-      "import": "./index.js"
-    },
-    "./isNotNullOrUndefined": {
-      "import": "./isNotNullOrUndefined.js"
-    },
-    "./logPrettyData.test": {
-      "import": "./logPrettyData.test.js"
-    },
-    "./logPrettyData": {
-      "import": "./logPrettyData.js"
-    },
-    "./logPrettyTable": {
-      "import": "./logPrettyTable.js"
-    },
-    "./mergeDeep.test": {
-      "import": "./mergeDeep.test.js"
-    },
-    "./mergeDeep": {
-      "import": "./mergeDeep.js"
-    },
-    "./object.map": {
-      "import": "./object.map.js"
-    },
-    "./omitBy": {
-      "import": "./omitBy.js"
-    },
-    "./onTimeout.test": {
-      "import": "./onTimeout.test.js"
-    },
-    "./onTimeout": {
-      "import": "./onTimeout.js"
-    },
-    "./partition": {
-      "import": "./partition.js"
-    },
-    "./pick": {
-      "import": "./pick.js"
-    },
-    "./pickyBy": {
-      "import": "./pickyBy.js"
-    },
-    "./pipe": {
-      "import": "./pipe.js"
-    },
-    "./promisify": {
-      "import": "./promisify.js"
-    },
-    "./randomHexColor": {
-      "import": "./randomHexColor.js"
-    },
-    "./sample": {
-      "import": "./sample.js"
-    },
-    "./statHelpers.test": {
-      "import": "./statHelpers.test.js"
-    },
-    "./statHelpers": {
-      "import": "./statHelpers.js"
-    },
-    "./statsPipeline": {
-      "import": "./statsPipeline.js"
-    },
-    "./times": {
-      "import": "./times.js"
-    },
-    "./types": {
-      "import": "./types.js"
-    },
-    "./universalDateTimeToDayjs.test": {
-      "import": "./universalDateTimeToDayjs.test.js"
-    },
-    "./universalDateTimeToDayjs": {
-      "import": "./universalDateTimeToDayjs.js"
-    },
-    "./wait": {
-      "import": "./wait.js"
-    },
-    "./date/*": {},
-    "./fastify/*": {},
-    "./graphql/*": {},
-    "./node/*": {},
-    "./scripts/*": {}
+    "./node": {
+      "types": "./node/*",
+      "import": "./node/*",
+      "require": "./node/*"
+    }
   }
 }

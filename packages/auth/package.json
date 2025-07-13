@@ -54,14 +54,11 @@
   },
   "zshy": {
     "exports": {
-      "./codegen": "./codegen.ts",
-      "./generate-keys": "./generate-keys.ts",
       "./plugin": "./plugin.ts",
-      "./bin/*": "./bin/**/*",
       "./graphql/*": "./graphql/**/*",
-      "./routes/*": "./routes/**/*",
+      "./utils/*": "./utils/**/*",
       "./test-utils/*": "./test-utils/**/*",
-      "./utils/*": "./utils/**/*"
+      "./routes/*": "./routes/**/*"
     }
   },
   "exclude": [
@@ -73,5 +70,32 @@
   ],
   "files": [
     "*"
-  ]
+  ],
+  "exports": {
+    "./plugin": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
+    "./graphql/*": {
+      "types": "./graphql/*",
+      "import": "./graphql/*",
+      "require": "./graphql/*"
+    },
+    "./utils/*": {
+      "types": "./utils/*",
+      "import": "./utils/*",
+      "require": "./utils/*"
+    },
+    "./test-utils/*": {
+      "types": "./test-utils/*",
+      "import": "./test-utils/*",
+      "require": "./test-utils/*"
+    },
+    "./routes/*": {
+      "types": "./routes/*",
+      "import": "./routes/*",
+      "require": "./routes/*"
+    }
+  }
 }

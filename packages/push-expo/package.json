@@ -48,5 +48,27 @@
   ],
   "files": [
     "*"
-  ]
+  ],
+  "exports": {
+    "./codegen": {
+      "types": "./codegen.d.ts",
+      "import": "./codegen.mjs",
+      "require": "./codegen.js"
+    },
+    "./getReceipts": {
+      "types": "./getReceipts.d.ts",
+      "import": "./getReceipts.mjs",
+      "require": "./getReceipts.js"
+    },
+    "./plugin": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
+    "./graphql/*": {
+      "types": "./graphql/*",
+      "import": "./graphql/*",
+      "require": "./graphql/*"
+    }
+  }
 }

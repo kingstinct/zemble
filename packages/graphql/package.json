@@ -96,18 +96,25 @@
   ],
   "exports": {
     "./codegen": {
-      "import": "./codegen.js"
+      "types": "./codegen.d.cts",
+      "import": "./codegen.js",
+      "require": "./codegen.cjs"
     },
     "./createPubSub": {
-      "import": "./createPubSub.js"
+      "types": "./createPubSub.d.cts",
+      "import": "./createPubSub.js",
+      "require": "./createPubSub.cjs"
     },
     "./middleware": {
-      "import": "./middleware.js"
+      "types": "./middleware.d.cts",
+      "import": "./middleware.js",
+      "require": "./middleware.cjs"
     },
     "./plugin": {
-      "import": "./plugin.js"
+      "types": "./plugin.d.cts",
+      "import": "./plugin.js",
+      "require": "./plugin.cjs"
     },
-    "./bin/*": {},
     "./clients/*": {},
     "./graphql/*": {},
     "./utils/*": {}

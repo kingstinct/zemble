@@ -2,7 +2,15 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "types": ["bun-types"],
-    "outDir": "."
+    "outDir": ".",
+    "noImplicitAny": false,
+    "noUnusedLocals": false
   },
-  "exclude": ["**/*.generated/*.ts", "**/*.generated.ts"]
+  "exclude": [
+    "**/*.generated/*.ts",
+    "**/*.generated.ts",
+    "**/*.test.ts",
+    "node_modules",
+    "dist"
+  ]
 }

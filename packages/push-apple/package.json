@@ -53,5 +53,37 @@
   ],
   "files": [
     "*"
-  ]
+  ],
+  "exports": {
+    "./codegen": {
+      "types": "./codegen.d.ts",
+      "import": "./codegen.mjs",
+      "require": "./codegen.js"
+    },
+    "./plugin": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
+    "./types": {
+      "types": "./types.d.ts",
+      "import": "./types.mjs",
+      "require": "./types.js"
+    },
+    "./utils": {
+      "types": "./utils.d.ts",
+      "import": "./utils.mjs",
+      "require": "./utils.js"
+    },
+    "./clients/*": {
+      "types": "./clients/*",
+      "import": "./clients/*",
+      "require": "./clients/*"
+    },
+    "./graphql/*": {
+      "types": "./graphql/*",
+      "import": "./graphql/*",
+      "require": "./graphql/*"
+    }
+  }
 }

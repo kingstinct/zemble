@@ -53,11 +53,6 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./components/*": {
-      "types": "./components/*",
-      "import": "./components/*",
-      "require": "./components/*"
-    },
     "./hooks/*": {
       "types": "./hooks/*",
       "import": "./hooks/*",

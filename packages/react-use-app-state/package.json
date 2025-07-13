@@ -25,8 +25,7 @@
   },
   "zshy": {
     "exports": {
-      "./index": "./index.ts",
-      "./useAppState.native": "./useAppState.native.ts"
+      "./*": "./**/*"
     }
   },
   "exclude": [
@@ -40,10 +39,10 @@
     "*"
   ],
   "exports": {
-    "./index": {
-      "types": "./index.d.ts",
-      "import": "./index.mjs",
-      "require": "./index.js"
+    "./*": {
+      "types": "./*",
+      "import": "./*",
+      "require": "./*"
     }
   }
 }

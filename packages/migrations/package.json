@@ -48,7 +48,6 @@
       "./plugin.test": "./plugin.test.ts",
       "./plugin": "./plugin.ts",
       "./adapters/*": "./adapters/**/*",
-      "./bin/*": "./bin/**/*",
       "./templates/*": "./templates/**/*"
     }
   },
@@ -61,5 +60,32 @@
   ],
   "files": [
     "*"
-  ]
+  ],
+  "exports": {
+    "./MigrationLockError": {
+      "types": "./MigrationLockError.d.ts",
+      "import": "./MigrationLockError.mjs",
+      "require": "./MigrationLockError.js"
+    },
+    "./plugin.test": {
+      "types": "./plugin.test.d.ts",
+      "import": "./plugin.test.mjs",
+      "require": "./plugin.test.js"
+    },
+    "./plugin": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
+    "./adapters/*": {
+      "types": "./adapters/*",
+      "import": "./adapters/*",
+      "require": "./adapters/*"
+    },
+    "./templates/*": {
+      "types": "./templates/*",
+      "import": "./templates/*",
+      "require": "./templates/*"
+    }
+  }
 }

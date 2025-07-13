@@ -10,8 +10,7 @@
         "**/*.jsx",
         "**/tsconfig.json",
         "**/package.json"
-      ],
-      "cache": false
+      ]
     },
     "test": {
       "dependsOn": ["codegen"],

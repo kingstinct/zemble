@@ -53,6 +53,11 @@
     "*"
   ],
   "exports": {
+    "./cli": {
+      "types": "./cli.d.ts",
+      "import": "./cli.mjs",
+      "require": "./cli.js"
+    },
     "./serve": {
       "types": "./serve.d.ts",
       "import": "./serve.mjs",

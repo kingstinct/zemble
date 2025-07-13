@@ -91,20 +91,25 @@
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./utils/*": {
-      "types": "./utils/*",
-      "import": "./utils/*",
-      "require": "./utils/*"
-    },
     "./components/*": {
       "types": "./components/*",
       "import": "./components/*",
       "require": "./components/*"
     },
+    "./contexts/*": {
+      "types": "./contexts/*",
+      "import": "./contexts/*",
+      "require": "./contexts/*"
+    },
     "./hooks/*": {
       "types": "./hooks/*",
       "import": "./hooks/*",
       "require": "./hooks/*"
+    },
+    "./utils/*": {
+      "types": "./utils/*",
+      "import": "./utils/*",
+      "require": "./utils/*"
     }
   }
 }

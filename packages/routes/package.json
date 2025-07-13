@@ -53,6 +53,11 @@
     "*"
   ],
   "exports": {
+    "./middleware": {
+      "types": "./middleware.d.ts",
+      "import": "./middleware.mjs",
+      "require": "./middleware.js"
+    },
     "./plugin": {
       "types": "./plugin.d.ts",
       "import": "./plugin.mjs",
