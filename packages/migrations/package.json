@@ -45,7 +45,7 @@
   "zshy": {
     "exports": {
       "./plugin": "./plugin.ts",
-      "./bin/*": "./bin/*.ts"
+      "./bin/*": "./bin/**/*"
     }
   },
   "exclude": [
@@ -54,5 +54,8 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
+  ],
+  "files": [
+    "*"
   ]
 }

@@ -46,8 +46,8 @@
   "zshy": {
     "exports": {
       "./index": "./index.ts",
-      "./utils/*": "./utils/*.ts",
-      "./test-utils/*": "./test-utils/*.ts"
+      "./utils/*": "./utils/**/*",
+      "./test-utils/*": "./test-utils/**/*"
     }
   },
   "exclude": [
@@ -56,5 +56,25 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
-  ]
+  ],
+  "files": [
+    "*"
+  ],
+  "exports": {
+    "./index": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./utils/*": {
+      "types": "./utils/*",
+      "import": "./utils/*",
+      "require": "./utils/*"
+    },
+    "./test-utils/*": {
+      "types": "./test-utils/*",
+      "import": "./test-utils/*",
+      "require": "./test-utils/*"
+    }
+  }
 }

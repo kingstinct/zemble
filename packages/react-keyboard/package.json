@@ -29,7 +29,7 @@
   "zshy": {
     "exports": {
       "./index": "./index.ts",
-      "./hooks/*": "./hooks/*.ts"
+      "./hooks/*": "./hooks/**/*"
     }
   },
   "exclude": [
@@ -38,5 +38,20 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
-  ]
+  ],
+  "files": [
+    "*"
+  ],
+  "exports": {
+    "./index": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./hooks/*": {
+      "types": "./hooks/*",
+      "import": "./hooks/*",
+      "require": "./hooks/*"
+    }
+  }
 }

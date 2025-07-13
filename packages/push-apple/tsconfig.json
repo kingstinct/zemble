@@ -1,4 +1,9 @@
 {
   "extends": "../../tsconfig.json",
-  "exclude": ["**/*.generated/*.ts"]
+  "exclude": [
+    "**/*.generated/*.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "."
+  }
 }

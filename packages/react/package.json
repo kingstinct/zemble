@@ -69,9 +69,9 @@
   "zshy": {
     "exports": {
       "./index": "./index.ts",
-      "./utils/*": "./utils/*.ts",
-      "./components/*": "./components/*.ts",
-      "./hooks/*": "./hooks/*.ts"
+      "./utils/*": "./utils/**/*",
+      "./components/*": "./components/**/*",
+      "./hooks/*": "./hooks/**/*"
     }
   },
   "exclude": [
@@ -80,5 +80,30 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
-  ]
+  ],
+  "files": [
+    "*"
+  ],
+  "exports": {
+    "./index": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./utils/*": {
+      "types": "./utils/*",
+      "import": "./utils/*",
+      "require": "./utils/*"
+    },
+    "./components/*": {
+      "types": "./components/*",
+      "import": "./components/*",
+      "require": "./components/*"
+    },
+    "./hooks/*": {
+      "types": "./hooks/*",
+      "import": "./hooks/*",
+      "require": "./hooks/*"
+    }
+  }
 }

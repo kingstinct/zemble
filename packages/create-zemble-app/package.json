@@ -4,8 +4,7 @@
   "version": "0.1.4",
   "bin": "./bin/create-zemble-app.js",
   "scripts": {
-    "test": "bun test cli.test.ts",
-    "build": "zshy"
+    "test": "bun test cli.test.ts"
   },
   "dependencies": {
     "fs-extra": "^11.3.0",
@@ -26,17 +25,5 @@
   },
   "keywords": [
     "zemble"
-  ],
-  "zshy": {
-    "exports": {
-      "./index": "./index.ts"
-    }
-  },
-  "exclude": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.cts",
-    "**/*.mts",
-    "node_modules"
   ]
 }

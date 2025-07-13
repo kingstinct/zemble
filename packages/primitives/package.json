@@ -25,7 +25,7 @@
   "zshy": {
     "exports": {
       "./index": "./index.ts",
-      "./src/*": "./src/*.ts"
+      "./src/*": "./src/**/*"
     }
   },
   "exclude": [
@@ -34,5 +34,20 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
-  ]
+  ],
+  "files": [
+    "*"
+  ],
+  "exports": {
+    "./index": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./src/*": {
+      "types": "./dist/src/*",
+      "import": "./dist/src/*",
+      "require": "./dist/src/*"
+    }
+  }
 }

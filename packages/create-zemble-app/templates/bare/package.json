@@ -30,5 +30,8 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
+  ],
+  "files": [
+    "*"
   ]
 }

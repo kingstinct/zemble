@@ -47,5 +47,15 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
-  ]
+  ],
+  "files": [
+    "*"
+  ],
+  "exports": {
+    "./serve": {
+      "types": "./serve.d.ts",
+      "import": "./serve.mjs",
+      "require": "./serve.js"
+    }
+  }
 }

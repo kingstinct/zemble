@@ -55,11 +55,11 @@
   "zshy": {
     "exports": {
       "./plugin": "./plugin.ts",
-      "./graphql/*": "./graphql/*.ts",
-      "./utils/*": "./utils/*.ts",
-      "./test-utils/*": "./test-utils/*.ts",
-      "./routes/*": "./routes/*.ts",
-      "./bin/*": "./bin/*.ts"
+      "./graphql/*": "./graphql/**/*",
+      "./utils/*": "./utils/**/*",
+      "./test-utils/*": "./test-utils/**/*",
+      "./routes/*": "./routes/**/*",
+      "./bin/*": "./bin/**/*"
     }
   },
   "exclude": [
@@ -68,5 +68,8 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
+  ],
+  "files": [
+    "*"
   ]
 }

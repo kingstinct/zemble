@@ -109,7 +109,7 @@ export function createServerConfig<
   readonly schema?: Types.InstanceOrArray<Types.Schema>
   readonly serverOutputSchemaPath?: TOutputPath
   readonly resolverGeneration?: TypedPresetConfig | boolean
-}) {
+}): CodegenConfig {
   if (resolverGeneration === undefined) {
     resolverGeneration = !!(
       process.env['GENERATE'] && JSON.stringify(process.env['GENERATE'])
@@ -142,13 +142,13 @@ export function createServerConfig<
 const serverConfig = createServerConfig({})
 const clientConfig = createClientConfig({})
 
-const config = {
+const config: CodegenConfig = {
   ...serverConfig,
   ...clientConfig,
   generates: {
     ...serverConfig.generates,
     ...clientConfig.generates,
   },
-} satisfies CodegenConfig
+}
 
 export default config

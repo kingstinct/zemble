@@ -53,6 +53,7 @@
     "tldr",
     "urql",
     "webkitvisibilitychange",
-    "zemble"
+    "zemble",
+    "codegen"
   ]
 }

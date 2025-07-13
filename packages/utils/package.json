@@ -47,7 +47,7 @@
   "zshy": {
     "exports": {
       "./index": "./index.ts",
-      "./graphql/*": "./graphql/*.ts"
+      "./graphql/*": "./graphql/**/*"
     }
   },
   "exclude": [
@@ -56,5 +56,20 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
-  ]
+  ],
+  "files": [
+    "*"
+  ],
+  "exports": {
+    "./index": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./graphql/*": {
+      "types": "./graphql/*",
+      "import": "./graphql/*",
+      "require": "./graphql/*"
+    }
+  }
 }

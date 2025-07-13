@@ -38,7 +38,7 @@
   "zshy": {
     "exports": {
       "./plugin": "./plugin.ts",
-      "./utils/*": "./utils/*.ts"
+      "./utils/*": "./utils/**/*"
     }
   },
   "exclude": [
@@ -47,5 +47,20 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
-  ]
+  ],
+  "files": [
+    "*"
+  ],
+  "exports": {
+    "./plugin": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
+    "./utils/*": {
+      "types": "./utils/*",
+      "import": "./utils/*",
+      "require": "./utils/*"
+    }
+  }
 }

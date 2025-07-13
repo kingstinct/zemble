@@ -30,8 +30,8 @@
   "zshy": {
     "exports": {
       "./serve": "./serve.ts",
-      "./graphql/*": "./graphql/*.ts",
-      "./routes/*": "./routes/*.ts"
+      "./graphql/*": "./graphql/**/*",
+      "./routes/*": "./routes/**/*"
     }
   },
   "exclude": [
@@ -40,5 +40,8 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
+  ],
+  "files": [
+    "*"
   ]
 }

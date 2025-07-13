@@ -54,8 +54,8 @@
   "zshy": {
     "exports": {
       "./plugin": "./plugin.ts",
-      "./graphql/*": "./graphql/*.ts",
-      "./utils/*": "./utils/*.ts"
+      "./graphql/*": "./graphql/**/*",
+      "./utils/*": "./utils/**/*"
     }
   },
   "exclude": [
@@ -64,5 +64,8 @@
     "**/*.cts",
     "**/*.mts",
     "node_modules"
+  ],
+  "files": [
+    "*"
   ]
 }
