@@ -32,5 +32,12 @@
     "exports": {
       "./index": "./index.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

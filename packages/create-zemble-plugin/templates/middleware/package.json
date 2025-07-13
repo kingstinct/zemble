@@ -27,5 +27,12 @@
     "exports": {
       "./plugin": "./plugin.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

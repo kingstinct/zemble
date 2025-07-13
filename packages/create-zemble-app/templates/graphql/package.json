@@ -33,5 +33,12 @@
       "./graphql/*": "./graphql/*.ts",
       "./routes/*": "./routes/*.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

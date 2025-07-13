@@ -50,5 +50,12 @@
       "./graphql/*": "./graphql/*.ts",
       "./utils/*": "./utils/*.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

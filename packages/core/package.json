@@ -49,5 +49,12 @@
       "./utils/*": "./utils/*.ts",
       "./test-utils/*": "./test-utils/*.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

@@ -27,5 +27,12 @@
       "./index": "./index.ts",
       "./src/*": "./src/*.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

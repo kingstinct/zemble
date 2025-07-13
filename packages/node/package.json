@@ -47,5 +47,12 @@
     "exports": {
       "./serve": "./serve.js"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

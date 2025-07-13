@@ -61,5 +61,12 @@
       "./routes/*": "./routes/*.ts",
       "./bin/*": "./bin/*.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

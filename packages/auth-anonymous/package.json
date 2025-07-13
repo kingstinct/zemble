@@ -38,5 +38,12 @@
       "./plugin": "./plugin.ts",
       "./graphql/*": "./graphql/*.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }

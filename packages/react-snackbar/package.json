@@ -34,5 +34,12 @@
       "./components/*": "./components/*.ts",
       "./hooks/*": "./hooks/*.ts"
     }
-  }
+  },
+  "exclude": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cts",
+    "**/*.mts",
+    "node_modules"
+  ]
 }
