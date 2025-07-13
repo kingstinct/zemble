@@ -2,7 +2,7 @@ import { expect, it } from 'bun:test'
 import { createApp } from '@zemble/core'
 
 import config from '../../config'
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 const HelloWorldQuery = graphql(`
   query Hello {

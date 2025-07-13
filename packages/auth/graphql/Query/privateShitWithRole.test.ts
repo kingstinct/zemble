@@ -3,7 +3,7 @@ import { createTestApp } from '@zemble/core/test-utils'
 
 import plugin from '../../plugin'
 import { signJwt } from '../../utils/signJwt'
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 const PrivateShitWithRoleQuery = graphql(`
   query PrivateShitWithRole {

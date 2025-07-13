@@ -4,7 +4,7 @@ import { createTestApp } from '@zemble/core/test-utils'
 import plugin from '../../plugin'
 import { generateRefreshToken } from '../../utils/generateRefreshToken'
 import { signJwt } from '../../utils/signJwt'
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 const RefreshTokenMutation = graphql(`
   mutation RefreshToken($bearerToken: String!, $refreshToken: String!) {

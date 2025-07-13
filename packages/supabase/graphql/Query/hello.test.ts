@@ -7,7 +7,7 @@ import {
   deleteAllUsers,
   signUpNewUser,
 } from '../../test-utils'
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 beforeAll(async () => {
   await signUpNewUser()

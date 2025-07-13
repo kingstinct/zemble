@@ -7,7 +7,7 @@ import {
   deleteAllUsers,
   signUpNewUser,
 } from '../../test-utils'
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 const randomNumberMutation = graphql(`
   mutation RandomNumber {

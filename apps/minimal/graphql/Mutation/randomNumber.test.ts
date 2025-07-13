@@ -1,6 +1,6 @@
 import { expect, it } from 'bun:test'
 
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 const randomNumberMutation = graphql(`
   mutation RandomNumber {

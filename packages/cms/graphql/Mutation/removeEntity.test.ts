@@ -17,7 +17,7 @@ import {
 } from '../../test-setup'
 import { readEntities } from '../../utils/fs'
 import { CreateEntityMutation } from '../../utils/testOperations'
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 beforeAll(setupBeforeAll)
 

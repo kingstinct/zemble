@@ -1,4 +1,4 @@
-import { graphql } from '../graphql/client.generated'
+import { graphql } from '../graphql/client-generated'
 
 export const CreateEntityMutation = graphql(`
   mutation CreateEntity($nameSingular: String!, $namePlural: String!) {

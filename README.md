@@ -168,7 +168,7 @@ import { createApp } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import MyAppRoutes from './plugins/my-app-routes'
 
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 const HelloWorldQuery = graphql(`
   query Hello {

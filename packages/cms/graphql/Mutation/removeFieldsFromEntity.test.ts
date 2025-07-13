@@ -21,7 +21,7 @@ import {
   AddFieldsToEntityMutation,
   CreateEntityMutation,
 } from '../../utils/testOperations'
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 beforeAll(setupBeforeAll)
 afterAll(teardownAfterAll)

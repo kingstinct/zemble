@@ -76,7 +76,7 @@
     "exports": {
       "./plugin": "./plugin.ts",
       "./codegen": "./codegen.ts",
-      "./graphql": "./graphql/*",
+      "./graphql": "./graphql/**/*",
       "./utils": "./utils/**/*"
     }
   },

@@ -10,7 +10,7 @@ import {
   tearDownAfterEach,
   teardownAfterAll,
 } from '../../test-setup'
-import { graphql } from '../client.generated'
+import { graphql } from '../client-generated'
 
 export const UpdatePermissionsMutation = graphql(`
   mutation UpdatePermissions($userId: ID!, $permissions: [PermissionInput!]!) {

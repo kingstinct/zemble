@@ -6,11 +6,11 @@ import type { Types } from '@graphql-codegen/plugin-helpers'
 
 export const DEFAULT_SCHEMA_INPUT: Types.InstanceOrArray<Types.Schema> = [
   `./**/*.graphql`,
-  '!./graphql/client.generated/**/*',
+  '!./graphql/client-generated/**/*',
   `!./node_modules/**/*`,
 ]
 export const DEFAULT_CLIENT_OUTPUT_DIRECTORY_PATH =
-  `./graphql/client.generated/` as const
+  `./graphql/client-generated/` as const
 export const DEFAULT_SERVER_OUTPUT_SCHEMA_PATH =
   `./graphql/schema.generated.ts` as const
 

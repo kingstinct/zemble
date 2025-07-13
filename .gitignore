@@ -12,6 +12,7 @@ dist
 !schema.generated.ts
 *.generated
 *.generated.graphql
+client-generated
 
 test-output
 
