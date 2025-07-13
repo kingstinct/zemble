@@ -65,7 +65,8 @@
     "syncpack": "^14.0.0-alpha.18",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3",
-    "typescript-json-schema": "^0.65.1"
+    "typescript-json-schema": "^0.65.1",
+    "zshy": "^0.2.3"
   },
   "workspaces": [
     "packages/*",
