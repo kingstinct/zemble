@@ -5,7 +5,8 @@
   "author": "Robert Herber",
   "license": "MIT",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "publishConfig": {
     "access": "public",
@@ -20,5 +21,11 @@
   "dependencies": {
     "expo-system-ui": "^2.9.4",
     "ts-pattern": "^5.7.1"
+  },
+  "zshy": {
+    "exports": {
+      "./index": "./index.ts",
+      "./src/*": "./src/*.ts"
+    }
   }
 }

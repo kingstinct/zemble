@@ -4,7 +4,8 @@
   "description": "CLI for creating a zemble plugin in a zap",
   "bin": "./bin/create-zemble-plugin.js",
   "scripts": {
-    "test": "bun test cli.test.ts"
+    "test": "bun test cli.test.ts",
+    "build": "zshy"
   },
   "dependencies": {
     "@zemble/core": "workspace:*",
@@ -26,5 +27,10 @@
   },
   "keywords": [
     "zemble"
-  ]
+  ],
+  "zshy": {
+    "exports": {
+      "./index": "./index.ts"
+    }
+  }
 }

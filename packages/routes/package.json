@@ -5,7 +5,8 @@
   "main": "plugin.ts",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "keywords": [
     "zemble",
@@ -33,5 +34,11 @@
   "dependencies": {
     "@zemble/core": "workspace:*",
     "hono": "^4.8.4"
+  },
+  "zshy": {
+    "exports": {
+      "./plugin": "./plugin.ts",
+      "./utils/*": "./utils/*.ts"
+    }
   }
 }

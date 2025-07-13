@@ -6,7 +6,8 @@
   "scripts": {
     "test": "bun test",
     "dev": "bun server.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "keywords": [
     "zemble",
@@ -41,5 +42,12 @@
   },
   "devDependencies": {
     "graphql-yoga": "^5.14.0"
+  },
+  "zshy": {
+    "exports": {
+      "./index": "./index.ts",
+      "./utils/*": "./utils/*.ts",
+      "./test-utils/*": "./test-utils/*.ts"
+    }
   }
 }

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "docker-compose up -d && REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
     "codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "keywords": [
     "zemble",
@@ -49,5 +50,12 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.7",
     "@types/bun": "*"
+  },
+  "zshy": {
+    "exports": {
+      "./plugin": "./plugin.ts",
+      "./graphql/*": "./graphql/*.ts",
+      "./utils/*": "./utils/*.ts"
+    }
   }
 }

@@ -11,7 +11,8 @@
     "act-typecheck": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/typecheck.yml --reuse -e act-workflow-run-configs/typecheck.json",
     "act-test-in-parallel": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/test-in-parallel.yml --reuse -e act-workflow-run-configs/test-in-parallel.json",
     "act-build-for-heroku": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/build-for-heroku.yml --reuse -e act-workflow-run-configs/build-for-heroku.json --secret-file .secrets",
-    "act-deploy-to-heroku": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/deploy-to-heroku.yml --reuse -e act-workflow-run-configs/deploy-to-heroku.json --secret-file .secrets"
+    "act-deploy-to-heroku": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/deploy-to-heroku.yml --reuse -e act-workflow-run-configs/deploy-to-heroku.json --secret-file .secrets",
+    "build": "zshy"
   },
   "publishConfig": {
     "access": "public",
@@ -42,5 +43,11 @@
   "bin": {
     "ensure-all-dependencies": "./scripts/ensure-all-dependencies.ts",
     "add-safe": "./scripts/add-safe.ts"
+  },
+  "zshy": {
+    "exports": {
+      "./index": "./index.ts",
+      "./graphql/*": "./graphql/*.ts"
+    }
   }
 }

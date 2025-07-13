@@ -17,7 +17,8 @@
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "build": "zshy"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.0",
@@ -29,5 +30,12 @@
   },
   "peerDependencies": {},
   "module": "plugin.ts",
-  "main": "plugin.ts"
+  "main": "plugin.ts",
+  "zshy": {
+    "exports": {
+      "./plugin": "./plugin.ts",
+      "./graphql/*": "./graphql/*.ts",
+      "./routes/*": "./routes/*.ts"
+    }
+  }
 }

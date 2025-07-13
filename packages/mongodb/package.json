@@ -21,7 +21,8 @@
   "scripts": {
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "devDependencies": {
     "@zemble/migrations": "workspace:*"
@@ -30,5 +31,11 @@
     "@zemble/migrations": "0.0.40"
   },
   "module": "plugin.ts",
-  "main": "plugin.ts"
+  "main": "plugin.ts",
+  "zshy": {
+    "exports": {
+      "./plugin": "./plugin.ts",
+      "./routes/*": "./routes/*.ts"
+    }
+  }
 }

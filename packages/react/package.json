@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "bun test",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build": "zshy"
   },
   "publishConfig": {
     "access": "public",
@@ -64,5 +65,13 @@
   },
   "dependencies": {
     "@zemble/primitives": "workspace:*"
+  },
+  "zshy": {
+    "exports": {
+      "./index": "./index.ts",
+      "./utils/*": "./utils/*.ts",
+      "./components/*": "./components/*.ts",
+      "./hooks/*": "./hooks/*.ts"
+    }
   }
 }

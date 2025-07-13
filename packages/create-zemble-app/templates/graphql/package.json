@@ -13,7 +13,8 @@
     "test": "bun test",
     "dev": "bun --hot serve.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "bunx zemble-app-graphql-codegen config.ts && graphql-codegen"
+    "codegen": "bunx zemble-app-graphql-codegen config.ts && graphql-codegen",
+    "build": "zshy"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.0",
@@ -25,5 +26,12 @@
   },
   "peerDependencies": {},
   "module": "serve.ts",
-  "main": "serve.ts"
+  "main": "serve.ts",
+  "zshy": {
+    "exports": {
+      "./serve": "./serve.ts",
+      "./graphql/*": "./graphql/*.ts",
+      "./routes/*": "./routes/*.ts"
+    }
+  }
 }

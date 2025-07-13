@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "keywords": [
     "zemble",
@@ -44,5 +45,11 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250705.0"
+  },
+  "zshy": {
+    "exports": {
+      "./plugin": "./plugin.ts",
+      "./graphql/*": "./graphql/*.ts"
+    }
   }
 }

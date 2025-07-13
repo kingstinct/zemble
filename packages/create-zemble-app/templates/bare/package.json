@@ -10,12 +10,18 @@
     "start": "bun serve.ts",
     "test": "bun test",
     "dev": "bun --hot serve.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "devDependencies": {
     "@tsconfig/bun": "^1.0.1"
   },
   "peerDependencies": {},
   "module": "serve.ts",
-  "main": "serve.ts"
+  "main": "serve.ts",
+  "zshy": {
+    "exports": {
+      "./serve": "./serve.ts"
+    }
+  }
 }

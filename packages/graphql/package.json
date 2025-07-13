@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "codegen": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "keywords": [
     "zemble",
@@ -70,5 +71,13 @@
     "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "ioredis": "^5.6.1",
     "@graphql-yoga/redis-event-target": "^3.0.3"
+  },
+  "zshy": {
+    "exports": {
+      "./plugin": "./plugin.ts",
+      "./graphql/*": "./graphql/*.ts",
+      "./utils/*": "./utils/*.ts",
+      "./bin/*": "./bin/*.ts"
+    }
   }
 }

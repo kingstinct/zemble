@@ -5,7 +5,8 @@
   "author": "Robert Herber",
   "license": "MIT",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "zshy"
   },
   "publishConfig": {
     "access": "public",
@@ -26,5 +27,12 @@
   "devDependencies": {
     "@types/react": "^18.3.23",
     "@types/react-native": "~0.73.0"
+  },
+  "zshy": {
+    "exports": {
+      "./index": "./index.ts",
+      "./components/*": "./components/*.ts",
+      "./hooks/*": "./hooks/*.ts"
+    }
   }
 }

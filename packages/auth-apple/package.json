@@ -7,7 +7,8 @@
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "build": "zshy"
   },
   "keywords": [
     "zemble",
@@ -41,5 +42,12 @@
     "graphql": "^16.11.0",
     "jose": "^6.0.11",
     "@zemble/auth": "workspace:*"
+  },
+  "zshy": {
+    "exports": {
+      "./plugin": "./plugin.ts",
+      "./graphql/*": "./graphql/*.ts",
+      "./utils/*": "./utils/*.ts"
+    }
   }
 }
