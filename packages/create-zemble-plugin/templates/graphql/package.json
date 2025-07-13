@@ -33,6 +33,7 @@
   "main": "plugin.ts",
   "zshy": {
     "exports": {
+      "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
       "./graphql/*": "./graphql/**/*",
       "./routes/*": "./routes/**/*"

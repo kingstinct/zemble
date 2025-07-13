@@ -45,8 +45,8 @@
   },
   "zshy": {
     "exports": {
-      "./serve": "./serve.ts",
-      "./cli": "./cli.ts"
+      "./cli": "./cli.ts",
+      "./serve": "./serve.ts"
     }
   },
   "exclude": [

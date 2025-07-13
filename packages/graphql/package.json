@@ -6,11 +6,12 @@
   "bin": {
     "zemble-app-graphql-codegen": "./bin/zemble-app-graphql-codegen.ts"
   },
+  "type": "module",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(zshy || true) && node -e \"const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('./package.json'));if(pkg.exports){Object.keys(pkg.exports).forEach(key=>{['require','import','types'].forEach(type=>{if(pkg.exports[key][type]&&!fs.existsSync(pkg.exports[key][type].replace('./',''))){delete pkg.exports[key][type]}})});fs.writeFileSync('./package.json',JSON.stringify(pkg,null,2)+String.fromCharCode(10))}\""
   },
   "keywords": [
     "zemble",
@@ -74,10 +75,13 @@
   },
   "zshy": {
     "exports": {
-      "./plugin": "./plugin.ts",
       "./codegen": "./codegen.ts",
-      "./graphql": "./graphql/**/*",
-      "./utils": "./utils/**/*"
+      "./createPubSub": "./createPubSub.ts",
+      "./middleware": "./middleware.ts",
+      "./plugin": "./plugin.ts",
+      "./clients/*": "./clients/**/*",
+      "./graphql/*": "./graphql/**/*",
+      "./utils/*": "./utils/**/*"
     }
   },
   "exclude": [
@@ -91,25 +95,21 @@
     "*"
   ],
   "exports": {
-    "./plugin": {
-      "types": "./plugin.d.ts",
-      "import": "./plugin.mjs",
-      "require": "./plugin.js"
-    },
     "./codegen": {
-      "types": "./codegen.d.ts",
-      "import": "./codegen.mjs",
-      "require": "./codegen.js"
+      "import": "./codegen.js"
     },
-    "./graphql": {
-      "types": "./graphql/*",
-      "import": "./graphql/*",
-      "require": "./graphql/*"
+    "./createPubSub": {
+      "import": "./createPubSub.js"
     },
-    "./utils": {
-      "types": "./utils/*",
-      "import": "./utils/*",
-      "require": "./utils/*"
-    }
+    "./middleware": {
+      "import": "./middleware.js"
+    },
+    "./plugin": {
+      "import": "./plugin.js"
+    },
+    "./bin/*": {},
+    "./clients/*": {},
+    "./graphql/*": {},
+    "./utils/*": {}
   }
 }

@@ -35,6 +35,7 @@
   },
   "zshy": {
     "exports": {
+      "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
       "./graphql/*": "./graphql/**/*"
     }

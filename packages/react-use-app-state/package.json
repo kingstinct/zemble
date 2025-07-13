@@ -25,7 +25,8 @@
   },
   "zshy": {
     "exports": {
-      "./index": "./index.ts"
+      "./index": "./index.ts",
+      "./useAppState.native": "./useAppState.native.ts"
     }
   },
   "exclude": [

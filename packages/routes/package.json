@@ -37,6 +37,7 @@
   },
   "zshy": {
     "exports": {
+      "./middleware": "./middleware.ts",
       "./plugin": "./plugin.ts",
       "./utils/*": "./utils/**/*"
     }

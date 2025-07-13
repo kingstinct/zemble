@@ -69,9 +69,10 @@
   "zshy": {
     "exports": {
       "./index": "./index.ts",
-      "./utils/*": "./utils/**/*",
       "./components/*": "./components/**/*",
-      "./hooks/*": "./hooks/**/*"
+      "./contexts/*": "./contexts/**/*",
+      "./hooks/*": "./hooks/**/*",
+      "./utils/*": "./utils/**/*"
     }
   },
   "exclude": [

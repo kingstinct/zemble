@@ -53,8 +53,15 @@
   },
   "zshy": {
     "exports": {
+      "./ZembleQueue": "./ZembleQueue.ts",
+      "./ZembleQueueBull": "./ZembleQueueBull.ts",
+      "./ZembleQueueMock": "./ZembleQueueMock.ts",
+      "./bullboard-hono-adapter": "./bullboard-hono-adapter.ts",
+      "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
+      "./clients/*": "./clients/**/*",
       "./graphql/*": "./graphql/**/*",
+      "./queues/*": "./queues/**/*",
       "./utils/*": "./utils/**/*"
     }
   },

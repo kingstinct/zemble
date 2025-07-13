@@ -48,7 +48,9 @@
   },
   "zshy": {
     "exports": {
+      "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
+      "./clients/*": "./clients/**/*",
       "./graphql/*": "./graphql/**/*"
     }
   },

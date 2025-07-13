@@ -36,7 +36,11 @@
   "main": "plugin.ts",
   "zshy": {
     "exports": {
+      "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
+      "./types": "./types.ts",
+      "./utils": "./utils.ts",
+      "./clients/*": "./clients/**/*",
       "./graphql/*": "./graphql/**/*"
     }
   },

@@ -54,12 +54,14 @@
   },
   "zshy": {
     "exports": {
+      "./codegen": "./codegen.ts",
+      "./generate-keys": "./generate-keys.ts",
       "./plugin": "./plugin.ts",
+      "./bin/*": "./bin/**/*",
       "./graphql/*": "./graphql/**/*",
-      "./utils/*": "./utils/**/*",
-      "./test-utils/*": "./test-utils/**/*",
       "./routes/*": "./routes/**/*",
-      "./bin/*": "./bin/**/*"
+      "./test-utils/*": "./test-utils/**/*",
+      "./utils/*": "./utils/**/*"
     }
   },
   "exclude": [

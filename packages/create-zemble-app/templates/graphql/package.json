@@ -29,6 +29,8 @@
   "main": "serve.ts",
   "zshy": {
     "exports": {
+      "./codegen": "./codegen.ts",
+      "./config": "./config.ts",
       "./serve": "./serve.ts",
       "./graphql/*": "./graphql/**/*",
       "./routes/*": "./routes/**/*"

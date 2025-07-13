@@ -34,7 +34,6 @@
   "zshy": {
     "exports": {
       "./index": "./index.ts",
-      "./components/*": "./components/**/*",
       "./hooks/*": "./hooks/**/*"
     }
   },

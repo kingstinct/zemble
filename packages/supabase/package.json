@@ -38,7 +38,11 @@
   "main": "plugin.ts",
   "zshy": {
     "exports": {
+      "./codegen": "./codegen.ts",
+      "./decodeToken": "./decodeToken.ts",
       "./plugin": "./plugin.ts",
+      "./test-utils": "./test-utils.ts",
+      "./clients/*": "./clients/**/*",
       "./graphql/*": "./graphql/**/*",
       "./routes/*": "./routes/**/*"
     }

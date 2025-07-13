@@ -45,9 +45,18 @@
   },
   "zshy": {
     "exports": {
+      "./Plugin": "./Plugin.ts",
+      "./cli-runner": "./cli-runner.ts",
+      "./createApp": "./createApp.ts",
+      "./createLogger": "./createLogger.ts",
+      "./createProvidersProxy": "./createProvidersProxy.ts",
       "./index": "./index.ts",
-      "./utils/*": "./utils/**/*",
-      "./test-utils/*": "./test-utils/**/*"
+      "./runBeforeServe": "./runBeforeServe.ts",
+      "./types": "./types.ts",
+      "./zembleContext": "./zembleContext.ts",
+      "./clients/*": "./clients/**/*",
+      "./test-utils/*": "./test-utils/**/*",
+      "./utils/*": "./utils/**/*"
     }
   },
   "exclude": [
@@ -61,20 +70,65 @@
     "*"
   ],
   "exports": {
+    "./Plugin": {
+      "types": "./Plugin.d.ts",
+      "import": "./Plugin.mjs",
+      "require": "./Plugin.js"
+    },
+    "./cli-runner": {
+      "types": "./cli-runner.d.ts",
+      "import": "./cli-runner.mjs",
+      "require": "./cli-runner.js"
+    },
+    "./createApp": {
+      "types": "./createApp.d.ts",
+      "import": "./createApp.mjs",
+      "require": "./createApp.js"
+    },
+    "./createLogger": {
+      "types": "./createLogger.d.ts",
+      "import": "./createLogger.mjs",
+      "require": "./createLogger.js"
+    },
+    "./createProvidersProxy": {
+      "types": "./createProvidersProxy.d.ts",
+      "import": "./createProvidersProxy.mjs",
+      "require": "./createProvidersProxy.js"
+    },
     "./index": {
       "types": "./index.d.ts",
       "import": "./index.mjs",
       "require": "./index.js"
     },
-    "./utils/*": {
-      "types": "./utils/*",
-      "import": "./utils/*",
-      "require": "./utils/*"
+    "./runBeforeServe": {
+      "types": "./runBeforeServe.d.ts",
+      "import": "./runBeforeServe.mjs",
+      "require": "./runBeforeServe.js"
+    },
+    "./types": {
+      "types": "./types.d.ts",
+      "import": "./types.mjs",
+      "require": "./types.js"
+    },
+    "./zembleContext": {
+      "types": "./zembleContext.d.ts",
+      "import": "./zembleContext.mjs",
+      "require": "./zembleContext.js"
+    },
+    "./clients/*": {
+      "types": "./clients/*",
+      "import": "./clients/*",
+      "require": "./clients/*"
     },
     "./test-utils/*": {
       "types": "./test-utils/*",
       "import": "./test-utils/*",
       "require": "./test-utils/*"
+    },
+    "./utils/*": {
+      "types": "./utils/*",
+      "import": "./utils/*",
+      "require": "./utils/*"
     }
   }
 }

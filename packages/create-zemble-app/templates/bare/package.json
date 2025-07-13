@@ -21,6 +21,8 @@
   "main": "serve.ts",
   "zshy": {
     "exports": {
+      "./app.test-template": "./app.test-template.ts",
+      "./config": "./config.ts",
       "./serve": "./serve.ts"
     }
   },

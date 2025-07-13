@@ -44,8 +44,12 @@
   "main": "plugin.ts",
   "zshy": {
     "exports": {
+      "./MigrationLockError": "./MigrationLockError.ts",
+      "./plugin.test": "./plugin.test.ts",
       "./plugin": "./plugin.ts",
-      "./bin/*": "./bin/**/*"
+      "./adapters/*": "./adapters/**/*",
+      "./bin/*": "./bin/**/*",
+      "./templates/*": "./templates/**/*"
     }
   },
   "exclude": [

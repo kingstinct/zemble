@@ -25,6 +25,7 @@
   "main": "plugin.ts",
   "zshy": {
     "exports": {
+      "./plugin.test-template": "./plugin.test-template.ts",
       "./plugin": "./plugin.ts"
     }
   },

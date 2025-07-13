@@ -34,7 +34,12 @@
   "main": "plugin.ts",
   "zshy": {
     "exports": {
+      "./migration-adapter-with-transactions": "./migration-adapter-with-transactions.ts",
+      "./migration-adapter": "./migration-adapter.ts",
+      "./migration.test": "./migration.test.ts",
       "./plugin": "./plugin.ts",
+      "./test-setup": "./test-setup.ts",
+      "./test-utils": "./test-utils.ts",
       "./routes/*": "./routes/**/*"
     }
   },

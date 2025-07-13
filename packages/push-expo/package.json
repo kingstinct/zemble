@@ -33,6 +33,8 @@
   "main": "plugin.ts",
   "zshy": {
     "exports": {
+      "./codegen": "./codegen.ts",
+      "./getReceipts": "./getReceipts.ts",
       "./plugin": "./plugin.ts",
       "./graphql/*": "./graphql/**/*"
     }
