@@ -1,6 +1,19 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "jsx": "react-native"
+    "verbatimModuleSyntax": false
   },
-  "extends": "../../tsconfig.base"
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.generated/*.ts",
+    "**/*.generated.ts",
+    "**/*.test.ts",
+    "**/*.d.ts",
+    "**/*.d.mts",
+    "**/*.mts",
+    "**/gql.generated/**/*.ts",
+    "gql.generated/gql.ts",
+    "gql.generated/graphql.ts"
+  ]
 }
