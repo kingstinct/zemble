@@ -2,11 +2,11 @@
   "name": "@zemble/routes",
   "version": "0.0.39",
   "description": "@zemble Plugin for routing and static files",
-  "main": "plugin.ts",
+  "main": "./plugin.js",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "keywords": [
     "zemble",
@@ -39,6 +39,7 @@
     "exports": {
       "./middleware": "./middleware.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./utils/*": "./utils/**/*"
     }
   },
@@ -63,10 +64,17 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./utils/*": {
       "types": "./utils/*",
       "import": "./utils/*",
       "require": "./utils/*"
     }
-  }
+  },
+  "module": "./plugin.mjs",
+  "types": "./plugin.d.ts"
 }

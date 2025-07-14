@@ -1,7 +1,7 @@
 {
   "name": "@zemble/utils",
   "version": "0.7.42",
-  "module": "index.ts",
+  "module": "./index.mjs",
   "author": "Robert Herber",
   "license": "MIT",
   "scripts": {
@@ -12,7 +12,7 @@
     "act-test-in-parallel": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/test-in-parallel.yml --reuse -e act-workflow-run-configs/test-in-parallel.json",
     "act-build-for-heroku": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/build-for-heroku.yml --reuse -e act-workflow-run-configs/build-for-heroku.json --secret-file .secrets",
     "act-deploy-to-heroku": "act workflow_dispatch --container-architecture linux/amd64 -W .github/workflows/deploy-to-heroku.yml --reuse -e act-workflow-run-configs/deploy-to-heroku.json --secret-file .secrets",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "publishConfig": {
     "access": "public",
@@ -56,7 +56,7 @@
       "./debouncedAggregate": "./debouncedAggregate.ts",
       "./EMPTY": "./EMPTY.ts",
       "./generateId": "./generateId.ts",
-      "./index": "./index.ts",
+      ".": "./index.ts",
       "./isNotNullOrUndefined": "./isNotNullOrUndefined.ts",
       "./JSON": "./JSON.ts",
       "./logPrettyData": "./logPrettyData.ts",
@@ -80,10 +80,29 @@
       "./types": "./types.ts",
       "./universalDateTimeToDayjs": "./universalDateTimeToDayjs.ts",
       "./wait": "./wait.ts",
-      "./date": "./date/**/*",
-      "./fastify": "./fastify/**/*",
-      "./graphql": "./graphql/**/*",
-      "./node": "./node/**/*"
+      "./date/isValidDateString": "./date/isValidDateString.ts",
+      "./date/dayjsToString": "./date/dayjsToString.ts",
+      "./date/stringToDayjs": "./date/stringToDayjs.ts",
+      "./date/isValidDateWithTimeString": "./date/isValidDateWithTimeString.ts",
+      "./fastify/addRedirectToAppRoutes": "./fastify/addRedirectToAppRoutes.ts",
+      "./fastify/timeoutifyPlugin": "./fastify/timeoutifyPlugin.ts",
+      "./fastify": "./fastify/index.ts",
+      "./graphql/UniversalDateTimeScalarRaw": "./graphql/UniversalDateTimeScalarRaw.ts",
+      "./graphql/GraphQLObjectIdScalar": "./graphql/GraphQLObjectIdScalar.ts",
+      "./graphql/UniversalDateTimeScalar": "./graphql/UniversalDateTimeScalar.ts",
+      "./graphql": "./graphql/index.ts",
+      "./node/Timeoutify": "./node/Timeoutify.ts",
+      "./node/createMongoDataLoader": "./node/createMongoDataLoader.ts",
+      "./node/debugPipeline": "./node/debugPipeline.ts",
+      "./node/projectionFromGraphQLInfo": "./node/projectionFromGraphQLInfo.ts",
+      "./node/parseEnv": "./node/parseEnv.ts",
+      "./node/SuperDataLoader": "./node/SuperDataLoader.ts",
+      "./node/types": "./node/types.ts",
+      "./node/gravatar": "./node/gravatar.ts",
+      "./node/DataLoaderNullableWithId": "./node/DataLoaderNullableWithId.ts",
+      "./node": "./node/index.ts",
+      "./node/errors/NotFoundError": "./node/errors/NotFoundError.ts",
+      "./node/DataLoaderNullable": "./node/DataLoaderNullable.ts"
     }
   },
   "exclude": [
@@ -148,7 +167,7 @@
       "import": "./generateId.mjs",
       "require": "./generateId.js"
     },
-    "./index": {
+    ".": {
       "types": "./index.d.ts",
       "import": "./index.mjs",
       "require": "./index.js"
@@ -268,25 +287,122 @@
       "import": "./wait.mjs",
       "require": "./wait.js"
     },
-    "./date": {
-      "types": "./date/*",
-      "import": "./date/*",
-      "require": "./date/*"
+    "./date/isValidDateString": {
+      "types": "./date/isValidDateString.d.ts",
+      "import": "./date/isValidDateString.mjs",
+      "require": "./date/isValidDateString.js"
+    },
+    "./date/dayjsToString": {
+      "types": "./date/dayjsToString.d.ts",
+      "import": "./date/dayjsToString.mjs",
+      "require": "./date/dayjsToString.js"
+    },
+    "./date/stringToDayjs": {
+      "types": "./date/stringToDayjs.d.ts",
+      "import": "./date/stringToDayjs.mjs",
+      "require": "./date/stringToDayjs.js"
+    },
+    "./date/isValidDateWithTimeString": {
+      "types": "./date/isValidDateWithTimeString.d.ts",
+      "import": "./date/isValidDateWithTimeString.mjs",
+      "require": "./date/isValidDateWithTimeString.js"
+    },
+    "./fastify/addRedirectToAppRoutes": {
+      "types": "./fastify/addRedirectToAppRoutes.d.ts",
+      "import": "./fastify/addRedirectToAppRoutes.mjs",
+      "require": "./fastify/addRedirectToAppRoutes.js"
+    },
+    "./fastify/timeoutifyPlugin": {
+      "types": "./fastify/timeoutifyPlugin.d.ts",
+      "import": "./fastify/timeoutifyPlugin.mjs",
+      "require": "./fastify/timeoutifyPlugin.js"
     },
     "./fastify": {
-      "types": "./fastify/*",
-      "import": "./fastify/*",
-      "require": "./fastify/*"
+      "types": "./fastify/index.d.ts",
+      "import": "./fastify/index.mjs",
+      "require": "./fastify/index.js"
+    },
+    "./graphql/UniversalDateTimeScalarRaw": {
+      "types": "./graphql/UniversalDateTimeScalarRaw.d.ts",
+      "import": "./graphql/UniversalDateTimeScalarRaw.mjs",
+      "require": "./graphql/UniversalDateTimeScalarRaw.js"
+    },
+    "./graphql/GraphQLObjectIdScalar": {
+      "types": "./graphql/GraphQLObjectIdScalar.d.ts",
+      "import": "./graphql/GraphQLObjectIdScalar.mjs",
+      "require": "./graphql/GraphQLObjectIdScalar.js"
+    },
+    "./graphql/UniversalDateTimeScalar": {
+      "types": "./graphql/UniversalDateTimeScalar.d.ts",
+      "import": "./graphql/UniversalDateTimeScalar.mjs",
+      "require": "./graphql/UniversalDateTimeScalar.js"
     },
     "./graphql": {
-      "types": "./graphql/*",
-      "import": "./graphql/*",
-      "require": "./graphql/*"
+      "types": "./graphql/index.d.ts",
+      "import": "./graphql/index.mjs",
+      "require": "./graphql/index.js"
+    },
+    "./node/Timeoutify": {
+      "types": "./node/Timeoutify.d.ts",
+      "import": "./node/Timeoutify.mjs",
+      "require": "./node/Timeoutify.js"
+    },
+    "./node/createMongoDataLoader": {
+      "types": "./node/createMongoDataLoader.d.ts",
+      "import": "./node/createMongoDataLoader.mjs",
+      "require": "./node/createMongoDataLoader.js"
+    },
+    "./node/debugPipeline": {
+      "types": "./node/debugPipeline.d.ts",
+      "import": "./node/debugPipeline.mjs",
+      "require": "./node/debugPipeline.js"
+    },
+    "./node/projectionFromGraphQLInfo": {
+      "types": "./node/projectionFromGraphQLInfo.d.ts",
+      "import": "./node/projectionFromGraphQLInfo.mjs",
+      "require": "./node/projectionFromGraphQLInfo.js"
+    },
+    "./node/parseEnv": {
+      "types": "./node/parseEnv.d.ts",
+      "import": "./node/parseEnv.mjs",
+      "require": "./node/parseEnv.js"
+    },
+    "./node/SuperDataLoader": {
+      "types": "./node/SuperDataLoader.d.ts",
+      "import": "./node/SuperDataLoader.mjs",
+      "require": "./node/SuperDataLoader.js"
+    },
+    "./node/types": {
+      "types": "./node/types.d.ts",
+      "import": "./node/types.mjs",
+      "require": "./node/types.js"
+    },
+    "./node/gravatar": {
+      "types": "./node/gravatar.d.ts",
+      "import": "./node/gravatar.mjs",
+      "require": "./node/gravatar.js"
+    },
+    "./node/DataLoaderNullableWithId": {
+      "types": "./node/DataLoaderNullableWithId.d.ts",
+      "import": "./node/DataLoaderNullableWithId.mjs",
+      "require": "./node/DataLoaderNullableWithId.js"
     },
     "./node": {
-      "types": "./node/*",
-      "import": "./node/*",
-      "require": "./node/*"
+      "types": "./node/index.d.ts",
+      "import": "./node/index.mjs",
+      "require": "./node/index.js"
+    },
+    "./node/errors/NotFoundError": {
+      "types": "./node/errors/NotFoundError.d.ts",
+      "import": "./node/errors/NotFoundError.mjs",
+      "require": "./node/errors/NotFoundError.js"
+    },
+    "./node/DataLoaderNullable": {
+      "types": "./node/DataLoaderNullable.d.ts",
+      "import": "./node/DataLoaderNullable.mjs",
+      "require": "./node/DataLoaderNullable.js"
     }
-  }
+  },
+  "main": "./index.js",
+  "types": "./index.d.ts"
 }

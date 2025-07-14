@@ -2,12 +2,12 @@
   "name": "@zemble/bull",
   "version": "0.2.13",
   "description": "@zemble Plugin providing Bull Queue Support",
-  "main": "plugin.ts",
+  "main": "./plugin.js",
   "scripts": {
     "dev": "docker-compose up -d && REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
     "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "keywords": [
     "zemble",
@@ -59,6 +59,7 @@
       "./bullboard-hono-adapter": "./bullboard-hono-adapter.ts",
       "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./clients/*": "./clients/**/*",
       "./graphql/*": "./graphql/**/*",
       "./queues/*": "./queues/**/*",
@@ -106,6 +107,11 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./clients/*": {
       "types": "./clients/*",
       "import": "./clients/*",
@@ -126,5 +132,7 @@
       "import": "./utils/*",
       "require": "./utils/*"
     }
-  }
+  },
+  "module": "./plugin.mjs",
+  "types": "./plugin.d.ts"
 }

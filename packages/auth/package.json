@@ -2,7 +2,7 @@
   "name": "@zemble/auth",
   "version": "0.0.67",
   "description": "Zemble Plugin providing generic Auth Support",
-  "main": "plugin.ts",
+  "main": "./plugin.js",
   "bin": {
     "zemble-generate-keys": "./bin/generate-keys.ts"
   },
@@ -11,7 +11,7 @@
     "dev": "zemble-dev plugin.ts",
     "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "keywords": [
     "zemble",
@@ -55,6 +55,7 @@
   "zshy": {
     "exports": {
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./graphql/*": "./graphql/**/*",
       "./utils/*": "./utils/**/*",
       "./test-utils/*": "./test-utils/**/*",
@@ -73,6 +74,11 @@
   ],
   "exports": {
     "./plugin": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
+    ".": {
       "types": "./plugin.d.ts",
       "import": "./plugin.mjs",
       "require": "./plugin.js"
@@ -97,5 +103,7 @@
       "import": "./routes/*",
       "require": "./routes/*"
     }
-  }
+  },
+  "module": "./plugin.mjs",
+  "types": "./plugin.d.ts"
 }

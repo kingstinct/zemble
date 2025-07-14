@@ -2,12 +2,12 @@
   "name": "@zemble/auth-api-token",
   "version": "0.0.67",
   "description": "Zemble Plugin providing simple API token authentication",
-  "main": "plugin.ts",
+  "main": "./plugin.js",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "keywords": [
     "zemble",
@@ -48,6 +48,7 @@
     "exports": {
       "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./graphql/*": "./graphql/**/*",
       "./utils/*": "./utils/**/*"
     }
@@ -73,6 +74,11 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./graphql/*": {
       "types": "./graphql/*",
       "import": "./graphql/*",
@@ -83,5 +89,7 @@
       "import": "./utils/*",
       "require": "./utils/*"
     }
-  }
+  },
+  "module": "./plugin.mjs",
+  "types": "./plugin.d.ts"
 }

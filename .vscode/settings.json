@@ -25,6 +25,7 @@
   },
   "editor.formatOnSave": true,
   "cSpell.words": [
+    "bullboard",
     "bullmq",
     "bunx",
     "codegen",
@@ -47,6 +48,7 @@
     "pushtotalk",
     "SENDGRID",
     "snackbars",
+    "Subschema",
     "supabase",
     "syncpack",
     "Timeoutify",

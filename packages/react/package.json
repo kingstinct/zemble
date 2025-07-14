@@ -13,7 +13,7 @@
     "test": "bun test",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "publishConfig": {
     "access": "public",

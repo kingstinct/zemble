@@ -11,7 +11,7 @@
     "test": "bun test",
     "dev": "bun --hot serve.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "devDependencies": {
     "@tsconfig/bun": "^1.0.1"

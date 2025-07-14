@@ -1,13 +1,12 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
-import {
-  createServerConfig,
-  createClientConfig,
-} from '@zemble/graphql/codegen'
+import { createClientConfig, createServerConfig } from '@zemble/graphql/codegen'
 
 const serverConfig = createServerConfig({})
 const clientConfig = createClientConfig({})
 
-const serverOutput = serverConfig.generates!['./graphql/schema.generated.ts'] as any
+const serverOutput = serverConfig.generates![
+  './graphql/schema.generated.ts'
+] as any
 
 const config: CodegenConfig = {
   ...serverConfig,

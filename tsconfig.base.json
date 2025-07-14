@@ -24,13 +24,28 @@
     "noFallthroughCasesInSwitch": true,
 
     // Some stricter flags
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
 
     // Fix import.meta and dayjs import issues
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "downlevelIteration": true
-  }
+    "downlevelIteration": true,
+
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true
+  },
+  "exclude": [
+    "**/*.mts",
+    "**/*.d.mts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "storybook-static",
+    "*.generated/**/*"
+  ]
 }

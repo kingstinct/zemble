@@ -2,13 +2,13 @@
   "name": "@zemble/auth-otp",
   "version": "0.0.68",
   "description": "Zemble Plugin providing OTP authentication through email",
-  "main": "plugin.ts",
+  "main": "./plugin.js",
   "scripts": {
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "keywords": [
     "zemble",
@@ -52,6 +52,7 @@
     "exports": {
       "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./clients/*": "./clients/**/*",
       "./graphql/*": "./graphql/**/*",
       "./utils/*": "./utils/**/*"
@@ -78,6 +79,11 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./clients/*": {
       "types": "./clients/*",
       "import": "./clients/*",
@@ -93,5 +99,7 @@
       "import": "./utils/*",
       "require": "./utils/*"
     }
-  }
+  },
+  "module": "./plugin.mjs",
+  "types": "./plugin.d.ts"
 }

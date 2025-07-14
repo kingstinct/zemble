@@ -4,11 +4,17 @@
     "outDir": "."
   },
   "exclude": [
-    "node_modules",
-    "dist",
     "**/*.generated/*.ts",
     "**/*.generated.ts",
     "**/*.test.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "**/*.d.mts",
+    "**/*.mts",
+    "./*.d.ts",
+    "./*.d.mts",
+    "./types.d.ts",
+    "./types.d.mts",
+    "node_modules",
+    "dist"
   ]
 }

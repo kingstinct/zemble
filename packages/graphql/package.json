@@ -2,7 +2,7 @@
   "name": "@zemble/graphql",
   "version": "0.0.63",
   "description": "Zemble Plugin providing GraphQL support for your app",
-  "main": "plugin.ts",
+  "main": "./plugin.js",
   "bin": {
     "zemble-app-graphql-codegen": "./bin/zemble-app-graphql-codegen.ts"
   },
@@ -10,7 +10,7 @@
     "dev": "zemble-dev plugin.ts",
     "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "keywords": [
     "zemble",
@@ -74,6 +74,7 @@
   },
   "zshy": {
     "exports": {
+      ".": "./plugin.ts",
       "./codegen": "./codegen.ts",
       "./createPubSub": "./createPubSub.ts",
       "./middleware": "./middleware.ts",
@@ -94,6 +95,11 @@
     "*"
   ],
   "exports": {
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./codegen": {
       "types": "./codegen.d.ts",
       "import": "./codegen.mjs",
@@ -129,5 +135,7 @@
       "import": "./utils/*",
       "require": "./utils/*"
     }
-  }
+  },
+  "module": "./plugin.mjs",
+  "types": "./plugin.d.ts"
 }

@@ -1,6 +1,8 @@
 /** biome-ignore-all lint/correctness/noUndeclaredDependencies: intended */
 import { NavigationContainer } from '@react-navigation/native'
 import { Column, Row } from '@zemble/primitives'
+import useAlert from '@zemble/react/hooks/useAlert'
+import useConfirm from '@zemble/react/hooks/useConfirm'
 import {
   useIsKeyboardShown,
   useKeyboardHeight,
@@ -34,8 +36,6 @@ import {
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { CurvedTransition } from 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import useAlert from '../hooks/useAlert'
-import useConfirm from '../hooks/useConfirm'
 
 const CustomSnackbarComponent: React.FC<SnackbarComponentProps> = (props) => (
   <DefaultSnackbarComponent

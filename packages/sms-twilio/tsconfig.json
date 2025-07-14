@@ -4,10 +4,17 @@
     "outDir": "."
   },
   "exclude": [
+    "**/*.generated/*.ts",
+    "**/*.generated.ts",
     "graphql/client-generated.gql.ts",
-    "coverage",
-    "test-output",
+    "**/*.test.ts",
     "**/*.spec.ts",
-    "**/*.test.ts"
+    "**/*.d.ts",
+    "**/*.d.mts",
+    "**/*.mts",
+    "node_modules",
+    "dist",
+    "coverage",
+    "test-output"
   ]
 }

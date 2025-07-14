@@ -1,4 +1,4 @@
-import useEvent from '../hooks/useEvent'
+import useEvent from '@zemble/react/hooks/useEvent'
 
 export const useOnClick = () => {
   const testing = useEvent(() => {})

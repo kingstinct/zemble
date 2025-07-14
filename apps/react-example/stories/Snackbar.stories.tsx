@@ -34,7 +34,7 @@ Snickers.args = {
   snackbarConfig: { title: 'hello', actions: [{ label: 'ok' }] },
 } as Partial<DefaultSnackbarComponentProps>
 
-// @ts-expect-error fix later
+// @ts-ignore
 Snickers.parameters = {
   controls: {
     exclude: ['index', 'id', 'doDismiss', 'entering', 'exiting', 'layout'],

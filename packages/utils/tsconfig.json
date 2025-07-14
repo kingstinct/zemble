@@ -1,8 +1,16 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": ".",
-    "resolveJsonModule": true
+    "outDir": "."
   },
-  "exclude": ["**/*.test.ts", "node/*.test.ts"]
+  "exclude": [
+    "**/*.generated/*.ts",
+    "**/*.generated.ts",
+    "**/*.test.ts",
+    "**/*.d.ts",
+    "**/*.d.mts",
+    "**/*.mts",
+    "node_modules",
+    "dist"
+  ]
 }

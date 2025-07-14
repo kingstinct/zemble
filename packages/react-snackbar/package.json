@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "publishConfig": {
     "access": "public",
@@ -31,7 +31,8 @@
   "zshy": {
     "exports": {
       ".": "./index.ts",
-      "./hooks/*": "./hooks/**/*"
+      "./hooks/*": "./hooks/**/*",
+      "./components/*": "./components/**/*"
     }
   },
   "exclude": [
@@ -54,6 +55,11 @@
       "types": "./hooks/*",
       "import": "./hooks/*",
       "require": "./hooks/*"
+    },
+    "./components/*": {
+      "types": "./components/*",
+      "import": "./components/*",
+      "require": "./components/*"
     }
   },
   "module": "./index.mjs"

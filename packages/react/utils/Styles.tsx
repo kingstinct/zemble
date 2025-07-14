@@ -1,6 +1,6 @@
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 
-const Styles = {
+export const Styles = {
   alignItemsCenter: { alignItems: 'center' } as ViewStyle,
   alignSelfCenter: { alignSelf: 'center' } as ViewStyle,
   bold: { fontWeight: 'bold' } as TextStyle,

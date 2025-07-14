@@ -19,7 +19,7 @@
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "build": "zshy"
+    "build": "zshy --project ./tsconfig.build.json"
   },
   "devDependencies": {
     "@graphql-codegen/add": "^5.0.3",
@@ -30,12 +30,13 @@
     "@tsconfig/bun": "^1.0.8"
   },
   "peerDependencies": {},
-  "module": "plugin.ts",
-  "main": "plugin.ts",
+  "module": "./plugin.mjs",
+  "main": "./plugin.js",
   "zshy": {
     "exports": {
       "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./graphql/*": "./graphql/**/*"
     }
   },
@@ -60,10 +61,16 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./graphql/*": {
       "types": "./graphql/*",
       "import": "./graphql/*",
       "require": "./graphql/*"
     }
-  }
+  },
+  "types": "./plugin.d.ts"
 }

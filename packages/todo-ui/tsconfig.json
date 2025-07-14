@@ -3,10 +3,6 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": "../..",
-    "noPropertyAccessFromIndexSignature": true,
-    "paths": {
-      "@zemble/auth-anonymous-expo/*": ["packages/simple-anonymous-auth-ui/*"],
-      "@zemble/auth-anonymous-expo": ["packages/simple-anonymous-auth-ui"]
-    }
+    "noPropertyAccessFromIndexSignature": true
   }
 }

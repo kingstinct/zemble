@@ -1,0 +1,35 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["bun-types"],
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "resolveJsonModule": true
+  },
+  "exclude": [
+    "**/*.generated/*.ts",
+    "**/*.generated.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.test.js",
+    "**/*.test.jsx",
+    "**/*.test.mjs",
+    "**/*.test.d.ts",
+    "**/*.test.d.mts",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.spec.js",
+    "**/*.spec.jsx",
+    "**/*.spec.mjs",
+    "**/*.spec.d.ts",
+    "**/*.spec.d.mts",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/*.d.ts",
+    "**/*.d.mts",
+    "**/*.mts",
+    "node_modules",
+    "dist"
+  ]
+}

@@ -1,13 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
-    "baseUrl": "../..",
-    "paths": {
-      "@zemble/auth-anonymous-expo/*": ["packages/simple-anonymous-auth-ui/*"],
-      "@zemble/auth-anonymous-expo": ["packages/simple-anonymous-auth-ui"],
-      "@zemble/todo-ui/*": ["packages/todo-ui/*"],
-      "@zemble/todo-ui": ["packages/todo-ui"]
-    }
+    "strict": true
   }
 }

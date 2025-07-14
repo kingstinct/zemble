@@ -2,13 +2,13 @@
   "name": "@zemble/auth-apple",
   "version": "0.0.71",
   "description": "Zemble Plugin providing authentication through Sign in with Apple",
-  "main": "plugin.ts",
+  "main": "./plugin.js",
   "scripts": {
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "keywords": [
     "zemble",
@@ -47,6 +47,7 @@
     "exports": {
       "./codegen": "./codegen.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./graphql/*": "./graphql/**/*",
       "./utils/*": "./utils/**/*"
     }
@@ -72,6 +73,11 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./graphql/*": {
       "types": "./graphql/*",
       "import": "./graphql/*",
@@ -82,5 +88,7 @@
       "import": "./utils/*",
       "require": "./utils/*"
     }
-  }
+  },
+  "module": "./plugin.mjs",
+  "types": "./plugin.d.ts"
 }

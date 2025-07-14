@@ -22,7 +22,7 @@
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "devDependencies": {
     "@zemble/migrations": "workspace:*"
@@ -30,14 +30,15 @@
   "peerDependencies": {
     "@zemble/migrations": "0.0.40"
   },
-  "module": "plugin.ts",
-  "main": "plugin.ts",
+  "module": "./plugin.mjs",
+  "main": "./plugin.js",
   "zshy": {
     "exports": {
       "./migration-adapter-with-transactions": "./migration-adapter-with-transactions.ts",
       "./migration-adapter": "./migration-adapter.ts",
       "./migration.test": "./migration.test.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./test-setup": "./test-setup.ts",
       "./test-utils": "./test-utils.ts",
       "./routes/*": "./routes/**/*"
@@ -74,6 +75,11 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./test-setup": {
       "types": "./test-setup.d.ts",
       "import": "./test-setup.mjs",
@@ -89,5 +95,6 @@
       "import": "./routes/*",
       "require": "./routes/*"
     }
-  }
+  },
+  "types": "./plugin.d.ts"
 }

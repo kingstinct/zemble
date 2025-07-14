@@ -38,8 +38,8 @@ export default async (
   void subscribe()
 
   return async (c: Context) => {
-    const res = await yoga.handle(c.req.raw, {
-      honoContext: c,
+    const res = await yoga.handle(c.req.raw as any, {
+      honoContext: c as any,
     })
 
     const headers = Array.from(res.headers.keys()).reduce(

@@ -32,7 +32,7 @@
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(rm index.d.ts || true) && zshy"
+    "build": "(rm index.d.ts || true) && (rm plugin.d.ts || true) && zshy --project ./tsconfig.build.json"
   },
   "devDependencies": {
     "type-fest": "^4.41.0"
@@ -41,12 +41,13 @@
   "optionalDependencies": {
     "mongodb": "^6.12.0"
   },
-  "main": "plugin.ts",
+  "main": "./plugin.js",
   "zshy": {
     "exports": {
       "./MigrationLockError": "./MigrationLockError.ts",
       "./plugin.test": "./plugin.test.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./adapters/*": "./adapters/**/*",
       "./templates/*": "./templates/**/*"
     }
@@ -77,6 +78,11 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./adapters/*": {
       "types": "./adapters/*",
       "import": "./adapters/*",
@@ -87,5 +93,7 @@
       "import": "./templates/*",
       "require": "./templates/*"
     }
-  }
+  },
+  "module": "./plugin.mjs",
+  "types": "./plugin.d.ts"
 }

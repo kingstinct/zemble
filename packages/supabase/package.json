@@ -22,7 +22,7 @@
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen --config codegen.ts",
     "supabase-codegen": "supabase gen types typescript --project-id \"nptqmmaxmynahsgfuvhn\" --schema public > types/supabase.generated.ts",
-    "build": "zshy"
+    "build": "zshy --project ./tsconfig.build.json"
   },
   "devDependencies": {
     "supabase": "^2.31.0",
@@ -34,13 +34,14 @@
     "@tsconfig/bun": "^1.0.8"
   },
   "peerDependencies": {},
-  "module": "plugin.ts",
-  "main": "plugin.ts",
+  "module": "./plugin.mjs",
+  "main": "./plugin.js",
   "zshy": {
     "exports": {
       "./codegen": "./codegen.ts",
       "./decodeToken": "./decodeToken.ts",
       "./plugin": "./plugin.ts",
+      ".": "./plugin.ts",
       "./test-utils": "./test-utils.ts",
       "./clients/*": "./clients/**/*",
       "./graphql/*": "./graphql/**/*",
@@ -73,6 +74,11 @@
       "import": "./plugin.mjs",
       "require": "./plugin.js"
     },
+    ".": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
     "./test-utils": {
       "types": "./test-utils.d.ts",
       "import": "./test-utils.mjs",
@@ -93,5 +99,6 @@
       "import": "./routes/*",
       "require": "./routes/*"
     }
-  }
+  },
+  "types": "./plugin.d.ts"
 }
