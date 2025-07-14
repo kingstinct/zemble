@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen",
+    "codegen": "graphql-codegen --config codegen.ts",
     "supabase-codegen": "supabase gen types typescript --project-id \"nptqmmaxmynahsgfuvhn\" --schema public > types/supabase.generated.ts",
     "build": "zshy"
   },
@@ -56,5 +56,42 @@
   ],
   "files": [
     "*"
-  ]
+  ],
+  "exports": {
+    "./codegen": {
+      "types": "./codegen.d.ts",
+      "import": "./codegen.mjs",
+      "require": "./codegen.js"
+    },
+    "./decodeToken": {
+      "types": "./decodeToken.d.ts",
+      "import": "./decodeToken.mjs",
+      "require": "./decodeToken.js"
+    },
+    "./plugin": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
+    "./test-utils": {
+      "types": "./test-utils.d.ts",
+      "import": "./test-utils.mjs",
+      "require": "./test-utils.js"
+    },
+    "./clients/*": {
+      "types": "./clients/*",
+      "import": "./clients/*",
+      "require": "./clients/*"
+    },
+    "./graphql/*": {
+      "types": "./graphql/*",
+      "import": "./graphql/*",
+      "require": "./graphql/*"
+    },
+    "./routes/*": {
+      "types": "./routes/*",
+      "import": "./routes/*",
+      "require": "./routes/*"
+    }
+  }
 }

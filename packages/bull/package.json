@@ -5,9 +5,9 @@
   "main": "plugin.ts",
   "scripts": {
     "dev": "docker-compose up -d && REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
-    "codegen": "graphql-codegen",
+    "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "keywords": [
     "zemble",
@@ -74,5 +74,57 @@
   ],
   "files": [
     "*"
-  ]
+  ],
+  "exports": {
+    "./ZembleQueue": {
+      "types": "./ZembleQueue.d.ts",
+      "import": "./ZembleQueue.mjs",
+      "require": "./ZembleQueue.js"
+    },
+    "./ZembleQueueBull": {
+      "types": "./ZembleQueueBull.d.ts",
+      "import": "./ZembleQueueBull.mjs",
+      "require": "./ZembleQueueBull.js"
+    },
+    "./ZembleQueueMock": {
+      "types": "./ZembleQueueMock.d.ts",
+      "import": "./ZembleQueueMock.mjs",
+      "require": "./ZembleQueueMock.js"
+    },
+    "./bullboard-hono-adapter": {
+      "types": "./bullboard-hono-adapter.d.ts",
+      "import": "./bullboard-hono-adapter.mjs",
+      "require": "./bullboard-hono-adapter.js"
+    },
+    "./codegen": {
+      "types": "./codegen.d.ts",
+      "import": "./codegen.mjs",
+      "require": "./codegen.js"
+    },
+    "./plugin": {
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
+    },
+    "./clients/*": {
+      "types": "./clients/*",
+      "import": "./clients/*",
+      "require": "./clients/*"
+    },
+    "./graphql/*": {
+      "types": "./graphql/*",
+      "import": "./graphql/*",
+      "require": "./graphql/*"
+    },
+    "./queues/*": {
+      "types": "./queues/*",
+      "import": "./queues/*",
+      "require": "./queues/*"
+    },
+    "./utils/*": {
+      "types": "./utils/*",
+      "import": "./utils/*",
+      "require": "./utils/*"
+    }
+  }
 }

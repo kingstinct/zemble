@@ -18,6 +18,6 @@ const override = {
   },
 } satisfies CodegenConfig
 
-const config = mergeDeep(defaultConfig, override)
+const config = mergeDeep(defaultConfig as any, override)
 
 export default config

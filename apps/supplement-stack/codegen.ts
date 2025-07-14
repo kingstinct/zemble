@@ -25,4 +25,4 @@ const config = {
   },
 } satisfies CodegenConfig
 
-export default mergeDeep(defaultConfig, config)
+export default mergeDeep(defaultConfig as any, config)

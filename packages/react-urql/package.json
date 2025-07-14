@@ -6,14 +6,14 @@
   "license": "MIT",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "main": "index.ts",
-  "types": "index.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "peerDependencies": {
     "@types/react": "^18.3.23",
     "react": "^18.3.1",
@@ -31,7 +31,7 @@
   },
   "zshy": {
     "exports": {
-      "./index": "./index.ts"
+      ".": "./index.ts"
     }
   },
   "exclude": [
@@ -45,10 +45,11 @@
     "*"
   ],
   "exports": {
-    "./index": {
+    ".": {
       "types": "./index.d.ts",
       "import": "./index.mjs",
       "require": "./index.js"
     }
-  }
+  },
+  "module": "./index.mjs"
 }

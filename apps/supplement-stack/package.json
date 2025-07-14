@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "MONGO_URL=mongodb://localhost:27017/supplement-db NODE_ENV=development bun --hot app.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "keywords": [
     "zemble",

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "keywords": [
     "zemble",

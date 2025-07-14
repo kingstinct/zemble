@@ -25,6 +25,6 @@ const hello = {
   },
 } satisfies CodegenConfig
 
-const config = mergeDeep(defaultConfig, hello)
+const config = mergeDeep(defaultConfig as any, hello)
 
 export default config

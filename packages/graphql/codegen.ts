@@ -30,6 +30,8 @@ export const createClientOutputConfig = () =>
       `./*.tsx`,
       `./*.ts`,
       `!./**/*.generated.ts`,
+      `!./**/*.d.ts`,
+      `!./**/*.d.mts`,
       `!./node_modules/**/*`,
       `!./**/node_modules/**/*`,
     ],
@@ -119,9 +121,9 @@ export function createServerConfig<
   const serverOutputSchemaPath =
     serverOutputSchemaPathOverride ?? DEFAULT_SERVER_OUTPUT_SCHEMA_PATH
 
-  const pathToServerOutputSchemaPathas = serverOutputSchemaPath.split('/')
-  pathToServerOutputSchemaPathas.pop()
-  const pathToServerOutputSchemaPath = `${pathToServerOutputSchemaPathas.join('/')}/`
+  const pathToServerOutputSchemaPaths = serverOutputSchemaPath.split('/')
+  pathToServerOutputSchemaPaths.pop()
+  const pathToServerOutputSchemaPath = `${pathToServerOutputSchemaPaths.join('/')}/`
 
   return {
     schema,

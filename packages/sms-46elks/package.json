@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen",
-    "build": "zshy"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "keywords": [
     "zemble",

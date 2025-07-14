@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen",
+    "codegen": "graphql-codegen --config codegen.ts",
     "build": "zshy"
   },
   "devDependencies": {

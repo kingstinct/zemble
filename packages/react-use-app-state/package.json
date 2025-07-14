@@ -6,13 +6,12 @@
   "license": "MIT",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "main": "index.ts",
   "types": "index.ts",
   "peerDependencies": {
     "@types/react": "^18.3.23",

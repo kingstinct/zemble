@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "bunx cli.ts",
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "keywords": [
     "zemble",

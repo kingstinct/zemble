@@ -9,7 +9,7 @@
     "dev": "bun --hot serve.ts",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "keywords": [
     "zemble",

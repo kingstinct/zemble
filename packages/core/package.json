@@ -2,12 +2,11 @@
   "name": "@zemble/core",
   "version": "0.1.27",
   "description": "Zemble Core Package for the Zemble Plugin System",
-  "main": "index.ts",
   "scripts": {
     "test": "bun test",
     "dev": "bun server.ts",
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "keywords": [
     "zemble",
@@ -50,11 +49,12 @@
       "./createApp": "./createApp.ts",
       "./createLogger": "./createLogger.ts",
       "./createProvidersProxy": "./createProvidersProxy.ts",
-      "./index": "./index.ts",
+      ".": "./index.ts",
       "./runBeforeServe": "./runBeforeServe.ts",
       "./types": "./types.ts",
       "./zembleContext": "./zembleContext.ts",
       "./clients/*": "./clients/**/*",
+      "./test-utils": "./test-utils/index.ts",
       "./test-utils/*": "./test-utils/**/*",
       "./utils/*": "./utils/**/*"
     }
@@ -95,7 +95,7 @@
       "import": "./createProvidersProxy.mjs",
       "require": "./createProvidersProxy.js"
     },
-    "./index": {
+    ".": {
       "types": "./index.d.ts",
       "import": "./index.mjs",
       "require": "./index.js"
@@ -120,6 +120,11 @@
       "import": "./clients/*",
       "require": "./clients/*"
     },
+    "./test-utils": {
+      "types": "./test-utils/index.d.ts",
+      "import": "./test-utils/index.mjs",
+      "require": "./test-utils/index.js"
+    },
     "./test-utils/*": {
       "types": "./test-utils/*",
       "import": "./test-utils/*",
@@ -130,5 +135,8 @@
       "import": "./utils/*",
       "require": "./utils/*"
     }
-  }
+  },
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts"
 }

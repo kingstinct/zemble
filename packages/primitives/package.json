@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "publishConfig": {
     "access": "public",
@@ -24,7 +24,7 @@
   },
   "zshy": {
     "exports": {
-      "./index": "./index.ts",
+      ".": "./index.ts",
       "./src/*": "./src/**/*"
     }
   },
@@ -39,15 +39,18 @@
     "*"
   ],
   "exports": {
-    "./index": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs",
+      "require": "./index.js"
     },
     "./src/*": {
-      "types": "./dist/src/*",
-      "import": "./dist/src/*",
-      "require": "./dist/src/*"
+      "types": "./src/*",
+      "import": "./src/*",
+      "require": "./src/*"
     }
-  }
+  },
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts"
 }

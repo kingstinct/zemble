@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "codegen": "graphql-codegen",
+    "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

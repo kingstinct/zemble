@@ -13,7 +13,7 @@
     "test": "bun test",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "publishConfig": {
     "access": "public",
@@ -68,7 +68,7 @@
   },
   "zshy": {
     "exports": {
-      "./index": "./index.ts",
+      ".": "./index.ts",
       "./components/*": "./components/**/*",
       "./contexts/*": "./contexts/**/*",
       "./hooks/*": "./hooks/**/*",
@@ -86,7 +86,7 @@
     "*"
   ],
   "exports": {
-    "./index": {
+    ".": {
       "types": "./index.d.ts",
       "import": "./index.mjs",
       "require": "./index.js"
@@ -111,5 +111,8 @@
       "import": "./utils/*",
       "require": "./utils/*"
     }
-  }
+  },
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts"
 }

@@ -7,7 +7,7 @@
   "scripts": {
     "test": "bun test",
     "dev": "docker-compose up -d && bunx zemble-generate-keys && MONGO_URL=mongodb://localhost:27017/test-db zemble-dev plugin.ts",
-    "codegen": "graphql-codegen",
+    "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

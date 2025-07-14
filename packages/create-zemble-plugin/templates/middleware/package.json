@@ -15,7 +15,7 @@
     "test": "bun test",
     "dev": "zemble-dev plugin.ts",
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "devDependencies": {
     "@tsconfig/bun": "^1.0.1"

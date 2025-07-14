@@ -6,12 +6,11 @@
   "bin": {
     "zemble-app-graphql-codegen": "./bin/zemble-app-graphql-codegen.ts"
   },
-  "type": "module",
   "scripts": {
     "dev": "zemble-dev plugin.ts",
-    "codegen": "graphql-codegen",
+    "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "tsc --noEmit",
-    "build": "(zshy || true) && node -e \"const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('./package.json'));if(pkg.exports){Object.keys(pkg.exports).forEach(key=>{['require','import','types'].forEach(type=>{if(pkg.exports[key][type]&&!fs.existsSync(pkg.exports[key][type].replace('./',''))){delete pkg.exports[key][type]}})});fs.writeFileSync('./package.json',JSON.stringify(pkg,null,2)+String.fromCharCode(10))}\""
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "keywords": [
     "zemble",
@@ -96,27 +95,39 @@
   ],
   "exports": {
     "./codegen": {
-      "types": "./codegen.d.cts",
-      "import": "./codegen.js",
-      "require": "./codegen.cjs"
+      "types": "./codegen.d.ts",
+      "import": "./codegen.mjs",
+      "require": "./codegen.js"
     },
     "./createPubSub": {
-      "types": "./createPubSub.d.cts",
-      "import": "./createPubSub.js",
-      "require": "./createPubSub.cjs"
+      "types": "./createPubSub.d.ts",
+      "import": "./createPubSub.mjs",
+      "require": "./createPubSub.js"
     },
     "./middleware": {
-      "types": "./middleware.d.cts",
-      "import": "./middleware.js",
-      "require": "./middleware.cjs"
+      "types": "./middleware.d.ts",
+      "import": "./middleware.mjs",
+      "require": "./middleware.js"
     },
     "./plugin": {
-      "types": "./plugin.d.cts",
-      "import": "./plugin.js",
-      "require": "./plugin.cjs"
+      "types": "./plugin.d.ts",
+      "import": "./plugin.mjs",
+      "require": "./plugin.js"
     },
-    "./clients/*": {},
-    "./graphql/*": {},
-    "./utils/*": {}
+    "./clients/*": {
+      "types": "./clients/*",
+      "import": "./clients/*",
+      "require": "./clients/*"
+    },
+    "./graphql/*": {
+      "types": "./graphql/*",
+      "import": "./graphql/*",
+      "require": "./graphql/*"
+    },
+    "./utils/*": {
+      "types": "./utils/*",
+      "import": "./utils/*",
+      "require": "./utils/*"
+    }
   }
 }

@@ -12,7 +12,7 @@
     "start": "node cli.js",
     "dev": "ts-node-dev cli.ts",
     "typecheck": "tsc --noEmit",
-    "build": "zshy"
+    "build": "(rm index.d.ts || true) && zshy"
   },
   "repository": {
     "type": "git",
