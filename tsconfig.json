@@ -27,6 +27,8 @@
       "@zemble/mongodb": ["packages/mongodb"],
       "@zemble/auth-otp/*": ["packages/auth-otp/*"],
       "@zemble/auth-otp": ["packages/auth-otp/plugin"],
+      "@zemble/auth-anonymous/*": ["packages/auth-anonymous/*"],
+      "@zemble/auth-anonymous": ["packages/auth-anonymous/plugin"],
       "@zemble/graphql": ["packages/graphql"],
       "@zemble/graphql/*": ["packages/graphql/*"],
       "@zemble/graphql/codegen": ["packages/graphql/codegen.ts"],
