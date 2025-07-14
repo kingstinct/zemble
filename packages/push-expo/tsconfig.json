@@ -11,8 +11,6 @@
     "**/*.d.mts",
     "**/*.mts",
     "node_modules",
-    "../../node_modules",
-    "../core/**/*",
     "dist"
   ]
 }

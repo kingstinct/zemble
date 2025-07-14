@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Zemble Monorepo",
   "scripts": {
-    "test": "bunx turbo run test --continue -- --timeout 20000",
+    "test": "bun prebuild && bunx turbo run test --continue -- --timeout 20000",
     "lint": "biome check",
     "lint-quiet": "biome check --diagnostic-level error",
     "lint-fix": "biome check --fix --unsafe",

@@ -79,9 +79,17 @@
       "./createPubSub": "./createPubSub.ts",
       "./middleware": "./middleware.ts",
       "./plugin": "./plugin.ts",
-      "./clients/*": "./clients/**/*",
-      "./graphql/*": "./graphql/**/*",
-      "./utils/*": "./utils/**/*"
+      "./clients/redis": "./clients/redis.ts",
+      "./utils/buildMergedSchema": "./utils/buildMergedSchema.ts",
+      "./utils/createPluginSchema": "./utils/createPluginSchema.ts",
+      "./utils/createWebSocketHandler": "./utils/createWebSocketHandler.ts",
+      "./utils/gqlRequest": "./utils/gqlRequest.ts",
+      "./utils/gqlRequestUntyped": "./utils/gqlRequestUntyped.ts",
+      "./utils/handleYoga": "./utils/handleYoga.ts",
+      "./utils/onPubSub": "./utils/onPubSub.ts",
+      "./utils/readResolvers": "./utils/readResolvers.ts",
+      "./utils/useServerTiming": "./utils/useServerTiming.ts",
+      "./graphql/schema.generated": "./graphql/schema.generated.ts"
     }
   },
   "exclude": [

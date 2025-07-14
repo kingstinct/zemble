@@ -37,7 +37,10 @@
     "strictNullChecks": true
   },
   "exclude": [
+    "**/*.js",
+    "**/*.mjs",
     "**/*.mts",
+    "**/*.d.ts",
     "**/*.d.mts",
     "**/*.test.ts",
     "**/*.test.tsx",

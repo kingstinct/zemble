@@ -53,10 +53,12 @@
       "./runBeforeServe": "./runBeforeServe.ts",
       "./types": "./types.ts",
       "./zembleContext": "./zembleContext.ts",
-      "./clients/*": "./clients/**/*",
+      "./clients/KeyValue": "./clients/KeyValue.ts",
       "./test-utils": "./test-utils/index.ts",
-      "./test-utils/*": "./test-utils/**/*",
-      "./utils/*": "./utils/**/*"
+      "./test-utils/createTestApp": "./test-utils/createTestApp.ts",
+      "./test-utils/envOverride": "./test-utils/envOverride.ts",
+      "./utils/readPackageJson": "./utils/readPackageJson.ts",
+      "./utils/setupProvider": "./utils/setupProvider.ts"
     }
   },
   "exclude": [
@@ -115,25 +117,35 @@
       "import": "./zembleContext.mjs",
       "require": "./zembleContext.js"
     },
-    "./clients/*": {
-      "types": "./clients/*",
-      "import": "./clients/*",
-      "require": "./clients/*"
+    "./clients/KeyValue": {
+      "types": "./clients/KeyValue.d.ts",
+      "import": "./clients/KeyValue.mjs",
+      "require": "./clients/KeyValue.js"
     },
     "./test-utils": {
       "types": "./test-utils/index.d.ts",
       "import": "./test-utils/index.mjs",
       "require": "./test-utils/index.js"
     },
-    "./test-utils/*": {
-      "types": "./test-utils/*",
-      "import": "./test-utils/*",
-      "require": "./test-utils/*"
+    "./test-utils/createTestApp": {
+      "types": "./test-utils/createTestApp.d.ts",
+      "import": "./test-utils/createTestApp.mjs",
+      "require": "./test-utils/createTestApp.js"
     },
-    "./utils/*": {
-      "types": "./utils/*",
-      "import": "./utils/*",
-      "require": "./utils/*"
+    "./test-utils/envOverride": {
+      "types": "./test-utils/envOverride.d.ts",
+      "import": "./test-utils/envOverride.mjs",
+      "require": "./test-utils/envOverride.js"
+    },
+    "./utils/readPackageJson": {
+      "types": "./utils/readPackageJson.d.ts",
+      "import": "./utils/readPackageJson.mjs",
+      "require": "./utils/readPackageJson.js"
+    },
+    "./utils/setupProvider": {
+      "types": "./utils/setupProvider.d.ts",
+      "import": "./utils/setupProvider.mjs",
+      "require": "./utils/setupProvider.js"
     }
   },
   "main": "./index.js",
