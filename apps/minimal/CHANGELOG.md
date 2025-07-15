@@ -1,5 +1,24 @@
 # minimal
 
+## 0.0.86
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/logger-graphql@0.0.61
+  - @zemble/email-resend@0.0.34
+  - @zemble/sms-46elks@0.0.19
+  - @zemble/sms-twilio@0.0.19
+  - @zemble/auth-otp@0.0.70
+  - @zemble/graphql@0.0.65
+  - @zemble/routes@0.0.41
+  - @zemble/auth@0.0.69
+  - @zemble/bull@0.2.15
+  - @zemble/core@0.1.29
+  - @zemble/bun@0.0.40
+  - @zemble/migrations@0.0.42
+
 ## 0.0.85
 
 ### Patch Changes

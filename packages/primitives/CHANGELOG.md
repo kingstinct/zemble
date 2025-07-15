@@ -1,5 +1,11 @@
 # @zemble/primitives
 
+## 1.0.2
+
+### Patch Changes
+
+- 988c189: more type fixes
+
 ## 1.0.1
 
 ### Patch Changes

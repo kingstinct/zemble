@@ -1,5 +1,11 @@
 # @zemble/auth-expo
 
+## 0.0.15
+
+### Patch Changes
+
+- 988c189: more type fixes
+
 ## 0.0.14
 
 ### Patch Changes

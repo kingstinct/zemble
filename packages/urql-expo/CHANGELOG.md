@@ -1,5 +1,13 @@
 # @zemble/urql-expo
 
+## 0.0.15
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/auth-expo@0.0.15
+
 ## 0.0.14
 
 ### Patch Changes

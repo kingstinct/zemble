@@ -1,5 +1,15 @@
 # cms-ui
 
+## 0.0.19
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/react-auth@1.0.2
+  - @zemble/react-urql@1.0.3
+  - @zemble/react@1.0.20
+
 ## 0.0.18
 
 ### Patch Changes

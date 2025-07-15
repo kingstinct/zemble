@@ -1,5 +1,14 @@
 # @zemble/react-network
 
+## 1.0.3
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/primitives@1.0.2
+  - @zemble/react@1.0.20
+
 ## 1.0.2
 
 ### Patch Changes

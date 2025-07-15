@@ -1,5 +1,11 @@
 # @zemble/react-keyboard
 
+## 1.0.3
+
+### Patch Changes
+
+- 988c189: more type fixes
+
 ## 1.0.2
 
 ### Patch Changes

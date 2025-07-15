@@ -1,6 +1,6 @@
 {
   "name": "@zemble/react-use-app-state",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React hook for monitoring app state (active, background, inactive)",
   "author": "Robert Herber",
   "license": "MIT",

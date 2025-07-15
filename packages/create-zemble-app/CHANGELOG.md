@@ -1,5 +1,12 @@
 # create-zemble-app
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [988c189]
+  - @zemble/core@0.1.29
+
 ## 0.1.5
 
 ### Patch Changes

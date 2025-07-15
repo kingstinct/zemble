@@ -1,6 +1,6 @@
 {
   "name": "@zemble/react-network",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Network utilities for React Native",
   "author": "Robert Herber",
   "license": "MIT",

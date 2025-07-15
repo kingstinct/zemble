@@ -1,5 +1,20 @@
 # todo-app-with-auth-backend
 
+## 0.0.84
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/apple-app-site-association@0.0.45
+  - @zemble/auth-anonymous@0.0.67
+  - @zemble/graphql@0.0.65
+  - @zemble/bull@0.2.15
+  - @zemble/core@0.1.29
+  - @zemble/todo@0.0.67
+  - @zemble/ignite@0.0.76
+  - @zemble/bun@0.0.40
+
 ## 0.0.83
 
 ### Patch Changes

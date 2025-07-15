@@ -1,5 +1,13 @@
 # @zemble/core
 
+## 0.1.29
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/utils@0.7.44
+
 ## 0.1.28
 
 ### Patch Changes

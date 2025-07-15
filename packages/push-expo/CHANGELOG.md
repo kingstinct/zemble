@@ -1,5 +1,16 @@
 # @zemble/push-expo
 
+## 0.0.21
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/graphql@0.0.65
+  - @zemble/utils@0.7.44
+  - @zemble/core@0.1.29
+  - @zemble/bun@0.0.40
+
 ## 0.0.20
 
 ### Patch Changes

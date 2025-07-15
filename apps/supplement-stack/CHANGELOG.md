@@ -1,5 +1,20 @@
 # supplement-stack
 
+## 0.0.83
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/apple-app-site-association@0.0.45
+  - @zemble/auth-otp@0.0.70
+  - @zemble/graphql@0.0.65
+  - @zemble/utils@0.7.44
+  - @zemble/bull@0.2.15
+  - @zemble/core@0.1.29
+  - @zemble/todo@0.0.67
+  - @zemble/bun@0.0.40
+
 ## 0.0.82
 
 ### Patch Changes
