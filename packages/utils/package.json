@@ -21,7 +21,6 @@
   "devDependencies": {
     "@graphql-tools/schema": "*",
     "@types/graphql-fields": "^1.3.9",
-    "@types/lodash": "^4.17.20",
     "dataloader": "^2.2.3",
     "dayjs": "^1.11.13",
     "fast-safe-stringify": "^2.1.1",
@@ -30,13 +29,11 @@
     "graphql-fields": "^2.0.3",
     "graphql-tag": "^2.12.6",
     "graphql": "*",
-    "lodash": "*",
     "mongodb": "^6.17.0",
     "ts-pattern": "^5.7.1",
     "type-fest": "^4.41.0"
   },
   "peerDependencies": {
-    "lodash": "*",
     "@graphql-tools/schema": "*",
     "fast-safe-stringify": "*",
     "graphql-tag": "*",

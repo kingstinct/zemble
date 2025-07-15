@@ -1,4 +1,10 @@
-import { chunk } from 'lodash/fp'
+function chunk<T>(size: number, array: readonly T[]): T[][] {
+  const result: T[][] = []
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size))
+  }
+  return result
+}
 
 export async function chunkedPromises<T = unknown, TRes = unknown>(
   data: readonly T[],
