@@ -53,7 +53,7 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "4",
     "react-native-web": "^0.20.0",
-    "react-test-renderer": "^18.3.1",
+    "react-test-renderer": "19.0.0",
     "webpack": "^5.100.1"
   },
   "peerDependencies": {

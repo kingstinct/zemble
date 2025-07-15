@@ -4,7 +4,7 @@ import '../test-setup'
 
 import useToggleWithHaptics from './useToggleWithHaptics'
 
-describe.skip('useToggleWithHaptics', () => {
+describe('useToggleWithHaptics', () => {
   it('switch from false to true', async () => {
     await mock.module('react-native', () => ({ Platform: { OS: 'ios' } }))
     await mock.module('expo-haptics', () => ({ selectionAsync: jest.fn() }))

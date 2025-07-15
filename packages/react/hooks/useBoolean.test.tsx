@@ -4,9 +4,9 @@ import '../test-setup'
 
 import useBoolean from './useBoolean'
 
-describe.skip('useBoolean', () => {
+describe('useBoolean', () => {
   it('switch from false to true', () => {
-    const { result } = renderHook(useBoolean)
+    const { result } = renderHook(() => useBoolean())
 
     expect(result.current[0]).toBe(false)
 

@@ -4,7 +4,7 @@ import '../test-setup'
 
 import useToggle from './useToggle'
 
-describe.skip('useToggle', () => {
+describe('useToggle', () => {
   it('switch from false to true', () => {
     const { result } = renderHook(useToggle)
 

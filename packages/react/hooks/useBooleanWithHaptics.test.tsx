@@ -4,7 +4,7 @@ import '../test-setup'
 
 import useBooleanWithHaptics from './useBooleanWithHaptics'
 
-describe.skip('useBooleanWithHaptics', () => {
+describe('useBooleanWithHaptics', () => {
   test('switch from false to true', async () => {
     await mock.module('react-native', () => ({ Platform: { OS: 'ios' } }))
     await mock.module('expo-haptics', () => ({ selectionAsync: jest.fn() }))
