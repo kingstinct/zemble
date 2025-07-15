@@ -1,3 +1,10 @@
+import {
+  handleExtraFields,
+  type Paths,
+  type Projection,
+  removeDeepFields,
+} from '@zemble/mongodb/projectionFromGraphQLInfo'
+import { MapWithPartialMatch } from '@zemble/utils'
 import type { BatchLoadFn } from 'dataloader'
 import type {
   Collection,
@@ -7,14 +14,8 @@ import type {
   ObjectId,
   WithId,
 } from 'mongodb'
-import MapWithPartialMatch from '../MapWithPartialMatch'
-import DataLoaderNullable from './DataLoaderNullable'
-import NotFoundError from './errors/NotFoundError'
-import type { Paths, Projection } from './projectionFromGraphQLInfo'
-import {
-  handleExtraFields,
-  removeDeepFields,
-} from './projectionFromGraphQLInfo'
+import { DataLoaderNullable } from './DataLoaderNullable'
+import { NotFoundError } from './errors/NotFoundError'
 import type { PartialWithId } from './types'
 
 export type IdWithProjection<

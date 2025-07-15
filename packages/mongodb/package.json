@@ -12,11 +12,9 @@
     "@zemble/bun": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/routes": "workspace:*",
+    "@zemble/timeoutify": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "mongodb": "^6.17.0",
-    "mongodb-memory-server": "10",
-    "mongodb-memory-server-core": "^10.1.4",
-    "type-fest": "^4.41.0"
+    "@zemble/migrations": "workspace:*"
   },
   "scripts": {
     "test": "bun test",
@@ -24,10 +22,22 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@zemble/migrations": "workspace:*"
+    "mongodb": "^6.17.0",
+    "mongodb-memory-server": "10",
+    "mongodb-memory-server-core": "^10.1.4",
+    "type-fest": "^4.41.0",
+    "graphql": "16.11.0",
+    "graphql-fields": "^2.0.3",
+    "ts-pattern": "^5.7.1"
   },
   "peerDependencies": {
-    "@zemble/migrations": "0.0.42"
+    "graphql": "*",
+    "graphql-fields": "*",
+    "mongodb": "*",
+    "mongodb-memory-server": "*",
+    "mongodb-memory-server-core": "*",
+    "type-fest": "*",
+    "ts-pattern": "*"
   },
   "module": "plugin.ts",
   "main": "plugin.ts"

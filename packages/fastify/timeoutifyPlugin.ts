@@ -1,10 +1,10 @@
+import { LOG_PREFIX, Timeoutify, TimeoutifyStatus } from '@zemble/timeoutify'
 import type {
   FastifyInstance,
   FastifyPluginCallback,
   FastifyPluginOptions,
 } from 'fastify'
 import fastifyPlugin from 'fastify-plugin'
-import { LOG_PREFIX, Timeoutify, TimeoutifyStatus } from '../node/Timeoutify'
 
 declare module 'fastify' {
   interface FastifyRequest {

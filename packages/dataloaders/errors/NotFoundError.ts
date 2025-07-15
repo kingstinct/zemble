@@ -4,7 +4,7 @@ type Extensions = {
   readonly code: 'NOT_FOUND'
 }
 
-class NotFoundError extends Error {
+export class NotFoundError extends Error {
   constructor(message: string) {
     super(message)
     this.extensions = { code: ERROR_CODE }

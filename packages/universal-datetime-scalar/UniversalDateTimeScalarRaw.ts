@@ -1,9 +1,7 @@
+import { isValidDateString, isValidDateWithTimeString } from '@zemble/dayjs'
 import { GraphQLScalarType } from 'graphql'
 import { GraphQLError } from 'graphql/error'
 import { Kind } from 'graphql/language'
-
-import { isValidDateString } from '../date/isValidDateString'
-import { isValidDateWithTimeString } from '../date/isValidDateWithTimeString'
 
 export const REGEX_TIMEZONE_OFFSET_FORMAT = /^.*([+-]\d{2}:?\d{2}|[+-]\d{2}|Z)$/
 

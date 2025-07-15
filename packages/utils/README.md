@@ -30,7 +30,7 @@ The easiest way to use it is through the Fastify plugin, and access it on from y
   
   ```ts
   import fastify from 'fastify'
-  import { timeoutifyPlugin } from '@zemble/utils/fastify/timeoutifyPlugin'
+  import { timeoutifyPlugin } from '@zemble/fastify'
   import mongodb from 'mongodb'
 
   const fastifyServer = fastify()
