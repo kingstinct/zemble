@@ -1,6 +1,6 @@
 {
   "name": "@zemble/mongodb",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "description": "Handles connections to MongoDB",
   "keywords": [
     "zemble",
@@ -27,7 +27,7 @@
     "@zemble/migrations": "workspace:*"
   },
   "peerDependencies": {
-    "@zemble/migrations": "0.0.40"
+    "@zemble/migrations": "0.0.41"
   },
   "module": "plugin.ts",
   "main": "plugin.ts"

@@ -1,5 +1,14 @@
 # @zemble/auth-anonymous-expo
 
+## 0.0.15
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/auth-expo@0.0.14
+  - @zemble/urql-expo@0.0.14
+
 ## 0.0.14
 
 ### Patch Changes

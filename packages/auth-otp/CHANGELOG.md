@@ -1,5 +1,17 @@
 # @zemble/auth-otp
 
+## 0.0.69
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/graphql@0.0.64
+  - @zemble/utils@0.7.43
+  - @zemble/auth@0.0.68
+  - @zemble/core@0.1.28
+  - @zemble/kv@0.0.63
+
 ## 0.0.68
 
 ### Patch Changes

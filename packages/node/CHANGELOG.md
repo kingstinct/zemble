@@ -1,5 +1,13 @@
 # @zemble/node
 
+## 0.0.39
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/core@0.1.28
+
 ## 0.0.38
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # minimal
 
+## 0.0.85
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/logger-graphql@0.0.60
+  - @zemble/migrations@0.0.41
+  - @zemble/auth-otp@0.0.69
+  - @zemble/graphql@0.0.64
+  - @zemble/routes@0.0.40
+  - @zemble/auth@0.0.68
+  - @zemble/bull@0.2.14
+  - @zemble/core@0.1.28
+  - @zemble/email-resend@0.0.33
+  - @zemble/sms-46elks@0.0.18
+  - @zemble/sms-twilio@0.0.18
+  - @zemble/bun@0.0.39
+
 ## 0.0.84
 
 ### Patch Changes

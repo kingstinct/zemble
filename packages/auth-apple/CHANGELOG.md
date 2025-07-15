@@ -1,5 +1,14 @@
 # @zemble/auth-apple
 
+## 0.0.72
+
+### Patch Changes
+
+- Updated dependencies [5e07c0e]
+  - @zemble/graphql@0.0.64
+  - @zemble/auth@0.0.68
+  - @zemble/core@0.1.28
+
 ## 0.0.71
 
 ### Patch Changes

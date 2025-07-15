@@ -1,5 +1,14 @@
 # @zemble/migrations
 
+## 0.0.41
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/core@0.1.28
+  - @zemble/bun@0.0.39
+
 ## 0.0.40
 
 ### Patch Changes
