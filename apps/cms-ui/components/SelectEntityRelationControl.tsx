@@ -50,7 +50,7 @@ function SelectEntityRelation<T extends FieldValues>({
     <Controller
       control={control}
       name={fieldName}
-      render={({ field: { onChange, value } }) => (
+      render={({ field: { onChange } }) => (
         <BottomSheet
           backgroundStyle={{ backgroundColor: theme.colors.background }}
           ref={bottomSheet}

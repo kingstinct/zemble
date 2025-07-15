@@ -6,7 +6,7 @@ import type {
 } from '@graphql-typed-document-node/core'
 import { type IStandardLogger, Plugin, type TokenContents } from '@zemble/core'
 import type { GraphQLSchema } from 'graphql'
-import * as GraphQLJS from 'graphql'
+import * as GraphQL from 'graphql'
 import type { Context } from 'graphql-ws'
 import type {
   GraphQLParams,
@@ -35,7 +35,7 @@ declare global {
         },
       ) => Promise<{
         readonly data?: ResultOf<TypedDocumentNode<TQuery, TVars>>
-        readonly errors?: readonly GraphQLJS.GraphQLFormattedError[]
+        readonly errors?: readonly GraphQL.GraphQLFormattedError[]
       }>
 
       readonly gqlRequestUntyped: <TRes, TVars = unknown>(
@@ -47,7 +47,7 @@ declare global {
         },
       ) => Promise<{
         readonly data?: TRes
-        readonly errors?: readonly GraphQLJS.GraphQLFormattedError[]
+        readonly errors?: readonly GraphQL.GraphQLFormattedError[]
       }>
     }
 
@@ -83,7 +83,7 @@ declare global {
         readonly match?: Record<string, unknown>
         readonly includes?: Record<string, unknown>
         readonly skip?: boolean
-      } = { readonly match: undefined },
+      } = {},
     > = DirectiveArgs['skip'] extends true
       ? Omit<TContext, 'decodedToken' | 'token'>
       : Omit<TContext, 'decodedToken'> & {
@@ -108,7 +108,7 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   /**
    * The url of the redis instance to use for pubsub
    */
-  readonly redisUrl?: string
+  readonly redisUrl?: string | undefined
   /**
    * Redis config to use for pubsub
    */
@@ -134,7 +134,7 @@ const defaultConfig = {
   yoga: {
     graphqlEndpoint: '/graphql',
     plugins: [
-      useEngine(GraphQLJS),
+      useEngine(GraphQL),
       useLogger({
         logFn,
       }),

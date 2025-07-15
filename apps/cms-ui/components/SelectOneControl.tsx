@@ -9,7 +9,15 @@ import type {
 import { Controller } from 'react-hook-form'
 import { Button, Menu } from 'react-native-paper'
 
-const FieldTypeMenuItem = ({ onChange, fieldType, value }) => (
+const FieldTypeMenuItem = ({
+  onChange,
+  fieldType,
+  value,
+}: {
+  onChange: (fieldType: string) => void
+  fieldType: string
+  value: string
+}) => (
   <Menu.Item
     leadingIcon={({ color, size, allowFontScaling }) => (
       <MaterialCommunityIcons

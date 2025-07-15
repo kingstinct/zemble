@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { DataTable } from 'react-native-paper'
 import { useQuery } from 'urql'

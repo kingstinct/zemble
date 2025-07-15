@@ -1,6 +1,14 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": "../../tsconfig.expo.json",
   "compilerOptions": {
-    "strict": true
-  }
+    "verbatimModuleSyntax": false
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "!expo-env.d.ts",
+    "*.js",
+    "expo-env.d.ts"
+  ]
 }

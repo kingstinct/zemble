@@ -4,13 +4,9 @@ import getTwoFactorCode from './getTwoFactorCode'
 
 import type { E164PhoneNumber } from './types'
 
-type Context = Omit<Zemble.GraphQLContext, 'decodedToken'> & {
-  readonly decodedToken: never
-}
-
 const sendTwoFactorCode = async (
   emailOrPhoneNumber: string,
-  context: Context,
+  context: Zemble.GraphQLContext,
   signInMethod: 'email' | 'sms',
 ) => {
   const existing = await loginRequestKeyValue().get(

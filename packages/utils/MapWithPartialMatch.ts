@@ -1,6 +1,6 @@
 export class MapWithPartialMatch<V> extends Map<string, V> {
   // deals with keys with format: "myStrictKey#{myPartiallyMatchedObject:1}"
-  get(key: string) {
+  override get(key: string) {
     const [strictKey, partialKeyStr] = key.split('#'),
       partialKeyObject = partialKeyStr ? JSON.parse(partialKeyStr) : null,
       keysToLookFor = partialKeyObject
@@ -39,7 +39,7 @@ export class MapWithPartialMatch<V> extends Map<string, V> {
     return undefined
   }
 
-  delete(key: string) {
+  override delete(key: string) {
     const [strictKey] = key.split('#')
 
     if (!strictKey) {

@@ -12,7 +12,7 @@ const TabsLayout = () => (
       options={{
         title: 'Content',
         headerShown: false,
-        tabBarIcon: ({ color, focused, size }) => (
+        tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name='text' size={size} color={color} />
         ),
       }}
@@ -21,7 +21,7 @@ const TabsLayout = () => (
       name='users'
       options={{
         title: 'Users',
-        tabBarIcon: ({ color, focused, size }) => (
+        tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons
             name='account-group'
             size={size}
@@ -34,7 +34,7 @@ const TabsLayout = () => (
       name='profile'
       options={{
         title: 'Profile',
-        tabBarIcon: ({ color, focused, size }) => (
+        tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name='account' size={size} color={color} />
         ),
       }}

@@ -11,7 +11,7 @@ const fieldToTypeMap: Record<
   IDField: 'ID',
   ArrayField: (entityName: string, fieldName: string) =>
     `[${capitalize(entityName)}${capitalize(fieldName)}Input!]`,
-  EntityRelationField: (entityName: string, fieldName: string) => `ID`,
+  EntityRelationField: (_: string, __: string) => `ID`,
 }
 
 const buildUpsertEntryMutation = (entity: Entity) => {

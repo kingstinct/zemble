@@ -71,6 +71,7 @@ const ListOfEntriesTable: React.FC<ListOfEntriesTableProps> = ({
         <DataTable.Row key={entry.id} onPress={() => onSelected(entry)}>
           {fieldsExceptId.map((field) => (
             <DataTable.Cell key={field.name}>
+              {/* @ts-ignore */}
               <Text>{formatFieldValue(entry[field.name])}</Text>
             </DataTable.Cell>
           ))}
