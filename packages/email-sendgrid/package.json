@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@graphql-codegen/add": "*",
+    "@graphql-codegen/cli": "*",
     "@sendgrid/mail": "^8.1.5",
     "graphql": "16.11.0"
   },
