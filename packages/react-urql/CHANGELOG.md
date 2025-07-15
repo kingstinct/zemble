@@ -1,5 +1,12 @@
 # @zemble/react-urql
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [5e07c0e]
+  - @zemble/utils@0.7.43
+
 ## 1.0.1
 
 ### Patch Changes

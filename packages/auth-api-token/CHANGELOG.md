@@ -1,5 +1,15 @@
 # @zemble/auth-api-token
 
+## 0.0.68
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/graphql@0.0.64
+  - @zemble/auth@0.0.68
+  - @zemble/core@0.1.28
+
 ## 0.0.67
 
 ### Patch Changes

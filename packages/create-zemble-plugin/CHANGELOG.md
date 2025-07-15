@@ -1,5 +1,13 @@
 # create-zemble-plugin
 
+## 0.1.5
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/core@0.1.28
+
 ## 0.1.4
 
 ### Patch Changes

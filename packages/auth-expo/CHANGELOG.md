@@ -1,5 +1,11 @@
 # @zemble/auth-expo
 
+## 0.0.14
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+
 ## 0.0.13
 
 ### Patch Changes

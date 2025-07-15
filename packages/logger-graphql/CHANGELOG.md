@@ -1,5 +1,14 @@
 # @zemble/logger-graphql
 
+## 0.0.60
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/graphql@0.0.64
+  - @zemble/core@0.1.28
+
 ## 0.0.59
 
 ### Patch Changes

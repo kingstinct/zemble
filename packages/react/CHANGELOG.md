@@ -1,5 +1,11 @@
 ## 1.0.10
 
+## 1.0.19
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+
 ## 1.0.18
 
 ### Patch Changes

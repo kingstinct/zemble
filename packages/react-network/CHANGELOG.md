@@ -1,5 +1,12 @@
 # @zemble/react-network
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [5e07c0e]
+  - @zemble/react@1.0.19
+
 ## 1.0.1
 
 ### Patch Changes

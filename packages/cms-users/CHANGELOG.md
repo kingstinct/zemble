@@ -1,5 +1,20 @@
 # @zemble/cms-users
 
+## 0.0.77
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/auth-otp@0.0.69
+  - @zemble/graphql@0.0.64
+  - @zemble/utils@0.7.43
+  - @zemble/auth@0.0.68
+  - @zemble/core@0.1.28
+  - @zemble/cms@0.0.77
+  - @zemble/kv@0.0.63
+  - @zemble/mongodb@0.0.45
+
 ## 0.0.76
 
 ### Patch Changes
