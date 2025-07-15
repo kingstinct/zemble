@@ -33,13 +33,16 @@
   "license": "ISC",
   "dependencies": {
     "@zemble/core": "workspace:*",
-    "@zemble/graphql": "workspace:*",
-    "@sendgrid/mail": "^8.1.5",
-    "graphql": "*"
+    "@zemble/graphql": "workspace:*"
   },
   "devDependencies": {
-    "@graphql-codegen/add": "^5.0.3",
+    "@graphql-codegen/add": "*",
     "@graphql-codegen/cli": "*",
-    "@graphql-codegen/client-preset": "^4.8.3"
+    "@sendgrid/mail": "^8.1.5",
+    "graphql": "16.11.0"
+  },
+  "peerDependencies": {
+    "graphql": "*",
+    "@sendgrid/mail": "*"
   }
 }

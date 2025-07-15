@@ -1,0 +1,27 @@
+{
+  "name": "@zemble/fastify",
+  "version": "0.1.0",
+  "module": "index.ts",
+  "author": "Robert Herber",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "bunx tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@zemble/timeoutify": "workspace:*"
+  },
+  "devDependencies": {
+    "fastify": "^5.4.0",
+    "fastify-plugin": "^5.0.1"
+  },
+  "peerDependencies": {
+    "fastify": "*",
+    "fastify-plugin": "*"
+  }
+}

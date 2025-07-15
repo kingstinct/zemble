@@ -1,13 +1,10 @@
+import { dayjsToString, isValidDateString, stringToDayjs } from '@zemble/dayjs'
 import dayjs from 'dayjs'
 import tz from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 import { GraphQLScalarType } from 'graphql'
 import { GraphQLError } from 'graphql/error'
 import { Kind } from 'graphql/language'
-
-import { dayjsToString } from '../date/dayjsToString'
-import { isValidDateString } from '../date/isValidDateString'
-import { stringToDayjs } from '../date/stringToDayjs'
 
 dayjs.extend(tz)
 dayjs.extend(utc)

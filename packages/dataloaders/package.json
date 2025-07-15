@@ -1,0 +1,28 @@
+{
+  "name": "@zemble/dataloaders",
+  "version": "0.1.0",
+  "module": "index.ts",
+  "author": "Robert Herber",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "bunx tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@zemble/mongodb": "workspace:*",
+    "@zemble/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "dataloader": "^2.2.3",
+    "graphql": "16.11.0"
+  },
+  "peerDependencies": {
+    "dataloader": "*",
+    "mongodb": "*"
+  }
+}

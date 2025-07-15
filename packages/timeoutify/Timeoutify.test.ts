@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import wait from '../wait'
+import wait from '@zemble/utils/wait'
 import Timeoutify, { TimeoutifyStatus } from './Timeoutify'
 
 describe('Timeoutify', () => {
