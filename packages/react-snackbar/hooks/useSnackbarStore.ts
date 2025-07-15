@@ -1,4 +1,4 @@
-import { generateId } from '@zemble/utils'
+import { generateId } from '@zemble/utils/generateId'
 import { create } from 'zustand'
 
 export const DEFAULT_SNACKBAR_TIMEOUT_MS = 5000

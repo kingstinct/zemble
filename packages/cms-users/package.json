@@ -49,7 +49,7 @@
     "dataloader": "^2.2.3",
     "graphql": "^16.11.0",
     "graphql-scalars": "^1.24.2",
-    "hono": "^4.8.4",
+    "hono": "^4.8.5",
     "jose": "^6.0.11",
     "mongodb": "^6.17.0",
     "papr": "^15.2.2"

@@ -14,17 +14,18 @@
   "main": "index.ts",
   "types": "index.ts",
   "peerDependencies": {
-    "@types/react": "^18.3.23",
-    "react": "^18.3.1",
-    "react-native": "~0.80.1",
-    "react-native-reanimated": "~3.18.0"
+    "@types/react": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-reanimated": "*",
+    "zustand": "*"
   },
   "dependencies": {
-    "zustand": "^5.0.3",
     "@zemble/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.3.23",
-    "@types/react-native": "~0.73.0"
+    "@types/react-native": "~0.73.0",
+    "zustand": "^5.0.6"
   }
 }
