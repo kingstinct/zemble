@@ -5,6 +5,7 @@ import type {
   TypedDocumentNode,
 } from '@graphql-typed-document-node/core'
 import { type IStandardLogger, Plugin, type TokenContents } from '@zemble/core'
+import createLogger from '@zemble/core/createLogger'
 import type { GraphQLSchema } from 'graphql'
 import * as GraphQL from 'graphql'
 import type { Context } from 'graphql-ws'
@@ -125,9 +126,13 @@ export interface GraphQLMiddlewareConfig extends Zemble.GlobalConfig {
   readonly enableServerTiming?: boolean
 }
 
+const logger = createLogger({
+  categories: ['graphql'],
+})
+
 const logFn = (eventName: string, ...args: readonly unknown[]) => {
   // Use console debug for now - this will be replaced after plugin initialization
-  console.debug(eventName, ...args)
+  logger.debug(eventName, { args })
 }
 
 const defaultConfig = {
