@@ -1,5 +1,11 @@
 # create-zemble-plugin
 
+## 0.1.7
+
+### Patch Changes
+
+- @zemble/core@0.1.30
+
 ## 0.1.6
 
 ### Patch Changes

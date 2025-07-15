@@ -1,5 +1,12 @@
 # @zemble/react-portal
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [7aa886b]
+  - @zemble/utils@0.7.45
+
 ## 1.0.3
 
 ### Patch Changes

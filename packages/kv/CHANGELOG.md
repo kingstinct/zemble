@@ -1,5 +1,12 @@
 # @zemble/kv
 
+## 0.0.66
+
+### Patch Changes
+
+- @zemble/core@0.1.30
+- @zemble/graphql@0.0.67
+
 ## 0.0.65
 
 ### Patch Changes
