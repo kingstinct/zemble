@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@tsconfig/bun": "^1.0.1"
+    "@tsconfig/bun": "^1.0.8"
   },
   "peerDependencies": {},
   "module": "serve.ts",

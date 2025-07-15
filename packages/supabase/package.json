@@ -16,7 +16,7 @@
     "@zemble/graphql": "workspace:*",
     "@supabase/ssr": "^0.6.1",
     "graphql": "^16.11.0",
-    "@supabase/supabase-js": "^2.50.3"
+    "@supabase/supabase-js": "^2.51.0"
   },
   "scripts": {
     "dev": "zemble-dev plugin.ts",
@@ -25,7 +25,7 @@
     "supabase-codegen": "supabase gen types typescript --project-id \"nptqmmaxmynahsgfuvhn\" --schema public > types/supabase.generated.ts"
   },
   "devDependencies": {
-    "supabase": "^2.31.0",
+    "supabase": "^2.31.4",
     "@graphql-codegen/add": "^5.0.3",
     "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/client-preset": "^4.8.3",

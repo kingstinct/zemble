@@ -5,10 +5,10 @@
       "name": "zemble",
       "dependencies": {
         "@changesets/cli": "^2.29.5",
-        "@logtape/logtape": "^1.0.2",
+        "@logtape/logtape": "^1.0.4",
       },
       "devDependencies": {
-        "@biomejs/biome": "2.0.6",
+        "@biomejs/biome": "2.1.1",
         "@tsconfig/bun": "^1.0.8",
         "@types/bun": "*",
         "@types/debug": "^4.1.12",
@@ -24,7 +24,7 @@
     },
     "apps/cms-ui": {
       "name": "cms-ui",
-      "version": "0.0.16",
+      "version": "0.0.17",
       "dependencies": {
         "@expo/vector-icons": "^14.1.0",
         "@gorhom/bottom-sheet": "^4",
@@ -73,9 +73,9 @@
     },
     "apps/minimal": {
       "name": "minimal",
-      "version": "0.0.83",
+      "version": "0.0.84",
       "dependencies": {
-        "@logtape/logtape": "^1.0.2",
+        "@logtape/logtape": "^1.0.4",
         "@zemble/auth": "workspace:*",
         "@zemble/auth-otp": "workspace:*",
         "@zemble/bull": "workspace:*",
@@ -96,7 +96,7 @@
     },
     "apps/supplement-stack": {
       "name": "supplement-stack",
-      "version": "0.0.80",
+      "version": "0.0.81",
       "dependencies": {
         "@envelop/generic-auth": "7",
         "@zemble/apple-app-site-association": "workspace:*",
@@ -118,7 +118,7 @@
     },
     "apps/todo-app-with-auth": {
       "name": "todoappwithauth",
-      "version": "0.0.14",
+      "version": "0.0.15",
       "dependencies": {
         "@expo/webpack-config": "^19.0.1",
         "@urql/storage-rn": "^1.1.1",
@@ -128,7 +128,7 @@
         "expo": "^49.0.23",
         "expo-status-bar": "^1.12.1",
         "graphql": "^16.11.0",
-        "hono": "^4.8.4",
+        "hono": "^4.8.5",
         "react": "^18.3.1",
         "react-native": "~0.80.1",
         "react-native-web": "^0.20.0",
@@ -140,7 +140,7 @@
     },
     "apps/todo-app-with-auth-backend": {
       "name": "todo-app-with-auth-backend",
-      "version": "0.0.81",
+      "version": "0.0.82",
       "dependencies": {
         "@envelop/generic-auth": "7",
         "@zemble/apple-app-site-association": "workspace:*",
@@ -151,12 +151,12 @@
         "@zemble/graphql": "workspace:*",
         "@zemble/ignite": "workspace:*",
         "@zemble/todo": "workspace:*",
-        "hono": "^4.8.4",
+        "hono": "^4.8.5",
       },
     },
     "packages/anonymous-auth-expo": {
       "name": "@zemble/auth-anonymous-expo",
-      "version": "0.0.13",
+      "version": "0.0.14",
       "dependencies": {
         "@zemble/auth-expo": "workspace:*",
         "@zemble/urql-expo": "workspace:*",
@@ -175,38 +175,50 @@
     },
     "packages/apple-app-site-association": {
       "name": "@zemble/apple-app-site-association",
-      "version": "0.0.42",
+      "version": "0.0.43",
       "dependencies": {
         "@zemble/core": "workspace:*",
-        "hono": "^4.8.4",
+      },
+      "devDependencies": {
+        "hono": "^4.8.5",
+      },
+      "peerDependencies": {
+        "hono": "*",
       },
     },
     "packages/auth": {
       "name": "@zemble/auth",
-      "version": "0.0.66",
+      "version": "0.0.67",
       "bin": {
         "zemble-generate-keys": "./bin/generate-keys.ts",
       },
       "dependencies": {
-        "@envelop/core": "^5.3.0",
-        "@envelop/generic-auth": "7",
-        "@graphql-tools/wrap": "^10.1.1",
         "@zemble/bun": "workspace:*",
         "@zemble/core": "workspace:*",
         "@zemble/graphql": "workspace:*",
         "@zemble/kv": "workspace:*",
-        "graphql": "^16.11.0",
-        "graphql-scalars": "^1.24.2",
-        "hono": "^4.8.4",
-        "jose": "^6.0.11",
       },
       "devDependencies": {
+        "@envelop/core": "^5.3.0",
+        "@envelop/generic-auth": "7",
         "@graphql-codegen/cli": "^5.0.7",
+        "@graphql-tools/wrap": "^10.1.2",
+        "graphql": "^16.11.0",
+        "graphql-scalars": "^1.24.2",
+        "hono": "^4.8.5",
+        "jose": "^6.0.11",
+      },
+      "peerDependencies": {
+        "@envelop/core": "*",
+        "@envelop/generic-auth": "*",
+        "graphql": "*",
+        "hono": "*",
+        "jose": "*",
       },
     },
     "packages/auth-anonymous": {
       "name": "@zemble/auth-anonymous",
-      "version": "0.0.64",
+      "version": "0.0.65",
       "dependencies": {
         "@envelop/core": "^5.3.0",
         "@envelop/generic-auth": "7",
@@ -223,23 +235,29 @@
     },
     "packages/auth-api-token": {
       "name": "@zemble/auth-api-token",
-      "version": "0.0.66",
+      "version": "0.0.67",
       "dependencies": {
         "@zemble/auth": "workspace:*",
         "@zemble/core": "workspace:*",
         "@zemble/graphql": "workspace:*",
-        "graphql": "^16.11.0",
-        "graphql-scalars": "^1.24.2",
-        "hono": "^4.8.4",
-        "jose": "^6.0.11",
       },
       "devDependencies": {
         "@graphql-codegen/cli": "^5.0.7",
+        "graphql": "^16.11.0",
+        "graphql-scalars": "^1.24.2",
+        "hono": "^4.8.5",
+        "jose": "^6.0.11",
+      },
+      "peerDependencies": {
+        "graphql": "*",
+        "graphql-scalars": "*",
+        "hono": "*",
+        "jose": "*",
       },
     },
     "packages/auth-apple": {
       "name": "@zemble/auth-apple",
-      "version": "0.0.70",
+      "version": "0.0.71",
       "dependencies": {
         "@envelop/core": "^5.3.0",
         "@envelop/generic-auth": "7",
@@ -253,7 +271,7 @@
     },
     "packages/auth-expo": {
       "name": "@zemble/auth-expo",
-      "version": "0.0.12",
+      "version": "0.0.13",
       "dependencies": {
         "@react-native-async-storage/async-storage": "^1.24.0",
         "expo": "^49.0.23",
@@ -267,7 +285,7 @@
     },
     "packages/auth-otp": {
       "name": "@zemble/auth-otp",
-      "version": "0.0.67",
+      "version": "0.0.68",
       "dependencies": {
         "@envelop/core": "^5.3.0",
         "@envelop/generic-auth": "7",
@@ -278,7 +296,7 @@
         "@zemble/kv": "workspace:*",
         "@zemble/utils": "workspace:*",
         "graphql": "^16.11.0",
-        "libphonenumber-js": "^1.12.9",
+        "libphonenumber-js": "^1.12.10",
       },
       "devDependencies": {
         "@graphql-codegen/cli": "^5.0.7",
@@ -286,30 +304,41 @@
     },
     "packages/bull": {
       "name": "@zemble/bull",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "dependencies": {
-        "@bull-board/api": "^6.11.0",
-        "@types/ejs": "^3.1.5",
         "@zemble/auth": "workspace:*",
         "@zemble/core": "workspace:*",
         "@zemble/graphql": "workspace:*",
         "@zemble/utils": "workspace:*",
-        "bullmq": "^5.56.1",
+      },
+      "devDependencies": {
+        "@bull-board/api": "^6.11.1",
+        "@graphql-codegen/cli": "^5.0.7",
+        "@types/bun": "*",
+        "@types/ejs": "^3.1.5",
+        "bullmq": "^5.56.4",
         "ejs": "^3.1.10",
         "graphql": "^16.11.0",
         "graphql-scalars": "^1.24.2",
-        "hono": "^4.8.4",
+        "hono": "^4.8.5",
         "ioredis": "^5.6.1",
         "safe-stable-stringify": "^2.5.0",
       },
-      "devDependencies": {
-        "@graphql-codegen/cli": "^5.0.7",
-        "@types/bun": "*",
+      "peerDependencies": {
+        "@bull-board/api": "*",
+        "@types/ejs": "*",
+        "bullmq": "*",
+        "ejs": "*",
+        "graphql": "*",
+        "graphql-scalars": "*",
+        "hono": "*",
+        "ioredis": "*",
+        "safe-stable-stringify": "*",
       },
     },
     "packages/bun": {
       "name": "@zemble/bun",
-      "version": "0.0.37",
+      "version": "0.0.38",
       "bin": {
         "zemble-dev": "./cli.ts",
       },
@@ -319,7 +348,7 @@
     },
     "packages/cms": {
       "name": "@zemble/cms",
-      "version": "0.0.75",
+      "version": "0.0.76",
       "dependencies": {
         "@envelop/core": "^5.3.0",
         "@envelop/extended-validation": "^4.1.0",
@@ -333,7 +362,7 @@
         "dataloader": "^2.2.3",
         "graphql": "^16.11.0",
         "graphql-scalars": "^1.24.2",
-        "hono": "^4.8.4",
+        "hono": "^4.8.5",
         "jose": "^6.0.11",
         "memfs": "^4.17.2",
         "mongodb": "^6.17.0",
@@ -346,7 +375,7 @@
     },
     "packages/cms-users": {
       "name": "@zemble/cms-users",
-      "version": "0.0.75",
+      "version": "0.0.76",
       "dependencies": {
         "@envelop/core": "^5.3.0",
         "@envelop/extended-validation": "^4.1.0",
@@ -363,7 +392,7 @@
         "dataloader": "^2.2.3",
         "graphql": "^16.11.0",
         "graphql-scalars": "^1.24.2",
-        "hono": "^4.8.4",
+        "hono": "^4.8.5",
         "jose": "^6.0.11",
         "mongodb": "^6.17.0",
         "papr": "^15.2.2",
@@ -375,23 +404,30 @@
     },
     "packages/core": {
       "name": "@zemble/core",
-      "version": "0.1.26",
+      "version": "0.1.27",
       "dependencies": {
-        "@logtape/logtape": "^1.0.2",
         "@zemble/utils": "workspace:*",
-        "debug": "^4.4.1",
-        "dotenv": "^16.6.1",
-        "graphql": "^16.11.0",
-        "hono": "^4.8.4",
-        "jose": "^6.0.11",
       },
       "devDependencies": {
-        "graphql-yoga": "^5.14.0",
+        "@logtape/logtape": "^1.0.4",
+        "debug": "^4.4.1",
+        "graphql": "^16.11.0",
+        "graphql-yoga": "^5.15.1",
+        "hono": "^4.8.5",
+        "jose": "^6.0.11",
+      },
+      "peerDependencies": {
+        "@logtape/logtape": "*",
+        "debug": "*",
+        "graphql": "*",
+        "graphql-yoga": "*",
+        "hono": "*",
+        "jose": "*",
       },
     },
     "packages/create-zemble-app": {
       "name": "create-zemble-app",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "bin": "./bin/create-zemble-app.js",
       "dependencies": {
         "@zemble/core": "workspace:*",
@@ -400,7 +436,7 @@
     },
     "packages/create-zemble-plugin": {
       "name": "create-zemble-plugin",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "bin": "./bin/create-zemble-plugin.js",
       "dependencies": {
         "@zemble/core": "workspace:*",
@@ -409,7 +445,7 @@
     },
     "packages/debug": {
       "name": "@zemble/debug",
-      "version": "0.0.27",
+      "version": "0.0.28",
       "dependencies": {
         "@zemble/auth": "workspace:*",
         "@zemble/bun": "workspace:*",
@@ -429,7 +465,7 @@
     },
     "packages/email-resend": {
       "name": "@zemble/email-resend",
-      "version": "0.0.31",
+      "version": "0.0.32",
       "dependencies": {
         "@zemble/core": "workspace:*",
         "@zemble/graphql": "workspace:*",
@@ -444,7 +480,7 @@
     },
     "packages/email-sendgrid": {
       "name": "@zemble/email-sendgrid",
-      "version": "0.0.60",
+      "version": "0.0.61",
       "dependencies": {
         "@sendgrid/mail": "^8.1.5",
         "@zemble/core": "workspace:*",
@@ -459,7 +495,7 @@
     },
     "packages/firebase-auth": {
       "name": "@zemble/firebase-auth",
-      "version": "0.0.23",
+      "version": "0.0.24",
       "dependencies": {
         "@zemble/auth": "workspace:*",
         "@zemble/bun": "workspace:*",
@@ -481,51 +517,74 @@
     },
     "packages/graphql": {
       "name": "@zemble/graphql",
-      "version": "0.0.62",
+      "version": "0.0.63",
       "bin": {
         "zemble-app-graphql-codegen": "./bin/zemble-app-graphql-codegen.ts",
       },
       "dependencies": {
+        "@zemble/core": "workspace:*",
+      },
+      "devDependencies": {
         "@eddeee888/gcg-typescript-resolver-files": "^0.12.1",
         "@envelop/core": "^5.3.0",
         "@envelop/on-resolve": "^4.1.1",
+        "@graphql-codegen/add": "^5.0.3",
+        "@graphql-codegen/cli": "^5.0.7",
+        "@graphql-codegen/client-preset": "^4.8.3",
         "@graphql-codegen/plugin-helpers": "^5.1.1",
-        "@graphql-tools/delegate": "^10.2.20",
+        "@graphql-codegen/typescript": "^4.1.6",
+        "@graphql-codegen/typescript-resolvers": "^4.5.1",
+        "@graphql-tools/delegate": "^10.2.21",
         "@graphql-tools/graphql-file-loader": "^8.0.20",
         "@graphql-tools/load": "^8.1.0",
         "@graphql-tools/merge": "^9.0.24",
         "@graphql-tools/schema": "^10.0.23",
         "@graphql-tools/utils": "^10.8.6",
-        "@graphql-tools/wrap": "^10.1.1",
+        "@graphql-tools/wrap": "^10.1.2",
         "@graphql-typed-document-node/core": "^3.2.0",
+        "@graphql-yoga/redis-event-target": "^3.0.3",
         "@zemble/core": "workspace:*",
         "debug": "^4.4.1",
         "graphql": "^16.11.0",
         "graphql-scalars": "^1.24.2",
         "graphql-ws": "^5.16.2",
-        "graphql-yoga": "^5.14.0",
-        "hono": "^4.8.4",
+        "graphql-yoga": "^5.15.1",
+        "hono": "^4.8.5",
+        "ioredis": "^5.6.1",
         "jose": "^6.0.11",
         "sofa-api": "^0.18.8",
       },
-      "devDependencies": {
-        "@graphql-codegen/add": "^5.0.3",
-        "@graphql-codegen/cli": "^5.0.7",
-        "@graphql-codegen/client-preset": "^4.8.3",
-        "@graphql-codegen/typescript": "^4.1.6",
-        "@graphql-codegen/typescript-resolvers": "^4.5.1",
-        "@graphql-yoga/redis-event-target": "^3.0.3",
-        "ioredis": "^5.6.1",
-      },
       "optionalDependencies": {
         "@graphql-yoga/redis-event-target": "^3.0.3",
-        "ioredis": "^5.4.2",
+        "ioredis": "^5.6.1",
         "sofa-api": "^0.18.8",
+      },
+      "peerDependencies": {
+        "@eddeee888/gcg-typescript-resolver-files": "*",
+        "@envelop/core": "*",
+        "@envelop/on-resolve": "*",
+        "@graphql-codegen/plugin-helpers": "*",
+        "@graphql-tools/delegate": "*",
+        "@graphql-tools/graphql-file-loader": "*",
+        "@graphql-tools/load": "*",
+        "@graphql-tools/merge": "*",
+        "@graphql-tools/schema": "*",
+        "@graphql-tools/utils": "*",
+        "@graphql-tools/wrap": "*",
+        "@graphql-typed-document-node/core": "*",
+        "debug": "*",
+        "graphql": "*",
+        "graphql-scalars": "*",
+        "graphql-ws": "*",
+        "graphql-yoga": "*",
+        "hono": "*",
+        "jose": "*",
+        "sofa-api": "*",
       },
     },
     "packages/ignite": {
       "name": "@zemble/ignite",
-      "version": "0.0.73",
+      "version": "0.0.74",
       "dependencies": {
         "@zemble/bull": "workspace:*",
         "@zemble/core": "workspace:*",
@@ -535,32 +594,41 @@
     },
     "packages/kv": {
       "name": "@zemble/kv",
-      "version": "0.0.61",
+      "version": "0.0.62",
       "dependencies": {
+        "@zemble/core": "workspace:*",
+        "@zemble/graphql": "workspace:*",
+      },
+      "devDependencies": {
+        "@cloudflare/workers-types": "^4.20250715.0",
         "@envelop/core": "^5.3.0",
         "@envelop/generic-auth": "7",
         "@graphql-codegen/cli": "^5.0.7",
-        "@zemble/core": "workspace:*",
-        "@zemble/graphql": "workspace:*",
         "graphql-scalars": "^1.24.2",
-        "hono": "^4.8.4",
+        "hono": "^4.8.5",
         "ioredis": "^5.6.1",
         "jose": "^6.0.11",
       },
-      "devDependencies": {
-        "@cloudflare/workers-types": "^4.20250705.0",
+      "peerDependencies": {
+        "@envelop/core": "*",
+        "@envelop/generic-auth": "*",
+        "@graphql-codegen/cli": "*",
+        "graphql-scalars": "*",
+        "hono": "*",
+        "ioredis": "*",
+        "jose": "*",
       },
     },
     "packages/logger-graphql": {
       "name": "@zemble/logger-graphql",
-      "version": "0.0.58",
+      "version": "0.0.59",
       "dependencies": {
-        "@graphql-yoga/plugin-defer-stream": "^3.14.0",
-        "@logtape/logtape": "^1.0.2",
+        "@graphql-yoga/plugin-defer-stream": "^3.15.1",
+        "@logtape/logtape": "^1.0.4",
         "@zemble/core": "workspace:*",
         "@zemble/graphql": "workspace:*",
-        "graphql-yoga": "^5.14.0",
-        "hono": "^4.8.4",
+        "graphql-yoga": "^5.15.1",
+        "hono": "^4.8.5",
       },
       "devDependencies": {
         "@graphql-codegen/cli": "^5.0.7",
@@ -571,7 +639,7 @@
     },
     "packages/migrations": {
       "name": "@zemble/migrations",
-      "version": "0.0.39",
+      "version": "0.0.40",
       "bin": {
         "create-migration": "bin/create-migration.ts",
         "migrate-up": "bin/migrate-up.ts",
@@ -585,12 +653,12 @@
         "type-fest": "^4.41.0",
       },
       "optionalDependencies": {
-        "mongodb": "^6.12.0",
+        "mongodb": "^6.17.0",
       },
     },
     "packages/mongodb": {
       "name": "@zemble/mongodb",
-      "version": "0.0.43",
+      "version": "0.0.44",
       "dependencies": {
         "@zemble/auth": "workspace:*",
         "@zemble/bun": "workspace:*",
@@ -606,17 +674,17 @@
         "@zemble/migrations": "workspace:*",
       },
       "peerDependencies": {
-        "@zemble/migrations": "0.0.39",
+        "@zemble/migrations": "0.0.40",
       },
     },
     "packages/node": {
       "name": "@zemble/node",
-      "version": "0.0.37",
+      "version": "0.0.38",
       "bin": {
         "zemble-node": "cli.ts",
       },
       "dependencies": {
-        "@hono/node-server": "1.15.0",
+        "@hono/node-server": "1.16.0",
         "@zemble/core": "workspace:*",
       },
       "devDependencies": {
@@ -625,7 +693,7 @@
     },
     "packages/primitives": {
       "name": "@zemble/primitives",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "expo-system-ui": "^2.9.4",
         "ts-pattern": "^5.7.1",
@@ -639,7 +707,7 @@
     },
     "packages/push-apple": {
       "name": "@zemble/push-apple",
-      "version": "0.0.20",
+      "version": "0.0.21",
       "dependencies": {
         "@zemble/bun": "workspace:*",
         "@zemble/core": "workspace:*",
@@ -661,7 +729,7 @@
     },
     "packages/push-expo": {
       "name": "@zemble/push-expo",
-      "version": "0.0.18",
+      "version": "0.0.19",
       "dependencies": {
         "@zemble/bun": "workspace:*",
         "@zemble/core": "workspace:*",
@@ -680,7 +748,7 @@
     },
     "packages/react": {
       "name": "@zemble/react",
-      "version": "1.0.17",
+      "version": "1.0.18",
       "dependencies": {
         "@zemble/primitives": "workspace:*",
       },
@@ -721,17 +789,17 @@
         "react-native-screens": "^4.11.1",
         "react-native-web": "^0.20.0",
         "react-test-renderer": "^18.3.1",
-        "webpack": "^5.99.9",
+        "webpack": "^5.100.1",
       },
       "peerDependencies": {
-        "@types/react": "^18.3.23",
-        "react": "^18.3.1",
-        "react-native-reanimated": "~3.18.0",
+        "@types/react": "*",
+        "react": "*",
+        "react-native-reanimated": "*",
       },
     },
     "packages/react-auth": {
       "name": "@zemble/react-auth",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@react-native-async-storage/async-storage": "^1.24.0",
         "jwt-decode": "^4.0.0",
@@ -748,9 +816,9 @@
     },
     "packages/react-keyboard": {
       "name": "@zemble/react-keyboard",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
-        "zustand": "^5.0.3",
+        "zustand": "^5.0.6",
       },
       "devDependencies": {
         "@types/react": "^18.3.23",
@@ -764,7 +832,7 @@
     },
     "packages/react-network": {
       "name": "@zemble/react-network",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@expo/vector-icons": "^14.1.0",
         "@react-native-community/netinfo": "^9.5.0",
@@ -785,46 +853,51 @@
     },
     "packages/react-portal": {
       "name": "@zemble/react-portal",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
-        "@gorhom/portal": "^1.0.14",
         "@zemble/utils": "workspace:*",
-        "react-native-safe-area-context": "^5.5.1",
-        "react-native-screens": "^4.11.1",
-        "zustand": "^5.0.3",
       },
       "devDependencies": {
         "@types/react": "^18.3.23",
         "@types/react-native": "~0.73.0",
+        "react-native-reanimated": "~3.18.0",
+        "react-native-safe-area-context": "^5.5.1",
+        "react-native-screens": "^4.11.1",
+        "zustand": "^5.0.6",
       },
       "peerDependencies": {
-        "@types/react": "^18.3.23",
-        "react": "^18.3.1",
-        "react-native": "~0.80.1",
-        "react-native-reanimated": "~3.18.0",
+        "@gorhom/portal": "*",
+        "@types/react": "*",
+        "react": "*",
+        "react-native": "*",
+        "react-native-reanimated": "*",
+        "react-native-safe-area-context": "*",
+        "react-native-screens": "*",
+        "zustand": "*",
       },
     },
     "packages/react-snackbar": {
       "name": "@zemble/react-snackbar",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@zemble/utils": "workspace:*",
-        "zustand": "^5.0.3",
       },
       "devDependencies": {
         "@types/react": "^18.3.23",
         "@types/react-native": "~0.73.0",
+        "zustand": "^5.0.6",
       },
       "peerDependencies": {
-        "@types/react": "^18.3.23",
-        "react": "^18.3.1",
-        "react-native": "~0.80.1",
-        "react-native-reanimated": "~3.18.0",
+        "@types/react": "*",
+        "react": "*",
+        "react-native": "*",
+        "react-native-reanimated": "*",
+        "zustand": "*",
       },
     },
     "packages/react-urql": {
       "name": "@zemble/react-urql",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@zemble/react-auth": "workspace:*",
         "@zemble/utils": "workspace:*",
@@ -843,7 +916,7 @@
     },
     "packages/react-use-app-state": {
       "name": "@zemble/react-use-app-state",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "devDependencies": {
         "@types/react": "^18.3.23",
         "@types/react-native": "~0.73.0",
@@ -856,15 +929,20 @@
     },
     "packages/routes": {
       "name": "@zemble/routes",
-      "version": "0.0.38",
+      "version": "0.0.39",
       "dependencies": {
         "@zemble/core": "workspace:*",
-        "hono": "^4.8.4",
+      },
+      "devDependencies": {
+        "hono": "^4.8.5",
+      },
+      "peerDependencies": {
+        "hono": "*",
       },
     },
     "packages/sms-46elks": {
       "name": "@zemble/sms-46elks",
-      "version": "0.0.16",
+      "version": "0.0.17",
       "dependencies": {
         "@zemble/core": "workspace:*",
         "@zemble/graphql": "workspace:*",
@@ -878,7 +956,7 @@
     },
     "packages/sms-twilio": {
       "name": "@zemble/sms-twilio",
-      "version": "0.0.16",
+      "version": "0.0.17",
       "dependencies": {
         "@zemble/core": "workspace:*",
         "@zemble/graphql": "workspace:*",
@@ -892,10 +970,10 @@
     },
     "packages/supabase": {
       "name": "@zemble/supabase",
-      "version": "0.0.47",
+      "version": "0.0.48",
       "dependencies": {
         "@supabase/ssr": "^0.6.1",
-        "@supabase/supabase-js": "^2.50.3",
+        "@supabase/supabase-js": "^2.51.0",
         "@zemble/auth": "workspace:*",
         "@zemble/bun": "workspace:*",
         "@zemble/core": "workspace:*",
@@ -910,14 +988,14 @@
         "@graphql-codegen/typescript": "^4.1.6",
         "@graphql-codegen/typescript-resolvers": "^4.5.1",
         "@tsconfig/bun": "^1.0.8",
-        "supabase": "^2.31.0",
+        "supabase": "^2.31.4",
       },
     },
     "packages/todo": {
       "name": "@zemble/todo",
-      "version": "0.0.64",
+      "version": "0.0.65",
       "dependencies": {
-        "@bull-board/api": "^6.11.0",
+        "@bull-board/api": "^6.11.1",
         "@graphql-codegen/cli": "^5.0.7",
         "@zemble/auth": "workspace:*",
         "@zemble/auth-anonymous": "workspace:*",
@@ -925,14 +1003,14 @@
         "@zemble/graphql": "workspace:*",
         "@zemble/kv": "workspace:*",
         "@zemble/utils": "workspace:*",
-        "bullmq": "^5.56.1",
+        "bullmq": "^5.56.4",
         "graphql": "^16.11.0",
-        "hono": "^4.8.4",
+        "hono": "^4.8.5",
       },
     },
     "packages/todo-ui": {
       "name": "@zemble/todo-ui",
-      "version": "0.0.13",
+      "version": "0.0.14",
       "dependencies": {
         "@react-native-async-storage/async-storage": "^1.24.0",
         "@zemble/auth-anonymous-expo": "workspace:*",
@@ -953,7 +1031,7 @@
     },
     "packages/urql-expo": {
       "name": "@zemble/urql-expo",
-      "version": "0.0.12",
+      "version": "0.0.13",
       "dependencies": {
         "@zemble/auth-expo": "workspace:*",
         "expo": "^49.0.23",
@@ -969,7 +1047,7 @@
     },
     "packages/utils": {
       "name": "@zemble/utils",
-      "version": "0.7.41",
+      "version": "0.7.42",
       "bin": {
         "ensure-all-dependencies": "./scripts/ensure-all-dependencies.ts",
         "add-safe": "./scripts/add-safe.ts",
@@ -994,7 +1072,7 @@
         "mongodb": "^6.17.0",
       },
       "peerDependencies": {
-        "lodash": "^4.17.21",
+        "lodash": "*",
       },
     },
   },
@@ -1287,25 +1365,25 @@
 
     "@bacons/react-views": ["@bacons/react-views@1.1.3", "", { "peerDependencies": { "react-native": "*" } }, "sha512-aLipQAkQKRzG64e28XHBpByyBPfANz0A6POqYHGyryHizG9vLCLNQwLe8gwFANEMBWW2Mx5YdQ7RkNdQMQ+CXQ=="],
 
-    "@biomejs/biome": ["@biomejs/biome@2.0.6", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.0.6", "@biomejs/cli-darwin-x64": "2.0.6", "@biomejs/cli-linux-arm64": "2.0.6", "@biomejs/cli-linux-arm64-musl": "2.0.6", "@biomejs/cli-linux-x64": "2.0.6", "@biomejs/cli-linux-x64-musl": "2.0.6", "@biomejs/cli-win32-arm64": "2.0.6", "@biomejs/cli-win32-x64": "2.0.6" }, "bin": { "biome": "bin/biome" } }, "sha512-RRP+9cdh5qwe2t0gORwXaa27oTOiQRQvrFf49x2PA1tnpsyU7FIHX4ZOFMtBC4QNtyWsN7Dqkf5EDbg4X+9iqA=="],
+    "@biomejs/biome": ["@biomejs/biome@2.1.1", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.1.1", "@biomejs/cli-darwin-x64": "2.1.1", "@biomejs/cli-linux-arm64": "2.1.1", "@biomejs/cli-linux-arm64-musl": "2.1.1", "@biomejs/cli-linux-x64": "2.1.1", "@biomejs/cli-linux-x64-musl": "2.1.1", "@biomejs/cli-win32-arm64": "2.1.1", "@biomejs/cli-win32-x64": "2.1.1" }, "bin": { "biome": "bin/biome" } }, "sha512-HFGYkxG714KzG+8tvtXCJ1t1qXQMzgWzfvQaUjxN6UeKv+KvMEuliInnbZLJm6DXFXwqVi6446EGI0sGBLIYng=="],
 
-    "@biomejs/cli-darwin-arm64": ["@biomejs/cli-darwin-arm64@2.0.6", "", { "os": "darwin", "cpu": "arm64" }, "sha512-AzdiNNjNzsE6LfqWyBvcL29uWoIuZUkndu+wwlXW13EKcBHbbKjNQEZIJKYDc6IL+p7bmWGx3v9ZtcRyIoIz5A=="],
+    "@biomejs/cli-darwin-arm64": ["@biomejs/cli-darwin-arm64@2.1.1", "", { "os": "darwin", "cpu": "arm64" }, "sha512-2Muinu5ok4tWxq4nu5l19el48cwCY/vzvI7Vjbkf3CYIQkjxZLyj0Ad37Jv2OtlXYaLvv+Sfu1hFeXt/JwRRXQ=="],
 
-    "@biomejs/cli-darwin-x64": ["@biomejs/cli-darwin-x64@2.0.6", "", { "os": "darwin", "cpu": "x64" }, "sha512-wJjjP4E7bO4WJmiQaLnsdXMa516dbtC6542qeRkyJg0MqMXP0fvs4gdsHhZ7p9XWTAmGIjZHFKXdsjBvKGIJJQ=="],
+    "@biomejs/cli-darwin-x64": ["@biomejs/cli-darwin-x64@2.1.1", "", { "os": "darwin", "cpu": "x64" }, "sha512-cC8HM5lrgKQXLAK+6Iz2FrYW5A62pAAX6KAnRlEyLb+Q3+Kr6ur/sSuoIacqlp1yvmjHJqjYfZjPvHWnqxoEIA=="],
 
-    "@biomejs/cli-linux-arm64": ["@biomejs/cli-linux-arm64@2.0.6", "", { "os": "linux", "cpu": "arm64" }, "sha512-ZSVf6TYo5rNMUHIW1tww+rs/krol7U5A1Is/yzWyHVZguuB0lBnIodqyFuwCNqG9aJGyk7xIMS8HG0qGUPz0SA=="],
+    "@biomejs/cli-linux-arm64": ["@biomejs/cli-linux-arm64@2.1.1", "", { "os": "linux", "cpu": "arm64" }, "sha512-tw4BEbhAUkWPe4WBr6IX04DJo+2jz5qpPzpW/SWvqMjb9QuHY8+J0M23V8EPY/zWU4IG8Ui0XESapR1CB49Q7g=="],
 
-    "@biomejs/cli-linux-arm64-musl": ["@biomejs/cli-linux-arm64-musl@2.0.6", "", { "os": "linux", "cpu": "arm64" }, "sha512-CVPEMlin3bW49sBqLBg2x016Pws7eUXA27XYDFlEtponD0luYjg2zQaMJ2nOqlkKG9fqzzkamdYxHdMDc2gZFw=="],
+    "@biomejs/cli-linux-arm64-musl": ["@biomejs/cli-linux-arm64-musl@2.1.1", "", { "os": "linux", "cpu": "arm64" }, "sha512-/7FBLnTswu4jgV9ttI3AMIdDGqVEPIZd8I5u2D4tfCoj8rl9dnjrEQbAIDlWhUXdyWlFSz8JypH3swU9h9P+2A=="],
 
-    "@biomejs/cli-linux-x64": ["@biomejs/cli-linux-x64@2.0.6", "", { "os": "linux", "cpu": "x64" }, "sha512-geM1MkHTV1Kh2Cs/Xzot9BOF3WBacihw6bkEmxkz4nSga8B9/hWy5BDiOG3gHDGIBa8WxT0nzsJs2f/hPqQIQw=="],
+    "@biomejs/cli-linux-x64": ["@biomejs/cli-linux-x64@2.1.1", "", { "os": "linux", "cpu": "x64" }, "sha512-3WJ1GKjU7NzZb6RTbwLB59v9cTIlzjbiFLDB0z4376TkDqoNYilJaC37IomCr/aXwuU8QKkrYoHrgpSq5ffJ4Q=="],
 
-    "@biomejs/cli-linux-x64-musl": ["@biomejs/cli-linux-x64-musl@2.0.6", "", { "os": "linux", "cpu": "x64" }, "sha512-mKHE/e954hR/hSnAcJSjkf4xGqZc/53Kh39HVW1EgO5iFi0JutTN07TSjEMg616julRtfSNJi0KNyxvc30Y4rQ=="],
+    "@biomejs/cli-linux-x64-musl": ["@biomejs/cli-linux-x64-musl@2.1.1", "", { "os": "linux", "cpu": "x64" }, "sha512-kUu+loNI3OCD2c12cUt7M5yaaSjDnGIksZwKnueubX6c/HWUyi/0mPbTBHR49Me3F0KKjWiKM+ZOjsmC+lUt9g=="],
 
-    "@biomejs/cli-win32-arm64": ["@biomejs/cli-win32-arm64@2.0.6", "", { "os": "win32", "cpu": "arm64" }, "sha512-290V4oSFoKaprKE1zkYVsDfAdn0An5DowZ+GIABgjoq1ndhvNxkJcpxPsiYtT7slbVe3xmlT0ncdfOsN7KruzA=="],
+    "@biomejs/cli-win32-arm64": ["@biomejs/cli-win32-arm64@2.1.1", "", { "os": "win32", "cpu": "arm64" }, "sha512-vEHK0v0oW+E6RUWLoxb2isI3rZo57OX9ZNyyGH701fZPj6Il0Rn1f5DMNyCmyflMwTnIQstEbs7n2BxYSqQx4Q=="],
 
-    "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.0.6", "", { "os": "win32", "cpu": "x64" }, "sha512-bfM1Bce0d69Ao7pjTjUS+AWSZ02+5UHdiAP85Th8e9yV5xzw6JrHXbL5YWlcEKQ84FIZMdDc7ncuti1wd2sdbw=="],
+    "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.1.1", "", { "os": "win32", "cpu": "x64" }, "sha512-i2PKdn70kY++KEF/zkQFvQfX1e8SkA8hq4BgC+yE9dZqyLzB/XStY2MvwI3qswlRgnGpgncgqe0QYKVS1blksg=="],
 
-    "@bull-board/api": ["@bull-board/api@6.11.0", "", { "dependencies": { "redis-info": "^3.1.0" }, "peerDependencies": { "@bull-board/ui": "6.11.0" } }, "sha512-HLbIuXIthrgeVRmN7Vec9/7ZKWx8i1xTC6Nzi//l7ua+Xu5wn6f/aZllUNVzty5ilLTHqWFkfVOwpuN91o7yxA=="],
+    "@bull-board/api": ["@bull-board/api@6.11.1", "", { "dependencies": { "redis-info": "^3.1.0" }, "peerDependencies": { "@bull-board/ui": "6.11.1" } }, "sha512-pe397z8LVPZGLnY6yCboDg/zVUQIXBTanfNRDMxDAwZp0HARfQgoK4tGyX96KsEpDARWEmp4xeFyuaBBb0erlg=="],
 
     "@bull-board/ui": ["@bull-board/ui@6.11.0", "", { "dependencies": { "@bull-board/api": "6.11.0" } }, "sha512-NB2mYr8l850BOLzytUyeYl8T3M9ZgPDDfT9WTOCVCDPr77kFF7iEM5jSE9AZg86bmZyWAgO/ogOUJaPSCNHY7g=="],
 
@@ -1345,7 +1423,7 @@
 
     "@changesets/write": ["@changesets/write@0.4.0", "", { "dependencies": { "@changesets/types": "^6.1.0", "fs-extra": "^7.0.1", "human-id": "^4.1.1", "prettier": "^2.7.1" } }, "sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q=="],
 
-    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20250705.0", "", {}, "sha512-+eKIUEW0loB+CCgkfpa6UCTacnn3YOCllLpLbKfwR0qdoIfzmeOpadqY/W6ZSi/9v0tpQqTPB80tkhu7a7Cyug=="],
+    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20250715.0", "", {}, "sha512-uMp+ClvvhNlk3ojIgWuIB5Zteq4YVmZcyX16hpJ8eCeCX3izagfEZwXe/vETlv4cc5vtM3xAOMdV//0BD0E98g=="],
 
     "@cspotcode/source-map-support": ["@cspotcode/source-map-support@0.8.1", "", { "dependencies": { "@jridgewell/trace-mapping": "0.3.9" } }, "sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw=="],
 
@@ -1615,7 +1693,7 @@
 
     "@graphql-tools/code-file-loader": ["@graphql-tools/code-file-loader@8.1.20", "", { "dependencies": { "@graphql-tools/graphql-tag-pluck": "8.3.19", "@graphql-tools/utils": "^10.8.6", "globby": "^11.0.3", "tslib": "^2.4.0", "unixify": "^1.0.0" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-GzIbjjWJIc04KWnEr8VKuPe0FA2vDTlkaeub5p4lLimljnJ6C0QSkOyCUnFmsB9jetQcHm0Wfmn/akMnFUG+wA=="],
 
-    "@graphql-tools/delegate": ["@graphql-tools/delegate@10.2.20", "", { "dependencies": { "@graphql-tools/batch-execute": "^9.0.17", "@graphql-tools/executor": "^1.4.7", "@graphql-tools/schema": "^10.0.11", "@graphql-tools/utils": "^10.8.1", "@repeaterjs/repeater": "^3.0.6", "@whatwg-node/promise-helpers": "^1.3.0", "dataloader": "^2.2.3", "dset": "^3.1.2", "tslib": "^2.8.1" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-vURrChtc3zPyD4XZv7eZj43mIkvuJH8IDDYy7q/AL10N4AJN0dKplWOUA9HSNPSPe3+5dnIUeTno8PX0tV99QA=="],
+    "@graphql-tools/delegate": ["@graphql-tools/delegate@10.2.21", "", { "dependencies": { "@graphql-tools/batch-execute": "^9.0.17", "@graphql-tools/executor": "^1.4.7", "@graphql-tools/schema": "^10.0.11", "@graphql-tools/utils": "^10.8.1", "@repeaterjs/repeater": "^3.0.6", "@whatwg-node/promise-helpers": "^1.3.0", "dataloader": "^2.2.3", "dset": "^3.1.2", "tslib": "^2.8.1" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-YLyyuhxrZniVufZV/6Oba5xIvWqVRyZrO8LsM+hI4Q6/aR1OdJafi9IBqCE2hUDPfIc8wkhqixA2/WT+oApY3g=="],
 
     "@graphql-tools/documents": ["@graphql-tools/documents@1.0.1", "", { "dependencies": { "lodash.sortby": "^4.7.0", "tslib": "^2.4.0" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-aweoMH15wNJ8g7b2r4C4WRuJxZ0ca8HtNO54rkye/3duxTkW4fGBEutCx03jCIr5+a1l+4vFJNP859QnAVBVCA=="],
 
@@ -1657,13 +1735,13 @@
 
     "@graphql-tools/utils": ["@graphql-tools/utils@10.8.6", "", { "dependencies": { "@graphql-typed-document-node/core": "^3.1.1", "@whatwg-node/promise-helpers": "^1.0.0", "cross-inspect": "1.0.1", "dset": "^3.1.4", "tslib": "^2.4.0" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-Alc9Vyg0oOsGhRapfL3xvqh1zV8nKoFUdtLhXX7Ki4nClaIJXckrA86j+uxEuG3ic6j4jlM1nvcWXRn/71AVLQ=="],
 
-    "@graphql-tools/wrap": ["@graphql-tools/wrap@10.1.1", "", { "dependencies": { "@graphql-tools/delegate": "^10.2.20", "@graphql-tools/schema": "^10.0.11", "@graphql-tools/utils": "^10.8.1", "@whatwg-node/promise-helpers": "^1.3.0", "tslib": "^2.8.1" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-vNtnot0QMGSpCZeSvmd2pmpnMjpPHhUMD2d7sVy6vIzRx6lPV/zc9TKMeWGLlHgVx3oKg3RefB9dv19/QAPbog=="],
+    "@graphql-tools/wrap": ["@graphql-tools/wrap@10.1.2", "", { "dependencies": { "@graphql-tools/delegate": "^10.2.21", "@graphql-tools/schema": "^10.0.11", "@graphql-tools/utils": "^10.8.1", "@whatwg-node/promise-helpers": "^1.3.0", "tslib": "^2.8.1" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-vjmPVrYCRelytltyzHy1+QP4mIBRcStjbDNsEC1TMth9KH9wGi3xToIjAAD4GTOnrc6UyZ9IqaIAhffEnhBTRQ=="],
 
     "@graphql-typed-document-node/core": ["@graphql-typed-document-node/core@3.2.0", "", { "peerDependencies": { "graphql": "^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ=="],
 
     "@graphql-yoga/logger": ["@graphql-yoga/logger@2.0.1", "", { "dependencies": { "tslib": "^2.8.1" } }, "sha512-Nv0BoDGLMg9QBKy9cIswQ3/6aKaKjlTh87x3GiBg2Z4RrjyrM48DvOOK0pJh1C1At+b0mUIM67cwZcFTDLN4sA=="],
 
-    "@graphql-yoga/plugin-defer-stream": ["@graphql-yoga/plugin-defer-stream@3.14.0", "", { "dependencies": { "@graphql-tools/utils": "^10.6.1" }, "peerDependencies": { "graphql": "^15.2.0 || ^16.0.0", "graphql-yoga": "^5.14.0" } }, "sha512-HbJvDhHdvkuJ0GZ+3DMXB3jDUywVlHw3vf0rjG/OP/L3EUbJUI9QfFREUryoLVIJgZYAHWpsHJkSXv/Ta9dx6w=="],
+    "@graphql-yoga/plugin-defer-stream": ["@graphql-yoga/plugin-defer-stream@3.15.1", "", { "dependencies": { "@graphql-tools/utils": "^10.6.1" }, "peerDependencies": { "graphql": "^15.2.0 || ^16.0.0", "graphql-yoga": "^5.15.1" } }, "sha512-SsZ77Xsg4zNfuoNOcGDqmeCfFiX/e0NTkj8vhAOboXhOq21vDB49zyVTfPfLr9NaAgqq4WyIrD0c6veIalCTow=="],
 
     "@graphql-yoga/redis-event-target": ["@graphql-yoga/redis-event-target@3.0.3", "", { "dependencies": { "@graphql-yoga/typed-event-target": "^3.0.2", "@whatwg-node/events": "^0.1.0" }, "peerDependencies": { "ioredis": "^5.0.6" } }, "sha512-OQcTdmRRfYiMr+RNbfmdqEFhHWB5jz5jgcJGXaOI0zR2+PLS1nm50MQGSZG+TQVo7s9eOP7aUVp/+g9qAi1eDA=="],
 
@@ -1679,7 +1757,7 @@
 
     "@hapi/topo": ["@hapi/topo@5.1.0", "", { "dependencies": { "@hapi/hoek": "^9.0.0" } }, "sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg=="],
 
-    "@hono/node-server": ["@hono/node-server@1.15.0", "", { "peerDependencies": { "hono": "^4" } }, "sha512-MjmK4l5N4dQpZ9OSWN0tCj7ejuc7WvuWMzSKtc89bnknJykAeHxzRigXBTYZk85H6Awrii6RM59iUiUluApu2A=="],
+    "@hono/node-server": ["@hono/node-server@1.16.0", "", { "peerDependencies": { "hono": "^4" } }, "sha512-9LwRb5XOrTFapOABiQjGC50wRVlzUvWZsDHINCnkBniP+Q+LQf4waN0nzk9t+2kqcTsnGnieSmqpHsr6kH2bdw=="],
 
     "@ioredis/commands": ["@ioredis/commands@1.2.0", "", {}, "sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg=="],
 
@@ -1727,7 +1805,7 @@
 
     "@leichtgewicht/ip-codec": ["@leichtgewicht/ip-codec@2.0.5", "", {}, "sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw=="],
 
-    "@logtape/logtape": ["@logtape/logtape@1.0.2", "", {}, "sha512-6EWfs4KyTAVsiAnXXSFpzEmUYI2k7qLJogqPv3JqwFd8S8Zr2iUBPv3pbIC+70cW4P6Zpq1l1hnX/jDVZwvc+Q=="],
+    "@logtape/logtape": ["@logtape/logtape@1.0.4", "", {}, "sha512-YvNVrXIxVpnY528zoiEjX8PqTfr0UCtKXyssvaWL8AE+OByFTCooKuKMdPlm6g65YUI9fPXrHn4UnogSskABnA=="],
 
     "@manypkg/find-root": ["@manypkg/find-root@1.1.0", "", { "dependencies": { "@babel/runtime": "^7.5.5", "@types/node": "^12.7.1", "find-up": "^4.1.0", "fs-extra": "^8.1.0" } }, "sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA=="],
 
@@ -1987,7 +2065,7 @@
 
     "@storybook/ui": ["@storybook/ui@6.5.16", "", { "dependencies": { "@storybook/addons": "6.5.16", "@storybook/api": "6.5.16", "@storybook/channels": "6.5.16", "@storybook/client-logger": "6.5.16", "@storybook/components": "6.5.16", "@storybook/core-events": "6.5.16", "@storybook/router": "6.5.16", "@storybook/semver": "^7.3.2", "@storybook/theming": "6.5.16", "core-js": "^3.8.2", "memoizerific": "^1.11.3", "qs": "^6.10.0", "regenerator-runtime": "^0.13.7", "resolve-from": "^5.0.0" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0" } }, "sha512-rHn/n12WM8BaXtZ3IApNZCiS+C4Oc5+Lkl4MoctX8V7QSml0SxZBB5hsJ/AiWkgbRxjQpa/L/Nt7/Qw0FjTH/A=="],
 
-    "@supabase/auth-js": ["@supabase/auth-js@2.70.0", "", { "dependencies": { "@supabase/node-fetch": "^2.6.14" } }, "sha512-BaAK/tOAZFJtzF1sE3gJ2FwTjLf4ky3PSvcvLGEgEmO4BSBkwWKu8l67rLLIBZPDnCyV7Owk2uPyKHa0kj5QGg=="],
+    "@supabase/auth-js": ["@supabase/auth-js@2.71.0", "", { "dependencies": { "@supabase/node-fetch": "^2.6.14" } }, "sha512-OMYNbhGa1Cj4stalJq0VoHm5l7Sj/xY0j9CiYEQCikbQmtiDG3c27EIFA4OD+NxuoHTZmjaW8VJlS3SP+yasEA=="],
 
     "@supabase/functions-js": ["@supabase/functions-js@2.4.5", "", { "dependencies": { "@supabase/node-fetch": "^2.6.14" } }, "sha512-v5GSqb9zbosquTo6gBwIiq7W9eQ7rE5QazsK/ezNiQXdCbY+bH8D9qEaBIkhVvX4ZRW5rP03gEfw5yw9tiq4EQ=="],
 
@@ -2001,7 +2079,7 @@
 
     "@supabase/storage-js": ["@supabase/storage-js@2.7.1", "", { "dependencies": { "@supabase/node-fetch": "^2.6.14" } }, "sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA=="],
 
-    "@supabase/supabase-js": ["@supabase/supabase-js@2.50.3", "", { "dependencies": { "@supabase/auth-js": "2.70.0", "@supabase/functions-js": "2.4.5", "@supabase/node-fetch": "2.6.15", "@supabase/postgrest-js": "1.19.4", "@supabase/realtime-js": "2.11.15", "@supabase/storage-js": "2.7.1" } }, "sha512-Ld42AbfSXKnbCE2ObRvrGC5wj9OrfTOzswQZg0OcGQGx+QqcWYN/IqsLqrt4gCFrD57URbNRfGESSWzchzKAuQ=="],
+    "@supabase/supabase-js": ["@supabase/supabase-js@2.51.0", "", { "dependencies": { "@supabase/auth-js": "2.71.0", "@supabase/functions-js": "2.4.5", "@supabase/node-fetch": "2.6.15", "@supabase/postgrest-js": "1.19.4", "@supabase/realtime-js": "2.11.15", "@supabase/storage-js": "2.7.1" } }, "sha512-jG70XoNFcX3z0h/No0t1Aoc3zoHPtMQk5zaM5v3+sCJ/v5Z3qyoHYkGIg1JUycINPsuuAASZ4ZS43YO6H5wMoA=="],
 
     "@testing-library/dom": ["@testing-library/dom@9.3.4", "", { "dependencies": { "@babel/code-frame": "^7.10.4", "@babel/runtime": "^7.12.5", "@types/aria-query": "^5.0.1", "aria-query": "5.1.3", "chalk": "^4.1.0", "dom-accessibility-api": "^0.5.9", "lz-string": "^1.5.0", "pretty-format": "^27.0.2" } }, "sha512-FlS4ZWlp97iiNWig0Muq8p+3rVDjRiYE+YKGbAqXOu9nwJFFOdL00kFpz42M+4huzYi86vAK1sOOfyOG45muIQ=="],
 
@@ -2345,6 +2423,8 @@
 
     "acorn": ["acorn@8.15.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg=="],
 
+    "acorn-import-phases": ["acorn-import-phases@1.0.4", "", { "peerDependencies": { "acorn": "^8.14.0" } }, "sha512-wKmbr/DDiIXzEOiWrTTUcDm24kQ2vGfZQvM2fwg2vXqR5uW6aapr7ObPtj1th32b9u90/Pf4AItvdTh42fBmVQ=="],
+
     "acorn-walk": ["acorn-walk@8.3.4", "", { "dependencies": { "acorn": "^8.11.0" } }, "sha512-ueEepnujpqee2o5aIYnvHU6C0A42MNdsIDeqy5BydrkuC5R1ZuUFnm27EeFJGoEHJQgn3uleRvmTXaJgfXbt4g=="],
 
     "agent-base": ["agent-base@7.1.3", "", {}, "sha512-jRR5wdylq8CkOe6hei19GGZnxM6rBGwFl3Bg0YItGDimvjGtAvdZk4Pu6Cl4u4Igsws4a1fd1Vq3ezrhn4KmFw=="],
@@ -2601,7 +2681,7 @@
 
     "builtins": ["builtins@1.0.3", "", {}, "sha512-uYBjakWipfaO/bXI7E8rq6kpwHRZK5cNYrUv2OzZSI/FvmdMyXJ2tG9dKcjEC5YHmHpUAwsargWIZNWdxb/bnQ=="],
 
-    "bullmq": ["bullmq@5.56.1", "", { "dependencies": { "cron-parser": "^4.9.0", "ioredis": "^5.4.1", "msgpackr": "^1.11.2", "node-abort-controller": "^3.1.1", "semver": "^7.5.4", "tslib": "^2.0.0", "uuid": "^9.0.0" } }, "sha512-HmX53sf24bbDj5NVrDLDEjy8OSDmbGMESfvFhVK8NpHsA4WlAdKxPDf7c5b9RZf5wZGHyAd2XhWSkE9dmNPYww=="],
+    "bullmq": ["bullmq@5.56.4", "", { "dependencies": { "cron-parser": "^4.9.0", "ioredis": "^5.4.1", "msgpackr": "^1.11.2", "node-abort-controller": "^3.1.1", "semver": "^7.5.4", "tslib": "^2.0.0", "uuid": "^9.0.0" } }, "sha512-5wSHd0oXs2jS6P+6tay/01Iz0cWRK8iYcscKtpS/GewEq0bJZwbkMZc77GJVOT9SP+UQuXA2y+pQTdCQJel7kQ=="],
 
     "bun-types": ["bun-types@1.2.18", "", { "dependencies": { "@types/node": "*" }, "peerDependencies": { "@types/react": "^19" } }, "sha512-04+Eha5NP7Z0A9YgDAzMk5PHR16ZuLVa83b26kH5+cp1qZW4F6FmAURngE7INf4tKOvCE69vYvDEwoNl1tGiWw=="],
 
@@ -3289,7 +3369,7 @@
 
     "graphql-ws": ["graphql-ws@5.16.2", "", { "peerDependencies": { "graphql": ">=0.11 <=16" } }, "sha512-E1uccsZxt/96jH/OwmLPuXMACILs76pKF2i3W861LpKBCYtGIyPQGtWLuBLkND4ox1KHns70e83PS4te50nvPQ=="],
 
-    "graphql-yoga": ["graphql-yoga@5.14.0", "", { "dependencies": { "@envelop/core": "^5.3.0", "@envelop/instrumentation": "^1.0.0", "@graphql-tools/executor": "^1.4.0", "@graphql-tools/schema": "^10.0.11", "@graphql-tools/utils": "^10.6.2", "@graphql-yoga/logger": "^2.0.1", "@graphql-yoga/subscription": "^5.0.5", "@whatwg-node/fetch": "^0.10.6", "@whatwg-node/promise-helpers": "^1.2.4", "@whatwg-node/server": "^0.10.5", "dset": "^3.1.4", "lru-cache": "^10.0.0", "tslib": "^2.8.1" }, "peerDependencies": { "graphql": "^15.2.0 || ^16.0.0" } }, "sha512-OrjeyoxFM7sIrGrqSegDcdxpXUNzXOlT5q2deyAbxtwhF7z0byBhN6X8ntqLbDWKyYR+ejsK9mq+uY0eV7zkWg=="],
+    "graphql-yoga": ["graphql-yoga@5.15.1", "", { "dependencies": { "@envelop/core": "^5.3.0", "@envelop/instrumentation": "^1.0.0", "@graphql-tools/executor": "^1.4.0", "@graphql-tools/schema": "^10.0.11", "@graphql-tools/utils": "^10.6.2", "@graphql-yoga/logger": "^2.0.1", "@graphql-yoga/subscription": "^5.0.5", "@whatwg-node/fetch": "^0.10.6", "@whatwg-node/promise-helpers": "^1.2.4", "@whatwg-node/server": "^0.10.5", "dset": "^3.1.4", "lru-cache": "^10.0.0", "tslib": "^2.8.1" }, "peerDependencies": { "graphql": "^15.2.0 || ^16.0.0" } }, "sha512-wCSnviFFGC4CF9lyeRNMW1p55xVWkMRLPu9iHYbBd8WCJEjduDTo3nh91sVktpbJdUQ6rxNBN6hhpTYMFZuMwg=="],
 
     "gtoken": ["gtoken@7.1.0", "", { "dependencies": { "gaxios": "^6.0.0", "jws": "^4.0.0" } }, "sha512-pCcEwRi+TKpMlxAQObHDQ56KawURgyAf6jtIY046fJ5tIv3zDe/LEIubckAO8fj6JnAxLdmWkUfNyulQ2iKdEw=="],
 
@@ -3335,7 +3415,7 @@
 
     "hoist-non-react-statics": ["hoist-non-react-statics@3.3.2", "", { "dependencies": { "react-is": "^16.7.0" } }, "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw=="],
 
-    "hono": ["hono@4.8.4", "", {}, "sha512-KOIBp1+iUs0HrKztM4EHiB2UtzZDTBihDtOF5K6+WaJjCPeaW4Q92R8j63jOhvJI5+tZSMuKD9REVEXXY9illg=="],
+    "hono": ["hono@4.8.5", "", {}, "sha512-Up2cQbtNz1s111qpnnECdTGqSIUIhZJMLikdKkshebQSEBcoUKq6XJayLGqSZWidiH0zfHRCJqFu062Mz5UuRA=="],
 
     "hosted-git-info": ["hosted-git-info@3.0.8", "", { "dependencies": { "lru-cache": "^6.0.0" } }, "sha512-aXpmwoOhRBrw6X3j0h5RloK4x1OzsxMPyxqIHyNfSe2pypkVTZFpEiRoSipPEPlMrh0HW/XsjkJ5WgnCirpNUw=="],
 
@@ -3647,7 +3727,7 @@
 
     "leven": ["leven@3.1.0", "", {}, "sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A=="],
 
-    "libphonenumber-js": ["libphonenumber-js@1.12.9", "", {}, "sha512-VWwAdNeJgN7jFOD+wN4qx83DTPMVPPAUyx9/TUkBXKLiNkuWWk6anV0439tgdtwaJDrEdqkvdN22iA6J4bUCZg=="],
+    "libphonenumber-js": ["libphonenumber-js@1.12.10", "", {}, "sha512-E91vHJD61jekHHR/RF/E83T/CMoaLXT7cwYA75T4gim4FZjnM6hbJjVIGg7chqlSqRsSvQ3izGmOjHy1SQzcGQ=="],
 
     "light-my-request": ["light-my-request@6.6.0", "", { "dependencies": { "cookie": "^1.0.1", "process-warning": "^4.0.0", "set-cookie-parser": "^2.6.0" } }, "sha512-CHYbu8RtboSIoVsHZ6Ye4cj4Aw/yg2oAFimlF7mNvfDV192LR7nDiKtSIfCuLT7KokPSTn/9kfVLm5OGN0A28A=="],
 
@@ -4723,7 +4803,7 @@
 
     "sudo-prompt": ["sudo-prompt@9.1.1", "", {}, "sha512-es33J1g2HjMpyAhz8lOR+ICmXXAqTuKbuXuUWLhOLew20oN9oUCgCJx615U/v7aioZg7IX5lIh9x34vwneu4pA=="],
 
-    "supabase": ["supabase@2.31.0", "", { "dependencies": { "bin-links": "^5.0.0", "https-proxy-agent": "^7.0.2", "node-fetch": "^3.3.2", "tar": "7.4.3" }, "bin": { "supabase": "bin/supabase" } }, "sha512-5R+nKLqPZQ6SUlMT8CxDhcuKINmNjhwKcxqAl3oFu3K1Epllkm0x1ICIA1vSgr4sp70Y2mQMA9Nx6DCArm2MlA=="],
+    "supabase": ["supabase@2.31.4", "", { "dependencies": { "bin-links": "^5.0.0", "https-proxy-agent": "^7.0.2", "node-fetch": "^3.3.2", "tar": "7.4.3" }, "bin": { "supabase": "bin/supabase" } }, "sha512-5OIhaXuJHq/rdu6yIozmD4kZa1//IzfQTmrSE74DgJOP4Nz6Y5ynMdaCCg8kTWv34MyOMn0GXrbjhObLdsyElA=="],
 
     "supplement-stack": ["supplement-stack@workspace:apps/supplement-stack"],
 
@@ -5031,7 +5111,7 @@
 
     "webidl-conversions": ["webidl-conversions@3.0.1", "", {}, "sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ=="],
 
-    "webpack": ["webpack@5.99.9", "", { "dependencies": { "@types/eslint-scope": "^3.7.7", "@types/estree": "^1.0.6", "@types/json-schema": "^7.0.15", "@webassemblyjs/ast": "^1.14.1", "@webassemblyjs/wasm-edit": "^1.14.1", "@webassemblyjs/wasm-parser": "^1.14.1", "acorn": "^8.14.0", "browserslist": "^4.24.0", "chrome-trace-event": "^1.0.2", "enhanced-resolve": "^5.17.1", "es-module-lexer": "^1.2.1", "eslint-scope": "5.1.1", "events": "^3.2.0", "glob-to-regexp": "^0.4.1", "graceful-fs": "^4.2.11", "json-parse-even-better-errors": "^2.3.1", "loader-runner": "^4.2.0", "mime-types": "^2.1.27", "neo-async": "^2.6.2", "schema-utils": "^4.3.2", "tapable": "^2.1.1", "terser-webpack-plugin": "^5.3.11", "watchpack": "^2.4.1", "webpack-sources": "^3.2.3" }, "bin": { "webpack": "bin/webpack.js" } }, "sha512-brOPwM3JnmOa+7kd3NsmOUOwbDAj8FT9xDsG3IW0MgbN9yZV7Oi/s/+MNQ/EcSMqw7qfoRyXPoeEWT8zLVdVGg=="],
+    "webpack": ["webpack@5.100.1", "", { "dependencies": { "@types/eslint-scope": "^3.7.7", "@types/estree": "^1.0.8", "@types/json-schema": "^7.0.15", "@webassemblyjs/ast": "^1.14.1", "@webassemblyjs/wasm-edit": "^1.14.1", "@webassemblyjs/wasm-parser": "^1.14.1", "acorn": "^8.15.0", "acorn-import-phases": "^1.0.3", "browserslist": "^4.24.0", "chrome-trace-event": "^1.0.2", "enhanced-resolve": "^5.17.2", "es-module-lexer": "^1.2.1", "eslint-scope": "5.1.1", "events": "^3.2.0", "glob-to-regexp": "^0.4.1", "graceful-fs": "^4.2.11", "json-parse-even-better-errors": "^2.3.1", "loader-runner": "^4.2.0", "mime-types": "^2.1.27", "neo-async": "^2.6.2", "schema-utils": "^4.3.2", "tapable": "^2.1.1", "terser-webpack-plugin": "^5.3.11", "watchpack": "^2.4.1", "webpack-sources": "^3.3.3" }, "bin": { "webpack": "bin/webpack.js" } }, "sha512-YJB/ESPUe2Locd0NKXmw72Dx8fZQk1gTzI6rc9TAT4+Sypbnhl8jd8RywB1bDsDF9Dy1RUR7gn3q/ZJTd0OZZg=="],
 
     "webpack-dev-middleware": ["webpack-dev-middleware@3.7.3", "", { "dependencies": { "memory-fs": "^0.4.1", "mime": "^2.4.4", "mkdirp": "^0.5.1", "range-parser": "^1.2.1", "webpack-log": "^2.0.0" }, "peerDependencies": { "webpack": "^4.0.0 || ^5.0.0" } }, "sha512-djelc/zGiz9nZj/U7PTBi2ViorGJXEWo/3ltkPbDyxCXhhEXkW0ce99falaok4TPj+AsxLiXJR0EBOb0zh9fKQ=="],
 
@@ -5143,6 +5223,8 @@
 
     "@babel/register/make-dir": ["make-dir@2.1.0", "", { "dependencies": { "pify": "^4.0.1", "semver": "^5.6.0" } }, "sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA=="],
 
+    "@bull-board/ui/@bull-board/api": ["@bull-board/api@6.11.0", "", { "dependencies": { "redis-info": "^3.1.0" }, "peerDependencies": { "@bull-board/ui": "6.11.0" } }, "sha512-HLbIuXIthrgeVRmN7Vec9/7ZKWx8i1xTC6Nzi//l7ua+Xu5wn6f/aZllUNVzty5ilLTHqWFkfVOwpuN91o7yxA=="],
+
     "@callstack/react-theme-provider/deepmerge": ["deepmerge@3.3.0", "", {}, "sha512-GRQOafGHwMHpjPx9iCvTgpu9NojZ49q794EEL94JVEw6VaeA8XTUyBKvAkOOjBX9oJNiV6G3P+T+tihFjo2TqA=="],
 
     "@changesets/apply-release-plan/fs-extra": ["fs-extra@7.0.1", "", { "dependencies": { "graceful-fs": "^4.1.2", "jsonfile": "^4.0.0", "universalify": "^0.1.0" } }, "sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw=="],
@@ -5253,6 +5335,8 @@
 
     "@expo/webpack-config/semver": ["semver@7.5.4", "", { "dependencies": { "lru-cache": "^6.0.0" }, "bin": { "semver": "bin/semver.js" } }, "sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA=="],
 
+    "@expo/webpack-config/webpack": ["webpack@5.99.9", "", { "dependencies": { "@types/eslint-scope": "^3.7.7", "@types/estree": "^1.0.6", "@types/json-schema": "^7.0.15", "@webassemblyjs/ast": "^1.14.1", "@webassemblyjs/wasm-edit": "^1.14.1", "@webassemblyjs/wasm-parser": "^1.14.1", "acorn": "^8.14.0", "browserslist": "^4.24.0", "chrome-trace-event": "^1.0.2", "enhanced-resolve": "^5.17.1", "es-module-lexer": "^1.2.1", "eslint-scope": "5.1.1", "events": "^3.2.0", "glob-to-regexp": "^0.4.1", "graceful-fs": "^4.2.11", "json-parse-even-better-errors": "^2.3.1", "loader-runner": "^4.2.0", "mime-types": "^2.1.27", "neo-async": "^2.6.2", "schema-utils": "^4.3.2", "tapable": "^2.1.1", "terser-webpack-plugin": "^5.3.11", "watchpack": "^2.4.1", "webpack-sources": "^3.2.3" }, "bin": { "webpack": "bin/webpack.js" } }, "sha512-brOPwM3JnmOa+7kd3NsmOUOwbDAj8FT9xDsG3IW0MgbN9yZV7Oi/s/+MNQ/EcSMqw7qfoRyXPoeEWT8zLVdVGg=="],
+
     "@expo/xcpretty/@babel/code-frame": ["@babel/code-frame@7.10.4", "", { "dependencies": { "@babel/highlight": "^7.10.4" } }, "sha512-vG6SvB6oYEhvgisZNFRmRCUkLz11c7rp+tbNTynGqc6mS1d5ATd/sGyV6W0KZZnXRKMTzZDRgQT3Ou9jhpAfUg=="],
 
     "@fastify/ajv-compiler/ajv": ["ajv@8.17.1", "", { "dependencies": { "fast-deep-equal": "^3.1.3", "fast-uri": "^3.0.1", "json-schema-traverse": "^1.0.0", "require-from-string": "^2.0.2" } }, "sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g=="],
@@ -5294,6 +5378,8 @@
     "@graphql-tools/load/p-limit": ["p-limit@3.1.0", "", { "dependencies": { "yocto-queue": "^0.1.0" } }, "sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ=="],
 
     "@graphql-tools/prisma-loader/jose": ["jose@5.10.0", "", {}, "sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg=="],
+
+    "@graphql-tools/url-loader/@graphql-tools/wrap": ["@graphql-tools/wrap@10.1.1", "", { "dependencies": { "@graphql-tools/delegate": "^10.2.20", "@graphql-tools/schema": "^10.0.11", "@graphql-tools/utils": "^10.8.1", "@whatwg-node/promise-helpers": "^1.3.0", "tslib": "^2.8.1" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-vNtnot0QMGSpCZeSvmd2pmpnMjpPHhUMD2d7sVy6vIzRx6lPV/zc9TKMeWGLlHgVx3oKg3RefB9dv19/QAPbog=="],
 
     "@graphql-tools/url-loader/ws": ["ws@8.18.3", "", { "peerDependencies": { "bufferutil": "^4.0.1", "utf-8-validate": ">=5.0.2" }, "optionalPeers": ["bufferutil", "utf-8-validate"] }, "sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg=="],
 
@@ -6372,6 +6458,8 @@
     "@expo/webpack-config/semver/lru-cache": ["lru-cache@6.0.0", "", { "dependencies": { "yallist": "^4.0.0" } }, "sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA=="],
 
     "@fastify/ajv-compiler/ajv/json-schema-traverse": ["json-schema-traverse@1.0.0", "", {}, "sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug=="],
+
+    "@graphql-tools/url-loader/@graphql-tools/wrap/@graphql-tools/delegate": ["@graphql-tools/delegate@10.2.20", "", { "dependencies": { "@graphql-tools/batch-execute": "^9.0.17", "@graphql-tools/executor": "^1.4.7", "@graphql-tools/schema": "^10.0.11", "@graphql-tools/utils": "^10.8.1", "@repeaterjs/repeater": "^3.0.6", "@whatwg-node/promise-helpers": "^1.3.0", "dataloader": "^2.2.3", "dset": "^3.1.2", "tslib": "^2.8.1" }, "peerDependencies": { "graphql": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0" } }, "sha512-vURrChtc3zPyD4XZv7eZj43mIkvuJH8IDDYy7q/AL10N4AJN0dKplWOUA9HSNPSPe3+5dnIUeTno8PX0tV99QA=="],
 
     "@grpc/grpc-js/@types/node/undici-types": ["undici-types@7.8.0", "", {}, "sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw=="],
 

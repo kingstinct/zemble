@@ -21,7 +21,7 @@ export async function connect({
 
   client = await MongoClient.connect(mongoUrl)
 
-  if (process.env.NODE_ENV !== 'test' || process.env.DEBUG) {
+  if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
     logger.info(`Connected to MongoDB @ ${mongoUrl}`)
   }
 
@@ -29,7 +29,7 @@ export async function connect({
 
   papr.initialize(db)
 
-  if (process.env.NODE_ENV !== 'test' || process.env.DEBUG) {
+  if (process.env.NODE_ENV !== 'test' || process.env['DEBUG']) {
     logger.info(`Registering ${papr.models.size} models...`)
   }
 

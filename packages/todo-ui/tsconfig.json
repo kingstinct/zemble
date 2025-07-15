@@ -1,12 +1,14 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": "../../tsconfig.expo.json",
   "compilerOptions": {
-    "strict": true,
-    "baseUrl": "../..",
-    "noPropertyAccessFromIndexSignature": true,
-    "paths": {
-      "@zemble/auth-anonymous-expo/*": ["packages/simple-anonymous-auth-ui/*"],
-      "@zemble/auth-anonymous-expo": ["packages/simple-anonymous-auth-ui"]
-    }
-  }
+    "verbatimModuleSyntax": false
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "!expo-env.d.ts",
+    "*.js",
+    "expo-env.d.ts"
+  ]
 }

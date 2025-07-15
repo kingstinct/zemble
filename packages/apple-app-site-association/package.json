@@ -32,7 +32,12 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@zemble/core": "workspace:*",
-    "hono": "^4.8.4"
+    "@zemble/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "hono": "*"
+  },
+  "devDependencies": {
+    "hono": "^4.8.5"
   }
 }

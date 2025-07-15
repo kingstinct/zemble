@@ -3,25 +3,25 @@
     {
       "globMatch": "**/*.{graphql,test.ts}",
       "command": "bun run codegen",
-      "runIn": "terminal"
+      "runIn": "terminal",
     },
     {
       "globMatch": "packages/cms/types.ts",
       "command": "bun run generate-cms-json-schema",
-      "runIn": "terminal"
-    }
+      "runIn": "terminal",
+    },
   ],
   "biome.enabled": true,
   "biome.lsp.bin": "node_modules/@biomejs/biome/bin/biome",
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.enable": false,
-  "biome.configurationPath": "../biome.json",
+  "biome.configurationPath": "./biome.json",
   "biome.lsp.trace.server": "messages",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.defaultFormatter": "biomejs.biome",
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit",
-    "source.fixAll.biome": "explicit"
+    "source.fixAll.biome": "explicit",
   },
   "editor.formatOnSave": true,
   "cSpell.words": [
@@ -47,12 +47,13 @@
     "pushtotalk",
     "SENDGRID",
     "snackbars",
+    "Subschema",
     "supabase",
     "syncpack",
     "Timeoutify",
     "tldr",
     "urql",
     "webkitvisibilitychange",
-    "zemble"
-  ]
+    "zemble",
+  ],
 }

@@ -5,6 +5,6 @@
     "streetsidesoftware.code-spell-checker",
     "graphql.vscode-graphql-syntax",
     "graphql.vscode-graphql",
-    "biomejs.biome"
-  ]
+    "biomejs.biome",
+  ],
 }

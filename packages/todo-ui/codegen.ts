@@ -7,6 +7,14 @@ const config: CodegenConfig = {
   generates: {
     './gql.generated/': {
       preset: 'client',
+      plugins: [
+        {
+          add: {
+            placement: 'prepend',
+            content: `// @ts-nocheck`,
+          },
+        },
+      ],
     },
   },
 }

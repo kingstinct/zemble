@@ -10,7 +10,7 @@ import {
   printMergedSchema,
 } from '../middleware'
 import type { GraphQLMiddlewareConfig } from '../plugin'
-import plugin from '../plugin'
+import GraphQLPlugin from '../plugin'
 import buildMergedSchema from '../utils/buildMergedSchema'
 
 const args = process.argv.slice(2)
@@ -74,10 +74,10 @@ const app = await loadApp()
 
 zembleContext.logger.info('Loaded app, proceeding with codegen..')
 
-await codegenMergedSchema(app, plugin.config)
+await codegenMergedSchema(app, GraphQLPlugin.config)
 
 zembleContext.logger.info(
-  `Successfully generated merged schema at ${plugin.config.outputMergedSchemaPath}`,
+  `Successfully generated merged schema at ${GraphQLPlugin.config.outputMergedSchemaPath}`,
 )
 
 process.exit(0)

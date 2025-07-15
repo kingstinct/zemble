@@ -10,7 +10,7 @@ export class DataLoaderNullableWithId<
   K extends Key<V>,
   C extends string,
 > extends DataLoader<K, PartialWithId<V>, C> {
-  async load<K2 extends K>(
+  override async load<K2 extends K>(
     key: K2,
   ): Promise<K2 extends IdWithoutProjection ? Required<V> : V> {
     const val = await super.load(key)
@@ -18,7 +18,7 @@ export class DataLoaderNullableWithId<
     return val as Required<V>
   }
 
-  async loadMany<K2 extends K>(keys: ArrayLike<K2>) {
+  override async loadMany<K2 extends K>(keys: ArrayLike<K2>) {
     return super.loadMany(keys) //  as Promise<ReadonlyArray<Error | K2 extends IdWithoutProjection ? Required<V> : V>>
   }
 

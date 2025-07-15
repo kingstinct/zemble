@@ -32,21 +32,32 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@bull-board/api": "^6.11.0",
-    "@types/ejs": "^3.1.5",
     "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
-    "@zemble/utils": "workspace:*",
-    "bullmq": "^5.56.1",
+    "@zemble/utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "@bull-board/api": "*",
+    "@types/ejs": "*",
+    "bullmq": "*",
+    "ejs": "*",
+    "graphql": "*",
+    "graphql-scalars": "*",
+    "hono": "*",
+    "ioredis": "*",
+    "safe-stable-stringify": "*"
+  },
+  "devDependencies": {
+    "@bull-board/api": "^6.11.1",
+    "@types/ejs": "^3.1.5",
+    "bullmq": "^5.56.4",
     "ejs": "^3.1.10",
     "graphql": "^16.11.0",
     "graphql-scalars": "^1.24.2",
-    "hono": "^4.8.4",
+    "hono": "^4.8.5",
     "ioredis": "^5.6.1",
-    "safe-stable-stringify": "^2.5.0"
-  },
-  "devDependencies": {
+    "safe-stable-stringify": "^2.5.0",
     "@graphql-codegen/cli": "^5.0.7",
     "@types/bun": "*"
   }

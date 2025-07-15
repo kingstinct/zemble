@@ -1,4 +1,4 @@
-import { parsePhoneNumber } from 'libphonenumber-js'
+import { parsePhoneNumberWithError } from 'libphonenumber-js'
 
 import plugin from '../../plugin'
 import { isValidE164Number } from '../../utils/isValidE164Number'
@@ -18,8 +18,8 @@ export const loginRequestWithSms: NonNullable<
     }
   }
 
-  const { country } = parsePhoneNumber(phoneNumberWithCountryCode),
-    { WHITELISTED_COUNTRY_CODES } = plugin.config
+  const { country } = parsePhoneNumberWithError(phoneNumberWithCountryCode)
+  const { WHITELISTED_COUNTRY_CODES } = plugin.config
 
   if (WHITELISTED_COUNTRY_CODES && WHITELISTED_COUNTRY_CODES.length) {
     if (!country || !WHITELISTED_COUNTRY_CODES.includes(country)) {

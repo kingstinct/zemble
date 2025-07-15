@@ -52,7 +52,7 @@ const EntityDetails = () => {
 
   const [{ data }, _refetch] = useQuery({
     query: GetEntityByNamePluralQuery,
-    variables: { namePlural: entity },
+    variables: { namePlural: entity as string },
     pause: !entity,
   })
 

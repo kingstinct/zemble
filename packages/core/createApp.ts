@@ -164,6 +164,7 @@ export const createApp = async ({
       const p = await prev
 
       const ret = await pluginWithMiddleware.initializeMiddleware?.({
+        // @ts-ignore
         app: preInitApp,
         // @ts-ignore
         context,

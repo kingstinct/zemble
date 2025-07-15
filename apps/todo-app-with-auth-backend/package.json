@@ -40,7 +40,7 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/ignite": "workspace:*",
     "@zemble/todo": "workspace:*",
-    "hono": "^4.8.4"
+    "hono": "^4.8.5"
   },
   "devDependencies": {}
 }

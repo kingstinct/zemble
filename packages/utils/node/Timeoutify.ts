@@ -123,7 +123,7 @@ export class Timeoutify {
   async runMongoOpWithTimeout<T>(
     cursor: AbstractCursor<T>,
   ): Promise<readonly T[]> {
-    if (process.env.DEBUG) {
+    if (process.env['DEBUG']) {
       this.logger.debug(`${this.logPrefix} runMongoOpWithTimeout called`)
     }
     if (

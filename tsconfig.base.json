@@ -1,20 +1,15 @@
 {
-  // This is based on https://bun.sh/docs/typescript#suggested-compileroptions
-  "$schema": "https://json.schemastore.org/tsconfig",
   "docs": "https://bun.sh/docs/typescript",
-
+  "extends": "@tsconfig/bun/tsconfig.json",
   "compilerOptions": {
     // Enable latest features
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext"],
     "target": "ESNext",
     "module": "ESNext",
-    "moduleDetection": "force",
-    "jsx": "react-jsx",
     "allowJs": true,
 
     // Bundler mode
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
@@ -26,11 +21,33 @@
     // Some stricter flags
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noPropertyAccessFromIndexSignature": false,
+
+    // more strict flags
+    "noPropertyAccessFromIndexSignature": true,
+    "allowArbitraryExtensions": false,
+    "allowUmdGlobalAccess": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "checkJs": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictBuiltinIteratorReturn": true,
+    "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "skipDefaultLibCheck": false,
+    "strictPropertyInitialization": true,
+    "noStrictGenericChecks": false,
+    "forceConsistentCasingInFileNames": true,
+    // "exactOptionalPropertyTypes": true,
 
     // Fix import.meta and dayjs import issues
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "downlevelIteration": true
+    "allowSyntheticDefaultImports": true
   }
 }

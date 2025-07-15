@@ -145,6 +145,7 @@ const CreateArrayField: React.FC<UpsertFieldProps> = ({
       ) : null}
       {Object.keys(errors).map((key) => (
         <Text key={key} style={{ color: 'red' }}>
+          {/* @ts-ignore */}
           {JSON.stringify(errors[key])}
         </Text>
       ))}
@@ -374,6 +375,7 @@ const UpsertField: React.FC<Props> = ({
 
         {Object.keys(errors).map((key) => (
           <Text key={key} style={{ color: 'red' }}>
+            {/* @ts-ignore */}
             {JSON.stringify(errors[key])}
           </Text>
         ))}

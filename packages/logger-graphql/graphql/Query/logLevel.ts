@@ -3,7 +3,7 @@ import { LogLevel, type QueryResolvers } from '../schema.generated'
 export const logLevel: NonNullable<QueryResolvers['logLevel']> = () => {
   // LogTape doesn't expose current level directly at runtime
   // Return the configured level based on environment
-  const envLevel = process.env.LOG_LEVEL ?? 'info'
+  const envLevel = process.env['LOG_LEVEL'] ?? 'info'
 
   switch (envLevel) {
     case 'silent':

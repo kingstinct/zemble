@@ -3,7 +3,7 @@
     {
       "globMatch": "**/*.{graphql,test.ts}",
       "command": "bun run codegen",
-      "runIn": "terminal"
-    }
-  ]
+      "runIn": "terminal",
+    },
+  ],
 }

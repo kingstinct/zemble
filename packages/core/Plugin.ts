@@ -58,13 +58,14 @@ export class Plugin<
     this.pluginPath = __dirname
     this.#config = (opts?.defaultConfig ?? {}) as TResolvedConfig
     this.additionalConfigWhenRunningLocally =
-      opts?.additionalConfigWhenRunningLocally
+      opts?.additionalConfigWhenRunningLocally ?? {}
     this.#pluginName = opts?.name ?? this.pluginName
     this.#pluginVersion = opts?.version ?? this.pluginVersion
     const deps = opts?.dependencies ?? []
+    // @ts-ignore
     this.#middleware = opts?.middleware
     this.debug = debug(this.#pluginName)
-    this.#providers = opts?.providers
+    this.#providers = opts?.providers ?? {}
 
     const allDeps = typeof deps === 'function' ? deps(this) : deps
 

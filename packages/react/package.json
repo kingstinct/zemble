@@ -55,12 +55,12 @@
     "react-native-screens": "^4.11.1",
     "react-native-web": "^0.20.0",
     "react-test-renderer": "^18.3.1",
-    "webpack": "^5.99.9"
+    "webpack": "^5.100.1"
   },
   "peerDependencies": {
-    "@types/react": "^18.3.23",
-    "react": "^18.3.1",
-    "react-native-reanimated": "~3.18.0"
+    "@types/react": "*",
+    "react": "*",
+    "react-native-reanimated": "*"
   },
   "dependencies": {
     "@zemble/primitives": "workspace:*"
