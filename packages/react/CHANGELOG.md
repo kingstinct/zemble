@@ -1,5 +1,13 @@
 ## 1.0.10
 
+## 1.0.20
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/primitives@1.0.2
+
 ## 1.0.19
 
 ### Patch Changes

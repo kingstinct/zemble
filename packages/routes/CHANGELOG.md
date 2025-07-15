@@ -1,5 +1,13 @@
 # @zemble/routes
 
+## 0.0.41
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/core@0.1.29
+
 ## 0.0.40
 
 ### Patch Changes

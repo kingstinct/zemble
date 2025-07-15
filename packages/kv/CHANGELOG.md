@@ -1,5 +1,14 @@
 # @zemble/kv
 
+## 0.0.64
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/graphql@0.0.65
+  - @zemble/core@0.1.29
+
 ## 0.0.63
 
 ### Patch Changes

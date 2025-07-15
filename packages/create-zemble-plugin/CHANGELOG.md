@@ -1,5 +1,13 @@
 # create-zemble-plugin
 
+## 0.1.6
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/core@0.1.29
+
 ## 0.1.5
 
 ### Patch Changes

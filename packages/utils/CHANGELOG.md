@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.44
+
+### Patch Changes
+
+- 988c189: more type fixes
+
 ## 0.7.43
 
 ### Patch Changes

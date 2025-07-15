@@ -1,5 +1,18 @@
 # @zemble/todo
 
+## 0.0.67
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/auth-anonymous@0.0.67
+  - @zemble/graphql@0.0.65
+  - @zemble/utils@0.7.44
+  - @zemble/auth@0.0.69
+  - @zemble/core@0.1.29
+  - @zemble/kv@0.0.64
+
 ## 0.0.66
 
 ### Patch Changes

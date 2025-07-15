@@ -1,5 +1,17 @@
 # @zemble/supabase
 
+## 0.0.50
+
+### Patch Changes
+
+- 988c189: more type fixes
+- Updated dependencies [988c189]
+  - @zemble/graphql@0.0.65
+  - @zemble/routes@0.0.41
+  - @zemble/auth@0.0.69
+  - @zemble/core@0.1.29
+  - @zemble/bun@0.0.40
+
 ## 0.0.49
 
 ### Patch Changes
