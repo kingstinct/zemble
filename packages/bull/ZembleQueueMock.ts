@@ -111,7 +111,7 @@ class ZembleQueueMock<
     try {
       return await this.#worker(job, { logger: zembleContext.logger })
     } finally {
-      this.jobsRemaining--
+      this.jobsRemaining = Math.max(0, this.jobsRemaining - 1)
       this.#triggerWaitUntilFinishedIfNeeded()
     }
   }
@@ -138,6 +138,7 @@ class ZembleQueueMock<
     const initialLength = this.jobs.length
     this.jobs = this.jobs.filter((job) => job.id !== jobId)
     const removedCount = initialLength - this.jobs.length
+    this.jobsRemaining = Math.max(0, this.jobsRemaining - removedCount)
     return removedCount
   }
 
@@ -167,7 +168,7 @@ class ZembleQueueMock<
 
   #triggerWaitUntilFinishedIfNeeded() {
     if (this.#waitUntilFinishedResolver) {
-      if (this.jobsRemaining === 0) {
+      if (this.jobsRemaining <= 0) {
         this.#waitUntilFinishedResolver()
         this.#waitUntilFinishedPromise = undefined
         this.#waitUntilFinishedResolver = undefined
@@ -177,7 +178,7 @@ class ZembleQueueMock<
 
   async waitUntilEmpty() {
     if (!this.#waitUntilFinishedPromise) {
-      if (this.jobsRemaining === 0) {
+      if (this.jobsRemaining <= 0) {
         return Promise.resolve()
       }
 
