@@ -11,21 +11,28 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.24.0",
-    "expo": "^49.0.23",
-    "expo-status-bar": "^1.12.1",
-    "graphql": "^16.11.0",
-    "react": "^18.3.1",
-    "react-native": "~0.80.1",
     "@zemble/auth-anonymous-expo": "workspace:*",
-    "@zemble/auth-expo": "workspace:*",
-    "urql": "4.2"
+    "@zemble/auth-expo": "workspace:*"
+  },
+  "peerDependencies": {
+    "@react-native-async-storage/async-storage": "*",
+    "expo": "*",
+    "expo-status-bar": "*",
+    "graphql": "*",
+    "react": "*",
+    "react-native": "*",
+    "urql": "*"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
-    "@graphql-codegen/cli": "^5.0.7",
-    "@graphql-codegen/client-preset": "^4.8.3",
-    "@types/react": "^18.3.23"
+    "@graphql-codegen/cli": "*",
+    "@react-native-async-storage/async-storage": "2",
+    "@types/react": "~19.0.10",
+    "expo-status-bar": "~2.2.3",
+    "expo": "53",
+    "graphql": "16.11.0",
+    "react-native": "0.79",
+    "react": "*",
+    "urql": "4.2"
   },
   "private": true
 }

@@ -32,7 +32,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/generic-auth": "7",
+    "@envelop/generic-auth": "*",
     "@zemble/apple-app-site-association": "workspace:*",
     "@zemble/auth-otp": "workspace:*",
     "@zemble/bull": "workspace:*",
@@ -41,12 +41,12 @@
     "@zemble/graphql": "workspace:*",
     "@zemble/todo": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "graphql": "^16.11.0",
-    "graphql-scalars": "^1.24.2",
+    "graphql": "*",
+    "graphql-scalars": "*",
     "mongodb": "^6.17.0",
     "papr": "^15.2.2"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.7"
+    "@graphql-codegen/cli": "*"
   }
 }

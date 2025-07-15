@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'bun:test'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
+import '../test-setup'
 
 import useBoolean from './useBoolean'
 
 describe('useBoolean', () => {
   it('switch from false to true', () => {
-    const { result } = renderHook(useBoolean)
+    const { result } = renderHook(() => useBoolean())
 
     expect(result.current[0]).toBe(false)
 

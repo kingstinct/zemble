@@ -14,12 +14,12 @@
   "main": "index.ts",
   "types": "index.ts",
   "peerDependencies": {
-    "@types/react": "^18.3.23",
-    "react": "^18.3.1",
-    "react-native": "~0.80.1"
+    "react": "*",
+    "react-native": "*"
   },
   "devDependencies": {
-    "@types/react": "^18.3.23",
-    "@types/react-native": "~0.73.0"
+    "@types/react": "~19.0.10",
+    "react": "19.0.0",
+    "react-native": "0.79"
   }
 }

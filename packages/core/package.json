@@ -36,17 +36,19 @@
   "peerDependencies": {
     "@logtape/logtape": "*",
     "debug": "*",
+    "@types/debug": "*",
     "graphql-yoga": "*",
     "graphql": "*",
     "hono": "*",
     "jose": "*"
   },
   "devDependencies": {
-    "@logtape/logtape": "^1.0.4",
-    "debug": "^4.4.1",
-    "graphql-yoga": "^5.15.1",
-    "graphql": "^16.11.0",
-    "hono": "^4.8.5",
-    "jose": "^6.0.11"
+    "@logtape/logtape": "1.0.4",
+    "debug": "*",
+    "@types/debug": "*",
+    "graphql-yoga": "5.15.1",
+    "graphql": "16.11.0",
+    "hono": "4.8.5",
+    "jose": "5"
   }
 }

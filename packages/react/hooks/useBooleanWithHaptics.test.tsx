@@ -1,5 +1,6 @@
 import { describe, expect, jest, mock, test } from 'bun:test'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
+import '../test-setup'
 
 import useBooleanWithHaptics from './useBooleanWithHaptics'
 

@@ -33,18 +33,18 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^5.3.0",
-    "@envelop/generic-auth": "7",
+    "@envelop/core": "*",
+    "@envelop/generic-auth": "*",
     "@whatwg-node/server-plugin-cookies": "^1.0.5",
     "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/kv": "workspace:*",
     "@zemble/utils": "workspace:*",
-    "graphql": "^16.11.0",
+    "graphql": "*",
     "libphonenumber-js": "^1.12.10"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.7"
+    "@graphql-codegen/cli": "*"
   }
 }

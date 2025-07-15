@@ -1,12 +1,12 @@
 import { Portal } from '@gorhom/portal'
 import randomHexColorAlpha from '@zemble/utils/randomHexColor'
-import React, { useMemo } from 'react'
+import React, { type PropsWithChildren, useMemo } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, View } from 'react-native'
 import { FullWindowOverlay } from 'react-native-screens'
 import type { Props } from './NativePortal.types'
 
-export const NativePortal: React.FC<Props> = ({
+export const NativePortal: React.FC<PropsWithChildren<Props>> = ({
   children,
   pointerEvents = 'box-none',
   insets,

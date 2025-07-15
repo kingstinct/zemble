@@ -1,4 +1,4 @@
-import { makeHandler } from 'graphql-ws/lib/use/bun'
+import { makeHandler } from 'graphql-ws/use/bun'
 
 import type { GraphQLSchemaWithContext, YogaServerInstance } from 'graphql-yoga'
 
@@ -10,20 +10,20 @@ export const createWebsocketHandler = (
     schema,
     execute: (args: any) => args.rootValue.execute(args),
     subscribe: (args: any) => args.rootValue.subscribe(args),
-    onSubscribe: async (ctx, msg) => {
+    onSubscribe: async (ctx, _, payload) => {
       const { schema, execute, subscribe, contextFactory, parse, validate } =
         yoga.getEnveloped({
           ...ctx,
           req: ctx.extra['request'],
           socket: ctx.extra.socket,
-          params: msg.payload,
+          params: payload,
         })
 
       const args = {
         schema,
-        operationName: msg.payload.operationName,
-        document: parse(msg.payload.query),
-        variableValues: msg.payload.variables,
+        operationName: payload.operationName,
+        document: parse(payload.query),
+        variableValues: payload.variables,
         contextValue: await contextFactory({ wsContext: ctx }),
         rootValue: {
           execute,

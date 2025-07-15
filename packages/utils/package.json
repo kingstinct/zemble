@@ -19,26 +19,29 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
+    "@graphql-tools/schema": "*",
     "@types/graphql-fields": "^1.3.9",
     "@types/lodash": "^4.17.20",
     "dataloader": "^2.2.3",
     "dayjs": "^1.11.13",
-    "fastify": "^5.4.0",
-    "fastify-plugin": "^5.0.1",
-    "graphql": "^16.11.0",
-    "graphql-fields": "^2.0.3",
-    "lodash": "^4.17.21",
-    "mongodb": "^6.17.0"
-  },
-  "dependencies": {
-    "@graphql-tools/schema": "^10.0.23",
     "fast-safe-stringify": "^2.1.1",
+    "fastify-plugin": "^5.0.1",
+    "fastify": "^5.4.0",
+    "graphql-fields": "^2.0.3",
     "graphql-tag": "^2.12.6",
+    "graphql": "*",
+    "lodash": "*",
+    "mongodb": "^6.17.0",
     "ts-pattern": "^5.7.1",
     "type-fest": "^4.41.0"
   },
   "peerDependencies": {
-    "lodash": "*"
+    "lodash": "*",
+    "@graphql-tools/schema": "*",
+    "fast-safe-stringify": "*",
+    "graphql-tag": "*",
+    "ts-pattern": "*",
+    "type-fest": "*"
   },
   "bin": {
     "ensure-all-dependencies": "./scripts/ensure-all-dependencies.ts",

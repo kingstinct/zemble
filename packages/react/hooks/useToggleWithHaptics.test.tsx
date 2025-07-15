@@ -1,5 +1,6 @@
 import { describe, expect, it, jest, mock } from 'bun:test'
-import { act, renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react'
+import '../test-setup'
 
 import useToggleWithHaptics from './useToggleWithHaptics'
 

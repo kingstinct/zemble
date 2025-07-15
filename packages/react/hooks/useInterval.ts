@@ -11,7 +11,7 @@ type TimerHandler = (...args: readonly unknown[]) => void
  */
 
 export const useInterval = (callback: TimerHandler, delay: Delay) => {
-  const savedCallbackRef = useRef<TimerHandler>()
+  const savedCallbackRef = useRef<TimerHandler>(callback)
 
   useEffect(() => {
     savedCallbackRef.current = callback

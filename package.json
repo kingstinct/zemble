@@ -55,24 +55,26 @@
   "private": true,
   "devDependencies": {
     "@biomejs/biome": "2.1.1",
+    "@graphql-codegen/add": "^5.0.3",
+    "@graphql-codegen/cli": "5",
+    "@graphql-codegen/client-preset": "^4.8.3",
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
+    "@graphql-codegen/typescript": "^4.1.6",
     "@tsconfig/bun": "^1.0.8",
     "@types/bun": "*",
-    "@types/debug": "^4.1.12",
     "@types/glob": "^9.0.0",
-    "@types/minimatch": "^6.0.0",
     "husky": "^9.1.7",
     "pkg-pr-new": "^0.0.54",
     "syncpack": "^14.0.0-alpha.18",
     "turbo": "^2.5.4",
-    "typescript": "^5.8.3",
-    "typescript-json-schema": "^0.65.1"
+    "typescript-json-schema": "^0.65.1",
+    "typescript": "^5.8.3"
   },
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
   "dependencies": {
-    "@changesets/cli": "^2.29.5",
-    "@logtape/logtape": "^1.0.4"
+    "@changesets/cli": "^2.29.5"
   }
 }
