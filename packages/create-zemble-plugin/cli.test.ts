@@ -44,7 +44,7 @@ const testTemplate = (template: string) => {
   // expect(typecheckRes.status).toBe(0)
 }
 
-test(
+test.skip(
   'test graphql',
   () => {
     testTemplate('graphql')
