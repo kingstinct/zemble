@@ -52,7 +52,7 @@
         "noUselessUndefinedInitialization": "error",
         "noVoid": "off",
         "useDateNow": "error",
-        "useLiteralKeys": "warn",
+        "useLiteralKeys": "off",
         "useNumericLiterals": "error",
         "useRegexLiterals": "error"
       },

@@ -11,19 +11,25 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "expo": "^49.0.23",
-    "graphql": "^16.11.0",
-    "react": "^18.3.1",
-    "react-native": "~0.80.1",
     "@zemble/auth-expo": "workspace:*",
-    "@zemble/urql-expo": "workspace:*",
-    "urql": "4.2"
+    "@zemble/urql-expo": "workspace:*"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "graphql": "*",
+    "react-native": "*",
+    "react": "*",
+    "urql": "*"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "*",
     "@babel/core": "^7.28.0",
-    "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/client-preset": "^4.8.3",
-    "@types/react": "^18.3.23"
+    "@types/react": "~19.0.10",
+    "expo": "53",
+    "react-native": "0.79",
+    "react": "19.0.0",
+    "urql": "4.2"
   },
   "private": true
 }

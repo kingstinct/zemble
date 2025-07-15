@@ -10,16 +10,22 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "expo": "^49.0.23",
-    "graphql": "^16.11.0",
-    "react": "^18.3.1",
-    "react-native": "~0.80.1",
-    "@zemble/auth-expo": "workspace:*",
-    "urql": "4.2"
+    "@zemble/auth-expo": "workspace:*"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "graphql": "*",
+    "react-native": "*",
+    "react": "*",
+    "urql": "*"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
-    "@types/react": "^18.3.23"
+    "@types/react": "~19.0.10",
+    "expo": "53",
+    "graphql": "16.11.0",
+    "react-native": "0.79",
+    "react": "19.0.0",
+    "urql": "4.2"
   },
   "private": true
 }

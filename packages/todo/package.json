@@ -33,16 +33,24 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@bull-board/api": "^6.11.1",
-    "@graphql-codegen/cli": "^5.0.7",
     "@zemble/auth": "workspace:*",
     "@zemble/auth-anonymous": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/kv": "workspace:*",
-    "@zemble/utils": "workspace:*",
-    "bullmq": "^5.56.4",
-    "graphql": "^16.11.0",
-    "hono": "^4.8.5"
+    "@zemble/utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "@bull-board/api": "*",
+    "bullmq": "*",
+    "graphql": "*",
+    "hono": "*"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "*",
+    "@bull-board/api": "6.11.1",
+    "bullmq": "5.56.4",
+    "graphql": "16.11.0",
+    "hono": "4.8.5"
   }
 }

@@ -35,26 +35,26 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@envelop/core": "^5.3.0",
+    "@envelop/core": "*",
     "@envelop/extended-validation": "^4.1.0",
-    "@envelop/generic-auth": "7",
-    "@graphql-tools/utils": "^10.8.6",
+    "@envelop/generic-auth": "*",
+    "@graphql-tools/utils": "*",
     "@zemble/auth": "workspace:*",
     "@zemble/core": "workspace:*",
     "@zemble/graphql": "workspace:*",
     "@zemble/mongodb": "workspace:*",
     "@zemble/utils": "workspace:*",
     "dataloader": "^2.2.3",
-    "graphql": "^16.11.0",
-    "graphql-scalars": "^1.24.2",
-    "hono": "^4.8.5",
-    "jose": "^6.0.11",
+    "graphql": "*",
+    "graphql-scalars": "*",
+    "hono": "*",
+    "jose": "*",
     "memfs": "^4.17.2",
     "mongodb": "^6.17.0",
     "papr": "^15.2.2"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/cli": "*",
     "mongodb-memory-server": "10"
   }
 }

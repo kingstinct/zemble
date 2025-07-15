@@ -14,24 +14,24 @@
   "main": "index.ts",
   "types": "index.ts",
   "peerDependencies": {
-    "@types/react": "*",
-    "react": "*",
-    "react-native": "*",
     "@gorhom/portal": "*",
-    "react-native-screens": "*",
-    "react-native-safe-area-context": "*",
     "react-native-reanimated": "*",
+    "react-native-safe-area-context": "*",
+    "react-native-screens": "*",
+    "react-native": "*",
+    "react": "*",
     "zustand": "*"
   },
   "dependencies": {
     "@zemble/utils": "workspace:*"
   },
   "devDependencies": {
-    "@types/react": "^18.3.23",
-    "@types/react-native": "~0.73.0",
-    "react-native-screens": "^4.11.1",
-    "react-native-safe-area-context": "^5.5.1",
-    "react-native-reanimated": "~3.18.0",
-    "zustand": "^5.0.6"
+    "@types/react": "~19.0.10",
+    "react": "19.0.0",
+    "react-native": "0.79",
+    "react-native-screens": "4",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-reanimated": "~3.17.4",
+    "zustand": "5"
   }
 }

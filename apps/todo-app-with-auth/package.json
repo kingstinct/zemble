@@ -15,17 +15,15 @@
     "@zemble/auth-anonymous-expo": "workspace:*",
     "@zemble/auth-expo": "workspace:*",
     "@zemble/todo-ui": "workspace:*",
-    "expo": "^49.0.23",
-    "expo-status-bar": "^1.12.1",
-    "graphql": "^16.11.0",
-    "hono": "^4.8.5",
-    "react": "^18.3.1",
-    "react-native": "~0.80.1",
+    "expo": "53",
+    "expo-status-bar": "~2.2.3",
+    "react": "19.0.0",
+    "react-native": "0.79",
     "react-native-web": "^0.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
-    "@types/react": "^18.3.23"
+    "@types/react": "~19.0.10"
   },
   "private": true
 }
