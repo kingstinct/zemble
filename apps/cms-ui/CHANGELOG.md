@@ -1,5 +1,14 @@
 # cms-ui
 
+## 0.0.18
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/react@1.0.19
+  - @zemble/react-urql@1.0.2
+
 ## 0.0.17
 
 ### Patch Changes

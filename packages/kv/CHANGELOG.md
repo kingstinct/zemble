@@ -1,5 +1,14 @@
 # @zemble/kv
 
+## 0.0.63
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/graphql@0.0.64
+  - @zemble/core@0.1.28
+
 ## 0.0.62
 
 ### Patch Changes

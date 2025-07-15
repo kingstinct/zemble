@@ -1,7 +1,7 @@
 {
   "name": "create-zemble-app",
   "description": "CLI for creating a new Zemble app in a zap",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "bin": "./bin/create-zemble-app.js",
   "type": "module",
   "scripts": {

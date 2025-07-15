@@ -1,5 +1,15 @@
 # todoappwithauth
 
+## 0.0.16
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/auth-anonymous-expo@0.0.15
+  - @zemble/auth-expo@0.0.14
+  - @zemble/todo-ui@0.0.15
+
 ## 0.0.15
 
 ### Patch Changes

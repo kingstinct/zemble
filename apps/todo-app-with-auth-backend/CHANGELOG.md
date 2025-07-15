@@ -1,5 +1,20 @@
 # todo-app-with-auth-backend
 
+## 0.0.83
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+- Updated dependencies [5e07c0e]
+  - @zemble/apple-app-site-association@0.0.44
+  - @zemble/graphql@0.0.64
+  - @zemble/bull@0.2.14
+  - @zemble/core@0.1.28
+  - @zemble/todo@0.0.66
+  - @zemble/auth-anonymous@0.0.66
+  - @zemble/ignite@0.0.75
+  - @zemble/bun@0.0.39
+
 ## 0.0.82
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.43
+
+### Patch Changes
+
+- 5e07c0e: stricter tsconfig, laxer dependency versions
+
 ## 0.7.42
 
 ### Patch Changes
