@@ -1,6 +1,6 @@
 {
   "name": "@zemble/react-urql",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "URQL helpers for Zemble React apps",
   "author": "Robert Herber",
   "license": "MIT",

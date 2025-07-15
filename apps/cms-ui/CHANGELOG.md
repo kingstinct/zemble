@@ -1,5 +1,11 @@
 # cms-ui
 
+## 0.0.20
+
+### Patch Changes
+
+- @zemble/react-urql@1.0.4
+
 ## 0.0.19
 
 ### Patch Changes

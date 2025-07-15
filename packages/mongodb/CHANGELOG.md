@@ -1,5 +1,19 @@
 # @zemble/mongodb
 
+## 0.0.48
+
+### Patch Changes
+
+- 7aa886b: slim packages
+- Updated dependencies [7aa886b]
+  - @zemble/timeoutify@0.1.1
+  - @zemble/utils@0.7.45
+  - @zemble/core@0.1.30
+  - @zemble/auth@0.0.71
+  - @zemble/bun@0.0.41
+  - @zemble/migrations@0.0.43
+  - @zemble/routes@0.0.42
+
 ## 0.0.47
 
 ### Patch Changes

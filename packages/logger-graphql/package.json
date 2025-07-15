@@ -1,6 +1,6 @@
 {
   "name": "@zemble/logger-graphql",
-  "version": "0.0.62",
+  "version": "0.0.63",
   "description": "@zemble Plugin for providing a GraphQL Stream of your apps logs",
   "main": "plugin.ts",
   "private": true,

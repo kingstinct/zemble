@@ -1,5 +1,11 @@
 # @zemble/node
 
+## 0.0.41
+
+### Patch Changes
+
+- @zemble/core@0.1.30
+
 ## 0.0.40
 
 ### Patch Changes

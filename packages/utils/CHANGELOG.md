@@ -1,5 +1,11 @@
 # @zemble/utils
 
+## 0.7.45
+
+### Patch Changes
+
+- 7aa886b: slim packages
+
 ## 0.7.44
 
 ### Patch Changes

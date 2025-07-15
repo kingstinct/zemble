@@ -1,5 +1,13 @@
 # @zemble/email-sendgrid
 
+## 0.0.65
+
+### Patch Changes
+
+- 7aa886b: slim packages
+  - @zemble/core@0.1.30
+  - @zemble/graphql@0.0.67
+
 ## 0.0.64
 
 ### Patch Changes

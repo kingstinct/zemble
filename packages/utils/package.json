@@ -1,6 +1,6 @@
 {
   "name": "@zemble/utils",
-  "version": "0.7.44",
+  "version": "0.7.45",
   "module": "index.ts",
   "author": "Robert Herber",
   "type": "module",
