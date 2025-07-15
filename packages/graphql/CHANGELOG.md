@@ -1,5 +1,11 @@
 # @zemble/graphql
 
+## 0.0.66
+
+### Patch Changes
+
+- b8d98b7: make sure graphql logs through logtape
+
 ## 0.0.65
 
 ### Patch Changes

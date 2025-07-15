@@ -1,5 +1,16 @@
 # todo-app-with-auth-backend
 
+## 0.0.85
+
+### Patch Changes
+
+- Updated dependencies [b8d98b7]
+  - @zemble/graphql@0.0.66
+  - @zemble/auth-anonymous@0.0.68
+  - @zemble/bull@0.2.16
+  - @zemble/ignite@0.0.77
+  - @zemble/todo@0.0.68
+
 ## 0.0.84
 
 ### Patch Changes

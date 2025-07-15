@@ -1,5 +1,11 @@
 # @zemble/mongodb
 
+## 0.0.47
+
+### Patch Changes
+
+- @zemble/auth@0.0.70
+
 ## 0.0.46
 
 ### Patch Changes
