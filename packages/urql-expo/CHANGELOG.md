@@ -1,5 +1,12 @@
 # @zemble/urql-expo
 
+## 0.0.16
+
+### Patch Changes
+
+- Updated dependencies [4ac4d78]
+  - @zemble/auth-expo@0.0.16
+
 ## 0.0.15
 
 ### Patch Changes
