@@ -1,5 +1,14 @@
 # todoappwithauth
 
+## 0.0.18
+
+### Patch Changes
+
+- Updated dependencies [4ac4d78]
+  - @zemble/auth-expo@0.0.16
+  - @zemble/auth-anonymous-expo@0.0.17
+  - @zemble/todo-ui@0.0.17
+
 ## 0.0.17
 
 ### Patch Changes

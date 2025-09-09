@@ -1,5 +1,11 @@
 # @zemble/auth-expo
 
+## 0.0.16
+
+### Patch Changes
+
+- 4ac4d78: make auth-expo public
+
 ## 0.0.15
 
 ### Patch Changes
