@@ -1,6 +1,6 @@
 import { createBullBoard } from '@bull-board/api'
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter'
-import type { UIConfig } from '@bull-board/api/dist/typings/app'
+import type { UIConfig } from '@bull-board/api/typings/app'
 import { Plugin } from '@zemble/core'
 import GraphQL from '@zemble/graphql'
 import { parseEnvBoolean } from '@zemble/utils/node/parseEnv'
