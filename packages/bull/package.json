@@ -5,6 +5,7 @@
   "main": "plugin.ts",
   "scripts": {
     "dev": "docker-compose up -d && REDIS_URL=redis://localhost:6379 zemble-dev plugin.ts",
+    "test": "bun test",
     "codegen": "graphql-codegen",
     "typecheck": "tsc --noEmit"
   },
