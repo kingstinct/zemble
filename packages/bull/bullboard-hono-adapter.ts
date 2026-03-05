@@ -6,7 +6,7 @@ import type {
   HTTPMethod,
   IServerAdapter,
   UIConfig,
-} from '@bull-board/api/dist/typings/app'
+} from '@bull-board/api/typings/app'
 import ejs from 'ejs'
 import type { Context, Env } from 'hono'
 import { Hono } from 'hono'
@@ -93,31 +93,39 @@ export default class HonoAdapter<HonoEnv extends Env>
       const routeMethod = route.method.toString().toLowerCase() as HTTPMethod
       const routePath = route.route.toString()
 
-      router[routeMethod](routePath, async (c: Context) => {
-        try {
-          const bodyText = await c.req.text()
-          const hasJSONBody = bodyText.includes('{') && bodyText.includes('}')
-          const response = await route.handler({
-            queues: this.bullBoardQueues as BullBoardQueues,
-            params: c.req.param(),
-            query: c.req.query(),
-            body: hasJSONBody ? await c.req.json() : {},
-          })
-          const status = response.status || 200
-          return c.json(response.body, status as ContentfulStatusCode)
-        } catch (e) {
-          if (!this.errorHandler || !(e instanceof Error)) {
-            throw e
-          }
+      ;(router[routeMethod] as Hono<HonoEnv>['get'])(
+        routePath,
+        async (c: Context) => {
+          try {
+            const bodyText = await c.req.text()
+            const hasJSONBody = bodyText.includes('{') && bodyText.includes('}')
+            const response = await route.handler({
+              queues: this.bullBoardQueues as BullBoardQueues,
+              params: c.req.param(),
+              query: c.req.query(),
+              body: hasJSONBody ? await c.req.json() : {},
+              headers: c.req.header() as Record<string, string | undefined>,
+              uiConfig: this.uiConfig || {},
+            })
+            const status = response.status || 200
+            return c.json(response.body, status as ContentfulStatusCode)
+          } catch (e) {
+            if (!this.errorHandler || !(e instanceof Error)) {
+              throw e
+            }
 
-          const response = this.errorHandler(e)
-          if (typeof response.body === 'string') {
-            const status = response.status || 500
-            return c.text(response.body, status as ContentfulStatusCode)
+            const response = this.errorHandler(e)
+            if (typeof response.body === 'string') {
+              const status = response.status || 500
+              return c.text(response.body, status as ContentfulStatusCode)
+            }
+            return c.json(
+              response.body,
+              response.status as ContentfulStatusCode,
+            )
           }
-          return c.json(response.body, response.status as ContentfulStatusCode)
-        }
-      })
+        },
+      )
     })
 
     this.apiRoutes = router
@@ -187,17 +195,20 @@ export default class HonoAdapter<HonoEnv extends Env>
     const { method, handler } = this.entryRoute
     const routes = this.entryRoute.route as readonly string[]
     routes.forEach((route) => {
-      this.app.basePath(this.basePath)[method](route, async (c: Context) => {
-        const { name: fileName, params } = await handler({
-          basePath: this.basePath,
-          uiConfig: this.uiConfig || {},
-        })
-        const template = await ejs.renderFile(
-          `${this.viewPath}/${fileName}`,
-          params,
-        )
-        return c.html(template)
-      })
+      ;(this.app.basePath(this.basePath)[method] as Hono<HonoEnv>['get'])(
+        route,
+        async (c: Context) => {
+          const { name: fileName, params } = await handler({
+            basePath: this.basePath,
+            uiConfig: this.uiConfig || {},
+          })
+          const template = await ejs.renderFile(
+            `${this.viewPath}/${fileName}`,
+            params,
+          )
+          return c.html(template as string)
+        },
+      )
     })
 
     return this
