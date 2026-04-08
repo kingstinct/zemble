@@ -50,7 +50,7 @@
     "@envelop/generic-auth": "7",
     "@graphql-codegen/cli": "*",
     "graphql-scalars": "1",
-    "hono": "4.8.5",
+    "hono": "4.12.12",
     "ioredis": "^5.6.1",
     "jose": "5"
   }
