@@ -45,14 +45,14 @@ jobs:
       name: ${{ inputs.caproverAppName }}
       url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - uses: cardinalby/export-env-action@v2
+      - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
         if: ${{ inputs.envFile }}
         with:
           envFile: ${{ inputs.envFile }}
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
@@ -63,11 +63,11 @@ jobs:
           CAPROVER_IMAGE_NAME: ${{ inputs.caproverImageName }}
           CAPROVER_APP: ${{ inputs.caproverAppName }}
 
-      - uses: sarisia/actions-status-discord@v1
+      - uses: sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708 # v1.16.0
         if: ${{ inputs.discordWebhook }}
         with:
           webhook: ${{ inputs.discordWebhook }}
           url: ${{ inputs.deployTargetUrl || env.defaultDeployTargetUrl }}
 
-      - uses: rtCamp/action-slack-notify@v2
+      - uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         if: ${{ env.SLACK_WEBHOOK }}
