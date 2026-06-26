@@ -7,17 +7,17 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - uses: cardinalby/export-env-action@v2
+      - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
         with:
           envFile: .env.github
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
