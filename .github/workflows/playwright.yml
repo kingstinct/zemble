@@ -134,7 +134,7 @@ jobs:
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
-          name: playwright-report-${{ inputs.shard_index || 1 }}
+          name: "${{ inputs.shard_count > 1 && format('playwright-report-{0}', inputs.shard_index) || 'playwright-report' }}"
           path: playwright-report/
           retention-days: 30
 
