@@ -124,15 +124,15 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         if: ${{ !inputs.checkout_ref }}
 
       - name: Install 1Password CLI
-        uses: 1password/install-cli-action@a5215d3a7f75c1629216c465ea9ab3ab399c4b71 # v4.0.0
+        uses: 1password/install-cli-action@1a3160d5e9de1ae0803eaa08a88746f5ae3daa50 # v4.1.0
         if: ${{ env.OP_SERVICE_ACCOUNT_TOKEN }}
 
       - name: Load secret
-        uses: 1password/load-secrets-action/configure@3a12b0ab99d9cd590a3e9b5a90ea017210ed9556 # v4.0.1
+        uses: 1password/load-secrets-action/configure@eb2efd0703da22a93c467f2d1ffbb6826c11e19c # v4.1.1
         if: ${{ env.OP_SERVICE_ACCOUNT_TOKEN }}
 
       - name: Build .env.production
@@ -140,7 +140,7 @@ jobs:
         if: ${{ inputs.env_template_file && env.OP_SERVICE_ACCOUNT_TOKEN }}
         working-directory: ${{ inputs.working_directory }}
 
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         if: ${{ inputs.checkout_ref }}
         with:
           ref: ${{ inputs.checkout_ref }}

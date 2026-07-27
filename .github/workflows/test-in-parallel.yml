@@ -91,7 +91,7 @@ jobs:
       test-chunk-ids: ${{ steps['set-test-chunk-ids'].outputs['test-chunk-ids'] }}
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
         if: ${{ inputs.env_file }}
@@ -151,7 +151,7 @@ jobs:
         chunk: ${{ fromJson(needs.setup.outputs['test-chunk-ids']) }}
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         if: ${{ inputs.package_manager == 'pnpm' }}
@@ -191,11 +191,11 @@ jobs:
         if: ${{ inputs.package_manager != 'npm' }}
 
       - name: Install 1Password CLI
-        uses: 1password/install-cli-action@a5215d3a7f75c1629216c465ea9ab3ab399c4b71 # v4.0.0
+        uses: 1password/install-cli-action@1a3160d5e9de1ae0803eaa08a88746f5ae3daa50 # v4.1.0
         if: ${{ inputs.op_setup_script }}
 
       - name: Load secret
-        uses: 1password/load-secrets-action/configure@3a12b0ab99d9cd590a3e9b5a90ea017210ed9556 # v4.0.1
+        uses: 1password/load-secrets-action/configure@eb2efd0703da22a93c467f2d1ffbb6826c11e19c # v4.1.1
         if: ${{ inputs.op_setup_script }}
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
