@@ -65,7 +65,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
         with:
@@ -75,7 +75,7 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
@@ -103,7 +103,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
         with:
           envFile: .env.github
@@ -112,7 +112,7 @@ jobs:
         with:
           bun-version: ${{ inputs.bun-version || env.BUN_VERSION }}
 
-      - uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         id: cache-mongodb-binaries
         name: Cache MongoDB binaries
         with:
@@ -139,7 +139,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         id: checkout
 
       - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
@@ -165,7 +165,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         id: checkout
 
       - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
@@ -191,7 +191,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
         with:
