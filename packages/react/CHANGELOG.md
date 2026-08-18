@@ -1,5 +1,12 @@
 ## 1.0.10
 
+## 1.0.21
+
+### Patch Changes
+
+- Updated dependencies [d371560]
+  - @zemble/primitives@1.0.3
+
 ## 1.0.20
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @zemble/react-network
 
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [d371560]
+  - @zemble/primitives@1.0.3
+  - @zemble/react@1.0.21
+
 ## 1.0.3
 
 ### Patch Changes
