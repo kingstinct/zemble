@@ -1,6 +1,11 @@
 {
   "name": "@zemble/react",
   "version": "1.0.21",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/react"
+  },
   "description": "Kingstinct Hooks Utility Library",
   "author": "Robert Herber",
   "license": "MIT",

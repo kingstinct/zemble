@@ -1,6 +1,11 @@
 {
   "name": "@zemble/auth-expo",
   "version": "0.0.16",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/auth-expo"
+  },
   "main": "index.js",
   "scripts": {
     "start": "expo start",

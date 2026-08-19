@@ -14,8 +14,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingstinct/zemble",
-    "directory": "packages/route"
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/routes"
   },
   "funding": [
     "https://github.com/sponsors/kingstinct",

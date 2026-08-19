@@ -1,6 +1,11 @@
 {
   "name": "@zemble/react-urql",
   "version": "1.0.4",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/react-urql"
+  },
   "description": "URQL helpers for Zemble React apps",
   "author": "Robert Herber",
   "license": "MIT",

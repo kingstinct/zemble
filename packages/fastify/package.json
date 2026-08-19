@@ -1,6 +1,11 @@
 {
   "name": "@zemble/fastify",
   "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/fastify"
+  },
   "module": "index.ts",
   "author": "Robert Herber",
   "type": "module",

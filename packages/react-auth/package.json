@@ -1,6 +1,11 @@
 {
   "name": "@zemble/react-auth",
   "version": "1.0.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/react-auth"
+  },
   "description": "Authentication utilities for React Native",
   "author": "Robert Herber",
   "license": "MIT",

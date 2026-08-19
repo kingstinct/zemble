@@ -15,8 +15,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingstinct/zemble",
-    "directory": "packages/apple-app-site-association"
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/node"
   },
   "funding": [
     "https://github.com/sponsors/kingstinct",

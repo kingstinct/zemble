@@ -1,6 +1,11 @@
 {
   "name": "@zemble/supabase",
   "version": "0.0.52",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/supabase"
+  },
   "description": "",
   "type": "module",
   "keywords": [

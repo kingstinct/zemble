@@ -1,6 +1,11 @@
 {
   "name": "@zemble/graphql-objectid-scalar",
   "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/graphql-objectid-scalar"
+  },
   "module": "index.ts",
   "author": "Robert Herber",
   "type": "module",
