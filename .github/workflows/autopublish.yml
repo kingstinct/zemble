@@ -28,6 +28,10 @@ jobs:
     needs: test
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
     env:
       MONGOMS_DISABLE_POSTINSTALL: true
     steps:
@@ -41,6 +45,12 @@ jobs:
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: ${{ env.BUN_VERSION }}
+
+      # ubuntu-latest (24.04) ships npm 10.9.8, trusted publishing needs >= 11.5.1.
+      # Can be removed once ubuntu-latest moves to 26.04, which ships npm 11.17.0.
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 24
 
       - run: HUSKY=0 bun install --ignore-scripts
         env:
@@ -56,4 +66,3 @@ jobs:
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
