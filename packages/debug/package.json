@@ -1,6 +1,11 @@
 {
   "name": "@zemble/debug",
   "version": "0.0.32",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/debug"
+  },
   "description": "",
   "type": "module",
   "keywords": [

@@ -1,6 +1,11 @@
 {
   "name": "@zemble/mongodb",
   "version": "0.0.48",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/mongodb"
+  },
   "description": "Handles connections to MongoDB",
   "keywords": [
     "zemble",

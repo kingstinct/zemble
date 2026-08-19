@@ -1,6 +1,11 @@
 {
   "name": "@zemble/utils",
   "version": "0.7.45",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingstinct/zemble.git",
+    "directory": "packages/utils"
+  },
   "module": "index.ts",
   "author": "Robert Herber",
   "type": "module",
