@@ -14,7 +14,7 @@
   "module": "index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kingstinct/zemble",
+    "url": "git+https://github.com/kingstinct/zemble.git",
     "directory": "packages/create-zemble-app"
   },
   "funding": [
