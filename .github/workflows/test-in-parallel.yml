@@ -195,7 +195,7 @@ jobs:
         if: ${{ inputs.op_setup_script }}
 
       - name: Load secret
-        uses: 1password/load-secrets-action/configure@eb2efd0703da22a93c467f2d1ffbb6826c11e19c # v4.1.1
+        uses: 1password/load-secrets-action/configure@e544b780808654ba8ceba5fb2fe2897103d92ff4 # v5.0.0
         if: ${{ inputs.op_setup_script }}
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
