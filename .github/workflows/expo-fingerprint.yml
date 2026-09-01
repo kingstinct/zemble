@@ -1,0 +1,263 @@
+# Tags pull requests depending on whether the Expo fingerprint changed, so it's
+# easy to tell at a glance if a PR needs a new native build or if it can go out
+# as an over-the-air update.
+#
+# Call it from an app repo like this:
+#
+#   name: Fingerprint
+#   on:
+#     push:
+#       branches: [main]
+#     pull_request:
+#       types: [opened, synchronize, reopened]
+#   jobs:
+#     fingerprint:
+#       uses: kingstinct/zemble/.github/workflows/expo-fingerprint.yml@main
+#       permissions:
+#         contents: read
+#         pull-requests: write
+#         issues: write
+#         actions: write
+#       with:
+#         working_directory: apps/my-app
+#
+# Run it on pushes to the default branch as well - that's what fills the
+# fingerprint database the pull request fingerprints are compared against.
+# Until the base commit of a PR is in that database the PR is left untagged.
+#
+# The permissions above have to be set by the caller, a reusable workflow can
+# only narrow down what the calling workflow already has.
+
+name: Expo Fingerprint
+
+on:
+  workflow_call:
+    inputs:
+      working_directory:
+        type: string
+        required: false
+        default: .
+        description: The directory of the Expo app to fingerprint
+      install_directory:
+        type: string
+        required: false
+        default: .
+        description: Where to install dependencies, the root of the monorepo in most cases
+      package_manager:
+        type: string
+        required: false
+        default: bun
+        description: The package manager to use - bun, npm, pnpm or yarn
+      bun_version:
+        type: string
+        required: false
+        description: If using bun - which version to use (defaults to BUN_VERSION from the env_file, or latest)
+      pnpm_version:
+        type: string
+        required: false
+        description: If using pnpm - which version to use (defaults to the packageManager field in package.json)
+      env_file:
+        type: string
+        required: false
+        description: .env file to automatically add to the GitHub context
+      preset:
+        type: string
+        required: false
+        default: loose
+        description: >-
+          How picky the fingerprint should be - loose (alias relaxed), balanced, strict or none.
+          Anything but none writes a fingerprint.config.js in the working directory, unless the
+          project brings its own - in which case that one wins.
+      fingerprint_version:
+        type: string
+        required: false
+        default: latest
+        description: The @expo/fingerprint version to use
+      fingerprint_db_cache_key:
+        type: string
+        required: false
+        description: Cache key for the fingerprint database (defaults to fingerprint-db-<preset>)
+      label_changed:
+        type: string
+        required: false
+        default: 'fingerprint:changed'
+        description: Label to put on PRs where the fingerprint changed, empty to skip
+      label_compatible:
+        type: string
+        required: false
+        default: 'fingerprint:compatible'
+        description: Label to put on PRs where the fingerprint is untouched, empty to skip
+
+jobs:
+  fingerprint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # only one run at a time may write to the fingerprint database
+    concurrency: fingerprint-${{ inputs.working_directory }}-${{ github.event_name != 'pull_request' && 'db' || github.run_id }}
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      actions: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: cardinalby/export-env-action@4f48c4676cf6ed6f46e30899ee987ce695da7c80 # 2.2.3
+        if: ${{ inputs.env_file }}
+        with:
+          envFile: ${{ inputs.env_file }}
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        if: ${{ inputs.package_manager == 'bun' }}
+        with:
+          bun-version: ${{ inputs.bun_version || env.BUN_VERSION || 'latest' }}
+
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        if: ${{ inputs.package_manager == 'pnpm' }}
+        with:
+          version: ${{ inputs.pnpm_version }}
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        if: ${{ inputs.package_manager != 'bun' }}
+        with:
+          node-version-file: .nvmrc
+          cache: ${{ inputs.package_manager }}
+
+      - name: Install dependencies
+        run: ${{ inputs.package_manager == 'npm' && 'npm ci' || format('{0} install --frozen-lockfile', inputs.package_manager) }}
+        working-directory: ${{ inputs.install_directory }}
+
+      # @expo/fingerprint doesn't ship presets yet, so we spell them out as
+      # sourceSkips - they mirror the presets landing in @expo/fingerprint.
+      - name: Set up the ${{ inputs.preset }} fingerprint preset
+        if: ${{ inputs.preset != 'none' && inputs.preset != '' }}
+        working-directory: ${{ inputs.working_directory }}
+        env:
+          PRESET: ${{ inputs.preset }}
+        run: |
+          set -euo pipefail
+
+          if [ -f fingerprint.config.js ] || [ -f fingerprint.config.cjs ]; then
+            echo "::notice::Using the fingerprint.config.js in the project, ignoring the '$PRESET' preset"
+            exit 0
+          fi
+
+          # skips everything prebuild mutates, so the fingerprint survives a prebuild
+          STRICT='"PackageJsonAndroidAndIosScriptsIfNotContainRun"'
+          # also skips app version and string runtime version churn
+          BALANCED="$STRICT"',"ExpoConfigVersions","ExpoConfigRuntimeVersionIfString"'
+          # also skips app names, identifiers, schemes and assets
+          LOOSE="$BALANCED"',"ExpoConfigNames","ExpoConfigAndroidPackage","ExpoConfigIosBundleIdentifier","ExpoConfigSchemes","ExpoConfigAssets"'
+
+          case "$PRESET" in
+            strict)
+              SKIPS="$STRICT"
+              IGNORES=''
+              ;;
+            balanced)
+              SKIPS="$BALANCED"
+              IGNORES='"eas.json",".easignore"'
+              ;;
+            loose|relaxed)
+              SKIPS="$LOOSE"
+              IGNORES='"eas.json",".easignore"'
+              ;;
+            *)
+              echo "::error::Unknown fingerprint preset '$PRESET' - expected loose, balanced, strict or none"
+              exit 1
+              ;;
+          esac
+
+          cat > fingerprint.config.js <<EOF
+          // written by the Expo Fingerprint workflow, not meant to be committed
+          module.exports = {
+            sourceSkips: [$SKIPS],
+            ignorePaths: [$IGNORES],
+          }
+          EOF
+
+          cat fingerprint.config.js
+
+      - name: Fingerprint
+        id: fingerprint
+        uses: expo/expo-github-action/fingerprint@eab7a230208c952974db8c3245cfd78402c7b385 # 9.0.0
+        with:
+          working-directory: ${{ inputs.working_directory }}
+          packager: ${{ inputs.package_manager }}
+          fingerprint-version: ${{ inputs.fingerprint_version }}
+          fingerprint-db-cache-key: ${{ inputs.fingerprint_db_cache_key || format('fingerprint-db-{0}', inputs.preset) }}
+
+      - name: Summarise the fingerprint
+        env:
+          PRESET: ${{ inputs.preset }}
+          PREVIOUS: ${{ steps.fingerprint.outputs.previous-fingerprint }}
+          CURRENT: ${{ steps.fingerprint.outputs.current-fingerprint }}
+          DIFF: ${{ steps.fingerprint.outputs.fingerprint-diff }}
+        run: |
+          set -euo pipefail
+
+          HASH=$(printf '%s' "$CURRENT" | jq -r '.hash // empty' 2>/dev/null || true)
+
+          {
+            echo "### Expo fingerprint (\`$PRESET\` preset)"
+            echo
+            echo "Hash: \`${HASH:-unknown}\`"
+            echo
+
+            if [ -z "$PREVIOUS" ] || [ "$PREVIOUS" = "null" ]; then
+              echo "No fingerprint for the base commit yet, nothing to compare against."
+            elif [ "$DIFF" = "[]" ]; then
+              echo "Unchanged - this one can go out as an over-the-air update."
+            else
+              echo "Changed - this one needs a new native build:"
+              echo
+              printf '%s' "$DIFF" | jq -r '
+                .[]
+                | . as $item
+                | ($item.addedSource // $item.removedSource // $item.beforeSource) as $source
+                | "- **\($item.op)** `\($source.filePath // $source.id)` (\($source.reasons | join(", ")))"
+              '
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Tag the pull request
+        if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          PREVIOUS: ${{ steps.fingerprint.outputs.previous-fingerprint }}
+          DIFF: ${{ steps.fingerprint.outputs.fingerprint-diff }}
+          LABEL_CHANGED: ${{ inputs.label_changed }}
+          LABEL_COMPATIBLE: ${{ inputs.label_compatible }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$PREVIOUS" ] || [ "$PREVIOUS" = "null" ]; then
+            echo "::warning::No fingerprint for the base commit, leaving the pull request untagged. Run this workflow on the default branch to fill the fingerprint database."
+            exit 0
+          fi
+
+          if [ "$DIFF" = "[]" ]; then
+            ADD="$LABEL_COMPATIBLE"
+            REMOVE="$LABEL_CHANGED"
+            COLOR=0e8a16
+            DESCRIPTION="The Expo fingerprint is untouched, this can go out as an over-the-air update"
+          else
+            ADD="$LABEL_CHANGED"
+            REMOVE="$LABEL_COMPATIBLE"
+            COLOR=d93f0b
+            DESCRIPTION="The Expo fingerprint changed, this needs a new native build"
+          fi
+
+          if [ -n "$REMOVE" ]; then
+            # 404s when the label isn't on the pull request, which is just fine
+            gh api --silent -X DELETE "repos/$REPO/issues/$PR/labels/$(jq -rn --arg label "$REMOVE" '$label | @uri')" || true
+          fi
+
+          if [ -n "$ADD" ]; then
+            # fails when the label already exists, which is just as fine
+            gh api --silent -X POST "repos/$REPO/labels" -f "name=$ADD" -f "color=$COLOR" -f "description=$DESCRIPTION" || true
+            gh api --silent -X POST "repos/$REPO/issues/$PR/labels" -f "labels[]=$ADD"
+            echo "Tagged #$PR with '$ADD'"
+          fi
